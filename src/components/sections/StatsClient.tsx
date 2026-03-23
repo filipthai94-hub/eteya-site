@@ -36,7 +36,7 @@ export default function StatsClient({ heading, items }: {
         start: 'top 70%',
         onEnter: () => setTriggered(true),
       })
-      gsap.fromTo('[data-stat]',
+      gsap.fromTo(sectionRef.current!.querySelectorAll('[data-stat]'),
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out',
           scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' } }
@@ -70,6 +70,7 @@ export default function StatsClient({ heading, items }: {
               backgroundColor: C.bg,
               padding: '3rem 2.5rem',
               textAlign: 'center',
+              opacity: 1,
             }}>
               <div style={{
                 fontFamily: 'var(--font-display)',
