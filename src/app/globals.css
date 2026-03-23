@@ -3,39 +3,65 @@
 @tailwind utilities;
 
 :root {
-  --bg-base: #080808;
-  --color-primary: #F5F5F5;
+  --bg: #080808;
+  --surface: #111111;
+  --primary: #F5F5F5;
+  --secondary: #9B9B9B;
+  --accent: #6EE7B7;
+  --border: #222222;
+  --font-display: 'Barlow Condensed', sans-serif;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  background-color: #080808;
-  color: #F5F5F5;
+  background-color: var(--bg);
+  color: var(--primary);
+  overflow-x: hidden;
 }
 
-/* Fallback CSS variables for Tailwind custom colors */
-.bg-et-bg { background-color: #080808 !important; }
-.bg-et-surface { background-color: #111111 !important; }
-.bg-et-muted { background-color: #1A1A1A !important; }
-.text-et-primary { color: #F5F5F5 !important; }
-.text-et-secondary { color: #9B9B9B !important; }
-.text-et-accent { color: #6EE7B7 !important; }
-.text-et-bg { color: #080808 !important; }
-.bg-et-accent { background-color: #6EE7B7 !important; }
-.border-et-border { border-color: #222222 !important; }
-.border-et-accent { border-color: #6EE7B7 !important; }
-.bg-et-border { background-color: #222222 !important; }
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
 
-@keyframes marquee {
+/* Marquee */
+@keyframes marquee-fwd {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+@keyframes marquee-rev {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.animate-marquee { animation: marquee-fwd 50s linear infinite; }
+.animate-marquee-rev { animation: marquee-rev 50s linear infinite; }
 
-.animate-marquee {
-  animation: marquee 40s linear infinite;
+/* GSAP initial states */
+.gsap-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+.gsap-reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+.gsap-scale-reveal {
+  opacity: 0;
+  transform: scale(1.05);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation-play-state: paused;
-  }
-}
+/* Will-change hints for heavy animations */
+.will-change-transform { will-change: transform; }
