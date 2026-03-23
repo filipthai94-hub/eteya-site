@@ -5,55 +5,65 @@
     "lang": "SV"
   },
   "hero": {
-    "headline": "AI that runs your business.",
-    "subheadline": "We build agents, automation, and custom solutions — so you can focus on what matters.",
-    "cta_primary": "See what we do",
+    "role": "AI Consulting",
+    "headline": "ETEYA",
+    "subheadline": "We build AI that runs your business — agents, automation, and custom solutions.",
+    "cta_primary": "See our work",
     "cta_secondary": "Get in touch",
     "scroll_label": "Scroll"
   },
   "marquee": {
-    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS"]
+    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS", "AI AGENTS", "PROCESS"]
+  },
+  "work": {
+    "label_ja": "代表作",
+    "label_en": "Selected Work",
+    "heading": "Projects that deliver real results.",
+    "items": [
+      {
+        "name": "Telestore",
+        "tags": "E-commerce · AI Automation",
+        "description": "Automated order management, customer communication, and inventory flows for one of Sweden's leading resellers of refurbished phones."
+      },
+      {
+        "name": "AICaller",
+        "tags": "AI Voice Agent · Restaurant Tech",
+        "description": "AI receptionist taking orders 24/7 for restaurants — integrated with POS systems and delivery platforms."
+      },
+      {
+        "name": "ReturnAI",
+        "tags": "AI Platform · E-commerce",
+        "description": "Intelligent returns management platform that automates decisions, reduces costs, and improves the customer experience."
+      },
+      {
+        "name": "Partner Portal",
+        "tags": "Custom Build · B2B",
+        "description": "Custom order portal for B2B partners with real-time inventory, dynamic pricing, and automated order flows."
+      }
+    ]
   },
   "services": {
-    "section_label": "Services",
+    "label_ja": "専門分野",
+    "label_en": "What we do",
     "heading": "Three ways we deliver.",
     "items": [
       {
         "number": "01",
         "title": "AI Agents",
-        "description": "Autonomous agents that handle workflows, communication, and decisions — around the clock. No human input required at every step."
+        "description": "Autonomous agents that handle workflows, communication, and decisions — around the clock. No human input required at every step.",
+        "detail": "From customer service to internal automation. We build agents that actually work in production."
       },
       {
         "number": "02",
         "title": "Process Automation",
-        "description": "We identify and automate the manual processes that drain your time. Integrations, triggers, and flows that run without your hand."
+        "description": "We identify and automate the manual processes that drain your time. Integrations, triggers, and flows that run without your hand.",
+        "detail": "Make, n8n, custom webhooks — whatever it takes to connect your systems and eliminate manual work."
       },
       {
         "number": "03",
         "title": "Custom Builds",
-        "description": "Need something that doesn't exist yet? We build it. AI-powered software tailored exactly to your problem, your industry, your requirements."
-      }
-    ]
-  },
-  "why": {
-    "section_label": "Why Eteya",
-    "heading": "We deliver. Full stop.",
-    "items": [
-      {
-        "title": "Results, not PowerPoints",
-        "body": "We're measured on output. You pay for solutions that actually run in production."
-      },
-      {
-        "title": "Fast to production",
-        "body": "No year-long enterprise process. From idea to deployment in weeks."
-      },
-      {
-        "title": "Built to scale",
-        "body": "Architecture that holds as your business grows. We think three steps ahead."
-      },
-      {
-        "title": "Transparent throughout",
-        "body": "You always know what we're building, why, and what's next."
+        "description": "Need something that doesn't exist yet? We build it. AI-powered software tailored to your problem, your industry, your requirements.",
+        "detail": "Full-stack development with AI at the core. From idea to deployed product in weeks, not months."
       }
     ]
   },
