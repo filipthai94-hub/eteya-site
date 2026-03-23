@@ -39,7 +39,7 @@ function ServiceRow({ item, index, image }: {
       gsap.fromTo(imgRef.current,
         { opacity: 0, scale: 1.06 },
         { opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: rowRef.current, start: 'top 80%' } }
+          scrollTrigger: { trigger: rowRef.current, start: 'top 90%' } }
       )
     }, rowRef)
     return () => ctx.revert()

@@ -39,7 +39,7 @@ export default function StatsClient({ heading, items }: {
       gsap.fromTo('[data-stat]',
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' } }
       )
     }, sectionRef)
     return () => ctx.revert()
