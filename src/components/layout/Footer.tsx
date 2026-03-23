@@ -1,19 +1,20 @@
 import { getTranslations } from 'next-intl/server'
+import { C } from '@/lib/colors'
 
 export default async function Footer() {
   const t = await getTranslations('footer')
   return (
-    <footer className="border-t border-et-border py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+    <footer style={{ borderTop: `1px solid ${C.border}`, paddingTop: '3rem', paddingBottom: '3rem', backgroundColor: C.bg }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '2rem' }}>
         <div>
-          <div className="font-display text-xl tracking-[0.2em] text-et-primary mb-2">ETEYA</div>
-          <p className="text-et-secondary text-sm">{t('tagline')}</p>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', letterSpacing: '0.2em', color: C.primary, marginBottom: '0.5rem' }}>ETEYA</div>
+          <p style={{ color: C.secondary, fontSize: '0.875rem' }}>{t('tagline')}</p>
         </div>
-        <div className="text-et-secondary text-sm text-right">
+        <div style={{ color: C.secondary, fontSize: '0.875rem', textAlign: 'right' }}>
           <p>{t('company')}</p>
           <p>{t('org_nr')}</p>
           <p>{t('address')}</p>
-          <p className="mt-4 text-xs">{t('copyright')}</p>
+          <p style={{ marginTop: '1rem', fontSize: '0.75rem' }}>{t('copyright')}</p>
         </div>
       </div>
     </footer>

@@ -1,18 +1,18 @@
 import { getTranslations } from 'next-intl/server'
-import Button from '@/components/ui/Button'
+import { C } from '@/lib/colors'
 
 export default async function CTASection() {
   const t = await getTranslations('cta')
   return (
-    <section className="py-20 lg:py-32 bg-et-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-display text-4xl md:text-6xl lg:text-8xl text-et-primary uppercase leading-none mb-8">
+    <section style={{ backgroundColor: C.surface, paddingTop: '5rem', paddingBottom: '5rem', textAlign: 'center' }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 8vw, 7rem)', color: C.primary, textTransform: 'uppercase', lineHeight: 1, marginBottom: '2rem' }}>
           {t('headline')}
         </h2>
-        <p className="text-et-secondary text-lg max-w-xl mx-auto mb-10">{t('body')}</p>
-        <Button variant="primary" href="#contact" className="px-8 py-4 text-base">
+        <p style={{ color: C.secondary, fontSize: '1.125rem', maxWidth: '36rem', margin: '0 auto 2.5rem' }}>{t('body')}</p>
+        <a href="#contact" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: C.accent, color: C.bg, padding: '1rem 2rem', fontWeight: 500, fontSize: '0.875rem', textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           {t('button')}
-        </Button>
+        </a>
       </div>
     </section>
   )

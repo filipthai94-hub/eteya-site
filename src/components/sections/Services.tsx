@@ -1,22 +1,21 @@
 import { getTranslations } from 'next-intl/server'
-import SectionTitle from '@/components/ui/SectionTitle'
+import { C } from '@/lib/colors'
 
 export default async function Services() {
   const t = await getTranslations('services')
   const items = t.raw('items') as Array<{ number: string; title: string; description: string }>
 
   return (
-    <section id="services" className="py-20 lg:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle label={t('section_label')} heading={t('heading')} />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-et-border">
+    <section id="services" style={{ backgroundColor: C.bg, paddingTop: '5rem', paddingBottom: '5rem' }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
+        <p style={{ color: C.accent, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1rem' }}>{t('section_label')}</p>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: C.primary, textTransform: 'uppercase', lineHeight: 1, marginBottom: '3rem' }}>{t('heading')}</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1px', backgroundColor: C.border }}>
           {items.map((item) => (
-            <div key={item.number} className="bg-et-bg p-8 lg:p-12 hover:bg-et-surface transition-all duration-300 border border-transparent hover:border-et-accent h-full group cursor-default">
-              <span className="font-display text-6xl text-et-accent/20 group-hover:text-et-accent/60 transition-colors duration-300 block mb-6">
-                {item.number}
-              </span>
-              <h3 className="font-display text-2xl text-et-primary uppercase mb-4">{item.title}</h3>
-              <p className="text-et-secondary leading-relaxed">{item.description}</p>
+            <div key={item.number} style={{ backgroundColor: C.bg, padding: '2.5rem', cursor: 'default' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '5rem', color: C.accent, opacity: 0.2, display: 'block', marginBottom: '1.5rem', lineHeight: 1 }}>{item.number}</span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: C.primary, textTransform: 'uppercase', marginBottom: '1rem' }}>{item.title}</h3>
+              <p style={{ color: C.secondary, lineHeight: 1.7 }}>{item.description}</p>
             </div>
           ))}
         </div>

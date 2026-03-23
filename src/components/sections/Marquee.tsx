@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { C } from '@/lib/colors'
 
 export default async function MarqueeSection() {
   const t = await getTranslations('marquee')
@@ -6,15 +7,15 @@ export default async function MarqueeSection() {
   const items = [...words, ...words, ...words, ...words]
 
   return (
-    <div className="overflow-hidden py-8 border-y border-et-border">
-      <div className="flex animate-marquee whitespace-nowrap">
+    <div style={{ overflow: 'hidden', paddingTop: '2rem', paddingBottom: '2rem', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <div className="animate-marquee" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {items.map((word, i) => (
           <span
             key={i}
-            className="font-display text-5xl md:text-7xl uppercase tracking-widest mr-8 md:mr-16 text-et-muted"
+            style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 6vw, 5rem)', textTransform: 'uppercase', letterSpacing: '0.2em', marginRight: '3rem', color: '#2A2A2A' }}
           >
             {word}
-            <span className="mx-4 md:mx-8 text-et-border">·</span>
+            <span style={{ margin: '0 1.5rem', color: C.border }}>·</span>
           </span>
         ))}
       </div>

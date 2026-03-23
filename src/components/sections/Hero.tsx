@@ -1,25 +1,29 @@
 import { getTranslations } from 'next-intl/server'
-import Button from '@/components/ui/Button'
+import { C } from '@/lib/colors'
 
 export default async function Hero() {
   const t = await getTranslations('hero')
 
   return (
-    <section className="min-h-screen flex flex-col justify-center pt-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto w-full py-20">
-        <h1 className="font-display text-6xl md:text-8xl lg:text-[120px] text-et-primary uppercase leading-none mb-8">
+    <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: '4rem', padding: '6rem 2rem 4rem' }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', width: '100%' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 10vw, 8rem)', color: C.primary, textTransform: 'uppercase', lineHeight: 1, marginBottom: '2rem' }}>
           {t('headline')}
         </h1>
-        <p className="text-et-secondary text-lg md:text-xl max-w-2xl mb-10">
+        <p style={{ color: C.secondary, fontSize: '1.125rem', maxWidth: '42rem', marginBottom: '2.5rem', lineHeight: 1.6 }}>
           {t('subheadline')}
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Button variant="primary" href="#services">{t('cta_primary')}</Button>
-          <Button variant="outline" href="#contact">{t('cta_secondary')}</Button>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <a href="#services" style={{ display: 'inline-flex', alignItems: 'center', backgroundColor: C.accent, color: C.bg, padding: '0.75rem 1.5rem', fontWeight: 500, textDecoration: 'none', fontSize: '0.875rem' }}>
+            {t('cta_primary')}
+          </a>
+          <a href="#contact" style={{ display: 'inline-flex', alignItems: 'center', border: `1px solid ${C.accent}`, color: C.accent, padding: '0.75rem 1.5rem', fontWeight: 500, textDecoration: 'none', fontSize: '0.875rem' }}>
+            {t('cta_secondary')}
+          </a>
         </div>
-        <div className="mt-20 flex flex-col items-start gap-2">
-          <div className="w-px h-12 bg-et-accent" />
-          <span className="text-et-secondary text-xs tracking-widest uppercase">{t('scroll_label')}</span>
+        <div style={{ marginTop: '5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start' }}>
+          <div style={{ width: '1px', height: '3rem', backgroundColor: C.accent }} />
+          <span style={{ color: C.secondary, fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase' }}>{t('scroll_label')}</span>
         </div>
       </div>
     </section>
