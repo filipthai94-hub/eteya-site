@@ -10,21 +10,22 @@ export default function Nav() {
   const t = useTranslations('nav')
   const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
+  const btnRef = useRef<HTMLAnchorElement>(null)
   const isEn = pathname.startsWith('/en')
   const altHref = isEn ? pathname.replace(/^\/en/, '') || '/sv' : '/en' + pathname
 
   useEffect(() => {
     gsap.fromTo(navRef.current,
       { y: -80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.3 }
+      { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.4 }
     )
   }, [])
 
   return (
     <nav ref={navRef} style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      backgroundColor: 'rgba(8,8,8,0.85)',
-      backdropFilter: 'blur(12px)',
+      backgroundColor: 'rgba(8,8,8,0.9)',
+      backdropFilter: 'blur(16px)',
       borderBottom: `1px solid ${C.border}`,
     }}>
       <div style={{
@@ -32,31 +33,28 @@ export default function Nav() {
         height: '4.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <a href="/" style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '1.625rem', fontWeight: 800,
-          letterSpacing: '0.3em',
-          color: C.primary, textDecoration: 'none',
+          fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800,
+          letterSpacing: '0.4em', color: C.primary, textDecoration: 'none',
           textTransform: 'uppercase',
         }}>
           ETEYA
         </a>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
           <Link href={altHref} style={{
-            color: C.secondary, fontSize: '0.75rem',
-            letterSpacing: '0.15em', textDecoration: 'none',
-            textTransform: 'uppercase',
-          }}>
-            {t('lang')}
-          </Link>
-          <a href="#contact" style={{
-            display: 'inline-flex', alignItems: 'center',
-            border: `1px solid ${C.accent}`, color: C.accent,
-            padding: '0.625rem 1.5rem', fontSize: '0.75rem',
-            textDecoration: 'none', textTransform: 'uppercase',
-            letterSpacing: '0.12em', fontWeight: 600,
-          }}>
-            {t('cta')}
-          </a>
+            color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem',
+            letterSpacing: '0.2em', textDecoration: 'none', textTransform: 'uppercase',
+          }}>{t('lang')}</Link>
+          <a ref={btnRef} href="#contact"
+            onMouseEnter={() => gsap.to(btnRef.current, { backgroundColor: C.primary, color: C.bg, duration: 0.2 })}
+            onMouseLeave={() => gsap.to(btnRef.current, { backgroundColor: 'transparent', color: C.primary, duration: 0.2 })}
+            style={{
+              display: 'inline-flex', alignItems: 'center',
+              border: `1px solid rgba(255,255,255,0.25)`,
+              backgroundColor: 'transparent', color: C.primary,
+              padding: '0.625rem 1.5rem', fontSize: '0.7rem',
+              textDecoration: 'none', textTransform: 'uppercase',
+              letterSpacing: '0.15em', fontWeight: 600,
+            }}>{t('cta')}</a>
         </div>
       </div>
     </nav>

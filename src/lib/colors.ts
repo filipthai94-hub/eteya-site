@@ -1,8 +1,9 @@
 export const C = {
   bg: '#080808',
-  surface: '#111111',
-  primary: '#F5F5F5',
-  secondary: '#9B9B9B',
-  accent: '#6EE7B7',
-  border: '#222222',
+  surface: '#0F0F0F',
+  primary: '#FFFFFF',
+  secondary: '#888888',
+  accent: '#FFFFFF',
+  border: '#1E1E1E',
+  borderHover: '#444444',
 } as const
