@@ -1,0 +1,28 @@
+import { cn } from '@/lib/utils'
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'outline'
+  href?: string
+}
+
+export default function Button({ variant = 'primary', className, children, href, ...props }: ButtonProps) {
+  const base = 'inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-200 min-h-[44px]'
+  const variants = {
+    primary: 'bg-accent text-base hover:bg-accent/90',
+    outline: 'border border-accent text-accent hover:bg-accent hover:text-base',
+  }
+
+  if (href) {
+    return (
+      <a href={href} className={cn(base, variants[variant], className)}>
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <button className={cn(base, variants[variant], className)} {...props}>
+      {children}
+    </button>
+  )
+}

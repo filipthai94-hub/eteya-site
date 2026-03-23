@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "logo": "ETEYA",
+    "cta": "Kontakt",
+    "lang": "EN"
+  },
+  "hero": {
+    "headline": "AI som driver ditt företag.",
+    "subheadline": "Vi bygger agenter, automation och skräddarsydda lösningar — så att du kan fokusera på det som räknas.",
+    "cta_primary": "Se vad vi gör",
+    "cta_secondary": "Kontakta oss",
+    "scroll_label": "Scrolla"
+  },
+  "marquee": {
+    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS"]
+  },
+  "services": {
+    "section_label": "Tjänster",
+    "heading": "Tre sätt vi levererar.",
+    "items": [
+      {
+        "number": "01",
+        "title": "AI Agents",
+        "description": "Autonoma agenter som hanterar arbetsflöden, kommunikation och beslut — dygnet runt. Utan mänsklig input för varje steg."
+      },
+      {
+        "number": "02",
+        "title": "Process Automation",
+        "description": "Vi identifierar och automatiserar de manuella processer som äter din tid. Integrationer, triggers och flöden som fungerar utan din hand."
+      },
+      {
+        "number": "03",
+        "title": "Custom Builds",
+        "description": "Behöver du något som inte finns? Vi bygger det. AI-driven mjukvara anpassad exakt till ditt problem, din bransch, dina krav."
+      }
+    ]
+  },
+  "why": {
+    "section_label": "Varför Eteya",
+    "heading": "Vi levererar. Punkt.",
+    "items": [
+      {
+        "title": "Resultat, inte PowerPoints",
+        "body": "Vi mäts på output. Du betalar för lösningar som faktiskt körs i produktion."
+      },
+      {
+        "title": "Snabbt i produktion",
+        "body": "Ingen år-lång enterprise-process. Från idé till deployment på veckor."
+      },
+      {
+        "title": "Byggt för att skala",
+        "body": "Arkitektur som håller när verksamheten växer. Vi tänker tre steg framåt."
+      },
+      {
+        "title": "Transparens hela vägen",
+        "body": "Du vet alltid vad vi bygger, varför, och vad som är nästa steg."
+      }
+    ]
+  },
+  "stats": {
+    "heading": "I siffror.",
+    "items": [
+      { "value": 200, "suffix": "+", "label": "timmar sparade per kund, per månad" },
+      { "value": 3, "suffix": " v", "label": "genomsnittlig tid till produktion" },
+      { "value": 50, "suffix": "+", "label": "automatiserade processer" }
+    ]
+  },
+  "cta": {
+    "headline": "Redo att sätta AI i arbete?",
+    "body": "Berätta om din verksamhet. Vi berättar hur AI kan ta den till nästa nivå.",
+    "button": "Starta ett samtal"
+  },
+  "contact": {
+    "section_label": "Kontakt",
+    "heading": "Hör av dig.",
+    "subheading": "Vi svarar inom 24 timmar.",
+    "fields": {
+      "name": { "label": "Namn", "placeholder": "Anna Svensson" },
+      "email": { "label": "E-post", "placeholder": "anna@företaget.se" },
+      "message": { "label": "Meddelande", "placeholder": "Berätta om ditt projekt eller din utmaning..." },
+      "honeypot": { "label": "Lämna detta fält tomt" }
+    },
+    "submit": "Skicka",
+    "submit_loading": "Skickar...",
+    "success": "Tack! Vi hör av oss inom 24 timmar.",
+    "error": "Något gick fel. Försök igen eller maila oss direkt."
+  },
+  "footer": {
+    "tagline": "AI som driver ditt företag.",
+    "company": "Eteya Consulting AB",
+    "org_nr": "Org.nr 559552-7390",
+    "address": "Solhagsvägen 26A, 691 52 Karlskoga",
+    "copyright": "© 2026 Eteya Consulting AB"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "logo": "ETEYA",
+    "cta": "Contact",
+    "lang": "SV"
+  },
+  "hero": {
+    "headline": "AI that runs your business.",
+    "subheadline": "We build agents, automation, and custom solutions — so you can focus on what matters.",
+    "cta_primary": "See what we do",
+    "cta_secondary": "Get in touch",
+    "scroll_label": "Scroll"
+  },
+  "marquee": {
+    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS"]
+  },
+  "services": {
+    "section_label": "Services",
+    "heading": "Three ways we deliver.",
+    "items": [
+      {
+        "number": "01",
+        "title": "AI Agents",
+        "description": "Autonomous agents that handle workflows, communication, and decisions — around the clock. No human input required at every step."
+      },
+      {
+        "number": "02",
+        "title": "Process Automation",
+        "description": "We identify and automate the manual processes that drain your time. Integrations, triggers, and flows that run without your hand."
+      },
+      {
+        "number": "03",
+        "title": "Custom Builds",
+        "description": "Need something that doesn't exist yet? We build it. AI-powered software tailored exactly to your problem, your industry, your requirements."
+      }
+    ]
+  },
+  "why": {
+    "section_label": "Why Eteya",
+    "heading": "We deliver. Full stop.",
+    "items": [
+      {
+        "title": "Results, not PowerPoints",
+        "body": "We're measured on output. You pay for solutions that actually run in production."
+      },
+      {
+        "title": "Fast to production",
+        "body": "No year-long enterprise process. From idea to deployment in weeks."
+      },
+      {
+        "title": "Built to scale",
+        "body": "Architecture that holds as your business grows. We think three steps ahead."
+      },
+      {
+        "title": "Transparent throughout",
+        "body": "You always know what we're building, why, and what's next."
+      }
+    ]
+  },
+  "stats": {
+    "heading": "By the numbers.",
+    "items": [
+      { "value": 200, "suffix": "+", "label": "hours saved per client, per month" },
+      { "value": 3, "suffix": "w", "label": "average time to production" },
+      { "value": 50, "suffix": "+", "label": "automated processes" }
+    ]
+  },
+  "cta": {
+    "headline": "Ready to put AI to work?",
+    "body": "Tell us about your business. We'll show you how AI can take it to the next level.",
+    "button": "Start a conversation"
+  },
+  "contact": {
+    "section_label": "Contact",
+    "heading": "Get in touch.",
+    "subheading": "We respond within 24 hours.",
+    "fields": {
+      "name": { "label": "Name", "placeholder": "John Smith" },
+      "email": { "label": "Email", "placeholder": "john@company.com" },
+      "message": { "label": "Message", "placeholder": "Tell us about your project or challenge..." },
+      "honeypot": { "label": "Leave this field empty" }
+    },
+    "submit": "Send",
+    "submit_loading": "Sending...",
+    "success": "Thank you! We'll be in touch within 24 hours.",
+    "error": "Something went wrong. Please try again or email us directly."
+  },
+  "footer": {
+    "tagline": "AI that runs your business.",
+    "company": "Eteya Consulting AB",
+    "org_nr": "Reg. no. 559552-7390",
+    "address": "Solhagsvägen 26A, 691 52 Karlskoga, Sweden",
+    "copyright": "© 2026 Eteya Consulting AB"
+  }
+}
