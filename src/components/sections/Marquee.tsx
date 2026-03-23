@@ -1,7 +1,7 @@
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
-export default function MarqueeSection() {
-  const t = useTranslations('marquee')
+export default async function MarqueeSection() {
+  const t = await getTranslations('marquee')
   const words = t.raw('words') as string[]
   const items = [...words, ...words, ...words, ...words]
 
@@ -11,11 +11,10 @@ export default function MarqueeSection() {
         {items.map((word, i) => (
           <span
             key={i}
-            className="font-display text-5xl md:text-7xl uppercase tracking-widest mr-8 md:mr-16"
-            style={{ color: '#2A2A2A' }}
+            className="font-display text-5xl md:text-7xl uppercase tracking-widest mr-8 md:mr-16 text-et-muted"
           >
             {word}
-            <span className="mx-4 md:mx-8" style={{ color: '#222222' }}>·</span>
+            <span className="mx-4 md:mx-8 text-et-border">·</span>
           </span>
         ))}
       </div>
