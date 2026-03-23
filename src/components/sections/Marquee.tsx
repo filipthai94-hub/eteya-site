@@ -7,15 +7,26 @@ export default async function MarqueeSection() {
   const items = [...words, ...words, ...words, ...words]
 
   return (
-    <div style={{ overflow: 'hidden', paddingTop: '2rem', paddingBottom: '2rem', borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+    <div style={{
+      overflow: 'hidden',
+      paddingTop: '1.5rem', paddingBottom: '1.5rem',
+      borderTop: `1px solid ${C.border}`,
+      borderBottom: `1px solid ${C.border}`,
+      backgroundColor: C.bg,
+    }}>
       <div className="animate-marquee" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
         {items.map((word, i) => (
-          <span
-            key={i}
-            style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 6vw, 5rem)', textTransform: 'uppercase', letterSpacing: '0.2em', marginRight: '3rem', color: '#2A2A2A' }}
-          >
+          <span key={i} style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(3.5rem, 7vw, 6rem)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.15em',
+            marginRight: '2rem',
+            color: 'transparent',
+            WebkitTextStroke: `1px ${C.border}`,
+          }}>
             {word}
-            <span style={{ margin: '0 1.5rem', color: C.border }}>·</span>
+            <span style={{ margin: '0 2rem', color: C.accent, WebkitTextStroke: 0 }}>✦</span>
           </span>
         ))}
       </div>
