@@ -9,14 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: '#080808',
-        surface: '#111111',
-        muted: '#1A1A1A',
-        primary: '#F5F5F5',
-        secondary: '#9B9B9B',
-        accent: '#6EE7B7',
-        'accent-dim': '#064E3B',
-        border: '#222222',
+        'et-bg': '#080808',
+        'et-surface': '#111111',
+        'et-muted': '#1A1A1A',
+        'et-primary': '#F5F5F5',
+        'et-secondary': '#9B9B9B',
+        'et-accent': '#6EE7B7',
+        'et-accent-dim': '#064E3B',
+        'et-border': '#222222',
       },
       fontFamily: {
         display: ['var(--font-display)', 'sans-serif'],

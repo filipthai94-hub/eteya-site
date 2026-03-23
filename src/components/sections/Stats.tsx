@@ -10,10 +10,10 @@ function StatItem({ value, suffix, label, trigger }: { value: number; suffix: st
   const count = useCountUp(value, 2000, trigger)
   return (
     <div className="text-center">
-      <div className="font-display text-7xl md:text-8xl text-primary mb-2">
+      <div className="font-display text-7xl md:text-8xl text-et-primary mb-2">
         {count}{suffix}
       </div>
-      <p className="text-secondary text-sm">{label}</p>
+      <p className="text-et-secondary text-sm">{label}</p>
     </div>
   )
 }

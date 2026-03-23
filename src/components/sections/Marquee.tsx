@@ -6,7 +6,7 @@ export default function MarqueeSection() {
   const items = [...words, ...words, ...words, ...words]
 
   return (
-    <div className="overflow-hidden py-8 border-y border-border">
+    <div className="overflow-hidden py-8 border-y border-et-border">
       <div className="flex animate-marquee whitespace-nowrap">
         {items.map((word, i) => (
           <span

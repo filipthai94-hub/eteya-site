@@ -12,9 +12,9 @@ export default function SectionTitle({
   return (
     <div className={cn('mb-12', className)}>
       {label && (
-        <p className="text-accent text-sm tracking-widest uppercase mb-4">{label}</p>
+        <p className="text-et-accent text-sm tracking-widest uppercase mb-4">{label}</p>
       )}
-      <h2 className="font-display text-4xl md:text-6xl text-primary uppercase leading-none">
+      <h2 className="font-display text-4xl md:text-6xl text-et-primary uppercase leading-none">
         {heading}
       </h2>
     </div>

@@ -18,18 +18,18 @@ export default function Nav() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-base/90 backdrop-blur-sm border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-et-bg/90 backdrop-blur-sm border-b border-et-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <a
           href="/"
-          className="font-display text-2xl tracking-[0.2em] text-primary hover:text-accent transition-colors"
+          className="font-display text-2xl tracking-[0.2em] text-et-primary hover:text-et-accent transition-colors"
         >
           {t('logo')}
         </a>
         <div className="flex items-center gap-4">
           <button
             onClick={toggleLocale}
-            className="text-secondary hover:text-primary text-sm transition-colors min-h-[44px] px-2"
+            className="text-et-secondary hover:text-et-primary text-sm transition-colors min-h-[44px] px-2"
           >
             {t('lang')}
           </button>

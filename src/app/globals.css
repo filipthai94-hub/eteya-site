@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-base: #080808;
+  --color-primary: #F5F5F5;
+}
+
+html, body {
+  background-color: #080808;
+  color: #F5F5F5;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

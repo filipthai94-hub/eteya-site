@@ -15,12 +15,12 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
           {items.map((item, i) => (
             <FadeIn key={item.number} delay={i * 0.15}>
-              <div className="bg-base p-8 lg:p-12 group hover:bg-surface transition-all duration-300 hover:-translate-y-1 border border-transparent hover:border-accent h-full cursor-default">
-                <span className="font-display text-6xl text-accent/20 group-hover:text-accent/60 transition-colors duration-300 block mb-6">
+              <div className="bg-et-bg p-8 lg:p-12 group hover:bg-et-surface transition-all duration-300 hover:-translate-y-1 border border-transparent hover:border-et-accent h-full cursor-default">
+                <span className="font-display text-6xl text-et-accent/20 group-hover:text-et-accent/60 transition-colors duration-300 block mb-6">
                   {item.number}
                 </span>
-                <h3 className="font-display text-2xl text-primary uppercase mb-4">{item.title}</h3>
-                <p className="text-secondary leading-relaxed">{item.description}</p>
+                <h3 className="font-display text-2xl text-et-primary uppercase mb-4">{item.title}</h3>
+                <p className="text-et-secondary leading-relaxed">{item.description}</p>
               </div>
             </FadeIn>
           ))}
