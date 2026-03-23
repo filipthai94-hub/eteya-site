@@ -22,7 +22,7 @@ export default function CTAClient({ headline, body, button }: { headline: string
       gsap.fromTo(contentRef.current!.children,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' } }
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', toggleActions: 'play none none none' } }
       )
     }, sectionRef)
     return () => ctx.revert()
@@ -37,7 +37,7 @@ export default function CTAClient({ headline, body, button }: { headline: string
       <div ref={bgRef} className="will-change-transform" style={{
         position: 'absolute', inset: '-20%',
         backgroundImage: 'url(https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1800&q=80)',
-        backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.06,
+        backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.04,
       }} />
 
       <div ref={contentRef} style={{ position: 'relative', zIndex: 10, maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>

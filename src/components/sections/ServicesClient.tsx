@@ -24,17 +24,18 @@ function ServiceRow({ item, index, image }: {
   useEffect(() => {
     if (!rowRef.current) return
     const ctx = gsap.context(() => {
-      gsap.set([textRef.current, imgContainerRef.current], { opacity: 1 })
-
+      // Set visible by default first
+      gsap.set([textRef.current, imgContainerRef.current], { opacity: 1, x: 0, scale: 1 })
+      // Then animate
       gsap.fromTo(textRef.current,
         { opacity: 0, x: reversed ? 40 : -40 },
         { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: rowRef.current, start: 'top 80%' } }
+          scrollTrigger: { trigger: rowRef.current, start: 'top 90%', toggleActions: 'play none none none' } }
       )
       gsap.fromTo(imgContainerRef.current,
-        { opacity: 0, scale: 1.04 },
-        { opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out',
-          scrollTrigger: { trigger: rowRef.current, start: 'top 85%' } }
+        { opacity: 0 },
+        { opacity: 1, duration: 1.0, ease: 'power2.out',
+          scrollTrigger: { trigger: rowRef.current, start: 'top 90%', toggleActions: 'play none none none' } }
       )
     }, rowRef)
     return () => ctx.revert()

@@ -23,14 +23,16 @@ export default function StatsClient({ heading, items }: {
   const [triggered, setTriggered] = useState(false)
 
   useEffect(() => {
-    if (!sectionRef.current) return
+    // Trigger immediately on mount as fallback
+    const timer = setTimeout(() => setTriggered(true), 500)
+    if (!sectionRef.current) return () => clearTimeout(timer)
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: sectionRef.current, start: 'top 70%',
-        onEnter: () => setTriggered(true),
+        trigger: sectionRef.current, start: 'top 90%',
+        onEnter: () => { clearTimeout(timer); setTriggered(true) },
       })
     }, sectionRef)
-    return () => ctx.revert()
+    return () => { clearTimeout(timer); ctx.revert() }
   }, [])
 
   return (
