@@ -12,6 +12,19 @@ html, body {
   color: #F5F5F5;
 }
 
+/* Fallback CSS variables for Tailwind custom colors */
+.bg-et-bg { background-color: #080808 !important; }
+.bg-et-surface { background-color: #111111 !important; }
+.bg-et-muted { background-color: #1A1A1A !important; }
+.text-et-primary { color: #F5F5F5 !important; }
+.text-et-secondary { color: #9B9B9B !important; }
+.text-et-accent { color: #6EE7B7 !important; }
+.text-et-bg { color: #080808 !important; }
+.bg-et-accent { background-color: #6EE7B7 !important; }
+.border-et-border { border-color: #222222 !important; }
+.border-et-accent { border-color: #6EE7B7 !important; }
+.bg-et-border { background-color: #222222 !important; }
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
