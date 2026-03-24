@@ -115,7 +115,7 @@ const CSS = `
   #services-section .service-content {
     gap: 1.25rem var(--sp-block);
     display: grid;
-    grid-template-columns: 0.50fr 0.47fr;
+    grid-template-columns: 0.47fr 0.50fr;
     justify-content: space-between;
     padding-block: 1.25rem 2.5rem;
     padding-inline: var(--pd-inline);
@@ -125,7 +125,7 @@ const CSS = `
   #services-section .service-card.is-active .service-content { opacity: 1; }
 
   /* Image */
-  #services-section .service-media { display: block; }
+  #services-section .service-media { display: block; grid-column: 2; grid-row: 1 / 3; align-self: center; }
   #services-section .service-media img {
     width: 100%; height: auto; mix-blend-mode: screen; display: block;
   }
@@ -155,7 +155,8 @@ const CSS = `
     text-decoration: none;
     transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
     white-space: nowrap; letter-spacing: 0.02em;
-    grid-area: 2/1/3/2;
+    grid-column: 1;
+    grid-row: 2;
   }
   #services-section .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
 
@@ -209,9 +210,6 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
-              <a className="service-media" href="#contact">
-                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
-              </a>
               <ul className="service-list">
                 <li>Kundtjänst</li>
                 <li>Leadsgenerering</li>
@@ -220,6 +218,9 @@ export default function ServicesClient() {
                 <li>Intern support</li>
                 <li>Uppföljning</li>
               </ul>
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
+              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
@@ -241,9 +242,6 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
-              <a className="service-media" href="#contact">
-                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
-              </a>
               <ul className="service-list">
                 <li>E-postautomation</li>
                 <li>Fakturahantering</li>
@@ -252,6 +250,9 @@ export default function ServicesClient() {
                 <li>Systemsynk</li>
                 <li>Aviseringar</li>
               </ul>
+              <a className="service-media" href="#contact">
+                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
+              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
@@ -273,9 +274,6 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
-              <a className="service-media" href="#contact">
-                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
-              </a>
               <ul className="service-list">
                 <li>Webbapplikationer</li>
                 <li>Interna verktyg</li>
@@ -284,6 +282,9 @@ export default function ServicesClient() {
                 <li>MVP på veckor</li>
                 <li>Skräddarsydd AI</li>
               </ul>
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
+              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
