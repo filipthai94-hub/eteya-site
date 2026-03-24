@@ -11,12 +11,87 @@
 
   <link rel="stylesheet" href="brandin.css">
 
-  <!-- Body resets -->
+  <!-- Body resets + overrides -->
   <style>
     html, body { margin: 0; padding: 0; background: #000; overflow-x: hidden; }
     body { min-height: 100vh; }
+
     /* Force section visible */
     #fws_69c1c16f371a3 { display: block !important; visibility: visible !important; }
+
+    /* Sätt bakgrundsbilden direkt utan JS */
+    .column-image-bg {
+      background-image: url('./ai-bg.webp') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .column-image-bg-wrap {
+      position: absolute !important;
+      inset: 0 !important;
+      overflow: hidden !important;
+    }
+
+    /* Sätt inner row-höjd = 75vh */
+    #fws_69c1c16f375f6 {
+      min-height: 75vh !important;
+      height: 75vh !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    /* Visa text direkt */
+    .nectar-split-heading,
+    .nectar-split-heading p,
+    .nectar-split-heading h1,
+    .nectar-split-heading .word,
+    .nectar-split-heading .char {
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+      clip-path: none !important;
+      overflow: visible !important;
+    }
+
+    /* Salient font-override: zalando-sans -> system */
+    * { font-family: 'Zalando Sans', 'DM Sans', 'Inter', sans-serif !important; }
+
+    /* // 01 text */
+    .nectar-split-heading p {
+      color: rgba(255,255,255,0.7) !important;
+      font-size: 1.6vw !important;
+      letter-spacing: 0.1em !important;
+      margin-bottom: 8px !important;
+    }
+
+    /* ARTIFICIAL INTELLIGENCE headline */
+    .nectar-split-heading h1 {
+      color: #fff !important;
+      font-size: 8vw !important;
+      line-height: 0.9 !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+    }
+
+    /* Gradient overlay */
+    .row-bg-overlay {
+      background: linear-gradient(to bottom, #F12E03 0%, #FF5513 100%) !important;
+      opacity: 0.15 !important;
+    }
+
+    /* Outer section – inget sticky-hax, bara visa hela */
+    #fws_69c1c16f371a3 .n-sticky { position: relative !important; }
+
+    /* Placera texten längst ner till vänster */
+    .vc_col-sm-12.left_padding_desktop_4vw {
+      position: absolute !important;
+      bottom: 4vw !important;
+      left: 4vw !important;
+      z-index: 10 !important;
+    }
   </style>
 </head>
 <body id="top" class="page-template-default page page-id-1 salient-js-enabled using-nectar-animations-api wpb-js-composer js-comp-ver-8.0.1 vc_responsive nectar-full-width-layout">
