@@ -17,7 +17,16 @@
     /* Fix links */
     a { color: inherit; text-decoration: none; }
     /* SERVICES heading */
-    h2.h1.title { font-size: clamp(2.75rem, 0.3421rem + 6.5789vw, 7rem); font-family: "TwidGrotesk Regular", sans-serif; font-weight: 400; color: #fff; margin-bottom: 2rem; }
+    h2.h1.title { font-size: 98px; font-family: "TwidGrotesk Regular", sans-serif; font-weight: 400; color: #fff; margin-bottom: 68px; }
+    @media (max-width: 991px) { h2.h1.title { font-size: 44px; margin-bottom: 32px; } }
+    /* Force correct desktop vars — clamp() scales wrong in standalone */
+    @media (min-width: 992px) {
+      :root {
+        --h1: 7rem; --h2: 4rem; --h3: 3.25rem; --h4: 2rem; --h5: 1.5rem;
+        --pd-block: 35px; --pd-inline: 10.5px; --icon-size: 45.5px;
+        --sp-xl: 10rem; --sp-lg: 6.25rem; --sp-md: 5rem;
+      }
+    }
     /* Force desktop layout + override JS-triggered animations */
     .service-title { display: flex !important; }
     .service-content { display: grid !important; }
