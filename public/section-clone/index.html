@@ -7,6 +7,10 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #000; color: #fff; min-height: 100vh; padding: 80px 62px; }
+    /* Fix links */
+    a { color: inherit; text-decoration: none; }
+    /* SERVICES heading */
+    h2.h1.title { font-size: clamp(2.75rem, 0.3421rem + 6.5789vw, 7rem); font-family: "TwidGrotesk Regular", sans-serif; font-weight: 400; color: #fff; margin-bottom: 2rem; }
     /* Force desktop layout + override JS-triggered animations */
     .service-title { display: flex !important; }
     .service-content { display: grid !important; }
@@ -14,13 +18,17 @@
     .slideAnim { opacity: 1 !important; transform: none !important; }
     .text-animate { opacity: 1 !important; transform: none !important; }
     .animate { opacity: 1 !important; }
+    /* Hide duplicate title inside expanded content */
+    .service-content .service-title { display: none !important; }
     /* Accordion open state */
     .service-card.is-open { grid-template-rows: auto 1fr !important; }
     .service-card.is-open .service-content { display: grid !important; opacity: 1 !important; }
-    .service-card .service-content { opacity: 0; transition: opacity 0.3s ease; }
+    .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
     .service-card.is-open .service-content { opacity: 1; }
     .service-card.is-open .service-title i { transform: rotate(135deg); }
-    .service-title i { transition: transform 0.3s ease; }
+    /* Fix list styling */
+    .service-list a, .service-list li { color: rgba(255,255,255,0.75); }
+    .service-list li::marker { color: rgba(255,255,255,0.4); }
   </style>
   <link rel="stylesheet" href="./styles.css">
 </head>
