@@ -168,14 +168,14 @@ const CSS = `
       padding-inline: 1rem;
       gap: 1rem;
     }
-    #services-section .service-list {
-      grid-column: 1 !important;
-      grid-row: 1 !important;
-      grid-template-columns: 1fr !important;
-    }
     #services-section .service-media {
       grid-column: 1 !important;
+      grid-row: 1 !important;
+    }
+    #services-section .service-list {
+      grid-column: 1 !important;
       grid-row: 2 !important;
+      grid-template-columns: 1fr !important;
     }
     #services-section .eteya-btn {
       grid-column: 1 !important;
