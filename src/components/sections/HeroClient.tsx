@@ -156,6 +156,7 @@ export default function HeroClient({
       }}>
         <div>
           <p style={{
+            fontFamily: 'var(--font-body)',
             color: 'rgba(0,0,0,0.5)',
             fontSize: '0.75rem',
             letterSpacing: '0.15em',
@@ -163,6 +164,7 @@ export default function HeroClient({
             marginBottom: '0.4rem',
           }}>Sweden · Est. 2025</p>
           <p style={{
+            fontFamily: 'var(--font-body)',
             color: 'rgba(0,0,0,0.6)',
             fontSize: 'clamp(0.875rem, 1vw, 1rem)',
             maxWidth: '36rem',
