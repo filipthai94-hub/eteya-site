@@ -43,9 +43,11 @@
     .service-card.is-active .service-content { display: grid !important; opacity: 1 !important; }
     .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
     .service-card.is-active .service-content { opacity: 1; }
-    /* Arrow */
-    .service-title i { transform: rotate(-45deg) !important; }
-    .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
+    /* Arrow: ↗ diagonal default, ↙ when open */
+    .service-block .service-title i { transform: rotate(-45deg) !important; }
+    .service-block .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
+    /* Hover: pil roterar mot öppet läge */
+    .service-block .service-card:not(.is-active) .service-title:hover i { transform: rotate(45deg) !important; }
     /* Eteya button style — override Redstone .btn */
     .btn.btn-primary, .btn.btn-m.btn-primary {
       display: inline-flex !important;
