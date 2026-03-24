@@ -6,7 +6,7 @@
   <title>section-clone: .service-block from https://redstone.software</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #fff; min-height: 100vh; }
+    body { background: #000; color: #fff; min-height: 100vh; padding: 80px 62px; }
     /* Force desktop layout + override JS-triggered animations */
     .service-title { display: flex !important; }
     .service-content { display: grid !important; }
@@ -14,6 +14,13 @@
     .slideAnim { opacity: 1 !important; transform: none !important; }
     .text-animate { opacity: 1 !important; transform: none !important; }
     .animate { opacity: 1 !important; }
+    /* Accordion open state */
+    .service-card.is-open { grid-template-rows: auto 1fr !important; }
+    .service-card.is-open .service-content { display: grid !important; opacity: 1 !important; }
+    .service-card .service-content { opacity: 0; transition: opacity 0.3s ease; }
+    .service-card.is-open .service-content { opacity: 1; }
+    .service-card.is-open .service-title i { transform: rotate(135deg); }
+    .service-title i { transition: transform 0.3s ease; }
   </style>
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -45,10 +52,10 @@
                                 <a class="service-media" href="/services/website-development/">
                                      
                                         <div class="video video-present">
-                                            <video muted playsinline loop preload poster="/img/service-1-762x482.webp" src="#" data-src="/video/development.mp4" data-src-mob="/video/development.mp4"></video>
+                                            <video muted playsinline loop preload poster="./img/service-1-762x482.webp" src="#" data-src="/video/development.mp4" data-src-mob="/video/development.mp4"></video>
                                         </div>
                                                                         
-                                    <picture><source srcset="/img/service-1-762x482.webp" type="image/webp"><source srcset="/img/service-1-762x482.png" type="image/jpeg"><img src="#" loading="lazy" alt="Service Image" ></picture>                                </a>
+                                    <picture><source srcset="./img/service-1-762x482.webp" type="image/webp"><source srcset="/img/service-1-762x482.png" type="image/jpeg"><img src="#" loading="lazy" alt="Service Image" ></picture>                                </a>
 
                                 <a class="service-title" href="/services/website-development/">Website development</a>
                                  
@@ -416,5 +423,23 @@
                         </div>
                     </div>
                             </div>
+<script>
+  // Simple accordion — mirrors Redstone behavior
+  document.querySelectorAll('.service-card').forEach(function(card) {
+    var title = card.querySelector('.service-title');
+    if (!title) return;
+    title.style.cursor = 'pointer';
+    title.addEventListener('click', function() {
+      var isOpen = card.classList.contains('is-open');
+      // Close all
+      document.querySelectorAll('.service-card').forEach(function(c) { c.classList.remove('is-open'); });
+      // Open clicked (unless it was already open)
+      if (!isOpen) card.classList.add('is-open');
+    });
+  });
+  // Open first by default
+  var first = document.querySelector('.service-card');
+  if (first) first.classList.add('is-open');
+</script>
 </body>
 </html>
