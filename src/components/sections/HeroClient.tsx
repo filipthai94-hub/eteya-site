@@ -65,6 +65,7 @@ export default function HeroClient({
           .hero-name-wrap { align-items: center !important; justify-content: center !important; padding: 0 1.5rem !important; }
           .hero-name-wrap > div { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; width: 100% !important; }
           .hero-eteya { font-size: 28vw !important; justify-content: center !important; }
+          .hero-subheadline { text-align: center !important; }
         }
       `}</style>
 
@@ -159,7 +160,7 @@ export default function HeroClient({
         opacity: 0,
       }}>
         <div>
-          <p style={{
+          <p className="hero-subheadline" style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 700,
             fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
