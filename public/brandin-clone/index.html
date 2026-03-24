@@ -179,21 +179,22 @@
     /* ─── 5. SCRAMBLE: tecken randomiseras → rätt bokstav */
     const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789';
     function scramble(el, finalText, duration = 1200, delay = 0) {
+      // Använd originaltext (mixed case) — CSS text-transform: uppercase hanterar visningen
       const origChars = [...finalText];
+      const charEls = [...el.querySelectorAll('.char-inner')];
       setTimeout(() => {
-        origChars.forEach((ch, i) => {
-          if (ch === ' ') return;
+        charEls.forEach((charEl, i) => {
+          const finalChar = origChars[i];
+          if (!finalChar || finalChar === ' ') return;
           let start = Date.now();
           const interval = setInterval(() => {
             const elapsed = Date.now() - start;
             const progress = Math.min(elapsed / duration, 1);
-            // Rätt bokstav låses in progressivt från vänster
             if (progress > i / origChars.length) {
-              el.querySelectorAll('.char-inner')[i].textContent = ch;
+              charEl.textContent = finalChar; // Sätt rätt tecken — CSS gör uppercase
               clearInterval(interval);
             } else {
-              el.querySelectorAll('.char-inner')[i].textContent =
-                CHARS[Math.floor(Math.random() * CHARS.length)];
+              charEl.textContent = CHARS[Math.floor(Math.random() * CHARS.length)];
             }
           }, 50);
         });
