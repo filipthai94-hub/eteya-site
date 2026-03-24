@@ -23,8 +23,8 @@ export default function HeroClient({
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
 
     tl.fromTo(roleRef.current,
-      { y: 24, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7 }
+      { y: 16, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6 }
     )
     if (letters && letters.length > 0) {
       tl.fromTo(letters,
@@ -52,7 +52,7 @@ export default function HeroClient({
       position: 'relative',
       height: '100vh',
       minHeight: '600px',
-      backgroundColor: C.accent, // #C8FF00 lime
+      backgroundColor: C.accent,
       display: 'grid',
       gridTemplateRows: 'auto 1fr auto',
       overflow: 'hidden',
@@ -80,18 +80,18 @@ export default function HeroClient({
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
-        {/* Fade-in från vänster så texten läses bra */}
+        {/* Fix 4: mjukare gradient, bredare fade-zon */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.7) 20%, rgba(200,255,0,0) 60%)`,
+          background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.85) 15%, rgba(200,255,0,0.4) 40%, rgba(200,255,0,0) 70%)`,
           pointerEvents: 'none',
         }} />
       </div>
 
-      {/* RAD 1 — Nav spacer + roll-text */}
-      <div style={{ height: '4.5rem' }} /> {/* nav spacer */}
+      {/* RAD 1 — Nav spacer */}
+      <div style={{ height: '4.5rem' }} />
 
-      {/* RAD 2 — Namn centrerat */}
+      {/* RAD 2 — Namn vertikalt centrerat (Fix 1) */}
       <div ref={nameRef} style={{
         position: 'relative', zIndex: 10,
         display: 'flex',
@@ -99,19 +99,19 @@ export default function HeroClient({
         padding: '0 0 0 2.5rem',
         overflow: 'visible',
       }}>
-        {/* Roll-text — ovanför namnet */}
         <div>
+          {/* Fix 2: role-text mindre och diskret */}
           <div ref={roleRef} style={{
-            marginBottom: '1rem',
+            marginBottom: '0.75rem',
             opacity: 0,
           }}>
             <span style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+              fontFamily: 'var(--font-body)',
+              fontWeight: 500,
+              fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
               textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: C.black,
+              letterSpacing: '0.18em',
+              color: 'rgba(0,0,0,0.55)',
             }}>{role}</span>
           </div>
 
@@ -163,5 +163,3 @@ export default function HeroClient({
     </section>
   )
 }
-
-

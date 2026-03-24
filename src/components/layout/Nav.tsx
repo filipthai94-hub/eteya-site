@@ -128,7 +128,7 @@ export default function Nav() {
         .nav-dmenu { display:flex;align-items:center; }
         .nav-ul { display:flex;list-style:none;margin:0;padding:0; }
         .nav-item { position:relative; }
-        .nav-btn { display:flex;align-items:center;gap:5px;padding:0 14px;height:80px;font-family:var(--font-body),"Geist",sans-serif;font-size:15px;font-weight:400;color:rgba(255,255,255,.65);background:none;border:none;cursor:pointer;white-space:nowrap;transition:color .2s;letter-spacing:-.01em;text-transform:uppercase; }
+        .nav-btn { display:flex;align-items:center;gap:5px;padding:0 14px;height:80px;font-family:var(--font-body),"Geist",sans-serif;font-size:12px;font-weight:500;color:rgba(255,255,255,.65);background:none;border:none;cursor:pointer;white-space:nowrap;transition:color .2s;letter-spacing:.1em;text-transform:uppercase; }
         .nav-btn:hover,.nav-item.is-open .nav-btn { color:#fff; }
         .nav-caret { width:11px;height:11px;opacity:.4;flex-shrink:0;transition:transform .35s cubic-bezier(.165,.84,.44,1),opacity .2s; }
         .nav-item.is-open .nav-caret { transform:rotate(180deg)!important;opacity:.9!important; }
