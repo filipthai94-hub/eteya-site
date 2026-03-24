@@ -14,8 +14,8 @@ export default function Home() {
       <Nav />
       <Hero />
       <MarqueeSection />
-      <Work />
       <Services />
+      <Work />
       <Stats />
       <CTASection />
       <Contact />
