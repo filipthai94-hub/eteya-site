@@ -1,186 +1,205 @@
 'use client'
-import { useRef } from 'react'
-import { gsap } from 'gsap'
-import { C } from '@/lib/colors'
+import { useState } from 'react'
+import Image from 'next/image'
 
-function ServiceRow({ item, isLast }: {
-  item: { number: string; title: string; description: string; detail: string }
-  isLast: boolean
+const SERVICES = [
+  {
+    number: '01',
+    title: 'AI Agents',
+    image: '/images/service-ai-agents.png',
+    items: ['Kundtjänst', 'Leadsgenerering', 'Bokningar', 'Orderhantering', 'Intern support', 'Uppföljning'],
+  },
+  {
+    number: '02',
+    title: 'Automation',
+    image: '/images/service-automation.png',
+    items: ['E-postautomation', 'Fakturahantering', 'Lead-flöden', 'Rapportering', 'Systemsynk', 'Aviseringar'],
+  },
+  {
+    number: '03',
+    title: 'AI Products',
+    image: '/images/service-ai-products.png',
+    items: ['Webbapplikationer', 'Interna verktyg', 'API-integrationer', 'Databaslösningar', 'MVP på veckor', 'Skräddarsydd AI'],
+  },
+]
+
+function ServiceCard({ service, index, isActive, onToggle }: {
+  service: typeof SERVICES[0]
+  index: number
+  isActive: boolean
+  onToggle: () => void
 }) {
-  const rowRef = useRef<HTMLDivElement>(null)
-  const fillRef = useRef<HTMLDivElement>(null)
-  const titleBlackRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  const handleEnter = () => {
-    // Fill animation: vitt täcker in från vänster
-    gsap.to(fillRef.current, {
-      clipPath: 'inset(0 0% 0 0)',
-      duration: 0.55,
-      ease: 'power3.inOut',
-    })
-    // Titel i svart version visas
-    gsap.to(titleBlackRef.current, { opacity: 1, duration: 0.3, delay: 0.1 })
-    // Content slides in
-    gsap.fromTo(contentRef.current,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, delay: 0.15 }
-    )
-  }
-
-  const handleLeave = () => {
-    gsap.to(fillRef.current, {
-      clipPath: 'inset(0 100% 0 0)',
-      duration: 0.45,
-      ease: 'power3.inOut',
-    })
-    gsap.to(titleBlackRef.current, { opacity: 0, duration: 0.2 })
-    gsap.to(contentRef.current, { opacity: 0, duration: 0.2 })
-  }
-
   return (
-    <div
-      ref={rowRef}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      style={{
-        position: 'relative',
-        borderBottom: isLast ? 'none' : `1px solid rgba(255,255,255,0.08)`,
-        height: '160px',
-        cursor: 'default',
-        overflow: 'hidden',
-      }}>
-
-      {/* Bakgrundslager — vit fill (clipPath animeras) */}
-      <div ref={fillRef} style={{
-        position: 'absolute', inset: 0,
-        backgroundColor: C.accent,
-        clipPath: 'inset(0 100% 0 0)',
-        zIndex: 1,
-      }} />
-
-      {/* Vit version av raden (standard) */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 2,
-        display: 'flex', alignItems: 'center',
-        padding: '0 2.5rem',
-        gap: '3rem',
-      }}>
+    <div style={{
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
+      ...(index === 0 ? { borderTop: '1px solid rgba(255,255,255,0.1)' } : {}),
+    }}>
+      {/* Title row */}
+      <div
+        onClick={onToggle}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '2.5rem',
+          padding: '35px 10.5px',
+          cursor: 'pointer',
+          position: 'relative',
+          overflow: 'hidden',
+          fontFamily: '"DM Sans", sans-serif',
+          fontSize: 'clamp(1.5rem, 3vw, 45.5px)',
+          fontWeight: 400,
+          color: '#fff',
+          userSelect: 'none',
+        }}
+      >
+        {/* Arrow icon */}
         <span style={{
-          fontFamily: 'var(--font-display)',
-          color: 'rgba(255,255,255,0.15)',
-          fontSize: '0.8rem',
-          fontWeight: 700,
-          letterSpacing: '0.1em',
-          flexShrink: 0, width: '2rem',
-        }}>{item.number}</span>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: 'clamp(3rem, 6vw, 6rem)',
-          color: C.primary,
-          textTransform: 'uppercase' as const,
-          letterSpacing: '-0.03em',
-          lineHeight: 1,
-          flex: 1,
-        }}>{item.title}</span>
-        <div ref={contentRef} style={{
-          opacity: 0, maxWidth: '32rem', textAlign: 'right',
-        }}>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.9rem', lineHeight: 1.65 }}>
-            {item.description}
-          </p>
+          display: 'inline-block',
+          width: 45,
+          height: 45,
+          flexShrink: 0,
+          transition: 'transform 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
+          transform: isActive ? 'rotate(45deg)' : 'rotate(-45deg)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E")`,
+        }} />
+
+        {/* Title */}
+        <span style={{ flex: 1 }}>{service.title}</span>
+
+        {/* Counter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '17.5px', flexShrink: 0 }}>
+          <span style={{ fontSize: '1.75rem', fontWeight: 400, color: '#fff' }}>{service.number}</span>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '12.25px', alignItems: 'flex-end' }}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <span key={i} style={{
+                display: 'inline-block',
+                width: '0.0625rem',
+                backgroundColor: i === index ? '#fff' : 'rgba(255,255,255,0.4)',
+                height: isActive && i === index ? '3.625rem' : '0.75rem',
+                transition: 'height 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
+                flexShrink: 0,
+              }} />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Svart version av raden (hover — ovanpå vit fill) */}
-      <div ref={titleBlackRef} style={{
-        position: 'absolute', inset: 0, zIndex: 3,
-        display: 'flex', alignItems: 'center',
-        padding: '0 2.5rem',
-        gap: '3rem',
-        opacity: 0,
-        pointerEvents: 'none',
+      {/* Expanded content */}
+      <div style={{
+        display: 'grid',
+        gridTemplateRows: isActive ? '1fr' : '0fr',
+        transition: 'grid-template-rows 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
       }}>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          color: 'rgba(0,0,0,0.25)',
-          fontSize: '0.8rem',
-          fontWeight: 700,
-          letterSpacing: '0.1em',
-          flexShrink: 0, width: '2rem',
-        }}>{item.number}</span>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: 'clamp(3rem, 6vw, 6rem)',
-          color: C.bg,
-          textTransform: 'uppercase' as const,
-          letterSpacing: '-0.03em',
-          lineHeight: 1,
-          flex: 1,
-        }}>{item.title}</span>
-        <div style={{ maxWidth: '32rem', textAlign: 'right' }}>
-          <p style={{ color: 'rgba(0,0,0,0.65)', fontSize: '0.9rem', lineHeight: 1.65 }}>
-            {item.detail}
-          </p>
+        <div style={{ overflow: 'hidden' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '2rem',
+            padding: '1.5rem 10.5px 2.5rem',
+            opacity: isActive ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+          }}>
+            {/* Image */}
+            <div style={{ position: 'relative', borderRadius: 0 }}>
+              <Image
+                src={service.image}
+                alt={service.title}
+                width={762}
+                height={482}
+                style={{ width: '100%', height: 'auto', mixBlendMode: 'screen' }}
+              />
+            </div>
+
+            {/* List + button */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {service.items.map((item) => (
+                  <li key={item} style={{
+                    color: 'rgba(255,255,255,0.75)',
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                  }}>
+                    <span style={{ opacity: 0.4, fontSize: '0.7em' }}>○</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#contact"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '#C8FF00',
+                  color: '#121213',
+                  border: 'none',
+                  borderRadius: 0,
+                  fontFamily: '"DM Sans", sans-serif',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  padding: '0 24px',
+                  height: '48px',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  width: 'fit-content',
+                  transition: 'background 0.4s ease, transform 0.4s ease',
+                  letterSpacing: '0.02em',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.background = '#b8ef00'
+                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.background = '#C8FF00'
+                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+                }}
+              >
+                Läs mer
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default function ServicesClient({ labelJa, labelEn, heading, items }: {
-  labelJa: string; labelEn: string; heading: string
-  items: Array<{ number: string; title: string; description: string; detail: string }>
-}) {
+export default function ServicesClient() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
   return (
     <section id="services" style={{
-      backgroundColor: C.bg,
-      borderTop: `1px solid rgba(255,255,255,0.07)`,
-      paddingBottom: '2rem',
+      backgroundColor: '#080808',
+      padding: '80px 62px',
     }}>
-      {/* Section header */}
-      <div style={{
-        maxWidth: '90rem', margin: '0 auto', padding: '5rem 2.5rem 3rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap', gap: '1.5rem',
-        borderBottom: `1px solid rgba(255,255,255,0.08)`,
+      {/* Heading */}
+      <h2 style={{
+        fontFamily: '"DM Sans", sans-serif',
+        fontSize: 'clamp(2.75rem, 6.5vw, 98px)',
+        fontWeight: 300,
+        color: '#fff',
+        marginBottom: '68px',
+        letterSpacing: '-0.02em',
+        lineHeight: 1,
       }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem', marginBottom: '1rem' }}>
-            <span style={{
-              fontFamily: 'var(--font-display)', fontWeight: 700,
-              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
-              color: 'rgba(255,255,255,0.15)',
-              letterSpacing: '0.05em',
-            }}>{labelJa}</span>
-            <span style={{
-              color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-            }}>{labelEn}</span>
-          </div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontWeight: 700,
-            fontSize: 'clamp(1.75rem, 3.5vw, 3rem)',
-            color: C.primary, textTransform: 'uppercase',
-            lineHeight: 1, letterSpacing: '-0.02em', margin: 0,
-          }}>{heading}</h2>
-        </div>
-        <p style={{
-          color: 'rgba(255,255,255,0.3)', fontSize: '0.875rem',
-          maxWidth: '28rem', lineHeight: 1.7,
-        }}>
-          Hover för att läsa mer om varje tjänst.
-        </p>
-      </div>
+        TJÄNSTER
+      </h2>
 
-      {/* Service-rader */}
-      <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 0' }}>
-        {items.map((item, i) => (
-          <ServiceRow key={item.number} item={item} isLast={i === items.length - 1} />
+      {/* Cards */}
+      <div>
+        {SERVICES.map((service, i) => (
+          <ServiceCard
+            key={service.number}
+            service={service}
+            index={i}
+            isActive={activeIndex === i}
+            onToggle={() => setActiveIndex(activeIndex === i ? -1 : i)}
+          />
         ))}
       </div>
     </section>
