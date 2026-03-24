@@ -6,14 +6,12 @@ import { usePathname } from 'next/navigation'
 import { gsap } from 'gsap'
 import { C } from '@/lib/colors'
 
-const BLACK = '#121213'
-
 export default function Nav() {
   const t = useTranslations('nav')
   const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
-  const btnRef = useRef<HTMLAnchorElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [btnHover, setBtnHover] = useState(false)
   const isEn = pathname.startsWith('/en')
   const altHref = isEn ? pathname.replace(/^\/en/, '') || '/sv' : '/en' + pathname
 
@@ -32,7 +30,7 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const textColor = scrolled ? C.primary : BLACK
+  const textColor = scrolled ? C.primary : C.black
   const mutedColor = scrolled ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.4)'
 
   return (
@@ -76,28 +74,24 @@ export default function Nav() {
             transition: 'color 0.4s ease',
           }}>{t('lang')}</Link>
 
-          <a ref={btnRef} href="#contact"
-            onMouseEnter={() => gsap.to(btnRef.current, {
-              backgroundColor: scrolled ? C.accent : BLACK,
-              color: scrolled ? BLACK : C.accent,
-              borderColor: scrolled ? C.accent : BLACK,
-              duration: 0.18,
-            })}
-            onMouseLeave={() => gsap.to(btnRef.current, {
-              backgroundColor: 'transparent',
-              color: textColor,
-              borderColor: scrolled ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.3)',
-              duration: 0.18,
-            })}
+          <a href="#contact"
+            onMouseEnter={() => setBtnHover(true)}
+            onMouseLeave={() => setBtnHover(false)}
             style={{
-              display: 'inline-flex', alignItems: 'center',
-              border: `1px solid ${scrolled ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.3)'}`,
-              backgroundColor: 'transparent',
-              color: textColor,
-              padding: '0.625rem 1.5rem', fontSize: '0.65rem',
-              textDecoration: 'none', textTransform: 'uppercase',
-              letterSpacing: '0.15em', fontWeight: 600,
-              transition: 'color 0.4s ease, border-color 0.4s ease',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              backgroundColor: btnHover ? '#d4ff1a' : C.accent,
+              color: C.black,
+              border: 'none',
+              borderRadius: 0,
+              height: '34px',
+              padding: '0 1rem',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.75rem',
+              fontWeight: 500,
+              letterSpacing: '0.01em',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.15s',
             }}>{t('cta')}</a>
         </div>
       </div>
@@ -111,7 +105,7 @@ function NavLink({ href, children, color, scrolled }: {
   const ref = useRef<HTMLAnchorElement>(null)
   return (
     <a ref={ref} href={href}
-      onMouseEnter={() => gsap.to(ref.current, { color: scrolled ? C.accent : BLACK, duration: 0.15 })}
+      onMouseEnter={() => gsap.to(ref.current, { color: scrolled ? C.accent : C.black, duration: 0.15 })}
       onMouseLeave={() => gsap.to(ref.current, { color, duration: 0.15 })}
       style={{
         color,

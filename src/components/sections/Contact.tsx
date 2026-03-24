@@ -1,26 +1,33 @@
 'use client'
 import { useTranslations } from 'next-intl'
-import { useActionState, useRef } from 'react'
+import { useActionState, useState } from 'react'
 import { useFormStatus } from 'react-dom'
-import { gsap } from 'gsap'
 import { sendContactEmail } from '@/app/[locale]/actions/contact'
 import { C } from '@/lib/colors'
 
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
-  const ref = useRef<HTMLButtonElement>(null)
+  const [hover, setHover] = useState(false)
   return (
-    <button ref={ref} type="submit" disabled={pending}
-      onMouseEnter={() => !pending && gsap.to(ref.current, { backgroundColor: C.primary, color: C.bg, duration: 0.2 })}
-      onMouseLeave={() => !pending && gsap.to(ref.current, { backgroundColor: 'transparent', color: C.primary, duration: 0.2 })}
+    <button type="submit" disabled={pending}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
-        border: `1px solid rgba(255,255,255,0.25)`,
-        backgroundColor: 'transparent', color: C.primary,
-        padding: '1rem 2.5rem', fontWeight: 600,
-        fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '0.12em',
+        backgroundColor: (hover && !pending) ? '#d4ff1a' : C.accent,
+        color: C.black,
+        border: 'none',
+        borderRadius: 0,
+        height: '48px',
+        width: '100%',
+        padding: '0 1.375rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.8125rem',
+        fontWeight: 500,
+        letterSpacing: '0.01em',
         cursor: pending ? 'not-allowed' : 'pointer',
-        opacity: pending ? 0.5 : 1, minHeight: '52px',
-        alignSelf: 'flex-start',
+        opacity: pending ? 0.5 : 1,
+        transform: (hover && !pending) ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'all 0.15s',
       }}>
       {pending ? loadingLabel : label}
     </button>

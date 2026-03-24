@@ -1,13 +1,11 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
 import HeroCanvas from '@/components/animations/HeroCanvas'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const BLACK = '#121213'
 
 export default function HeroClient({
   role, headline, subheadline, ctaPrimary, ctaSecondary,
@@ -103,7 +101,7 @@ export default function HeroClient({
             <span style={{
               display: 'inline-block',
               width: '6px', height: '6px',
-              backgroundColor: BLACK,
+              backgroundColor: C.black,
               borderRadius: '50%',
             }} />
             <span style={{
@@ -112,7 +110,7 @@ export default function HeroClient({
               fontSize: 'clamp(0.75rem, 1.5vw, 1rem)',
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
-              color: BLACK,
+              color: C.black,
             }}>{role}</span>
           </div>
 
@@ -121,7 +119,7 @@ export default function HeroClient({
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
             fontSize: 'clamp(5rem, 12vw, 14rem)',
-            color: BLACK,
+            color: C.black,
             textTransform: 'uppercase',
             lineHeight: 0.85,
             letterSpacing: '-0.04em',
@@ -177,22 +175,28 @@ export default function HeroClient({
 }
 
 function HeroBtnPrimary({ href, children }: { href: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLAnchorElement>(null)
+  const [hover, setHover] = useState(false)
   return (
-    <a ref={ref} href={href}
-      onMouseEnter={() => gsap.to(ref.current, { backgroundColor: 'rgba(0,0,0,0.85)', duration: 0.18 })}
-      onMouseLeave={() => gsap.to(ref.current, { backgroundColor: BLACK, duration: 0.18 })}
+    <a href={href}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center',
-        backgroundColor: BLACK,
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        backgroundColor: hover ? '#1a1a1a' : C.black,
         color: C.accent,
-        padding: '0.875rem 2rem',
-        fontWeight: 700,
-        textDecoration: 'none',
-        fontSize: '0.75rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.15em',
         border: 'none',
+        borderRadius: 0,
+        height: '42px',
+        padding: '0 1.375rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.8125rem',
+        fontWeight: 500,
+        letterSpacing: '0.01em',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+        transform: hover ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'all 0.15s',
       }}>
       {children}
     </a>
@@ -200,22 +204,26 @@ function HeroBtnPrimary({ href, children }: { href: string; children: React.Reac
 }
 
 function HeroBtnSecondary({ href, children }: { href: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLAnchorElement>(null)
+  const [hover, setHover] = useState(false)
   return (
-    <a ref={ref} href={href}
-      onMouseEnter={() => gsap.to(ref.current, { opacity: 0.5, duration: 0.15 })}
-      onMouseLeave={() => gsap.to(ref.current, { opacity: 1, duration: 0.15 })}
+    <a href={href}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         backgroundColor: 'transparent',
-        color: BLACK,
-        padding: '0.875rem 0',
-        fontWeight: 600,
+        color: hover ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.55)',
+        border: hover ? '1px solid rgba(0,0,0,0.45)' : '1px solid rgba(0,0,0,0.2)',
+        borderRadius: 0,
+        height: '42px',
+        padding: '0 1.375rem',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.8125rem',
+        fontWeight: 500,
+        letterSpacing: '0.01em',
         textDecoration: 'none',
-        fontSize: '0.75rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.15em',
-        borderBottom: `1px solid rgba(0,0,0,0.3)`,
+        cursor: 'pointer',
+        transition: 'all 0.15s',
       }}>
       {children}
     </a>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
@@ -10,7 +10,7 @@ export default function CTAClient({ headline, body, button }: { headline: string
   const sectionRef = useRef<HTMLElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const btnRef = useRef<HTMLAnchorElement>(null)
+  const [btnHover, setBtnHover] = useState(false)
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -52,18 +52,31 @@ export default function CTAClient({ headline, body, button }: { headline: string
           <p style={{ color: C.secondary, fontSize: '1rem', maxWidth: '34rem', lineHeight: 1.7, flex: 1 }}>
             {body}
           </p>
-          <a ref={btnRef} href="#contact"
-            onMouseEnter={() => gsap.to(btnRef.current, { backgroundColor: C.primary, color: C.bg, duration: 0.2 })}
-            onMouseLeave={() => gsap.to(btnRef.current, { backgroundColor: 'transparent', color: C.primary, duration: 0.2 })}
+          <a href="#contact"
+            onMouseEnter={() => setBtnHover(true)}
+            onMouseLeave={() => setBtnHover(false)}
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: '1rem',
-              border: `1px solid rgba(255,255,255,0.3)`,
-              backgroundColor: 'transparent', color: C.primary,
-              padding: '1.125rem 2.5rem', fontWeight: 600,
-              textDecoration: 'none', fontSize: '0.8125rem',
-              textTransform: 'uppercase', letterSpacing: '0.12em', flexShrink: 0,
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              backgroundColor: btnHover ? '#d4ff1a' : C.accent,
+              color: C.black,
+              border: 'none',
+              borderRadius: 0,
+              height: '42px',
+              padding: '0 1.375rem',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.8125rem',
+              fontWeight: 500,
+              letterSpacing: '0.01em',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              flexShrink: 0,
+              boxShadow: btnHover
+                ? '0 2px 4px rgba(200,255,0,0.25), 0 4px 12px rgba(200,255,0,0.15)'
+                : '0 1px 2px rgba(200,255,0,0.15), 0 2px 8px rgba(200,255,0,0.08)',
+              transform: btnHover ? 'translateY(-1px)' : 'translateY(0)',
+              transition: 'all 0.15s',
             }}>
-            {button} <span>→</span>
+            {button}
           </a>
         </div>
       </div>
