@@ -50,7 +50,8 @@ export default function HeroClient({
   return (
     <section ref={heroRef} id="hero" style={{
       position: 'relative',
-      minHeight: '100vh',
+      height: '100vh',
+      minHeight: '600px',
       backgroundColor: C.accent, // #C8FF00 lime
       display: 'grid',
       gridTemplateRows: 'auto 1fr auto',
