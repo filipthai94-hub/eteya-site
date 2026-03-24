@@ -57,15 +57,19 @@ export default function HeroClient({
       gridTemplateRows: 'auto 1fr auto',
       overflow: 'hidden',
     }}>
-      {/* Hero video — loopande, muted, täcker höger */}
+      {/* Hero video — desktop: täcker höger 55%, mobil: täcker hela */}
       <div ref={imgRef} style={{
         position: 'absolute',
-        right: 0, top: 0, bottom: 0,
+        top: 0, bottom: 0,
+        // Desktop: höger 55%
+        right: 0,
         width: '55%',
         zIndex: 1,
         overflow: 'hidden',
         opacity: 0,
-      }}>
+      }}
+        className="hero-video-wrap"
+      >
         <video
           autoPlay
           loop
@@ -80,13 +84,25 @@ export default function HeroClient({
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
-        {/* Fix 4: mjukare gradient, bredare fade-zon */}
-        <div style={{
+        {/* Gradient — endast desktop */}
+        <div className="hero-gradient" style={{
           position: 'absolute', inset: 0,
           background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.85) 15%, rgba(200,255,0,0.4) 40%, rgba(200,255,0,0) 70%)`,
           pointerEvents: 'none',
         }} />
       </div>
+      <style>{`
+        @media (max-width: 767px) {
+          .hero-video-wrap {
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+          }
+          .hero-gradient {
+            display: none !important;
+          }
+        }
+      `}</style>
 
       {/* RAD 1 — Nav spacer */}
       <div style={{ height: '4.5rem' }} />
