@@ -121,22 +121,26 @@ export default function HeroClient({
 
           {/* GIGANTISKT NAMN */}
           <div style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: 'clamp(5rem, 12vw, 14rem)',
-            color: C.black,
-            textTransform: 'uppercase',
-            lineHeight: 0.85,
-            letterSpacing: '-0.04em',
-            whiteSpace: 'nowrap',
-            overflow: 'visible',
-            display: 'flex',
+            overflow: 'hidden',
+            lineHeight: 1,
           }}>
-            {letters.map((letter, i) => (
-              <span key={i} data-letter style={{ display: 'inline-block' }}>
-                {letter}
-              </span>
-            ))}
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: 'clamp(5rem, 12vw, 14rem)',
+              color: C.black,
+              textTransform: 'uppercase',
+              lineHeight: 0.85,
+              letterSpacing: '-0.04em',
+              whiteSpace: 'nowrap',
+              display: 'flex',
+            }}>
+              {letters.map((letter, i) => (
+                <span key={i} data-letter style={{ display: 'inline-block' }}>
+                  {letter}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
