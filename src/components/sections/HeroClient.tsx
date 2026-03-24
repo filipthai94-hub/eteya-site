@@ -102,11 +102,28 @@ export default function HeroClient({
             display: none !important;
           }
           .hero-name-wrap {
-            align-items: flex-start !important;
-            padding-top: 2rem !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 1.5rem !important;
+          }
+          .hero-name-wrap > div {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            width: 100% !important;
           }
           .hero-eteya {
-            font-size: 20vw !important;
+            font-size: 28vw !important;
+            justify-content: center !important;
+          }
+          .hero-role span {
+            font-size: 0.65rem !important;
+            letter-spacing: 0.12em !important;
+          }
+          .hero-subheadline {
+            text-align: center !important;
+            font-size: 0.95rem !important;
           }
         }
       `}</style>
@@ -124,7 +141,7 @@ export default function HeroClient({
       }}>
         <div>
           {/* Fix 2: role-text mindre och diskret */}
-          <div ref={roleRef} style={{
+          <div ref={roleRef} className="hero-role" style={{
             marginBottom: '0.75rem',
             opacity: 0,
           }}>
@@ -156,33 +173,25 @@ export default function HeroClient({
               </span>
             ))}
           </div>
+
+          {/* Subheadline */}
+          <div ref={bottomRef} style={{ marginTop: '1.5rem', opacity: 0 }}>
+            <p className="hero-subheadline" style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 700,
+              fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              color: 'rgba(0,0,0,0.75)',
+              maxWidth: '36rem',
+              lineHeight: 1.2,
+            }}>{subheadline}</p>
+          </div>
         </div>
       </div>
 
-      {/* RAD 3 — Bottom bar */}
-      <div ref={bottomRef} style={{
-        position: 'relative', zIndex: 10,
-        padding: '2rem 2.5rem 3.5rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap',
-        gap: '2rem',
-        opacity: 0,
-      }}>
-        <div>
-          <p style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            color: 'rgba(0,0,0,0.75)',
-            maxWidth: '36rem',
-            lineHeight: 1.2,
-          }}>{subheadline}</p>
-        </div>
-      </div>
+      {/* RAD 3 — spacer */}
+      <div />
     </section>
   )
 }
