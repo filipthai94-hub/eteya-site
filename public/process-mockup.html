@@ -138,6 +138,7 @@
       user-select: none;
       will-change: opacity;
       opacity: 0.08;
+      font-size: 28vw; /* fallback — fitText overrides this */
     }
 
     /* ─── RIGHT COL — CONTENT ──────────────────────── */
@@ -185,8 +186,8 @@
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       will-change: transform, opacity;
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 1; /* GSAP animerar från 0, men fallback är synlig */
+      transform: translateY(0);
     }
 
     .process-list li:last-child {
