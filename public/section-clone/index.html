@@ -25,7 +25,9 @@
     .service-card.is-open .service-content { display: grid !important; opacity: 1 !important; }
     .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
     .service-card.is-open .service-content { opacity: 1; }
-    .service-card.is-open .service-title i { transform: rotate(135deg); }
+    /* Arrow: default -45deg (↗), open = 45deg — matches Redstone desktop */
+    .service-title i { transform: rotate(-45deg) !important; }
+    .service-card.is-open .service-title i { transform: rotate(45deg) !important; }
     /* Fix list styling */
     .service-list a, .service-list li { color: rgba(255,255,255,0.75); }
     .service-list li::marker { color: rgba(255,255,255,0.4); }
