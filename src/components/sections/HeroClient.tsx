@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
+import HeroCanvas from '@/components/animations/HeroCanvas'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -79,6 +80,9 @@ export default function HeroClient({
         background: `linear-gradient(to bottom, transparent 40%, ${C.bg} 100%)`,
         zIndex: 1,
       }} />
+
+      {/* Lime-partikelanimation */}
+      <HeroCanvas />
 
       {/* Nav-höjd spacer */}
       <div style={{ height: '4.5rem', flexShrink: 0 }} />
