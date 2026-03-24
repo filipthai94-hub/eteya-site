@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eteya — Så här levererar vi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #080808; color: #fff; font-family: 'DM Sans', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── INTRO HEADER ── */
+    .process-intro {
+      padding: 80px 62px 60px;
+    }
+    .process-intro h2 {
+      font-size: clamp(2.5rem, 6vw, 88px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: #fff;
+    }
+
+    /* ── PROCESS BLOCK (bild + text) ── */
+    .process-block {
+      margin-bottom: 0;
+    }
+
+    /* ── BILD-DEL ── */
+    .process-image-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/8;
+      overflow: hidden;
+    }
+    .process-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.7);
+    }
+    /* gradient overlay */
+    .process-image-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 50%, transparent 100%);
+    }
+    /* text overlay */
+    .process-image-overlay {
+      position: absolute;
+      bottom: 40px;
+      left: 62px;
+      z-index: 2;
+    }
+    .process-image-overlay .step-label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+    .process-image-overlay h3 {
+      font-size: clamp(3rem, 7vw, 96px);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #fff;
+    }
+
+    /* ── TEXT-DEL ── */
+    .process-text {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem 4rem;
+      padding: 60px 62px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      align-items: start;
+    }
+    .process-number {
+      font-size: clamp(4rem, 8vw, 120px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: rgba(255,255,255,0.15);
+    }
+    .process-content h4 {
+      font-size: clamp(1.25rem, 2.5vw, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .process-content p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.5rem;
+      max-width: 520px;
+    }
+    .process-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .process-list li {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .process-list li::before {
+      content: "○";
+      position: absolute;
+      left: 0;
+      font-size: 0.65em;
+      top: 0.2em;
+      opacity: 0.5;
+    }
+
+    /* ── KNAPP ── */
+    .eteya-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #C8FF00;
+      color: #121213;
+      border: none;
+      border-radius: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0 24px;
+      height: 48px;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: background .4s ease, transform .4s ease;
+      white-space: nowrap;
+    }
+    .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
+    .eteya-btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .eteya-btn-secondary:hover {
+      background: transparent;
+      border-color: #C8FF00;
+      color: #C8FF00;
+      transform: translateY(-3px);
+    }
+
+    /* ── MOBIL ── */
+    @media (max-width: 767px) {
+      .process-intro { padding: 50px 24px 40px; }
+      .process-image-overlay { left: 24px; bottom: 24px; }
+      .process-text {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+        gap: 1rem;
+      }
+      .process-number { font-size: 4rem; }
+      .process-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO -->
+  <div class="process-intro">
+    <h2>SÅ HÄR LEVERERAR VI.</h2>
+  </div>
+
+  <!-- BLOCK 01: KARTLÄGGNING -->
+  <div class="process-block">
+    <div class="process-image-wrap">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600&q=80" alt="Discovery" />
+      <div class="process-image-overlay">
+        <p class="step-label">// 01</p>
+        <h3>KARTLÄGGNING.</h3>
+      </div>
+    </div>
+    <div class="process-text">
+      <div class="process-number">01</div>
+      <div class="process-content">
+        <h4>Vi hittar pengarna du lämnar kvar.</h4>
+        <p>Innan vi bygger något lyssnar vi. Vi kartlägger dina flöden, hittar flaskhalsarna och identifierar exakt var AI gör störst skillnad — mätt i tid och pengar.</p>
+        <ul class="process-list">
+          <li>Processanalys</li>
+          <li>Automationspotential</li>
+          <li>Målsättning</li>
+          <li>Verktygsval</li>
+        </ul>
+        <a href="#contact" class="eteya-btn">Boka ett samtal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 02: PRODUKTION -->
+  <div class="process-block">
+    <div class="process-image-wrap">
+      <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1600&q=80" alt="Build" />
+      <div class="process-image-overlay">
+        <p class="step-label">// 02</p>
+        <h3>PRODUKTION.</h3>
+      </div>
+    </div>
+    <div class="process-text">
+      <div class="process-number">02</div>
+      <div class="process-content">
+        <h4>Byggt på dagar. Inte månader.</h4>
+        <p>Inga PowerPoints. Vi går direkt från brief till produkt. Agenter, automationer och integrationer — byggda, testade och live på veckor.</p>
+        <ul class="process-list">
+          <li>Agentbygge</li>
+          <li>Systemintegrationer</li>
+          <li>Testning</li>
+          <li>Iteration</li>
+        </ul>
+        <a href="#contact" class="eteya-btn eteya-btn-secondary">Se våra lösningar</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 03: EXPANSION -->
+  <div class="process-block">
+    <div class="process-image-wrap">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80" alt="Scale" />
+      <div class="process-image-overlay">
+        <p class="step-label">// 03</p>
+        <h3>EXPANSION.</h3>
+      </div>
+    </div>
+    <div class="process-text">
+      <div class="process-number">03</div>
+      <div class="process-content">
+        <h4>AI som växer när du växer.</h4>
+        <p>En agent är en start. Vi optimerar kontinuerligt, bygger nya automationer när du växer och rapporterar resultat varje månad — så du alltid vet vad AI faktiskt är värt.</p>
+        <ul class="process-list">
+          <li>Löpande optimering</li>
+          <li>Ny automatisering</li>
+          <li>Support & underhåll</li>
+          <li>ROI-rapportering</li>
+        </ul>
+        <a href="#contact" class="eteya-btn">Kom igång idag</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
