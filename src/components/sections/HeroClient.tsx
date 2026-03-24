@@ -91,7 +91,7 @@ export default function HeroClient({
       {/* RAD 1 — Nav spacer */}
       <div style={{ height: '4.5rem' }} />
 
-      {/* RAD 2 — Namn vertikalt centrerat (Fix 1) */}
+      {/* RAD 2 — Allt innehåll vertikalt centrerat, samma vänsterkant */}
       <div ref={nameRef} style={{
         position: 'relative', zIndex: 10,
         display: 'flex',
@@ -100,7 +100,7 @@ export default function HeroClient({
         overflow: 'visible',
       }}>
         <div>
-          {/* Fix 2: role-text mindre och diskret */}
+          {/* Role — liten etikett */}
           <div ref={roleRef} style={{
             marginBottom: '0.75rem',
             opacity: 0,
@@ -133,33 +133,24 @@ export default function HeroClient({
               </span>
             ))}
           </div>
+
+          {/* Subheadline — direkt under ETEYA, samma vänsterkant */}
+          <div ref={bottomRef} style={{ marginTop: '1.5rem', opacity: 0 }}>
+            <p style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 700,
+              fontSize: 'clamp(1rem, 1.6vw, 1.4rem)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              color: 'rgba(0,0,0,0.7)',
+              lineHeight: 1.2,
+            }}>{subheadline}</p>
+          </div>
         </div>
       </div>
 
-      {/* RAD 3 — Bottom bar */}
-      <div ref={bottomRef} style={{
-        position: 'relative', zIndex: 10,
-        padding: '2rem 2.5rem 3.5rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap',
-        gap: '2rem',
-        opacity: 0,
-      }}>
-        <div>
-          <p style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            color: 'rgba(0,0,0,0.75)',
-            maxWidth: '36rem',
-            lineHeight: 1.2,
-          }}>{subheadline}</p>
-        </div>
-      </div>
+      {/* RAD 3 — tom spacer */}
+      <div />
     </section>
   )
 }
