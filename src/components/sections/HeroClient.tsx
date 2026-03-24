@@ -179,25 +179,7 @@ export default function HeroClient({
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute', right: '2.5rem', bottom: '3rem', zIndex: 10,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
-      }}>
-        <div style={{
-          width: '1px', height: '3.5rem',
-          backgroundColor: C.accent,
-          opacity: 0.6,
-        }} />
-        <span style={{
-          color: C.accent,
-          opacity: 0.6,
-          fontSize: '0.6rem',
-          letterSpacing: '0.3em',
-          textTransform: 'uppercase',
-          writingMode: 'vertical-rl',
-        }}>{scrollLabel}</span>
-      </div>
+
     </section>
   )
 }
