@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
-import HeroCanvas from '@/components/animations/HeroCanvas'
 import Button from '@/components/ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -58,29 +57,35 @@ export default function HeroClient({
       gridTemplateRows: 'auto 1fr auto',
       overflow: 'hidden',
     }}>
-      {/* Svarta partiklar på lime */}
-      <HeroCanvas />
-
-      {/* Bild höger — svartvit, blöder in från höger */}
+      {/* Hero video — loopande, muted, täcker höger */}
       <div ref={imgRef} style={{
         position: 'absolute',
         right: 0, top: 0, bottom: 0,
-        width: '48%',
+        width: '55%',
         zIndex: 1,
-        backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        filter: 'grayscale(100%) brightness(0.7)',
-        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 35%, black 70%)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 35%, black 70%)',
-      }} />
-
-      {/* Gradient lime → transparent på bildsidan */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 1,
-        background: `linear-gradient(to right, ${C.accent} 30%, transparent 65%)`,
-        pointerEvents: 'none',
-      }} />
+        overflow: 'hidden',
+      }}>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+        {/* Fade-in från vänster så texten läses bra */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.7) 20%, rgba(200,255,0,0) 60%)`,
+          pointerEvents: 'none',
+        }} />
+      </div>
 
       {/* RAD 1 — Nav spacer + roll-text */}
       <div style={{ height: '4.5rem' }} /> {/* nav spacer */}
