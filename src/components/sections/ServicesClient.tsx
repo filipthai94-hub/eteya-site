@@ -163,20 +163,23 @@ const CSS = `
   /* Mobile */
   @media (max-width: 767px) {
     #services-section .service-content {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto auto;
+      grid-template-columns: 1fr !important;
+      grid-template-rows: auto auto auto !important;
       padding-inline: 1rem;
       gap: 1rem;
     }
     #services-section .service-list {
-      grid-column: 1; grid-row: 1;
-      grid-template-columns: 1fr;
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      grid-template-columns: 1fr !important;
     }
     #services-section .service-media {
-      grid-column: 1; grid-row: 2;
+      grid-column: 1 !important;
+      grid-row: 2 !important;
     }
     #services-section .eteya-btn {
-      grid-column: 1; grid-row: 3;
+      grid-column: 1 !important;
+      grid-row: 3 !important;
     }
   }
 `
