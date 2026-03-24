@@ -1,217 +1,295 @@
 'use client'
 import { useEffect } from 'react'
 
+const CSS = `
+  #services-section {
+    --ff: 'DM Sans', sans-serif;
+    --clr-white: #FFFFFF;
+    --clr-light-black: #0F0F0F;
+    --rgb-white: 255,255,255;
+    --cubic-1: .5s cubic-bezier(0.65, 0, 0.35, 1);
+    --transition-1: 0.3s ease;
+    --blur: 10px;
+    --pd-block: 2.5rem;
+    --pd-inline: 0.65rem;
+    --icon-size: 45.5px;
+    --h3: clamp(2rem, 0.74rem + 2.63vw, 3.25rem);
+    --h4: clamp(1.5rem, 0.87rem + 1.32vw, 2rem);
+    --text: clamp(1.125rem, 0.7rem + 0.88vw, 1.375rem);
+    --sp-block: clamp(3rem, 1rem + 4vw, 5rem);
+    background: #000;
+    padding: 80px 62px;
+    font-family: var(--ff);
+    color: #fff;
+  }
+  @media (max-width: 991px) {
+    #services-section { padding: 40px 0; }
+    #services-section .svc-heading { font-size: 44px !important; margin-bottom: 32px !important; padding-left: 1rem; }
+  }
+  #services-section * { box-sizing: border-box; }
+  #services-section a { color: inherit; text-decoration: none; }
+
+  /* Heading */
+  #services-section .svc-heading {
+    font-size: 98px; font-family: var(--ff); font-weight: 300;
+    color: #fff; margin-bottom: 68px; letter-spacing: -0.02em; line-height: 1;
+  }
+
+  /* Service block */
+  #services-section .service-block { position: relative; z-index: 1; }
+
+  /* Service card */
+  #services-section .service-card {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 0fr;
+    align-content: start;
+    transition: grid-template-rows var(--cubic-1);
+    border-bottom: 0.0625rem solid rgba(var(--rgb-white), 0.1);
+  }
+  #services-section .service-card:first-child {
+    border-top: 0.0625rem solid rgba(var(--rgb-white), 0.1);
+  }
+  #services-section .service-card.is-active {
+    grid-template-rows: auto 1fr;
+  }
+
+  /* Title row */
+  #services-section .service-title {
+    position: relative; overflow: hidden; cursor: pointer;
+    gap: 2.5rem; display: flex; align-items: center;
+    padding-block: var(--pd-block); padding-inline: var(--pd-inline);
+    font-family: var(--ff); font-size: var(--h3);
+    line-height: 1em; font-weight: 400; color: var(--clr-white);
+  }
+  #services-section .service-title::before {
+    content: ""; position: absolute; z-index: -1; top: 0; left: 0;
+    transform: translateY(35%); width: 100%; height: 300%;
+    transition: all 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+    background-color: var(--clr-light-black); border-radius: 100%;
+  }
+  #services-section .service-card:not(.is-active) .service-title:hover::before {
+    border-radius: 0; transform: translateY(0%);
+  }
+
+  /* Arrow icon */
+  #services-section .service-title i {
+    display: inline-block; width: var(--icon-size); height: var(--icon-size);
+    flex-shrink: 0; transition: var(--cubic-1);
+    background-repeat: no-repeat; background-size: 100% 100%;
+    transform: rotate(-45deg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
+  }
+  #services-section .service-card.is-active .service-title i { transform: rotate(45deg); }
+  #services-section .service-card:not(.is-active) .service-title:hover i { transform: rotate(45deg); }
+
+  /* Counter */
+  #services-section .service-counter {
+    position: relative; gap: 1.25rem; display: inline-flex;
+    align-items: center; flex-shrink: 0; min-height: 3.625rem;
+    font-family: var(--ff); font-size: var(--h4);
+    line-height: 1.1em; font-weight: 400; color: var(--clr-white);
+    margin-left: auto;
+  }
+  #services-section .service-counter-lines {
+    gap: 0.875rem; display: inline-flex; align-items: center;
+  }
+  #services-section .service-counter-line {
+    position: relative; display: inline-block;
+    width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
+    transition: var(--transition-1);
+    background-color: rgba(var(--rgb-white), 0.4);
+  }
+  #services-section .service-counter-line.is-active {
+    background-color: rgba(var(--rgb-white), 1);
+  }
+  #services-section .service-card.is-active .service-counter-line.is-active {
+    height: 3.625rem;
+  }
+  #services-section .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
+    height: 3.625rem;
+  }
+
+  /* Inner / content */
+  #services-section .service-inner { overflow: hidden; }
+  #services-section .service-content {
+    gap: 1.25rem var(--sp-block);
+    display: grid;
+    grid-template-columns: 0.50fr 0.47fr;
+    justify-content: space-between;
+    padding-block: 1.25rem 2.5rem;
+    padding-inline: var(--pd-inline);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  #services-section .service-card.is-active .service-content { opacity: 1; }
+
+  /* Image */
+  #services-section .service-media { display: block; }
+  #services-section .service-media img {
+    width: 100%; height: auto; mix-blend-mode: screen; display: block;
+  }
+
+  /* List */
+  #services-section .service-list {
+    gap: 0.5rem 0.75rem; display: grid;
+    grid-template-columns: auto auto; justify-content: space-between;
+    font-size: var(--text); line-height: 1.28em; font-weight: 400;
+    color: rgba(var(--rgb-white), 0.7); list-style: none; padding: 0; margin: 0;
+    align-content: start;
+  }
+  #services-section .service-list li { padding-left: 1.1rem; position: relative; }
+  #services-section .service-list li::before {
+    content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6;
+  }
+
+  /* Button */
+  #services-section .eteya-btn {
+    display: inline-flex; width: fit-content;
+    align-self: end; justify-self: start;
+    align-items: center; justify-content: center;
+    background: #C8FF00; color: #121213;
+    border: none; border-radius: 0;
+    font-family: var(--ff); font-size: 14px; font-weight: 500;
+    padding: 0 24px; height: 48px; cursor: pointer;
+    text-decoration: none;
+    transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
+    white-space: nowrap; letter-spacing: 0.02em;
+    grid-area: 2/1/3/2;
+  }
+  #services-section .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    #services-section .service-content {
+      grid-template-columns: 1fr;
+      padding-inline: 1rem;
+    }
+    #services-section .eteya-btn { grid-area: auto; }
+  }
+`
+
 export default function ServicesClient() {
   useEffect(() => {
-    // Accordion JS — exakt samma som i HTML-klonen
-    const cards = document.querySelectorAll('#services .service-card')
+    const cards = document.querySelectorAll('#services-section .service-card')
     cards.forEach((card) => {
       const title = card.querySelector('.service-title') as HTMLElement | null
       if (!title) return
-      title.style.cursor = 'pointer'
       title.addEventListener('click', () => {
         const isActive = card.classList.contains('is-active')
         cards.forEach((c) => c.classList.remove('is-active'))
         if (!isActive) card.classList.add('is-active')
       })
     })
-    // Öppna första kortet default
-    const first = document.querySelector('#services .service-card')
+    const first = document.querySelector('#services-section .service-card')
     if (first) first.classList.add('is-active')
   }, [])
 
   return (
-    <>
-      {/* Redstone CSS */}
-      <link rel="stylesheet" href="/redstone-services.css" />
+    <section id="services-section">
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <section id="services" style={{ background: '#000', padding: '80px 62px', fontFamily: "'DM Sans', sans-serif" }}>
-        <style>{`
-          #services *, #services *::before, #services *::after { box-sizing: border-box; }
-          #services { color: #fff; }
-          #services a { color: inherit; text-decoration: none; }
-          #services :root, #services { --ff-1: 'DM Sans', sans-serif; --ff-2: 'DM Sans', sans-serif; }
+      <h2 className="svc-heading">TJÄNSTER</h2>
 
-          /* Force correct desktop vars */
-          @media (min-width: 992px) {
-            #services {
-              --h1: 7rem; --h2: 4rem; --h3: 3.25rem; --h4: 2rem; --h5: 1.5rem;
-              --pd-block: 35px; --pd-inline: 10.5px; --icon-size: 45.5px;
-              --sp-xl: 10rem; --sp-lg: 6.25rem; --sp-md: 5rem;
-            }
-          }
+      <div className="service-block">
 
-          /* Heading */
-          #services h2.h1.title {
-            font-size: 98px; font-family: 'DM Sans', sans-serif; font-weight: 300;
-            color: #fff; margin-bottom: 68px; letter-spacing: -0.02em;
-          }
-          @media (max-width: 991px) {
-            #services { padding: 40px 0; }
-            #services h2.h1.title { font-size: 44px; margin-bottom: 32px; padding-left: 1rem; }
-          }
-
-          /* Override animations */
-          #services .service-title { display: flex !important; font-family: 'DM Sans', sans-serif !important; }
-          #services .service-content { display: grid !important; }
-          #services .service-block { display: block !important; }
-          #services .slideAnim { opacity: 1 !important; transform: none !important; }
-          #services .text-animate { opacity: 1 !important; transform: none !important; }
-          #services .animate { opacity: 1 !important; }
-
-          /* Hide duplicate title in expanded */
-          #services .service-content .service-title { display: none !important; }
-
-          /* Accordion */
-          #services .service-card.is-active { grid-template-rows: auto 1fr !important; }
-          #services .service-card.is-active .service-content { display: grid !important; opacity: 1 !important; }
-          #services .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
-          #services .service-card.is-active .service-content { opacity: 1; }
-
-          /* Arrow */
-          #services .service-title i { transform: rotate(-45deg) !important; }
-          #services .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
-          #services .service-card:not(.is-active) .service-title:hover i { transform: rotate(45deg) !important; }
-
-          /* Counter line */
-          #services .service-counter-line.is-active { background-color: #FFFFFF !important; }
-
-          /* Nollställ Redstones .btn */
-          #services .btn { all: unset; }
-
-          /* Eteya-knapp */
-          #services .eteya-btn {
-            display: inline-flex; width: fit-content !important;
-            align-self: start; justify-self: start;
-            align-items: center; justify-content: center;
-            background: #C8FF00; color: #121213 !important;
-            border: none; border-radius: 0;
-            font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
-            padding: 0 24px; height: 48px; cursor: pointer;
-            text-decoration: none !important;
-            transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
-            white-space: nowrap; letter-spacing: 0.02em;
-          }
-          #services .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
-
-          /* List bullets */
-          #services .service-list li { list-style: none; padding-left: 1.25rem; position: relative; font-family: 'DM Sans', sans-serif; }
-          #services .service-list li::before { content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6; }
-
-          /* Images */
-          #services .service-media img { mix-blend-mode: screen; }
-        `}</style>
-
-        <h2 className="h1 title col-xl-10 mb-md text-animate">TJÄNSTER</h2>
-        <div className="service-block mob-ver2 animate">
-
-          {/* 01: AI Agents */}
-          <div className="service-card slideAnim">
-            <div className="service-title">
-              <i></i>
-              AI Agents
-              <div className="service-counter">
-                <span>01</span>
-                <div className="service-counter-lines">
-                  <span className="service-counter-line is-active"></span>
-                  <span className="service-counter-line"></span>
-                  <span className="service-counter-line"></span>
-                </div>
-              </div>
-            </div>
-            <div className="service-inner">
-              <div className="service-content">
-                <a className="service-media" href="#">
-                  <picture>
-                    <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
-                  </picture>
-                </a>
-                <a className="service-title" href="#">AI Agents</a>
-                <ul className="service-list">
-                  <li>Kundtjänst</li>
-                  <li>Leadsgenerering</li>
-                  <li>Bokningar</li>
-                  <li>Orderhantering</li>
-                  <li>Intern support</li>
-                  <li>Uppföljning</li>
-                </ul>
-                <a className="eteya-btn" href="#contact">Läs mer</a>
+        {/* 01 AI Agents */}
+        <div className="service-card">
+          <div className="service-title">
+            <i></i>
+            AI Agents
+            <div className="service-counter">
+              <span>01</span>
+              <div className="service-counter-lines">
+                <span className="service-counter-line is-active"></span>
+                <span className="service-counter-line"></span>
+                <span className="service-counter-line"></span>
               </div>
             </div>
           </div>
-
-          {/* 02: Automation */}
-          <div className="service-card slideAnim">
-            <div className="service-title">
-              <i></i>
-              Automation
-              <div className="service-counter">
-                <span>02</span>
-                <div className="service-counter-lines">
-                  <span className="service-counter-line"></span>
-                  <span className="service-counter-line is-active"></span>
-                  <span className="service-counter-line"></span>
-                </div>
-              </div>
-            </div>
-            <div className="service-inner">
-              <div className="service-content">
-                <a className="service-media" href="#">
-                  <picture>
-                    <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
-                  </picture>
-                </a>
-                <a className="service-title" href="#">Automation</a>
-                <ul className="service-list">
-                  <li>E-postautomation</li>
-                  <li>Fakturahantering</li>
-                  <li>Lead-flöden</li>
-                  <li>Rapportering</li>
-                  <li>Systemsynk</li>
-                  <li>Aviseringar</li>
-                </ul>
-                <a className="eteya-btn" href="#contact">Läs mer</a>
-              </div>
+          <div className="service-inner">
+            <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
+              </a>
+              <ul className="service-list">
+                <li>Kundtjänst</li>
+                <li>Leadsgenerering</li>
+                <li>Bokningar</li>
+                <li>Orderhantering</li>
+                <li>Intern support</li>
+                <li>Uppföljning</li>
+              </ul>
+              <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
-
-          {/* 03: AI Products */}
-          <div className="service-card slideAnim">
-            <div className="service-title">
-              <i></i>
-              AI Products
-              <div className="service-counter">
-                <span>03</span>
-                <div className="service-counter-lines">
-                  <span className="service-counter-line"></span>
-                  <span className="service-counter-line"></span>
-                  <span className="service-counter-line is-active"></span>
-                </div>
-              </div>
-            </div>
-            <div className="service-inner">
-              <div className="service-content">
-                <a className="service-media" href="#">
-                  <picture>
-                    <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
-                  </picture>
-                </a>
-                <a className="service-title" href="#">AI Products</a>
-                <ul className="service-list">
-                  <li>Webbapplikationer</li>
-                  <li>Interna verktyg</li>
-                  <li>API-integrationer</li>
-                  <li>Databaslösningar</li>
-                  <li>MVP på veckor</li>
-                  <li>Skräddarsydd AI</li>
-                </ul>
-                <a className="eteya-btn" href="#contact">Läs mer</a>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </section>
-    </>
+
+        {/* 02 Automation */}
+        <div className="service-card">
+          <div className="service-title">
+            <i></i>
+            Automation
+            <div className="service-counter">
+              <span>02</span>
+              <div className="service-counter-lines">
+                <span className="service-counter-line"></span>
+                <span className="service-counter-line is-active"></span>
+                <span className="service-counter-line"></span>
+              </div>
+            </div>
+          </div>
+          <div className="service-inner">
+            <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
+              </a>
+              <ul className="service-list">
+                <li>E-postautomation</li>
+                <li>Fakturahantering</li>
+                <li>Lead-flöden</li>
+                <li>Rapportering</li>
+                <li>Systemsynk</li>
+                <li>Aviseringar</li>
+              </ul>
+              <a className="eteya-btn" href="#contact">Läs mer</a>
+            </div>
+          </div>
+        </div>
+
+        {/* 03 AI Products */}
+        <div className="service-card">
+          <div className="service-title">
+            <i></i>
+            AI Products
+            <div className="service-counter">
+              <span>03</span>
+              <div className="service-counter-lines">
+                <span className="service-counter-line"></span>
+                <span className="service-counter-line"></span>
+                <span className="service-counter-line is-active"></span>
+              </div>
+            </div>
+          </div>
+          <div className="service-inner">
+            <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
+              </a>
+              <ul className="service-list">
+                <li>Webbapplikationer</li>
+                <li>Interna verktyg</li>
+                <li>API-integrationer</li>
+                <li>Databaslösningar</li>
+                <li>MVP på veckor</li>
+                <li>Skräddarsydd AI</li>
+              </ul>
+              <a className="eteya-btn" href="#contact">Läs mer</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   )
 }
