@@ -73,7 +73,6 @@
       font-weight: 700;
       line-height: 0.88;
       color: #fff;
-      text-transform: uppercase;
       letter-spacing: -0.02em;
       white-space: nowrap;
       overflow: hidden;
@@ -105,7 +104,7 @@
     <div class="brandin-overlay"></div>
     <div class="brandin-text">
       <span class="brandin-label">// 01</span>
-      <h1 class="brandin-heading" data-scramble="Kartläggning"></h1>
+      <h1 class="brandin-heading" data-scramble="KARTLÄGGNING"></h1>
     </div>
   </div>
 
@@ -180,7 +179,7 @@
     const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789';
     function scramble(el, finalText, duration = 1200, delay = 0) {
       // Använd originaltext (mixed case) — CSS text-transform: uppercase hanterar visningen
-      const origChars = [...finalText];
+      const origChars = [...finalText.toUpperCase().replace('Ä','Ä').replace('Ö','Ö').replace('Å','Å')];
       const charEls = [...el.querySelectorAll('.char-inner')];
       setTimeout(() => {
         charEls.forEach((charEl, i) => {
