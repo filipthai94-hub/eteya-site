@@ -434,13 +434,6 @@
       ro.observe(el.parentElement);
     });
 
-    // ─── Set initial visible states (fallback om ScrollTrigger ej triggar) ──
-    document.querySelectorAll('.text-overlay, .section-headline, .body-text, .process-list li, .btn').forEach(el => {
-      el.style.opacity = '1';
-      el.style.filter  = 'none';
-      el.style.transform = 'none';
-    });
-
     // ─── GSAP Animations ─────────────────────────────
     document.querySelectorAll('.process-block').forEach((block, i) => {
       const imgSection  = block.querySelector('.image-section');
@@ -452,89 +445,66 @@
       const bodyText    = block.querySelector('.body-text');
       const listItems   = block.querySelectorAll('.process-list li');
 
-      // 1. Parallax on background image
+      // Helper: är elementet redan synligt i viewport?
+      function inView(el) {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight && r.bottom > 0;
+      }
+
+      // 1. Parallax on background image (ingen opacity-hantering)
       gsap.fromTo(bgImg,
         { y: '-20%' },
-        {
-          y: '20%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: imgSection,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          }
+        { y: '20%', ease: 'none',
+          scrollTrigger: { trigger: imgSection, start: 'top bottom', end: 'bottom top', scrub: true }
         }
       );
 
-      // 2. Blur-reveal on image text overlay
-      gsap.fromTo(textOverlay,
-        { opacity: 0, y: 30, filter: 'blur(20px)' },
-        {
-          opacity: 1, y: 0, filter: 'blur(0px)',
-          duration: 1, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: imgSection,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
+      // 2. Blur-reveal overlay — sätt opacity 0 BARA om utanför viewport
+      if (!inView(textOverlay)) {
+        gsap.set(textOverlay, { opacity: 0, y: 30, filter: 'blur(20px)' });
+        gsap.to(textOverlay, {
+          opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: imgSection, start: 'top 80%', toggleActions: 'play none none none', once: true }
+        });
+      }
 
       // 3. Giant number opacity scrub
       if (giantNum) {
         gsap.fromTo(giantNum,
           { opacity: 0.05 },
-          {
-            opacity: 0.18, ease: 'none',
-            scrollTrigger: {
-              trigger: textSection,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            }
+          { opacity: 0.18, ease: 'none',
+            scrollTrigger: { trigger: textSection, start: 'top bottom', end: 'bottom top', scrub: true }
           }
         );
       }
 
-      // 4. Blur-reveal on section headline
-      gsap.fromTo(headline,
-        { opacity: 0, y: 24, filter: 'blur(14px)' },
-        {
-          opacity: 1, y: 0, filter: 'blur(0px)',
-          duration: 0.9, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headline,
-            start: 'top 90%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
+      // 4. Blur-reveal headline — bara om utanför viewport
+      if (!inView(headline)) {
+        gsap.set(headline, { opacity: 0, y: 24, filter: 'blur(14px)' });
+        gsap.to(headline, {
+          opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: headline, start: 'top 90%', toggleActions: 'play none none none', once: true }
+        });
+      }
 
-      // 4b. Body text fade
-      gsap.fromTo(bodyText,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.7, ease: 'power2.out', delay: 0.15,
-          scrollTrigger: {
-            trigger: bodyText,
-            start: 'top 90%',
-            toggleActions: 'play none none none',
-          }
-        }
-      );
+      // 4b. Body text
+      if (!inView(bodyText)) {
+        gsap.set(bodyText, { opacity: 0, y: 16 });
+        gsap.to(bodyText, {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+          scrollTrigger: { trigger: bodyText, start: 'top 90%', toggleActions: 'play none none none', once: true }
+        });
+      }
 
-      // 5. Stagger list items slide-in
-      gsap.fromTo(listItems,
-        { opacity: 0, y: 16 },
-        {
-          opacity: 1, y: 0,
-          duration: 0.5, ease: 'power2.out', stagger: 0.07,
-          scrollTrigger: {
-            trigger: block.querySelector('.process-list'),
-            start: 'top 90%',
-            toggleActions: 'play none none none',
+      // 5. Stagger list items
+      listItems.forEach(li => {
+        if (!inView(li)) gsap.set(li, { opacity: 0, y: 16 });
+      });
+      gsap.to(listItems, {
+        opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.07,
+        scrollTrigger: {
+          trigger: block.querySelector('.process-list'),
+          start: 'top 90%', toggleActions: 'play none none none', once: true
         }
       });
     });
