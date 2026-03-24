@@ -64,6 +64,7 @@ export default function HeroClient({
         width: '55%',
         zIndex: 1,
         overflow: 'hidden',
+        opacity: 0,
       }}>
         <video
           autoPlay
@@ -103,6 +104,7 @@ export default function HeroClient({
           <div ref={roleRef} style={{
             display: 'flex', alignItems: 'center', gap: '0.6rem',
             marginBottom: '1.5rem',
+            opacity: 0,
           }}>
             <span style={{
               display: 'inline-block',
@@ -133,7 +135,7 @@ export default function HeroClient({
             display: 'flex',
           }}>
             {letters.map((letter, i) => (
-              <span key={i} data-letter style={{ display: 'inline-block' }}>
+              <span key={i} data-letter style={{ display: 'inline-block', opacity: 0 }}>
                 {letter}
               </span>
             ))}
@@ -150,6 +152,7 @@ export default function HeroClient({
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         gap: '2rem',
+        opacity: 0,
       }}>
         <div>
           <p style={{
