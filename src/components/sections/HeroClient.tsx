@@ -102,22 +102,15 @@ export default function HeroClient({
         {/* Roll-text — ovanför namnet */}
         <div>
           <div ref={roleRef} style={{
-            display: 'flex', alignItems: 'center', gap: '0.6rem',
-            marginBottom: '1.5rem',
+            marginBottom: '1rem',
             opacity: 0,
           }}>
             <span style={{
-              display: 'inline-block',
-              width: '6px', height: '6px',
-              backgroundColor: C.black,
-              borderRadius: '50%',
-            }} />
-            <span style={{
               fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 'clamp(0.75rem, 1.5vw, 1rem)',
+              fontWeight: 800,
+              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
               textTransform: 'uppercase',
-              letterSpacing: '0.12em',
+              letterSpacing: '0.08em',
               color: C.black,
             }}>{role}</span>
           </div>
@@ -156,11 +149,14 @@ export default function HeroClient({
       }}>
         <div>
           <p style={{
-            fontFamily: 'var(--font-body)',
-            color: 'rgba(0,0,0,0.6)',
-            fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 700,
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
+            color: 'rgba(0,0,0,0.75)',
             maxWidth: '36rem',
-            lineHeight: 1.65,
+            lineHeight: 1.2,
           }}>{subheadline}</p>
         </div>
       </div>
