@@ -46,6 +46,31 @@
     /* Arrow */
     .service-title i { transform: rotate(-45deg) !important; }
     .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
+    /* Eteya button style — override Redstone .btn */
+    .btn.btn-primary, .btn.btn-m.btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #C8FF00;
+      color: #121213;
+      border: 1px solid #C8FF00;
+      border-radius: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 16px 24px;
+      height: 48px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
+      white-space: nowrap;
+    }
+    .btn.btn-primary:hover, .btn.btn-m.btn-primary:hover {
+      background: #b8ef00;
+      border-color: #b8ef00;
+      transform: translateY(-0.25rem);
+    }
+    .btn-icon { display: none; } /* hide Redstone's icon */
     /* Fix list bullets to circles */
     .service-list li { list-style: none; padding-left: 1.25rem; position: relative; font-family: 'DM Sans', sans-serif; }
     .service-list li::before { content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6; }
