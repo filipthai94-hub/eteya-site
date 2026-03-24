@@ -20,17 +20,14 @@
     .animate { opacity: 1 !important; }
     /* Hide duplicate title inside expanded content */
     .service-content .service-title { display: none !important; }
-    /* Accordion open state */
-    .service-card.is-open { grid-template-rows: auto 1fr !important; }
-    .service-card.is-open .service-content { display: grid !important; opacity: 1 !important; }
+    /* Accordion open state — use .is-active to match Redstone's own CSS */
+    .service-card.is-active { grid-template-rows: auto 1fr !important; }
+    .service-card.is-active .service-content { display: grid !important; opacity: 1 !important; }
     .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
-    .service-card.is-open .service-content { opacity: 1; }
+    .service-card.is-active .service-content { opacity: 1; }
     /* Arrow: default -45deg (↗), open = 45deg — matches Redstone desktop */
     .service-title i { transform: rotate(-45deg) !important; }
-    .service-card.is-open .service-title i { transform: rotate(45deg) !important; }
-    /* Counter lines: active line tall when card is open */
-    .service-counter-line { height: 10.5px; transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1); }
-    .service-card.is-open .service-counter-line.is-active { height: 3.625rem; }
+    .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
     /* Fix list styling */
     .service-list a, .service-list li { color: rgba(255,255,255,0.75); }
     .service-list li::marker { color: rgba(255,255,255,0.4); }
@@ -437,22 +434,22 @@
                     </div>
                             </div>
 <script>
-  // Simple accordion — mirrors Redstone behavior
+  // Accordion — uses .is-active to match Redstone's own CSS rules
   document.querySelectorAll('.service-card').forEach(function(card) {
     var title = card.querySelector('.service-title');
     if (!title) return;
     title.style.cursor = 'pointer';
     title.addEventListener('click', function() {
-      var isOpen = card.classList.contains('is-open');
+      var isActive = card.classList.contains('is-active');
       // Close all
-      document.querySelectorAll('.service-card').forEach(function(c) { c.classList.remove('is-open'); });
+      document.querySelectorAll('.service-card').forEach(function(c) { c.classList.remove('is-active'); });
       // Open clicked (unless it was already open)
-      if (!isOpen) card.classList.add('is-open');
+      if (!isActive) card.classList.add('is-active');
     });
   });
   // Open first by default
   var first = document.querySelector('.service-card');
-  if (first) first.classList.add('is-open');
+  if (first) first.classList.add('is-active');
 </script>
 </body>
 </html>
