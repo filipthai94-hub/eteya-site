@@ -6,39 +6,44 @@
   <title>Eteya — Tjänster</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Barlow+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
-    /* ── Reset ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: #080808;
       color: #fff;
-      font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
     }
 
-    /* ── Section wrapper ── */
-    .services-section {
-      max-width: 1320px;
+    .section {
+      padding: 120px 0;
+    }
+
+    .container {
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 6rem 60px;
+      padding: 0 60px;
     }
 
     /* ── Section heading ── */
     .services-heading {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(4rem, 8vw, 8rem);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      color: white;
-      margin-bottom: 68px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 98px;
+      font-weight: 400;
       line-height: 1;
-      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: normal;
+      margin-bottom: 68px;
     }
 
-    /* ── Accordion ── */
+    /* ── Service block ── */
+    .service-block {
+      width: 100%;
+    }
+
+    /* ── Service card (accordion row) ── */
     .service-card {
       display: grid;
       grid-template-rows: auto 0fr;
@@ -46,339 +51,365 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
+
     .service-card:first-child {
       border-top: 1px solid rgba(255,255,255,0.1);
     }
+
     .service-card.is-active {
       grid-template-rows: auto 1fr;
     }
 
-    /* ── Title row ── */
+    /* ── Service title row ── */
     .service-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 35px 0;
+      padding: 35px 10.5px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       gap: 2rem;
+      user-select: none;
     }
 
-    .service-title-text {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 3rem);
-      font-weight: 300;
-      letter-spacing: -0.01em;
-      color: white;
-      line-height: 1;
-      text-transform: uppercase;
-    }
-
-    .service-title-right {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    /* ── Hover wipe effect ── */
+    /* Hover wipe effect */
     .service-title::before {
       content: '';
       position: absolute;
-      z-index: -1;
+      z-index: 0;
       top: 0;
       left: 0;
       transform: translateY(35%);
       width: 100%;
       height: 300%;
-      transition: 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+      transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
+                  border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
       background-color: #111;
       border-radius: 100%;
     }
+
     .service-card:not(.is-active) .service-title:hover::before {
       border-radius: 0;
       transform: translateY(0%);
     }
-    .service-card:not(.is-active) .service-title:hover i {
+
+    .service-card:not(.is-active) .service-title:hover .service-title-text {
+      opacity: 0.85;
+    }
+
+    .service-card:not(.is-active) .service-title:hover .service-arrow {
       transform: rotate(45deg);
     }
 
-    /* ── Arrow icon ── */
-    .service-title i {
+    .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
+      height: 58px;
+    }
+
+    /* Title text */
+    .service-title-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 45.5px;
+      font-weight: 400;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: normal;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.3s;
+    }
+
+    /* Right side: counter + arrow */
+    .service-title-right {
+      display: flex;
+      align-items: center;
+      gap: 17.5px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Counter: number + lines */
+    .service-counter {
+      display: flex;
+      align-items: center;
+      gap: 17.5px;
+    }
+
+    .service-counter-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1;
+    }
+
+    /* Lines — horizontal row (like Redstone) */
+    .service-counter-lines {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12.25px;
+    }
+
+    .service-counter-line {
+      display: block;
+      width: 0.875px;
+      height: 10.5px;
+      background: rgba(255,255,255,0.9);
+      transition: height 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+      flex-shrink: 0;
+    }
+
+    .service-card.is-active .service-counter-line.is-active {
+      height: 58px;
+    }
+
+    /* Arrow icon */
+    .service-arrow {
       display: inline-block;
-      width: 42px;
-      height: 42px;
+      width: 45.5px;
+      height: 45.5px;
       flex-shrink: 0;
       transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
       background-repeat: no-repeat;
       background-size: 100% 100%;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C%2Fsvg%3E");
     }
-    .service-card.is-active .service-title i {
+
+    .service-card.is-active .service-arrow {
       transform: rotate(45deg);
     }
 
-    /* ── Counter ── */
-    .service-counter {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .service-counter > span {
-      font-size: 18px;
-      color: rgba(255,255,255,0.5);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-    }
-    .service-counter-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .service-counter-line {
-      display: block;
-      width: 1px;
-      height: 10.5px;
-      background: rgba(255,255,255,0.3);
-      transition: height 0.5s cubic-bezier(0.215, 0.61, 0.355, 1), background 0.5s;
-    }
-    .service-card.is-active .service-counter-line.is-active,
-    .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
-      height: 58px;
-      background: white;
-    }
-
-    /* ── Inner content ── */
+    /* ── Inner (expandable) ── */
     .service-inner {
       overflow: hidden;
       min-height: 0;
     }
+
+    /* ── Expanded content ── */
     .service-content {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem 5rem;
-      padding: 1.5rem 0 3rem;
-      color: rgba(255,255,255,0.75);
+      grid-template-columns: 0.5fr 0.47fr;
+      gap: 1.25rem 5rem;
+      padding: 1.25rem 10.5px 2.5rem;
     }
 
-    /* ── Media ── */
+    .service-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .service-tag {
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      padding: 4px 12px;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 100px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .service-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s;
+    }
+
+    .service-link:hover { opacity: 0.75; }
+
+    .service-media {
+      width: 100%;
+    }
+
     .service-media img {
       width: 100%;
-      aspect-ratio: 762/482;
+      aspect-ratio: 762 / 482;
       object-fit: cover;
       display: block;
     }
 
-    /* ── Tags ── */
-    .service-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .service-tag {
-      font-size: 11px;
-      padding: 4px 10px;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 100px;
-      color: rgba(255,255,255,0.6);
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    /* ── Description ── */
-    .service-desc {
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 1.5rem;
-    }
-
-    /* ── CTA button ── */
-    .service-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #080808;
-      background: #C8FF00;
-      padding: 0.75rem 1.5rem;
-      border-radius: 100px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-      width: fit-content;
-    }
-    .service-cta:hover {
-      opacity: 0.85;
-    }
-
-    /* ── Mobile ── */
-    @media (max-width: 768px) {
-      .services-section {
-        padding: 4rem 1.25rem;
-      }
-      .services-heading {
-        font-size: clamp(2.5rem, 10vw, 4rem);
-        margin-bottom: 40px;
-      }
-      .service-title-text {
-        font-size: clamp(1.3rem, 5vw, 1.8rem);
-      }
-      .service-title {
-        padding: 25px 0;
-      }
-      .service-content {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .service-title i {
-        width: 28px;
-        height: 28px;
-      }
-      .service-title-right {
-        gap: 1rem;
-      }
+    /* ── Responsive ── */
+    @media (max-width: 992px) {
+      .services-heading { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 40px; }
+      .service-title-text { font-size: clamp(1.6rem, 5vw, 2.5rem); }
+      .container { padding: 0 24px; }
+      .service-content { grid-template-columns: 1fr; }
+      .service-media { order: -1; }
     }
   </style>
 </head>
 <body>
+  <div class="section">
+    <div class="container">
 
-  <section class="services-section">
+      <h2 class="services-heading">TJÄNSTER</h2>
 
-    <h2 class="services-heading">TJÄNSTER</h2>
+      <div class="service-block">
 
-    <div class="services-list">
-
-      <!-- 01 — AI AGENTS -->
-      <div class="service-card" data-index="0">
-        <div class="service-title">
-          <span class="service-title-text">AI AGENTS</span>
-          <div class="service-title-right">
-            <div class="service-counter">
-              <span>01</span>
-              <div class="service-counter-lines">
-                <span class="service-counter-line is-active"></span>
-                <span class="service-counter-line"></span>
-                <span class="service-counter-line"></span>
+        <!-- Card 1: AI Agents -->
+        <div class="service-card">
+          <div class="service-title">
+            <span class="service-title-text">AI Agents</span>
+            <div class="service-title-right">
+              <div class="service-counter">
+                <span class="service-counter-num">01</span>
+                <div class="service-counter-lines">
+                  <span class="service-counter-line is-active"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                </div>
               </div>
-            </div>
-            <i></i>
-          </div>
-        </div>
-        <div class="service-inner">
-          <div class="service-content">
-            <div class="service-left">
-              <div class="service-tags">
-                <span class="service-tag">Automation</span>
-                <span class="service-tag">24/7</span>
-                <span class="service-tag">Custom</span>
-              </div>
-              <p class="service-desc">Autonoma AI-agenter som jobbar åt ditt företag dygnet runt. Vi bygger, driftar och optimerar agenter som hanterar kundkommunikation, orderflöden, research och mer.</p>
-              <a href="#" class="service-cta">Läs mer →</a>
-            </div>
-            <div class="service-media">
-              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI Agents" loading="lazy">
+              <span class="service-arrow"></span>
             </div>
           </div>
+          <div class="service-inner">
+            <div class="service-content">
+              <div class="service-left">
+                <div class="service-tags">
+                  <span class="service-tag">Automation</span>
+                  <span class="service-tag">24/7</span>
+                  <span class="service-tag">Custom</span>
+                </div>
+                <p class="service-desc">Autonoma AI-agenter som jobbar åt ditt företag dygnet runt. Vi bygger, driftar och optimerar agenter som hanterar kundkommunikation, orderflöden, research och mer.</p>
+                <a class="service-link" href="#">Läs mer →</a>
+              </div>
+              <div class="service-media">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI Agents">
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Card 2: Process Automation -->
+        <div class="service-card">
+          <div class="service-title">
+            <span class="service-title-text">Process Automation</span>
+            <div class="service-title-right">
+              <div class="service-counter">
+                <span class="service-counter-num">02</span>
+                <div class="service-counter-lines">
+                  <span class="service-counter-line is-active"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                </div>
+              </div>
+              <span class="service-arrow"></span>
+            </div>
+          </div>
+          <div class="service-inner">
+            <div class="service-content">
+              <div class="service-left">
+                <div class="service-tags">
+                  <span class="service-tag">Integration</span>
+                  <span class="service-tag">Flöden</span>
+                  <span class="service-tag">ROI</span>
+                </div>
+                <p class="service-desc">Eliminera manuellt arbete med smarta automationsflöden. Vi kopplar ihop dina system och skapar processer som kör sig själva.</p>
+                <a class="service-link" href="#">Läs mer →</a>
+              </div>
+              <div class="service-media">
+                <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80" alt="Process Automation">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Custom Builds -->
+        <div class="service-card">
+          <div class="service-title">
+            <span class="service-title-text">Custom Builds</span>
+            <div class="service-title-right">
+              <div class="service-counter">
+                <span class="service-counter-num">03</span>
+                <div class="service-counter-lines">
+                  <span class="service-counter-line is-active"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                  <span class="service-counter-line"></span>
+                </div>
+              </div>
+              <span class="service-arrow"></span>
+            </div>
+          </div>
+          <div class="service-inner">
+            <div class="service-content">
+              <div class="service-left">
+                <div class="service-tags">
+                  <span class="service-tag">Skräddarsytt</span>
+                  <span class="service-tag">B2B</span>
+                  <span class="service-tag">Plattformar</span>
+                </div>
+                <p class="service-desc">Skräddarsydda AI-drivna applikationer och plattformar byggda från grunden för dina specifika behov.</p>
+                <a class="service-link" href="#">Läs mer →</a>
+              </div>
+              <div class="service-media">
+                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" alt="Custom Builds">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- 02 — PROCESS AUTOMATION -->
-      <div class="service-card" data-index="1">
-        <div class="service-title">
-          <span class="service-title-text">PROCESS AUTOMATION</span>
-          <div class="service-title-right">
-            <div class="service-counter">
-              <span>02</span>
-              <div class="service-counter-lines">
-                <span class="service-counter-line"></span>
-                <span class="service-counter-line is-active"></span>
-                <span class="service-counter-line"></span>
-              </div>
-            </div>
-            <i></i>
-          </div>
-        </div>
-        <div class="service-inner">
-          <div class="service-content">
-            <div class="service-left">
-              <div class="service-tags">
-                <span class="service-tag">Integration</span>
-                <span class="service-tag">Flöden</span>
-                <span class="service-tag">ROI</span>
-              </div>
-              <p class="service-desc">Eliminera manuellt arbete med smarta automationsflöden. Vi kopplar ihop dina system och skapar processer som kör sig själva.</p>
-              <a href="#" class="service-cta">Läs mer →</a>
-            </div>
-            <div class="service-media">
-              <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80" alt="Process Automation" loading="lazy">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 03 — CUSTOM BUILDS -->
-      <div class="service-card" data-index="2">
-        <div class="service-title">
-          <span class="service-title-text">CUSTOM BUILDS</span>
-          <div class="service-title-right">
-            <div class="service-counter">
-              <span>03</span>
-              <div class="service-counter-lines">
-                <span class="service-counter-line"></span>
-                <span class="service-counter-line"></span>
-                <span class="service-counter-line is-active"></span>
-              </div>
-            </div>
-            <i></i>
-          </div>
-        </div>
-        <div class="service-inner">
-          <div class="service-content">
-            <div class="service-left">
-              <div class="service-tags">
-                <span class="service-tag">Skräddarsytt</span>
-                <span class="service-tag">B2B</span>
-                <span class="service-tag">Plattformar</span>
-              </div>
-              <p class="service-desc">Skräddarsydda AI-drivna applikationer och plattformar byggda från grunden för dina specifika behov.</p>
-              <a href="#" class="service-cta">Läs mer →</a>
-            </div>
-            <div class="service-media">
-              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" alt="Custom Builds" loading="lazy">
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /.services-list -->
-
-  </section>
+    </div>
+  </div>
 
   <script>
-    // ── Toggle accordion ──
-    document.querySelectorAll('.service-title').forEach(title => {
-      title.addEventListener('click', () => {
-        const card = title.closest('.service-card');
-        const isActive = card.classList.contains('is-active');
-
-        // Close all
-        document.querySelectorAll('.service-card').forEach(c => c.classList.remove('is-active'));
-
-        // Toggle: if it wasn't active, open it
+    document.querySelectorAll('.service-title').forEach(function(title) {
+      title.addEventListener('click', function() {
+        var card = title.closest('.service-card');
+        var isActive = card.classList.contains('is-active');
+        document.querySelectorAll('.service-card').forEach(function(c) {
+          c.classList.remove('is-active');
+        });
         if (!isActive) {
           card.classList.add('is-active');
         }
       });
     });
   </script>
-
 </body>
 </html>
