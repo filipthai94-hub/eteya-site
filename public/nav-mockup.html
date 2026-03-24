@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eteya — Nav Mockup (Qualytics-stil)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --lime: #C8FF00;
+    --lime-hover: #b8ef00;
+    --black: #121213;
+    --bg: #080808;
+    --white: #FFFFFF;
+
+    /* Qualytics exakta nav-värden */
+    --nav-bg: #000000;
+    --nav-height: 80px;
+    --nav-padding: 0 40px;
+    --nav-border-bottom: 1px dashed rgba(255,255,255,0.15);
+    --nav-z: 1000;
+
+    /* Nav-länk: Manrope → Geist */
+    --nav-link-font: 'Geist', sans-serif;
+    --nav-link-size: 16px;
+    --nav-link-weight: 400;
+    --nav-link-color: rgba(255,255,255,0.85);
+    --nav-link-pad: 16px 10px;
+
+    /* Logo: Barlow Condensed (vår display-font) */
+    --nav-logo-font: 'Barlow Condensed', sans-serif;
+    --nav-logo-size: 1.5rem;
+    --nav-logo-weight: 800;
+
+    /* Knapp: exakt från button-system */
+    --btn-font: 'Geist', sans-serif;
+    --btn-size: 14px;
+    --btn-weight: 400;
+    --btn-pad: 16px 24px;
+    --btn-h: 48px;
+    --btn-radius: 0;
+    --btn-transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.25s, border-color 0.25s, color 0.25s;
+  }
+
+  body {
+    font-family: 'Geist', sans-serif;
+    letter-spacing: -0.01em;
+    line-height: 1.75;
+    background: #111;
+    color: white;
+    padding-top: calc(var(--nav-height) + 2rem);
+  }
+
+  /* ═══════════════════════════════════════
+     NAV — DESKTOP (Qualytics exakt)
+  ═══════════════════════════════════════ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: var(--nav-z);
+    background: var(--nav-bg);
+    border-bottom: var(--nav-border-bottom);
+    height: var(--nav-height);
+    padding: var(--nav-padding);
+  }
+
+  .nav_inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    height: 100%;
+    gap: 1rem;
+  }
+
+  /* Logo — vänster */
+  .nav_brand {
+    font-family: var(--nav-logo-font);
+    font-size: var(--nav-logo-size);
+    font-weight: var(--nav-logo-weight);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Meny — mitten */
+  .nav_menu {
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav_menu-ul {
+    display: flex;
+    flex-flow: row;
+    gap: 0;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav_link {
+    font-family: var(--nav-link-font);
+    font-size: var(--nav-link-size);
+    font-weight: var(--nav-link-weight);
+    color: var(--nav-link-color);
+    text-decoration: none;
+    padding: var(--nav-link-pad);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    transition: color 0.4s;
+    cursor: pointer;
+  }
+  .nav_link:hover { color: var(--white); }
+
+  /* CTA — höger */
+  .nav_cta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Primär knapp */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: var(--lime);
+    color: var(--black);
+    border: 1px solid var(--lime);
+    border-radius: var(--btn-radius);
+    padding: var(--btn-pad);
+    height: var(--btn-h);
+    font-family: var(--btn-font);
+    font-size: var(--btn-size);
+    font-weight: var(--btn-weight);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--btn-transition);
+    white-space: nowrap;
+  }
+  .btn-primary:hover {
+    background-color: var(--lime-hover);
+    border-color: var(--lime-hover);
+    transform: translateY(-0.25rem);
+  }
+
+  /* Sekundär knapp */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: var(--btn-radius);
+    padding: var(--btn-pad);
+    height: var(--btn-h);
+    font-family: var(--btn-font);
+    font-size: var(--btn-size);
+    font-weight: var(--btn-weight);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--btn-transition);
+    white-space: nowrap;
+  }
+  .btn-secondary:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+    transform: translateY(-0.25rem);
+  }
+
+  /* Locale toggle */
+  .locale-toggle {
+    font-family: var(--btn-font);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .locale-toggle:hover { color: rgba(255,255,255,0.8); }
+  .locale-sep { color: rgba(255,255,255,0.2); font-size: 0.65rem; }
+
+  /* ═══════════════════════════════════════
+     MOBILMENY (< 768px)
+  ═══════════════════════════════════════ */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.25s;
+  }
+
+  .mobile-drawer {
+    display: none;
+    position: fixed;
+    top: var(--nav-height);
+    left: 0; right: 0;
+    background: #000;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    padding: 2rem 2rem 2.5rem;
+    z-index: 999;
+    flex-direction: column;
+    gap: 0;
+  }
+  .mobile-drawer.open { display: flex; }
+
+  .mobile-link {
+    font-family: var(--nav-link-font);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: block;
+    transition: color 0.2s;
+  }
+  .mobile-link:hover { color: var(--white); }
+
+  .mobile-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .mobile-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--lime);
+    color: var(--black);
+    border: 1px solid var(--lime);
+    border-radius: 0;
+    padding: 1rem;
+    font-family: var(--btn-font);
+    font-size: var(--btn-size);
+    font-weight: var(--btn-weight);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--btn-transition);
+  }
+  .mobile-btn-primary:hover { background: var(--lime-hover); }
+
+  .mobile-btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 0;
+    padding: 1rem;
+    font-family: var(--btn-font);
+    font-size: var(--btn-size);
+    font-weight: var(--btn-weight);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--btn-transition);
+  }
+  .mobile-btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
+
+  .mobile-locale {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    font-family: var(--btn-font);
+    display: flex;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .nav_menu, .nav_cta { display: none; }
+    .hamburger { display: flex; }
+    .nav_inner { grid-template-columns: 1fr auto; }
+  }
+
+  /* ═══════════════════════════════════════
+     LIME HERO VARIANT
+  ═══════════════════════════════════════ */
+  .nav.on-lime {
+    background: var(--lime);
+    border-bottom: 1px dashed rgba(0,0,0,0.15);
+  }
+  .nav.on-lime .nav_brand { color: var(--black); }
+  .nav.on-lime .nav_link { color: rgba(0,0,0,0.65); }
+  .nav.on-lime .nav_link:hover { color: var(--black); }
+  .nav.on-lime .btn-primary { background: var(--black); color: var(--lime); border-color: var(--black); }
+  .nav.on-lime .btn-primary:hover { background: #1a1a1a; }
+  .nav.on-lime .btn-secondary { color: rgba(0,0,0,0.55); border-color: rgba(0,0,0,0.25); }
+  .nav.on-lime .btn-secondary:hover { border-color: rgba(0,0,0,0.6); color: rgba(0,0,0,0.85); }
+  .nav.on-lime .locale-toggle { color: rgba(0,0,0,0.35); }
+  .nav.on-lime .locale-sep { color: rgba(0,0,0,0.2); }
+  .nav.on-lime .hamburger span { background: var(--black); }
+
+  /* Page content demo */
+  .demo-page { max-width: 900px; margin: 0 auto; padding: 2rem 2.5rem 6rem; }
+  .demo-section { margin-bottom: 3rem; }
+  .demo-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 1rem; }
+  .demo-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; color: rgba(255,255,255,0.6); }
+</style>
+</head>
+<body>
+
+<!-- NAV 1: MÖRK BAKGRUND (standard) -->
+<nav class="nav" id="nav-dark">
+  <div class="nav_inner">
+    <a href="#" class="nav_brand">Eteya</a>
+    <nav class="nav_menu">
+      <ul class="nav_menu-ul">
+        <li><a href="#" class="nav_link">Arbete</a></li>
+        <li><a href="#" class="nav_link">Tjänster</a></li>
+        <li><a href="#" class="nav_link">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="nav_cta">
+      <a href="#" class="locale-toggle">SV</a>
+      <span class="locale-sep">/</span>
+      <a href="#" class="locale-toggle">EN</a>
+      <a href="#" class="btn-secondary">Se vårt arbete</a>
+      <a href="#" class="btn-primary">Boka samtal</a>
+    </div>
+    <div class="hamburger" onclick="document.querySelector('.mobile-drawer').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILMENY DRAWER -->
+<div class="mobile-drawer">
+  <a href="#" class="mobile-link">Arbete</a>
+  <a href="#" class="mobile-link">Tjänster</a>
+  <a href="#" class="mobile-link">Kontakt</a>
+  <div class="mobile-btns">
+    <a href="#" class="mobile-btn-primary">Boka samtal</a>
+    <a href="#" class="mobile-btn-secondary">Se vårt arbete</a>
+  </div>
+  <div class="mobile-locale">
+    <a href="#" class="locale-toggle" style="color:rgba(255,255,255,0.4)">SV</a>
+    <a href="#" class="locale-toggle" style="color:rgba(255,255,255,0.4)">EN</a>
+  </div>
+</div>
+
+<!-- CONTENT SPACER -->
+<div class="demo-page">
+
+  <div class="demo-section">
+    <div class="demo-label">Mockup 1</div>
+    <div class="demo-title">Nav på mörk bakgrund (ovan)</div>
+    <p style="color:rgba(255,255,255,0.4); font-size:0.875rem;">Svart bakgrund, vit logo, vita nav-länkar, lime primär knapp + sekundär ghost-knapp. Hover på länkarna: vit. Hover på primär: lyfter 4px.</p>
+  </div>
+
+  <div class="demo-section">
+    <div class="demo-label">Mockup 2 — skrolla ner</div>
+    <div class="demo-title">Nav på lime hero-bakgrund</div>
+    <p style="color:rgba(255,255,255,0.4); font-size:0.875rem;">Samma nav men lime bakgrund. Logo + länkar svarta. Primär knapp inverterad (svart fill, lime text).</p>
+  </div>
+
+</div>
+
+<!-- NAV 2: LIME VARIANT (statisk preview nedan) -->
+<div style="background: #C8FF00; padding: 0; margin-top: 2rem;">
+  <div style="max-width: 100%; padding: 0 40px; height: 80px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 1rem; border-bottom: 1px dashed rgba(0,0,0,0.15);">
+    <a href="#" style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; color: #121213; text-decoration: none;">Eteya</a>
+    <nav style="display:flex; justify-content:center;">
+      <ul style="display:flex; gap:0; list-style:none; margin:0; padding:0;">
+        <li><a href="#" style="font-family:'Geist',sans-serif; font-size:16px; color:rgba(0,0,0,0.65); text-decoration:none; padding:16px 10px; display:block; transition:color 0.2s;">Arbete</a></li>
+        <li><a href="#" style="font-family:'Geist',sans-serif; font-size:16px; color:rgba(0,0,0,0.65); text-decoration:none; padding:16px 10px; display:block;">Tjänster</a></li>
+        <li><a href="#" style="font-family:'Geist',sans-serif; font-size:16px; color:rgba(0,0,0,0.65); text-decoration:none; padding:16px 10px; display:block;">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div style="display:flex; justify-content:flex-end; align-items:center; gap:0.75rem;">
+      <span style="font-family:'Geist',sans-serif; font-size:0.75rem; color:rgba(0,0,0,0.3);">SV / EN</span>
+      <a href="#" style="display:inline-flex; align-items:center; background:transparent; color:rgba(0,0,0,0.55); border:1px solid rgba(0,0,0,0.25); border-radius:0; padding:16px 24px; height:48px; font-family:'Geist',sans-serif; font-size:14px; text-decoration:none; white-space:nowrap;">Se vårt arbete</a>
+      <a href="#" style="display:inline-flex; align-items:center; background:#121213; color:#C8FF00; border:1px solid #121213; border-radius:0; padding:16px 24px; height:48px; font-family:'Geist',sans-serif; font-size:14px; text-decoration:none; white-space:nowrap;">Boka samtal</a>
+    </div>
+  </div>
+  <div style="padding: 3rem 40px; text-align:center;">
+    <p style="font-family:'Geist',sans-serif; font-size:0.75rem; color:rgba(0,0,0,0.4); letter-spacing:0.1em; text-transform:uppercase;">↑ Lime hero nav-variant — exakt som den ser ut när hero är lime</p>
+  </div>
+</div>
+
+<div style="padding: 3rem 2.5rem 2rem; text-align:center;">
+  <p style="color:rgba(255,255,255,0.12); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;">Eteya Consulting AB · Nav Mockup · Qualytics-baserad · Geist + Barlow Condensed</p>
+  <p style="color:rgba(255,255,255,0.08); font-size:0.65rem; margin-top:0.5rem;">Mobil: krympa fönster under 768px för att se hamburger-menyn</p>
+</div>
+
+</body>
+</html>
