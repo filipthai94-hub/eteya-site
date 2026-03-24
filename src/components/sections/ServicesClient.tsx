@@ -164,9 +164,20 @@ const CSS = `
   @media (max-width: 767px) {
     #services-section .service-content {
       grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
       padding-inline: 1rem;
+      gap: 1rem;
     }
-    #services-section .eteya-btn { grid-area: auto; }
+    #services-section .service-list {
+      grid-column: 1; grid-row: 1;
+      grid-template-columns: 1fr;
+    }
+    #services-section .service-media {
+      grid-column: 1; grid-row: 2;
+    }
+    #services-section .eteya-btn {
+      grid-column: 1; grid-row: 3;
+    }
   }
 `
 
