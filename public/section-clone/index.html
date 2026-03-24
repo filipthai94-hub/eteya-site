@@ -28,6 +28,9 @@
     /* Arrow: default -45deg (↗), open = 45deg — matches Redstone desktop */
     .service-title i { transform: rotate(-45deg) !important; }
     .service-card.is-open .service-title i { transform: rotate(45deg) !important; }
+    /* Counter lines: active line tall when card is open */
+    .service-counter-line { height: 10.5px; transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1); }
+    .service-card.is-open .service-counter-line.is-active { height: 3.625rem; }
     /* Fix list styling */
     .service-list a, .service-list li { color: rgba(255,255,255,0.75); }
     .service-list li::marker { color: rgba(255,255,255,0.4); }
