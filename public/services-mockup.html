@@ -6,244 +6,195 @@
   <title>Eteya — Tjänster</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     /* ── Reset ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ── Variables ── */
-    :root {
-      --bg: #080808;
-      --text: #FFFFFF;
-      --accent: #C8FF00;
-      --border: rgba(255,255,255,0.1);
-      --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
-      --ease-hover: cubic-bezier(0.1, 0, 0.2, 1);
-      --font-display: 'Barlow Condensed', sans-serif;
-      --font-body: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      --total-services: 3;
-    }
-
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
+      background: #080808;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     /* ── Section wrapper ── */
     .services-section {
-      max-width: 1400px;
+      max-width: 1320px;
       margin: 0 auto;
-      padding: 6rem 2rem;
+      padding: 6rem 60px;
     }
 
-    /* ── Section header ── */
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
-
-    .section-label {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.5);
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 6rem);
-      font-weight: 800;
-      text-transform: uppercase;
+    /* ── Section heading ── */
+    .services-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: white;
+      margin-bottom: 68px;
       line-height: 1;
-      color: var(--text);
+      text-transform: uppercase;
     }
 
-    /* ── Service list ── */
-    .services-list {
-      position: relative;
-    }
-
-    /* ── Service card (accordion) ── */
+    /* ── Accordion ── */
     .service-card {
       display: grid;
       grid-template-rows: auto 0fr;
-      transition: grid-template-rows 0.6s var(--ease);
-      border-bottom: 1px solid var(--border);
+      transition: grid-template-rows 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
-
     .service-card:first-child {
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
-
     .service-card.is-active {
       grid-template-rows: auto 1fr;
     }
 
-    /* ── Service inner (overflow hidden for grid-rows trick) ── */
-    .service-inner {
-      overflow: hidden;
-    }
-
-    /* ── Service title row ── */
+    /* ── Title row ── */
     .service-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 2.5rem 0.75rem;
+      padding: 35px 0;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      z-index: 1;
+      gap: 2rem;
     }
 
-    /* ── Hover wipe effect (::before pseudo) ── */
-    .service-title::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #000;
-      transform: translateY(35%);
-      border-radius: 100%;
-      opacity: 0;
-      transition: transform 0.45s var(--ease-hover), border-radius 0.45s var(--ease-hover), opacity 0.45s var(--ease-hover);
-      z-index: -1;
-    }
-
-    .service-card:not(.is-active) .service-title:hover::before {
-      transform: translateY(0%);
-      border-radius: 0px;
-      opacity: 1;
-    }
-
-    /* ── Title text ── */
     .service-title-text {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 4vw, 4.5rem);
-      font-weight: 400;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      color: white;
+      line-height: 1;
       text-transform: uppercase;
-      line-height: 1.1;
-      color: var(--text);
-      position: relative;
-      z-index: 2;
     }
 
-    /* ── Right side: number + icon ── */
     .service-title-right {
       display: flex;
       align-items: center;
       gap: 1.5rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .service-number {
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Arrow icon ── */
-    .service-icon {
-      display: inline-block;
-      width: 3rem;
-      height: 3rem;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      transform: rotate(0deg);
-      transition: transform 0.6s var(--ease);
       flex-shrink: 0;
     }
 
-    /* Rotate on active */
-    .service-card.is-active .service-icon {
+    /* ── Hover wipe effect ── */
+    .service-title::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      transform: translateY(35%);
+      width: 100%;
+      height: 300%;
+      transition: 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+      background-color: #111;
+      border-radius: 100%;
+    }
+    .service-card:not(.is-active) .service-title:hover::before {
+      border-radius: 0;
+      transform: translateY(0%);
+    }
+    .service-card:not(.is-active) .service-title:hover i {
       transform: rotate(45deg);
     }
 
-    /* Rotate on hover (collapsed only) */
-    .service-card:not(.is-active) .service-title:hover .service-icon {
+    /* ── Arrow icon ── */
+    .service-title i {
+      display: inline-block;
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C%2Fsvg%3E");
+    }
+    .service-card.is-active .service-title i {
       transform: rotate(45deg);
     }
 
-    /* ── Expanded content ── */
-    .service-content {
-      display: grid;
-      grid-template-columns: 0.5fr 0.47fr;
-      gap: 3rem;
-      padding: 0 0.75rem 3rem;
+    /* ── Counter ── */
+    .service-counter {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-
-    .service-text {
+    .service-counter > span {
+      font-size: 18px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+    .service-counter-lines {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 3px;
+    }
+    .service-counter-line {
+      display: block;
+      width: 1px;
+      height: 10.5px;
+      background: rgba(255,255,255,0.3);
+      transition: height 0.5s cubic-bezier(0.215, 0.61, 0.355, 1), background 0.5s;
+    }
+    .service-card.is-active .service-counter-line.is-active,
+    .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
+      height: 58px;
+      background: white;
     }
 
+    /* ── Inner content ── */
+    .service-inner {
+      overflow: hidden;
+      min-height: 0;
+    }
+    .service-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 5rem;
+      padding: 1.5rem 0 3rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── Media ── */
+    .service-media img {
+      width: 100%;
+      aspect-ratio: 762/482;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── Tags ── */
     .service-tags {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
-
     .service-tag {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.4rem 1rem;
-      border: 1px solid var(--border);
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.3);
       border-radius: 100px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.6);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    .service-description {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.7);
-      max-width: 480px;
-    }
-
-    .service-image {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    /* ── Progressbar ── */
-    .progressbar {
-      display: flex;
-      gap: 6px;
-      align-items: flex-end;
-      position: fixed;
-      right: 3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      flex-direction: row;
-      z-index: 100;
-    }
-
-    .progressbar-line {
-      width: 2px;
-      height: 0.5rem;
-      background: rgba(255,255,255,0.15);
-      border-radius: 1px;
-      transition: height 0.6s var(--ease), background 0.6s var(--ease);
-    }
-
-    .progressbar-line.is-active {
-      height: 3.625rem;
-      background: var(--accent);
+    /* ── Description ── */
+    .service-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 1.5rem;
     }
 
     /* ── CTA button ── */
@@ -251,11 +202,11 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: var(--font-body);
+      font-family: 'Inter', sans-serif;
       font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--bg);
-      background: var(--accent);
+      font-weight: 500;
+      color: #080808;
+      background: #C8FF00;
       padding: 0.75rem 1.5rem;
       border-radius: 100px;
       text-decoration: none;
@@ -264,43 +215,35 @@
       transition: opacity 0.3s ease;
       width: fit-content;
     }
-
     .service-cta:hover {
       opacity: 0.85;
     }
 
-    /* ── Mobile (<992px) ── */
-    @media (max-width: 992px) {
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
       .services-section {
         padding: 4rem 1.25rem;
       }
-
-      .section-header {
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 3rem;
+      .services-heading {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+        margin-bottom: 40px;
       }
-
       .service-title-text {
-        font-size: clamp(1.8rem, 6vw, 2.5rem);
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
       }
-
+      .service-title {
+        padding: 25px 0;
+      }
       .service-content {
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-
-      .service-image {
-        height: 220px;
+      .service-title i {
+        width: 28px;
+        height: 28px;
       }
-
-      .service-icon {
-        width: 2rem;
-        height: 2rem;
-      }
-
-      .progressbar {
-        display: none;
+      .service-title-right {
+        gap: 1rem;
       }
     }
   </style>
@@ -308,38 +251,41 @@
 <body>
 
   <section class="services-section">
-    <!-- Section header -->
-    <div class="section-header">
-      <span class="section-label">What we do</span>
-      <h2 class="section-title">TJÄNSTER</h2>
-    </div>
 
-    <!-- Service list -->
+    <h2 class="services-heading">TJÄNSTER</h2>
+
     <div class="services-list">
 
       <!-- 01 — AI AGENTS -->
-      <div class="service-card is-active" data-index="0">
+      <div class="service-card" data-index="0">
         <div class="service-title">
           <span class="service-title-text">AI AGENTS</span>
           <div class="service-title-right">
-            <span class="service-number">01</span>
-            <i class="service-icon"></i>
+            <div class="service-counter">
+              <span>01</span>
+              <div class="service-counter-lines">
+                <span class="service-counter-line is-active"></span>
+                <span class="service-counter-line"></span>
+                <span class="service-counter-line"></span>
+              </div>
+            </div>
+            <i></i>
           </div>
         </div>
         <div class="service-inner">
           <div class="service-content">
-            <div class="service-text">
+            <div class="service-left">
               <div class="service-tags">
                 <span class="service-tag">Automation</span>
                 <span class="service-tag">24/7</span>
                 <span class="service-tag">Custom</span>
               </div>
-              <p class="service-description">
-                Autonoma AI-agenter som jobbar åt ditt företag dygnet runt. Vi bygger, driftar och optimerar agenter som hanterar kundkommunikation, orderflöden, research och mer.
-              </p>
+              <p class="service-desc">Autonoma AI-agenter som jobbar åt ditt företag dygnet runt. Vi bygger, driftar och optimerar agenter som hanterar kundkommunikation, orderflöden, research och mer.</p>
               <a href="#" class="service-cta">Läs mer →</a>
             </div>
-            <img class="service-image" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI Agents" loading="lazy">
+            <div class="service-media">
+              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI Agents" loading="lazy">
+            </div>
           </div>
         </div>
       </div>
@@ -349,24 +295,31 @@
         <div class="service-title">
           <span class="service-title-text">PROCESS AUTOMATION</span>
           <div class="service-title-right">
-            <span class="service-number">02</span>
-            <i class="service-icon"></i>
+            <div class="service-counter">
+              <span>02</span>
+              <div class="service-counter-lines">
+                <span class="service-counter-line"></span>
+                <span class="service-counter-line is-active"></span>
+                <span class="service-counter-line"></span>
+              </div>
+            </div>
+            <i></i>
           </div>
         </div>
         <div class="service-inner">
           <div class="service-content">
-            <div class="service-text">
+            <div class="service-left">
               <div class="service-tags">
                 <span class="service-tag">Integration</span>
                 <span class="service-tag">Flöden</span>
                 <span class="service-tag">ROI</span>
               </div>
-              <p class="service-description">
-                Eliminera manuellt arbete med smarta automationsflöden. Vi kopplar ihop dina system och skapar processer som kör sig själva.
-              </p>
+              <p class="service-desc">Eliminera manuellt arbete med smarta automationsflöden. Vi kopplar ihop dina system och skapar processer som kör sig själva.</p>
               <a href="#" class="service-cta">Läs mer →</a>
             </div>
-            <img class="service-image" src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80" alt="Process Automation" loading="lazy">
+            <div class="service-media">
+              <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80" alt="Process Automation" loading="lazy">
+            </div>
           </div>
         </div>
       </div>
@@ -376,72 +329,55 @@
         <div class="service-title">
           <span class="service-title-text">CUSTOM BUILDS</span>
           <div class="service-title-right">
-            <span class="service-number">03</span>
-            <i class="service-icon"></i>
+            <div class="service-counter">
+              <span>03</span>
+              <div class="service-counter-lines">
+                <span class="service-counter-line"></span>
+                <span class="service-counter-line"></span>
+                <span class="service-counter-line is-active"></span>
+              </div>
+            </div>
+            <i></i>
           </div>
         </div>
         <div class="service-inner">
           <div class="service-content">
-            <div class="service-text">
+            <div class="service-left">
               <div class="service-tags">
                 <span class="service-tag">Skräddarsytt</span>
                 <span class="service-tag">B2B</span>
                 <span class="service-tag">Plattformar</span>
               </div>
-              <p class="service-description">
-                Skräddarsydda AI-drivna applikationer och plattformar byggda från grunden för dina specifika behov.
-              </p>
+              <p class="service-desc">Skräddarsydda AI-drivna applikationer och plattformar byggda från grunden för dina specifika behov.</p>
               <a href="#" class="service-cta">Läs mer →</a>
             </div>
-            <img class="service-image" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" alt="Custom Builds" loading="lazy">
+            <div class="service-media">
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" alt="Custom Builds" loading="lazy">
+            </div>
           </div>
         </div>
       </div>
 
     </div><!-- /.services-list -->
 
-    <!-- Progressbar (vertical lines) -->
-    <div class="progressbar" id="progressbar"></div>
   </section>
 
   <script>
-    // ── Build progressbar lines ──
-    const totalServices = 3;
-    const progressbar = document.getElementById('progressbar');
-    for (let i = 0; i < totalServices; i++) {
-      const line = document.createElement('div');
-      line.classList.add('progressbar-line');
-      line.dataset.index = i;
-      progressbar.appendChild(line);
-    }
-
-    // ── Update progressbar ──
-    function updateProgressbar() {
-      const activeCard = document.querySelector('.service-card.is-active');
-      const activeIndex = activeCard ? parseInt(activeCard.dataset.index) : -1;
-      document.querySelectorAll('.progressbar-line').forEach(line => {
-        const idx = parseInt(line.dataset.index);
-        if (idx === activeIndex) {
-          line.classList.add('is-active');
-        } else {
-          line.classList.remove('is-active');
-        }
-      });
-    }
-
     // ── Toggle accordion ──
     document.querySelectorAll('.service-title').forEach(title => {
       title.addEventListener('click', () => {
         const card = title.closest('.service-card');
         const isActive = card.classList.contains('is-active');
+
+        // Close all
         document.querySelectorAll('.service-card').forEach(c => c.classList.remove('is-active'));
-        if (!isActive) card.classList.add('is-active');
-        updateProgressbar();
+
+        // Toggle: if it wasn't active, open it
+        if (!isActive) {
+          card.classList.add('is-active');
+        }
       });
     });
-
-    // Init progressbar state
-    updateProgressbar();
   </script>
 
 </body>
