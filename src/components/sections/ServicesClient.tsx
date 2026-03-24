@@ -209,8 +209,7 @@ export default function ServicesClient() {
         if (!isActive) card.classList.add('is-active')
       })
     })
-    const first = document.querySelector('#services-section .service-card')
-    if (first) first.classList.add('is-active')
+    // Ingen öppen som default — användaren väljer själv
   }, [])
 
   return (
