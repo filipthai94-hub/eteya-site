@@ -129,7 +129,7 @@ export default function HeroClient({
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
           // Stor nog att blöda ut — ca 20vw per bokstav för 5 bokstäver
-          fontSize: 'clamp(5rem, 22vw, 22rem)',
+          fontSize: 'clamp(5rem, 28vw, 30rem)',
           color: C.primary,
           textTransform: 'uppercase',
           lineHeight: 0.82,
