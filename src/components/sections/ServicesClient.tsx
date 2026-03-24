@@ -124,8 +124,11 @@ const CSS = `
   }
   #services-section .service-card.is-active .service-content { opacity: 1; }
 
-  /* Image */
-  #services-section .service-media { display: block; grid-column: 2; grid-row: 1 / 3; align-self: center; }
+  /* Desktop grid-placering */
+  #services-section .service-media    { display: block; grid-column: 2; grid-row: 1 / 4; align-self: center; }
+  #services-section .svc-content-title{ display: none; /* dold på desktop */ }
+  #services-section .service-list     { grid-column: 1; grid-row: 1; }
+  #services-section .eteya-btn        { grid-column: 1; grid-row: 2; }
   #services-section .service-media img {
     width: 100%; height: auto; mix-blend-mode: screen; display: block;
   }
@@ -164,7 +167,7 @@ const CSS = `
   @media (max-width: 767px) {
     #services-section .service-content {
       grid-template-columns: 1fr !important;
-      grid-template-rows: auto auto auto !important;
+      grid-template-rows: auto auto auto auto !important;
       padding-inline: 1rem;
       gap: 1rem;
     }
@@ -172,14 +175,24 @@ const CSS = `
       grid-column: 1 !important;
       grid-row: 1 !important;
     }
-    #services-section .service-list {
+    #services-section .svc-content-title {
+      display: block !important;
       grid-column: 1 !important;
       grid-row: 2 !important;
-      grid-template-columns: 1fr !important;
+      font-family: var(--ff);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #fff;
+      margin: 0;
+    }
+    #services-section .service-list {
+      grid-column: 1 !important;
+      grid-row: 3 !important;
+      grid-template-columns: 1fr 1fr !important;
     }
     #services-section .eteya-btn {
       grid-column: 1 !important;
-      grid-row: 3 !important;
+      grid-row: 4 !important;
     }
   }
 `
@@ -224,6 +237,10 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
+              </a>
+              <span className="svc-content-title">AI Agents</span>
               <ul className="service-list">
                 <li>Kundtjänst</li>
                 <li>Leadsgenerering</li>
@@ -232,9 +249,6 @@ export default function ServicesClient() {
                 <li>Intern support</li>
                 <li>Uppföljning</li>
               </ul>
-              <a className="service-media" href="#contact">
-                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
-              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
@@ -256,6 +270,10 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
+              </a>
+              <span className="svc-content-title">Automation</span>
               <ul className="service-list">
                 <li>E-postautomation</li>
                 <li>Fakturahantering</li>
@@ -264,9 +282,6 @@ export default function ServicesClient() {
                 <li>Systemsynk</li>
                 <li>Aviseringar</li>
               </ul>
-              <a className="service-media" href="#contact">
-                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
-              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
@@ -288,6 +303,10 @@ export default function ServicesClient() {
           </div>
           <div className="service-inner">
             <div className="service-content">
+              <a className="service-media" href="#contact">
+                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
+              </a>
+              <span className="svc-content-title">AI Products</span>
               <ul className="service-list">
                 <li>Webbapplikationer</li>
                 <li>Interna verktyg</li>
@@ -296,9 +315,6 @@ export default function ServicesClient() {
                 <li>MVP på veckor</li>
                 <li>Skräddarsydd AI</li>
               </ul>
-              <a className="service-media" href="#contact">
-                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
-              </a>
               <a className="eteya-btn" href="#contact">Läs mer</a>
             </div>
           </div>
