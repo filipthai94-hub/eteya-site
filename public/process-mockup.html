@@ -419,36 +419,38 @@
     // ─── GSAP Setup ───────────────────────────────────
     gsap.registerPlugin(ScrollTrigger);
 
-    // ─── fitText with ResizeObserver ──────────────────
+    // ─── fitText ──────────────────────────────────────
     function fitText(el) {
       const parent = el.parentElement;
-      const parentW = parent.clientWidth;
-      const parentH = parent.clientHeight;
-
-      // Start with a large font size and scale to fit width
-      el.style.fontSize = '200px';
-      const ratio = parentW / el.scrollWidth;
-      const newSize = Math.floor(200 * ratio * 0.88); // 88% so it looks right visually
-      el.style.fontSize = newSize + 'px';
+      if (!parent) return;
+      el.style.fontSize = '500px';
+      const ratio = parent.clientWidth / el.scrollWidth;
+      el.style.fontSize = Math.floor(500 * ratio * 0.92) + 'px';
     }
 
-    const fitEls = document.querySelectorAll('[data-fit]');
-
-    fitEls.forEach(el => {
+    document.querySelectorAll('[data-fit]').forEach(el => {
       fitText(el);
       const ro = new ResizeObserver(() => fitText(el));
       ro.observe(el.parentElement);
     });
 
+    // ─── Set initial visible states (fallback om ScrollTrigger ej triggar) ──
+    document.querySelectorAll('.text-overlay, .section-headline, .body-text, .process-list li, .btn').forEach(el => {
+      el.style.opacity = '1';
+      el.style.filter  = 'none';
+      el.style.transform = 'none';
+    });
+
     // ─── GSAP Animations ─────────────────────────────
     document.querySelectorAll('.process-block').forEach((block, i) => {
-      const imgSection    = block.querySelector('.image-section');
-      const bgImg         = block.querySelector('.bg-img');
-      const textOverlay   = block.querySelector('.text-overlay');
-      const textSection   = block.querySelector('.text-section');
-      const giantNum      = block.querySelector('.giant-number');
-      const headline      = block.querySelector('.section-headline');
-      const listItems     = block.querySelectorAll('.process-list li');
+      const imgSection  = block.querySelector('.image-section');
+      const bgImg       = block.querySelector('.bg-img');
+      const textOverlay = block.querySelector('.text-overlay');
+      const textSection = block.querySelector('.text-section');
+      const giantNum    = block.querySelector('.giant-number');
+      const headline    = block.querySelector('.section-headline');
+      const bodyText    = block.querySelector('.body-text');
+      const listItems   = block.querySelectorAll('.process-list li');
 
       // 1. Parallax on background image
       gsap.fromTo(bgImg,
@@ -469,44 +471,25 @@
       gsap.fromTo(textOverlay,
         { opacity: 0, y: 30, filter: 'blur(20px)' },
         {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 1,
-          ease: 'power3.out',
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1, ease: 'power3.out',
           scrollTrigger: {
             trigger: imgSection,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: 'top 80%',
+            toggleActions: 'play none none none',
           }
         }
       );
 
-      // 3. Giant number opacity pulse while scrolling through text section
+      // 3. Giant number opacity scrub
       if (giantNum) {
         gsap.fromTo(giantNum,
           { opacity: 0.05 },
           {
-            opacity: 0.15,
-            ease: 'none',
+            opacity: 0.18, ease: 'none',
             scrollTrigger: {
               trigger: textSection,
               start: 'top bottom',
-              end: 'center center',
-              scrub: true,
-              yoyo: true,
-            }
-          }
-        );
-
-        gsap.fromTo(giantNum,
-          { opacity: 0.15 },
-          {
-            opacity: 0.05,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: textSection,
-              start: 'center center',
               end: 'bottom top',
               scrub: true,
             }
@@ -518,30 +501,40 @@
       gsap.fromTo(headline,
         { opacity: 0, y: 24, filter: 'blur(14px)' },
         {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 0.9,
-          ease: 'power3.out',
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 0.9, ease: 'power3.out',
           scrollTrigger: {
             trigger: headline,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse',
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+
+      // 4b. Body text fade
+      gsap.fromTo(bodyText,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.7, ease: 'power2.out', delay: 0.15,
+          scrollTrigger: {
+            trigger: bodyText,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
           }
         }
       );
 
       // 5. Stagger list items slide-in
-      gsap.to(listItems, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: block.querySelector('.process-list'),
-          start: 'top 95%',
-          toggleActions: 'play none none reverse',
+      gsap.fromTo(listItems,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.5, ease: 'power2.out', stagger: 0.07,
+          scrollTrigger: {
+            trigger: block.querySelector('.process-list'),
+            start: 'top 90%',
+            toggleActions: 'play none none none',
         }
       });
     });
