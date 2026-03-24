@@ -19,28 +19,63 @@
     /* Force section visible */
     #fws_69c1c16f371a3 { display: block !important; visibility: visible !important; }
 
-    /* Sätt bakgrundsbilden direkt utan JS */
+    /* Outer wrapper */
+    #fws_69c1c16f371a3 {
+      position: relative !important;
+      width: 100% !important;
+    }
+    #fws_69c1c16f371a3 .n-sticky { position: relative !important; }
+
+    /* Inner row = 75vh */
+    #fws_69c1c16f375f6 {
+      position: relative !important;
+      width: 100vw !important;
+      height: 75vh !important;
+      overflow: hidden !important;
+      display: flex !important;
+      align-items: flex-end !important;
+    }
+
+    /* Bakgrundsbild täcker hela */
+    .column-image-bg-wrap {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+      z-index: 0 !important;
+    }
     .column-image-bg {
       background-image: url('./ai-bg.webp') !important;
       background-size: cover !important;
       background-position: center center !important;
       position: absolute !important;
-      inset: 0 !important;
+      inset: -20% 0 !important;
       width: 100% !important;
-      height: 100% !important;
-    }
-    .column-image-bg-wrap {
-      position: absolute !important;
-      inset: 0 !important;
-      overflow: hidden !important;
+      height: 140% !important;
     }
 
-    /* Sätt inner row-höjd = 75vh */
-    #fws_69c1c16f375f6 {
-      min-height: 75vh !important;
-      height: 75vh !important;
-      position: relative !important;
-      overflow: hidden !important;
+    /* Gradient darkening overlay botten */
+    #fws_69c1c16f375f6::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0.9) 100%) !important;
+      z-index: 1 !important;
+    }
+
+    /* Dölj röd gradient-overlay */
+    .row-bg-overlay { display: none !important; }
+    .row-bg-wrap { display: none !important; }
+
+    /* Texten längst ner till vänster */
+    .vc_col-sm-12.left_padding_desktop_4vw {
+      position: absolute !important;
+      bottom: 4vw !important;
+      left: 4vw !important;
+      right: 0 !important;
+      z-index: 10 !important;
+      padding: 0 !important;
     }
 
     /* Visa text direkt */
@@ -48,7 +83,8 @@
     .nectar-split-heading p,
     .nectar-split-heading h1,
     .nectar-split-heading .word,
-    .nectar-split-heading .char {
+    .nectar-split-heading .char,
+    .wpb_wrapper {
       opacity: 1 !important;
       transform: none !important;
       visibility: visible !important;
@@ -56,42 +92,31 @@
       overflow: visible !important;
     }
 
-    /* Salient font-override: zalando-sans -> system */
-    * { font-family: 'Zalando Sans', 'DM Sans', 'Inter', sans-serif !important; }
+    /* Font */
+    * { font-family: 'DM Sans', 'Inter', sans-serif !important; }
 
-    /* // 01 text */
-    .nectar-split-heading p {
-      color: rgba(255,255,255,0.7) !important;
-      font-size: 1.6vw !important;
-      letter-spacing: 0.1em !important;
-      margin-bottom: 8px !important;
+    /* // 01 */
+    .nectar-split-heading:first-child p {
+      color: rgba(255,255,255,0.65) !important;
+      font-size: 1.4vw !important;
+      letter-spacing: 0.12em !important;
+      margin: 0 0 12px !important;
+      line-height: 1 !important;
     }
 
-    /* ARTIFICIAL INTELLIGENCE headline */
+    /* ARTIFICIAL INTELLIGENCE */
     .nectar-split-heading h1 {
       color: #fff !important;
       font-size: 8vw !important;
-      line-height: 0.9 !important;
+      line-height: 0.88 !important;
       font-weight: 700 !important;
       text-transform: uppercase !important;
+      margin: 0 !important;
+      white-space: nowrap !important;
     }
 
-    /* Gradient overlay */
-    .row-bg-overlay {
-      background: linear-gradient(to bottom, #F12E03 0%, #FF5513 100%) !important;
-      opacity: 0.15 !important;
-    }
-
-    /* Outer section – inget sticky-hax, bara visa hela */
-    #fws_69c1c16f371a3 .n-sticky { position: relative !important; }
-
-    /* Placera texten längst ner till vänster */
-    .vc_col-sm-12.left_padding_desktop_4vw {
-      position: absolute !important;
-      bottom: 4vw !important;
-      left: 4vw !important;
-      z-index: 10 !important;
-    }
+    /* Dölj SVG-overlay scene */
+    .nectar-parallax-scene { display: none !important; }
   </style>
 </head>
 <body id="top" class="page-template-default page page-id-1 salient-js-enabled using-nectar-animations-api wpb-js-composer js-comp-ver-8.0.1 vc_responsive nectar-full-width-layout">
