@@ -54,7 +54,7 @@ function ServiceRow({ item, isLast }: {
       {/* Bakgrundslager — vit fill (clipPath animeras) */}
       <div ref={fillRef} style={{
         position: 'absolute', inset: 0,
-        backgroundColor: C.primary,
+        backgroundColor: C.accent,
         clipPath: 'inset(0 100% 0 0)',
         zIndex: 1,
       }} />
@@ -121,7 +121,7 @@ function ServiceRow({ item, isLast }: {
           flex: 1,
         }}>{item.title}</span>
         <div style={{ maxWidth: '32rem', textAlign: 'right' }}>
-          <p style={{ color: 'rgba(0,0,0,0.55)', fontSize: '0.9rem', lineHeight: 1.65 }}>
+          <p style={{ color: 'rgba(0,0,0,0.65)', fontSize: '0.9rem', lineHeight: 1.65 }}>
             {item.detail}
           </p>
         </div>

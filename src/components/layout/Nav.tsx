@@ -16,42 +16,51 @@ export default function Nav() {
 
   useEffect(() => {
     gsap.fromTo(navRef.current,
-      { y: -80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.4 }
+      { y: -60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.2 }
     )
   }, [])
 
   return (
     <nav ref={navRef} style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      backgroundColor: 'rgba(8,8,8,0.9)',
-      backdropFilter: 'blur(16px)',
-      borderBottom: `1px solid ${C.border}`,
+      // Transparent overlay — hero syns bakom
+      backgroundColor: 'transparent',
     }}>
       <div style={{
-        maxWidth: '80rem', margin: '0 auto', padding: '0 2rem',
+        maxWidth: '90rem', margin: '0 auto', padding: '0 2.5rem',
         height: '4.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <a href="/" style={{
-          fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800,
+          fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 800,
           letterSpacing: '0.4em', color: C.primary, textDecoration: 'none',
           textTransform: 'uppercase',
         }}>
           ETEYA
         </a>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
           <Link href={altHref} style={{
-            color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem',
+            color: 'rgba(255,255,255,0.35)', fontSize: '0.65rem',
             letterSpacing: '0.2em', textDecoration: 'none', textTransform: 'uppercase',
           }}>{t('lang')}</Link>
           <a ref={btnRef} href="#contact"
-            onMouseEnter={() => gsap.to(btnRef.current, { backgroundColor: C.primary, color: C.bg, duration: 0.2 })}
-            onMouseLeave={() => gsap.to(btnRef.current, { backgroundColor: 'transparent', color: C.primary, duration: 0.2 })}
+            onMouseEnter={() => gsap.to(btnRef.current, {
+              backgroundColor: C.accent,
+              color: C.bg,
+              borderColor: C.accent,
+              duration: 0.18,
+            })}
+            onMouseLeave={() => gsap.to(btnRef.current, {
+              backgroundColor: 'transparent',
+              color: C.primary,
+              borderColor: 'rgba(255,255,255,0.25)',
+              duration: 0.18,
+            })}
             style={{
               display: 'inline-flex', alignItems: 'center',
               border: `1px solid rgba(255,255,255,0.25)`,
               backgroundColor: 'transparent', color: C.primary,
-              padding: '0.625rem 1.5rem', fontSize: '0.7rem',
+              padding: '0.625rem 1.5rem', fontSize: '0.65rem',
               textDecoration: 'none', textTransform: 'uppercase',
               letterSpacing: '0.15em', fontWeight: 600,
             }}>{t('cta')}</a>
