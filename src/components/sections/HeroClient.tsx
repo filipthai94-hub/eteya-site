@@ -101,14 +101,21 @@ export default function HeroClient({
           .hero-gradient {
             display: none !important;
           }
+          .hero-name-wrap {
+            align-items: flex-start !important;
+            padding-top: 2rem !important;
+          }
+          .hero-eteya {
+            font-size: 20vw !important;
+          }
         }
       `}</style>
 
       {/* RAD 1 — Nav spacer */}
       <div style={{ height: '4.5rem' }} />
 
-      {/* RAD 2 — Namn vertikalt centrerat (Fix 1) */}
-      <div ref={nameRef} style={{
+      {/* RAD 2 — Namn vertikalt centrerat desktop, top-aligned mobil */}
+      <div ref={nameRef} className="hero-name-wrap" style={{
         position: 'relative', zIndex: 10,
         display: 'flex',
         alignItems: 'center',
@@ -132,7 +139,7 @@ export default function HeroClient({
           </div>
 
           {/* GIGANTISKT NAMN */}
-          <div style={{
+          <div className="hero-eteya" style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
             fontSize: 'clamp(5rem, 12vw, 14rem)',
