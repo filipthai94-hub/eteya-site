@@ -7,156 +7,138 @@ import HeroCanvas from '@/components/animations/HeroCanvas'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const BLACK = '#121213'
+
 export default function HeroClient({
-  role, headline, subheadline, ctaPrimary, ctaSecondary, scrollLabel
+  role, headline, subheadline, ctaPrimary, ctaSecondary,
 }: {
   role: string; headline: string; subheadline: string
   ctaPrimary: string; ctaSecondary: string; scrollLabel: string
 }) {
   const heroRef = useRef<HTMLElement>(null)
-  const bgRef = useRef<HTMLDivElement>(null)
   const roleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const imgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Bokstav-för-bokstav stagger animation
     const letters = nameRef.current?.querySelectorAll('[data-letter]')
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
 
     tl.fromTo(roleRef.current,
-      { y: 30, opacity: 0 },
+      { y: 24, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7 }
     )
     if (letters && letters.length > 0) {
       tl.fromTo(letters,
-        { y: 120, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, stagger: 0.04 },
-        '-=0.3'
+        { y: 140, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, stagger: 0.05 },
+        '-=0.4'
       )
     }
+    tl.fromTo(imgRef.current,
+      { opacity: 0, scale: 1.03 },
+      { opacity: 1, scale: 1, duration: 1.2 },
+      '-=0.8'
+    )
     tl.fromTo(bottomRef.current,
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 },
-      '-=0.4'
+      '-=0.6'
     )
-
-    // Parallax på bakgrundsbild
-    gsap.to(bgRef.current, {
-      yPercent: 35,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    })
   }, [])
 
-  // Dela upp "ETEYA" i bokstäver för stagger
   const letters = headline.split('')
 
   return (
-    <section ref={heroRef} style={{
+    <section ref={heroRef} id="hero" style={{
       position: 'relative',
       minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
+      backgroundColor: C.accent, // #C8FF00 lime
+      display: 'grid',
+      gridTemplateRows: 'auto 1fr auto',
       overflow: 'hidden',
-      backgroundColor: C.bg,
     }}>
-      {/* Bakgrundsbild med parallax */}
-      <div ref={bgRef} className="will-change-transform" style={{
-        position: 'absolute', inset: '-20%',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1800&q=80)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        opacity: 0.18,
-      }} />
-      {/* Gradient — darknar mot botten */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: `linear-gradient(to bottom, transparent 40%, ${C.bg} 100%)`,
-        zIndex: 1,
-      }} />
-
-      {/* Lime-partikelanimation */}
+      {/* Svarta partiklar på lime */}
       <HeroCanvas />
 
-      {/* Nav-höjd spacer */}
-      <div style={{ height: '4.5rem', flexShrink: 0 }} />
+      {/* Bild höger — svartvit, blöder in från höger */}
+      <div ref={imgRef} style={{
+        position: 'absolute',
+        right: 0, top: 0, bottom: 0,
+        width: '48%',
+        zIndex: 1,
+        backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        filter: 'grayscale(100%) brightness(0.7)',
+        maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 35%, black 70%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 35%, black 70%)',
+      }} />
 
-      {/* Övre rad — role + location */}
-      <div ref={roleRef} style={{
-        position: 'relative', zIndex: 10,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '3rem 2.5rem 0',
-        flex: 0,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {/* Accentpunkt */}
-          <span style={{
-            display: 'inline-block',
-            width: '8px', height: '8px',
-            backgroundColor: C.accent,
-            borderRadius: '50%',
-            flexShrink: 0,
-          }} />
-          <span style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'clamp(0.8rem, 1.2vw, 1rem)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: C.primary,
-          }}>{role}</span>
-        </div>
-        <span style={{
-          color: 'rgba(255,255,255,0.25)',
-          fontSize: '0.7rem',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-        }}>Sweden · Est. 2025</span>
-      </div>
+      {/* Gradient lime → transparent på bildsidan */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 1,
+        background: `linear-gradient(to right, ${C.accent} 30%, transparent 65%)`,
+        pointerEvents: 'none',
+      }} />
 
-      {/* Gigantiskt namn — blöder ut ur skärmen */}
+      {/* RAD 1 — Nav spacer + roll-text */}
+      <div style={{ height: '4.5rem' }} /> {/* nav spacer */}
+
+      {/* RAD 2 — Namn centrerat */}
       <div ref={nameRef} style={{
         position: 'relative', zIndex: 10,
-        flex: 1,
         display: 'flex',
         alignItems: 'center',
-        padding: '0 0 0 2rem',
+        padding: '0 0 0 2.5rem',
         overflow: 'visible',
       }}>
-        <div style={{
-          fontFamily: 'var(--font-display)',
-          fontWeight: 800,
-          // Stor nog att blöda ut — ca 20vw per bokstav för 5 bokstäver
-          fontSize: 'clamp(5rem, 28vw, 30rem)',
-          color: C.primary,
-          textTransform: 'uppercase',
-          lineHeight: 0.82,
-          letterSpacing: '-0.04em',
-          userSelect: 'none',
-          whiteSpace: 'nowrap',
-          // Låt den blöda ut åt höger
-          marginRight: '-2rem',
-          display: 'flex',
-        }}>
-          {letters.map((letter, i) => (
-            <span
-              key={i}
-              data-letter
-              style={{ display: 'inline-block' }}
-            >
-              {letter}
-            </span>
-          ))}
+        {/* Roll-text — ovanför namnet */}
+        <div>
+          <div ref={roleRef} style={{
+            display: 'flex', alignItems: 'center', gap: '0.6rem',
+            marginBottom: '1.5rem',
+          }}>
+            <span style={{
+              display: 'inline-block',
+              width: '6px', height: '6px',
+              backgroundColor: BLACK,
+              borderRadius: '50%',
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 700,
+              fontSize: 'clamp(0.75rem, 1.5vw, 1rem)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              color: BLACK,
+            }}>{role}</span>
+          </div>
+
+          {/* GIGANTISKT NAMN */}
+          <div style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            fontSize: 'clamp(5rem, 12vw, 14rem)',
+            color: BLACK,
+            textTransform: 'uppercase',
+            lineHeight: 0.85,
+            letterSpacing: '-0.04em',
+            whiteSpace: 'nowrap',
+            overflow: 'visible',
+            display: 'flex',
+          }}>
+            {letters.map((letter, i) => (
+              <span key={i} data-letter style={{ display: 'inline-block' }}>
+                {letter}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Nedre rad — accent-linje + subheadline + knappar */}
+      {/* RAD 3 — Bottom bar */}
       <div ref={bottomRef} style={{
         position: 'relative', zIndex: 10,
         padding: '2rem 2.5rem 3.5rem',
@@ -165,54 +147,75 @@ export default function HeroClient({
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         gap: '2rem',
-        borderTop: `1px solid rgba(255,255,255,0.08)`,
+        borderTop: `1px solid rgba(0,0,0,0.12)`,
       }}>
-        <p style={{
-          color: 'rgba(255,255,255,0.45)',
-          fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
-          maxWidth: '38rem',
-          lineHeight: 1.7,
-        }}>{subheadline}</p>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <HoverBtn href="#work" accent>{ctaPrimary}</HoverBtn>
-          <HoverBtn href="#contact">{ctaSecondary}</HoverBtn>
+        <div>
+          <p style={{
+            color: 'rgba(0,0,0,0.5)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            marginBottom: '0.4rem',
+          }}>Sweden · Est. 2025</p>
+          <p style={{
+            color: 'rgba(0,0,0,0.6)',
+            fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+            maxWidth: '36rem',
+            lineHeight: 1.65,
+          }}>{subheadline}</p>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          {/* Primär knapp — svart fill */}
+          <HeroBtnPrimary href="#work">{ctaPrimary}</HeroBtnPrimary>
+          {/* Sekundär — text link */}
+          <HeroBtnSecondary href="#contact">{ctaSecondary}</HeroBtnSecondary>
         </div>
       </div>
-
-
     </section>
   )
 }
 
-function HoverBtn({ href, children, accent }: {
-  href: string; children: React.ReactNode; accent?: boolean
-}) {
+function HeroBtnPrimary({ href, children }: { href: string; children: React.ReactNode }) {
   const ref = useRef<HTMLAnchorElement>(null)
   return (
     <a ref={ref} href={href}
-      onMouseEnter={() => gsap.to(ref.current, {
-        backgroundColor: accent ? C.accent : C.primary,
-        color: C.bg,
-        borderColor: accent ? C.accent : C.primary,
-        duration: 0.18,
-      })}
-      onMouseLeave={() => gsap.to(ref.current, {
-        backgroundColor: 'transparent',
-        color: accent ? C.accent : C.primary,
-        borderColor: accent ? C.accent : 'rgba(255,255,255,0.25)',
-        duration: 0.18,
-      })}
+      onMouseEnter={() => gsap.to(ref.current, { backgroundColor: 'rgba(0,0,0,0.85)', duration: 0.18 })}
+      onMouseLeave={() => gsap.to(ref.current, { backgroundColor: BLACK, duration: 0.18 })}
       style={{
         display: 'inline-flex', alignItems: 'center',
-        border: `1px solid ${accent ? C.accent : 'rgba(255,255,255,0.25)'}`,
-        backgroundColor: 'transparent',
-        color: accent ? C.accent : C.primary,
+        backgroundColor: BLACK,
+        color: C.accent,
         padding: '0.875rem 2rem',
+        fontWeight: 700,
+        textDecoration: 'none',
+        fontSize: '0.75rem',
+        textTransform: 'uppercase',
+        letterSpacing: '0.15em',
+        border: 'none',
+      }}>
+      {children}
+    </a>
+  )
+}
+
+function HeroBtnSecondary({ href, children }: { href: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  return (
+    <a ref={ref} href={href}
+      onMouseEnter={() => gsap.to(ref.current, { opacity: 0.5, duration: 0.15 })}
+      onMouseLeave={() => gsap.to(ref.current, { opacity: 1, duration: 0.15 })}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+        backgroundColor: 'transparent',
+        color: BLACK,
+        padding: '0.875rem 0',
         fontWeight: 600,
         textDecoration: 'none',
         fontSize: '0.75rem',
         textTransform: 'uppercase',
         letterSpacing: '0.15em',
+        borderBottom: `1px solid rgba(0,0,0,0.3)`,
       }}>
       {children}
     </a>
