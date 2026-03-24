@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brandin Clone — Image Section</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700&subset=latin-ext&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -81,10 +81,10 @@
 
     @media (max-width: 600px) {
       .brandin-heading {
-        font-size: 13vw;
-        white-space: normal;
-        word-break: break-word;
+        font-size: 9.5vw;
+        white-space: nowrap;
       }
+      .brandin-text { left: 5vw; bottom: 6vw; }
       /* På mobil — ingen clip, visa Ä direkt utan animation */
       .char-wrap { display: inline; overflow: visible; padding-top: 0; margin-top: 0; }
       .char-inner { display: inline; transform: none !important; }
