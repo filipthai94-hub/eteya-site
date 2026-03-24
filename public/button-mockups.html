@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eteya — Button Mockups v2</title>
+<title>Eteya — Button Standard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -13,7 +13,6 @@
     --lime: #C8FF00;
     --white: #FFFFFF;
     --black: #121213;
-    --muted: rgba(255,255,255,0.35);
     --display: 'Barlow Condensed', sans-serif;
     --body: 'Inter', sans-serif;
   }
@@ -23,271 +22,171 @@
   .page-title { font-family: var(--display); font-size: 3rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
   .page-sub { color: rgba(255,255,255,0.35); font-size: 0.875rem; line-height: 1.6; margin-bottom: 3.5rem; max-width: 44rem; }
 
-  hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 3rem 0; }
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 2.5rem 0; }
 
   .block { padding: 2.5rem; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; position: relative; }
-  .block-tag { position: absolute; top: 1rem; right: 1.25rem; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.15); }
-  .block-source { font-size: 0.65rem; color: rgba(255,255,255,0.2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
-  .block-name { font-family: var(--display); font-size: 1.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
-  .block-desc { font-size: 0.8rem; color: rgba(255,255,255,0.35); line-height: 1.6; margin-bottom: 2rem; max-width: 42rem; }
+  .block-name { font-family: var(--display); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .block-desc { font-size: 0.8rem; color: rgba(255,255,255,0.3); line-height: 1.6; margin-bottom: 2rem; max-width: 42rem; }
   .row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
   .ctx { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.15); margin-bottom: 0.5rem; margin-top: 1.25rem; }
   .lime-box { background: var(--lime); padding: 1.75rem 2rem; margin-top: 1.25rem; }
 
-  /* ─────────────────────────────────────────
-     V1 — CURSOR STYLE
-     Pill, nästan svart bakgrund, ljus text
-     Subtil border, ingen shadow
-     Hover: lättare bakgrund
-  ───────────────────────────────────────── */
-  .cursor-primary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: #1E1E1E;
-    color: #F0F0EE;
-    border: 1px solid #2E2E2E;
-    border-radius: 100px;
-    padding: 0.75rem 1.5rem;
-    font-family: var(--body); font-size: 0.875rem; font-weight: 400;
-    text-decoration: none; cursor: pointer; letter-spacing: -0.01em;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .cursor-primary:hover { background: #2A2A2A; border-color: #3E3E3E; }
-
-  .cursor-lime {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+  /* ─────────────────────────────────────
+     PRIMÄR — Lime fill, svart text
+     Hover: lättare lime + shadow lyfts
+  ───────────────────────────────────── */
+  .btn-primary {
+    display: inline-flex; align-items: center;
     background: var(--lime);
     color: var(--black);
     border: none;
-    border-radius: 100px;
-    padding: 0.75rem 1.5rem;
-    font-family: var(--body); font-size: 0.875rem; font-weight: 500;
-    text-decoration: none; cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .cursor-lime:hover { background: #d8ff20; transform: translateY(-1px); }
-
-  /* ─────────────────────────────────────────
-     V2 — LINEAR STYLE
-     4px radius (inte pill, inte square)
-     Lätt grå fill primär, mörk sekundär
-     Subtil shadow under knappen
-  ───────────────────────────────────────── */
-  .linear-primary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(255,255,255,0.9);
-    color: #08090A;
-    border: 1px solid rgba(255,255,255,0.9);
-    border-radius: 4px;
-    padding: 0 1.25rem; height: 36px;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 510;
-    text-decoration: none; cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.15);
-    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-  }
-  .linear-primary:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.2); }
-
-  .linear-secondary {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: #28282C;
-    color: rgba(255,255,255,0.8);
-    border: 0.5px solid #3E3E44;
-    border-radius: 4px;
-    padding: 0 1.25rem; height: 36px;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 510;
-    text-decoration: none; cursor: pointer;
-    transition: background 0.15s;
-  }
-  .linear-secondary:hover { background: #333338; }
-
-  .linear-lime {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--lime);
-    color: #08090A;
-    border: none;
-    border-radius: 4px;
-    padding: 0 1.25rem; height: 36px;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 510;
-    text-decoration: none; cursor: pointer;
-    box-shadow: 0 1px 2px rgba(200,255,0,0.2), 0 2px 8px rgba(200,255,0,0.1);
+    border-radius: 0;
+    padding: 0 1.375rem; height: 42px;
+    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
+    text-decoration: none; cursor: pointer; letter-spacing: 0.01em;
+    box-shadow: 0 1px 2px rgba(200,255,0,0.15), 0 2px 8px rgba(200,255,0,0.08);
     transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
   }
-  .linear-lime:hover { background: #d4ff1a; box-shadow: 0 2px 4px rgba(200,255,0,0.3), 0 4px 16px rgba(200,255,0,0.15); transform: translateY(-1px); }
-
-  /* ─────────────────────────────────────────
-     V3 — GHOST + LIME BORDER
-     Transparent, lime border, lime text
-     Hover: lime fill, svart text
-     Mer "tech consulting" känsla
-  ───────────────────────────────────────── */
-  .ghost-lime {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: transparent;
-    color: var(--lime);
-    border: 1px solid rgba(200,255,0,0.35);
-    border-radius: 4px;
-    padding: 0.75rem 1.5rem;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
-    text-decoration: none; cursor: pointer;
-    letter-spacing: 0.02em;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  .btn-primary:hover {
+    background: #d4ff1a;
+    box-shadow: 0 2px 6px rgba(200,255,0,0.25), 0 4px 16px rgba(200,255,0,0.12);
+    transform: translateY(-1px);
   }
-  .ghost-lime:hover { background: var(--lime); color: var(--black); border-color: var(--lime); }
+  .btn-primary:active { transform: translateY(0); }
 
-  .ghost-white {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: transparent;
-    color: rgba(255,255,255,0.6);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 4px;
-    padding: 0.75rem 1.5rem;
+  /* ─────────────────────────────────────
+     SEKUNDÄR — Mörk fill, vit text
+     Hover: lättare mörk
+  ───────────────────────────────────── */
+  .btn-secondary {
+    display: inline-flex; align-items: center;
+    background: #1E1E20;
+    color: rgba(255,255,255,0.75);
+    border: 0.5px solid #2E2E32;
+    border-radius: 0;
+    padding: 0 1.375rem; height: 42px;
     font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
-    text-decoration: none; cursor: pointer;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    text-decoration: none; cursor: pointer; letter-spacing: 0.01em;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
   }
-  .ghost-white:hover { border-color: rgba(255,255,255,0.45); color: var(--white); background: rgba(255,255,255,0.04); }
+  .btn-secondary:hover { background: #282828; color: rgba(255,255,255,0.95); border-color: #3E3E44; }
 
-  /* ─────────────────────────────────────────
-     V4 — FROSTED (Resend-inspirerad)
-     Svag frostad bakgrund, subtil border
-     Pill-form, liten text
-  ───────────────────────────────────────── */
-  .frosted-lime {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(200,255,0,0.12);
-    color: var(--lime);
-    border: 1px solid rgba(200,255,0,0.2);
-    border-radius: 100px;
-    padding: 0.625rem 1.25rem;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
-    text-decoration: none; cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-    backdrop-filter: blur(8px);
-  }
-  .frosted-lime:hover { background: rgba(200,255,0,0.22); border-color: rgba(200,255,0,0.4); }
-
-  .frosted-white {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 100px;
-    padding: 0.625rem 1.25rem;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
-    text-decoration: none; cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    backdrop-filter: blur(8px);
-  }
-  .frosted-white:hover { background: rgba(255,255,255,0.1); color: var(--white); }
-
-  /* Lime bg versions */
-  .on-lime-dark {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(0,0,0,0.85);
-    color: var(--lime);
+  /* ─────────────────────────────────────
+     NAV-KNAPP — Liten, sekundär
+  ───────────────────────────────────── */
+  .btn-nav {
+    display: inline-flex; align-items: center;
+    background: var(--lime);
+    color: var(--black);
     border: none;
-    border-radius: 4px;
-    padding: 0.75rem 1.5rem;
-    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
+    border-radius: 0;
+    padding: 0 1rem; height: 34px;
+    font-family: var(--body); font-size: 0.75rem; font-weight: 500;
     text-decoration: none; cursor: pointer;
     transition: background 0.15s;
   }
-  .on-lime-dark:hover { background: rgba(0,0,0,0.95); }
+  .btn-nav:hover { background: #d4ff1a; }
 
-  .on-lime-ghost {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+  /* ─────────────────────────────────────
+     PÅ LIME BAKGRUND
+  ───────────────────────────────────── */
+  .btn-on-lime-primary {
+    display: inline-flex; align-items: center;
+    background: var(--black);
+    color: var(--lime);
+    border: none;
+    border-radius: 0;
+    padding: 0 1.375rem; height: 42px;
+    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
+    text-decoration: none; cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  .btn-on-lime-primary:hover { background: #1a1a1a; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.4); }
+
+  .btn-on-lime-secondary {
+    display: inline-flex; align-items: center;
     background: transparent;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0,0,0,0.55);
     border: 1px solid rgba(0,0,0,0.2);
-    border-radius: 4px;
-    padding: 0.75rem 1.5rem;
+    border-radius: 0;
+    padding: 0 1.375rem; height: 42px;
     font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
     text-decoration: none; cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
   }
-  .on-lime-ghost:hover { border-color: rgba(0,0,0,0.5); color: rgba(0,0,0,0.85); }
+  .btn-on-lime-secondary:hover { border-color: rgba(0,0,0,0.45); color: rgba(0,0,0,0.8); }
 
-  .arrow { font-size: 0.75rem; opacity: 0.7; }
+  /* Submit / form */
+  .btn-submit {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--lime);
+    color: var(--black);
+    border: none;
+    border-radius: 0;
+    padding: 0 2rem; height: 48px;
+    font-family: var(--body); font-size: 0.8125rem; font-weight: 500;
+    text-decoration: none; cursor: pointer; width: 100%;
+    box-shadow: 0 1px 2px rgba(200,255,0,0.15);
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn-submit:hover { background: #d4ff1a; transform: translateY(-1px); }
 </style>
 </head>
 <body>
 
-<div class="page-label">Eteya Design System v2</div>
-<div class="page-title">Button Research</div>
-<p class="page-sub">Baserat på riktiga knappar från Cursor, Linear och Resend — inte påhittade. Hovra varje knapp. Fyra varianter, välj en som standard.</p>
+<div class="page-label">Eteya Design System</div>
+<div class="page-title">Button Standard</div>
+<p class="page-sub">Linear-inspirerat. Kantiga hörn (0px radius), subtil shadow, ingen pil. Hovra för att se animation.</p>
 
 <hr>
 
-<!-- V1 CURSOR -->
 <div class="block">
-  <span class="block-tag">Variant 1</span>
-  <div class="block-source">Inspirerad av: cursor.com</div>
-  <div class="block-name">Cursor — Dark Pill</div>
-  <p class="block-desc">Nästan svart bakgrund (#1E1E1E), pill-form, vit text, subtil border. Hover: lättare svart. Cursor använder detta på alla sina CTA:er. Elegant, tech, ingen overkill. Primär: lime fill. Sekundär: dark fill.</p>
+  <div class="block-name">Primär + Sekundär</div>
+  <p class="block-desc">Primär: lime fill, svart text, subtil lime-shadow. Sekundär: mörk fill, vit text. Höjd 42px för bra klickyta.</p>
 
-  <div class="ctx">På mörk bakgrund</div>
+  <div class="ctx">Standard storlek</div>
   <div class="row">
-    <a href="#" class="cursor-lime">Se vårt arbete →</a>
-    <a href="#" class="cursor-primary">Kontakta oss</a>
+    <a href="#" class="btn-primary">Se vårt arbete</a>
+    <a href="#" class="btn-secondary">Kontakta oss</a>
   </div>
 
-  <div class="ctx">På lime bakgrund (hero)</div>
+  <div class="ctx">Bara primär</div>
+  <div class="row">
+    <a href="#" class="btn-primary">Boka samtal</a>
+    <a href="#" class="btn-primary">Skicka</a>
+  </div>
+</div>
+
+<div class="block">
+  <div class="block-name">Nav-knapp</div>
+  <p class="block-desc">Lite mindre (34px höjd) för nav-kontexten.</p>
+  <div class="row">
+    <a href="#" class="btn-nav">Kontakt</a>
+  </div>
+</div>
+
+<div class="block">
+  <div class="block-name">På lime bakgrund (hero)</div>
+  <p class="block-desc">Svart primär med lime text. Ghost sekundär med svart border.</p>
   <div class="lime-box">
     <div class="row">
-      <a href="#" class="on-lime-dark">Se vårt arbete →</a>
-      <a href="#" class="on-lime-ghost">Kontakta oss</a>
+      <a href="#" class="btn-on-lime-primary">Se vårt arbete</a>
+      <a href="#" class="btn-on-lime-secondary">Kontakta oss</a>
     </div>
   </div>
 </div>
 
-<!-- V2 LINEAR -->
 <div class="block">
-  <span class="block-tag">Variant 2</span>
-  <div class="block-source">Inspirerad av: linear.app</div>
-  <div class="block-name">Linear — Subtle Shadow</div>
-  <p class="block-desc">4px radius (inte pill, inte sharp), subtil box-shadow under knappen. Primär: vit/lime fill med shadow. Sekundär: mörk fill. Linear har det mest "proffsiga" knapp-systemet i branschen. Funkar bäst om sajten ska kännas som ett seriöst tech-bolag snarare än en kreativ byrå.</p>
-
-  <div class="ctx">På mörk bakgrund</div>
-  <div class="row">
-    <a href="#" class="linear-lime">Se vårt arbete →</a>
-    <a href="#" class="linear-secondary">Kontakta oss</a>
-  </div>
-
-  <div class="ctx">Nav-storlek</div>
-  <div class="row">
-    <a href="#" class="linear-lime" style="font-size:0.75rem; height:32px; padding: 0 1rem;">Kontakt</a>
-    <a href="#" class="linear-secondary" style="font-size:0.75rem; height:32px; padding: 0 1rem;">EN</a>
-  </div>
-</div>
-
-<!-- V3 GHOST -->
-<div class="block">
-  <span class="block-tag">Variant 3</span>
-  <div class="block-source">Inspirerad av: agency sites + designbybrandin</div>
-  <div class="block-name">Ghost — Lime Border</div>
-  <p class="block-desc">Transparent bakgrund, lime border och lime text i grundläge. Hover: lime fill, svart text. Mer agency/consulting-känsla. Passar Eteya som är ett konsultbolag, inte ett SaaS. Syns mot mörk bakgrund utan att ta för mycket plats.</p>
-
-  <div class="ctx">På mörk bakgrund</div>
-  <div class="row">
-    <a href="#" class="ghost-lime">Se vårt arbete →</a>
-    <a href="#" class="ghost-white">Kontakta oss</a>
-  </div>
-</div>
-
-<!-- V4 FROSTED -->
-<div class="block">
-  <span class="block-tag">Variant 4</span>
-  <div class="block-source">Inspirerad av: resend.com</div>
-  <div class="block-name">Frosted — Glassmorphism light</div>
-  <p class="block-desc">Lime-tonad frostad bakgrund, pill-form. Resend använder exakt detta mönster. Subtilt, premium. Hover: ökar opacity på bakgrunden. Inte lika aggressiv som de andra — funkar bäst för sekundärknappar och i nav.</p>
-
-  <div class="ctx">På mörk bakgrund</div>
-  <div class="row">
-    <a href="#" class="frosted-lime">Se vårt arbete →</a>
-    <a href="#" class="frosted-white">Kontakta oss</a>
+  <div class="block-name">Formulär — Submit</div>
+  <p class="block-desc">Full bredd, 48px höjd för kontaktformulär.</p>
+  <div style="max-width: 400px;">
+    <button class="btn-submit">Skicka meddelande</button>
   </div>
 </div>
 
 <hr>
-<p style="color:rgba(255,255,255,0.15); font-size:0.7rem; text-align:center; padding-bottom:2rem; letter-spacing:0.1em;">ETEYA CONSULTING AB · BUTTON SYSTEM v2 · BASERAT PÅ CURSOR / LINEAR / RESEND</p>
+<p style="color:rgba(255,255,255,0.12); font-size:0.7rem; text-align:center; padding-bottom:2rem; letter-spacing:0.1em;">ETEYA CONSULTING AB · BUTTON STANDARD · KANTIGA HÖRN · INGEN PIL</p>
 </body>
 </html>
