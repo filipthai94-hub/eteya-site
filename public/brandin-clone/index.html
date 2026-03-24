@@ -79,6 +79,17 @@
       display: block;
     }
 
+    @media (max-width: 600px) {
+      .brandin-heading {
+        font-size: 13vw;
+        white-space: normal;
+        word-break: break-word;
+      }
+      /* På mobil — ingen clip, visa Ä direkt utan animation */
+      .char-wrap { display: inline; overflow: visible; padding-top: 0; margin-top: 0; }
+      .char-inner { display: inline; transform: none !important; }
+    }
+
     /* Varje char-wrapper clippar tecknet */
     .char-wrap {
       display: inline-block;
