@@ -71,7 +71,7 @@ export default function HeroClient({
         backgroundImage: 'url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1800&q=80)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        opacity: 0.12,
+        opacity: 0.18,
       }} />
       {/* Gradient — darknar mot botten */}
       <div style={{
@@ -122,8 +122,8 @@ export default function HeroClient({
         flex: 1,
         display: 'flex',
         alignItems: 'center',
-        padding: '0 1rem 0 2rem',
-        overflow: 'hidden',
+        padding: '0 0 0 2rem',
+        overflow: 'visible',
       }}>
         <div style={{
           fontFamily: 'var(--font-display)',
