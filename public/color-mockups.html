@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eteya — Färgpaletter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #080808; color: #fff; font-family: 'Inter', sans-serif; padding: 3rem 2.5rem; }
+
+  h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .sub { color: rgba(255,255,255,0.3); font-size: 0.85rem; line-height: 1.6; margin-bottom: 3rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+
+  .card { border: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
+
+  /* Simulerad hero-sektion per palette */
+  .hero {
+    height: 220px;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    position: relative;
+  }
+  .hero-label {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    margin-bottom: 0.5rem; opacity: 0.6;
+  }
+  .hero-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 5rem; font-weight: 800; text-transform: uppercase;
+    line-height: 0.9; letter-spacing: -0.02em;
+  }
+
+  /* Info-del */
+  .info { padding: 1.5rem 1.75rem; background: #0F0F0F; }
+  .palette-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .palette-desc { font-size: 0.775rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin-bottom: 1.25rem; }
+
+  .swatches { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .swatch { width: 36px; height: 36px; border-radius: 0; position: relative; }
+  .swatch::after { content: attr(data-hex); position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 0.55rem; white-space: nowrap; color: rgba(255,255,255,0.3); }
+
+  .btns { display: flex; gap: 0.75rem; padding-top: 1rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; height: 38px; padding: 0 1.125rem; font-family: 'Inter', sans-serif; font-size: 0.775rem; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: all 0.15s; }
+
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 3rem 0; }
+  .note { font-size: 0.7rem; color: rgba(255,255,255,0.15); text-align: center; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 2rem; }
+</style>
+</head>
+<body>
+
+<h1>Färgpaletter</h1>
+<p class="sub">5 alternativ till lime. Varje kort visar hur färgen ser ut som hero-bakgrund + knappar + text på svart. Välj den som känns rätt.</p>
+
+<div class="grid">
+
+  <!-- 1. ELECTRIC BLUE -->
+  <div class="card">
+    <div class="hero" style="background: #0066FF; color: #000;">
+      <div class="hero-label" style="color:rgba(0,0,0,0.5)">AI Consulting</div>
+      <div class="hero-name" style="color:#000;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Electric Blue</div>
+      <p class="palette-desc">Klassisk tech. Används av Stripe, Linear (deras lila-blå), Resend. Stark och trovärdig. Inte lika nischad som lime men extremt läsbar och universellt "tech".</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#0066FF" data-hex="#0066FF"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#FFFFFF" data-hex="#FFFFFF"></div>
+        <div class="swatch" style="background:#1A1A1A; border: 1px solid #333" data-hex="#1A1A1A"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#0066FF; color:#fff; box-shadow: 0 2px 8px rgba(0,102,255,0.3);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:#1A1A1A; color:rgba(255,255,255,0.7); border: 0.5px solid #2E2E2E;">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. WARM WHITE / CREAM -->
+  <div class="card">
+    <div class="hero" style="background: #F5F0E8; color: #000;">
+      <div class="hero-label" style="color:rgba(0,0,0,0.4)">AI Consulting</div>
+      <div class="hero-name" style="color:#121213;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Cream / Warm White</div>
+      <p class="palette-desc">Inspirerad av Anthropic. Mjuk, premium, inte skrikig. Hero: cream bakgrund med svart text. Resten av sajten: svart. Kontrasten mellan sektionerna ger djup. Känns exklusivt och modernt.</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#F5F0E8; border: 1px solid #ddd" data-hex="#F5F0E8"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#121213; border: 1px solid #333" data-hex="#121213"></div>
+        <div class="swatch" style="background:#E8DFD0; border: 1px solid #ccc" data-hex="#E8DFD0"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#121213; color:#F5F0E8; box-shadow: 0 1px 4px rgba(0,0,0,0.4);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:transparent; color:rgba(0,0,0,0.5); border: 1px solid rgba(0,0,0,0.2);">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. WARM ORANGE / TERRACOTTA -->
+  <div class="card">
+    <div class="hero" style="background: #FF4D1C; color: #000;">
+      <div class="hero-label" style="color:rgba(0,0,0,0.5)">AI Consulting</div>
+      <div class="hero-name" style="color:#000;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Terracotta / Burnt Orange</div>
+      <p class="palette-desc">Brandin använder orangeröd (#E82B00). Stark, energisk, omöjlig att missa. Anthropic har terrakotta som accent. Funkar om ni vill ha energi och kontrast — men mer varm och mänsklig än lime.</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#FF4D1C" data-hex="#FF4D1C"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#FFFFFF" data-hex="#FFFFFF"></div>
+        <div class="swatch" style="background:#1A0800; border: 1px solid #333" data-hex="#1A0800"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#FF4D1C; color:#000; box-shadow: 0 2px 8px rgba(255,77,28,0.3);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:#1A1A1A; color:rgba(255,255,255,0.7); border: 0.5px solid #2E2E2E;">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ICE WHITE / ARCTIC -->
+  <div class="card">
+    <div class="hero" style="background: #E8EEFF; color: #000;">
+      <div class="hero-label" style="color:rgba(0,0,60,0.4)">AI Consulting</div>
+      <div class="hero-name" style="color:#0A0A1A;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Arctic / Ice Blue-White</div>
+      <p class="palette-desc">Kylt, clean, ultra-tech. Hero är en extremt ljus blå-vit (nästan vit). Svart text på hero. Resten svart. Vercel-känsla men med mer personlighet. Subtilt och sofistikerat — signalerar precision.</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#E8EEFF; border: 1px solid #ccc" data-hex="#E8EEFF"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#4F6EFF" data-hex="#4F6EFF"></div>
+        <div class="swatch" style="background:#C8D4FF; border: 1px solid #aaa" data-hex="#C8D4FF"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#0A0A1A; color:#E8EEFF; box-shadow: 0 1px 4px rgba(0,0,0,0.4);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:transparent; color:rgba(0,0,30,0.5); border: 1px solid rgba(0,0,30,0.15);">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. VIOLET / PURPLE -->
+  <div class="card">
+    <div class="hero" style="background: #7C3AED; color: #fff;">
+      <div class="hero-label" style="color:rgba(255,255,255,0.5)">AI Consulting</div>
+      <div class="hero-name" style="color:#fff;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Violet / Electric Purple</div>
+      <p class="palette-desc">Premium AI-känsla. Används av GitHub Copilot, Perplexity, Cohere. Vit text på lila. Stark identitet, unikt i consulting-sfären (alla konkurrenter kör blå eller grön). Riskabel men minnesvärd.</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#7C3AED" data-hex="#7C3AED"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#FFFFFF" data-hex="#FFFFFF"></div>
+        <div class="swatch" style="background:#4A1FA8" data-hex="#4A1FA8"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#7C3AED; color:#fff; box-shadow: 0 2px 8px rgba(124,58,237,0.35);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:#1A1A1A; color:rgba(255,255,255,0.7); border: 0.5px solid #2E2E2E;">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. LIME (nuvarande — för jämförelse) -->
+  <div class="card" style="border-color: rgba(200,255,0,0.2);">
+    <div class="hero" style="background: #C8FF00; color: #000;">
+      <div class="hero-label" style="color:rgba(0,0,0,0.4)">AI Consulting</div>
+      <div class="hero-name" style="color:#121213;">ETEYA</div>
+    </div>
+    <div class="info">
+      <div class="palette-name">Electric Lime — Nuvarande</div>
+      <p class="palette-desc">Stark, unik, energisk. Nackdelen är att den är "hård för ögat" vilket du nämnde. Fördelen: extremt distinkt och minnesvärd. Ingen annan consulting-sajt kör lime — men det kan också vara anledningen att byta.</p>
+      <div class="swatches" style="margin-bottom: 1.5rem;">
+        <div class="swatch" style="background:#C8FF00" data-hex="#C8FF00"></div>
+        <div class="swatch" style="background:#080808; border: 1px solid #222" data-hex="#080808"></div>
+        <div class="swatch" style="background:#FFFFFF" data-hex="#FFFFFF"></div>
+        <div class="swatch" style="background:#121213; border: 1px solid #333" data-hex="#121213"></div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" style="background:#121213; color:#C8FF00; box-shadow: 0 1px 4px rgba(0,0,0,0.4);">Se vårt arbete</a>
+        <a href="#" class="btn" style="background:#1A1A1A; color:rgba(255,255,255,0.7); border: 0.5px solid #2E2E2E;">Kontakt</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+<p class="note">Eteya Consulting AB · Färgpalett Research · Baserat på Anthropic, Vercel, Linear, Cursor</p>
+
+</body>
+</html>
