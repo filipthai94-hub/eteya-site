@@ -21,7 +21,7 @@
       width: 100%;
       height: 75vh;
       overflow: hidden;
-      background: #C8FF00; /* Limegrön bakgrund syns om bilden inte täcker */
+      background: #C8FF00; /* Limegrön — syns bakom roboten där bilden är transparent */
     }
 
     /* ── BAKGRUNDSBILD ── */
@@ -34,18 +34,6 @@
       background-size: cover;
       background-position: center center;
       will-change: transform;
-      mix-blend-mode: luminosity; /* Gör bilden B&W, limegrön lyser igenom */
-    }
-
-    /* ── LIMEGRÖN COLOR OVERLAY ── */
-    .brandin-color {
-      position: absolute;
-      inset: 0;
-      background: #C8FF00;
-      opacity: 0.35;
-      mix-blend-mode: color;
-      z-index: 1;
-      pointer-events: none;
     }
 
     /* ── GRADIENT DARKENING ── */
@@ -98,7 +86,6 @@
 
   <div class="brandin-section">
     <div class="brandin-bg"></div>
-    <div class="brandin-color"></div>
     <div class="brandin-overlay"></div>
     <div class="brandin-text">
       <span class="brandin-label">// 01</span>
