@@ -1,207 +1,217 @@
 'use client'
-import { useState } from 'react'
-import Image from 'next/image'
-
-const SERVICES = [
-  {
-    number: '01',
-    title: 'AI Agents',
-    image: '/images/service-ai-agents.png',
-    items: ['Kundtjänst', 'Leadsgenerering', 'Bokningar', 'Orderhantering', 'Intern support', 'Uppföljning'],
-  },
-  {
-    number: '02',
-    title: 'Automation',
-    image: '/images/service-automation.png',
-    items: ['E-postautomation', 'Fakturahantering', 'Lead-flöden', 'Rapportering', 'Systemsynk', 'Aviseringar'],
-  },
-  {
-    number: '03',
-    title: 'AI Products',
-    image: '/images/service-ai-products.png',
-    items: ['Webbapplikationer', 'Interna verktyg', 'API-integrationer', 'Databaslösningar', 'MVP på veckor', 'Skräddarsydd AI'],
-  },
-]
-
-function ServiceCard({ service, index, isActive, onToggle }: {
-  service: typeof SERVICES[0]
-  index: number
-  isActive: boolean
-  onToggle: () => void
-}) {
-  return (
-    <div style={{
-      borderBottom: '1px solid rgba(255,255,255,0.1)',
-      ...(index === 0 ? { borderTop: '1px solid rgba(255,255,255,0.1)' } : {}),
-    }}>
-      {/* Title row */}
-      <div
-        onClick={onToggle}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '2.5rem',
-          padding: '35px 10.5px',
-          cursor: 'pointer',
-          position: 'relative',
-          overflow: 'hidden',
-          fontFamily: '"DM Sans", sans-serif',
-          fontSize: 'clamp(1.5rem, 3vw, 45.5px)',
-          fontWeight: 400,
-          color: '#fff',
-          userSelect: 'none',
-        }}
-      >
-        {/* Arrow icon */}
-        <span style={{
-          display: 'inline-block',
-          width: 45,
-          height: 45,
-          flexShrink: 0,
-          transition: 'transform 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
-          transform: isActive ? 'rotate(45deg)' : 'rotate(-45deg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100% 100%',
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E")`,
-        }} />
-
-        {/* Title */}
-        <span style={{ flex: 1 }}>{service.title}</span>
-
-        {/* Counter */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '17.5px', flexShrink: 0 }}>
-          <span style={{ fontSize: '1.75rem', fontWeight: 400, color: '#fff' }}>{service.number}</span>
-          <div style={{ display: 'flex', flexDirection: 'row', gap: '12.25px', alignItems: 'flex-end' }}>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <span key={i} style={{
-                display: 'inline-block',
-                width: '0.0625rem',
-                backgroundColor: i === index ? '#fff' : 'rgba(255,255,255,0.4)',
-                height: isActive && i === index ? '3.625rem' : '0.75rem',
-                transition: 'height 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
-                flexShrink: 0,
-              }} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Expanded content */}
-      <div style={{
-        display: 'grid',
-        gridTemplateRows: isActive ? '1fr' : '0fr',
-        transition: 'grid-template-rows 0.5s cubic-bezier(0.65, 0, 0.35, 1)',
-      }}>
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '2rem',
-            padding: '1.5rem 10.5px 2.5rem',
-            opacity: isActive ? 1 : 0,
-            transition: 'opacity 0.4s ease',
-          }}>
-            {/* Image */}
-            <div style={{ position: 'relative', borderRadius: 0 }}>
-              <Image
-                src={service.image}
-                alt={service.title}
-                width={762}
-                height={482}
-                style={{ width: '100%', height: 'auto', mixBlendMode: 'screen' }}
-              />
-            </div>
-
-            {/* List + button */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {service.items.map((item) => (
-                  <li key={item} style={{
-                    color: 'rgba(255,255,255,0.75)',
-                    fontFamily: '"DM Sans", sans-serif',
-                    fontSize: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem',
-                  }}>
-                    <span style={{ opacity: 0.4, fontSize: '0.7em' }}>○</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#contact"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: '#C8FF00',
-                  color: '#121213',
-                  border: 'none',
-                  borderRadius: 0,
-                  fontFamily: '"DM Sans", sans-serif',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  padding: '0 24px',
-                  height: '48px',
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  width: 'fit-content',
-                  transition: 'background 0.4s ease, transform 0.4s ease',
-                  letterSpacing: '0.02em',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = '#b8ef00'
-                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = '#C8FF00'
-                  ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                }}
-              >
-                Läs mer
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+import { useEffect } from 'react'
 
 export default function ServicesClient() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  useEffect(() => {
+    // Accordion JS — exakt samma som i HTML-klonen
+    const cards = document.querySelectorAll('#services .service-card')
+    cards.forEach((card) => {
+      const title = card.querySelector('.service-title') as HTMLElement | null
+      if (!title) return
+      title.style.cursor = 'pointer'
+      title.addEventListener('click', () => {
+        const isActive = card.classList.contains('is-active')
+        cards.forEach((c) => c.classList.remove('is-active'))
+        if (!isActive) card.classList.add('is-active')
+      })
+    })
+    // Öppna första kortet default
+    const first = document.querySelector('#services .service-card')
+    if (first) first.classList.add('is-active')
+  }, [])
 
   return (
-    <section id="services" style={{
-      backgroundColor: '#080808',
-      padding: '80px 62px',
-    }}>
-      {/* Heading */}
-      <h2 style={{
-        fontFamily: '"DM Sans", sans-serif',
-        fontSize: 'clamp(2.75rem, 6.5vw, 98px)',
-        fontWeight: 300,
-        color: '#fff',
-        marginBottom: '68px',
-        letterSpacing: '-0.02em',
-        lineHeight: 1,
-      }}>
-        TJÄNSTER
-      </h2>
+    <>
+      {/* Redstone CSS */}
+      <link rel="stylesheet" href="/redstone-services.css" />
 
-      {/* Cards */}
-      <div>
-        {SERVICES.map((service, i) => (
-          <ServiceCard
-            key={service.number}
-            service={service}
-            index={i}
-            isActive={activeIndex === i}
-            onToggle={() => setActiveIndex(activeIndex === i ? -1 : i)}
-          />
-        ))}
-      </div>
-    </section>
+      <section id="services" style={{ background: '#000', padding: '80px 62px', fontFamily: "'DM Sans', sans-serif" }}>
+        <style>{`
+          #services *, #services *::before, #services *::after { box-sizing: border-box; }
+          #services { color: #fff; }
+          #services a { color: inherit; text-decoration: none; }
+          #services :root, #services { --ff-1: 'DM Sans', sans-serif; --ff-2: 'DM Sans', sans-serif; }
+
+          /* Force correct desktop vars */
+          @media (min-width: 992px) {
+            #services {
+              --h1: 7rem; --h2: 4rem; --h3: 3.25rem; --h4: 2rem; --h5: 1.5rem;
+              --pd-block: 35px; --pd-inline: 10.5px; --icon-size: 45.5px;
+              --sp-xl: 10rem; --sp-lg: 6.25rem; --sp-md: 5rem;
+            }
+          }
+
+          /* Heading */
+          #services h2.h1.title {
+            font-size: 98px; font-family: 'DM Sans', sans-serif; font-weight: 300;
+            color: #fff; margin-bottom: 68px; letter-spacing: -0.02em;
+          }
+          @media (max-width: 991px) {
+            #services { padding: 40px 0; }
+            #services h2.h1.title { font-size: 44px; margin-bottom: 32px; padding-left: 1rem; }
+          }
+
+          /* Override animations */
+          #services .service-title { display: flex !important; font-family: 'DM Sans', sans-serif !important; }
+          #services .service-content { display: grid !important; }
+          #services .service-block { display: block !important; }
+          #services .slideAnim { opacity: 1 !important; transform: none !important; }
+          #services .text-animate { opacity: 1 !important; transform: none !important; }
+          #services .animate { opacity: 1 !important; }
+
+          /* Hide duplicate title in expanded */
+          #services .service-content .service-title { display: none !important; }
+
+          /* Accordion */
+          #services .service-card.is-active { grid-template-rows: auto 1fr !important; }
+          #services .service-card.is-active .service-content { display: grid !important; opacity: 1 !important; }
+          #services .service-card .service-content { opacity: 0; transition: opacity 0.4s ease; }
+          #services .service-card.is-active .service-content { opacity: 1; }
+
+          /* Arrow */
+          #services .service-title i { transform: rotate(-45deg) !important; }
+          #services .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
+          #services .service-card:not(.is-active) .service-title:hover i { transform: rotate(45deg) !important; }
+
+          /* Counter line */
+          #services .service-counter-line.is-active { background-color: #FFFFFF !important; }
+
+          /* Nollställ Redstones .btn */
+          #services .btn { all: unset; }
+
+          /* Eteya-knapp */
+          #services .eteya-btn {
+            display: inline-flex; width: fit-content !important;
+            align-self: start; justify-self: start;
+            align-items: center; justify-content: center;
+            background: #C8FF00; color: #121213 !important;
+            border: none; border-radius: 0;
+            font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+            padding: 0 24px; height: 48px; cursor: pointer;
+            text-decoration: none !important;
+            transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
+            white-space: nowrap; letter-spacing: 0.02em;
+          }
+          #services .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
+
+          /* List bullets */
+          #services .service-list li { list-style: none; padding-left: 1.25rem; position: relative; font-family: 'DM Sans', sans-serif; }
+          #services .service-list li::before { content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6; }
+
+          /* Images */
+          #services .service-media img { mix-blend-mode: screen; }
+        `}</style>
+
+        <h2 className="h1 title col-xl-10 mb-md text-animate">TJÄNSTER</h2>
+        <div className="service-block mob-ver2 animate">
+
+          {/* 01: AI Agents */}
+          <div className="service-card slideAnim">
+            <div className="service-title">
+              <i></i>
+              AI Agents
+              <div className="service-counter">
+                <span>01</span>
+                <div className="service-counter-lines">
+                  <span className="service-counter-line is-active"></span>
+                  <span className="service-counter-line"></span>
+                  <span className="service-counter-line"></span>
+                </div>
+              </div>
+            </div>
+            <div className="service-inner">
+              <div className="service-content">
+                <a className="service-media" href="#">
+                  <picture>
+                    <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
+                  </picture>
+                </a>
+                <a className="service-title" href="#">AI Agents</a>
+                <ul className="service-list">
+                  <li>Kundtjänst</li>
+                  <li>Leadsgenerering</li>
+                  <li>Bokningar</li>
+                  <li>Orderhantering</li>
+                  <li>Intern support</li>
+                  <li>Uppföljning</li>
+                </ul>
+                <a className="eteya-btn" href="#contact">Läs mer</a>
+              </div>
+            </div>
+          </div>
+
+          {/* 02: Automation */}
+          <div className="service-card slideAnim">
+            <div className="service-title">
+              <i></i>
+              Automation
+              <div className="service-counter">
+                <span>02</span>
+                <div className="service-counter-lines">
+                  <span className="service-counter-line"></span>
+                  <span className="service-counter-line is-active"></span>
+                  <span className="service-counter-line"></span>
+                </div>
+              </div>
+            </div>
+            <div className="service-inner">
+              <div className="service-content">
+                <a className="service-media" href="#">
+                  <picture>
+                    <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
+                  </picture>
+                </a>
+                <a className="service-title" href="#">Automation</a>
+                <ul className="service-list">
+                  <li>E-postautomation</li>
+                  <li>Fakturahantering</li>
+                  <li>Lead-flöden</li>
+                  <li>Rapportering</li>
+                  <li>Systemsynk</li>
+                  <li>Aviseringar</li>
+                </ul>
+                <a className="eteya-btn" href="#contact">Läs mer</a>
+              </div>
+            </div>
+          </div>
+
+          {/* 03: AI Products */}
+          <div className="service-card slideAnim">
+            <div className="service-title">
+              <i></i>
+              AI Products
+              <div className="service-counter">
+                <span>03</span>
+                <div className="service-counter-lines">
+                  <span className="service-counter-line"></span>
+                  <span className="service-counter-line"></span>
+                  <span className="service-counter-line is-active"></span>
+                </div>
+              </div>
+            </div>
+            <div className="service-inner">
+              <div className="service-content">
+                <a className="service-media" href="#">
+                  <picture>
+                    <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
+                  </picture>
+                </a>
+                <a className="service-title" href="#">AI Products</a>
+                <ul className="service-list">
+                  <li>Webbapplikationer</li>
+                  <li>Interna verktyg</li>
+                  <li>API-integrationer</li>
+                  <li>Databaslösningar</li>
+                  <li>MVP på veckor</li>
+                  <li>Skräddarsydd AI</li>
+                </ul>
+                <a className="eteya-btn" href="#contact">Läs mer</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </>
   )
 }
