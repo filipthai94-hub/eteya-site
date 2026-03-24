@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eteya — Button Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080808;
+    --lime: #C8FF00;
+    --white: #FFFFFF;
+    --black: #121213;
+    --muted: rgba(255,255,255,0.4);
+    --border: rgba(255,255,255,0.15);
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    padding: 4rem 2rem;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 40rem;
+  }
+
+  .variant-block {
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 2px;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .variant-label {
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    font-family: var(--body);
+  }
+
+  .variant-name {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .variant-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .btn-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .context-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    margin-bottom: 0.75rem;
+  }
+
+  /* ===================== */
+  /* VARIANT A — SHARP FILL */
+  /* Solid svart fill, lime text, 0 radius */
+  /* Hover: lime fill, svart text */
+  /* ===================== */
+  .btn-a-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--black);
+    color: var(--lime);
+    border: none;
+    padding: 0.875rem 2rem;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    border-radius: 0;
+  }
+  .btn-a-primary:hover { background: var(--lime); color: var(--black); }
+
+  .btn-a-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.875rem 2rem;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    border-radius: 0;
+  }
+  .btn-a-secondary:hover { border-color: rgba(255,255,255,0.6); color: var(--white); }
+
+  /* På lime bakgrund */
+  .btn-a-primary-on-lime {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--black);
+    color: var(--lime);
+    border: none;
+    padding: 0.875rem 2rem;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .btn-a-primary-on-lime:hover { background: rgba(0,0,0,0.8); }
+
+  .btn-a-text-on-lime {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: transparent;
+    color: var(--black);
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    padding: 0.875rem 0;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-a-text-on-lime:hover { opacity: 0.5; }
+
+  .lime-bg {
+    background: var(--lime);
+    padding: 2rem;
+    margin-top: 1rem;
+    border-radius: 1px;
+  }
+
+  /* ===================== */
+  /* VARIANT B — OUTLINE + FILL SLIDE */
+  /* Outline border, text, hover: border slide-fill vänster→höger */
+  /* ===================== */
+  .btn-b-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 0.875rem 2rem;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.25s, border-color 0.25s;
+    border-radius: 0;
+  }
+  .btn-b-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lime);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+  .btn-b-primary:hover::before { transform: translateX(0); }
+  .btn-b-primary:hover { color: var(--black); border-color: var(--lime); }
+  .btn-b-primary span { position: relative; z-index: 1; }
+
+  .btn-b-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 0.875rem 0;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-b-secondary:hover { color: var(--white); border-color: rgba(255,255,255,0.6); }
+
+  /* ===================== */
+  /* VARIANT C — PILL / ROUNDED */
+  /* Inspirerad av Linear/Vercel — pill-form, subtil */
+  /* ===================== */
+  .btn-c-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--lime);
+    color: var(--black);
+    border: none;
+    padding: 0.75rem 1.75rem;
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-c-primary:hover { background: #d4ff1a; transform: translateY(-1px); }
+
+  .btn-c-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.75rem 1.75rem;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-c-secondary:hover { background: rgba(255,255,255,0.14); color: var(--white); }
+
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 3rem 0; }
+
+  .arrow { font-size: 1rem; line-height: 1; }
+  .dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; display: inline-block; }
+</style>
+</head>
+<body>
+
+<h1>Eteya Design System</h1>
+<div class="section-title">Button Mockups</div>
+<p class="section-desc">Tre varianter inspirerade av designbybrandin, Linear och Vercel. Hovra varje knapp för att se animationen. Välj en som standard för hela sajten.</p>
+
+<hr>
+
+<!-- VARIANT A -->
+<div class="variant-block">
+  <span class="variant-label">Variant A</span>
+  <div class="variant-name">Sharp &amp; Direct</div>
+  <p class="variant-desc">Inspirerad av designbybrandin. Inga rundade hörn. Svart fill med lime text. Hover: lime bakgrund med svart text. Stark, tydlig, aggressiv känsla. Passar bra för ett bolag som vill visa att man menar allvar.</p>
+
+  <div class="context-label">På mörk bakgrund</div>
+  <div class="btn-row">
+    <a href="#" class="btn-a-primary"><span class="dot"></span> Se vårt arbete</a>
+    <a href="#" class="btn-a-secondary">Kontakta oss</a>
+    <a href="#" class="btn-a-primary">Skicka →</a>
+  </div>
+
+  <div class="context-label">På lime bakgrund (hero)</div>
+  <div class="lime-bg">
+    <div class="btn-row">
+      <a href="#" class="btn-a-primary-on-lime"><span style="width:6px;height:6px;background:#C8FF00;border-radius:50%;display:inline-block"></span> Se vårt arbete</a>
+      <a href="#" class="btn-a-text-on-lime">Kontakta oss →</a>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT B -->
+<div class="variant-block">
+  <span class="variant-label">Variant B</span>
+  <div class="variant-name">Slide Fill</div>
+  <p class="variant-desc">Outline-knapp med slide-fill animation vid hover — lime färg fyller knappen från vänster till höger. Elegant och sofistikerat. Vanligt på premium design/consulting sajter. Ger WOW-känsla vid hover utan att vara för dominant i grundläget.</p>
+
+  <div class="context-label">På mörk bakgrund</div>
+  <div class="btn-row">
+    <a href="#" class="btn-b-primary"><span>Se vårt arbete</span></a>
+    <a href="#" class="btn-b-secondary">Kontakta oss →</a>
+  </div>
+
+  <div class="context-label">Nav-knapp</div>
+  <div class="btn-row">
+    <a href="#" class="btn-b-primary" style="padding: 0.625rem 1.5rem; font-size: 0.65rem;"><span>Kontakt</span></a>
+  </div>
+</div>
+
+<!-- VARIANT C -->
+<div class="variant-block">
+  <span class="variant-label">Variant C</span>
+  <div class="variant-name">Pill / Soft</div>
+  <p class="variant-desc">Pill-formad som Linear och Vercel. Lime primär, frostad sekundär. Hover: lätt translate-up + ljusare lime. Mjukare, mer SaaS-känsla än consulting. Funkar om ni vill ha ett tech-startup-intryck snarare än premium design agency.</p>
+
+  <div class="context-label">På mörk bakgrund</div>
+  <div class="btn-row">
+    <a href="#" class="btn-c-primary">Se vårt arbete →</a>
+    <a href="#" class="btn-c-secondary">Kontakta oss</a>
+  </div>
+</div>
+
+<hr>
+<p style="color:rgba(255,255,255,0.2); font-size:0.75rem; text-align:center; padding-bottom:2rem">Eteya Consulting AB · Button System v1</p>
+
+</body>
+</html>
