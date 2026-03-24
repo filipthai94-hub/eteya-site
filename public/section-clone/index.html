@@ -48,32 +48,32 @@
     .service-block .service-card.is-active .service-title i { transform: rotate(45deg) !important; }
     /* Hover: pil roterar mot öppet läge */
     .service-block .service-card:not(.is-active) .service-title:hover i { transform: rotate(45deg) !important; }
-    /* Eteya button style — override Redstone .btn */
-    .btn.btn-primary, .btn.btn-m.btn-primary {
-      display: inline-flex !important;
-      width: auto !important;
+    /* Nollställ Redstones .btn helt */
+    .btn { all: unset; }
+    /* Eteya knapp */
+    .eteya-btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       background: #C8FF00;
-      color: #121213;
-      border: 1px solid #C8FF00;
+      color: #121213 !important;
+      border: none;
       border-radius: 0;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      font-weight: 400;
-      padding: 16px 24px;
+      font-weight: 500;
+      padding: 0 24px;
       height: 48px;
       cursor: pointer;
-      text-decoration: none;
+      text-decoration: none !important;
       transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
       white-space: nowrap;
+      letter-spacing: 0.02em;
     }
-    .btn.btn-primary:hover, .btn.btn-m.btn-primary:hover {
+    .eteya-btn:hover {
       background: #b8ef00;
-      border-color: #b8ef00;
-      transform: translateY(-0.25rem);
+      transform: translateY(-3px);
     }
-    .btn-icon { display: none; } /* hide Redstone's icon */
     /* Fix list bullets to circles */
     .service-list li { list-style: none; padding-left: 1.25rem; position: relative; font-family: 'DM Sans', sans-serif; }
     .service-list li::before { content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6; }
@@ -114,8 +114,8 @@
             <li>Intern support</li>
             <li>Uppföljning</li>
           </ul>
-          <a class="btn btn-m btn-primary" href="#">
-            <div class="btn-text">Läs mer</div>
+          <a class="eteya-btn" href="#">
+            Läs mer
           </a>
         </div>
       </div>
@@ -151,8 +151,8 @@
             <li>Systemsynk</li>
             <li>Aviseringar</li>
           </ul>
-          <a class="btn btn-m btn-primary" href="#">
-            <div class="btn-text">Läs mer</div>
+          <a class="eteya-btn" href="#">
+            Läs mer
           </a>
         </div>
       </div>
@@ -188,8 +188,8 @@
             <li>MVP på veckor</li>
             <li>Skräddarsydd AI</li>
           </ul>
-          <a class="btn btn-m btn-primary" href="#">
-            <div class="btn-text">Läs mer</div>
+          <a class="eteya-btn" href="#">
+            Läs mer
           </a>
         </div>
       </div>
