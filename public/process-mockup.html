@@ -445,13 +445,7 @@
       const bodyText    = block.querySelector('.body-text');
       const listItems   = block.querySelectorAll('.process-list li');
 
-      // Helper: är elementet redan synligt i viewport?
-      function inView(el) {
-        const r = el.getBoundingClientRect();
-        return r.top < window.innerHeight && r.bottom > 0;
-      }
-
-      // 1. Parallax on background image (ingen opacity-hantering)
+      // 1. Parallax — ingen opacity-hantering
       gsap.fromTo(bgImg,
         { y: '-20%' },
         { y: '20%', ease: 'none',
@@ -459,16 +453,7 @@
         }
       );
 
-      // 2. Blur-reveal overlay — sätt opacity 0 BARA om utanför viewport
-      if (!inView(textOverlay)) {
-        gsap.set(textOverlay, { opacity: 0, y: 30, filter: 'blur(20px)' });
-        gsap.to(textOverlay, {
-          opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out',
-          scrollTrigger: { trigger: imgSection, start: 'top 80%', toggleActions: 'play none none none', once: true }
-        });
-      }
-
-      // 3. Giant number opacity scrub
+      // 2. Giant number opacity scrub
       if (giantNum) {
         gsap.fromTo(giantNum,
           { opacity: 0.05 },
@@ -478,36 +463,47 @@
         );
       }
 
-      // 4. Blur-reveal headline — bara om utanför viewport
-      if (!inView(headline)) {
-        gsap.set(headline, { opacity: 0, y: 24, filter: 'blur(14px)' });
-        gsap.to(headline, {
-          opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: headline, start: 'top 90%', toggleActions: 'play none none none', once: true }
-        });
-      }
-
-      // 4b. Body text
-      if (!inView(bodyText)) {
-        gsap.set(bodyText, { opacity: 0, y: 16 });
-        gsap.to(bodyText, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-          scrollTrigger: { trigger: bodyText, start: 'top 90%', toggleActions: 'play none none none', once: true }
-        });
-      }
-
-      // 5. Stagger list items
-      listItems.forEach(li => {
-        if (!inView(li)) gsap.set(li, { opacity: 0, y: 16 });
-      });
-      gsap.to(listItems, {
-        opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.07,
+      // 3. Blur-reveal overlay — ScrollTrigger + fallback
+      gsap.set(textOverlay, { opacity: 0, y: 30, filter: 'blur(20px)' });
+      gsap.to(textOverlay, {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out',
         scrollTrigger: {
-          trigger: block.querySelector('.process-list'),
-          start: 'top 90%', toggleActions: 'play none none none', once: true
+          trigger: imgSection, start: 'top 80%',
+          onEnter: self => self.animation.play(),
+          once: true
         }
       });
+
+      // 4. Blur-reveal headline
+      gsap.set(headline, { opacity: 0, y: 24, filter: 'blur(14px)' });
+      gsap.to(headline, {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: headline, start: 'top 90%', once: true }
+      });
+
+      // 4b. Body text
+      gsap.set(bodyText, { opacity: 0, y: 16 });
+      gsap.to(bodyText, {
+        opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: bodyText, start: 'top 90%', once: true }
+      });
+
+      // 5. Stagger list items
+      gsap.set(listItems, { opacity: 0, y: 16 });
+      gsap.to(listItems, {
+        opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.07,
+        scrollTrigger: { trigger: block.querySelector('.process-list'), start: 'top 90%', once: true }
+      });
     });
+
+    // ─── Fallback: om ScrollTrigger aldrig triggar (0.5s timeout) ──────────
+    setTimeout(() => {
+      document.querySelectorAll('.text-overlay, .section-headline, .body-text, .process-list li').forEach(el => {
+        if (parseFloat(getComputedStyle(el).opacity) < 0.1) {
+          gsap.to(el, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.01 });
+        }
+      });
+    }, 500);
   </script>
 </body>
 </html>
