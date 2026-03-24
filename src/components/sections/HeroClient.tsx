@@ -1,9 +1,10 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
 import HeroCanvas from '@/components/animations/HeroCanvas'
+import Button from '@/components/ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -164,68 +165,21 @@ export default function HeroClient({
         </div>
 
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          {/* Primär knapp — svart fill */}
-          <HeroBtnPrimary href="#work">{ctaPrimary}</HeroBtnPrimary>
-          {/* Sekundär — text link */}
-          <HeroBtnSecondary href="#contact">{ctaSecondary}</HeroBtnSecondary>
+          {/* Primär knapp */}
+          <Button variant="primary" href="#work" style={{
+            background: '#121213',
+            color: '#C8FF00',
+            border: '1px solid #121213',
+          }}>{ctaPrimary}</Button>
+          {/* Sekundär — outline */}
+          <Button variant="secondary" href="#contact" style={{
+            color: 'rgba(0,0,0,0.6)',
+            border: '1px solid rgba(0,0,0,0.2)',
+          }}>{ctaSecondary}</Button>
         </div>
       </div>
     </section>
   )
 }
 
-function HeroBtnPrimary({ href, children }: { href: string; children: React.ReactNode }) {
-  const [hover, setHover] = useState(false)
-  return (
-    <a href={href}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: hover ? '#1a1a1a' : C.black,
-        color: C.accent,
-        border: 'none',
-        borderRadius: 0,
-        height: '42px',
-        padding: '0 1.375rem',
-        fontFamily: 'var(--font-body), sans-serif',
-        fontSize: '0.8125rem',
-        fontWeight: 500,
-        letterSpacing: '0.01em',
-        textDecoration: 'none',
-        cursor: 'pointer',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-        transform: hover ? 'translateY(-1px)' : 'translateY(0)',
-        transition: 'all 0.15s',
-      }}>
-      {children}
-    </a>
-  )
-}
 
-function HeroBtnSecondary({ href, children }: { href: string; children: React.ReactNode }) {
-  const [hover, setHover] = useState(false)
-  return (
-    <a href={href}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: 'transparent',
-        color: hover ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.55)',
-        border: hover ? '1px solid rgba(0,0,0,0.45)' : '1px solid rgba(0,0,0,0.2)',
-        borderRadius: 0,
-        height: '42px',
-        padding: '0 1.375rem',
-        fontFamily: 'var(--font-body), sans-serif',
-        fontSize: '0.8125rem',
-        fontWeight: 500,
-        letterSpacing: '0.01em',
-        textDecoration: 'none',
-        cursor: 'pointer',
-        transition: 'all 0.15s',
-      }}>
-      {children}
-    </a>
-  )
-}

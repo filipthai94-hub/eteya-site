@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Button from '@/components/ui/Button'
 
 /* ── Data ─────────────────────────────────────────────── */
 
@@ -344,7 +345,9 @@ export default function Nav() {
                 <span style={{ color: 'rgba(255,255,255,.1)', fontSize: 10 }}>/</span>
                 <LocaleBtn label="EN" active={isEn} />
               </div>
-              <CtaButton />
+              <Button variant="primary" href="#" size="sm">
+                Boka samtal
+              </Button>
             </div>
 
             {/* ── Hamburger ─────────────────────────────── */}
@@ -496,23 +499,9 @@ export default function Nav() {
 
           {/* ── Mobile CTA ──────────────────────────────── */}
           <div style={{ padding: '20px 24px 40px' }}>
-            <a href="#" style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#C8FF00',
-              color: '#121213',
-              border: '1px solid #C8FF00',
-              borderRadius: 0,
-              padding: '1rem',
-              fontFamily: 'var(--font-body), "Geist", sans-serif',
-              fontSize: 14,
-              textDecoration: 'none',
-              cursor: 'pointer',
-              width: '100%',
-            }}>
+            <Button variant="primary" href="#" style={{ width: '100%' }}>
               Boka samtal
-            </a>
+            </Button>
           </div>
         </div>
       </div>
@@ -640,34 +629,3 @@ function LocaleBtn({ label, active }: { label: string; active: boolean }) {
   )
 }
 
-/* ── CTA Button ───────────────────────────────────────── */
-function CtaButton() {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <a
-      href="#"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        background: hovered ? '#b8ef00' : '#C8FF00',
-        color: '#121213',
-        border: `1px solid ${hovered ? '#b8ef00' : '#C8FF00'}`,
-        borderRadius: 0,
-        padding: '0 22px',
-        height: 44,
-        fontFamily: 'var(--font-body), "Geist", sans-serif',
-        fontSize: 13,
-        fontWeight: 400,
-        textDecoration: 'none',
-        cursor: 'pointer',
-        whiteSpace: 'nowrap',
-        transform: hovered ? 'translateY(-0.25rem)' : 'translateY(0)',
-        transition: 'background .25s, border-color .25s, transform .4s cubic-bezier(.165,.84,.44,1)',
-      }}
-    >
-      Boka samtal
-    </a>
-  )
-}

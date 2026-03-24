@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
+import Button from '@/components/ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -10,7 +11,6 @@ export default function CTAClient({ headline, body, button }: { headline: string
   const sectionRef = useRef<HTMLElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  const [btnHover, setBtnHover] = useState(false)
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -52,32 +52,9 @@ export default function CTAClient({ headline, body, button }: { headline: string
           <p style={{ color: C.secondary, fontSize: '1rem', maxWidth: '34rem', lineHeight: 1.7, flex: 1 }}>
             {body}
           </p>
-          <a href="#contact"
-            onMouseEnter={() => setBtnHover(true)}
-            onMouseLeave={() => setBtnHover(false)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              backgroundColor: btnHover ? '#d4ff1a' : C.accent,
-              color: C.black,
-              border: 'none',
-              borderRadius: 0,
-              height: '42px',
-              padding: '0 1.375rem',
-              fontFamily: 'var(--font-body), sans-serif',
-              fontSize: '0.8125rem',
-              fontWeight: 500,
-              letterSpacing: '0.01em',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              flexShrink: 0,
-              boxShadow: btnHover
-                ? '0 2px 4px rgba(200,255,0,0.25), 0 4px 12px rgba(200,255,0,0.15)'
-                : '0 1px 2px rgba(200,255,0,0.15), 0 2px 8px rgba(200,255,0,0.08)',
-              transform: btnHover ? 'translateY(-1px)' : 'translateY(0)',
-              transition: 'all 0.15s',
-            }}>
+          <Button variant="primary" href="#contact" style={{ flexShrink: 0 }}>
             {button}
-          </a>
+          </Button>
         </div>
       </div>
     </section>

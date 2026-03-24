@@ -1,36 +1,17 @@
 'use client'
 import { useTranslations } from 'next-intl'
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { sendContactEmail } from '@/app/[locale]/actions/contact'
 import { C } from '@/lib/colors'
+import Button from '@/components/ui/Button'
 
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
-  const [hover, setHover] = useState(false)
   return (
-    <button type="submit" disabled={pending}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        backgroundColor: (hover && !pending) ? '#d4ff1a' : C.accent,
-        color: C.black,
-        border: 'none',
-        borderRadius: 0,
-        height: '48px',
-        width: '100%',
-        padding: '0 1.375rem',
-        fontFamily: 'var(--font-body), sans-serif',
-        fontSize: '0.8125rem',
-        fontWeight: 500,
-        letterSpacing: '0.01em',
-        cursor: pending ? 'not-allowed' : 'pointer',
-        opacity: pending ? 0.5 : 1,
-        transform: (hover && !pending) ? 'translateY(-1px)' : 'translateY(0)',
-        transition: 'all 0.15s',
-      }}>
+    <Button type="submit" variant="primary" disabled={pending} style={{ width: '100%' }}>
       {pending ? loadingLabel : label}
-    </button>
+    </Button>
   )
 }
 
