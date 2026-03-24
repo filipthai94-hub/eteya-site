@@ -20,7 +20,7 @@ function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: st
         height: '48px',
         width: '100%',
         padding: '0 1.375rem',
-        fontFamily: 'Inter, sans-serif',
+        fontFamily: 'var(--font-body), sans-serif',
         fontSize: '0.8125rem',
         fontWeight: 500,
         letterSpacing: '0.01em',

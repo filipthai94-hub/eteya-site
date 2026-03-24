@@ -1,4 +1,4 @@
-import { Barlow_Condensed, Inter } from 'next/font/google'
+import { Barlow_Condensed, Geist } from 'next/font/google'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -6,12 +6,14 @@ const display = Barlow_Condensed({
   subsets: ['latin'],
   weight: ['700', '800'],
   variable: '--font-display',
+  display: 'swap',
 })
 
-const body = Inter({
+const body = Geist({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'],
   variable: '--font-body',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {

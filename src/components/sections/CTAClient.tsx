@@ -63,7 +63,7 @@ export default function CTAClient({ headline, body, button }: { headline: string
               borderRadius: 0,
               height: '42px',
               padding: '0 1.375rem',
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'var(--font-body), sans-serif',
               fontSize: '0.8125rem',
               fontWeight: 500,
               letterSpacing: '0.01em',

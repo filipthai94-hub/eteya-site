@@ -20,6 +20,11 @@ html, body {
   overflow-x: hidden;
 }
 
+body {
+  letter-spacing: -0.01em;
+  line-height: 1.75;
+}
+
 /* Lenis smooth scroll */
 html.lenis, html.lenis body {
   height: auto;
