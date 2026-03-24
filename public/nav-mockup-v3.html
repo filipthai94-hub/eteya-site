@@ -7,591 +7,307 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --lime: #C8FF00;
-  --lime-hover: #b8ef00;
-  --black: #121213;
-  --bg: #080808;
-  --drop-bg: #121212;   /* Qualytics: rgb(18,18,18) */
-  --white: #FFFFFF;
-  --nav-h: 80px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --lime:#C8FF00;--lime-h:#b8ef00;--black:#121213;
+  --bg:#080808;--drop-bg:#121212;--white:#fff;--nav-h:80px;
 }
-body {
-  font-family: 'Geist', sans-serif;
-  letter-spacing: -0.01em;
-  background: var(--bg);
-  color: var(--white);
+body{font-family:'Geist',sans-serif;letter-spacing:-0.01em;background:var(--bg);color:var(--white)}
+
+/* NAV WRAPPER */
+#nw{position:fixed;top:0;left:0;right:0;z-index:1000;transform:translateY(0);transition:transform .45s cubic-bezier(.165,.84,.44,1)}
+#nw.hide{transform:translateY(-105%);pointer-events:none}
+.nav{background:#000;height:var(--nav-h);padding:0 40px;position:relative;box-shadow:0 1px 0 rgba(255,255,255,.05),0 4px 24px rgba(0,0,0,.5)}
+.nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:100%}
+
+/* LOGO */
+.brand{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;color:#fff;text-decoration:none}
+
+/* DESKTOP MENU */
+.dmenu{display:flex;align-items:center}
+.dul{display:flex;list-style:none}
+.ni{position:relative}
+.nt{display:flex;align-items:center;gap:5px;padding:0 14px;height:var(--nav-h);font-family:'Geist',sans-serif;font-size:15px;font-weight:400;color:rgba(255,255,255,.65);background:none;border:none;cursor:pointer;white-space:nowrap;transition:color .2s;letter-spacing:-.01em}
+.nt:hover,.ni.open .nt{color:#fff}
+.caret{width:11px;height:11px;opacity:.4;flex-shrink:0;transition:transform .35s cubic-bezier(.165,.84,.44,1),opacity .2s}
+.ni.open .caret{transform:rotate(180deg);opacity:.9}
+
+/* DESKTOP DROPDOWN */
+.dp{position:absolute;top:calc(100% + 2px);left:50%;transform:translateX(-50%);z-index:300;overflow:hidden;height:0;transition:height .42s cubic-bezier(.625,.05,0,1)}
+.di{padding:8px;background:#000;display:flex;flex-direction:row;gap:4px}
+.dc{display:flex;flex-direction:column;gap:10px;padding:16px;background:var(--drop-bg);border:1px dashed rgba(255,255,255,0);border-radius:0;text-decoration:none;width:210px;transition:border-color .2s;opacity:0;transform:translateY(8px)}
+.dc:hover{border-color:rgba(255,255,255,.15)}
+.dch{display:flex;align-items:center;gap:10px}
+.dci{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4)}
+.dci svg{width:20px;height:20px}
+.dct{font-size:15px;font-weight:500;color:#fff;line-height:1.2}
+.dcd{font-size:13px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* CTA */
+.ncta{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+.lw{display:flex;align-items:center;gap:2px}
+.lb{font-size:11px;color:rgba(255,255,255,.25);text-decoration:none;padding:2px 4px;cursor:pointer;transition:color .2s}
+.lb:hover,.lb.on{color:rgba(255,255,255,.75)}
+.ls{color:rgba(255,255,255,.1);font-size:10px}
+.bcta{display:inline-flex;align-items:center;background:var(--lime);color:var(--black);border:1px solid var(--lime);border-radius:0;padding:0 22px;height:44px;font-family:'Geist',sans-serif;font-size:13px;font-weight:400;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .25s,border-color .25s,transform .4s cubic-bezier(.165,.84,.44,1)}
+.bcta:hover{background:var(--lime-h);border-color:var(--lime-h);transform:translateY(-.25rem)}
+
+/* HAMBURGER */
+.ham{display:none;flex-direction:column;justify-content:center;gap:6px;cursor:pointer;background:none;border:none;width:32px;height:32px;padding:0;flex-shrink:0}
+.ham span{display:block;height:1.5px;background:#fff;transition:transform .25s cubic-bezier(.645,.045,.355,1),opacity .2s,width .25s cubic-bezier(.645,.045,.355,1)}
+.ham span:nth-child(1){width:22px}
+.ham span:nth-child(2){width:16px}
+.ham span:nth-child(3){width:22px}
+.ham.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);width:22px}
+.ham.open span:nth-child(2){opacity:0;width:0}
+.ham.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);width:22px}
+
+/* MOBILE OVERLAY */
+.mover{display:none;position:fixed;inset:0;background:rgba(22,22,22,.15);z-index:997;opacity:0;transition:opacity .7s cubic-bezier(.5,.5,0,1)}
+.mover.show{display:block}
+.mover.vis{opacity:1}
+
+/* MOBILE MENU — Qualytics grid-rows trick */
+.mmenu{position:fixed;top:var(--nav-h);left:0;right:0;background:#000;z-index:998;display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.625,.05,0,1)}
+.mmenu.open{grid-template-rows:1fr}
+.mminner{overflow:hidden;overflow-y:auto;max-height:calc(100svh - var(--nav-h))}
+
+/* Mobile row — Qualytics: 75px height, 20px/500, 24px pad, solid border */
+.mitem{border-bottom:1px solid rgb(51,51,51)}
+.mtog{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 24px;height:75px;background:none;border:none;cursor:pointer;font-family:'Geist',sans-serif;font-size:20px;font-weight:500;color:rgba(255,255,255,.85);text-align:left;transition:color .2s}
+.mtog:hover{color:#fff}
+
+/* Plus → minus on open */
+.mplus{width:12px;height:12px;position:relative;flex-shrink:0}
+.mph{position:absolute;top:50%;left:0;width:12px;height:1px;margin-top:-.5px;background:rgba(255,255,255,.4);transition:opacity .35s}
+.mpv{position:absolute;left:50%;top:0;width:1px;height:12px;margin-left:-.5px;background:rgba(255,255,255,.4);transition:transform .4s cubic-bezier(.165,.84,.44,1)}
+.mitem.open .mpv{transform:rotate(90deg)}
+.mitem.open .mph{opacity:0}
+
+/* Mobile sub-expand */
+.msub{overflow:hidden;height:0;transition:height .4s cubic-bezier(.625,.05,0,1)}
+.msubinn{padding:4px 16px 12px;display:flex;flex-direction:column;gap:3px}
+.msl{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;background:rgb(18,18,18);border:1px solid transparent;transition:border-color .2s;opacity:0;transform:translateY(6px)}
+.msl:hover{border-color:rgba(255,255,255,.1)}
+.msico{width:18px;height:18px;flex-shrink:0;color:rgba(255,255,255,.35)}
+.msico svg{width:100%;height:100%}
+.mstt{font-size:15px;font-weight:500;color:#fff;display:block}
+.msdsc{font-size:12px;color:rgba(255,255,255,.35);display:block;margin-top:1px}
+
+/* Mobile CTA */
+.mctaw{padding:20px 24px 40px}
+.mbtn{display:flex;align-items:center;justify-content:center;background:var(--lime);color:var(--black);border:1px solid var(--lime);border-radius:0;padding:1rem;font-family:'Geist',sans-serif;font-size:14px;text-decoration:none;cursor:pointer;width:100%;transition:background .2s}
+.mbtn:hover{background:var(--lime-h)}
+
+@media(max-width:900px){
+  .dmenu,.ncta{display:none}
+  .ham{display:flex}
+  .nav-inner{grid-template-columns:1fr auto}
+  .nav{padding:0 20px}
 }
 
-/* ══════════════════════════════════
-   NAV WRAPPER — scroll hide/show
-══════════════════════════════════ */
-#navWrap {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 1000;
-  transform: translateY(0);
-  transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-#navWrap.hide { transform: translateY(-105%); pointer-events: none; }
+/* ON-LIME: black nav stays black on lime hero */
+#nw.lime .nav{background:#000}
 
-.nav {
-  background: #000;
-  /* NO border-bottom — Filip vill inte ha det */
-  height: var(--nav-h);
-  padding: 0 40px;
-  position: relative;
-}
-
-.nav-inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  height: 100%;
-  gap: 0;
-}
-
-/* ── LOGO (vänster) ── */
-.nav-brand {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.5rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: -0.02em;
-  color: var(--white); text-decoration: none;
-  display: flex; align-items: center;
-}
-
-/* ── MENU (center) ── */
-.nav-menu { display: flex; align-items: center; }
-.nav-ul { display: flex; list-style: none; gap: 0; }
-
-/* NAV ITEM */
-.ni { position: relative; }
-
-.ni-toggle {
-  display: flex; align-items: center; gap: 5px;
-  padding: 0 14px;
-  height: var(--nav-h);
-  font-family: 'Geist', sans-serif;
-  font-size: 15px; font-weight: 400;
-  color: rgba(255,255,255,0.65);
-  background: none; border: none; cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.2s;
-  letter-spacing: -0.01em;
-}
-.ni-toggle:hover, .ni.open .ni-toggle { color: var(--white); }
-
-/* Caret SVG */
-.ni-caret {
-  width: 11px; height: 11px;
-  opacity: 0.4; flex-shrink: 0;
-  transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.2s;
-}
-.ni.open .ni-caret { transform: rotate(180deg); opacity: 0.9; }
-
-/* ══════════════════════════════════
-   DROPDOWN PANE
-   — appears on mouseenter
-   — height animated 0 → auto
-══════════════════════════════════ */
-.drop-pane {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 50%; transform: translateX(-50%);
-  z-index: 300;
-  overflow: hidden;
-  height: 0;
-  transition: height 0.42s cubic-bezier(0.625, 0.05, 0, 1);
-  /* min-width set per dropdown in JS */
-}
-
-.drop-inner {
-  padding: 8px;
-  background: #000;
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-}
-
-/* ── DROPDOWN CARD — exact Qualytics ── */
-.drop-card {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 16px;
-  background: var(--drop-bg);   /* rgb(18,18,18) */
-  border: 1px dashed rgba(255,255,255,0);  /* invisible by default */
-  border-radius: 0;
-  text-decoration: none;
-  width: 220px;
-  transition: border-color 0.2s;
-  cursor: pointer;
-  /* stagger animation */
-  opacity: 0;
-  transform: translateY(8px);
-}
-.drop-card:hover {
-  border-color: rgba(255,255,255,0.15);  /* Qualytics: dashed border appears on hover */
-}
-
-.drop-card-head {
-  display: flex; flex-direction: row;
-  align-items: center; gap: 10px;
-}
-
-.drop-card-icon {
-  width: 28px; height: 28px;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.5);
-}
-.drop-card-icon svg { width: 20px; height: 20px; }
-
-.drop-card-title {
-  font-family: 'Geist', sans-serif;
-  font-size: 15px; font-weight: 500;
-  color: var(--white);
-  line-height: 1.2;
-}
-
-.drop-card-desc {
-  font-family: 'Geist', sans-serif;
-  font-size: 13px; font-weight: 400;
-  color: rgba(255,255,255,0.4);
-  line-height: 1.5;
-}
-
-/* ── CTA RIGHT ── */
-.nav-cta {
-  display: flex; justify-content: flex-end;
-  align-items: center; gap: 10px;
-}
-
-.locale-wrap { display: flex; align-items: center; gap: 2px; }
-.locale-btn {
-  font-family: 'Geist', sans-serif; font-size: 11px;
-  color: rgba(255,255,255,0.25); text-decoration: none;
-  padding: 2px 4px; cursor: pointer;
-  transition: color 0.2s;
-}
-.locale-btn:hover, .locale-btn.on { color: rgba(255,255,255,0.75); }
-.locale-sep { color: rgba(255,255,255,0.1); font-size: 10px; }
-
-.btn-cta {
-  display: inline-flex; align-items: center;
-  background: var(--lime); color: var(--black);
-  border: 1px solid var(--lime); border-radius: 0;
-  padding: 0 22px; height: 44px;
-  font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 400;
-  text-decoration: none; cursor: pointer; white-space: nowrap;
-  transition: background 0.25s, border-color 0.25s, transform 0.4s cubic-bezier(0.165,0.84,0.44,1);
-}
-.btn-cta:hover { background: var(--lime-hover); border-color: var(--lime-hover); transform: translateY(-0.25rem); }
-
-/* ── HAMBURGER ── */
-.hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  cursor: pointer; padding: 8px; background: none; border: none;
-}
-.hamburger span { display: block; width: 22px; height: 2px; background: var(--white); transition: transform 0.28s, opacity 0.2s; }
-.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* ── MOBILE DRAWER ── */
-.mobile-drawer {
-  display: none; position: fixed;
-  top: var(--nav-h); left: 0; right: 0;
-  background: #000; z-index: 998;
-  overflow-y: auto; max-height: calc(100vh - var(--nav-h));
-  padding: 1.5rem 1.5rem 3rem;
-}
-.mobile-drawer.open { display: block; }
-.mob-section { margin-bottom: 1.75rem; }
-.mob-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.2); padding: 0 0 0.75rem; display: block; }
-.mob-link { display: block; font-size: 15px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: color 0.2s; }
-.mob-link:hover { color: var(--white); }
-.mob-cta { margin-top: 1.75rem; }
-.mob-btn { display: flex; align-items: center; justify-content: center; background: var(--lime); color: var(--black); border: 1px solid var(--lime); border-radius: 0; padding: 1rem; font-family: 'Geist', sans-serif; font-size: 14px; text-decoration: none; cursor: pointer; width: 100%; }
-
-@media (max-width: 900px) {
-  .nav-menu, .nav-cta { display: none; }
-  .hamburger { display: flex; }
-  .nav-inner { grid-template-columns: 1fr auto; }
-  .nav { padding: 0 20px; }
-}
-
-/* ══════════════════════════════════
-   ON-LIME VARIANT (hero) — svart nav på lime bg
-══════════════════════════════════ */
-#navWrap.lime .nav { background: #000; }
-#navWrap.lime .nav-brand { color: var(--white); }
-#navWrap.lime .ni-toggle { color: rgba(255,255,255,0.65); }
-#navWrap.lime .ni-toggle:hover, #navWrap.lime .ni.open .ni-toggle { color: var(--white); }
-#navWrap.lime .ni-caret { filter: none; }
-#navWrap.lime .btn-cta { background: var(--lime); color: var(--black); border-color: var(--lime); }
-#navWrap.lime .btn-cta:hover { background: var(--lime-hover); border-color: var(--lime-hover); }
-#navWrap.lime .locale-btn { color: rgba(255,255,255,0.3); }
-#navWrap.lime .locale-btn:hover { color: rgba(255,255,255,0.8); }
-#navWrap.lime .locale-sep { color: rgba(255,255,255,0.1); }
-#navWrap.lime .hamburger span { background: var(--white); }
-
-/* ══════════════════════════════════
-   PAGE DEMO
-══════════════════════════════════ */
-.hero {
-  height: 100vh; display: flex; align-items: center;
-  justify-content: center; flex-direction: column; gap: 8px;
-  background: var(--lime); position: relative;
-  padding-top: var(--nav-h);
-}
-.hero h1 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(5rem, 22vw, 20rem);
-  font-weight: 800; text-transform: uppercase;
-  letter-spacing: -0.03em; color: var(--black); line-height: 0.9;
-}
-.hero p { font-size: 0.7rem; color: rgba(0,0,0,0.35); text-transform: uppercase; letter-spacing: 0.15em; }
-.arrow { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.2); animation: bob 2s ease-in-out infinite; }
-@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)} }
-
-.page-section {
-  min-height: 80vh; display: flex; align-items: center;
-  justify-content: center; border-top: 1px solid rgba(255,255,255,0.03);
-}
-.sec-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.1); text-align: center; }
-.sec-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800;
-  text-transform: uppercase; color: rgba(255,255,255,0.05);
-  text-align: center; margin-top: 0.5rem;
-}
+/* PAGE */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:var(--lime);position:relative;padding-top:var(--nav-h)}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(5rem,22vw,20rem);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;color:var(--black);line-height:.9}
+.hero p{font-size:.7rem;color:rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:.15em}
+.arr{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.2);animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+.ps{min-height:80vh;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(255,255,255,.03)}
+.psl{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.1);text-align:center}
+.pst{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.5rem,8vw,7rem);font-weight:800;text-transform:uppercase;color:rgba(255,255,255,.05);text-align:center;margin-top:.5rem}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<div id="navWrap" class="lime">
+<div id="nw" class="lime">
   <header class="nav">
     <div class="nav-inner">
+      <a href="#" class="brand">Eteya</a>
+      <nav class="dmenu">
+        <ul class="dul">
 
-      <!-- LOGO -->
-      <a href="#" class="nav-brand">Eteya</a>
-
-      <!-- MENU -->
-      <nav class="nav-menu">
-        <ul class="nav-ul">
-
-          <!-- ARBETE -->
-          <li class="ni" id="ni-arbete">
-            <button class="ni-toggle">
-              Arbete
-              <svg class="ni-caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="drop-pane" id="pane-arbete">
-              <div class="drop-inner">
-                <!-- ↓↓ ÄNDRA HÄR — lägg till/ta bort .drop-card ↓↓ -->
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg></div>
-                    <span class="drop-card-title">Telestore</span>
-                  </div>
-                  <p class="drop-card-desc">E-handel · AI Automation</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.17 1.18 2 2 0 012.12 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg></div>
-                    <span class="drop-card-title">AICaller</span>
-                  </div>
-                  <p class="drop-card-desc">AI Voice Agent · Restaurant Tech</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-                    <span class="drop-card-title">ReturnAI</span>
-                  </div>
-                  <p class="drop-card-desc">AI Platform · E-handel</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-                    <span class="drop-card-title">Partner Portal</span>
-                  </div>
-                  <p class="drop-card-desc">Custom Build · B2B</p>
-                </a>
-                <!-- ↑↑ ÄNDRA HÄR ↑↑ -->
-              </div>
-            </div>
+          <li class="ni" id="ni-a">
+            <button class="nt">Arbete <svg class="caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="dp" id="p-a"><div class="di">
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg></div><span class="dct">Telestore</span></div><p class="dcd">E-handel · AI Automation</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07"/><path d="M2 2l20 20"/></svg></div><span class="dct">AICaller</span></div><p class="dcd">AI Voice Agent · Restaurant Tech</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><span class="dct">ReturnAI</span></div><p class="dcd">AI Platform · E-handel</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span class="dct">Partner Portal</span></div><p class="dcd">Custom Build · B2B</p></a>
+            </div></div>
           </li>
 
-          <!-- TJÄNSTER -->
-          <li class="ni" id="ni-tjanster">
-            <button class="ni-toggle">
-              Tjänster
-              <svg class="ni-caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="drop-pane" id="pane-tjanster">
-              <div class="drop-inner">
-                <!-- ↓↓ ÄNDRA HÄR ↓↓ -->
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
-                    <span class="drop-card-title">AI Agents</span>
-                  </div>
-                  <p class="drop-card-desc">Autonoma agenter som jobbar åt dig</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-                    <span class="drop-card-title">Processautomation</span>
-                  </div>
-                  <p class="drop-card-desc">Eliminera manuellt repetitivt arbete</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-                    <span class="drop-card-title">Custom Builds</span>
-                  </div>
-                  <p class="drop-card-desc">Skräddarsydda lösningar från grunden</p>
-                </a>
-                <!-- ↑↑ ÄNDRA HÄR ↑↑ -->
-              </div>
-            </div>
+          <li class="ni" id="ni-t">
+            <button class="nt">Tjänster <svg class="caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="dp" id="p-t"><div class="di">
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div><span class="dct">AI Agents</span></div><p class="dcd">Autonoma agenter som jobbar åt dig</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="dct">Processautomation</span></div><p class="dcd">Eliminera manuellt repetitivt arbete</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><span class="dct">Custom Builds</span></div><p class="dcd">Skräddarsydda lösningar från grunden</p></a>
+            </div></div>
           </li>
 
-          <!-- OM OSS -->
-          <li class="ni" id="ni-om">
-            <button class="ni-toggle">
-              Om oss
-              <svg class="ni-caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="drop-pane" id="pane-om">
-              <div class="drop-inner">
-                <!-- ↓↓ ÄNDRA HÄR ↓↓ -->
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                    <span class="drop-card-title">Vår story</span>
-                  </div>
-                  <p class="drop-card-desc">Hur Eteya startade och vart vi är på väg</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                    <span class="drop-card-title">Filip Thai</span>
-                  </div>
-                  <p class="drop-card-desc">Grundare & CEO</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                    <span class="drop-card-title">Värderingar</span>
-                  </div>
-                  <p class="drop-card-desc">Hur vi arbetar och vad vi tror på</p>
-                </a>
-                <!-- ↑↑ ÄNDRA HÄR ↑↑ -->
-              </div>
-            </div>
+          <li class="ni" id="ni-o">
+            <button class="nt">Om oss <svg class="caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="dp" id="p-o"><div class="di">
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="dct">Vår story</span></div><p class="dcd">Hur Eteya startade och vart vi är på väg</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="dct">Filip Thai</span></div><p class="dcd">Grundare & CEO</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span class="dct">Värderingar</span></div><p class="dcd">Hur vi arbetar och vad vi tror på</p></a>
+            </div></div>
           </li>
 
-          <!-- KONTAKT -->
-          <li class="ni" id="ni-kontakt">
-            <button class="ni-toggle">
-              Kontakt
-              <svg class="ni-caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="drop-pane" id="pane-kontakt">
-              <div class="drop-inner">
-                <!-- ↓↓ ÄNDRA HÄR ↓↓ -->
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-                    <span class="drop-card-title">Boka samtal</span>
-                  </div>
-                  <p class="drop-card-desc">30 min — helt gratis, inga förpliktelser</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-                    <span class="drop-card-title">Skicka meddelande</span>
-                  </div>
-                  <p class="drop-card-desc">Svar inom 24 timmar</p>
-                </a>
-                <a href="#" class="drop-card">
-                  <div class="drop-card-head">
-                    <div class="drop-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
-                    <span class="drop-card-title">LinkedIn</span>
-                  </div>
-                  <p class="drop-card-desc">Följ Eteya</p>
-                </a>
-                <!-- ↑↑ ÄNDRA HÄR ↑↑ -->
-              </div>
-            </div>
+          <li class="ni" id="ni-k">
+            <button class="nt">Kontakt <svg class="caret" viewBox="0 0 11 11" fill="none"><path d="M1.5 3.5L5.5 7.5L9.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="dp" id="p-k"><div class="di">
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="dct">Boka samtal</span></div><p class="dcd">30 min — helt gratis</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><span class="dct">Skicka meddelande</span></div><p class="dcd">Svar inom 24h</p></a>
+              <a href="#" class="dc"><div class="dch"><div class="dci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div><span class="dct">LinkedIn</span></div><p class="dcd">Följ Eteya</p></a>
+            </div></div>
           </li>
 
         </ul>
       </nav>
-
-      <!-- CTA -->
-      <div class="nav-cta">
-        <div class="locale-wrap">
-          <a href="#" class="locale-btn on">SV</a>
-          <span class="locale-sep">/</span>
-          <a href="#" class="locale-btn">EN</a>
-        </div>
-        <a href="#" class="btn-cta">Boka samtal</a>
+      <div class="ncta">
+        <div class="lw"><a href="#" class="lb on">SV</a><span class="ls">/</span><a href="#" class="lb">EN</a></div>
+        <a href="#" class="bcta">Boka samtal</a>
       </div>
-
-      <!-- HAMBURGER -->
-      <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+      <button class="ham" id="ham"><span></span><span></span><span></span></button>
     </div>
   </header>
 </div>
 
-<!-- MOBILE DRAWER -->
-<div class="mobile-drawer" id="mobDraw">
-  <div class="mob-section">
-    <span class="mob-label">Arbete</span>
-    <a href="#" class="mob-link">Telestore</a>
-    <a href="#" class="mob-link">AICaller</a>
-    <a href="#" class="mob-link">ReturnAI</a>
-    <a href="#" class="mob-link">Partner Portal</a>
-  </div>
-  <div class="mob-section">
-    <span class="mob-label">Tjänster</span>
-    <a href="#" class="mob-link">AI Agents</a>
-    <a href="#" class="mob-link">Processautomation</a>
-    <a href="#" class="mob-link">Custom Builds</a>
-  </div>
-  <div class="mob-section">
-    <span class="mob-label">Om oss</span>
-    <a href="#" class="mob-link">Vår story</a>
-    <a href="#" class="mob-link">Filip Thai</a>
-    <a href="#" class="mob-link">Värderingar</a>
-  </div>
-  <div class="mob-section">
-    <span class="mob-label">Kontakt</span>
-    <a href="#" class="mob-link">Boka samtal</a>
-    <a href="#" class="mob-link">Skicka meddelande</a>
-    <a href="#" class="mob-link">LinkedIn</a>
-  </div>
-  <div class="mob-cta">
-    <a href="#" class="mob-btn">Boka samtal</a>
+<!-- MOBILE OVERLAY -->
+<div class="mover" id="mover"></div>
+
+<!-- MOBILE MENU -->
+<div class="mmenu" id="mmenu">
+  <div class="mminner">
+
+    <div class="mitem" id="mi-a">
+      <button class="mtog">Arbete<div class="mplus"><div class="mph"></div><div class="mpv"></div></div></button>
+      <div class="msub" id="ms-a"><div class="msubinn">
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg></div><div><span class="mstt">Telestore</span><span class="msdsc">E-handel · AI Automation</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg></div><div><span class="mstt">AICaller</span><span class="msdsc">AI Voice Agent · Restaurant Tech</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div><span class="mstt">ReturnAI</span><span class="msdsc">AI Platform · E-handel</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div><span class="mstt">Partner Portal</span><span class="msdsc">Custom Build · B2B</span></div></a>
+      </div></div>
+    </div>
+
+    <div class="mitem" id="mi-t">
+      <button class="mtog">Tjänster<div class="mplus"><div class="mph"></div><div class="mpv"></div></div></button>
+      <div class="msub" id="ms-t"><div class="msubinn">
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div><div><span class="mstt">AI Agents</span><span class="msdsc">Autonoma agenter som jobbar åt dig</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><span class="mstt">Processautomation</span><span class="msdsc">Eliminera manuellt repetitivt arbete</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div><span class="mstt">Custom Builds</span><span class="msdsc">Skräddarsydda lösningar</span></div></a>
+      </div></div>
+    </div>
+
+    <div class="mitem" id="mi-o">
+      <button class="mtog">Om oss<div class="mplus"><div class="mph"></div><div class="mpv"></div></div></button>
+      <div class="msub" id="ms-o"><div class="msubinn">
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="mstt">Vår story</span><span class="msdsc">Hur Eteya startade</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><span class="mstt">Filip Thai</span><span class="msdsc">Grundare & CEO</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><span class="mstt">Värderingar</span><span class="msdsc">Hur vi arbetar</span></div></a>
+      </div></div>
+    </div>
+
+    <div class="mitem" id="mi-k">
+      <button class="mtog">Kontakt<div class="mplus"><div class="mph"></div><div class="mpv"></div></div></button>
+      <div class="msub" id="ms-k"><div class="msubinn">
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="1"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div><span class="mstt">Boka samtal</span><span class="msdsc">30 min — helt gratis</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><span class="mstt">Skicka meddelande</span><span class="msdsc">Svar inom 24h</span></div></a>
+        <a href="#" class="msl"><div class="msico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div><div><span class="mstt">LinkedIn</span><span class="msdsc">Följ Eteya</span></div></a>
+      </div></div>
+    </div>
+
+    <div class="mctaw">
+      <a href="#" class="mbtn">Boka samtal</a>
+    </div>
   </div>
 </div>
 
 <!-- PAGE -->
 <div class="hero" id="hero">
   <h1>Eteya</h1>
-  <p>Hovra nav-länkarna · Scrolla ner och upp</p>
-  <div class="arrow">↓ scrolla</div>
+  <p>Hovra nav (desktop) · Klicka rader (mobil) · Scrolla ner och upp</p>
+  <div class="arr">↓ scrolla</div>
 </div>
-<div class="page-section"><div><div class="sec-label">Nav gömd — scrolla upp för att se den igen</div><div class="sec-title">Arbete</div></div></div>
-<div class="page-section"><div><div class="sec-label">Hover öppnar dropdown</div><div class="sec-title">Tjänster</div></div></div>
-<div class="page-section"><div><div class="sec-label">Alla 4 dropdowns — hover trigger</div><div class="sec-title">Om oss</div></div></div>
+<div class="ps"><div><div class="psl">Nav gömd — scrolla upp</div><div class="pst">Arbete</div></div></div>
+<div class="ps"><div><div class="psl">Hover öppnar dropdown smidigt</div><div class="pst">Tjänster</div></div></div>
+<div class="ps"><div><div class="psl">Mobilvy: krympa under 900px</div><div class="pst">Om oss</div></div></div>
 
 <script>
-var navWrap = document.getElementById('navWrap');
-var hero    = document.getElementById('hero');
-var ham     = document.getElementById('ham');
-var mobDraw = document.getElementById('mobDraw');
-var openNi  = null;
-var lastY   = 0;
-var ticking = false;
-var closeTimer = null;
+var nw=document.getElementById('nw'),hero=document.getElementById('hero'),ham=document.getElementById('ham'),mmenu=document.getElementById('mmenu'),mover=document.getElementById('mover');
+var openNi=null,lastY=0,tick=false,closeT=null,mobOpen=false;
 
-/* ── SCROLL ── */
-window.addEventListener('scroll', function() {
-  if (!ticking) {
-    requestAnimationFrame(function() {
-      var y = window.scrollY;
-      var heroEnd = hero.offsetTop + hero.offsetHeight;
+// SCROLL
+window.addEventListener('scroll',function(){
+  if(!tick){requestAnimationFrame(function(){
+    var y=window.scrollY,hb=hero.offsetTop+hero.offsetHeight;
+    if(y<hb-60)nw.classList.add('lime'); else nw.classList.remove('lime');
+    if(y>100){if(y>lastY+4){nw.classList.add('hide');closeAll();}else if(y<lastY-4){nw.classList.remove('hide');}}
+    else nw.classList.remove('hide');
+    lastY=y;tick=false;
+  });tick=true;}
+},{passive:true});
 
-      // Lime ↔ mörk variant
-      if (y < heroEnd - 60) { navWrap.classList.add('lime'); }
-      else                   { navWrap.classList.remove('lime'); }
-
-      // Hide/show
-      if (y > 100) {
-        if (y > lastY + 4)      { navWrap.classList.add('hide'); closeAll(); }
-        else if (y < lastY - 4) { navWrap.classList.remove('hide'); }
-      } else {
-        navWrap.classList.remove('hide');
-      }
-      lastY = y;
-      ticking = false;
-    });
-    ticking = true;
-  }
-}, { passive: true });
-
-/* ── DROPDOWN OPEN ── */
-function openDrop(ni) {
-  if (openNi && openNi !== ni) closeDrop(openNi);
-  var id   = ni.id.replace('ni-', '');
-  var pane = document.getElementById('pane-' + id);
-  var cards = pane.querySelectorAll('.drop-card');
-
+// DESKTOP DROPDOWN — hover
+function openDrop(ni){
+  if(openNi&&openNi!==ni)closeDrop(openNi);
+  var id=ni.id.replace('ni-',''),pane=document.getElementById('p-'+id),cards=pane.querySelectorAll('.dc');
   ni.classList.add('open');
-
-  // Measure real height
-  pane.style.height = 'auto';
-  var h = pane.scrollHeight;
-  pane.style.height = '0px';
-  pane.offsetHeight; // force reflow
-  pane.style.height = h + 'px';
-
-  // Stagger cards in
-  cards.forEach(function(c, i) {
-    c.style.transition = 'none';
-    c.style.opacity    = '0';
-    c.style.transform  = 'translateY(8px)';
-    setTimeout(function() {
-      c.style.transition = 'opacity 0.25s ease ' + (i * 45) + 'ms, transform 0.3s cubic-bezier(0.165,0.84,0.44,1) ' + (i * 45) + 'ms';
-      c.style.opacity    = '1';
-      c.style.transform  = 'translateY(0)';
-    }, 10);
+  pane.style.height='auto';var h=pane.scrollHeight;pane.style.height='0px';pane.offsetHeight;pane.style.height=h+'px';
+  cards.forEach(function(c,i){
+    c.style.transition='none';c.style.opacity='0';c.style.transform='translateY(8px)';
+    setTimeout(function(){c.style.transition='opacity .25s ease '+(i*45)+'ms,transform .3s cubic-bezier(.165,.84,.44,1) '+(i*45)+'ms';c.style.opacity='1';c.style.transform='translateY(0)';},10);
   });
-
-  openNi = ni;
+  openNi=ni;
 }
-
-function closeDrop(ni) {
-  if (!ni) return;
-  var id   = ni.id.replace('ni-', '');
-  var pane = document.getElementById('pane-' + id);
-  ni.classList.remove('open');
-  pane.style.height = '0px';
-  pane.querySelectorAll('.drop-card').forEach(function(c) { c.style.opacity = '0'; });
-  if (openNi === ni) openNi = null;
+function closeDrop(ni){
+  if(!ni)return;var id=ni.id.replace('ni-',''),pane=document.getElementById('p-'+id);
+  ni.classList.remove('open');pane.style.height='0px';
+  pane.querySelectorAll('.dc').forEach(function(c){c.style.opacity='0';});
+  if(openNi===ni)openNi=null;
 }
+function closeAll(){if(openNi)closeDrop(openNi);}
 
-function closeAll() {
-  if (openNi) closeDrop(openNi);
-}
+document.querySelectorAll('.ni').forEach(function(ni){
+  ni.addEventListener('mouseenter',function(){clearTimeout(closeT);openDrop(ni);});
+  ni.addEventListener('mouseleave',function(){closeT=setTimeout(function(){closeDrop(ni);},100);});
+});
+document.addEventListener('click',function(e){if(!e.target.closest('.ni'))closeAll();});
 
-/* ── HOVER TRIGGER — mouseenter/mouseleave ── */
-document.querySelectorAll('.ni').forEach(function(ni) {
-  ni.addEventListener('mouseenter', function() {
-    clearTimeout(closeTimer);
-    openDrop(ni);
-  });
-  ni.addEventListener('mouseleave', function() {
-    closeTimer = setTimeout(function() {
-      closeDrop(ni);
-    }, 120); // small grace period — feel natural
-  });
+// HAMBURGER
+ham.addEventListener('click',function(){
+  mobOpen=!mobOpen;
+  ham.classList.toggle('open',mobOpen);
+  mmenu.classList.toggle('open',mobOpen);
+  mover.classList.toggle('show',mobOpen);
+  setTimeout(function(){mover.classList.toggle('vis',mobOpen);},10);
+});
+mover.addEventListener('click',function(){
+  mobOpen=false;ham.classList.remove('open');mmenu.classList.remove('open');mover.classList.remove('vis');
+  setTimeout(function(){mover.classList.remove('show');},700);
 });
 
-/* ── HAMBURGER ── */
-ham.addEventListener('click', function() {
-  ham.classList.toggle('open');
-  mobDraw.classList.toggle('open');
-});
-
-/* ── CLOSE ON OUTSIDE CLICK ── */
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.ni') && !e.target.closest('#mobDraw')) closeAll();
+// MOBILE SUB-EXPAND
+document.querySelectorAll('.mitem').forEach(function(item){
+  var id=item.id.replace('mi-',''),sub=document.getElementById('ms-'+id),links=sub.querySelectorAll('.msl'),openMob=false;
+  item.querySelector('.mtog').addEventListener('click',function(){
+    openMob=!openMob;
+    item.classList.toggle('open',openMob);
+    if(openMob){
+      sub.style.height='auto';var h=sub.scrollHeight;sub.style.height='0px';sub.offsetHeight;sub.style.height=h+'px';
+      links.forEach(function(l,i){
+        l.style.transition='none';l.style.opacity='0';l.style.transform='translateY(6px)';
+        setTimeout(function(){l.style.transition='opacity .25s ease '+(i*50)+'ms,transform .3s cubic-bezier(.165,.84,.44,1) '+(i*50)+'ms';l.style.opacity='1';l.style.transform='translateY(0)';},10);
+      });
+    }else{
+      sub.style.height='0px';links.forEach(function(l){l.style.opacity='0';});
+    }
+  });
 });
 </script>
 </body>
