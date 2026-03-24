@@ -13,7 +13,14 @@
     "scroll_label": "Scrolla"
   },
   "marquee": {
-    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS", "AI AGENTS", "PROCESS"]
+    "words": [
+      "AGENTS",
+      "AUTOMATION",
+      "GROWTH",
+      "NO MIDDLEMEN",
+      "RESULTS",
+      "SCALABLE"
+    ]
   },
   "work": {
     "label_ja": "代表作",
@@ -70,9 +77,21 @@
   "stats": {
     "heading": "I siffror.",
     "items": [
-      { "value": 200, "suffix": "+", "label": "timmar sparade per kund, per månad" },
-      { "value": 3, "suffix": " v", "label": "genomsnittlig tid till produktion" },
-      { "value": 50, "suffix": "+", "label": "automatiserade processer" }
+      {
+        "value": 200,
+        "suffix": "+",
+        "label": "timmar sparade per kund, per månad"
+      },
+      {
+        "value": 3,
+        "suffix": " v",
+        "label": "genomsnittlig tid till produktion"
+      },
+      {
+        "value": 50,
+        "suffix": "+",
+        "label": "automatiserade processer"
+      }
     ]
   },
   "cta": {
@@ -85,10 +104,21 @@
     "heading": "Hör av dig.",
     "subheading": "Vi svarar inom 24 timmar.",
     "fields": {
-      "name": { "label": "Namn", "placeholder": "Anna Svensson" },
-      "email": { "label": "E-post", "placeholder": "anna@företaget.se" },
-      "message": { "label": "Meddelande", "placeholder": "Berätta om ditt projekt eller din utmaning..." },
-      "honeypot": { "label": "Lämna detta fält tomt" }
+      "name": {
+        "label": "Namn",
+        "placeholder": "Anna Svensson"
+      },
+      "email": {
+        "label": "E-post",
+        "placeholder": "anna@företaget.se"
+      },
+      "message": {
+        "label": "Meddelande",
+        "placeholder": "Berätta om ditt projekt eller din utmaning..."
+      },
+      "honeypot": {
+        "label": "Lämna detta fält tomt"
+      }
     },
     "submit": "Skicka",
     "submit_loading": "Skickar...",

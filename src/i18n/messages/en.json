@@ -13,7 +13,14 @@
     "scroll_label": "Scroll"
   },
   "marquee": {
-    "words": ["INTELLIGENCE", "AUTOMATION", "RESULTS", "AI AGENTS", "PROCESS"]
+    "words": [
+      "AGENTS",
+      "AUTOMATION",
+      "GROWTH",
+      "NO MIDDLEMEN",
+      "RESULTS",
+      "SCALABLE"
+    ]
   },
   "work": {
     "label_ja": "代表作",
@@ -70,9 +77,21 @@
   "stats": {
     "heading": "By the numbers.",
     "items": [
-      { "value": 200, "suffix": "+", "label": "hours saved per client, per month" },
-      { "value": 3, "suffix": "w", "label": "average time to production" },
-      { "value": 50, "suffix": "+", "label": "automated processes" }
+      {
+        "value": 200,
+        "suffix": "+",
+        "label": "hours saved per client, per month"
+      },
+      {
+        "value": 3,
+        "suffix": "w",
+        "label": "average time to production"
+      },
+      {
+        "value": 50,
+        "suffix": "+",
+        "label": "automated processes"
+      }
     ]
   },
   "cta": {
@@ -85,10 +104,21 @@
     "heading": "Get in touch.",
     "subheading": "We respond within 24 hours.",
     "fields": {
-      "name": { "label": "Name", "placeholder": "John Smith" },
-      "email": { "label": "Email", "placeholder": "john@company.com" },
-      "message": { "label": "Message", "placeholder": "Tell us about your project or challenge..." },
-      "honeypot": { "label": "Leave this field empty" }
+      "name": {
+        "label": "Name",
+        "placeholder": "John Smith"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "john@company.com"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us about your project or challenge..."
+      },
+      "honeypot": {
+        "label": "Leave this field empty"
+      }
     },
     "submit": "Send",
     "submit_loading": "Sending...",

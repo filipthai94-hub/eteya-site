@@ -51,8 +51,8 @@ html.lenis, html.lenis body {
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
 }
-.animate-marquee { animation: marquee-fwd 50s linear infinite; }
-.animate-marquee-rev { animation: marquee-rev 50s linear infinite; }
+.animate-marquee { animation: marquee-fwd 25s linear infinite; }
+.animate-marquee-rev { animation: marquee-rev 25s linear infinite; }
 
 /* GSAP initial states */
 .gsap-reveal {
