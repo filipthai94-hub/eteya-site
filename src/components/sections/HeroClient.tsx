@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { C } from '@/lib/colors'
-import Button from '@/components/ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -151,7 +150,6 @@ export default function HeroClient({
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         gap: '2rem',
-        borderTop: `1px solid rgba(0,0,0,0.12)`,
       }}>
         <div>
           <p style={{
@@ -167,20 +165,6 @@ export default function HeroClient({
             maxWidth: '36rem',
             lineHeight: 1.65,
           }}>{subheadline}</p>
-        </div>
-
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          {/* Primär knapp */}
-          <Button variant="primary" href="#work" style={{
-            background: '#121213',
-            color: '#C8FF00',
-            border: '1px solid #121213',
-          }}>{ctaPrimary}</Button>
-          {/* Sekundär — outline */}
-          <Button variant="secondary" href="#contact" style={{
-            color: 'rgba(0,0,0,0.6)',
-            border: '1px solid rgba(0,0,0,0.2)',
-          }}>{ctaSecondary}</Button>
         </div>
       </div>
     </section>
