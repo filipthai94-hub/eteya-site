@@ -57,19 +57,26 @@ export default function HeroClient({
       gridTemplateRows: 'auto 1fr auto',
       overflow: 'hidden',
     }}>
-      {/* Hero video — desktop: täcker höger 55%, mobil: täcker hela */}
-      <div ref={imgRef} style={{
+      {/* Mobilvy-CSS — rör INTE desktop */}
+      <style>{`
+        @media (max-width: 767px) {
+          .hero-video-wrap { left: 0 !important; right: 0 !important; width: 100% !important; }
+          .hero-gradient { display: none !important; }
+          .hero-name-wrap { align-items: center !important; justify-content: center !important; padding: 0 1.5rem !important; }
+          .hero-name-wrap > div { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; width: 100% !important; }
+          .hero-eteya { font-size: 28vw !important; justify-content: center !important; }
+        }
+      `}</style>
+
+      {/* Hero video — loopande, muted, täcker höger */}
+      <div ref={imgRef} className="hero-video-wrap" style={{
         position: 'absolute',
-        top: 0, bottom: 0,
-        // Desktop: höger 55%
-        right: 0,
+        right: 0, top: 0, bottom: 0,
         width: '55%',
         zIndex: 1,
         overflow: 'hidden',
         opacity: 0,
-      }}
-        className="hero-video-wrap"
-      >
+      }}>
         <video
           autoPlay
           loop
@@ -84,54 +91,18 @@ export default function HeroClient({
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
-        {/* Gradient — endast desktop */}
+        {/* Fix 4: mjukare gradient, bredare fade-zon */}
         <div className="hero-gradient" style={{
           position: 'absolute', inset: 0,
           background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.85) 15%, rgba(200,255,0,0.4) 40%, rgba(200,255,0,0) 70%)`,
           pointerEvents: 'none',
         }} />
       </div>
-      <style>{`
-        @media (max-width: 767px) {
-          .hero-video-wrap {
-            left: 0 !important;
-            right: 0 !important;
-            width: 100% !important;
-          }
-          .hero-gradient {
-            display: none !important;
-          }
-          .hero-name-wrap {
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 0 1.5rem !important;
-          }
-          .hero-name-wrap > div {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            width: 100% !important;
-          }
-          .hero-eteya {
-            font-size: 28vw !important;
-            justify-content: center !important;
-          }
-          .hero-role span {
-            font-size: 0.65rem !important;
-            letter-spacing: 0.12em !important;
-          }
-          .hero-subheadline {
-            text-align: center !important;
-            font-size: 0.95rem !important;
-          }
-        }
-      `}</style>
 
       {/* RAD 1 — Nav spacer */}
       <div style={{ height: '4.5rem' }} />
 
-      {/* RAD 2 — Namn vertikalt centrerat desktop, top-aligned mobil */}
+      {/* RAD 2 — Namn vertikalt centrerat (Fix 1) */}
       <div ref={nameRef} className="hero-name-wrap" style={{
         position: 'relative', zIndex: 10,
         display: 'flex',
@@ -141,7 +112,7 @@ export default function HeroClient({
       }}>
         <div>
           {/* Fix 2: role-text mindre och diskret */}
-          <div ref={roleRef} className="hero-role" style={{
+          <div ref={roleRef} style={{
             marginBottom: '0.75rem',
             opacity: 0,
           }}>
@@ -173,25 +144,33 @@ export default function HeroClient({
               </span>
             ))}
           </div>
-
-          {/* Subheadline */}
-          <div ref={bottomRef} style={{ marginTop: '1.5rem', opacity: 0 }}>
-            <p className="hero-subheadline" style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              color: 'rgba(0,0,0,0.75)',
-              maxWidth: '36rem',
-              lineHeight: 1.2,
-            }}>{subheadline}</p>
-          </div>
         </div>
       </div>
 
-      {/* RAD 3 — spacer */}
-      <div />
+      {/* RAD 3 — Bottom bar */}
+      <div ref={bottomRef} style={{
+        position: 'relative', zIndex: 10,
+        padding: '2rem 2.5rem 3.5rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        flexWrap: 'wrap',
+        gap: '2rem',
+        opacity: 0,
+      }}>
+        <div>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 700,
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
+            color: 'rgba(0,0,0,0.75)',
+            maxWidth: '36rem',
+            lineHeight: 1.2,
+          }}>{subheadline}</p>
+        </div>
+      </div>
     </section>
   )
 }
