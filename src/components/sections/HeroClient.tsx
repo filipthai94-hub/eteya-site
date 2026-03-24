@@ -28,7 +28,7 @@ export default function HeroClient({
     )
     if (letters && letters.length > 0) {
       tl.fromTo(letters,
-        { y: 140, opacity: 0 },
+        { y: 60, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, stagger: 0.05 },
         '-=0.4'
       )
@@ -121,26 +121,21 @@ export default function HeroClient({
 
           {/* GIGANTISKT NAMN */}
           <div style={{
-            overflow: 'hidden',
-            lineHeight: 1,
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            fontSize: 'clamp(5rem, 12vw, 14rem)',
+            color: C.black,
+            textTransform: 'uppercase',
+            lineHeight: 0.85,
+            letterSpacing: '-0.04em',
+            whiteSpace: 'nowrap',
+            display: 'flex',
           }}>
-            <div style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: 'clamp(5rem, 12vw, 14rem)',
-              color: C.black,
-              textTransform: 'uppercase',
-              lineHeight: 0.85,
-              letterSpacing: '-0.04em',
-              whiteSpace: 'nowrap',
-              display: 'flex',
-            }}>
-              {letters.map((letter, i) => (
-                <span key={i} data-letter style={{ display: 'inline-block' }}>
-                  {letter}
-                </span>
-              ))}
-            </div>
+            {letters.map((letter, i) => (
+              <span key={i} data-letter style={{ display: 'inline-block' }}>
+                {letter}
+              </span>
+            ))}
           </div>
         </div>
       </div>
