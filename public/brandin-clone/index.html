@@ -5,11 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brandin Clone — Image Section</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700&subset=latin-ext&display=swap" rel="stylesheet">
+  <script>
+    // Blockera GSAP från att sätta overflow på body/html — måste köras INNAN GSAP laddas
+    const _origSetProperty = CSSStyleDeclaration.prototype.setProperty;
+    CSSStyleDeclaration.prototype.setProperty = function(prop, val, priority) {
+      if ((prop === 'overflow' || prop === 'overflow-y') &&
+          (this === document.body.style || this === document.documentElement.style)) return;
+      return _origSetProperty.call(this, prop, val, priority);
+    };
+    // Blockera även direkttilldelning (el.style.overflow = ...)
+    ['overflow','overflowY'].forEach(prop => {
+      const orig = Object.getOwnPropertyDescriptor(CSSStyleDeclaration.prototype, prop);
+      if (!orig) return;
+      Object.defineProperty(CSSStyleDeclaration.prototype, prop, {
+        get: orig.get,
+        set: function(val) {
+          if (this === document.body.style || this === document.documentElement.style) return;
+          orig.set.call(this, val);
+        }
+      });
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background: #080808; overflow-x: hidden; }
+    html, body { background: #080808; }
 
     /* ── SPACER ── */
     .spacer { height: 60vh; background: #080808; }
@@ -92,20 +113,15 @@
     /* ══ TEXT-BLOCK ══════════════════════════════════ */
     .text-block {
       background: #000;
-      display: grid;
-      grid-template-columns: 449fr 898fr; /* Exakt Brandin-ratio */
-      position: relative;
+      display: flex;
+      align-items: flex-start; /* Krävs för sticky i flex */
     }
 
-    /* VÄNSTER — sticky nummer, exakt som Brandin */
+    /* VÄNSTER — sticky nummer */
     .col-num {
-      position: relative; /* sticky-container — begränsar räckvidden */
-    }
-
-    /* Sticky-element */
-    .sticky-num-wrap {
       position: sticky;
       top: 80px;
+      flex: 0 0 449px; /* Exakt Brandin-bredd */
     }
 
     .big-num {
@@ -258,9 +274,7 @@
 
     <!-- VÄNSTER: Sticky nummer -->
     <div class="col-num">
-      <div class="sticky-num-wrap">
-        <span class="big-num">01</span>
-      </div>
+      <span class="big-num">01</span>
     </div>
 
     <!-- HÖGER: Innehåll -->
