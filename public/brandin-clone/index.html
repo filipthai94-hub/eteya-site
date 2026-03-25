@@ -44,7 +44,7 @@
       background: #C8FF00;
     }
 
-    /* ── BAKGRUNDSBILD ── */
+    /* ── BAKGRUNDSBILD — z-index 2 så den är ovanför pattern ── */
     .brandin-bg {
       position: absolute;
       inset: -20% 0;
@@ -55,6 +55,20 @@
       background-position: center center;
       will-change: transform;
       transform-origin: center center;
+      z-index: 1;
+    }
+
+    /* ── SVG-MÖNSTER — lager mellan bakgrundsfärg och robot, exakt som Brandin ── */
+    .brandin-pattern {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('./ai-pattern.svg');
+      background-size: cover;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      z-index: 1;
     }
 
     /* ── GRADIENT ── */
@@ -62,7 +76,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.85) 100%);
-      z-index: 1;
+      z-index: 2;
     }
 
     /* ── TEXT — exakt Brandin: 58px från vänster, label 161px från botten, rubrik 60px från botten ── */
@@ -269,6 +283,7 @@
 
   <div class="brandin-section">
     <div class="brandin-bg"></div>
+    <div class="brandin-pattern"></div>
     <div class="brandin-overlay"></div>
     <div class="brandin-text">
       <span class="brandin-label">// 01</span>
