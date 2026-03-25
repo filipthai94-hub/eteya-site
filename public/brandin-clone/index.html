@@ -65,23 +65,21 @@
       z-index: 1;
     }
 
-    /* ── TEXT ── */
+    /* ── TEXT — exakt Brandin: 58px från vänster, label 161px från botten, rubrik 60px från botten ── */
     .brandin-text {
       position: absolute;
-      bottom: 4vw;
-      left: 4vw;
+      bottom: 60px;  /* Brandin: 60px från botten = rubrikens underkant */
+      left: 58px;    /* Brandin: 58px från vänster */
       z-index: 2;
-      overflow: hidden;
     }
 
     .brandin-label {
       display: block;
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(12px, 1.4vw, 22px);
+      font-size: 1.6vw;   /* Brandin: 23.04px / 1440px = 1.6vw */
       font-weight: 400;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 12px;
+      color: #fff;
+      margin-bottom: 20px; /* Brandin: label 161px från botten, rubrik 60px */
       line-height: 1;
       opacity: 0;
       transform: translateY(10px);
@@ -90,9 +88,9 @@
     /* Rubrik — varje bokstav är ett span */
     .brandin-heading {
       font-family: 'DM Sans', sans-serif;
-      font-size: 8vw;
-      font-weight: 700;
-      line-height: 0.88;
+      font-size: 6.25vw; /* Brandin: 90px / 1440px = 6.25vw */
+      font-weight: 400;  /* Brandin: 400, inte 700 */
+      line-height: 0.9;
       color: #fff;
       letter-spacing: -0.02em;
       white-space: nowrap;
