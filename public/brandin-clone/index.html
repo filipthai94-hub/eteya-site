@@ -97,18 +97,17 @@
       position: relative;
     }
 
-    /* VÄNSTER — sticky nummer */
+    /* VÄNSTER — sticky nummer, exakt som Brandin */
     .col-num {
-      position: relative;
-      border-right: 1px solid rgba(255,255,255,0.06);
+      position: relative; /* sticky-container — begränsar räckvidden */
     }
 
+    /* Litet sticky-element precis som .vc_column-inner på Brandin */
     .sticky-num-wrap {
       position: sticky;
       top: 145px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 0; /* Elementet tar ingen höjd — numret sticker ut */
+      overflow: visible;
     }
 
     .big-num {
@@ -121,6 +120,7 @@
       user-select: none;
       font-size: 10px; /* sätts av JS fitBigNum() */
       will-change: opacity;
+      display: block;
     }
 
     /* HÖGER — content */
