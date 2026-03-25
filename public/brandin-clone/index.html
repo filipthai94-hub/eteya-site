@@ -85,9 +85,150 @@
         white-space: nowrap;
       }
       .brandin-text { left: 5vw; bottom: 6vw; }
-      /* På mobil — ingen clip, visa Ä direkt utan animation */
       .char-wrap { display: inline; overflow: visible; padding-top: 0; margin-top: 0; }
       .char-inner { display: inline; transform: none !important; }
+    }
+
+    /* ══ TEXT-BLOCK ══════════════════════════════════ */
+    .text-block {
+      background: #000;
+      display: grid;
+      grid-template-columns: 449fr 898fr; /* Exakt Brandin-ratio */
+      position: relative;
+    }
+
+    /* VÄNSTER — sticky nummer */
+    .col-num {
+      position: relative;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .sticky-num-wrap {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .big-num {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+      line-height: 1;
+      white-space: nowrap;
+      user-select: none;
+      font-size: 28vw; /* fitText override via JS */
+      opacity: 0.08;
+      will-change: opacity;
+    }
+
+    /* HÖGER — content */
+    .col-content {
+      padding: 86.4px 62px 86.4px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .content-heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 45px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1.35px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      max-width: 680px;
+    }
+
+    .content-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 28px;
+      color: rgba(255,255,255,0.55);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    /* Numrerad lista */
+    .nectar-list {
+      list-style: none;
+      margin-bottom: 48px;
+      max-width: 560px;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .list-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+    /* Border animation — linje glider in från vänster vid hover */
+    .list-item::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #C8FF00;
+      transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .list-item:hover::after { width: 100%; }
+    .list-item:hover { color: rgba(255,255,255,0.9); }
+
+    .item-label { flex: 1; }
+
+    .item-num {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      margin-left: 16px;
+    }
+
+    /* Knapp */
+    .eteya-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      padding: 0 24px;
+      background: #C8FF00;
+      color: #121213;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      width: fit-content;
+      letter-spacing: 0.02em;
+      transition: background 0.4s ease, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
+
+    /* Mobil text-block */
+    @media (max-width: 600px) {
+      .text-block { grid-template-columns: 1fr; }
+      .col-num { display: none; }
+      .col-content { padding: 48px 24px; }
+      .content-heading { font-size: 28px; letter-spacing: -0.5px; }
     }
 
     /* Varje char-wrapper clippar tecknet */
@@ -116,6 +257,32 @@
     <div class="brandin-text">
       <span class="brandin-label">// 01</span>
       <h1 class="brandin-heading" data-scramble="KARTLÄGGNING"></h1>
+    </div>
+  </div>
+
+  <!-- ═══ TEXT-BLOCKET ═══ -->
+  <div class="text-block">
+
+    <!-- VÄNSTER: Sticky nummer -->
+    <div class="col-num">
+      <div class="sticky-num-wrap">
+        <span class="big-num">01</span>
+      </div>
+    </div>
+
+    <!-- HÖGER: Innehåll -->
+    <div class="col-content">
+      <h2 class="content-heading">VI HITTAR PENGARNA DU LÄMNAR KVAR.</h2>
+      <p class="content-body">Innan vi bygger något lyssnar vi. Vi kartlägger dina flöden, hittar flaskhalsarna och identifierar exakt var AI gör störst skillnad — mätt i tid och pengar.</p>
+
+      <ul class="nectar-list">
+        <li class="list-item"><span class="item-label">Processanalys</span><span class="item-num">01</span></li>
+        <li class="list-item"><span class="item-label">Automationspotential</span><span class="item-num">02</span></li>
+        <li class="list-item"><span class="item-label">Målsättning &amp; KPI:er</span><span class="item-num">03</span></li>
+        <li class="list-item"><span class="item-label">Verktygsval</span><span class="item-num">04</span></li>
+      </ul>
+
+      <a href="#" class="eteya-btn">Boka ett samtal</a>
     </div>
   </div>
 
@@ -217,6 +384,53 @@
       start: 'top 75%',
       once: true,
       onEnter: () => scramble(heading, text, 1000, 200),
+    });
+
+    /* ═══ TEXT-BLOCK ANIMATIONER ═══════════════════════ */
+    const textBlock   = document.querySelector('.text-block');
+    const bigNum      = document.querySelector('.big-num');
+    const contentH    = document.querySelector('.content-heading');
+    const contentBody = document.querySelector('.content-body');
+    const listItems   = document.querySelectorAll('.list-item');
+
+    // fitText — fyll kolumnbredden med numret
+    function fitBigNum() {
+      const col = document.querySelector('.col-num');
+      if (!col) return;
+      bigNum.style.fontSize = '500px';
+      const ratio = col.clientWidth / bigNum.scrollWidth;
+      bigNum.style.fontSize = Math.floor(500 * ratio * 0.9) + 'px';
+    }
+    fitBigNum();
+    new ResizeObserver(fitBigNum).observe(document.querySelector('.col-num'));
+
+    // Opacity scrub på numret när man scrollar igenom text-blocket
+    gsap.fromTo(bigNum,
+      { opacity: 0.04 },
+      { opacity: 0.16, ease: 'none',
+        scrollTrigger: { trigger: textBlock, start: 'top bottom', end: 'bottom top', scrub: true }
+      }
+    );
+
+    // Blur-reveal rubrik
+    gsap.set(contentH, { opacity: 0, y: 20, filter: 'blur(12px)' });
+    gsap.to(contentH, {
+      opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: contentH, start: 'top 85%', once: true }
+    });
+
+    // Body text fade
+    gsap.set(contentBody, { opacity: 0, y: 12 });
+    gsap.to(contentBody, {
+      opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: contentBody, start: 'top 88%', once: true }
+    });
+
+    // List items stagger slide-in med border-animation
+    gsap.set(listItems, { opacity: 0, y: 14 });
+    gsap.to(listItems, {
+      opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08,
+      scrollTrigger: { trigger: '.nectar-list', start: 'top 88%', once: true }
     });
 
   </script>
