@@ -120,7 +120,7 @@
       line-height: 1;
       white-space: nowrap;
       user-select: none;
-      font-size: 28vw;
+      font-size: 10px; /* sätts av JS fitBigNum() */
       will-change: opacity;
     }
 
@@ -391,13 +391,14 @@
     const contentBody = document.querySelector('.content-body');
     const listItems   = document.querySelectorAll('.list-item');
 
-    // fitText — fyll kolumnbredden med numret
+    // fitText — fyll kolumnbredden med numret exakt
     function fitBigNum() {
       const col = document.querySelector('.col-num');
       if (!col) return;
-      bigNum.style.fontSize = '500px';
-      const ratio = col.clientWidth / bigNum.scrollWidth;
-      bigNum.style.fontSize = Math.floor(500 * ratio * 0.9) + 'px';
+      const targetW = col.clientWidth * 0.88; // 88% av kolumnbredden
+      bigNum.style.fontSize = '10px';
+      const ratio = targetW / bigNum.scrollWidth;
+      bigNum.style.fontSize = Math.floor(10 * ratio) + 'px';
     }
     fitBigNum();
     new ResizeObserver(fitBigNum).observe(document.querySelector('.col-num'));
