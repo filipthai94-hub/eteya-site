@@ -102,12 +102,10 @@
       position: relative; /* sticky-container — begränsar räckvidden */
     }
 
-    /* Litet sticky-element precis som .vc_column-inner på Brandin */
+    /* Sticky-element — följer scroll inom .col-num */
     .sticky-num-wrap {
       position: sticky;
-      top: 145px;
-      height: 0; /* Elementet tar ingen höjd — numret sticker ut */
-      overflow: visible;
+      top: 80px;
     }
 
     .big-num {
@@ -120,7 +118,7 @@
       user-select: none;
       font-size: 10px; /* sätts av JS fitBigNum() */
       will-change: opacity;
-      display: block;
+      display: inline-block;
     }
 
     /* HÖGER — content */
@@ -390,14 +388,20 @@
     const contentBody = document.querySelector('.content-body');
     const listItems   = document.querySelectorAll('.list-item');
 
-    // fitText — fyll kolumnbredden med numret exakt
+    // fitText — binär sökning tills numret fyller kolumnen
     function fitBigNum() {
       const col = document.querySelector('.col-num');
       if (!col) return;
-      const targetW = col.clientWidth * 0.88; // 88% av kolumnbredden
-      bigNum.style.fontSize = '10px';
-      const ratio = targetW / bigNum.scrollWidth;
-      bigNum.style.fontSize = Math.floor(10 * ratio) + 'px';
+      const targetW = col.clientWidth * 0.88;
+      let lo = 50, hi = 800, mid;
+      bigNum.style.whiteSpace = 'nowrap';
+      for (let i = 0; i < 20; i++) {
+        mid = Math.round((lo + hi) / 2);
+        bigNum.style.fontSize = mid + 'px';
+        if (bigNum.scrollWidth < targetW) lo = mid;
+        else hi = mid;
+      }
+      bigNum.style.fontSize = lo + 'px';
     }
     fitBigNum();
     new ResizeObserver(fitBigNum).observe(document.querySelector('.col-num'));
