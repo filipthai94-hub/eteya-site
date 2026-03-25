@@ -105,8 +105,7 @@
 
     .sticky-num-wrap {
       position: sticky;
-      top: 0;
-      height: 100vh;
+      top: 145px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -117,12 +116,11 @@
       font-family: 'DM Sans', sans-serif;
       font-weight: 700;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.35);
       line-height: 1;
       white-space: nowrap;
       user-select: none;
-      font-size: 28vw; /* fitText override via JS */
-      opacity: 0.08;
+      font-size: 28vw;
       will-change: opacity;
     }
 
@@ -406,8 +404,8 @@
 
     // Opacity scrub på numret när man scrollar igenom text-blocket
     gsap.fromTo(bigNum,
-      { opacity: 0.04 },
-      { opacity: 0.16, ease: 'none',
+      { opacity: 0.15 },
+      { opacity: 0.55, ease: 'none',
         scrollTrigger: { trigger: textBlock, start: 'top bottom', end: 'bottom top', scrub: true }
       }
     );
