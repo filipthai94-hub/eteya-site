@@ -34,6 +34,27 @@
 
     /* ── SPACER ── */
     .spacer { height: 60vh; background: #080808; }
+    @media (max-width: 768px) { .spacer { height: 20vh; } }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      background: #000;
+      padding: 80px 60px 48px;
+    }
+    .section-header h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 98px;
+      font-weight: 300;
+      color: #fff;
+      line-height: 98px;
+      text-transform: uppercase;
+      letter-spacing: -1.96px;
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .section-header { padding: 48px 16px 32px; }
+      .section-header h2 { font-size: clamp(3rem, 10vw, 5rem); }
+    }
 
     /* ── SECTION ── */
     .brandin-section {
@@ -50,25 +71,23 @@
       inset: -20% 0;
       width: 100%;
       height: 140%;
-      background-image: url('./ai-bg.webp');
-      background-size: cover;
+      background-image: url('./eteya-brain.png');
+      background-size: 120%;
       background-position: center center;
       will-change: transform;
       transform-origin: center center;
       z-index: 1;
     }
 
-    /* ── SVG-MÖNSTER — z-index 0 = bakom robot (z-index 1) ── */
-    .brandin-pattern {
+    /* ── MATRIX RAIN — z-index 0 = bakom robot (z-index 1) ── */
+    #matrix-canvas {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-image: url('./eteya-pattern.svg');
-      background-size: cover;
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
       z-index: 0;
+      opacity: 0.18;
+      pointer-events: none;
     }
 
     /* ── GRADIENT — ovanpå robot ── */
@@ -112,10 +131,23 @@
       display: block;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .brandin-section {
+        height: 60vh;
+      }
+      .brandin-bg {
+        inset: 0;
+        height: 100%;
+        background-size: 250%;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
       .brandin-heading {
         font-size: 9.5vw;
         white-space: nowrap;
+      }
+      .brandin-label {
+        font-size: 3.5vw;
       }
       .brandin-text { left: 5vw; bottom: 6vw; }
       .char-wrap { display: inline; overflow: visible; padding-top: 0; margin-top: 0; }
@@ -143,8 +175,8 @@
        align-self:stretch säkerställer att den är lika hög som högerkolumnen
        — det ger sticky korrekt scroll-utrymme */
     .col-num {
-      flex: 0 0 449px;
-      width: 449px;
+      flex: 0 0 370px;
+      width: 370px;
       position: relative;
       align-self: stretch;
     }
@@ -160,12 +192,14 @@
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
       color: #fff;
-      line-height: 1;
+      line-height: 0.8;
       white-space: nowrap;
       user-select: none;
       font-size: 10px; /* sätts av JS */
       display: inline-block;
     }
+
+
 
     /* HÖGER: 898px = resten, padding 13.45px vänster/höger (Brandin-exakt) */
     .col-content {
@@ -261,6 +295,46 @@
       .content-heading { font-size: 31.2px; line-height: 31.2px; }
     }
 
+    /* ══ BLOCK 03 — bakgrundsbild (identisk struktur som Block 01) ══ */
+    .brandin-bg-03 {
+      position: absolute;
+      inset: -20% 0;
+      width: 100%;
+      height: 140%;
+      background-image: url('./eteya-figure.png');
+      background-size: 120%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      z-index: 1;
+      will-change: transform;
+    }
+    @media (max-width: 768px) {
+      .brandin-bg-03 {
+        background-size: 250%;
+        background-position: center center;
+      }
+    }
+
+    /* ══ BLOCK 02 — bakgrundsbild (identisk struktur som Block 01) ══ */
+    .brandin-bg-02 {
+      position: absolute;
+      inset: -20% 0;
+      width: 100%;
+      height: 140%;
+      background-image: url('./eteya-arm.png');
+      background-size: 120%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      z-index: 1;
+      will-change: transform;
+    }
+    @media (max-width: 768px) {
+      .brandin-bg-02 {
+        background-size: 250%;
+        background-position: center center;
+      }
+    }
+
     /* Varje char-wrapper clippar tecknet */
     .char-wrap {
       display: inline-block;
@@ -281,9 +355,14 @@
 
   <div class="spacer"></div>
 
+  <!-- ═══ SECTION HEADER ═══ -->
+  <div class="section-header">
+    <h2>SÅ HÄR LEVERERAR VI.</h2>
+  </div>
+
   <div class="brandin-section">
     <div class="brandin-bg"></div>
-    <div class="brandin-pattern"></div>
+    <canvas id="matrix-canvas"></canvas>
     <div class="brandin-overlay"></div>
     <div class="brandin-text">
       <span class="brandin-label">// 01</span>
@@ -320,6 +399,72 @@
         <a href="#" class="eteya-btn">Boka ett samtal</a>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ═══ BLOCK 02 — BILDSEKTIONEN ═══ -->
+  <div class="brandin-section brandin-section-02">
+    <div class="brandin-bg-02"></div>
+    <canvas id="matrix-canvas-02"></canvas>
+    <div class="brandin-overlay"></div>
+    <div class="brandin-text">
+      <span class="brandin-label">// 02</span>
+      <h1 class="brandin-heading brandin-heading-02" data-scramble="PRODUKTION"></h1>
+    </div>
+  </div>
+
+  <!-- ═══ BLOCK 02 — TEXT-BLOCKET ═══ -->
+  <div class="text-block text-block-02">
+    <div class="text-block-inner">
+      <div class="col-num">
+        <div class="col-num-sticky">
+          <span class="big-num">02</span>
+        </div>
+      </div>
+      <div class="col-content">
+        <h2 class="content-heading">INGA PLANER. BARA RESULTAT.</h2>
+        <p class="content-body">Vi levererar fungerande system, inte presentationer. Från godkänd brief till live-agent på veckor — integrerat i dina befintliga verktyg.</p>
+        <ul class="nectar-list">
+          <li class="list-item"><span class="item-label">Agentbygge och konfiguration</span><span class="item-num">01</span></li>
+          <li class="list-item"><span class="item-label">Systemintegrationer</span><span class="item-num">02</span></li>
+          <li class="list-item"><span class="item-label">Testning i verklig miljö</span><span class="item-num">03</span></li>
+          <li class="list-item"><span class="item-label">Iteration och finjustering</span><span class="item-num">04</span></li>
+        </ul>
+        <a href="#" class="eteya-btn">Boka ett samtal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BLOCK 03 — BILDSEKTIONEN ═══ -->
+  <div class="brandin-section brandin-section-03">
+    <div class="brandin-bg-03"></div>
+    <canvas id="matrix-canvas-03"></canvas>
+    <div class="brandin-overlay"></div>
+    <div class="brandin-text">
+      <span class="brandin-label">// 03</span>
+      <h1 class="brandin-heading brandin-heading-03" data-scramble="EXPANSION"></h1>
+    </div>
+  </div>
+
+  <!-- ═══ BLOCK 03 — TEXT-BLOCKET ═══ -->
+  <div class="text-block text-block-03">
+    <div class="text-block-inner">
+      <div class="col-num">
+        <div class="col-num-sticky">
+          <span class="big-num">03</span>
+        </div>
+      </div>
+      <div class="col-content">
+        <h2 class="content-heading">VI STANNAR KVAR. DU FORTSÄTTER VÄXA.</h2>
+        <p class="content-body">En agent är en start. Vi optimerar kontinuerligt, bygger nya automationer när du växer och rapporterar resultat varje månad.</p>
+        <ul class="nectar-list">
+          <li class="list-item"><span class="item-label">Löpande optimering</span><span class="item-num">01</span></li>
+          <li class="list-item"><span class="item-label">Ny automatisering</span><span class="item-num">02</span></li>
+          <li class="list-item"><span class="item-label">Support och underhåll</span><span class="item-num">03</span></li>
+          <li class="list-item"><span class="item-label">ROI-rapportering</span><span class="item-num">04</span></li>
+        </ul>
+        <a href="#" class="eteya-btn">Boka ett samtal</a>
+      </div>
     </div>
   </div>
 
@@ -433,28 +578,32 @@
     const contentBody = document.querySelector('.content-body');
     const listItems   = document.querySelectorAll('.list-item');
 
-    // fitText — binär sökning, fyller 88% av col-num bredden
-    function fitBigNum() {
-      const col = document.querySelector('.col-num');
-      if (!col) return;
-      const targetW = col.clientWidth * 0.88;
+    // fitText — generisk, tar emot vilket big-num element som helst
+    function fitNum(el) {
+      const col = el.closest('.col-num');
+      if (!col || col.clientWidth < 10) return;
+      const targetW = col.clientWidth * 0.95;
       let lo = 50, hi = 800;
-      bigNum.style.whiteSpace = 'nowrap';
+      el.style.whiteSpace = 'nowrap';
       for (let i = 0; i < 20; i++) {
         const mid = Math.round((lo + hi) / 2);
-        bigNum.style.fontSize = mid + 'px';
-        if (bigNum.scrollWidth < targetW) lo = mid;
+        el.style.fontSize = mid + 'px';
+        if (el.scrollWidth < targetW) lo = mid;
         else hi = mid;
       }
-      bigNum.style.fontSize = lo + 'px';
+      el.style.fontSize = lo + 'px';
     }
-    fitBigNum();
-    new ResizeObserver(fitBigNum).observe(document.querySelector('.col-num'));
+
+    // Kör på alla .big-num element
+    document.querySelectorAll('.big-num').forEach(el => {
+      fitNum(el);
+      new ResizeObserver(() => fitNum(el)).observe(el.closest('.col-num'));
+    });
 
     // Opacity scrub på numret när man scrollar igenom text-blocket
     gsap.fromTo(bigNum,
-      { opacity: 0.15 },
-      { opacity: 0.55, ease: 'none',
+      { opacity: 0.7 },
+      { opacity: 1, ease: 'none',
         scrollTrigger: { trigger: textBlock, start: 'top bottom', end: 'bottom top', scrub: true }
       }
     );
@@ -480,6 +629,215 @@
       scrollTrigger: { trigger: '.nectar-list', start: 'top 88%', once: true }
     });
 
+    /* ═══ BLOCK 02 ANIMATIONER — exakt samma som Block 01 ═══ */
+    const section02   = document.querySelector('.brandin-section-02');
+    const bg02        = document.querySelector('.brandin-bg-02');
+    const heading02   = document.querySelector('.brandin-heading-02');
+    const label02     = section02.querySelector('.brandin-label');
+    const text02      = heading02.dataset.scramble;
+    const textBlock02 = document.querySelector('.text-block-02');
+    const bigNum02    = textBlock02.querySelector('.big-num');
+    const contentH02  = textBlock02.querySelector('.content-heading');
+    const contentB02  = textBlock02.querySelector('.content-body');
+    const listItems02 = textBlock02.querySelectorAll('.list-item');
+
+    // Bygg letter-reveal markup
+    heading02.innerHTML = [...text02].map(ch =>
+      ch === ' ' ? ' ' : `<span class="char-wrap"><span class="char-inner">${ch}</span></span>`
+    ).join('');
+    const chars02 = heading02.querySelectorAll('.char-inner');
+
+    // Zoom-out
+    gsap.fromTo(bg02, { scale: 1.15 }, { scale: 1, ease: 'power2.out',
+      scrollTrigger: { trigger: section02, start: 'top 90%', end: 'top 20%', scrub: 0.8 }
+    });
+    // Parallax
+    gsap.to(bg02, { y: '15%', ease: 'none',
+      scrollTrigger: { trigger: section02, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // Letter reveal + label — exakt samma timeline som Block 01
+    const tl02 = gsap.timeline({ scrollTrigger: { trigger: section02, start: 'top 75%', once: true } });
+    tl02.to(label02, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    tl02.to(chars02, { y: '0%', duration: 0.7, ease: 'power3.out', stagger: 0.035 }, '-=0.3');
+
+    // Scramble
+    ScrollTrigger.create({ trigger: section02, start: 'top 75%', once: true,
+      onEnter: () => scramble(heading02, text02, 1000, 200)
+    });
+
+    // Siffra opacity scrub
+    gsap.fromTo(bigNum02, { opacity: 0.7 }, { opacity: 1, ease: 'none',
+      scrollTrigger: { trigger: textBlock02, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    // Rubrik blur-reveal
+    gsap.set(contentH02, { opacity: 0, y: 20, filter: 'blur(12px)' });
+    gsap.to(contentH02, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: contentH02, start: 'top 85%', once: true }
+    });
+    // Body fade
+    gsap.set(contentB02, { opacity: 0, y: 12 });
+    gsap.to(contentB02, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: contentB02, start: 'top 88%', once: true }
+    });
+    // List stagger
+    gsap.set(listItems02, { opacity: 0, y: 14 });
+    gsap.to(listItems02, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08,
+      scrollTrigger: { trigger: textBlock02.querySelector('.nectar-list'), start: 'top 88%', once: true }
+    });
+
+    /* ═══ BLOCK 03 ANIMATIONER — exakt samma som Block 02 ═══ */
+    const section03   = document.querySelector('.brandin-section-03');
+    const bg03        = document.querySelector('.brandin-bg-03');
+    const heading03   = document.querySelector('.brandin-heading-03');
+    const label03     = section03.querySelector('.brandin-label');
+    const text03      = heading03.dataset.scramble;
+    const textBlock03 = document.querySelector('.text-block-03');
+    const bigNum03    = textBlock03.querySelector('.big-num');
+    const contentH03  = textBlock03.querySelector('.content-heading');
+    const contentB03  = textBlock03.querySelector('.content-body');
+    const listItems03 = textBlock03.querySelectorAll('.list-item');
+
+    heading03.innerHTML = [...text03].map(ch =>
+      ch === ' ' ? ' ' : `<span class="char-wrap"><span class="char-inner">${ch}</span></span>`
+    ).join('');
+    const chars03 = heading03.querySelectorAll('.char-inner');
+
+    gsap.fromTo(bg03, { scale: 1.15 }, { scale: 1, ease: 'power2.out',
+      scrollTrigger: { trigger: section03, start: 'top 90%', end: 'top 20%', scrub: 0.8 }
+    });
+    gsap.to(bg03, { y: '15%', ease: 'none',
+      scrollTrigger: { trigger: section03, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    const tl03 = gsap.timeline({ scrollTrigger: { trigger: section03, start: 'top 75%', once: true } });
+    tl03.to(label03, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    tl03.to(chars03, { y: '0%', duration: 0.7, ease: 'power3.out', stagger: 0.035 }, '-=0.3');
+
+    ScrollTrigger.create({ trigger: section03, start: 'top 75%', once: true,
+      onEnter: () => scramble(heading03, text03, 1000, 200)
+    });
+
+    gsap.fromTo(bigNum03, { opacity: 0.7 }, { opacity: 1, ease: 'none',
+      scrollTrigger: { trigger: textBlock03, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+
+    gsap.set(contentH03, { opacity: 0, y: 20, filter: 'blur(12px)' });
+    gsap.to(contentH03, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: contentH03, start: 'top 85%', once: true }
+    });
+    gsap.set(contentB03, { opacity: 0, y: 12 });
+    gsap.to(contentB03, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: contentB03, start: 'top 88%', once: true }
+    });
+    gsap.set(listItems03, { opacity: 0, y: 14 });
+    gsap.to(listItems03, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08,
+      scrollTrigger: { trigger: textBlock03.querySelector('.nectar-list'), start: 'top 88%', once: true }
+    });
+
+  </script>
+
+  <script>
+    // ── MATRIX RAIN ──
+    (function() {
+      const canvas = document.getElementById('matrix-canvas');
+      const section = canvas.closest('.brandin-section');
+      const ctx = canvas.getContext('2d');
+
+      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const fontSize = 14;
+      let cols, drops;
+
+      function resize() {
+        canvas.width  = section.offsetWidth;
+        canvas.height = section.offsetHeight;
+        cols  = Math.floor(canvas.width / fontSize);
+        drops = Array(cols).fill(1);
+      }
+
+      function draw() {
+        // Semi-transparent lime flush — skapar fade-trail
+        ctx.fillStyle = 'rgba(200, 255, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
+
+    // ── MATRIX RAIN Block 02 ──
+    (function() {
+      const canvas = document.getElementById('matrix-canvas-02');
+      const section = canvas.closest('.brandin-section');
+      const ctx = canvas.getContext('2d');
+      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const fontSize = 14;
+      let cols, drops;
+      function resize() {
+        canvas.width  = section.offsetWidth;
+        canvas.height = section.offsetHeight;
+        cols  = Math.floor(canvas.width / fontSize);
+        drops = Array(cols).fill(1);
+      }
+      function draw() {
+        ctx.fillStyle = 'rgba(200, 255, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
+
+    // ── MATRIX RAIN Block 03 ──
+    (function() {
+      const canvas = document.getElementById('matrix-canvas-03');
+      const section = canvas.closest('.brandin-section');
+      const ctx = canvas.getContext('2d');
+      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const fontSize = 14;
+      let cols, drops;
+      function resize() {
+        canvas.width  = section.offsetWidth;
+        canvas.height = section.offsetHeight;
+        cols  = Math.floor(canvas.width / fontSize);
+        drops = Array(cols).fill(1);
+      }
+      function draw() {
+        ctx.fillStyle = 'rgba(200, 255, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
   </script>
 </body>
 </html>

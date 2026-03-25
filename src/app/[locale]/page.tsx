@@ -3,6 +3,7 @@ import Hero from '@/components/sections/Hero'
 import MarqueeSection from '@/components/sections/Marquee'
 import Work from '@/components/sections/Work'
 import Services from '@/components/sections/Services'
+import ProcessSection from '@/components/sections/ProcessSection'
 import Stats from '@/components/sections/Stats'
 import CTASection from '@/components/sections/CTASection'
 import Contact from '@/components/sections/Contact'
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <MarqueeSection />
       <Services />
+      <ProcessSection />
       <Work />
       <Stats />
       <CTASection />
