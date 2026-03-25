@@ -102,22 +102,23 @@
       position: relative; /* sticky-container — begränsar räckvidden */
     }
 
-    /* Sticky-element — följer scroll inom .col-num */
+    /* Sticky-element — exakt som Brandins .vc_column-inner */
     .sticky-num-wrap {
       position: sticky;
-      top: 80px;
+      top: 145px;
+      height: 318px; /* Brandin: 318px */
+      display: flex;
+      align-items: center;
     }
 
     .big-num {
       font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      color: transparent;
-      -webkit-text-stroke: 1.5px rgba(255,255,255,0.35);
+      font-weight: 400; /* Brandin: 400 */
+      color: #fff;      /* Brandin: solid vit, INGEN stroke */
       line-height: 1;
       white-space: nowrap;
       user-select: none;
-      font-size: 10px; /* sätts av JS fitBigNum() */
-      will-change: opacity;
+      font-size: 10px;  /* sätts av JS fitBigNum() */
       display: inline-block;
     }
 
