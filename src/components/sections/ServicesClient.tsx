@@ -64,20 +64,25 @@ const CSS = `
   }
   #services-section .service-title::before {
     content: ""; position: absolute; z-index: -1; top: 0; left: 0;
-    transform: translateY(35%); width: 100%; height: 300%;
-    transition: all 0.45s cubic-bezier(0.1, 0, 0.2, 1);
-    background-color: var(--clr-light-black); border-radius: 100%;
+    transform: translateY(100%); width: 100%; height: 100%;
+    transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
+                border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+    background-color: var(--clr-light-black); border-radius: 50%;
   }
   #services-section .service-card:not(.is-active) .service-title:hover::before {
+    border-radius: 0; transform: translateY(0%);
+  }
+  #services-section .service-card.is-active .service-title::before {
     border-radius: 0; transform: translateY(0%);
   }
 
   /* Arrow icon */
   #services-section .service-title i {
     display: inline-block; width: var(--icon-size); height: var(--icon-size);
-    flex-shrink: 0; transition: var(--cubic-1);
+    flex-shrink: 0;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
     background-repeat: no-repeat; background-size: 100% 100%;
-    transform: rotate(-45deg);
+    transform: rotate(0deg);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
   }
   #services-section .service-card.is-active .service-title i { transform: rotate(45deg); }
@@ -97,7 +102,8 @@ const CSS = `
   #services-section .service-counter-line {
     position: relative; display: inline-block;
     width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
-    transition: var(--transition-1);
+    transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+                background-color 0.3s ease;
     background-color: rgba(var(--rgb-white), 0.4);
   }
   #services-section .service-counter-line.is-active {
@@ -120,9 +126,11 @@ const CSS = `
     padding-block: 1.25rem 2.5rem;
     padding-inline: var(--pd-inline);
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transform: translateY(8px);
+    transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s,
+                transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s;
   }
-  #services-section .service-card.is-active .service-content { opacity: 1; }
+  #services-section .service-card.is-active .service-content { opacity: 1; transform: translateY(0); }
 
   /* Desktop grid-placering */
   #services-section .service-media    { display: block; grid-column: 2; grid-row: 1 / 4; align-self: center; }
