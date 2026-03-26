@@ -4,6 +4,7 @@ import MarqueeSection from '@/components/sections/Marquee'
 import Work from '@/components/sections/Work'
 import Services from '@/components/sections/Services'
 import ProcessSection from '@/components/sections/ProcessSection'
+import JoinTheBest from '@/components/sections/JoinTheBestClient'
 import Stats from '@/components/sections/Stats'
 import CTASection from '@/components/sections/CTASection'
 import Contact from '@/components/sections/Contact'
@@ -17,6 +18,7 @@ export default function Home() {
       <MarqueeSection />
       <Services />
       <ProcessSection />
+      <JoinTheBest />
       <Work />
       <Stats />
       <CTASection />
