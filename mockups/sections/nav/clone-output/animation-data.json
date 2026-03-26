@@ -1,0 +1,74 @@
+{
+  "method": "Frame-by-frame capture via MutationObserver + setInterval(4ms) + getComputedStyle",
+  "source": "https://mugenstudio.framer.website/",
+  "extractedAt": "2026-03-26T12:30Z",
+  "engine": "motion.dev (= Framer Motion standalone) via CDN ESM import",
+  "engineUrl": "https://cdn.jsdelivr.net/npm/motion@latest/+esm",
+  
+  "capturedAnimations": {
+    "panelSlideIn": {
+      "property": "transform: translateX",
+      "from": "600px",
+      "to": "0px",
+      "captured": [
+        { "t_ms": 0, "value_px": 600 },
+        { "t_ms": 375, "value_px": 549.7 },
+        { "t_ms": 821, "value_px": 13.9 },
+        { "t_ms": 1293, "value_px": 0 }
+      ],
+      "totalDuration_ms": 1293,
+      "springParams": { "stiffness": 400, "damping": 40, "type": "spring" }
+    },
+    
+    "blurBgFadeIn": {
+      "property": "opacity",
+      "from": 0,
+      "to": 1,
+      "captured": [
+        { "t_ms": 0, "value": 0 },
+        { "t_ms": 821, "value": 0.895 },
+        { "t_ms": 1293, "value": 1.0 }
+      ],
+      "totalDuration_ms": 1293,
+      "springParams": "same as panel (synced)"
+    },
+    
+    "staggerItems": {
+      "direction": "translateX (horizontal, NOT vertical)",
+      "navLinks": {
+        "from": "translateX(20px), opacity: 0",
+        "to": "none, opacity: 1",
+        "staggerDelay_ms": 100,
+        "perItemDuration_ms": 2856,
+        "springParams": { "stiffness": 100, "damping": 15, "type": "spring" }
+      },
+      "socialIcons": {
+        "from": "translateX(10px), opacity: 0",
+        "to": "none, opacity: 1",
+        "staggerDelay_ms": 100,
+        "springParams": { "stiffness": 100, "damping": 15, "type": "spring" },
+        "note": "SHORTER distance (10px vs 20px)"
+      },
+      "logo": {
+        "from": "scale(1.8), opacity: 0",
+        "to": "scale(1), opacity: 1",
+        "springParams": { "stiffness": 100, "damping": 15, "type": "spring" }
+      }
+    },
+    
+    "itemProgressAt1293ms": {
+      "About Us": { "translateX": 8.63, "opacity": 0.569, "progressPercent": 56.8 },
+      "Work": { "translateX": 12.56, "opacity": 0.372, "progressPercent": 37.2 },
+      "Articles": { "translateX": 15.39, "opacity": 0.231, "progressPercent": 23.1 },
+      "Pricing": { "translateX": 17.02, "opacity": 0.149, "progressPercent": 14.9 },
+      "Contact": { "translateX": 18.13, "opacity": 0.093, "progressPercent": 9.3 },
+      "Email": { "translateX": 18.15, "opacity": 0.092, "progressPercent": 9.2 },
+      "Socials": { "translateX": 18.95, "opacity": 0.053, "progressPercent": 5.3 },
+      "Terms/Privacy": { "translateX": 19.54, "opacity": 0.023, "progressPercent": 2.3 },
+      "X/Twitter": { "translateX": 4.31, "opacity": 0.569, "progressPercent": 56.9, "note": "translateX from 10, not 20" },
+      "Instagram": { "translateX": 7.69, "opacity": 0.231, "progressPercent": 23.1, "note": "translateX from 10" },
+      "Dribbble": { "translateX": 9.08, "opacity": 0.092, "progressPercent": 9.2, "note": "translateX from 10" },
+      "LinkedIn": { "translateX": 9.77, "opacity": 0.023, "progressPercent": 2.3, "note": "translateX from 10" }
+    }
+  }
+}

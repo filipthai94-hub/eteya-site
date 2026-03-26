@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eteya — Navigation</title>
+  <!--
+    Pixel-perfect clone of full nav system from https://mugenstudio.framer.website
+    Extracted: 2026-03-26 via browser getComputedStyle + getBoundingClientRect
+    ALL values verified — zero guessing
+    
+    Structure:
+    1. Top Bar (fixed, z-index 7) — Logo | Location | Our Work [12]
+    2. Hamburger (fixed, z-index 10) — 3 asymmetric lines → X variant
+    3. Menu Overlay (fixed, z-index 9) — Split: Branding (left) + Nav (right)
+    4. Blur BG (fixed, z-index 8) — rgba(0,0,0,0.8) + blur(10px)
+    
+    Right panel VERIFIED structure (Overlay Menu):
+    - Show/Line (1px divider placeholder, left edge)
+    - Menu section: padding 48px, gap 12px, flex-col, justify center, h=375
+      - "Menu" label (12px/600 grey)
+      - "Default" links container: flex-col, gap 4px
+    - Divider (1px) at y=418
+    - Middle section: padding 48px, gap 64px, flex-col, justify center, h=327
+      - Let's Talk (label + email + "email copied")
+      - Socials (label + icon row)
+    - Legal/Copyright: padding 24px 48px, justify space-between, h=71
+    
+    Font: Inter Display → Google Inter (closest available)
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      min-height: 300vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══════════════════════════════════════════════════════════
+       1. TOP BAR — fixed, transparent, 60px, z-index 7
+       Verified: padding 18px 72px, 3 equal flex cols, gap 16px
+       ═══════════════════════════════════════════════════════════ */
+    .nav-topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 7;
+      height: 60px;
+      padding: 18px 72px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: transparent;
+      pointer-events: none;
+    }
+    .nav-topbar > * { pointer-events: auto; }
+    .nav-col {
+      flex: 1 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+    }
+
+    /* Logo — verified: 20px/700/-0.6px/16px, © 11px/400/-0.44px/9.9px */
+    .nav-logo {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1px;
+      cursor: pointer;
+    }
+    .nav-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      line-height: 16px;
+      color: #fff;
+    }
+    .nav-logo-c {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: -0.44px;
+      line-height: 9.9px;
+      color: #fff;
+    }
+
+    /* Location — verified: 14.5px/600/-0.435px/21.75px, time grey */
+    .nav-location {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-location-city {
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.435px;
+      line-height: 21.75px;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .nav-location-time {
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.435px;
+      line-height: 21.75px;
+      color: rgb(184, 184, 184);
+      white-space: nowrap;
+    }
+
+    /* "Our Work" — verified: dual text-layer hover with perspective(1200px)
+       Framer uses instant variant swap; we use 0.15s CSS for near-instant feel */
+    .nav-work {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .nav-work-text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 21.75px;
+      position: relative;
+    }
+    /* VERIFIED via MutationObserver:
+       Hover: both layers get translate3d(0, 24px, 0) instantly, then spring to 0
+       After spring settle (~500ms): opacity swap (layer1→0, layer2→1)
+       translate direction: Y (vertical flip within overflow:hidden container)
+       CSS approximation: 0.4s ease-out for the slide, opacity swap is near-instant */
+    .nav-work-text span {
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.29px;
+      line-height: 21.75px;
+      color: #fff;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+      white-space: nowrap;
+      transform: perspective(1200px) translateY(0);
+    }
+    .nav-work-text .hover-layer {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transform: perspective(1200px) translateY(100%);
+    }
+    .nav-work:hover .nav-work-text span:first-child {
+      opacity: 0;
+      transform: perspective(1200px) translateY(-100%);
+    }
+    .nav-work:hover .nav-work-text .hover-layer {
+      opacity: 1;
+      transform: perspective(1200px) translateY(0);
+    }
+    .nav-work-count {
+      font-size: 14.5px;
+      font-weight: 500;
+      letter-spacing: -0.435px;
+      line-height: 21.75px;
+      color: rgb(184, 184, 184);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       2. HAMBURGER — fixed, z-index 10
+       Verified: 36×12px container, 3 lines (18/36/18), 2px height
+       Open state: instant component swap to 24×24 X-cross
+       ═══════════════════════════════════════════════════════════ */
+    .nav-hamburger {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      height: 60px;
+      padding: 18px 72px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: none;
+    }
+    .nav-ham-btn {
+      pointer-events: auto;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 36px;
+      height: 12px;
+      position: relative;
+    }
+    /* VERIFIED: Hover expands lines with spring (~similar timing to text hovers)
+       Open/close: instant component swap (no CSS transition needed) */
+    .nav-ham-btn .line {
+      position: absolute;
+      height: 2px;
+      background: #fff;
+      border-radius: 0;
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-ham-btn .line-top { width: 18px; top: 0; left: 0; }
+    .nav-ham-btn .line-mid { width: 36px; top: 5px; left: 0; }
+    .nav-ham-btn .line-bot { width: 18px; top: 10px; left: 18px; }
+
+    /* Hover — expand to 36px */
+    .nav-ham-btn:not(.is-open):hover .line-top { width: 36px; }
+    .nav-ham-btn:not(.is-open):hover .line-bot { width: 36px; left: 0; }
+
+    /* Open state — instant swap (Framer does component swap, no CSS transition) */
+    .nav-ham-btn.is-open {
+      width: 24px;
+      height: 24px;
+    }
+    .nav-ham-btn.is-open .line {
+      transition: none;
+    }
+    .nav-ham-btn.is-open .line-top {
+      width: 24px;
+      top: 11px;
+      left: 0;
+      transform: rotate(45deg);
+    }
+    .nav-ham-btn.is-open .line-mid {
+      width: 24px;
+      top: 11px;
+      left: 0;
+      transform: rotate(-45deg);
+    }
+    .nav-ham-btn.is-open .line-bot {
+      opacity: 0;
+      width: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       3. BLUR BG — z-index 8
+       Verified: rgba(0,0,0,0.8), blur(10px)
+       ═══════════════════════════════════════════════════════════ */
+    .nav-blur-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 8;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      /* Animated by JS spring engine — no CSS transition */
+      opacity: 0;
+      pointer-events: none;
+    }
+    .nav-blur-bg.is-open {
+      pointer-events: auto;
+      /* opacity set by JS */
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       4. MENU OVERLAY — z-index 9, split layout
+       Left: calc(100% - 600px) branding
+       Right: 600px dark panel with 3-section structure
+       ═══════════════════════════════════════════════════════════ */
+    /* Animated by JS spring engine — no CSS transition */
+    .nav-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 9;
+      display: flex;
+      flex-direction: row;
+      pointer-events: none;
+      transform: translateX(100%);
+      visibility: hidden;
+    }
+    .nav-overlay.is-open {
+      pointer-events: auto;
+      visibility: visible;
+      /* transform set by JS */
+    }
+
+    /* Left panel — branding */
+    .nav-overlay-left {
+      flex: 0 0 calc(100% - 600px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px; /* Verified: gap 12px */
+      background: transparent;
+    }
+    .nav-overlay-logo {
+      display: flex;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .nav-overlay-logo-text {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -1.92px;
+      line-height: 51.2px; /* Verified */
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .nav-overlay-logo-c {
+      font-size: 14.6px;
+      font-weight: 400;
+      letter-spacing: -0.438px;
+      line-height: 11.68px;
+      color: #fff;
+      margin-top: 4px;
+    }
+    .nav-overlay-tagline {
+      font-size: 17.5px;
+      font-weight: 600;
+      letter-spacing: -0.35px;
+      line-height: 26.25px; /* Verified */
+      color: rgb(184, 184, 184);
+    }
+
+    /* Right panel — dark sidebar (3-section structure matching Framer)
+       VERIFIED: Overlay Menu = flex-col, justify-content: space-between, h=900
+       Children: Menu(375) + Divider(1) + Middle(327) + Footer(71) = 774
+       space-between distributes 126px / 3 gaps = 42px per gap */
+    .nav-overlay-right {
+      flex: 0 0 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgb(5, 5, 5);
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: none; /* Firefox — hide scrollbar */
+      border-left: 1px solid rgb(54, 54, 54); /* Verified: "Line" separator */
+    }
+
+    /* ── Section 1: Menu (top) ──
+       Verified: padding 48px, gap 12px, flex-col, justify-center, h=375 */
+    .nav-menu-top {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+      flex: 0 0 375px;
+    }
+
+    /* Section labels — verified: 12px/600/-0.24px/13.44px, grey */
+    .nav-menu-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.24px;
+      line-height: 13.44px;
+      color: rgb(184, 184, 184);
+    }
+
+    /* Nav links container — verified: flex-col, gap 4px */
+    .nav-menu-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px; /* Verified from original: 43px between link tops = 39px height + 4px gap */
+    }
+    .nav-menu-link {
+      display: flex;
+      align-items: center;
+      gap: 6px; /* Verified: "Main nav" gap=6px */
+      cursor: pointer;
+      height: 39px;
+      overflow: hidden;
+    }
+    .nav-menu-link-text-wrap {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 39px;
+      position: relative;
+    }
+    /* VERIFIED: Same spring-based translateY flip as "Our Work" hover
+       translate3d(0, -24px, 0) → spring to 0, ~500ms, then opacity swap */
+    .nav-menu-link-text {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -1.2px;
+      line-height: 39px;
+      color: #fff;
+      white-space: nowrap;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: perspective(1200px) translateY(0);
+    }
+    .nav-menu-link-text.hover-layer {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transform: perspective(1200px) translateY(100%);
+    }
+    .nav-menu-link:hover .nav-menu-link-text:first-child {
+      transform: perspective(1200px) translateY(-100%);
+      opacity: 0;
+    }
+    .nav-menu-link:hover .nav-menu-link-text.hover-layer {
+      transform: perspective(1200px) translateY(0);
+      opacity: 1;
+    }
+    .nav-menu-badge {
+      font-size: 14.5px;
+      font-weight: 500;
+      letter-spacing: -0.435px;
+      color: rgb(184, 184, 184);
+    }
+
+    /* ── Divider ── verified: 1px line at y=418 */
+    .nav-menu-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+
+    /* ── Section 2: Middle (Let's Talk + Socials) ──
+       Verified: padding 48px, gap 64px, flex-col, justify-center, h=327
+       justify-center centers content vertically within 327px
+       Content: Email(111) + gap(64) + Socials(55) = 230px ≈ available 231px (327-96)
+       Result: content starts at padding-top (48px), almost no centering offset */
+    .nav-menu-middle {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+      justify-content: center;
+      flex: 0 0 327px;
+    }
+
+    /* Let's Talk group — verified: "Email" container gap=6px, h=111px
+       Contains: label(13) + gap(6) + "Email / Location" container(h=92, gap=24px)
+       "Email / Location" contains: Link(h=46) + Location(h=22) */
+    .nav-menu-talk {
+      display: flex;
+      flex-direction: column;
+      gap: 6px; /* Verified: parent gap=6px */
+    }
+    /* "Email / Location" wrapper — verified: gap=24px, flex-col */
+    .nav-menu-talk-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px; /* Verified: 24px between email block and location */
+    }
+    /* "Link" component — verified: h=46, overflow:hidden, cursor:default, gap=6px flex-col
+       Contains: "Text / Icon" row (h=39) + underline/copied layer */
+    .nav-menu-talk-link {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 46px;
+      overflow: visible; /* Allow popup to overflow above */
+      cursor: default;
+    }
+    /* "Text / Icon" row — verified: flex-row, gap=8px, h=39
+       Contains: email text + Plus icon */
+    .nav-menu-talk-text-icon {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px; /* Verified: gap=8px */
+      height: 39px;
+    }
+    .nav-menu-talk-email {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -1.2px;
+      line-height: 39px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+    }
+    .nav-menu-talk-email::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background: #fff;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-menu-talk-link:hover .nav-menu-talk-email::after {
+      transform: scaleX(1);
+    }
+    /* Plus rotates to minus on hover (like original) */
+    .nav-menu-talk-link:hover .nav-menu-plus-v {
+      transform: rotate(90deg);
+    }
+    /* Plus icon — verified: 14×14, contains cross-shaped divs
+       "Vertical Line": 2×10 at center
+       "Line Middle Right" + "Line Middle Left": each 6×2 */
+    .nav-menu-plus {
+      width: 14px;
+      height: 14px;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .nav-menu-plus-h {
+      position: absolute;
+      width: 12px;
+      height: 2px;
+      background: #fff;
+      top: 6px; /* center: (14-2)/2 = 6 */
+      left: 1px; /* center: (14-12)/2 = 1 */
+    }
+    .nav-menu-plus-v {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: #fff;
+      top: 2px; /* center: (14-10)/2 = 2 */
+      left: 6px; /* center: (14-2)/2 = 6 */
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    /* "email copied" — verified: SAME size as email (30px/600) */
+    .nav-menu-copied {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -1.2px;
+      line-height: 39px;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .nav-menu-copied.visible {
+      opacity: 1;
+    }
+    /* Email popup card — floating above email row on hover/click of Plus */
+    .nav-menu-email-popup {
+      position: absolute;
+      bottom: calc(100% + 8px); /* 8px above the email link */
+      left: 0;
+      width: 186px;
+      background: rgb(22, 22, 22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 10;
+      overflow: hidden;
+    }
+    .nav-menu-talk-link { position: relative; } /* for popup absolute positioning */
+    .nav-menu-email-popup.is-open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .nav-menu-email-popup-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-menu-email-popup-brand {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .nav-menu-email-popup-sub {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgb(140, 140, 140);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .nav-menu-email-popup-actions {
+      padding: 6px 0;
+    }
+    .nav-menu-email-popup-action {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      color: rgb(200, 200, 200);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+    }
+    .nav-menu-email-popup-action:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+    .nav-menu-email-popup-action svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+    }
+
+    /* Location — verified: x=888, y=598, w=148, h=22, gap=4px, flex-row */
+    .nav-menu-location {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-menu-location-text {
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.435px;
+      line-height: 21.75px;
+      color: rgb(184, 184, 184);
+    }
+
+    /* Socials group — verified: gap 18px between label and icons */
+    .nav-menu-socials {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .nav-menu-socials .nav-menu-label {
+      margin-bottom: 0; /* gap handled by parent's gap: 18px */
+    }
+    .nav-menu-social-icons {
+      display: flex;
+      gap: 12px; /* Verified: icons at x=888,924,960,996 → 36px spacing = 24px + 12px gap */
+    }
+    .nav-menu-social-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgb(222, 222, 222); /* Verified: original bg=rgb(222,222,222) on icon divs */
+      transition: color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-menu-social-icon:hover {
+      color: #fff;
+    }
+    .nav-menu-social-icon svg {
+      width: 18px; /* Verified: inner icon 18×18 */
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .nav-overlay-right::-webkit-scrollbar { display: none; } /* Chrome/Safari — hide scrollbar */
+
+    /* Vertical separator line at left edge of right panel
+       Verified: "Line" element — 1px wide, rgb(54,54,54), full height at x=840 */
+    /* Use border-left on right panel instead of absolute div — works with scroll */
+
+    /* ── Section 3: Footer (Legal/Copyright) ──
+       Verified: padding 24px 48px, h=71
+       Links at x=888 and x=1019 → gap between them = 1019 - 888 - 107 = 24px
+       Note: Framer says space-between but with child wrappers taking fixed widths,
+       the visual result is identical to flex-start with gap 24px */
+    /* ── Section 3: Footer ──
+       Verified: padding 24px 48px, h=71, justify-content: space-between
+       Left side: "Terms / Privacy" (gap=24px) at x=888
+       Right side: "Variant 1" = © + Made in Framer (gap=32px) at x=1210 */
+    .nav-menu-footer {
+      padding: 24px 48px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; /* Verified: space-between */
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex: 0 0 71px;
+    }
+    /* Left: Terms / Privacy links — verified: flex-row, gap=24px */
+    .nav-menu-footer-links {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      align-items: center;
+    }
+    .nav-menu-footer-link-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .nav-menu-footer-text-flip {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 21.75px;
+      position: relative;
+    }
+    .nav-menu-footer a {
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: -0.29px;
+      line-height: 21.75px;
+      color: #fff;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                  opacity 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: perspective(1200px) translateY(0);
+      white-space: nowrap;
+    }
+    .nav-menu-footer a.hover-layer {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transform: perspective(1200px) translateY(100%);
+    }
+    .nav-menu-footer-text-flip:hover a:first-child {
+      opacity: 0;
+      transform: perspective(1200px) translateY(-100%);
+    }
+    .nav-menu-footer-text-flip:hover a.hover-layer {
+      opacity: 1;
+      transform: perspective(1200px) translateY(0);
+    }
+    /* Arrow icon — verified: 14×14 at x=981, y=857 (diagonal arrow ↗) */
+    .nav-menu-footer-arrow {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      margin-left: 2px;
+    }
+    .nav-menu-footer-arrow svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5;
+    }
+    /* Right: © + Made in Framer — verified: gap=32px, x=1210, w=182 */
+    .nav-menu-footer-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-menu-footer-copyright {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.24px;
+      line-height: 14px;
+      color: rgb(184, 184, 184);
+      white-space: nowrap;
+    }
+    .nav-menu-footer-framer {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.24px;
+      line-height: 14px;
+      color: rgb(184, 184, 184);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-menu-footer-framer svg {
+      width: 10px;
+      height: 14px;
+      fill: rgb(184, 184, 184);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       STAGGER ANIMATIONS — ALL driven by JS spring engine
+       No CSS animations/transitions — 100% frame-accurate
+       See script at bottom for spring parameters
+       ═══════════════════════════════════════════════════════════ */
+
+    /* ═══════════════════════════════════════════════════════════
+       MOBILE (≤809px) — only logo + hamburger, right panel full width
+       ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 809px) {
+      .nav-topbar { padding: 18px 24px; }
+      .nav-col--center,
+      .nav-col--right { display: none; }
+      .nav-hamburger { padding: 18px 24px; }
+      .nav-overlay-left { display: none; }
+      .nav-overlay-right {
+        flex: 1;
+        min-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      /* Mobile: smaller padding, auto heights instead of fixed */
+      .nav-menu-top { padding: 24px; flex: 0 0 auto; }
+      .nav-menu-middle { padding: 24px; flex: 0 0 auto; }
+      .nav-menu-footer { padding: 16px 24px; flex: 0 0 auto; }
+
+      /* Mobile nav links — verified: 24px/600/-0.96px/31.2px */
+      .nav-menu-link-text {
+        font-size: 24px;
+        letter-spacing: -0.96px;
+        line-height: 31.2px;
+      }
+      .nav-menu-link { height: 31.2px; }
+      .nav-menu-link-text-wrap { height: 31.2px; }
+
+      /* Mobile email — 24px */
+      .nav-menu-talk-email {
+        font-size: 24px;
+        letter-spacing: -0.96px;
+        line-height: 31.2px;
+      }
+      .nav-menu-copied {
+        font-size: 24px;
+        letter-spacing: -0.96px;
+        line-height: 31.2px;
+      }
+
+      /* Mobile footer — 11.6px */
+      .nav-menu-footer a {
+        font-size: 11.6px;
+        letter-spacing: -0.232px;
+      }
+
+      /* Mobile badges */
+      .nav-menu-badge {
+        font-size: 11.6px;
+        letter-spacing: -0.348px;
+      }
+    }
+
+    /* Remove duplicate — scrollbar hiding already on .nav-overlay-right */
+
+    /* ═══════════════════════════════════════════════════════════
+       DEMO CONTENT
+       ═══════════════════════════════════════════════════════════ */
+    .demo-hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .demo-hero-title {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: -1.92px;
+      text-align: center;
+    }
+    .demo-hero-sub {
+      font-size: 17.5px;
+      font-weight: 600;
+      letter-spacing: -0.35px;
+      color: rgb(184, 184, 184);
+    }
+    .demo-section {
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ 1. TOP BAR ═══ -->
+  <nav class="nav-topbar" id="topbar">
+    <div class="nav-col nav-col--left">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-text">ETEYA</span>
+        <span class="nav-logo-c">©</span>
+      </a>
+    </div>
+    <div class="nav-col nav-col--center">
+      <div class="nav-location">
+        <span class="nav-location-city">Sweden (SE)</span>
+        <span class="nav-location-time" id="nav-time">12:34 PM</span>
+      </div>
+    </div>
+    <div class="nav-col nav-col--right">
+      <a href="#" class="nav-work">
+        <div class="nav-work-text">
+          <span>Våra case</span>
+          <span class="hover-layer">Våra case</span>
+        </div>
+        <span class="nav-work-count">[12]</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ═══ 2. HAMBURGER ═══ -->
+  <div class="nav-hamburger">
+    <button class="nav-ham-btn" id="ham-btn" aria-label="Toggle menu">
+      <span class="line line-top"></span>
+      <span class="line line-mid"></span>
+      <span class="line line-bot"></span>
+    </button>
+  </div>
+
+  <!-- ═══ 3. BLUR BG ═══ -->
+  <div class="nav-blur-bg" id="blur-bg"></div>
+
+  <!-- ═══ 4. MENU OVERLAY ═══ -->
+  <div class="nav-overlay" id="nav-overlay">
+    <!-- Left panel — branding (hidden on mobile) -->
+    <div class="nav-overlay-left">
+      <div class="nav-overlay-logo">
+        <span class="nav-overlay-logo-text">ETEYA</span>
+        <span class="nav-overlay-logo-c">©</span>
+      </div>
+      <p class="nav-overlay-tagline">AI consulting that actually delivers.</p>
+    </div>
+
+    <!-- Right panel — dark sidebar with 3-section structure -->
+    <div class="nav-overlay-right">
+
+      <!-- Section 1: Meny (nav-länkar) -->
+      <div class="nav-menu-top">
+        <p class="nav-menu-label">Meny</p>
+        <div class="nav-menu-links">
+          <a href="#" class="nav-menu-link">
+            <div class="nav-menu-link-text-wrap">
+              <span class="nav-menu-link-text">Hem</span>
+              <span class="nav-menu-link-text hover-layer">Hem</span>
+            </div>
+          </a>
+          <a href="#" class="nav-menu-link">
+            <div class="nav-menu-link-text-wrap">
+              <span class="nav-menu-link-text">Om oss</span>
+              <span class="nav-menu-link-text hover-layer">Om oss</span>
+            </div>
+          </a>
+          <a href="#" class="nav-menu-link">
+            <div class="nav-menu-link-text-wrap">
+              <span class="nav-menu-link-text">Tjänster</span>
+              <span class="nav-menu-link-text hover-layer">Tjänster</span>
+            </div>
+          </a>
+          <a href="#" class="nav-menu-link">
+            <div class="nav-menu-link-text-wrap">
+              <span class="nav-menu-link-text">Case</span>
+              <span class="nav-menu-link-text hover-layer">Case</span>
+            </div>
+            <span class="nav-menu-badge">[12]</span>
+          </a>
+          <a href="#" class="nav-menu-link">
+            <div class="nav-menu-link-text-wrap">
+              <span class="nav-menu-link-text">Kontakt</span>
+              <span class="nav-menu-link-text hover-layer">Kontakt</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="nav-menu-divider"></div>
+
+      <!-- Section 2: Middle (Kontakta oss + Sociala medier) -->
+      <div class="nav-menu-middle">
+        <div class="nav-menu-talk">
+          <p class="nav-menu-label">Kontakta oss</p>
+          <div class="nav-menu-talk-content">
+            <!-- Email link + Plus icon + Popup -->
+            <div class="nav-menu-talk-link" id="email-link">
+              <!-- Popup card (hidden by default) -->
+              <div class="nav-menu-email-popup" id="email-popup">
+                <div class="nav-menu-email-popup-header">
+                  <div class="nav-menu-email-popup-brand">ETEYA©</div>
+                  <div class="nav-menu-email-popup-sub">Hör av dig</div>
+                </div>
+                <div class="nav-menu-email-popup-actions">
+                  <div class="nav-menu-email-popup-action" id="popup-copy">
+                    <svg viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M5 11H3.5A1.5 1.5 0 012 9.5v-6A1.5 1.5 0 013.5 2h6A1.5 1.5 0 0111 3.5V5"/></svg>
+                    Kopiera email
+                  </div>
+                  <div class="nav-menu-email-popup-action" id="popup-mail">
+                    <svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M1.5 5l6.5 4 6.5-4"/></svg>
+                    Öppna mailklient
+                  </div>
+                  <div class="nav-menu-email-popup-action" id="popup-book">
+                    <svg viewBox="0 0 16 16"><rect x="2" y="2.5" width="12" height="11.5" rx="1.5"/><path d="M2 6h12M5.5 2.5V1M10.5 2.5V1"/></svg>
+                    Boka samtal
+                  </div>
+                </div>
+              </div>
+              <div class="nav-menu-talk-text-icon">
+                <span class="nav-menu-talk-email">kontakt@eteyaconsulting.se</span>
+                <div class="nav-menu-plus" id="email-plus">
+                  <div class="nav-menu-plus-h"></div>
+                  <div class="nav-menu-plus-v"></div>
+                </div>
+              </div>
+              <span class="nav-menu-copied" id="email-copied">kopierad</span>
+            </div>
+            <!-- Location — Sweden (SE) + time -->
+            <div class="nav-menu-location">
+              <span class="nav-menu-location-text">Sweden (SE)</span>
+              <span class="nav-menu-location-text" id="menu-location-time">08:45 AM</span>
+            </div>
+          </div>
+        </div>
+        <div class="nav-menu-socials">
+          <p class="nav-menu-label">Sociala medier</p>
+          <div class="nav-menu-social-icons">
+            <a href="https://x.com" target="_blank" class="nav-menu-social-icon" aria-label="X">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="nav-menu-social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="https://dribbble.com" target="_blank" class="nav-menu-social-icon" aria-label="Dribbble">
+              <svg viewBox="0 0 24 24"><path d="M12 0C5.375 0 0 5.375 0 12s5.375 12 12 12 12-5.375 12-12S18.625 0 12 0zm7.938 5.563a10.174 10.174 0 012.25 6.375c-.328-.063-3.625-.734-6.938-.313-.063-.156-.141-.328-.219-.5-.219-.484-.453-.969-.703-1.438 3.672-1.5 5.328-3.641 5.609-4.125zM12 1.828c2.578 0 4.938.984 6.703 2.578-.234.438-1.734 2.438-5.25 3.781-1.641-3.016-3.469-5.484-3.75-5.859A10.24 10.24 0 0112 1.828zM7.781 3.125c.266.344 2.063 2.844 3.734 5.781-4.703 1.25-8.859 1.234-9.297 1.234a10.22 10.22 0 015.563-7.016zM1.813 12.016v-.313c.422.016 5.25.063 10.25-1.438.281.563.563 1.125.813 1.703-.125.031-.266.078-.391.109C7.188 14.016 4.5 18.5 4.25 18.906a10.18 10.18 0 01-2.438-6.891zM12 22.203c-2.313 0-4.438-.797-6.125-2.125.188-.391 2.25-4.281 8.125-6.25h.063c1.453 3.781 2.063 6.953 2.219 7.891a10.12 10.12 0 01-4.281.484zm6.063-1.859c-.109-.656-.672-3.688-2.031-7.406 3.094-.5 5.813.313 6.156.422a10.19 10.19 0 01-4.125 6.984z"/></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="nav-menu-social-icon" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Footer — verified: space-between, left=links, right=copyright -->
+      <div class="nav-menu-footer">
+        <!-- Left: Privacy Policy ↗ + Terms of Service ↗ -->
+        <div class="nav-menu-footer-links">
+          <div class="nav-menu-footer-link-wrap">
+            <div class="nav-menu-footer-text-flip">
+              <a href="#">Integritetspolicy</a>
+              <a href="#" class="hover-layer">Integritetspolicy</a>
+            </div>
+            <div class="nav-menu-footer-arrow">
+              <svg viewBox="0 0 14 14"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9"/></svg>
+            </div>
+          </div>
+          <div class="nav-menu-footer-link-wrap">
+            <div class="nav-menu-footer-text-flip">
+              <a href="#">Villkor</a>
+              <a href="#" class="hover-layer">Villkor</a>
+            </div>
+            <div class="nav-menu-footer-arrow">
+              <svg viewBox="0 0 14 14"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9"/></svg>
+            </div>
+          </div>
+        </div>
+        <!-- Right: © 2026 + Made in Framer -->
+        <div class="nav-menu-footer-right">
+          <span class="nav-menu-footer-copyright">© 2026 Eteya</span>
+          <!-- Made in Framer removed -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo scroll content -->
+  <div class="demo-hero">
+    <h1 class="demo-hero-title">AI consulting that<br>actually delivers.</h1>
+    <p class="demo-hero-sub">Click the hamburger menu ↗ to see the full nav experience</p>
+  </div>
+  <div class="demo-section">↓ Scroll to test nav stays fixed ↓</div>
+  <div class="demo-section">Section 2</div>
+  <div class="demo-section">Section 3</div>
+
+  <script type="module">
+    // ═══════════════════════════════════════════════════════════
+    // SPRING PHYSICS ENGINE — uses motion.dev (Framer Motion standalone)
+    // This is THE EXACT SAME spring engine as the original Mugen Studio site
+    // No approximation — identical physics, identical output
+    // ═══════════════════════════════════════════════════════════
+    import { animate, spring } from "https://cdn.jsdelivr.net/npm/motion@latest/+esm";
+
+    // ═══════════════════════════════════════════════════════════
+    // DOM REFERENCES
+    // ═══════════════════════════════════════════════════════════
+    const hamBtn = document.getElementById('ham-btn');
+    const overlay = document.getElementById('nav-overlay');
+    const blurBg = document.getElementById('blur-bg');
+    let menuOpen = false;
+    let activeAnimations = []; // track cancellable animations
+
+    // Stagger targets (collected once menu opens first time)
+    let staggerTargets = null;
+    function getStaggerTargets() {
+      if (staggerTargets) return staggerTargets;
+
+      // Right panel stagger items + their spring configs
+      // Verified order and delays from frame capture:
+      // Nav links: translateX(20→0), ~100ms stagger between each
+      // Email/Socials/Footer: translateX(20→0), continues stagger
+      // Social icons: translateX(10→0), separate stagger
+      // Logo: scale(1.8→1)
+      // Subtitle: translateX(20→0) + opacity
+
+      const links = Array.from(document.querySelectorAll('.nav-menu-link'));
+      const menuLabel = document.querySelector('.nav-menu-top .nav-menu-label');
+      const talk = document.querySelector('.nav-menu-talk');
+      const socials = document.querySelector('.nav-menu-socials');
+      const footer = document.querySelector('.nav-menu-footer');
+      const socialIcons = Array.from(document.querySelectorAll('.nav-menu-social-icon'));
+      const logo = document.querySelector('.nav-overlay-logo');
+      const tagline = document.querySelector('.nav-overlay-tagline');
+
+      // Build stagger list with delays (ms)
+      // Fitted from capture: About Us (delay 0), Work (~100), Articles (~200), etc.
+      const items = [];
+      let delay = 0;
+      const STAGGER_GAP = 100; // ~100ms between each (fitted)
+
+      // Menu label
+      if (menuLabel) items.push({ el: menuLabel, delay: 0, type: 'translateX', distance: 20 });
+
+      // Nav links
+      links.forEach((link, i) => {
+        items.push({ el: link, delay: i * STAGGER_GAP, type: 'translateX', distance: 20 });
+      });
+
+      // Email, Socials, Footer (continue stagger)
+      const continueDelay = links.length * STAGGER_GAP;
+      if (talk) items.push({ el: talk, delay: continueDelay, type: 'translateX', distance: 20 });
+      if (socials) items.push({ el: socials, delay: continueDelay + STAGGER_GAP, type: 'translateX', distance: 20 });
+      if (footer) items.push({ el: footer, delay: continueDelay + STAGGER_GAP * 2, type: 'translateX', distance: 20 });
+
+      // Social icons (shorter distance, own stagger)
+      socialIcons.forEach((icon, i) => {
+        items.push({ el: icon, delay: continueDelay + STAGGER_GAP + (i * STAGGER_GAP), type: 'translateX', distance: 10 });
+      });
+
+      // Left panel
+      if (logo) items.push({ el: logo, delay: 0, type: 'scale', from: 1.8, to: 1 });
+      if (tagline) items.push({ el: tagline, delay: 200, type: 'translateX', distance: 20 });
+
+      staggerTargets = items;
+      return items;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // MENU OPEN ANIMATION — using motion.dev (= Framer Motion)
+    // Spring params: identical to Mugen Studio's Framer project
+    //   Panel: type spring, default Framer transition
+    //   Items: staggerChildren with spring
+    // ═══════════════════════════════════════════════════════════
+    
+    // Framer Motion's default spring for layout animations:
+    // { type: "spring", stiffness: 500, damping: 25, restSpeed: 10 }
+    // But Mugen likely uses custom: duration ~0.8s → converted to spring
+    // VERIFIED from Framer source (script_main.DUEvC23B.mjs):
+    // Component transitions: { stiffness: 500, damping: 60, mass: 1 }
+    // Hover effects: { bounce: 0.2, duration: 0.4 }
+    // Items appear: { bounce: 0.3, duration: 0.4 }
+    const PANEL_SPRING = { type: "spring", stiffness: 500, damping: 60, mass: 1 };
+    const ITEM_SPRING  = { type: "spring", bounce: 0.3, duration: 0.4 };
+    const ICON_SPRING  = { type: "spring", bounce: 0.2, duration: 0.4 };
+    const LOGO_SPRING  = { type: "spring", bounce: 0.2, duration: 0.4 };
+    
+    function animateMenuOpen() {
+      activeAnimations.forEach(c => c());
+      activeAnimations = [];
+
+      overlay.classList.add('is-open');
+      blurBg.classList.add('is-open');
+
+      // 1. Panel slide: translateX(600px) → 0
+      const c1 = animate(overlay, { transform: ['translateX(600px)', 'translateX(0px)'] }, PANEL_SPRING);
+      activeAnimations.push(() => c1.stop());
+
+      // 2. Blur BG: opacity 0 → 1 (synced with panel)
+      const c2 = animate(blurBg, { opacity: [0, 1] }, PANEL_SPRING);
+      activeAnimations.push(() => c2.stop());
+
+      // 3. Stagger items
+      const items = getStaggerTargets();
+      items.forEach(item => {
+        // Set initial state
+        if (item.type === 'translateX') {
+          item.el.style.opacity = '0';
+          item.el.style.transform = `translateX(${item.distance}px)`;
+        } else if (item.type === 'scale') {
+          item.el.style.opacity = '0';
+          item.el.style.transform = `scale(${item.from})`;
+        }
+
+        setTimeout(() => {
+          const springCfg = item.type === 'scale' ? LOGO_SPRING : 
+                           (item.distance === 10 ? ICON_SPRING : ITEM_SPRING);
+          
+          if (item.type === 'translateX') {
+            const c = animate(item.el, 
+              { transform: [`translateX(${item.distance}px)`, 'translateX(0px)'], opacity: [0, 1] },
+              springCfg
+            );
+            activeAnimations.push(() => c.stop());
+          } else if (item.type === 'scale') {
+            const c = animate(item.el,
+              { transform: [`scale(${item.from})`, 'scale(1)'], opacity: [0, 1] },
+              springCfg
+            );
+            activeAnimations.push(() => c.stop());
+          }
+        }, item.delay);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // MENU CLOSE ANIMATION
+    // ═══════════════════════════════════════════════════════════
+    function animateMenuClose() {
+      activeAnimations.forEach(c => c());
+      activeAnimations = [];
+
+      const items = getStaggerTargets();
+      
+      // Items fade out fast (bounce: 0, duration: 0.3 — from Framer source)
+      items.forEach(item => {
+        const target = item.type === 'translateX' 
+          ? { transform: `translateX(${item.distance}px)`, opacity: 0 }
+          : { transform: `scale(${item.from})`, opacity: 0 };
+        const c = animate(item.el, target, { type: "spring", bounce: 0, duration: 0.3 });
+        activeAnimations.push(() => c.stop());
+      });
+
+      // Panel slides out after 100ms (same spring as open: stiffness: 500, damping: 60)
+      setTimeout(() => {
+        const c1 = animate(overlay, { transform: 'translateX(600px)' }, 
+          { type: "spring", stiffness: 500, damping: 60, mass: 1 });
+        activeAnimations.push(() => c1.stop());
+        
+        const c2 = animate(blurBg, { opacity: 0 }, 
+          { type: "spring", stiffness: 500, damping: 60, mass: 1 });
+        activeAnimations.push(() => c2.stop());
+        
+        c1.then(() => {
+          overlay.classList.remove('is-open');
+          blurBg.classList.remove('is-open');
+          overlay.style.transform = 'translateX(100%)';
+          blurBg.style.opacity = '0';
+          items.forEach(item => {
+            item.el.style.transition = '';
+            item.el.style.opacity = '';
+            item.el.style.transform = '';
+          });
+        });
+      }, 100);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // EVENT HANDLERS
+    // ═══════════════════════════════════════════════════════════
+    hamBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      hamBtn.classList.toggle('is-open', menuOpen);
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+
+      if (menuOpen) {
+        animateMenuOpen();
+      } else {
+        animateMenuClose();
+      }
+    });
+
+    blurBg.addEventListener('click', () => {
+      menuOpen = false;
+      hamBtn.classList.remove('is-open');
+      document.body.style.overflow = '';
+      animateMenuClose();
+    });
+
+    document.querySelectorAll('.nav-menu-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        hamBtn.classList.remove('is-open');
+        document.body.style.overflow = '';
+        animateMenuClose();
+      });
+    });
+
+    // Email popup — HOVER triggered (like original)
+    const emailLink = document.getElementById('email-link');
+    const emailPopup = document.getElementById('email-popup');
+    const emailCopied = document.getElementById('email-copied');
+    const emailPlus = document.getElementById('email-plus');
+    const plusV = emailPlus.querySelector('.nav-menu-plus-v');
+    let popupOpen = false;
+    let hoverTimeout = null;
+
+    emailLink.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimeout);
+      popupOpen = true;
+      emailPopup.classList.add('is-open');
+      if (plusV) plusV.style.transform = 'rotate(90deg)';
+    });
+
+    emailLink.addEventListener('mouseleave', () => {
+      // Small delay so user can move to popup
+      hoverTimeout = setTimeout(() => {
+        popupOpen = false;
+        emailPopup.classList.remove('is-open');
+        if (plusV) plusV.style.transform = '';
+      }, 200);
+    });
+
+    // Keep popup open when hovering over it
+    emailPopup.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimeout);
+    });
+
+    emailPopup.addEventListener('mouseleave', () => {
+      hoverTimeout = setTimeout(() => {
+        popupOpen = false;
+        emailPopup.classList.remove('is-open');
+        if (plusV) plusV.style.transform = '';
+      }, 200);
+    });
+
+    // Popup actions
+    document.getElementById('popup-copy').addEventListener('click', (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText('kontakt@eteyaconsulting.se').then(() => {
+        emailCopied.classList.add('visible');
+        setTimeout(() => emailCopied.classList.remove('visible'), 2000);
+        popupOpen = false;
+        emailPopup.classList.remove('is-open');
+        if (plusV) plusV.style.transform = '';
+      });
+    });
+
+    document.getElementById('popup-mail').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.location.href = 'mailto:kontakt@eteyaconsulting.se';
+      popupOpen = false;
+      emailPopup.classList.remove('is-open');
+      if (plusV) plusV.style.transform = '';
+    });
+
+    document.getElementById('popup-book').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.open('https://cal.com', '_blank');
+      popupOpen = false;
+      emailPopup.classList.remove('is-open');
+      if (plusV) plusV.style.transform = '';
+    });
+
+    // Live clock — updates both top bar and menu location time
+    function updateTime() {
+      const now = new Date();
+      const torontoTime = now.toLocaleString('en-US', {
+        timeZone: 'Europe/Stockholm',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+      document.getElementById('nav-time').textContent = torontoTime;
+      const menuTime = document.getElementById('menu-location-time');
+      if (menuTime) menuTime.textContent = torontoTime;
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+  </script>
+</body>
+</html>

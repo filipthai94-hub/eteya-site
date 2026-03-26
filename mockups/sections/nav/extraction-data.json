@@ -1,0 +1,110 @@
+{
+  "source": "https://mugenstudio.framer.website",
+  "extracted": "2026-03-26",
+  
+  "topBar": {
+    "element": "nav",
+    "position": "fixed",
+    "top": 0, "left": 0, "right": 0,
+    "height": "60px",
+    "padding": "18px 72px",
+    "paddingMobile": "18px 24px",
+    "display": "flex",
+    "flexDirection": "row",
+    "alignItems": "center",
+    "justifyContent": "center",
+    "gap": "16px",
+    "background": "transparent",
+    "zIndex": 7,
+    "columns": "3 equal (flex: 1 0 0)"
+  },
+  
+  "logo": {
+    "text": "MUGEN",
+    "fontFamily": "Inter Display",
+    "fontSize": "20px",
+    "fontWeight": 700,
+    "letterSpacing": "-0.6px",
+    "lineHeight": "16px",
+    "color": "#ffffff",
+    "copyrightSymbol": {
+      "fontSize": "11px",
+      "fontWeight": 400,
+      "letterSpacing": "-0.04em",
+      "lineHeight": "90%",
+      "alignSelf": "flex-start",
+      "gap": "1px"
+    }
+  },
+  
+  "location": {
+    "city": {
+      "text": "Toronto (CA)",
+      "fontSize": "14.5px",
+      "fontWeight": 600,
+      "letterSpacing": "-0.435px",
+      "lineHeight": "21.75px",
+      "color": "#ffffff"
+    },
+    "time": {
+      "fontSize": "14.5px",
+      "fontWeight": 600,
+      "letterSpacing": "-0.435px",
+      "lineHeight": "21.75px",
+      "color": "rgb(184, 184, 184)",
+      "gap": "4px"
+    },
+    "containerGap": "8px",
+    "hiddenOnMobile": true
+  },
+  
+  "workLink": {
+    "text": "Our Work",
+    "count": "[12]",
+    "fontSize": "14.5px",
+    "fontWeight": 600,
+    "letterSpacing": "-0.29px",
+    "lineHeight": "21.75px",
+    "color": "#ffffff",
+    "countColor": "rgb(184, 184, 184)",
+    "countFontWeight": 500,
+    "gap": "6px",
+    "hoverEffect": "dual-text-layer, overflow:hidden, translateY swap",
+    "hiddenOnMobile": true
+  },
+  
+  "hamburger": {
+    "position": "fixed",
+    "top": 0, "right": 0,
+    "height": "60px",
+    "padding": "18px 72px",
+    "paddingMobile": "18px 24px",
+    "zIndex": 10,
+    "justifyContent": "flex-end",
+    "closedState": {
+      "topLine": { "width": "18px", "height": "2px", "left": 0, "top": "0px" },
+      "middleLine": { "width": "36px", "height": "2px", "left": 0, "top": "5px" },
+      "bottomLine": { "width": "18px", "height": "2px", "left": "18px", "top": "10px" },
+      "containerWidth": "36px",
+      "containerHeight": "12px",
+      "color": "#ffffff"
+    },
+    "openState": {
+      "topLine": { "rotate": "45deg" },
+      "middleLine": { "rotate": "-45deg" },
+      "bottomLine": { "rotate": "45deg" },
+      "containerSize": "24px"
+    }
+  },
+  
+  "mobile": {
+    "breakpoint": "hidden-1x6740i class hides Location + Our Work",
+    "visibleElements": ["Logo", "Hamburger"],
+    "navPadding": "18px 24px"
+  },
+  
+  "fonts": {
+    "original": "Inter Display (Framer bundled)",
+    "substitute": "Inter (Google Fonts) — closest available match"
+  }
+}

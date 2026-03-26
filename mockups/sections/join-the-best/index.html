@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Best — Clone</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: rgb(2,2,2); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  /* ═══ SECTION ═══ */
+  .join-section { margin-top: 200px; }
+
+  /* ═══ HEADING ═══ */
+  .join-container { padding: 0 12px; max-width: none; margin: 0 auto; }
+  .join-heading {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 64px;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    color: #fff;
+    padding-left: 56px;
+  }
+  @media (max-width: 768px) {
+    .join-heading { font-size: 36px; line-height: 36px; padding-left: 16px; }
+    .join-section { margin-top: 100px; }
+  }
+
+  /* ═══ MARQUEE WRAP ═══ */
+  .join-marquee-wrap { margin-top: 80px; overflow: hidden; }
+
+  /* ═══ MARQUEE LINE ═══ */
+  .join-marquee-line {
+    display: flex;
+    width: max-content;
+    height: 260px;
+  }
+
+  /* ═══ MARQUEE STRIP (duplicated for seamless loop) ═══ */
+  .join-marquee-strip {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  /* Row 1: scroll left */
+  .join-marquee-line--row1 .join-marquee-strip {
+    animation: marquee-left 60s linear infinite;
+  }
+  /* Row 2: scroll right */
+  .join-marquee-line--row2 .join-marquee-strip {
+    animation: marquee-right 50s linear infinite;
+  }
+
+  @keyframes marquee-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  /* ═══ JOIN ITEM (circle) ═══ */
+  .join-item {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgb(15, 15, 15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    flex-shrink: 0;
+  }
+  .join-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    .join-marquee-line { height: 160px; }
+    .join-item { width: 160px; height: 160px; padding: 14px; }
+    .join-marquee-wrap { margin-top: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="join-section">
+  <!-- Heading -->
+  <div class="join-container">
+    <h2 class="join-heading">Join the Best</h2>
+  </div>
+
+  <!-- Marquee -->
+  <div class="join-marquee-wrap">
+    <!-- Row 1: scrolls LEFT -->
+    <div class="join-marquee-line join-marquee-line--row1">
+      <div class="join-marquee-strip">
+        <div class="join-item"><img src="/images/logos/join-1.svg" alt="Logo 1" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-2.svg" alt="Logo 2" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-3.svg" alt="Logo 3" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-4.svg" alt="Logo 4" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-1.svg" alt="Logo 1" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-2.svg" alt="Logo 2" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-3.svg" alt="Logo 3" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-4.svg" alt="Logo 4" loading="lazy"></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="join-item"><img src="/images/logos/join-1.svg" alt="Logo 1" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-2.svg" alt="Logo 2" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-3.svg" alt="Logo 3" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-4.svg" alt="Logo 4" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-1.svg" alt="Logo 1" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-2.svg" alt="Logo 2" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-3.svg" alt="Logo 3" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-4.svg" alt="Logo 4" loading="lazy"></div>
+      </div>
+    </div>
+
+    <!-- Row 2: scrolls RIGHT -->
+    <div class="join-marquee-line join-marquee-line--row2">
+      <div class="join-marquee-strip">
+        <div class="join-item"><img src="/images/logos/join-5.svg" alt="Logo 5" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-9.svg" alt="Logo 9" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-12.svg" alt="Logo 12" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-5.svg" alt="Logo 5" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-9.svg" alt="Logo 9" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-12.svg" alt="Logo 12" loading="lazy"></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="join-item"><img src="/images/logos/join-5.svg" alt="Logo 5" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-9.svg" alt="Logo 9" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-12.svg" alt="Logo 12" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-5.svg" alt="Logo 5" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-9.svg" alt="Logo 9" loading="lazy"></div>
+        <div class="join-item"><img src="/images/logos/join-12.svg" alt="Logo 12" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

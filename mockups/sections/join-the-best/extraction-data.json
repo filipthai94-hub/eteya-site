@@ -1,0 +1,57 @@
+{
+  "source": "https://redstone.software",
+  "sectionClass": "section marquee-logos",
+  "heading": {
+    "tag": "H2",
+    "text": "Join the Best",
+    "font": { "family": "TwidGrotesk Regular", "size": "64px", "weight": "400", "lineHeight": "64px", "letterSpacing": "normal", "textTransform": "uppercase", "color": "rgb(255,255,255)" },
+    "class": "h2 title mb-md col-xl-7 text-animate"
+  },
+  "layout": {
+    "sectionMarginTop": "200px",
+    "containerPadding": "0px 12px",
+    "headingToMarqueeGap": "80px",
+    "bodyBg": "rgb(2,2,2)",
+    "sectionBg": "transparent"
+  },
+  "joinItem": {
+    "width": "260.07px",
+    "height": "260.07px",
+    "borderRadius": "50%",
+    "bg": "rgb(15,15,15)",
+    "display": "flex",
+    "alignItems": "center",
+    "justifyContent": "center",
+    "padding": "20px"
+  },
+  "marqueeLine": {
+    "height": "260.07px",
+    "gapBetweenLines": 0,
+    "overflow": "visible"
+  },
+  "marqueeItem": {
+    "display": "flex",
+    "gap": "0px"
+  },
+  "animation": {
+    "type": "continuous-translateX",
+    "row1Direction": "left",
+    "row2Direction": "right",
+    "speed": "~50px/sec (approx)"
+  },
+  "logos": {
+    "row1": ["join-1.svg", "join-2.svg", "join-3.svg", "join-4.svg"],
+    "row2": ["join-5.svg", "join-9.svg", "join-12.svg"],
+    "row1Sizes": [
+      { "src": "join-1.svg", "w": 192, "h": 145 },
+      { "src": "join-2.svg", "w": 192, "h": 24 },
+      { "src": "join-3.svg", "w": 97, "h": 97 },
+      { "src": "join-4.svg", "w": 192, "h": 47 }
+    ],
+    "row2Sizes": [
+      { "src": "join-5.svg", "w": 127, "h": 89 },
+      { "src": "join-9.svg", "w": 192, "h": 145 },
+      { "src": "join-12.svg", "w": 192, "h": 145 }
+    ]
+  }
+}
