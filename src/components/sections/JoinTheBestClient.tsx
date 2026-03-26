@@ -91,6 +91,12 @@ const CSS = `
     object-fit: contain;
     pointer-events: none;
     -webkit-user-drag: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .join-item:hover img {
+    opacity: 1;
   }
 
   /* ═══ RESPONSIVE ═══ */
