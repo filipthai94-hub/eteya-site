@@ -16,7 +16,7 @@ const CSS = `
   .process-section-header h2 {
     font-family: 'DM Sans', sans-serif;
     font-size: 98px;
-    font-weight: 300;
+    font-weight: 500;
     color: #fff;
     line-height: 98px;
     text-transform: uppercase;
@@ -509,7 +509,7 @@ export default function ProcessSectionClient() {
 
       {/* Section Header */}
       <div className="process-section-header">
-        <h2>SÅ HÄR LEVERERAR VI.</h2>
+        <h2>SÅ HÄR LEVERERAR VI</h2>
       </div>
 
       {BLOCKS.map((block, i) => (

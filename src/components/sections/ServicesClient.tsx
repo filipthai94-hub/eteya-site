@@ -31,7 +31,7 @@ const CSS = `
 
   /* Heading */
   #services-section .svc-heading {
-    font-size: 98px; font-family: var(--ff); font-weight: 300;
+    font-size: 98px; font-family: var(--ff); font-weight: 500;
     color: #fff; margin-bottom: 68px; letter-spacing: -0.02em; line-height: 1;
   }
 
