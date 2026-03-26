@@ -3,16 +3,14 @@
 import { useEffect, useRef, useCallback } from 'react'
 
 const ROW1_LOGOS = [
-  { src: '/images/logos/join-1.svg', alt: 'Client logo' },
-  { src: '/images/logos/join-2.svg', alt: 'Client logo' },
-  { src: '/images/logos/join-3.svg', alt: 'Client logo' },
-  { src: '/images/logos/join-4.svg', alt: 'Client logo' },
+  { src: '/images/logos/telestore.svg', alt: 'Telestore' },
+  { src: '/images/logos/sannegarden.png', alt: 'Sannegårdens Pizzeria' },
+  { src: '/images/logos/trainwithalbert.svg', alt: 'TrainWithAlbert' },
 ]
 
 const ROW2_LOGOS = [
-  { src: '/images/logos/join-5.svg', alt: 'Client logo' },
-  { src: '/images/logos/join-9.svg', alt: 'Client logo' },
-  { src: '/images/logos/join-12.svg', alt: 'Client logo' },
+  { src: '/images/logos/mbflytt.png', alt: 'MB Flytt' },
+  { src: '/images/logos/nordicrank.svg', alt: 'NordicRank' },
 ]
 
 const CSS = `
@@ -270,12 +268,12 @@ export default function JoinTheBestClient() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
       <div className="join-container">
-        <h2 className="join-heading">Join the Best</h2>
+        <h2 className="join-heading">Trusted By</h2>
       </div>
 
       <div className="join-marquee-wrap">
-        <MarqueeLine logos={ROW1_LOGOS} direction="left" speed={0.5} repeats={4} />
-        <MarqueeLine logos={ROW2_LOGOS} direction="right" speed={0.5} repeats={5} />
+        <MarqueeLine logos={ROW1_LOGOS} direction="left" speed={0.5} repeats={6} />
+        <MarqueeLine logos={ROW2_LOGOS} direction="right" speed={0.5} repeats={8} />
       </div>
     </section>
   )
