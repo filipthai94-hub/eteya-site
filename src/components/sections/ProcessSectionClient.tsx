@@ -498,6 +498,17 @@ export default function ProcessSectionClient() {
     }, 300)
     cleanups.push(() => clearTimeout(refreshTimer))
 
+    // Global layout refresh hooks (t.ex. Services accordion öppnas/stängs ovanför denna sektion)
+    const refreshPinned = () => {
+      requestAnimationFrame(() => ScrollTrigger.refresh())
+    }
+    window.addEventListener('eteya:services-toggled', refreshPinned as EventListener)
+    window.addEventListener('eteya:services-transition-end', refreshPinned as EventListener)
+    cleanups.push(() => {
+      window.removeEventListener('eteya:services-toggled', refreshPinned as EventListener)
+      window.removeEventListener('eteya:services-transition-end', refreshPinned as EventListener)
+    })
+
     return () => {
       cleanups.forEach(fn => fn())
       ScrollTrigger.getAll().forEach(t => t.kill())

@@ -200,6 +200,11 @@ const CSS = `
 export default function ServicesClient() {
   useEffect(() => {
     const cards = document.querySelectorAll('#services-section .service-card')
+
+    const notifyLayoutChange = (eventName: string) => {
+      window.dispatchEvent(new CustomEvent(eventName))
+    }
+
     cards.forEach((card) => {
       const title = card.querySelector('.service-title') as HTMLElement | null
       if (!title) return
@@ -207,6 +212,19 @@ export default function ServicesClient() {
         const isActive = card.classList.contains('is-active')
         cards.forEach((c) => c.classList.remove('is-active'))
         if (!isActive) card.classList.add('is-active')
+
+        // ProcessSection har GSAP pin/sticky som måste refreshas när services-höjden ändras
+        notifyLayoutChange('eteya:services-toggled')
+
+        const onEnd = (e: Event) => {
+          const te = e as TransitionEvent
+          if (te.propertyName !== 'grid-template-rows') return
+          notifyLayoutChange('eteya:services-transition-end')
+        }
+
+        card.addEventListener('transitionend', onEnd, { once: true })
+        // Fallback om transitionend missas (browser edge-case)
+        window.setTimeout(() => notifyLayoutChange('eteya:services-transition-end'), 650)
       })
     })
     // Ingen öppen som default — användaren väljer själv
