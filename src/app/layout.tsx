@@ -25,6 +25,40 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sv" className={`${display.variable} ${body.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Eteya',
+              legalName: 'Eteya Consulting AB',
+              url: 'https://eteya.ai',
+              description:
+                'AI & Automation Consulting — vi bygger AI agents, process automation och custom AI-lösningar.',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Solhagsvägen 26A',
+                addressLocality: 'Karlskoga',
+                postalCode: '691 52',
+                addressCountry: 'SE',
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Eteya',
+              url: 'https://eteya.ai',
+            }),
+          }}
+        />
+      </head>
       <body className="bg-et-bg text-et-primary font-body antialiased">{children}</body>
     </html>
   )
