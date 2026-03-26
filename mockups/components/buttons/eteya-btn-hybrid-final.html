@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eteya — Button Hybrid (SPIKAT)</title>
+  <!--
+    ══════════════════════════════════════════════════════════════
+    SPIKAT: 2026-03-26 av Filip
+    Design: A:s lime gradient-border + glow → D:s glass body + hover-lift
+    GPU-optimerad: pseudo-element opacity, translate3d, will-change, backface-visibility
+    Varianter: primary, secondary, ghost, small, disabled
+    ══════════════════════════════════════════════════════════════
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #080808; color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh; padding: 60px 40px;
+    }
+    h1 { font-size: 48px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 16px; margin-bottom: 60px; }
+    .btn-row { display: flex; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .btn-group { text-align: center; }
+    .btn-variant-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.25); margin-bottom: 12px;
+    }
+    .context-bar {
+      margin-top: 40px; padding: 24px 32px;
+      background: #0F0F0F; border-radius: 12px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .context-bar-label { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ═══════════════════════════════════════
+       ETEYA BUTTON — Hybrid (Glow Border + Glass Body)
+       GPU-optimized: pseudo-element shadows, will-change, backface-visibility
+       ═══════════════════════════════════════ */
+
+    /* Outer wrapper — weak gradient border (always visible) */
+    .eteya-btn {
+      display: inline-block;
+      padding: 2px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(200,255,0,0.4) 0%, rgba(200,255,0,0.1) 40%, rgba(200,255,0,0.02) 70%);
+      cursor: pointer;
+      position: relative;
+
+      /* GPU layer — only transform + opacity ever animate */
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+      /* Smooth text during transforms */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ::after = Strong lit-up border — pre-rendered, faded in via opacity */
+    .eteya-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #C8FF00 0%, rgba(200,255,0,0.5) 35%, rgba(200,255,0,0.15) 65%, rgba(200,255,0,0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ::before = Glow shadow — pre-rendered, faded in via opacity */
+    .eteya-btn::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 18px;
+      box-shadow: 0 0 24px rgba(200,255,0,0.2),
+                  0 0 60px rgba(200,255,0,0.08),
+                  0 8px 32px rgba(200,255,0,0.06);
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Inner needs z-index above ::after */
+    .eteya-btn .eteya-btn-inner { z-index: 1; }
+
+    .eteya-btn:hover {
+      transform: translate3d(0, -3px, 0);
+    }
+    .eteya-btn:hover::after { opacity: 1; }
+    .eteya-btn:hover::before { opacity: 1; }
+
+    .eteya-btn:active {
+      transform: translate3d(0, 0, 0);
+      transition-duration: 0.15s;
+    }
+    .eteya-btn:active::after { opacity: 0.6; }
+    .eteya-btn:active::before { opacity: 0.3; }
+
+    /* Inner — glass body */
+    .eteya-btn-inner {
+      padding: 14px 28px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      position: relative;
+      background: radial-gradient(ellipse 160px 100px at 75% -20%, #2a2a2a, #0f1111 70%);
+      display: flex; align-items: center; gap: 8px;
+      overflow: hidden;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    /* Glass highlight — top reflection */
+    .eteya-btn-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 50%;
+      border-radius: 14px 14px 0 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Subtle lime ambient — bottom-left */
+    .eteya-btn-inner::after {
+      content: "";
+      position: absolute; bottom: -15px; left: -15px;
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,255,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── SECONDARY ── */
+    .eteya-btn.secondary {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 40%, transparent 70%);
+    }
+    .eteya-btn.secondary::after {
+      background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 35%, rgba(255,255,255,0.05) 65%, transparent 100%);
+    }
+    .eteya-btn.secondary::before {
+      box-shadow: 0 0 18px rgba(255,255,255,0.08),
+                  0 0 40px rgba(255,255,255,0.04),
+                  0 8px 24px rgba(255,255,255,0.03);
+    }
+
+    /* ── GHOST ── */
+    .eteya-btn-ghost {
+      background: none;
+      border: 1px solid rgba(200,255,0,0.1);
+      cursor: pointer;
+      color: rgba(255,255,255,0.45);
+      font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      padding: 13px 26px; border-radius: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      position: relative;
+
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+
+      transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                  color 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .eteya-btn-ghost::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: 17px;
+      box-shadow: 0 0 12px rgba(200,255,0,0.08);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .eteya-btn-ghost:hover {
+      color: #C8FF00;
+      border-color: rgba(200,255,0,0.25);
+      transform: translate3d(0, -2px, 0);
+    }
+    .eteya-btn-ghost:hover::before { opacity: 1; }
+
+    /* ── SMALL / NAV ── */
+    .eteya-btn.small { border-radius: 12px; }
+    .eteya-btn.small .eteya-btn-inner {
+      padding: 8px 18px; font-size: 12px; border-radius: 10px;
+    }
+    .eteya-btn.small::before { border-radius: 14px; }
+    .eteya-btn.small::after { border-radius: 12px; }
+
+    /* ── DISABLED ── */
+    .eteya-btn.disabled { opacity: 0.3; pointer-events: none; }
+    .eteya-btn-ghost.disabled { opacity: 0.3; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+<h1>Eteya — Button System <span style="color:#C8FF00">✦</span></h1>
+<p class="subtitle">Hybrid — Glow Border + Glass Body. Spikat 2026-03-26.</p>
+
+<div class="btn-row">
+  <div class="btn-group">
+    <div class="btn-variant-label">Primary</div>
+    <div class="eteya-btn">
+      <div class="eteya-btn-inner">Boka ett samtal</div>
+    </div>
+  </div>
+  <div class="btn-group">
+    <div class="btn-variant-label">Secondary</div>
+    <div class="eteya-btn secondary">
+      <div class="eteya-btn-inner">Se tjänster</div>
+    </div>
+  </div>
+  <div class="btn-group">
+    <div class="btn-variant-label">Ghost</div>
+    <button class="eteya-btn-ghost">Läs mer</button>
+  </div>
+  <div class="btn-group">
+    <div class="btn-variant-label">Small / Nav</div>
+    <div class="eteya-btn small">
+      <div class="eteya-btn-inner">Kontakt</div>
+    </div>
+  </div>
+  <div class="btn-group">
+    <div class="btn-variant-label">Disabled</div>
+    <div class="eteya-btn disabled">
+      <div class="eteya-btn-inner">Skicka</div>
+    </div>
+  </div>
+</div>
+
+<div class="context-bar">
+  <span class="context-bar-label">I context</span>
+  <div class="eteya-btn small"><div class="eteya-btn-inner">Kontakt</div></div>
+  <div class="eteya-btn"><div class="eteya-btn-inner">Boka ett samtal</div></div>
+  <button class="eteya-btn-ghost">Läs mer</button>
+</div>
+
+</body>
+</html>

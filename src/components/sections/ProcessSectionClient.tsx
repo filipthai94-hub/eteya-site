@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Button from '@/components/ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -567,7 +568,9 @@ export default function ProcessSectionClient() {
                     </li>
                   ))}
                 </ul>
-                <a href="#contact" className="process-btn">{block.btnText}</a>
+                <div style={{ marginTop: 40 }}>
+                  <Button variant="primary" href="#contact">{block.btnText}</Button>
+                </div>
               </div>
             </div>
           </div>

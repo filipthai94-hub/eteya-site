@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eteya — Marquee Banner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #080808; }
+
+    .marquee-wrap {
+      overflow: hidden;
+      padding: 1rem 0;
+      border-top: 1px solid #1E1E1E;
+      border-bottom: 1px solid #1E1E1E;
+      background-color: #080808;
+    }
+
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee-fwd 25s linear infinite;
+      will-change: transform;
+    }
+
+    .marquee-word {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(4rem, 8vw, 7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 1rem;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.12);
+    }
+
+    .marquee-divider {
+      margin: 0 1.5rem;
+      color: rgba(255,255,255,0.08);
+      -webkit-text-stroke: 0;
+    }
+
+    @keyframes marquee-fwd {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- 4x duplicering för sömlös loop -->
+    <span class="marquee-word">AI AGENTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AUTOMATION<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI PRODUCTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI AGENTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AUTOMATION<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI PRODUCTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI AGENTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AUTOMATION<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI PRODUCTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI AGENTS<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AUTOMATION<span class="marquee-divider">/</span></span>
+    <span class="marquee-word">AI PRODUCTS<span class="marquee-divider">/</span></span>
+  </div>
+</div>
+
+</body>
+</html>

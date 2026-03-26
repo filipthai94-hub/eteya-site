@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button'
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
   return (
-    <Button type="submit" variant="primary" disabled={pending} style={{ width: '100%' }}>
+    <Button type="submit" variant="primary" disabled={pending} fullWidth>
       {pending ? loadingLabel : label}
     </Button>
   )

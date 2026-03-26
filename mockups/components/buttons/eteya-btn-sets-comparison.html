@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eteya — Button Sets (Full System)</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #080808; color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh; padding: 60px 40px;
+    }
+    h1 { font-size: 48px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 16px; margin-bottom: 60px; }
+
+    .set {
+      margin-bottom: 80px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 60px;
+    }
+    .set:last-child { border-bottom: none; }
+    .set-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px; }
+    .set-label { font-size: 14px; font-weight: 600; color: #C8FF00; letter-spacing: 0.1em; text-transform: uppercase; }
+    .set-name { font-size: 28px; font-weight: 500; color: #fff; }
+    .set-desc { color: rgba(255,255,255,0.4); font-size: 14px; margin-bottom: 40px; max-width: 600px; }
+
+    .btn-row { display: flex; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .btn-group { text-align: center; }
+    .btn-variant-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.25); margin-bottom: 12px;
+    }
+
+    /* Context preview */
+    .context-bar {
+      margin-top: 32px; padding: 20px 32px;
+      background: #0F0F0F; border-radius: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .context-bar-label { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ═══════════════════════════════════════
+       SET A — Gradient Border
+       ═══════════════════════════════════════ */
+    .setA-btn {
+      height: 52px; padding: 0; border-radius: 15px;
+      cursor: pointer; transition: 0.3s ease;
+      background: linear-gradient(to bottom right, #C8FF00 0%, rgba(200,255,0,0) 30%);
+      background-color: rgba(200,255,0,0.15);
+      display: inline-flex; align-items: center; justify-content: center;
+      border: none; outline: none;
+    }
+    .setA-btn:hover, .setA-btn:focus {
+      background-color: rgba(200,255,0,0.5);
+      box-shadow: 0 0 10px rgba(200,255,0,0.4);
+    }
+    .setA-inner {
+      height: calc(100% - 4px); padding: 0 28px;
+      border-radius: 13px; background-color: #121213;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; color: #fff; font-weight: 600; font-size: 14px;
+      white-space: nowrap;
+    }
+    .setA-inner svg { width: 18px; height: 18px; fill: none; stroke: #C8FF00; stroke-width: 2; }
+
+    /* Secondary */
+    .setA-btn.secondary {
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 30%);
+      background-color: rgba(255,255,255,0.06);
+    }
+    .setA-btn.secondary:hover {
+      background-color: rgba(255,255,255,0.15);
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+    .setA-btn.secondary .setA-inner svg { stroke: #fff; }
+
+    /* Ghost */
+    .setA-ghost {
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 500;
+      padding: 12px 0; font-family: inherit;
+      transition: color 0.3s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .setA-ghost:hover { color: #C8FF00; border-color: rgba(200,255,0,0.3); }
+    .setA-ghost svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.3s; }
+    .setA-ghost:hover svg { transform: translateX(4px); }
+
+    /* Small */
+    .setA-btn.small { height: 38px; border-radius: 10px; }
+    .setA-btn.small .setA-inner {
+      padding: 0 18px; font-size: 12px; border-radius: 8px; gap: 6px;
+    }
+    .setA-btn.small .setA-inner svg { width: 14px; height: 14px; }
+
+    /* Disabled */
+    .setA-btn.disabled { opacity: 0.35; pointer-events: none; }
+
+    /* ═══════════════════════════════════════
+       SET B — Pearl / 3D Pill
+       ═══════════════════════════════════════ */
+    .setB-btn {
+      outline: none; cursor: pointer; border: 0;
+      position: relative; border-radius: 100px;
+      background-color: #080808; transition: all 0.2s ease;
+      box-shadow:
+        inset 0 0.3rem 0.9rem rgba(200,255,0,0.15),
+        inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
+        inset 0 -0.4rem 0.9rem rgba(200,255,0,0.2),
+        0 2rem 2rem rgba(0,0,0,0.3),
+        0 0.5rem 0.5rem -0.3rem rgba(0,0,0,0.8);
+    }
+    .setB-wrap {
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      color: rgba(255,255,255,0.7); padding: 16px 32px;
+      border-radius: inherit; position: relative; overflow: hidden;
+    }
+    .setB-wrap p {
+      display: flex; align-items: center; gap: 8px;
+      margin: 0; transition: all 0.2s ease; transform: translateY(2%);
+    }
+    .setB-wrap::before {
+      content: ""; position: absolute; left: -15%; right: -15%;
+      bottom: 25%; top: -100%; border-radius: 50%;
+      background-color: rgba(200,255,0,0.06); transition: all 0.3s ease;
+    }
+    .setB-wrap::after {
+      content: ""; position: absolute;
+      left: 6%; right: 6%; top: 12%; bottom: 40%;
+      border-radius: 22px 22px 0 0;
+      box-shadow: inset 0 10px 8px -10px rgba(200,255,0,0.3);
+      background: linear-gradient(180deg, rgba(200,255,0,0.12) 0%, transparent 50%);
+      transition: all 0.3s ease;
+    }
+    .setB-btn:hover {
+      box-shadow:
+        inset 0 0.3rem 0.5rem rgba(200,255,0,0.25),
+        inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
+        inset 0 -0.4rem 0.9rem rgba(200,255,0,0.35),
+        0 2rem 2rem rgba(0,0,0,0.3),
+        0 0.5rem 0.5rem -0.3rem rgba(0,0,0,0.8);
+    }
+    .setB-btn:hover .setB-wrap::before { transform: translateY(-5%); }
+    .setB-btn:hover .setB-wrap p { transform: translateY(-4%); }
+    .setB-btn:active { transform: translateY(3px); }
+
+    /* Secondary */
+    .setB-btn.secondary {
+      box-shadow:
+        inset 0 0.3rem 0.9rem rgba(255,255,255,0.08),
+        inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
+        inset 0 -0.4rem 0.9rem rgba(255,255,255,0.12),
+        0 2rem 2rem rgba(0,0,0,0.3),
+        0 0.5rem 0.5rem -0.3rem rgba(0,0,0,0.8);
+    }
+    .setB-btn.secondary .setB-wrap::after {
+      box-shadow: inset 0 10px 8px -10px rgba(255,255,255,0.2);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+    }
+    .setB-btn.secondary:hover {
+      box-shadow:
+        inset 0 0.3rem 0.5rem rgba(255,255,255,0.15),
+        inset 0 -0.1rem 0.3rem rgba(0,0,0,0.7),
+        inset 0 -0.4rem 0.9rem rgba(255,255,255,0.25),
+        0 2rem 2rem rgba(0,0,0,0.3),
+        0 0.5rem 0.5rem -0.3rem rgba(0,0,0,0.8);
+    }
+
+    /* Ghost */
+    .setB-ghost {
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.45); font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif; padding: 12px 4px;
+      transition: all 0.3s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      position: relative;
+    }
+    .setB-ghost::after {
+      content: ''; position: absolute; bottom: 8px; left: 4px;
+      width: 0; height: 1px; background: #C8FF00;
+      transition: width 0.4s cubic-bezier(0.165,0.84,0.44,1);
+    }
+    .setB-ghost:hover { color: #fff; }
+    .setB-ghost:hover::after { width: calc(100% - 8px); }
+
+    /* Small */
+    .setB-btn.small { border-radius: 100px; }
+    .setB-btn.small .setB-wrap { padding: 10px 22px; font-size: 12px; }
+
+    /* Disabled */
+    .setB-btn.disabled { opacity: 0.3; pointer-events: none; }
+
+    /* ═══════════════════════════════════════
+       SET C — Gradient Glow
+       ═══════════════════════════════════════ */
+    .setC-container {
+      position: relative; padding: 2px;
+      background: linear-gradient(90deg, #C8FF00, #7CFC00);
+      border-radius: 12px; transition: all 0.4s ease;
+      display: inline-block;
+    }
+    .setC-container::before {
+      content: ""; position: absolute; inset: 0;
+      margin: auto; border-radius: 12px;
+      z-index: -1; filter: blur(0);
+      transition: filter 0.4s ease;
+    }
+    .setC-container:hover::before {
+      background: linear-gradient(90deg, #C8FF00, #7CFC00);
+      filter: blur(1.2em);
+    }
+    .setC-container:active::before { filter: blur(0.2em); }
+    .setC-btn {
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      padding: 14px 28px; border-radius: 10px; border: none;
+      background-color: #121213; color: #fff; cursor: pointer;
+      box-shadow: 2px 2px 3px #000000b4;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .setC-btn svg { width: 16px; height: 16px; fill: none; stroke: #C8FF00; stroke-width: 2; }
+
+    /* Secondary */
+    .setC-container.secondary {
+      background: linear-gradient(90deg, rgba(255,255,255,0.35), rgba(255,255,255,0.12));
+    }
+    .setC-container.secondary:hover::before {
+      background: linear-gradient(90deg, rgba(255,255,255,0.25), rgba(255,255,255,0.08));
+      filter: blur(1em);
+    }
+    .setC-container.secondary .setC-btn svg { stroke: #fff; }
+
+    /* Ghost */
+    .setC-ghost {
+      background: none; border: 1px solid rgba(200,255,0,0.15); cursor: pointer;
+      color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      padding: 13px 26px; border-radius: 12px;
+      transition: all 0.4s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .setC-ghost:hover {
+      color: #C8FF00; border-color: rgba(200,255,0,0.4);
+      box-shadow: 0 0 15px rgba(200,255,0,0.08);
+    }
+    .setC-ghost svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* Small */
+    .setC-container.small { border-radius: 8px; padding: 2px; }
+    .setC-container.small .setC-btn { padding: 8px 18px; font-size: 12px; border-radius: 6px; }
+
+    /* Disabled */
+    .setC-container.disabled { opacity: 0.3; pointer-events: none; }
+
+    /* ═══════════════════════════════════════
+       SET D — Glass Blob
+       ═══════════════════════════════════════ */
+    .setD-btn {
+      cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif;
+      border-radius: 16px; border: none; padding: 2px;
+      background: radial-gradient(circle 80px at 80% -10%, #555, #181b1b);
+      position: relative; display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .setD-btn:hover { transform: translateY(-2px); }
+    .setD-btn::after {
+      content: ""; position: absolute;
+      width: 65%; height: 60%; border-radius: 120px;
+      top: 0; right: 0;
+      box-shadow: 0 0 20px #ffffff18; z-index: -1;
+    }
+    .setD-blob {
+      position: absolute; width: 70px; height: 100%;
+      border-radius: 16px; bottom: 0; left: 0;
+      background: radial-gradient(circle 60px at 0% 100%, #C8FF00, rgba(200,255,0,0.3), transparent);
+      box-shadow: -10px 10px 30px rgba(200,255,0,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    .setD-btn:hover .setD-blob { box-shadow: -10px 10px 40px rgba(200,255,0,0.2); }
+    .setD-inner {
+      padding: 14px 28px; border-radius: 14px;
+      color: #fff; z-index: 3; position: relative;
+      background: radial-gradient(circle 80px at 80% -50%, #444, #0f1111);
+      font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .setD-inner::before {
+      content: ""; width: 100%; height: 100%;
+      left: 0; top: 0; border-radius: 14px;
+      background: radial-gradient(circle 60px at 0% 100%, rgba(200,255,0,0.08), transparent);
+      position: absolute;
+    }
+    .setD-inner svg { width: 16px; height: 16px; fill: none; stroke: #C8FF00; stroke-width: 2; position: relative; z-index: 1; }
+
+    /* Secondary */
+    .setD-btn.secondary .setD-blob {
+      background: radial-gradient(circle 60px at 0% 100%, rgba(255,255,255,0.3), rgba(255,255,255,0.1), transparent);
+      box-shadow: -10px 10px 30px rgba(255,255,255,0.03);
+    }
+    .setD-btn.secondary .setD-inner svg { stroke: #fff; }
+
+    /* Ghost */
+    .setD-ghost {
+      background: none; border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer; color: rgba(255,255,255,0.4);
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      padding: 13px 26px; border-radius: 16px;
+      transition: all 0.3s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .setD-ghost:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
+
+    /* Small */
+    .setD-btn.small { border-radius: 12px; }
+    .setD-btn.small .setD-blob { width: 50px; border-radius: 12px; }
+    .setD-btn.small .setD-inner { padding: 8px 18px; font-size: 12px; border-radius: 10px; }
+
+    /* Disabled */
+    .setD-btn.disabled { opacity: 0.3; pointer-events: none; }
+
+    /* Arrow SVG shared */
+    .arrow-svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* ═══════════════════════════════════════
+       SET E — HYBRID (A:s glow-border + D:s glass-body + lift)
+       GPU-optimized: pseudo-element shadows, will-change, backface-visibility
+       ═══════════════════════════════════════ */
+
+    /* Outer wrapper — weak gradient border (always visible) */
+    .setE-outer {
+      display: inline-block;
+      padding: 2px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(200,255,0,0.4) 0%, rgba(200,255,0,0.1) 40%, rgba(200,255,0,0.02) 70%);
+      cursor: pointer;
+      position: relative;
+
+      /* GPU layer — only transform + opacity ever animate */
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+      /* Smooth text during transforms */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ::after = Strong lit-up border — pre-rendered, faded in via opacity */
+    .setE-outer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #C8FF00 0%, rgba(200,255,0,0.5) 35%, rgba(200,255,0,0.15) 65%, rgba(200,255,0,0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ::before = Glow shadow — pre-rendered, faded in via opacity */
+    .setE-outer::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 18px;
+      box-shadow: 0 0 24px rgba(200,255,0,0.2),
+                  0 0 60px rgba(200,255,0,0.08),
+                  0 8px 32px rgba(200,255,0,0.06);
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Inner needs z-index above ::after */
+    .setE-outer .setE-inner { z-index: 1; }
+
+    .setE-outer:hover {
+      transform: translate3d(0, -3px, 0);
+    }
+    .setE-outer:hover::after {
+      opacity: 1;
+    }
+    .setE-outer:hover::before {
+      opacity: 1;
+    }
+
+    .setE-outer:active {
+      transform: translate3d(0, 0, 0);
+      transition-duration: 0.15s;
+    }
+    .setE-outer:active::after {
+      opacity: 0.6;
+    }
+    .setE-outer:active::before {
+      opacity: 0.3;
+    }
+
+    /* Inner — glass body (D-style) */
+    .setE-inner {
+      padding: 14px 28px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      position: relative;
+      background: radial-gradient(ellipse 160px 100px at 75% -20%, #2a2a2a, #0f1111 70%);
+      display: flex; align-items: center; gap: 8px;
+      overflow: hidden;
+
+      /* Crisp inner edges */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    /* Glass highlight — top reflection */
+    .setE-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 50%;
+      border-radius: 14px 14px 0 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Subtle lime ambient — bottom-left */
+    .setE-inner::after {
+      content: "";
+      position: absolute; bottom: -15px; left: -15px;
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,255,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Secondary — white gradient border (same dual-layer technique) */
+    .setE-outer.secondary {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.04) 40%, transparent 70%);
+    }
+    .setE-outer.secondary::after {
+      background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 35%, rgba(255,255,255,0.05) 65%, transparent 100%);
+    }
+    .setE-outer.secondary::before {
+      box-shadow: 0 0 18px rgba(255,255,255,0.08),
+                  0 0 40px rgba(255,255,255,0.04),
+                  0 8px 24px rgba(255,255,255,0.03);
+    }
+
+    /* Ghost — border with lime glow */
+    .setE-ghost {
+      background: none;
+      border: 1px solid rgba(200,255,0,0.1);
+      cursor: pointer;
+      color: rgba(255,255,255,0.45);
+      font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      padding: 13px 26px; border-radius: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      position: relative;
+
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+
+      transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                  color 0.4s ease,
+                  border-color 0.4s ease;
+    }
+    .setE-ghost::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: 17px;
+      box-shadow: 0 0 12px rgba(200,255,0,0.08);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .setE-ghost:hover {
+      color: #C8FF00;
+      border-color: rgba(200,255,0,0.25);
+      transform: translate3d(0, -2px, 0);
+    }
+    .setE-ghost:hover::before { opacity: 1; }
+
+    /* Small */
+    .setE-outer.small { border-radius: 12px; }
+    .setE-outer.small .setE-inner {
+      padding: 8px 18px; font-size: 12px; border-radius: 10px;
+    }
+    .setE-outer.small::before { border-radius: 14px; }
+
+    /* Disabled */
+    .setE-outer.disabled { opacity: 0.3; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+<h1>Eteya — Button System</h1>
+<p class="subtitle">4 sets + 1 hybrid. Hovra för effekter. Filip väljer.</p>
+
+<!-- ═══ SET E — HYBRID (Filips favorit-mix) ═══ -->
+<div class="set" style="border-bottom: 2px solid rgba(200,255,0,0.15); padding-bottom: 70px;">
+  <div class="set-header">
+    <span class="set-label" style="background: #C8FF00; color: #000; padding: 2px 10px; border-radius: 4px;">★ SET E</span>
+    <span class="set-name">Hybrid — Glow Border + Glass Body</span>
+  </div>
+  <p class="set-desc">A:s lysande lime-border och hover-glow + D:s glasiga kropp och hover-lift. Det bästa av båda.</p>
+
+  <div class="btn-row">
+    <div class="btn-group">
+      <div class="btn-variant-label">Primary</div>
+      <div class="setE-outer">
+        <div class="setE-inner">Boka ett samtal</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Secondary</div>
+      <div class="setE-outer secondary">
+        <div class="setE-inner">Se tjänster</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Ghost</div>
+      <button class="setE-ghost">Läs mer</button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Small / Nav</div>
+      <div class="setE-outer small">
+        <div class="setE-inner">Kontakt</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Disabled</div>
+      <div class="setE-outer disabled">
+        <div class="setE-inner">Skicka</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="context-bar">
+    <span class="context-bar-label">I context (mörk bakgrund)</span>
+    <div class="setE-outer small"><div class="setE-inner">Kontakt</div></div>
+    <div class="setE-outer"><div class="setE-inner">Boka ett samtal</div></div>
+    <button class="setE-ghost">Läs mer</button>
+  </div>
+</div>
+
+<!-- ═══ SET A — Gradient Border ═══ -->
+<div class="set">
+  <div class="set-header">
+    <span class="set-label">SET A</span>
+    <span class="set-name">Gradient Border</span>
+  </div>
+  <p class="set-desc">Lime-gradient i kanten med svart inner. Clean, modern, professionell.</p>
+
+  <div class="btn-row">
+    <div class="btn-group">
+      <div class="btn-variant-label">Primary</div>
+      <button class="setA-btn">
+        <div class="setA-inner">
+          
+          Boka ett samtal
+        </div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Secondary</div>
+      <button class="setA-btn secondary">
+        <div class="setA-inner">Se tjänster</div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Ghost</div>
+      <button class="setA-ghost">
+        Läs mer
+        
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Small / Nav</div>
+      <button class="setA-btn small">
+        <div class="setA-inner">Kontakt</div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Disabled</div>
+      <button class="setA-btn disabled">
+        <div class="setA-inner">Skicka</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="context-bar">
+    <span class="context-bar-label">I context (mörk bakgrund)</span>
+    <button class="setA-btn small"><div class="setA-inner">Kontakt</div></button>
+    <button class="setA-btn"><div class="setA-inner"> Boka ett samtal</div></button>
+    <button class="setA-ghost">Läs mer </button>
+  </div>
+</div>
+
+<!-- ═══ SET B — Pearl 3D ═══ -->
+<div class="set">
+  <div class="set-header">
+    <span class="set-label">SET B</span>
+    <span class="set-name">Pearl 3D</span>
+  </div>
+  <p class="set-desc">3D-pill med inset shadows och lime-glasmorfism. Premium och taktil känsla.</p>
+
+  <div class="btn-row">
+    <div class="btn-group">
+      <div class="btn-variant-label">Primary</div>
+      <button class="setB-btn">
+        <div class="setB-wrap"><p>✦ Boka ett samtal</p></div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Secondary</div>
+      <button class="setB-btn secondary">
+        <div class="setB-wrap"><p>Se tjänster</p></div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Ghost</div>
+      <button class="setB-ghost">
+        Läs mer
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Small / Nav</div>
+      <button class="setB-btn small">
+        <div class="setB-wrap"><p>Kontakt</p></div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Disabled</div>
+      <button class="setB-btn disabled">
+        <div class="setB-wrap"><p>Skicka</p></div>
+      </button>
+    </div>
+  </div>
+
+  <div class="context-bar">
+    <span class="context-bar-label">I context (mörk bakgrund)</span>
+    <button class="setB-btn small"><div class="setB-wrap"><p>Kontakt</p></div></button>
+    <button class="setB-btn"><div class="setB-wrap"><p>✦ Boka ett samtal</p></div></button>
+    <button class="setB-ghost">Läs mer</button>
+  </div>
+</div>
+
+<!-- ═══ SET C — Gradient Glow ═══ -->
+<div class="set">
+  <div class="set-header">
+    <span class="set-label">SET C</span>
+    <span class="set-name">Gradient Glow</span>
+  </div>
+  <p class="set-desc">Lime-gradient border med blur-glow bakom vid hover. Stark call-to-action.</p>
+
+  <div class="btn-row">
+    <div class="btn-group">
+      <div class="btn-variant-label">Primary</div>
+      <div class="setC-container">
+        <button class="setC-btn">
+          
+          Boka ett samtal
+        </button>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Secondary</div>
+      <div class="setC-container secondary">
+        <button class="setC-btn">Se tjänster</button>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Ghost</div>
+      <button class="setC-ghost">
+        Läs mer
+        
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Small / Nav</div>
+      <div class="setC-container small">
+        <button class="setC-btn">Kontakt</button>
+      </div>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Disabled</div>
+      <div class="setC-container disabled">
+        <button class="setC-btn">Skicka</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="context-bar">
+    <span class="context-bar-label">I context (mörk bakgrund)</span>
+    <div class="setC-container small"><button class="setC-btn">Kontakt</button></div>
+    <div class="setC-container"><button class="setC-btn"> Boka ett samtal</button></div>
+    <button class="setC-ghost">Läs mer </button>
+  </div>
+</div>
+
+<!-- ═══ SET D — Glass Blob ═══ -->
+<div class="set">
+  <div class="set-header">
+    <span class="set-label">SET D</span>
+    <span class="set-name">Glass Blob</span>
+  </div>
+  <p class="set-desc">Realistisk glasknapp med lime-blob i hörnet. Futuristisk och unik.</p>
+
+  <div class="btn-row">
+    <div class="btn-group">
+      <div class="btn-variant-label">Primary</div>
+      <button class="setD-btn">
+        <div class="setD-blob"></div>
+        <div class="setD-inner">
+          
+          Boka ett samtal
+        </div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Secondary</div>
+      <button class="setD-btn secondary">
+        <div class="setD-blob"></div>
+        <div class="setD-inner">Se tjänster</div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Ghost</div>
+      <button class="setD-ghost">Läs mer</button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Small / Nav</div>
+      <button class="setD-btn small">
+        <div class="setD-blob"></div>
+        <div class="setD-inner">Kontakt</div>
+      </button>
+    </div>
+    <div class="btn-group">
+      <div class="btn-variant-label">Disabled</div>
+      <button class="setD-btn disabled">
+        <div class="setD-blob"></div>
+        <div class="setD-inner">Skicka</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="context-bar">
+    <span class="context-bar-label">I context (mörk bakgrund)</span>
+    <button class="setD-btn small"><div class="setD-blob"></div><div class="setD-inner">Kontakt</div></button>
+    <button class="setD-btn"><div class="setD-blob"></div><div class="setD-inner"> Boka ett samtal</div></button>
+    <button class="setD-ghost">Läs mer</button>
+  </div>
+</div>
+
+</body>
+</html>

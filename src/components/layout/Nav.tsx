@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Button from '@/components/ui/Button'
 
 /* ─── Data ──────────────────────────────────────────── */
 interface DropdownCard { title: string; desc: string; iconPath: string }
@@ -256,7 +257,7 @@ export default function Nav() {
                 <span className="nav-loc-sep">/</span>
                 <a href="#" className={`nav-loc-btn${isEn ? ' active' : ''}`}>EN</a>
               </div>
-              <a href="#" className="nav-cta-btn">Boka samtal</a>
+              <Button variant="small" href="#contact">Boka samtal</Button>
             </div>
 
             {/* Hamburger */}
@@ -308,7 +309,7 @@ export default function Nav() {
             )
           })}
           <div className="nav-mctaw">
-            <a href="#" className="nav-mbtn">Boka samtal</a>
+            <Button variant="primary" href="#contact" fullWidth>Boka samtal</Button>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import Button from '@/components/ui/Button'
 
 const CSS = `
   #services-section {
@@ -154,22 +155,13 @@ const CSS = `
     content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6;
   }
 
-  /* Button */
-  #services-section .eteya-btn {
+  /* Button wrapper — grid placement only */
+  #services-section .eteya-btn-wrap {
     display: inline-flex; width: fit-content;
     align-self: end; justify-self: start;
-    align-items: center; justify-content: center;
-    background: #C8FF00; color: #121213;
-    border: none; border-radius: 0;
-    font-family: var(--ff); font-size: 14px; font-weight: 500;
-    padding: 0 24px; height: 48px; cursor: pointer;
-    text-decoration: none;
-    transition: background .4s cubic-bezier(.165,.84,.44,1), transform .4s cubic-bezier(.165,.84,.44,1);
-    white-space: nowrap; letter-spacing: 0.02em;
     grid-column: 1;
     grid-row: 2;
   }
-  #services-section .eteya-btn:hover { background: #b8ef00; transform: translateY(-3px); }
 
   /* Mobile */
   @media (max-width: 767px) {
@@ -198,7 +190,7 @@ const CSS = `
       grid-row: 3 !important;
       grid-template-columns: 1fr 1fr !important;
     }
-    #services-section .eteya-btn {
+    #services-section .eteya-btn-wrap {
       grid-column: 1 !important;
       grid-row: 4 !important;
     }
@@ -256,7 +248,7 @@ export default function ServicesClient() {
                 <li>Intern support</li>
                 <li>Uppföljning</li>
               </ul>
-              <a className="eteya-btn" href="#contact">Läs mer</a>
+              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
             </div>
           </div>
         </div>
@@ -289,7 +281,7 @@ export default function ServicesClient() {
                 <li>Systemsynk</li>
                 <li>Aviseringar</li>
               </ul>
-              <a className="eteya-btn" href="#contact">Läs mer</a>
+              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
             </div>
           </div>
         </div>
@@ -322,7 +314,7 @@ export default function ServicesClient() {
                 <li>MVP på veckor</li>
                 <li>Skräddarsydd AI</li>
               </ul>
-              <a className="eteya-btn" href="#contact">Läs mer</a>
+              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
             </div>
           </div>
         </div>
