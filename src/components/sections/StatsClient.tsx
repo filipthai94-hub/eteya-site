@@ -283,19 +283,20 @@ export default function StatsClient({
           .bd-col-spacer { display: none; }
           .bd-col-number { flex: none; width: 100%; margin-bottom: 0; }
           .bd-col-label  { flex: none; width: 100%; }
-          .bd-stat-row { padding: 7.8px 0; }
-          .bd-milestone-container { padding-top: 21.2px; }
-          .bd-number-wrap { font-size: 12vw; min-height: 57px; margin-bottom: 25px; }
+          .bd-stat-row { padding: 24px 0 16px; }
+          .bd-milestone-container { padding-top: 0; }
+          .bd-number-wrap { font-size: 18vw; min-height: auto; margin-bottom: 12px; line-height: 1; }
           .bd-num-symbol {
             position: relative;
             top: auto;
             right: auto;
             transform: none;
-            font-size: inherit;
-            line-height: inherit;
+            font-size: 12vw;
+            line-height: 1;
             display: inline;
+            vertical-align: super;
           }
-          .bd-label-text { font-size: 8vw; margin-bottom: 26.2px; }
+          .bd-label-text { font-size: 7vw; margin-bottom: 16px; }
         }
 
         /* Reduced motion — no fade, no parallax, instant display */
