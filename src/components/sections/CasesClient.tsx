@@ -179,7 +179,9 @@ const CSS = `
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
   }
   #cases-section .case-card.is-active .case-arrow { transform: rotate(45deg); }
-  #cases-section .case-card:not(.is-active) .case-title:hover .case-arrow { transform: rotate(45deg); }
+  @media (hover: hover) and (pointer: fine) {
+    #cases-section .case-card:not(.is-active) .case-title:hover .case-arrow { transform: rotate(45deg); }
+  }
 
   /* Tag + metric in title */
   #cases-section .case-meta {
