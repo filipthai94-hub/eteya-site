@@ -208,10 +208,8 @@ const CSS = `
   #cases-section .case-card.is-active .case-counter-line.is-active {
     height: 3.625rem;
   }
-  @media (hover: hover) and (pointer: fine) {
-    #cases-section .case-card:not(.is-active) .case-title:hover .case-counter-line.is-active {
-      height: 3.625rem;
-    }
+  #cases-section .case-card:not(.is-active) .case-title:hover .case-counter-line.is-active {
+    height: 3.625rem;
   }
 
   /* Inner / content */
