@@ -35,6 +35,23 @@ const CASES: CaseData[] = [
     image: '/images/case-telestore.jpg',
   },
   {
+    name: 'NordicRank',
+    tag: 'Digital Marknadsföring',
+    metric: '50% mer organisk trafik',
+    slug: 'nordicrank',
+    problem: 'NordicRank behövde skala sin egen leverans — manuell rapportering och kampanjuppföljning tog tid från kundarbetet.',
+    solution: 'Automatiserad rapportering, AI-driven innehållsanalys och smarta kampanjrekommendationer baserade på realtidsdata.',
+    results: [
+      '50% mer organisk trafik för deras kunder',
+      'Rapporttid: från 4h till 20 minuter',
+      'AI-rekommendationer → 28% bättre ROAS',
+      'Skalat från 8 till 15 kunder utan ny personal',
+    ],
+    quote: 'Eteya automatiserade det tunga — vi kunde fokusera på strategi och kundrelationer.',
+    quoteAuthor: 'Josefin Nordström, Grundare',
+    image: '/images/case-nordicrank.jpg',
+  },
+  {
     name: 'Sannegårdens Pizzeria',
     tag: 'Restaurang',
     metric: 'Aldrig en missad bokning',
@@ -85,23 +102,6 @@ const CASES: CaseData[] = [
     quoteAuthor: 'Marcus Bengtsson, VD',
     image: '/images/case-mbflytt.jpg',
   },
-  {
-    name: 'NordicRank',
-    tag: 'Digital Marknadsföring',
-    metric: '50% mer organisk trafik',
-    slug: 'nordicrank',
-    problem: 'NordicRank behövde skala sin egen leverans — manuell rapportering och kampanjuppföljning tog tid från kundarbetet.',
-    solution: 'Automatiserad rapportering, AI-driven innehållsanalys och smarta kampanjrekommendationer baserade på realtidsdata.',
-    results: [
-      '50% mer organisk trafik för deras kunder',
-      'Rapporttid: från 4h till 20 minuter',
-      'AI-rekommendationer → 28% bättre ROAS',
-      'Skalat från 8 till 15 kunder utan ny personal',
-    ],
-    quote: 'Eteya automatiserade det tunga — vi kunde fokusera på strategi och kundrelationer.',
-    quoteAuthor: 'Josefin Nordström, Grundare',
-    image: '/images/case-nordicrank.jpg',
-  },
 ]
 
 const CASE_LOGOS: Record<string, string> = {
@@ -114,6 +114,19 @@ const CASE_LOGOS: Record<string, string> = {
 
 function getCaseLogo(slug: string) {
   return CASE_LOGOS[slug] ?? '/images/logos/telestore-new.png'
+}
+
+const CASE_LIVE_SHOTS: Record<string, string> = {
+  telestore: '/images/cases/telestore-home-full.png',
+  nordicrank: '/images/cases/nordicrank-home-full.png',
+}
+
+function hasLiveCaseMedia(slug: string) {
+  return Boolean(CASE_LIVE_SHOTS[slug])
+}
+
+function getLiveCaseShot(slug: string) {
+  return CASE_LIVE_SHOTS[slug] ?? CASE_LIVE_SHOTS.telestore
 }
 
 const CSS = `
@@ -692,8 +705,8 @@ export default function CasesClient() {
                     <cite>— {c.quoteAuthor}</cite>
                   </blockquote>
                 </div>
-                {c.slug === 'telestore' ? (
-                  <div className="case-media case-media--telestore frame-luxury" aria-label="Telestore live preview">
+                {hasLiveCaseMedia(c.slug) ? (
+                  <div className="case-media case-media--telestore frame-luxury" aria-label={`${c.name} live preview`}>
                     <div className="ts-brand">
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
@@ -701,8 +714,8 @@ export default function CasesClient() {
                       <div className="ts-track">
                         <img
                           className="ts-shot"
-                          src="/images/cases/telestore-home-full.png"
-                          alt="Telestore startsida"
+                          src={getLiveCaseShot(c.slug)}
+                          alt={`${c.name} startsida`}
                           loading="eager"
                           decoding="async"
                         />
