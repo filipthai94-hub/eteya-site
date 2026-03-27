@@ -424,13 +424,11 @@ const CSS = `
     will-change: transform;
   }
   #cases-section .ts-shot {
+    display: block;
     width: 100%;
     height: auto;
     max-width: none;
     max-height: none;
-    display: block;
-    object-fit: cover;
-    object-position: top center;
     user-select: none;
     pointer-events: none;
     filter: contrast(1.04) saturate(1.03) brightness(1.01);
