@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* ── count-up helper ─────────────────────────────────── */
+/* ── count-up ────────────────────────────────────────── */
 function CountUp({ value, suffix, triggered }: { value: number; suffix: string; triggered: boolean }) {
   const [count, setCount] = useState(0)
   useEffect(() => {
@@ -18,57 +18,55 @@ function CountUp({ value, suffix, triggered }: { value: number; suffix: string; 
   }, [triggered, value])
   return (
     <>
-      <span>{count}</span>
-      <span className="stats-symbol">{suffix}</span>
+      <span className="stat-num-value">{count}</span>
+      <span className="stat-num-symbol">{suffix}</span>
     </>
   )
 }
 
-/* ── main component ──────────────────────────────────── */
+/* ── component ───────────────────────────────────────── */
 export default function StatsClient({
-  heading,
   items,
 }: {
   heading: string
   items: Array<{ value: number; suffix: string; label: string }>
 }) {
-  const sectionRef = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLElement>(null)
   const [triggered, setTriggered] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setTriggered(true), 600)
-    if (!sectionRef.current) return () => clearTimeout(timer)
+    const t = setTimeout(() => setTriggered(true), 600)
+    if (!ref.current) return () => clearTimeout(t)
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 85%',
-        onEnter: () => { clearTimeout(timer); setTriggered(true) },
+        trigger: ref.current, start: 'top 85%',
+        onEnter: () => { clearTimeout(t); setTriggered(true) },
       })
-    }, sectionRef)
-    return () => { clearTimeout(timer); ctx.revert() }
+    }, ref)
+    return () => { clearTimeout(t); ctx.revert() }
   }, [])
 
   return (
     <>
       <style>{`
-        /* ── Brandin-style Stats Section ─────────────────── */
+        /* ===== Brandin-style Stats — pixel-perfect clone ===== */
         #stats-section {
           --stats-bg: #FF3401;
-          --stats-ink: #000;
+          --stats-text: #121213;
           position: relative;
           overflow: hidden;
-          padding: 6vw 4vw;
+          padding: 2vw 4vw;
           background-color: var(--stats-bg);
         }
 
-        /* dot / halftone texture overlay */
+        /* halftone dot overlay (matches bayer-dither-bg) */
         #stats-section::before {
           content: '';
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(circle, var(--stats-ink) 1px, transparent 1px);
-          background-size: 22px 22px;
-          opacity: 0.06;
+          background-image: radial-gradient(circle, #000 1.2px, transparent 1.2px);
+          background-size: 20px 20px;
+          opacity: 0.045;
           pointer-events: none;
           z-index: 0;
         }
@@ -76,88 +74,83 @@ export default function StatsClient({
         #stats-section .stats-inner {
           position: relative;
           z-index: 1;
-          max-width: 1600px;
+          max-width: 1700px;
           margin: 0 auto;
         }
 
-        /* single stat row */
+        /* ── row ────────────────────────── */
         #stats-section .stat-row {
-          display: flex;
+          display: grid;
+          grid-template-columns: 1fr 2fr;
           align-items: center;
-          padding: 2.8vw 0;
-          border-bottom: 1px solid rgba(0,0,0,0.12);
+          padding: 2.2vw 0;
+          border-bottom: 1px solid rgba(0,0,0,0.10);
         }
         #stats-section .stat-row:first-child {
-          border-top: 1px solid rgba(0,0,0,0.12);
+          border-top: 1px solid rgba(0,0,0,0.10);
         }
 
-        /* number column */
-        #stats-section .stat-number {
-          flex: 0 0 40%;
-          font-size: clamp(4rem, 12vw, 10rem);
-          font-weight: 900;
+        /* ── number ─────────────────────── */
+        #stats-section .stat-num {
+          font-size: 12vw;        /* ~205px at 1710vp */
           line-height: 1;
-          color: var(--stats-ink);
+          font-weight: 600;
+          color: var(--stats-text);
           position: relative;
           display: inline-flex;
           align-items: flex-start;
-          font-family: var(--font-display, 'Inter', sans-serif);
           letter-spacing: -0.02em;
         }
-        #stats-section .stat-number .stats-symbol {
-          font-size: 0.38em;
+        #stats-section .stat-num .stat-num-symbol {
+          font-size: 62px;
           line-height: 1;
-          position: relative;
-          top: 0.15em;
-          margin-left: 0.05em;
-          font-weight: 700;
+          position: absolute;
+          top: 0;
+          right: -0.5em;
+          font-weight: 600;
         }
 
-        /* label column */
+        /* ── label ──────────────────────── */
         #stats-section .stat-label {
-          flex: 1;
-          font-size: clamp(1rem, 2vw, 1.4rem);
+          font-size: clamp(1.4rem, 3.35vw, 3.6rem);
           font-weight: 400;
-          color: var(--stats-ink);
-          line-height: 1.35;
-          font-family: var(--font-display, 'Inter', sans-serif);
+          color: var(--stats-text);
+          line-height: 1.2;
           padding-left: 2vw;
         }
 
-        /* ── mobile ───────────────────────── */
+        /* ── mobile ─────────────────────── */
         @media (max-width: 767px) {
           #stats-section {
-            padding: 12vw 6vw;
+            padding: 10vw 6vw;
           }
           #stats-section .stat-row {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 6vw 0;
+            grid-template-columns: 1fr;
+            padding: 7vw 0;
           }
-          #stats-section .stat-number {
-            font-size: clamp(3.5rem, 18vw, 6rem);
-            flex: none;
-            margin-bottom: 0.4rem;
+          #stats-section .stat-num {
+            font-size: 18vw;
+            margin-bottom: 0.3rem;
+          }
+          #stats-section .stat-num .stat-num-symbol {
+            font-size: 32px;
           }
           #stats-section .stat-label {
             padding-left: 0;
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
         }
 
-        /* reduced motion */
         @media (prefers-reduced-motion: reduce) {
-          #stats-section .stat-number span {
-            transition: none !important;
-          }
+          #stats-section .stat-num span { transition: none !important; }
         }
       `}</style>
 
-      <section id="stats-section" ref={sectionRef}>
+      <section id="stats-section" ref={ref}>
         <div className="stats-inner">
           {items.map((item, i) => (
             <div className="stat-row" key={i}>
-              <div className="stat-number">
+              <div className="stat-num">
                 <CountUp value={item.value} suffix={item.suffix} triggered={triggered} />
               </div>
               <p className="stat-label">{item.label}</p>
