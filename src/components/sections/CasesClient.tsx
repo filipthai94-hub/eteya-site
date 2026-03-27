@@ -201,8 +201,7 @@ const CSS = `
   #cases-section .case-counter-line {
     position: relative; display: inline-block;
     width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
-    transition: height 0.3s cubic-bezier(0.65, 0, 0.35, 1),
-                background-color 0.3s ease;
+    transition: 0.3s ease;
     background-color: rgba(var(--rgb-white), 0.4);
   }
   #cases-section .case-counter-line.is-active {
@@ -211,8 +210,10 @@ const CSS = `
   #cases-section .case-card.is-active .case-counter-line.is-active {
     height: 3.625rem;
   }
-  #cases-section .case-card:not(.is-active) .case-title:hover .case-counter-line.is-active {
-    height: 3.625rem;
+  @media (min-width: 1200px) {
+    #cases-section .case-card:not(.is-active) .case-title:hover .case-counter-line.is-active {
+      height: 3.625rem;
+    }
   }
 
   /* Inner / content */

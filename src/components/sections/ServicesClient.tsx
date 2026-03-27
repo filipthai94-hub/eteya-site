@@ -106,8 +106,7 @@ const CSS = `
   #services-section .service-counter-line {
     position: relative; display: inline-block;
     width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
-    transition: height 0.3s cubic-bezier(0.65, 0, 0.35, 1),
-                background-color 0.3s ease;
+    transition: 0.3s ease;
     background-color: rgba(var(--rgb-white), 0.4);
   }
   #services-section .service-counter-line.is-active {
@@ -116,8 +115,10 @@ const CSS = `
   #services-section .service-card.is-active .service-counter-line.is-active {
     height: 3.625rem;
   }
-  #services-section .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
-    height: 3.625rem;
+  @media (min-width: 1200px) {
+    #services-section .service-card:not(.is-active) .service-title:hover .service-counter-line.is-active {
+      height: 3.625rem;
+    }
   }
 
   /* Inner / content */
