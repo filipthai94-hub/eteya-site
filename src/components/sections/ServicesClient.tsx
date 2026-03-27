@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import Button from '@/components/ui/Button'
+import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
 const CSS = `
   #services-section {
@@ -249,18 +250,13 @@ export default function ServicesClient() {
 
         {/* 01 AI Agents */}
         <div className="service-card">
-          <div className="service-title">
-            <i></i>
-            AI Agents
-            <div className="service-counter">
-              <span>01</span>
-              <div className="service-counter-lines">
-                <span className="service-counter-line is-active"></span>
-                <span className="service-counter-line"></span>
-                <span className="service-counter-line"></span>
-              </div>
-            </div>
-          </div>
+          <AccordionRowHeader
+            prefix="service"
+            title="AI Agents"
+            indexDisplay="01"
+            counterLineCount={3}
+            activeLineIndex={0}
+          />
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
@@ -282,18 +278,13 @@ export default function ServicesClient() {
 
         {/* 02 Automation */}
         <div className="service-card">
-          <div className="service-title">
-            <i></i>
-            Automation
-            <div className="service-counter">
-              <span>02</span>
-              <div className="service-counter-lines">
-                <span className="service-counter-line"></span>
-                <span className="service-counter-line is-active"></span>
-                <span className="service-counter-line"></span>
-              </div>
-            </div>
-          </div>
+          <AccordionRowHeader
+            prefix="service"
+            title="Automation"
+            indexDisplay="02"
+            counterLineCount={3}
+            activeLineIndex={1}
+          />
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
@@ -315,18 +306,13 @@ export default function ServicesClient() {
 
         {/* 03 AI Products */}
         <div className="service-card">
-          <div className="service-title">
-            <i></i>
-            AI Products
-            <div className="service-counter">
-              <span>03</span>
-              <div className="service-counter-lines">
-                <span className="service-counter-line"></span>
-                <span className="service-counter-line"></span>
-                <span className="service-counter-line is-active"></span>
-              </div>
-            </div>
-          </div>
+          <AccordionRowHeader
+            prefix="service"
+            title="AI Products"
+            indexDisplay="03"
+            counterLineCount={3}
+            activeLineIndex={2}
+          />
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">

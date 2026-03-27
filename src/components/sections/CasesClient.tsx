@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import Button from '@/components/ui/Button'
+import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
 interface CaseData {
   name: string
@@ -332,18 +333,13 @@ export default function CasesClient() {
       <div className="cases-block">
         {CASES.map((c, i) => (
           <div key={c.slug} className="case-card">
-            <div className="case-title">
-              <span className="case-arrow" />
-              {c.name}
-              <div className="case-counter">
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <div className="case-counter-lines">
-                  {CASES.map((_, idx) => (
-                    <span key={idx} className={`case-counter-line ${idx === i ? 'is-active' : ''}`}></span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <AccordionRowHeader
+              prefix="case"
+              title={c.name}
+              indexDisplay={String(i + 1).padStart(2, '0')}
+              counterLineCount={CASES.length}
+              activeLineIndex={i}
+            />
             <div className="case-inner">
               <div className="case-content">
                 <div className="case-text">
