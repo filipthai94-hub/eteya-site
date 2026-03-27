@@ -307,115 +307,6 @@ const CSS = `
     filter: brightness(1.05) contrast(1.04);
   }
 
-  /* Telestore scroll preview (v1) */
-  #cases-section .case-media.case-media--scroll {
-    padding: 0.75rem;
-    align-items: stretch;
-    justify-content: stretch;
-  }
-  #cases-section .case-scroll-viewport {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid rgba(var(--rgb-white), 0.08);
-    background: #0b0b0b;
-  }
-  #cases-section .case-scroll-page {
-    position: absolute;
-    inset: 0;
-    min-height: 185%;
-    padding: 1rem;
-    transform: translateY(0) scale(1.02);
-    opacity: 0;
-    will-change: transform, opacity;
-    background:
-      radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 55%),
-      linear-gradient(180deg, #141414 0%, #0f0f0f 45%, #0c0c0c 100%);
-  }
-  #cases-section .case-card.is-active .case-media--scroll .case-scroll-page {
-    animation:
-      case-scroll-intro 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-      case-scroll-pan 6.8s cubic-bezier(0.45, 0, 0.2, 1) 520ms forwards;
-  }
-  #cases-section .case-scroll-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.8rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(var(--rgb-white), 0.6);
-  }
-  #cases-section .case-scroll-logo {
-    width: 7rem;
-    height: auto;
-    opacity: 0.95;
-    filter: brightness(1.05);
-  }
-  #cases-section .case-scroll-hero {
-    margin-top: 0.55rem;
-    padding: 0.9rem;
-    border-radius: 0.7rem;
-    background: rgba(var(--rgb-white), 0.04);
-    border: 1px solid rgba(var(--rgb-white), 0.08);
-  }
-  #cases-section .case-scroll-title {
-    font-size: 1rem;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    color: rgba(var(--rgb-white), 0.95);
-    margin: 0 0 0.5rem;
-  }
-  #cases-section .case-scroll-sub {
-    font-size: 0.78rem;
-    line-height: 1.35;
-    color: rgba(var(--rgb-white), 0.68);
-    margin: 0;
-  }
-  #cases-section .case-scroll-row {
-    margin-top: 0.7rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.55rem;
-  }
-  #cases-section .case-scroll-tile {
-    min-height: 3.8rem;
-    border-radius: 0.55rem;
-    border: 1px solid rgba(var(--rgb-white), 0.08);
-    background: rgba(var(--rgb-white), 0.03);
-  }
-  #cases-section .case-scroll-section {
-    margin-top: 0.7rem;
-    padding: 0.8rem;
-    border-radius: 0.6rem;
-    border: 1px solid rgba(var(--rgb-white), 0.08);
-    background: rgba(0,0,0,0.24);
-  }
-
-  @keyframes case-scroll-intro {
-    0% {
-      opacity: 0;
-      transform: translateY(0.8rem) scale(1.03);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-  @keyframes case-scroll-pan {
-    from { transform: translateY(0) scale(1); }
-    to { transform: translateY(-44%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #cases-section .case-card.is-active .case-media--scroll .case-scroll-page {
-      animation: case-scroll-intro 260ms ease forwards;
-    }
-  }
-
   /* CTA row */
   #cases-section .case-cta {
     grid-column: 1 / -1;
@@ -449,11 +340,6 @@ const CSS = `
     }
     #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
     #cases-section .case-media img { max-width: 64%; max-height: 52%; }
-    #cases-section .case-media.case-media--scroll { padding: 0.55rem; }
-    #cases-section .case-scroll-page { padding: 0.8rem; min-height: 200%; }
-    #cases-section .case-scroll-logo { width: 5.8rem; }
-    #cases-section .case-scroll-title { font-size: 0.9rem; }
-    #cases-section .case-scroll-sub { font-size: 0.72rem; }
     #cases-section .case-metric { font-size: 1.375rem; }
     #cases-section .case-results li { font-size: 1rem; }
   }
@@ -534,34 +420,9 @@ export default function CasesClient() {
                     <cite>— {c.quoteAuthor}</cite>
                   </blockquote>
                 </div>
-                {c.slug === 'telestore' ? (
-                  <div className="case-media case-media--scroll" aria-label="Telestore preview">
-                    <div className="case-scroll-viewport">
-                      <div className="case-scroll-page">
-                        <div className="case-scroll-nav">
-                          <span>Telestore.se</span>
-                          <span>Preview</span>
-                        </div>
-                        <img className="case-scroll-logo" src={getCaseLogo(c.slug)} alt="Telestore logo" loading="lazy" />
-                        <div className="case-scroll-hero">
-                          <p className="case-scroll-title">iPhone, Samsung & tillbehör med snabb leverans</p>
-                          <p className="case-scroll-sub">Kundservice + orderflöde automatiserat av AI-agenter.</p>
-                        </div>
-                        <div className="case-scroll-row">
-                          <div className="case-scroll-tile"></div>
-                          <div className="case-scroll-tile"></div>
-                        </div>
-                        <div className="case-scroll-section"></div>
-                        <div className="case-scroll-section"></div>
-                        <div className="case-scroll-section"></div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="case-media">
-                    <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
-                  </div>
-                )}
+                <div className="case-media">
+                  <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
+                </div>
                 <div className="case-cta">
                   <Button variant="small" href={`/cases/${c.slug}`}>Läs hela caset</Button>
                 </div>
