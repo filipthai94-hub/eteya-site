@@ -374,14 +374,14 @@ const CSS = `
     pointer-events: none;
   }
 
-  #cases-section .case-card.is-active .case-media--scroll .case-scroll-static {
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-viewport.is-ready .case-scroll-static {
     opacity: 0;
     transform: scale(1.035);
   }
-  #cases-section .case-card.is-active .case-media--scroll .case-scroll-live {
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-viewport.is-ready .case-scroll-live {
     animation: case-scroll-live-in 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  #cases-section .case-card.is-active .case-media--scroll .case-scroll-track {
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-viewport.is-ready .case-scroll-track {
     animation: case-scroll-pan 6.8s cubic-bezier(0.45, 0, 0.2, 1) 520ms forwards;
   }
 
@@ -401,10 +401,10 @@ const CSS = `
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #cases-section .case-card.is-active .case-media--scroll .case-scroll-live {
+    #cases-section .case-card.is-active .case-media--scroll .case-scroll-viewport.is-ready .case-scroll-live {
       animation: case-scroll-live-in 260ms ease forwards;
     }
-    #cases-section .case-card.is-active .case-media--scroll .case-scroll-track {
+    #cases-section .case-card.is-active .case-media--scroll .case-scroll-viewport.is-ready .case-scroll-track {
       animation: none;
     }
   }
@@ -466,6 +466,8 @@ export default function CasesClient() {
         const shot = vp.querySelector('.case-scroll-shot') as HTMLImageElement | null
         if (!shot || !shot.naturalWidth || !shot.naturalHeight) return
 
+        vp.classList.add('is-ready')
+
         const renderedHeight = (vp.clientWidth / shot.naturalWidth) * shot.naturalHeight
         const panPx = Math.max(0, renderedHeight - vp.clientHeight)
         const targetPanPx = Math.max(0, panPx - vp.clientHeight * 0.08)
@@ -476,11 +478,18 @@ export default function CasesClient() {
     const bindShotLoads = () => {
       const shots = document.querySelectorAll('#cases-section .case-scroll-shot') as NodeListOf<HTMLImageElement>
       shots.forEach((shot) => {
-        if (shot.complete) {
+        const viewport = shot.closest('.case-scroll-viewport') as HTMLElement | null
+
+        if (shot.complete && shot.naturalWidth > 0) {
+          viewport?.classList.add('is-ready')
           updateScrollPreviewMetrics()
           return
         }
-        shot.addEventListener('load', updateScrollPreviewMetrics, { once: true })
+
+        shot.addEventListener('load', () => {
+          viewport?.classList.add('is-ready')
+          updateScrollPreviewMetrics()
+        }, { once: true })
       })
     }
 
@@ -584,7 +593,7 @@ export default function CasesClient() {
                             className="case-scroll-shot"
                             src="/images/cases/telestore-home-full.png"
                             alt="Telestore startsida"
-                            loading="lazy"
+                            loading="eager"
                           />
                         </div>
                       </div>
