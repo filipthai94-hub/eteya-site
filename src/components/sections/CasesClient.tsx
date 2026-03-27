@@ -379,17 +379,31 @@ const CSS = `
     pointer-events: none;
     filter: contrast(1.01);
   }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-brand {
+  #cases-section .case-media--telestore.is-ready.is-playing .ts-brand {
     opacity: 0;
     transform: scale(1.05);
-    transition-delay: 460ms;
+    transition-delay: 900ms;
   }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-live {
+  #cases-section .case-media--telestore.is-ready.is-playing .ts-live {
     animation: ts-live-in 460ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: 300ms;
+    animation-delay: 900ms;
   }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-track {
-    animation: ts-pan var(--ts-duration) cubic-bezier(0.4, 0, 0.2, 1) 820ms forwards;
+  #cases-section .case-media--telestore.is-ready.is-playing .ts-track {
+    animation: ts-pan var(--ts-duration) cubic-bezier(0.4, 0, 0.2, 1) 1350ms forwards;
+  }
+  #cases-section .case-media--telestore.is-returning .ts-brand {
+    opacity: 1;
+    transform: scale(1);
+    transition-delay: 0ms;
+  }
+  #cases-section .case-media--telestore.is-returning .ts-live {
+    opacity: 0;
+    transform: translate3d(0, 0.55rem, 0) scale(1.02);
+    transition: opacity 450ms ease, transform 450ms ease;
+  }
+  #cases-section .case-media--telestore.is-returning .ts-track {
+    animation: none;
+    transform: translate3d(0, 0, 0) scale(var(--ts-scale));
   }
   @keyframes ts-live-in {
     from { opacity: 0; transform: translate3d(0, 0.75rem, 0) scale(1.035); }
@@ -400,10 +414,10 @@ const CSS = `
     to { transform: translate3d(0, var(--ts-pan-end), 0) scale(var(--ts-scale)); }
   }
   @media (prefers-reduced-motion: reduce) {
-    #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-live {
+    #cases-section .case-media--telestore.is-ready.is-playing .ts-live {
       animation: ts-live-in 260ms ease forwards;
     }
-    #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-track {
+    #cases-section .case-media--telestore.is-ready.is-playing .ts-track {
       animation: none;
     }
   }
@@ -458,6 +472,38 @@ export default function CasesClient() {
     const cards = Array.from(document.querySelectorAll('#cases-section .case-card')) as HTMLElement[]
     const bindings: Array<{ title: HTMLElement; handler: () => void }> = []
 
+    const clearTelestoreSequence = (media: HTMLElement) => {
+      const timers = (media as HTMLElement & { __tsTimers?: number[] }).__tsTimers ?? []
+      timers.forEach((t) => window.clearTimeout(t))
+      ;(media as HTMLElement & { __tsTimers?: number[] }).__tsTimers = []
+      media.classList.remove('is-playing', 'is-returning')
+    }
+
+    const startTelestoreSequence = (media: HTMLElement) => {
+      clearTelestoreSequence(media)
+      media.classList.remove('is-returning')
+      void media.offsetWidth
+      media.classList.add('is-playing')
+
+      const live = media.querySelector('.ts-live') as HTMLElement | null
+      const durationRaw = live ? getComputedStyle(live).getPropertyValue('--ts-duration').trim() : '10s'
+      const panSec = Number.parseFloat(durationRaw) || 10
+
+      const totalMs = 1350 + panSec * 1000
+      const returnMs = 450
+
+      const t1 = window.setTimeout(() => {
+        media.classList.remove('is-playing')
+        media.classList.add('is-returning')
+      }, totalMs)
+
+      const t2 = window.setTimeout(() => {
+        media.classList.remove('is-returning')
+      }, totalMs + returnMs)
+
+      ;(media as HTMLElement & { __tsTimers?: number[] }).__tsTimers = [t1, t2]
+    }
+
     const updateTelestoreMetrics = () => {
       const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
       medias.forEach((media) => {
@@ -499,6 +545,9 @@ export default function CasesClient() {
           if (isLoaded(brand) && isLoaded(shot)) {
             media.classList.add('is-ready')
             updateTelestoreMetrics()
+            if (media.closest('.case-card')?.classList.contains('is-active')) {
+              startTelestoreSequence(media)
+            }
           }
         }
 
@@ -523,7 +572,16 @@ export default function CasesClient() {
       const handler = () => {
         const isActive = card.classList.contains('is-active')
         cards.forEach((c) => c.classList.remove('is-active'))
-        if (!isActive) card.classList.add('is-active')
+        const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
+        medias.forEach(clearTelestoreSequence)
+
+        if (!isActive) {
+          card.classList.add('is-active')
+          const media = card.querySelector('.case-media--telestore') as HTMLElement | null
+          if (media?.classList.contains('is-ready')) {
+            startTelestoreSequence(media)
+          }
+        }
 
         updateTelestoreMetrics()
         window.dispatchEvent(new CustomEvent('eteya:cases-toggled'))
@@ -547,6 +605,8 @@ export default function CasesClient() {
     return () => {
       window.removeEventListener('resize', updateTelestoreMetrics)
       bindings.forEach(({ title, handler }) => title.removeEventListener('click', handler))
+      const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
+      medias.forEach(clearTelestoreSequence)
     }
   }, [])
 
