@@ -183,21 +183,34 @@ const CSS = `
     #cases-section .case-card:not(.is-active) .case-title:hover .case-arrow { transform: rotate(45deg); }
   }
 
-  /* Tag + metric in title */
-  #cases-section .case-meta {
-    display: flex; align-items: center; gap: 1rem;
-    margin-left: auto; flex-shrink: 0;
+  /* Counter (same behavior/style as Services) */
+  #cases-section .case-counter {
+    position: relative; gap: 1.25rem; display: inline-flex;
+    align-items: center; flex-shrink: 0; min-height: 3.625rem;
+    font-family: var(--ff); font-size: var(--h4);
+    line-height: 1.1em; font-weight: 400; color: var(--clr-white);
+    margin-left: auto;
   }
-  #cases-section .case-tag {
-    font-size: var(--text-sm); font-weight: 400;
-    color: rgba(var(--rgb-white), 0.5);
-    border: 1px solid rgba(var(--rgb-white), 0.15);
-    border-radius: 100px; padding: 0.4rem 1rem;
-    white-space: nowrap;
+  #cases-section .case-counter-lines {
+    gap: 0.875rem; display: inline-flex; align-items: center;
   }
-  #cases-section .case-metric {
-    font-size: var(--text-sm); font-weight: 500;
-    color: #C8FF00; white-space: nowrap;
+  #cases-section .case-counter-line {
+    position: relative; display: inline-block;
+    width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
+    transition: height 0.3s cubic-bezier(0.65, 0, 0.35, 1),
+                background-color 0.3s ease;
+    background-color: rgba(var(--rgb-white), 0.4);
+  }
+  #cases-section .case-counter-line.is-active {
+    background-color: rgba(var(--rgb-white), 1);
+  }
+  #cases-section .case-card.is-active .case-counter-line.is-active {
+    height: 3.625rem;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    #cases-section .case-card:not(.is-active) .case-title:hover .case-counter-line.is-active {
+      height: 3.625rem;
+    }
   }
 
   /* Inner / content */
@@ -276,8 +289,12 @@ const CSS = `
       gap: 16px !important;
     }
     #cases-section .case-arrow { width: 34px !important; height: 34px !important; }
-    #cases-section .case-tag { display: none; }
-    #cases-section .case-metric { font-size: 0.75rem; }
+    #cases-section .case-counter {
+      gap: 0.75rem;
+      font-size: 1.125rem;
+      min-height: auto;
+    }
+    #cases-section .case-counter-lines { gap: 0.5rem; }
     #cases-section .case-inner { padding: 0 32px; }
     #cases-section .case-content {
       grid-template-columns: 1fr !important;
@@ -324,9 +341,13 @@ export default function CasesClient() {
             <div className="case-title">
               <span className="case-arrow" />
               {c.name}
-              <div className="case-meta">
-                <span className="case-tag">{c.tag}</span>
-                <span className="case-metric">{c.metric}</span>
+              <div className="case-counter">
+                <span>{String(i + 1).padStart(2, '0')}</span>
+                <div className="case-counter-lines">
+                  {CASES.map((_, idx) => (
+                    <span key={idx} className={`case-counter-line ${idx === i ? 'is-active' : ''}`}></span>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="case-inner">
