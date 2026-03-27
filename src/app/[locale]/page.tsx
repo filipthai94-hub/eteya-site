@@ -1,7 +1,6 @@
 import Nav from '@/components/layout/Nav'
 import Hero from '@/components/sections/Hero'
 import MarqueeSection from '@/components/sections/Marquee'
-import Work from '@/components/sections/Work'
 import Services from '@/components/sections/Services'
 import ProcessSection from '@/components/sections/ProcessSection'
 import JoinTheBest from '@/components/sections/JoinTheBestClient'
@@ -21,7 +20,6 @@ export default function Home() {
       <ProcessSection />
       <JoinTheBest />
       <Cases />
-      <Work />
       <Stats />
       <CTASection />
       <Contact />
