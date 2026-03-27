@@ -183,8 +183,8 @@ export default function StatsClient({
         /* Row */
         .bd-stat-row {
           background: #FF3401;
-          /* Padding matches original: 34.2px top/bottom at 1440px = ~2.38vw */
-          padding: 2.38vw 0;
+          /* Original: 28.8px at 1440px = 2vw */
+          padding: 2vw 0;
         }
 
         /* Milestone container — this is what the scroll parallax moves */
@@ -227,7 +227,7 @@ export default function StatsClient({
           right: 0;
           transform: translateX(43px);
           font-size: 62px;
-          line-height: 62px;
+          line-height: 34px; /* original: 34px */
           font-weight: 600;
         }
 
