@@ -268,7 +268,12 @@ export default function StatsClient({
           .bd-num-symbol { font-size: 50px; line-height: 50px; transform: translateX(36px); }
         }
 
-        /* ── Mobile ───────────────────────── */
+        /* ── Mobile (exact match: designbybrandin @390px) ──
+             Row: 179px, padding 7.8px 0
+             Number: 46.8px (12vw), top offset 29px from row edge
+             Label: 31.2px (8vw), top offset 111px from row edge
+             Left offset: 16px (from row_col_wrap padding 15.6px → rounds to 16)
+             Symbol: 62px, line-height 34px, translateX(43px) ── */
         @media (max-width: 690px) {
           .bd-inner-row {
             flex-direction: column;
@@ -276,12 +281,13 @@ export default function StatsClient({
             padding-left: 16px;
           }
           .bd-col-spacer { display: none; }
-          .bd-col-number { flex: none; width: 100%; margin-bottom: 25px; }
-          .bd-col-label  { flex: none; width: 100%; margin-bottom: 25px; }
-          .bd-stat-row { padding: 28px 0 7.8px 0; }
-          .bd-number-wrap { font-size: 12vw; }
+          .bd-col-number { flex: none; width: 100%; margin-bottom: 0; }
+          .bd-col-label  { flex: none; width: 100%; }
+          .bd-stat-row { padding: 7.8px 0; }
+          .bd-milestone-container { padding-top: 21px; }
+          .bd-number-wrap { font-size: 12vw; margin-bottom: 25px; }
           .bd-num-symbol { font-size: 62px; line-height: 34px; transform: translateX(43px); }
-          .bd-label-text { font-size: 8vw; }
+          .bd-label-text { font-size: 8vw; margin-bottom: 25px; }
         }
 
         /* Reduced motion — no fade, no parallax, instant display */
