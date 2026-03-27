@@ -693,7 +693,7 @@ export default function CasesClient() {
                   </blockquote>
                 </div>
                 {c.slug === 'telestore' ? (
-                  <div className="case-media case-media--telestore frame-glass" aria-label="Telestore live preview">
+                  <div className="case-media case-media--telestore frame-luxury" aria-label="Telestore live preview">
                     <div className="ts-brand">
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
