@@ -169,8 +169,14 @@ const CSS = `
       gap: 16px !important;
     }
     #services-section .service-title i {
-      width: 34px !important;
-      height: 34px !important;
+      width: 24px !important;
+      height: 24px !important;
+    }
+    #services-section .service-title::before,
+    #services-section .service-card.is-active .service-title::before,
+    #services-section .service-card:not(.is-active) .service-title:hover::before {
+      transform: translateY(100%) !important;
+      border-radius: 100% !important;
     }
     #services-section .service-inner {
       padding: 0 32px;

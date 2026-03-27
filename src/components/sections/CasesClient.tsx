@@ -290,7 +290,13 @@ const CSS = `
       font-size: 24px !important;
       gap: 16px !important;
     }
-    #cases-section .case-arrow { width: 34px !important; height: 34px !important; }
+    #cases-section .case-arrow { width: 24px !important; height: 24px !important; }
+    #cases-section .case-title::before,
+    #cases-section .case-card.is-active .case-title::before,
+    #cases-section .case-card:not(.is-active) .case-title:hover::before {
+      transform: translateY(100%) !important;
+      border-radius: 100% !important;
+    }
     #cases-section .case-inner { padding: 0 32px; }
     #cases-section .case-content {
       grid-template-columns: 1fr !important;
