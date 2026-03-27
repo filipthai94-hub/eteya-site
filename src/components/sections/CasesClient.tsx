@@ -119,6 +119,7 @@ function getCaseLogo(slug: string) {
 const CASE_LIVE_SHOTS: Record<string, string> = {
   telestore: '/images/cases/telestore-home-full.png',
   nordicrank: '/images/cases/nordicrank-home-full.png',
+  sannegarden: '/images/cases/sannegarden-home-full.png',
 }
 
 function hasLiveCaseMedia(slug: string) {
