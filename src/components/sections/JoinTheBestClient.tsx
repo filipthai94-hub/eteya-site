@@ -2,15 +2,21 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 
-const ROW1_LOGOS = [
-  { src: '/images/logos/telestore.svg', alt: 'Telestore' },
-  { src: '/images/logos/sannegarden.png', alt: 'Sannegårdens Pizzeria' },
-  { src: '/images/logos/trainwithalbert.svg', alt: 'TrainWithAlbert' },
+type LogoItem = {
+  id: 'telestore' | 'sannegarden' | 'trainwithalbert' | 'mbflytt' | 'nordicrank'
+  src: string
+  alt: string
+}
+
+const ROW1_LOGOS: LogoItem[] = [
+  { id: 'telestore', src: '/images/logos/telestore.svg', alt: 'Telestore' },
+  { id: 'sannegarden', src: '/images/logos/sannegarden.png', alt: 'Sannegårdens Pizzeria' },
+  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert.svg', alt: 'TrainWithAlbert' },
 ]
 
-const ROW2_LOGOS = [
-  { src: '/images/logos/mbflytt.png', alt: 'MB Flytt' },
-  { src: '/images/logos/nordicrank.svg', alt: 'NordicRank' },
+const ROW2_LOGOS: LogoItem[] = [
+  { id: 'mbflytt', src: '/images/logos/mbflytt.png', alt: 'MB Flytt' },
+  { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank' },
 ]
 
 const CSS = `
@@ -78,6 +84,8 @@ const CSS = `
     height: 15.209vw;
     border-radius: 50%;
     background: #0F0F0F;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,13 +93,26 @@ const CSS = `
     flex-shrink: 0;
   }
 
-  .join-item img {
-    max-width: calc(15.209vw - 4vw);
-    max-height: calc(15.209vw - 4vw);
+  .join-logo {
+    width: auto;
+    height: auto;
+    max-width: 72%;
+    max-height: 34%;
     object-fit: contain;
     pointer-events: none;
     -webkit-user-drag: none;
-    opacity: 1;
+    opacity: 0.95;
+    transition: opacity 0.25s ease;
+  }
+
+  .join-item--telestore .join-logo { max-width: 68%; max-height: 20%; }
+  .join-item--sannegarden .join-logo { max-width: 70%; max-height: 36%; }
+  .join-item--trainwithalbert .join-logo { max-width: 74%; max-height: 22%; }
+  .join-item--mbflytt .join-logo { max-width: 62%; max-height: 24%; }
+  .join-item--nordicrank .join-logo { max-width: 64%; max-height: 20%; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .join-item:hover .join-logo { opacity: 1; }
   }
 
   /* ═══ RESPONSIVE ═══ */
@@ -101,23 +122,25 @@ const CSS = `
     .join-container { max-width: none; width: 100%; }
     .join-marquee-line { height: 125px; }
     .join-item { width: 125px; height: 125px; padding: 20px; }
-    .join-item img {
-      max-width: 76.8px;
-      max-height: 44.8px;
-    }
+    .join-logo { max-width: 74px; max-height: 36px; }
+    .join-item--telestore .join-logo { max-width: 72px; max-height: 18px; }
+    .join-item--sannegarden .join-logo { max-width: 74px; max-height: 38px; }
+    .join-item--trainwithalbert .join-logo { max-width: 76px; max-height: 22px; }
+    .join-item--mbflytt .join-logo { max-width: 68px; max-height: 24px; }
+    .join-item--nordicrank .join-logo { max-width: 70px; max-height: 20px; }
   }
 
   @media (min-width: 2100px) {
-    .join-item img { width: 60%; }
+    .join-logo { max-width: 60%; }
   }
 `
 
-function MarqueeContent({ logos }: { logos: typeof ROW1_LOGOS }) {
+function MarqueeContent({ logos }: { logos: LogoItem[] }) {
   return (
     <div className="join-marquee-content" style={{ display: 'flex', gap: 0, height: '100%', alignItems: 'center' }}>
       {logos.map((logo, i) => (
-        <div key={i} className="join-item">
-          <img src={logo.src} alt={logo.alt} loading="lazy" draggable={false} />
+        <div key={`${logo.id}-${i}`} className={`join-item join-item--${logo.id}`}>
+          <img className="join-logo" src={logo.src} alt={logo.alt} loading="lazy" draggable={false} />
         </div>
       ))}
     </div>
@@ -125,7 +148,7 @@ function MarqueeContent({ logos }: { logos: typeof ROW1_LOGOS }) {
 }
 
 interface MarqueeLineProps {
-  logos: typeof ROW1_LOGOS
+  logos: LogoItem[]
   direction: 'left' | 'right'
   speed?: number // % per second
   repeats?: number
