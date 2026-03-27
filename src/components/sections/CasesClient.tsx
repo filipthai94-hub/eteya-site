@@ -569,28 +569,39 @@ export default function CasesClient() {
         const slug = media.dataset.caseSlug ?? 'telestore'
         const isMobile = window.matchMedia('(max-width: 767px)').matches
 
-        let scale = isMobile ? 1.16 : 1.22
-        let travelRatio = isMobile ? 0.42 : 0.5
-        let durationSec = 10.5
+        let scale: number
+        let travelRatio: number
+        let speed: number
+        let maxDuration = 15.2
 
-        if (slug === 'nordicrank') {
+        if (slug === 'sannegarden') {
+          // Full-width content — no zoom, pure vertical pan
+          scale = 1.0
+          travelRatio = 1
+          speed = isMobile ? 30 : 38
+          maxDuration = 22
+        } else if (slug === 'nordicrank') {
           scale = isMobile ? 1.03 : 1.06
           travelRatio = 1
+          speed = isMobile ? 34 : 42
+          maxDuration = 22
+        } else {
+          // Default (telestore etc.)
+          scale = isMobile ? 1.16 : 1.22
+          travelRatio = isMobile ? 0.42 : 0.5
+          speed = isMobile ? 58 : 72
         }
 
         live.style.setProperty('--ts-scale', String(scale))
 
         const renderedHeight = (live.clientWidth / shot.naturalWidth) * shot.naturalHeight * scale
         const maxPan = Math.max(0, renderedHeight - live.clientHeight)
-        const safetyPx = slug === 'nordicrank' ? 8 : 0
-        const panPx = slug === 'nordicrank'
+        const safetyPx = travelRatio === 1 ? 8 : 0
+        const panPx = travelRatio === 1
           ? Math.max(0, maxPan - safetyPx)
           : Math.max(0, maxPan * travelRatio)
 
-        const speed = slug === 'nordicrank'
-          ? (isMobile ? 34 : 42)
-          : (isMobile ? 58 : 72)
-        durationSec = Math.min(22, Math.max(8.4, panPx / speed))
+        const durationSec = Math.min(maxDuration, Math.max(8.4, panPx / speed))
 
         live.style.setProperty('--ts-pan-end', `${-Math.round(panPx)}px`)
         live.style.setProperty('--ts-duration', `${durationSec.toFixed(2)}s`)
