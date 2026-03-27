@@ -121,24 +121,12 @@ const CASE_LIVE_SHOTS: Record<string, string> = {
   nordicrank: '/images/cases/nordicrank-home-full.png',
 }
 
-const CASE_LIVE_VIDEOS: Record<string, string> = {
-  nordicrank: '/images/cases/nordicrank-scroll.mp4',
-}
-
 function hasLiveCaseMedia(slug: string) {
   return Boolean(CASE_LIVE_SHOTS[slug])
 }
 
-function hasLiveCaseVideo(slug: string) {
-  return Boolean(CASE_LIVE_VIDEOS[slug])
-}
-
 function getLiveCaseShot(slug: string) {
   return CASE_LIVE_SHOTS[slug] ?? CASE_LIVE_SHOTS.telestore
-}
-
-function getLiveCaseVideo(slug: string) {
-  return CASE_LIVE_VIDEOS[slug]
 }
 
 const CSS = `
@@ -434,15 +422,6 @@ const CSS = `
     pointer-events: none;
     filter: contrast(1.04) saturate(1.03) brightness(1.01);
   }
-  #cases-section .ts-video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: top center;
-    background: #090909;
-    filter: contrast(1.03) saturate(1.02) brightness(1.01);
-  }
   #cases-section .case-media--telestore.is-ready.is-playing .ts-brand {
     opacity: 0;
     transform: scale(1.05);
@@ -542,12 +521,6 @@ export default function CasesClient() {
       timers.forEach((t) => window.clearTimeout(t))
       ;(media as HTMLElement & { __tsTimers?: number[] }).__tsTimers = []
       media.classList.remove('is-playing', 'is-returning')
-
-      const video = media.querySelector('.ts-video') as HTMLVideoElement | null
-      if (video) {
-        video.pause()
-        video.currentTime = 0
-      }
     }
 
     const startTelestoreSequence = (media: HTMLElement) => {
@@ -557,59 +530,33 @@ export default function CasesClient() {
       media.classList.add('is-playing')
 
       const live = media.querySelector('.ts-live') as HTMLElement | null
-      const video = media.querySelector('.ts-video') as HTMLVideoElement | null
       const durationRaw = live ? getComputedStyle(live).getPropertyValue('--ts-duration').trim() : '10s'
-      let playSec = Number.parseFloat(durationRaw) || 10
+      const panSec = Number.parseFloat(durationRaw) || 10
 
-      const timers: number[] = []
-      if (video) {
-        const kickVideo = window.setTimeout(() => {
-          video.currentTime = 0
-          video.play().catch(() => {})
-        }, 920)
-        timers.push(kickVideo)
-        if (Number.isFinite(video.duration) && video.duration > 0.5) {
-          playSec = video.duration
-        }
-      }
-
-      const totalMs = 1350 + playSec * 1000
+      const totalMs = 1350 + panSec * 1000
       const returnMs = 620
 
       const t1 = window.setTimeout(() => {
         media.classList.remove('is-playing')
         media.classList.add('is-returning')
-        if (video) video.pause()
       }, totalMs)
 
       const t2 = window.setTimeout(() => {
         media.classList.remove('is-returning')
       }, totalMs + returnMs)
 
-      timers.push(t1, t2)
-      ;(media as HTMLElement & { __tsTimers?: number[] }).__tsTimers = timers
+      ;(media as HTMLElement & { __tsTimers?: number[] }).__tsTimers = [t1, t2]
     }
 
     const updateTelestoreMetrics = () => {
       const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
       medias.forEach((media) => {
         const live = media.querySelector('.ts-live') as HTMLElement | null
-        if (!live) return
+        const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
+        if (!live || !shot || !shot.naturalWidth || !shot.naturalHeight) return
 
         const slug = media.dataset.caseSlug ?? 'telestore'
         const isMobile = window.matchMedia('(max-width: 767px)').matches
-        const video = media.querySelector('.ts-video') as HTMLVideoElement | null
-
-        if (video) {
-          live.style.setProperty('--ts-scale', '1')
-          live.style.setProperty('--ts-pan-end', '0px')
-          const vDur = Number.isFinite(video.duration) && video.duration > 0.5 ? video.duration : (isMobile ? 13.5 : 12.5)
-          live.style.setProperty('--ts-duration', `${vDur.toFixed(2)}s`)
-          return
-        }
-
-        const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
-        if (!shot || !shot.naturalWidth || !shot.naturalHeight) return
 
         let scale = isMobile ? 1.16 : 1.22
         let travelRatio = isMobile ? 0.42 : 0.5
@@ -641,23 +588,17 @@ export default function CasesClient() {
       const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
       medias.forEach((media) => {
         const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
-        const video = media.querySelector('.ts-video') as HTMLVideoElement | null
         const brand = media.querySelector('.ts-brand img') as HTMLImageElement | null
         const brandWrap = media.querySelector('.ts-brand') as HTMLElement | null
-        if (!brand || !brandWrap) return
+        if (!shot || !brand || !brandWrap) return
 
         const isLoaded = (img: HTMLImageElement) => img.complete && img.naturalWidth > 0
-        const isMediaReady = () => {
-          if (video) return video.readyState >= 2
-          if (shot) return isLoaded(shot)
-          return false
-        }
 
         const syncState = () => {
           if (isLoaded(brand)) {
             brandWrap.classList.add('has-logo')
           }
-          if (isLoaded(brand) && isMediaReady()) {
+          if (isLoaded(brand) && isLoaded(shot)) {
             media.classList.add('is-ready')
             updateTelestoreMetrics()
             if (media.closest('.case-card')?.classList.contains('is-active')) {
@@ -670,11 +611,8 @@ export default function CasesClient() {
         if (!isLoaded(brand)) {
           brand.addEventListener('load', syncState, { once: true })
         }
-        if (shot && !isLoaded(shot)) {
+        if (!isLoaded(shot)) {
           shot.addEventListener('load', syncState, { once: true })
-        }
-        if (video && video.readyState < 2) {
-          video.addEventListener('loadeddata', syncState, { once: true })
         }
       })
     }
@@ -785,25 +723,15 @@ export default function CasesClient() {
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
                     <div className="ts-live">
-                      {hasLiveCaseVideo(c.slug) ? (
-                        <video
-                          className="ts-video"
-                          src={getLiveCaseVideo(c.slug)}
-                          muted
-                          playsInline
-                          preload="auto"
+                      <div className="ts-track">
+                        <img
+                          className="ts-shot"
+                          src={getLiveCaseShot(c.slug)}
+                          alt={`${c.name} startsida`}
+                          loading="eager"
+                          decoding="async"
                         />
-                      ) : (
-                        <div className="ts-track">
-                          <img
-                            className="ts-shot"
-                            src={getLiveCaseShot(c.slug)}
-                            alt={`${c.name} startsida`}
-                            loading="eager"
-                            decoding="async"
-                          />
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 ) : (
