@@ -248,23 +248,20 @@ export default function StatsClient({
           .bd-col-number { flex: 0 0 40%; }
           .bd-col-label  { flex: 1; }
           .bd-stat-row { padding: 3vw 25px; }
-          .bd-num-symbol { font-size: 42px; line-height: 42px; transform: translateX(32px); }
+          .bd-num-symbol { font-size: 50px; line-height: 50px; transform: translateX(36px); }
         }
 
-        /* ── Mobile (matches data-scroll-animation-mobile="" = disabled) ── */
+        /* ── Mobile — original keeps side-by-side, NOT stacked ── */
+        /* At 390px original: num=46.8px, symbol=62px(!), label=31.2px */
+        /* Spacers collapse to 1px height but still present, cols stay flex-row at full width */
         @media (max-width: 690px) {
-          .bd-inner-row {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 0 25px;
-          }
-          .bd-col-spacer { display: none; }
-          .bd-col-number { flex: none; width: 100%; }
-          .bd-col-label  { flex: none; width: 100%; }
-          .bd-stat-row { padding: 5vw 0; }
-          .bd-number-wrap { font-size: 18vw; }
-          .bd-num-symbol { font-size: 28px; line-height: 28px; transform: translateX(24px); }
-          .bd-label-text { font-size: 1.15rem; margin-top: 0.25rem; }
+          .bd-col-spacer { flex: 0 0 0; width: 0; overflow: hidden; }
+          .bd-col-number { flex: 0 0 50%; }
+          .bd-col-label  { flex: 1; }
+          .bd-stat-row { padding: 4vw 15px; }
+          .bd-number-wrap { font-size: 12vw; } /* 46.8px at 390px */
+          .bd-num-symbol { font-size: 62px; line-height: 62px; transform: translateX(36px); }
+          .bd-label-text { font-size: 8vw; } /* 31.2px at 390px */
           /* NO scroll parallax on mobile — handled in JS */
         }
 
