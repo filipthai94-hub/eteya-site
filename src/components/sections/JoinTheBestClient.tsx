@@ -163,7 +163,7 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
   useEffect(() => {
     const updateSpeed = () => {
       const isMobile = window.matchMedia('(max-width: 767px)').matches
-      const mobileFactor = 0.08 // tuned to match Redstone mobile pace
+      const mobileFactor = 1.6 // Redstone ratio: data-mobile(0.008) / data-speed(0.005)
       speedRef.current = isMobile ? speed * mobileFactor : speed
     }
 
