@@ -286,7 +286,15 @@ export default function StatsClient({
           .bd-stat-row { padding: 7.8px 0; }
           .bd-milestone-container { padding-top: 21.2px; }
           .bd-number-wrap { font-size: 12vw; min-height: 57px; margin-bottom: 25px; }
-          .bd-num-symbol { font-size: 62px; line-height: 34px; transform: translateX(43px); }
+          .bd-num-symbol {
+            position: relative;
+            top: auto;
+            right: auto;
+            transform: none;
+            font-size: inherit;
+            line-height: inherit;
+            display: inline;
+          }
           .bd-label-text { font-size: 8vw; margin-bottom: 26.2px; }
         }
 
