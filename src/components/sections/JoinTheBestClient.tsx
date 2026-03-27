@@ -16,7 +16,7 @@ const ROW2_LOGOS = [
 const CSS = `
   /* ═══ JOIN THE BEST SECTION ═══ */
   .join-section {
-    margin-top: 200px;
+    padding-top: 200px;
     background: #000;
   }
 
@@ -96,7 +96,7 @@ const CSS = `
 
   /* ═══ RESPONSIVE ═══ */
   @media (max-width: 767px) {
-    .join-section { margin-top: 100px; }
+    .join-section { padding-top: 100px; }
     .join-heading { font-size: 36px; line-height: 36px; margin-bottom: 32px; }
     .join-container { max-width: none; width: 100%; }
     .join-marquee-line { height: 125px; }
