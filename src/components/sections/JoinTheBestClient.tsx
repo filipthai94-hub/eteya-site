@@ -17,7 +17,7 @@ const CSS = `
   /* ═══ JOIN THE BEST SECTION ═══ */
   .join-section {
     margin-top: 200px;
-    background: transparent;
+    background: #000;
   }
 
   .join-container {

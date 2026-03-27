@@ -17,6 +17,7 @@ export default function HeroClient({
   const nameRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const imgRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const letters = nameRef.current?.querySelectorAll('[data-letter]')
@@ -43,6 +44,44 @@ export default function HeroClient({
       { y: 0, opacity: 1, duration: 0.6 },
       '-=0.6'
     )
+  }, [])
+
+  // Robust autoplay/loop for mobile browsers (iOS/Android)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const tryPlay = () => {
+      video.muted = true
+      video.defaultMuted = true
+      video.playsInline = true
+      video.setAttribute('muted', '')
+      video.setAttribute('playsinline', '')
+      video.setAttribute('webkit-playsinline', '')
+
+      const p = video.play()
+      if (p && typeof p.catch === 'function') p.catch(() => {})
+    }
+
+    const onCanPlay = () => tryPlay()
+    const onVisibility = () => {
+      if (!document.hidden) tryPlay()
+    }
+
+    tryPlay()
+    video.addEventListener('canplay', onCanPlay)
+    document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('touchstart', tryPlay, { passive: true, once: true })
+
+    const resumeCheck = window.setInterval(() => {
+      if (!document.hidden && video.paused) tryPlay()
+    }, 2000)
+
+    return () => {
+      video.removeEventListener('canplay', onCanPlay)
+      document.removeEventListener('visibilitychange', onVisibility)
+      window.clearInterval(resumeCheck)
+    }
   }, [])
 
   const letters = headline.split('')
@@ -79,10 +118,12 @@ export default function HeroClient({
         opacity: 0,
       }}>
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           style={{
             width: '100%',
             height: '100%',
@@ -90,6 +131,7 @@ export default function HeroClient({
             objectPosition: 'center',
           }}
         >
+          <source src="/hero-muted.mp4" type="video/mp4" />
           <source src="/hero.mp4" type="video/mp4" />
         </video>
         {/* Fix 4: mjukare gradient, bredare fade-zon */}
