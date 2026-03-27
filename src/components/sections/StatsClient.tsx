@@ -284,10 +284,10 @@ export default function StatsClient({
           .bd-col-number { flex: none; width: 100%; margin-bottom: 0; }
           .bd-col-label  { flex: none; width: 100%; }
           .bd-stat-row { padding: 7.8px 0; }
-          .bd-milestone-container { padding-top: 21px; }
+          .bd-milestone-container { padding-top: 21.2px; }
           .bd-number-wrap { font-size: 12vw; margin-bottom: 25px; }
           .bd-num-symbol { font-size: 62px; line-height: 34px; transform: translateX(43px); }
-          .bd-label-text { font-size: 8vw; margin-bottom: 25px; }
+          .bd-label-text { font-size: 8vw; margin-bottom: 26.2px; }
         }
 
         /* Reduced motion — no fade, no parallax, instant display */
