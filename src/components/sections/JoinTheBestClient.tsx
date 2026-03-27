@@ -9,9 +9,9 @@ type LogoItem = {
 }
 
 const ROW1_LOGOS: LogoItem[] = [
-  { id: 'telestore', src: '/images/logos/telestore.svg', alt: 'Telestore' },
+  { id: 'telestore', src: '/images/logos/telestore-new.png', alt: 'Telestore' },
   { id: 'sannegarden', src: '/images/logos/sannegarden.png', alt: 'Sannegårdens Pizzeria' },
-  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert.svg', alt: 'TrainWithAlbert' },
+  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png', alt: 'TrainWithAlbert' },
 ]
 
 const ROW2_LOGOS: LogoItem[] = [
@@ -104,9 +104,9 @@ const CSS = `
     transition: opacity 0.25s ease;
   }
 
-  .join-item--telestore .join-logo { width: 68%; max-height: 20%; }
-  .join-item--sannegarden .join-logo { width: 70%; max-height: 36%; }
-  .join-item--trainwithalbert .join-logo { width: 74%; max-height: 22%; }
+  .join-item--telestore .join-logo { width: 78%; max-height: 22%; }
+  .join-item--sannegarden .join-logo { width: 84%; max-height: 48%; }
+  .join-item--trainwithalbert .join-logo { width: 76%; max-height: 42%; }
   .join-item--mbflytt .join-logo { width: 62%; max-height: 24%; }
   .join-item--nordicrank .join-logo { width: 64%; max-height: 20%; }
 
@@ -122,9 +122,9 @@ const CSS = `
     .join-marquee-line { height: 125px; }
     .join-item { width: 125px; height: 125px; padding: 20px; }
     .join-logo { width: 74px; max-height: 36px; }
-    .join-item--telestore .join-logo { width: 72px; max-height: 18px; }
-    .join-item--sannegarden .join-logo { width: 74px; max-height: 38px; }
-    .join-item--trainwithalbert .join-logo { width: 76px; max-height: 22px; }
+    .join-item--telestore .join-logo { width: 84px; max-height: 20px; }
+    .join-item--sannegarden .join-logo { width: 92px; max-height: 52px; }
+    .join-item--trainwithalbert .join-logo { width: 86px; max-height: 44px; }
     .join-item--mbflytt .join-logo { width: 68px; max-height: 24px; }
     .join-item--nordicrank .join-logo { width: 70px; max-height: 20px; }
   }
