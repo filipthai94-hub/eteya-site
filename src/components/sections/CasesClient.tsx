@@ -563,21 +563,23 @@ export default function CasesClient() {
         let durationSec = 10.5
 
         if (slug === 'nordicrank') {
-          scale = isMobile ? 1.08 : 1.12
-          travelRatio = isMobile ? 0.28 : 0.34
-          durationSec = isMobile ? 13.5 : 12.5
+          scale = isMobile ? 1.03 : 1.06
+          travelRatio = 1
         }
 
         live.style.setProperty('--ts-scale', String(scale))
 
         const renderedHeight = (live.clientWidth / shot.naturalWidth) * shot.naturalHeight * scale
         const maxPan = Math.max(0, renderedHeight - live.clientHeight)
-        const panPx = Math.max(0, maxPan * travelRatio)
+        const safetyPx = slug === 'nordicrank' ? 8 : 0
+        const panPx = slug === 'nordicrank'
+          ? Math.max(0, maxPan - safetyPx)
+          : Math.max(0, maxPan * travelRatio)
 
-        if (slug !== 'nordicrank') {
-          const speed = isMobile ? 58 : 72
-          durationSec = Math.min(15.2, Math.max(8.4, panPx / speed))
-        }
+        const speed = slug === 'nordicrank'
+          ? (isMobile ? 34 : 42)
+          : (isMobile ? 58 : 72)
+        durationSec = Math.min(22, Math.max(8.4, panPx / speed))
 
         live.style.setProperty('--ts-pan-end', `${-Math.round(panPx)}px`)
         live.style.setProperty('--ts-duration', `${durationSec.toFixed(2)}s`)
