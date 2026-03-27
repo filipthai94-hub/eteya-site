@@ -264,7 +264,7 @@ export default function StatsClient({
           .bd-col-spacer { display: none; }
           .bd-col-number { flex: none; width: 100%; margin-bottom: 25px; }
           .bd-col-label  { flex: none; width: 100%; margin-bottom: 25px; }
-          .bd-stat-row { padding: 7.8px 0; }
+          .bd-stat-row { padding: 20px 0 7.8px 0; } /* extra top to match original 179px rows */
           .bd-number-wrap { font-size: 12vw; } /* 46.8px at 390px */
           .bd-num-symbol { font-size: 62px; line-height: 34px; transform: translateX(43px); }
           .bd-label-text { font-size: 8vw; } /* 31.2px at 390px */
