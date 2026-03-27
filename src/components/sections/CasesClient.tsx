@@ -133,6 +133,9 @@ const CSS = `
     color: #fff; margin-bottom: 68px; letter-spacing: -0.02em; line-height: 1;
   }
 
+  /* Case block */
+  #cases-section .cases-block { position: relative; z-index: 1; }
+
   /* Case card */
   #cases-section .case-card {
     position: relative;
