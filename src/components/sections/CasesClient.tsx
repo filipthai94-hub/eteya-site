@@ -307,7 +307,7 @@ const CSS = `
     filter: brightness(1.05) contrast(1.04);
   }
 
-  /* Telestore scroll preview (v1) */
+  /* Telestore scroll preview (v2) */
   #cases-section .case-media.case-media--scroll {
     padding: 0.75rem;
     align-items: stretch;
@@ -321,33 +321,74 @@ const CSS = `
     overflow: hidden;
     border: 1px solid rgba(var(--rgb-white), 0.08);
     background: #0b0b0b;
+    --scroll-pan-end: -260px;
+  }
+  #cases-section .case-scroll-static,
+  #cases-section .case-scroll-live {
+    position: absolute;
+    inset: 0;
+  }
+  #cases-section .case-scroll-static {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background:
+      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(180deg, #141414 0%, #0D0D0D 100%);
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 360ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  #cases-section .case-scroll-static-logo {
+    max-width: min(70%, 320px);
+    max-height: 56%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.96;
+    filter: brightness(1.05) contrast(1.04);
+  }
+  #cases-section .case-scroll-live {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0) scale(1.03);
+    will-change: transform, opacity;
+    transition: opacity 220ms ease;
   }
   #cases-section .case-scroll-track {
     position: absolute;
     inset: 0;
-    transform: translate3d(0, 0, 0) scale(1.02);
-    opacity: 0;
-    will-change: transform, opacity;
-  }
-  #cases-section .case-card.is-active .case-media--scroll .case-scroll-track {
-    animation:
-      case-scroll-intro 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
-      case-scroll-pan 6.8s cubic-bezier(0.45, 0, 0.2, 1) 520ms forwards;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
   #cases-section .case-scroll-shot {
     width: 100%;
     height: auto;
     display: block;
+    max-width: none;
+    max-height: none;
     object-fit: cover;
     object-position: top center;
     user-select: none;
     pointer-events: none;
   }
 
-  @keyframes case-scroll-intro {
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-static {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-live {
+    animation: case-scroll-live-in 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  #cases-section .case-card.is-active .case-media--scroll .case-scroll-track {
+    animation: case-scroll-pan 6.8s cubic-bezier(0.45, 0, 0.2, 1) 520ms forwards;
+  }
+
+  @keyframes case-scroll-live-in {
     0% {
       opacity: 0;
-      transform: translate3d(0, 0.8rem, 0) scale(1.03);
+      transform: translate3d(0, 0.7rem, 0) scale(1.03);
     }
     100% {
       opacity: 1;
@@ -355,13 +396,16 @@ const CSS = `
     }
   }
   @keyframes case-scroll-pan {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to { transform: translate3d(0, var(--scroll-pan-end, -260px), 0) scale(1); }
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(0, var(--scroll-pan-end, -260px), 0); }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    #cases-section .case-card.is-active .case-media--scroll .case-scroll-live {
+      animation: case-scroll-live-in 260ms ease forwards;
+    }
     #cases-section .case-card.is-active .case-media--scroll .case-scroll-track {
-      animation: case-scroll-intro 260ms ease forwards;
+      animation: none;
     }
   }
 
@@ -399,6 +443,13 @@ const CSS = `
     #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
     #cases-section .case-media img { max-width: 64%; max-height: 52%; }
     #cases-section .case-media.case-media--scroll { padding: 0.55rem; }
+    #cases-section .case-media--scroll .case-scroll-static { padding: 1.25rem; }
+    #cases-section .case-media--scroll .case-scroll-static-logo { max-width: 60%; max-height: 48%; }
+    #cases-section .case-media--scroll .case-scroll-shot {
+      width: 100% !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
     #cases-section .case-metric { font-size: 1.375rem; }
     #cases-section .case-results li { font-size: 1rem; }
   }
@@ -417,7 +468,8 @@ export default function CasesClient() {
 
         const renderedHeight = (vp.clientWidth / shot.naturalWidth) * shot.naturalHeight
         const panPx = Math.max(0, renderedHeight - vp.clientHeight)
-        vp.style.setProperty('--scroll-pan-end', `${-Math.round(panPx)}px`)
+        const targetPanPx = Math.max(0, panPx - vp.clientHeight * 0.08)
+        vp.style.setProperty('--scroll-pan-end', `${-Math.round(targetPanPx)}px`)
       })
     }
 
@@ -518,13 +570,23 @@ export default function CasesClient() {
                 {c.slug === 'telestore' ? (
                   <div className="case-media case-media--scroll" aria-label="Telestore preview">
                     <div className="case-scroll-viewport">
-                      <div className="case-scroll-track">
+                      <div className="case-scroll-static">
                         <img
-                          className="case-scroll-shot"
-                          src="/images/cases/telestore-home-full.jpg"
-                          alt="Telestore startsida"
+                          className="case-scroll-static-logo"
+                          src={getCaseLogo(c.slug)}
+                          alt="Telestore logo"
                           loading="lazy"
                         />
+                      </div>
+                      <div className="case-scroll-live">
+                        <div className="case-scroll-track">
+                          <img
+                            className="case-scroll-shot"
+                            src="/images/cases/telestore-home-full.png"
+                            alt="Telestore startsida"
+                            loading="lazy"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
