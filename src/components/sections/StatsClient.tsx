@@ -23,7 +23,7 @@ function BayerDitherBg() {
       const ctx = canvas.getContext('2d')
       if (!ctx) return
 
-      ctx.fillStyle = '#FF3401'
+      ctx.fillStyle = '#C8FF00'
       ctx.fillRect(0, 0, w, h)
 
       ctx.fillStyle = '#000000'
@@ -191,7 +191,7 @@ export default function StatsClient({
         }
 
         .bd-stat-row {
-          background: #FF3401;
+          background: #C8FF00;
           padding: 2vw 0;
         }
 
