@@ -324,6 +324,7 @@ const CSS = `
     opacity: 1;
     transform: scale(1);
     transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: 0ms;
     will-change: opacity, transform;
   }
   #cases-section .ts-live {
@@ -332,7 +333,9 @@ const CSS = `
     opacity: 0;
     transform: translate3d(0, 0.65rem, 0) scale(1.03);
     transition: opacity 320ms ease;
-    background: #0d0d0d;
+    background:
+      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(180deg, #141414 0%, #0D0D0D 100%);
     --ts-pan-end: -260px;
     --ts-scale: 1.22;
     --ts-duration: 7.4s;
@@ -360,12 +363,13 @@ const CSS = `
   #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-brand {
     opacity: 0;
     transform: scale(1.05);
+    transition-delay: 120ms;
   }
   #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-live {
     animation: ts-live-in 460ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
   #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-track {
-    animation: ts-pan var(--ts-duration) cubic-bezier(0.4, 0, 0.2, 1) 620ms forwards;
+    animation: ts-pan var(--ts-duration) cubic-bezier(0.4, 0, 0.2, 1) 340ms forwards;
   }
   @keyframes ts-live-in {
     from { opacity: 0; transform: translate3d(0, 0.75rem, 0) scale(1.035); }
@@ -568,7 +572,7 @@ export default function CasesClient() {
                 {c.slug === 'telestore' ? (
                   <div className="case-media case-media--telestore" aria-label="Telestore live preview">
                     <div className="ts-brand">
-                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
+                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
                     <div className="ts-live">
                       <div className="ts-track">
