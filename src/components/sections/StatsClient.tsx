@@ -251,14 +251,18 @@ export default function StatsClient({
           .bd-num-symbol { font-size: 50px; line-height: 50px; transform: translateX(36px); }
         }
 
-        /* ── Mobile — original keeps side-by-side, NOT stacked ── */
-        /* At 390px original: num=46.8px, symbol=62px(!), label=31.2px */
-        /* Spacers collapse to 1px height but still present, cols stay flex-row at full width */
+        /* ── Mobile — original wraps columns vertically ── */
+        /* At 390px: num=46.8px, symbol=62px, label=31.2px */
+        /* Columns go full-width and stack (flex-wrap), each col has margin-bottom: 25px */
+        /* Row padding: 7.8px top/bottom, total row height ~179px */
         @media (max-width: 690px) {
-          .bd-col-spacer { flex: 0 0 0; width: 0; overflow: hidden; }
-          .bd-col-number { flex: 0 0 50%; }
-          .bd-col-label  { flex: 1; }
-          .bd-stat-row { padding: 4vw 15px; }
+          .bd-inner-row {
+            flex-wrap: wrap;
+          }
+          .bd-col-spacer { display: none; }
+          .bd-col-number { flex: 0 0 100%; margin-bottom: 25px; }
+          .bd-col-label  { flex: 0 0 100%; margin-bottom: 25px; }
+          .bd-stat-row { padding: 7.8px 0; }
           .bd-number-wrap { font-size: 12vw; } /* 46.8px at 390px */
           .bd-num-symbol { font-size: 62px; line-height: 62px; transform: translateX(36px); }
           .bd-label-text { font-size: 8vw; } /* 31.2px at 390px */
