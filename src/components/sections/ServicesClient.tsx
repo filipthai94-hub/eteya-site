@@ -133,12 +133,28 @@ const CSS = `
   }
 
   /* Desktop grid-placering */
-  #services-section .service-media    { display: block; grid-column: 2; grid-row: 1 / 4; align-self: center; }
+  #services-section .service-media    {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 76 / 48;
+  }
   #services-section .svc-content-title{ display: none; /* dold på desktop */ }
   #services-section .service-list     { grid-column: 1; grid-row: 1; }
   #services-section .eteya-btn        { grid-column: 1; grid-row: 2; }
   #services-section .service-media img {
-    width: 100%; height: auto; mix-blend-mode: screen; display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    content-visibility: auto;
+    mix-blend-mode: normal;
   }
 
   /* List */
