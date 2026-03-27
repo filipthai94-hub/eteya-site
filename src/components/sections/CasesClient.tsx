@@ -377,7 +377,7 @@ const CSS = `
     object-position: top center;
     user-select: none;
     pointer-events: none;
-    filter: contrast(1.01);
+    filter: contrast(1.04) saturate(1.03) brightness(1.01);
   }
   #cases-section .case-media--telestore.is-ready.is-playing .ts-brand {
     opacity: 0;
@@ -398,8 +398,9 @@ const CSS = `
   }
   #cases-section .case-media--telestore.is-returning .ts-live {
     opacity: 0;
-    transform: translate3d(0, 0.55rem, 0) scale(1.02);
-    transition: opacity 450ms ease, transform 450ms ease;
+    transform: translate3d(0, 0.45rem, 0) scale(1.015);
+    transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   #cases-section .case-media--telestore.is-returning .ts-track {
     animation: none;
@@ -490,7 +491,7 @@ export default function CasesClient() {
       const panSec = Number.parseFloat(durationRaw) || 10
 
       const totalMs = 1350 + panSec * 1000
-      const returnMs = 450
+      const returnMs = 620
 
       const t1 = window.setTimeout(() => {
         media.classList.remove('is-playing')
