@@ -78,24 +78,24 @@
     "heading": "In numbers.",
     "items": [
       {
-        "value": 50,
-        "suffix": "+",
-        "label": "Companies helped"
+        "value": 60,
+        "suffix": "%",
+        "label": "Less manual work"
       },
       {
-        "value": 12,
-        "suffix": "+",
-        "label": "Industries served"
+        "value": 1,
+        "suffix": "",
+        "label": "Week to MVP"
       },
       {
-        "value": 200,
-        "suffix": "+",
-        "label": "Automations delivered"
+        "value": 24,
+        "suffix": "/7",
+        "label": "Systems that never sleep"
       },
       {
-        "value": 8,
-        "suffix": "+",
-        "label": "Years of experience"
+        "value": 10,
+        "suffix": "x",
+        "label": "Faster than building in-house"
       }
     ]
   },

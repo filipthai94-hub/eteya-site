@@ -78,24 +78,24 @@
     "heading": "I siffror.",
     "items": [
       {
-        "value": 50,
-        "suffix": "+",
-        "label": "Företag hjälpta"
+        "value": 60,
+        "suffix": "%",
+        "label": "Mindre manuellt arbete"
       },
       {
-        "value": 12,
-        "suffix": "+",
-        "label": "Branscher vi arbetat med"
+        "value": 1,
+        "suffix": "",
+        "label": "Vecka till MVP"
       },
       {
-        "value": 200,
-        "suffix": "+",
-        "label": "Automationer levererade"
+        "value": 24,
+        "suffix": "/7",
+        "label": "System som aldrig sover"
       },
       {
-        "value": 8,
-        "suffix": "+",
-        "label": "Års erfarenhet"
+        "value": 10,
+        "suffix": "x",
+        "label": "Snabbare än att bygga internt"
       }
     ]
   },
