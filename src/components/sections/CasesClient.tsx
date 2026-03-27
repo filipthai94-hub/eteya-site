@@ -327,6 +327,19 @@ const CSS = `
     transition-delay: 0ms;
     will-change: opacity, transform;
   }
+  #cases-section .ts-brand::after {
+    content: 'TELESTORE';
+    position: absolute;
+    inset: auto;
+    font-size: clamp(1.2rem, 1rem + 0.6vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(255,255,255,0.72);
+    pointer-events: none;
+  }
+  #cases-section .ts-brand.has-logo::after {
+    opacity: 0;
+  }
   #cases-section .ts-live {
     inset: 0;
     overflow: hidden;
@@ -465,17 +478,28 @@ export default function CasesClient() {
       const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
       medias.forEach((media) => {
         const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
-        if (!shot) return
+        const brand = media.querySelector('.ts-brand img') as HTMLImageElement | null
+        const brandWrap = media.querySelector('.ts-brand') as HTMLElement | null
+        if (!shot || !brand || !brandWrap) return
 
-        const markReady = () => {
-          media.classList.add('is-ready')
-          updateTelestoreMetrics()
+        const isLoaded = (img: HTMLImageElement) => img.complete && img.naturalWidth > 0
+
+        const syncState = () => {
+          if (isLoaded(brand)) {
+            brandWrap.classList.add('has-logo')
+          }
+          if (isLoaded(brand) && isLoaded(shot)) {
+            media.classList.add('is-ready')
+            updateTelestoreMetrics()
+          }
         }
 
-        if (shot.complete && shot.naturalWidth > 0) {
-          markReady()
-        } else {
-          shot.addEventListener('load', markReady, { once: true })
+        syncState()
+        if (!isLoaded(brand)) {
+          brand.addEventListener('load', syncState, { once: true })
+        }
+        if (!isLoaded(shot)) {
+          shot.addEventListener('load', syncState, { once: true })
         }
       })
     }
