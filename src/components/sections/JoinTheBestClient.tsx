@@ -10,7 +10,7 @@ type LogoItem = {
 
 const ROW1_LOGOS: LogoItem[] = [
   { id: 'telestore', src: '/images/logos/telestore-new.png', alt: 'Telestore' },
-  { id: 'sannegarden', src: '/images/logos/sannegarden.png', alt: 'Sannegårdens Pizzeria' },
+  { id: 'sannegarden', src: '/images/logos/sannegarden-new.svg', alt: 'Sannegårdens Pizzeria' },
   { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png', alt: 'TrainWithAlbert' },
 ]
 
