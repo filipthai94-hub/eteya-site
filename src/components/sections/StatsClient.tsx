@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -23,11 +23,9 @@ function BayerDitherBg() {
       const ctx = canvas.getContext('2d')
       if (!ctx) return
 
-      // Fill with the orange-red bg
       ctx.fillStyle = '#FF3401'
       ctx.fillRect(0, 0, w, h)
 
-      // Bayer-dither dot pattern
       ctx.fillStyle = '#000000'
       const step = 20
       for (let y = 0; y < h; y += step) {
@@ -61,68 +59,105 @@ function BayerDitherBg() {
   )
 }
 
-/* ── Count-up ────────────────────────────────────────── */
-function CountUp({ value, suffix, triggered }: { value: number; suffix: string; triggered: boolean }) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (!triggered) return
-    const obj = { val: 0 }
-    gsap.to(obj, {
-      val: value, duration: 2.4, ease: 'power2.out',
-      onUpdate: () => setCount(Math.round(obj.val)),
-    })
-  }, [triggered, value])
-  return (
-    <>
-      <span className="bd-num-digits">{count}</span>
-      <span className="bd-num-symbol">{suffix}</span>
-    </>
-  )
-}
-
-/* ── Single Stat Row ─────────────────────────────────── */
-function StatRow({ value, suffix, label, triggered, intensity }: {
-  value: number; suffix: string; label: string; triggered: boolean; intensity: number
+/* ── Single Stat Row (per-row ScrollTrigger + autoAlpha fade + count-up) ── */
+function StatRow({ value, suffix, label, intensity }: {
+  value: number; suffix: string; label: string; intensity: number
 }) {
+  const rowRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const numberRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLParagraphElement>(null)
+  const countRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
-    // Only apply scroll parallax on desktop (original: data-scroll-animation-mobile="" = disabled)
-    const mq = window.matchMedia('(max-width: 690px)')
-    if (mq.matches) return
+    if (!rowRef.current || !numberRef.current || !labelRef.current) return
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 690px)').matches
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(containerRef.current,
-        { x: 0 },
-        {
-          x: intensity * 30,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        }
-      )
-    }, containerRef)
+      if (prefersReduced) {
+        // No animation — show everything immediately
+        gsap.set([numberRef.current, labelRef.current], { autoAlpha: 1 })
+        if (countRef.current) countRef.current.textContent = String(value)
+        return
+      }
+
+      // --- Initial state: hidden ---
+      gsap.set(numberRef.current, { autoAlpha: 0 })
+      gsap.set(labelRef.current, { autoAlpha: 0 })
+
+      // --- Per-row reveal timeline ---
+      const tl = gsap.timeline({ paused: true })
+
+      // Number fades in (400ms)
+      tl.to(numberRef.current, {
+        autoAlpha: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      }, 0)
+
+      // Count-up starts at the same time as fade (2.4s)
+      const counter = { val: 0 }
+      tl.to(counter, {
+        val: value,
+        duration: 2.4,
+        ease: 'power2.out',
+        onUpdate: () => {
+          if (countRef.current) countRef.current.textContent = String(Math.round(counter.val))
+        },
+      }, 0)
+
+      // Label fades in 200ms after number starts
+      tl.to(labelRef.current, {
+        autoAlpha: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      }, 0.2)
+
+      // --- ScrollTrigger: fires once when row enters viewport ---
+      ScrollTrigger.create({
+        trigger: rowRef.current,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => tl.play(),
+      })
+
+      // --- Desktop parallax (not on mobile) ---
+      if (!isMobile && containerRef.current) {
+        gsap.fromTo(containerRef.current,
+          { x: 0 },
+          {
+            x: intensity * 30,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: rowRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        )
+      }
+    }, rowRef)
+
     return () => ctx.revert()
-  }, [intensity])
+  }, [value, suffix, intensity])
 
   return (
-    <div className="bd-stat-row" style={{ position: 'relative', overflow: 'hidden' }}>
+    <div ref={rowRef} className="bd-stat-row" style={{ position: 'relative', overflow: 'hidden' }}>
       <BayerDitherBg />
       <div ref={containerRef} className="bd-milestone-container">
         <div className="bd-inner-row">
           <div className="bd-col bd-col-spacer" />
           <div className="bd-col bd-col-number">
-            <div className="bd-number-wrap" style={{ textAlign: 'left' }}>
-              <CountUp value={value} suffix={suffix} triggered={triggered} />
+            <div ref={numberRef} className="bd-number-wrap" style={{ textAlign: 'left' }}>
+              <span ref={countRef} className="bd-num-digits">0</span>
+              <span className="bd-num-symbol">{suffix}</span>
             </div>
           </div>
           <div className="bd-col bd-col-label">
-            <p className="bd-label-text">{label}</p>
+            <p ref={labelRef} className="bd-label-text">{label}</p>
           </div>
           <div className="bd-col bd-col-spacer" />
         </div>
@@ -138,23 +173,6 @@ export default function StatsClient({
   heading: string
   items: Array<{ value: number; suffix: string; label: string }>
 }) {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [triggered, setTriggered] = useState(false)
-
-  useEffect(() => {
-    const t = setTimeout(() => setTriggered(true), 600)
-    if (!sectionRef.current) return () => clearTimeout(t)
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 85%',
-        onEnter: () => { clearTimeout(t); setTriggered(true) },
-      })
-    }, sectionRef)
-    return () => { clearTimeout(t); ctx.revert() }
-  }, [])
-
-  // Alternating intensities: -3, +3, -3, +3 (matches original exactly)
   const intensities = [-3, 3, -3, 3]
 
   return (
@@ -162,38 +180,26 @@ export default function StatsClient({
       <style>{`
         /* ===================================================
            Pixel-perfect clone: designbybrandin.com stats
-           Original specs at 1440px viewport:
-             Row height: 235px
-             Number: Zalando Sans 172.8px / 600 / #121213
-             Symbol: 62px absolute superscript, translateX(43px)
-             Label: Zalando Sans 49.2px / 400 / #121213 / ls:-1.476px / lh:54.12px
-             Grid: 15.3% | 30.7% | 30.7% | 15.3% (vc_col 2|4|4|2)
-             Row gap: 2px (dark separator)
-             Bg: #FF3401 with canvas bayer-dither
-             Scroll: transform_x, alternating -3/+3, DISABLED on mobile
+           Per-row ScrollTrigger + autoAlpha fade + count-up
            =================================================== */
 
         .bd-stats-section {
           display: flex;
           flex-direction: column;
           gap: 2px;
-          background: #121213; /* gap color = dark separator lines */
+          background: #121213;
         }
 
-        /* Row */
         .bd-stat-row {
           background: #FF3401;
-          /* Original: 28.8px at 1440px = 2vw */
           padding: 2vw 0;
         }
 
-        /* Milestone container — this is what the scroll parallax moves */
         .bd-milestone-container {
           position: relative;
           z-index: 1;
         }
 
-        /* Inner row: 4-col flex grid matching vc_col-sm 2|4|4|2 */
         .bd-inner-row {
           display: flex;
           align-items: center;
@@ -204,38 +210,32 @@ export default function StatsClient({
         .bd-col-number { flex: 0 0 30.7%; }
         .bd-col-label  { flex: 0 0 30.7%; }
 
-        /* Number */
         .bd-number-wrap {
           position: relative;
           display: inline-block;
           font-family: var(--font-display, 'Inter', sans-serif);
-          font-size: 12vw; /* 172.8px at 1440px */
+          font-size: 12vw;
           font-weight: 600;
           line-height: 1em;
           color: #121213;
           letter-spacing: -0.001em;
+          /* autoAlpha handles visibility */
         }
 
-        .bd-num-digits {
-          /* inherits */
-        }
-
-        /* Superscript symbol — absolute, top-right outside the number */
         .bd-num-symbol {
           position: absolute;
           top: 0;
           right: 0;
           transform: translateX(43px);
           font-size: 62px;
-          line-height: 34px; /* original: 34px */
+          line-height: 34px;
           font-weight: 600;
         }
 
-        /* Label */
         .bd-label-text {
           margin: 0;
           font-family: var(--font-display, 'Inter', sans-serif);
-          font-size: 3.42vw; /* 49.2px at 1440px */
+          font-size: 3.42vw;
           font-weight: 400;
           color: #121213;
           line-height: 1.1;
@@ -251,10 +251,7 @@ export default function StatsClient({
           .bd-num-symbol { font-size: 50px; line-height: 50px; transform: translateX(36px); }
         }
 
-        /* ── Mobile — matches original: stacked content, 16px left inset ── */
-        /* Original at 390px: nowrap, spacers overflow hidden, cols 359px */
-        /* num=46.8px, symbol=62px/43px offset, label=31.2px */
-        /* Content left-aligned with 16px offset, mb:25px on cols 1-3 */
+        /* ── Mobile ───────────────────────── */
         @media (max-width: 690px) {
           .bd-inner-row {
             flex-direction: column;
@@ -264,27 +261,27 @@ export default function StatsClient({
           .bd-col-spacer { display: none; }
           .bd-col-number { flex: none; width: 100%; margin-bottom: 25px; }
           .bd-col-label  { flex: none; width: 100%; margin-bottom: 25px; }
-          .bd-stat-row { padding: 28px 0 7.8px 0; } /* match original ~179px row height */
-          .bd-number-wrap { font-size: 12vw; } /* 46.8px at 390px */
+          .bd-stat-row { padding: 28px 0 7.8px 0; }
+          .bd-number-wrap { font-size: 12vw; }
           .bd-num-symbol { font-size: 62px; line-height: 34px; transform: translateX(43px); }
-          .bd-label-text { font-size: 8vw; } /* 31.2px at 390px */
-          /* NO scroll parallax on mobile — handled in JS */
+          .bd-label-text { font-size: 8vw; }
         }
 
-        /* Reduced motion */
+        /* Reduced motion — no fade, no parallax, instant display */
         @media (prefers-reduced-motion: reduce) {
           .bd-milestone-container { transform: none !important; }
+          .bd-number-wrap,
+          .bd-label-text { opacity: 1 !important; visibility: visible !important; }
         }
       `}</style>
 
-      <div ref={sectionRef} className="bd-stats-section">
+      <div className="bd-stats-section">
         {items.map((item, i) => (
           <StatRow
             key={i}
             value={item.value}
             suffix={item.suffix}
             label={item.label}
-            triggered={triggered}
             intensity={intensities[i] || -3}
           />
         ))}
