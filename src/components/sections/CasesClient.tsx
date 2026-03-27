@@ -161,7 +161,7 @@ const CSS = `
     transform: translateY(100%); width: 100%; height: 100%;
     transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
                 border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
-    background-color: var(--clr-light-black); border-radius: 50%;
+    background-color: var(--clr-light-black); border-radius: 100%;
   }
   #cases-section .case-card:not(.is-active) .case-title:hover::before {
     border-radius: 0; transform: translateY(0%);
@@ -205,11 +205,7 @@ const CSS = `
     grid-template-columns: 1fr 1fr;
     gap: 2rem var(--sp-block);
     padding: 1.25rem 0.65rem 2.5rem;
-    opacity: 0; transform: translateY(8px);
-    transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s,
-                transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s;
   }
-  #cases-section .case-card.is-active .case-content { opacity: 1; transform: translateY(0); }
 
   /* Left col: text content */
   #cases-section .case-text { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -270,15 +266,21 @@ const CSS = `
     padding-top: 0.5rem;
   }
 
-  /* Mobile */
+  /* Mobile — pixel-match Redstone */
   @media (max-width: 767px) {
-    #cases-section .case-title { gap: 1rem; font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); }
+    #cases-section .case-title {
+      padding: 20px 12px !important;
+      font-size: 24px !important;
+      gap: 16px !important;
+    }
+    #cases-section .case-arrow { width: 34px !important; height: 34px !important; }
     #cases-section .case-tag { display: none; }
     #cases-section .case-metric { font-size: 0.75rem; }
-    #cases-section .case-arrow { width: 32px; height: 32px; }
+    #cases-section .case-inner { padding: 0 32px; }
     #cases-section .case-content {
       grid-template-columns: 1fr !important;
-      padding-inline: 1rem;
+      padding: 20px 16px 24px !important;
+      gap: 20px;
     }
     #cases-section .case-media { grid-row: 1; }
   }

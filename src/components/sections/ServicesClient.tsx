@@ -68,7 +68,7 @@ const CSS = `
     transform: translateY(100%); width: 100%; height: 100%;
     transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
                 border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
-    background-color: var(--clr-light-black); border-radius: 50%;
+    background-color: var(--clr-light-black); border-radius: 100%;
   }
   #services-section .service-card:not(.is-active) .service-title:hover::before {
     border-radius: 0; transform: translateY(0%);
@@ -103,7 +103,7 @@ const CSS = `
   #services-section .service-counter-line {
     position: relative; display: inline-block;
     width: 0.0625rem; height: 0.75rem; flex-shrink: 0;
-    transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    transition: height 0.3s cubic-bezier(0.65, 0, 0.35, 1),
                 background-color 0.3s ease;
     background-color: rgba(var(--rgb-white), 0.4);
   }
@@ -126,12 +126,7 @@ const CSS = `
     justify-content: space-between;
     padding-block: 1.25rem 2.5rem;
     padding-inline: var(--pd-inline);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s,
-                transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s;
   }
-  #services-section .service-card.is-active .service-content { opacity: 1; transform: translateY(0); }
 
   /* Desktop grid-placering */
   #services-section .service-media    { display: block; grid-column: 2; grid-row: 1 / 4; align-self: center; }
@@ -163,13 +158,25 @@ const CSS = `
     grid-row: 2;
   }
 
-  /* Mobile */
+  /* Mobile — pixel-match Redstone */
   @media (max-width: 767px) {
+    #services-section .service-title {
+      padding: 20px 12px !important;
+      font-size: 24px !important;
+      gap: 16px !important;
+    }
+    #services-section .service-title i {
+      width: 34px !important;
+      height: 34px !important;
+    }
+    #services-section .service-inner {
+      padding: 0 32px;
+    }
     #services-section .service-content {
       grid-template-columns: 1fr !important;
       grid-template-rows: auto auto auto auto !important;
-      padding-inline: 1rem;
-      gap: 1rem;
+      padding: 20px 16px 24px !important;
+      gap: 20px;
     }
     #services-section .service-media {
       grid-column: 1 !important;
@@ -180,7 +187,7 @@ const CSS = `
       grid-column: 1 !important;
       grid-row: 2 !important;
       font-family: var(--ff);
-      font-size: 1.5rem;
+      font-size: 24px;
       font-weight: 400;
       color: #fff;
       margin: 0;
