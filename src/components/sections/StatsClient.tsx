@@ -119,7 +119,7 @@ function StatRow({ value, suffix, label, intensity }: {
       // --- ScrollTrigger: fires once when row enters viewport ---
       ScrollTrigger.create({
         trigger: rowRef.current,
-        start: 'top 90%',
+        start: 'top 75%',
         once: true,
         onEnter: () => tl.play(),
       })
