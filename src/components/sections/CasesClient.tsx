@@ -104,6 +104,18 @@ const CASES: CaseData[] = [
   },
 ]
 
+const CASE_LOGOS: Record<string, string> = {
+  telestore: '/images/logos/telestore-new.png',
+  sannegarden: '/images/logos/sannegarden-new.svg',
+  trainwithalbert: '/images/logos/trainwithalbert-new.png',
+  mbflytt: '/images/logos/mbflytt.png',
+  nordicrank: '/images/logos/nordicrank.svg',
+}
+
+function getCaseLogo(slug: string) {
+  return CASE_LOGOS[slug] ?? '/images/logos/telestore-new.png'
+}
+
 const CSS = `
   #cases-section {
     --ff: 'DM Sans', sans-serif;
@@ -225,14 +237,31 @@ const CSS = `
     padding: 1.25rem 0.65rem 2.5rem;
   }
 
-  /* Left col: text content */
-  #cases-section .case-text { display: flex; flex-direction: column; gap: 1.5rem; }
+  /* Left col: editorial content */
+  #cases-section .case-text { display: flex; flex-direction: column; gap: 1.25rem; }
+  #cases-section .case-meta {
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    font-size: 0.75rem; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.08em; color: rgba(var(--rgb-white), 0.5);
+  }
+  #cases-section .case-meta-dot {
+    width: 0.1875rem; height: 0.1875rem; border-radius: 50%;
+    background: rgba(var(--rgb-white), 0.3);
+  }
+  #cases-section .case-metric {
+    font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
+    line-height: 1.2; color: var(--clr-white); letter-spacing: -0.01em;
+    margin: 0;
+  }
+  #cases-section .case-block {
+    display: grid; gap: 0.4rem;
+  }
   #cases-section .case-label {
-    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.1em; color: #C8FF00;
+    font-size: 0.6875rem; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.08em; color: rgba(var(--rgb-white), 0.45);
   }
   #cases-section .case-description {
-    font-size: var(--text); line-height: 1.6; color: rgba(var(--rgb-white), 0.75);
+    font-size: var(--text); line-height: 1.55; color: rgba(var(--rgb-white), 0.75);
     margin: 0;
   }
 
@@ -242,46 +271,51 @@ const CSS = `
     display: flex; flex-direction: column; gap: 0.5rem;
   }
   #cases-section .case-results li {
-    font-size: var(--text); color: rgba(var(--rgb-white), 0.85);
-    padding-left: 1.5rem; position: relative; line-height: 1.5;
-  }
-  #cases-section .case-results li::before {
-    content: "→"; position: absolute; left: 0; color: #C8FF00;
+    font-size: var(--text); color: rgba(var(--rgb-white), 0.9);
+    line-height: 1.45; padding-top: 0.5rem;
+    border-top: 1px solid rgba(var(--rgb-white), 0.08);
   }
 
   /* Quote */
   #cases-section .case-quote {
-    border-left: 2px solid #C8FF00; padding-left: 1.25rem;
-    margin: 0;
+    border-left: 1px solid rgba(var(--rgb-white), 0.2);
+    padding-left: 1rem; margin: 0.25rem 0 0;
   }
   #cases-section .case-quote p {
-    font-size: var(--text); font-style: italic; line-height: 1.6;
-    color: rgba(var(--rgb-white), 0.85); margin: 0 0 0.5rem;
+    font-size: var(--text); font-style: italic; line-height: 1.55;
+    color: rgba(var(--rgb-white), 0.82); margin: 0 0 0.45rem;
   }
   #cases-section .case-quote cite {
     font-size: var(--text-sm); font-style: normal;
     color: rgba(var(--rgb-white), 0.5);
   }
 
-  /* Right col: image placeholder */
+  /* Right col: branded media */
   #cases-section .case-media {
-    background: var(--clr-light-black); border-radius: 12px;
-    aspect-ratio: 16/10; display: flex; align-items: center;
-    justify-content: center; overflow: hidden;
+    position: relative; overflow: hidden;
+    border-radius: 12px; aspect-ratio: 16/10;
+    border: 1px solid rgba(var(--rgb-white), 0.08);
+    background:
+      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(180deg, #141414 0%, #0D0D0D 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
   }
   #cases-section .case-media img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    border-radius: 12px;
-  }
-  #cases-section .case-media-placeholder {
-    font-size: var(--text-sm); color: rgba(var(--rgb-white), 0.3);
+    max-width: min(70%, 320px); max-height: 56%; width: auto; height: auto;
+    object-fit: contain; display: block; opacity: 0.96;
+    filter: brightness(1.05) contrast(1.04);
   }
 
   /* CTA row */
   #cases-section .case-cta {
     grid-column: 1 / -1;
     display: flex; align-items: center; gap: 1rem;
-    padding-top: 0.5rem;
+    padding-top: 0.25rem;
+  }
+  #cases-section .case-cta .btn {
+    background: transparent !important;
+    border: 1px solid rgba(var(--rgb-white), 0.22) !important;
   }
 
   /* Mobile — pixel-match Redstone */
@@ -304,7 +338,10 @@ const CSS = `
       padding: 20px 16px 24px !important;
       gap: 20px;
     }
-    #cases-section .case-media { grid-row: 1; }
+    #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
+    #cases-section .case-media img { max-width: 64%; max-height: 52%; }
+    #cases-section .case-metric { font-size: 1.375rem; }
+    #cases-section .case-results li { font-size: 1rem; }
   }
 `
 
@@ -351,15 +388,25 @@ export default function CasesClient() {
             <div className="case-inner">
               <div className="case-content">
                 <div className="case-text">
-                  <div>
+                  <div className="case-meta">
+                    <span>{c.tag}</span>
+                    <span className="case-meta-dot"></span>
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                  </div>
+
+                  <p className="case-metric">{c.metric}</p>
+
+                  <div className="case-block">
                     <span className="case-label">Problemet</span>
                     <p className="case-description">{c.problem}</p>
                   </div>
-                  <div>
+
+                  <div className="case-block">
                     <span className="case-label">Lösningen</span>
                     <p className="case-description">{c.solution}</p>
                   </div>
-                  <div>
+
+                  <div className="case-block">
                     <span className="case-label">Resultat</span>
                     <ul className="case-results">
                       {c.results.map((r, j) => (
@@ -367,13 +414,14 @@ export default function CasesClient() {
                       ))}
                     </ul>
                   </div>
+
                   <blockquote className="case-quote">
                     <p>&ldquo;{c.quote}&rdquo;</p>
                     <cite>— {c.quoteAuthor}</cite>
                   </blockquote>
                 </div>
                 <div className="case-media">
-                  <span className="case-media-placeholder">Bild / Video</span>
+                  <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
                 </div>
                 <div className="case-cta">
                   <Button variant="small" href={`/cases/${c.slug}`}>Läs hela caset</Button>
