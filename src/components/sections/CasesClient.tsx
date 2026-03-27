@@ -129,6 +129,18 @@ function getLiveCaseShot(slug: string) {
   return CASE_LIVE_SHOTS[slug] ?? CASE_LIVE_SHOTS.telestore
 }
 
+const CASE_FRAME_STYLE: Record<string, string> = {
+  telestore: 'frame-luxury',
+  nordicrank: 'frame-luxury',
+  sannegarden: 'frame-luxury',
+  trainwithalbert: 'frame-luxury',
+  mbflytt: 'frame-luxury',
+}
+
+function getCaseFrame(slug: string) {
+  return CASE_FRAME_STYLE[slug] ?? 'frame-luxury'
+}
+
 const CSS = `
   #cases-section {
     --ff: 'DM Sans', sans-serif;
@@ -720,7 +732,7 @@ export default function CasesClient() {
                   </blockquote>
                 </div>
                 {hasLiveCaseMedia(c.slug) ? (
-                  <div className="case-media case-media--telestore frame-luxury" data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
+                  <div className={`case-media case-media--telestore ${getCaseFrame(c.slug)}`} data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
                     <div className="ts-brand">
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
