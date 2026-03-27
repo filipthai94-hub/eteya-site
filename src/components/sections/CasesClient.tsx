@@ -307,80 +307,6 @@ const CSS = `
     filter: brightness(1.05) contrast(1.04);
   }
 
-  /* Telestore media v3 (brand -> live site scroll) */
-  #cases-section .case-media--telestore {
-    padding: 0;
-  }
-  #cases-section .ts-brand,
-  #cases-section .ts-live {
-    position: absolute;
-    inset: 0;
-  }
-  #cases-section .ts-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 360ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
-  }
-  #cases-section .ts-live {
-    inset: 0.75rem;
-    border-radius: 10px;
-    border: 1px solid rgba(var(--rgb-white), 0.08);
-    overflow: hidden;
-    background: #0b0b0b;
-    opacity: 0;
-    transform: translate3d(0, 0.6rem, 0) scale(1.025);
-    will-change: opacity, transform;
-    --ts-pan-end: -240px;
-  }
-  #cases-section .ts-track {
-    position: absolute;
-    inset: 0;
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
-  }
-  #cases-section .ts-shot {
-    width: 100%;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    display: block;
-    object-fit: cover;
-    object-position: top center;
-    user-select: none;
-    pointer-events: none;
-  }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-brand {
-    opacity: 0;
-    transform: scale(1.03);
-  }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-live {
-    animation: ts-live-in 430ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-track {
-    animation: ts-pan 7.2s cubic-bezier(0.45, 0, 0.2, 1) 560ms forwards;
-  }
-  @keyframes ts-live-in {
-    from { opacity: 0; transform: translate3d(0, 0.7rem, 0) scale(1.03); }
-    to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-  }
-  @keyframes ts-pan {
-    from { transform: translate3d(0, 0, 0); }
-    to { transform: translate3d(0, var(--ts-pan-end), 0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-live {
-      animation: ts-live-in 260ms ease forwards;
-    }
-    #cases-section .case-card.is-active .case-media--telestore.is-ready .ts-track {
-      animation: none;
-    }
-  }
-
   /* CTA row */
   #cases-section .case-cta {
     grid-column: 1 / -1;
@@ -414,9 +340,6 @@ const CSS = `
     }
     #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
     #cases-section .case-media img { max-width: 64%; max-height: 52%; }
-    #cases-section .case-media--telestore { padding: 0; }
-    #cases-section .case-media--telestore .ts-brand { padding: 1.25rem; }
-    #cases-section .case-media--telestore .ts-live { inset: 0.5rem; }
     #cases-section .case-metric { font-size: 1.375rem; }
     #cases-section .case-results li { font-size: 1rem; }
   }
@@ -424,51 +347,12 @@ const CSS = `
 
 export default function CasesClient() {
   useEffect(() => {
-    const cards = Array.from(document.querySelectorAll('#cases-section .case-card')) as HTMLElement[]
-    const titleBindings: Array<{ title: HTMLElement; handler: () => void }> = []
-
-    const updateTelestoreScrollMetrics = () => {
-      const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
-      medias.forEach((media) => {
-        const live = media.querySelector('.ts-live') as HTMLElement | null
-        const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
-        if (!live || !shot || !shot.naturalWidth || !shot.naturalHeight) return
-
-        const renderedHeight = (live.clientWidth / shot.naturalWidth) * shot.naturalHeight
-        const maxPan = Math.max(0, renderedHeight - live.clientHeight)
-        const premiumPan = Math.max(0, maxPan - live.clientHeight * 0.08)
-        live.style.setProperty('--ts-pan-end', `${-Math.round(premiumPan)}px`)
-      })
-    }
-
-    const initTelestoreMedia = () => {
-      const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
-      medias.forEach((media) => {
-        const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
-        if (!shot) return
-
-        const markReady = () => {
-          media.classList.add('is-ready')
-          updateTelestoreScrollMetrics()
-        }
-
-        if (shot.complete && shot.naturalWidth > 0) {
-          markReady()
-        } else {
-          shot.addEventListener('load', markReady, { once: true })
-        }
-      })
-    }
-
-    initTelestoreMedia()
-    updateTelestoreScrollMetrics()
-    window.addEventListener('resize', updateTelestoreScrollMetrics)
+    const cards = document.querySelectorAll('#cases-section .case-card')
 
     cards.forEach((card) => {
       const title = card.querySelector('.case-title') as HTMLElement | null
       if (!title) return
-
-      const handler = () => {
+      title.addEventListener('click', () => {
         const isActive = card.classList.contains('is-active')
         cards.forEach((c) => c.classList.remove('is-active'))
         if (!isActive) card.classList.add('is-active')
@@ -477,24 +361,12 @@ export default function CasesClient() {
         const onEnd = (e: Event) => {
           const te = e as TransitionEvent
           if (te.propertyName !== 'grid-template-rows') return
-          updateTelestoreScrollMetrics()
           window.dispatchEvent(new CustomEvent('eteya:cases-transition-end'))
         }
         card.addEventListener('transitionend', onEnd, { once: true })
-        window.setTimeout(() => {
-          updateTelestoreScrollMetrics()
-          window.dispatchEvent(new CustomEvent('eteya:cases-transition-end'))
-        }, 650)
-      }
-
-      title.addEventListener('click', handler)
-      titleBindings.push({ title, handler })
+        window.setTimeout(() => window.dispatchEvent(new CustomEvent('eteya:cases-transition-end')), 650)
+      })
     })
-
-    return () => {
-      window.removeEventListener('resize', updateTelestoreScrollMetrics)
-      titleBindings.forEach(({ title, handler }) => title.removeEventListener('click', handler))
-    }
   }, [])
 
   return (
@@ -548,27 +420,9 @@ export default function CasesClient() {
                     <cite>— {c.quoteAuthor}</cite>
                   </blockquote>
                 </div>
-                {c.slug === 'telestore' ? (
-                  <div className="case-media case-media--telestore" aria-label="Telestore live preview">
-                    <div className="ts-brand">
-                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
-                    </div>
-                    <div className="ts-live">
-                      <div className="ts-track">
-                        <img
-                          className="ts-shot"
-                          src="/images/cases/telestore-home-full.png"
-                          alt="Telestore startsida"
-                          loading="eager"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="case-media">
-                    <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
-                  </div>
-                )}
+                <div className="case-media">
+                  <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
+                </div>
                 <div className="case-cta">
                   <Button variant="small" href={`/cases/${c.slug}`}>Läs hela caset</Button>
                 </div>
