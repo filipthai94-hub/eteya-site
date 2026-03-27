@@ -438,7 +438,7 @@ const CSS = `
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
     object-position: top center;
     background: #090909;
     filter: contrast(1.03) saturate(1.02) brightness(1.01);
