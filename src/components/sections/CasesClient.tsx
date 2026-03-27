@@ -574,23 +574,11 @@ export default function CasesClient() {
         let speed: number
         let maxDuration = 15.2
 
-        if (slug === 'sannegarden') {
-          // Full-width content — no zoom, pure vertical pan
-          scale = 1.0
-          travelRatio = 1
-          speed = isMobile ? 30 : 38
-          maxDuration = 22
-        } else if (slug === 'nordicrank') {
-          scale = isMobile ? 1.03 : 1.06
-          travelRatio = 1
-          speed = isMobile ? 34 : 42
-          maxDuration = 22
-        } else {
-          // Default (telestore etc.)
-          scale = isMobile ? 1.16 : 1.22
-          travelRatio = isMobile ? 0.42 : 0.5
-          speed = isMobile ? 58 : 72
-        }
+        // Universal: scale 1.0, full vertical pan, no horizontal clipping
+        scale = 1.0
+        travelRatio = 1
+        speed = isMobile ? 30 : 38
+        maxDuration = 22
 
         live.style.setProperty('--ts-scale', String(scale))
 
