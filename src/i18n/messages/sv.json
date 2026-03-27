@@ -78,19 +78,24 @@
     "heading": "I siffror.",
     "items": [
       {
-        "value": 200,
-        "suffix": "+",
-        "label": "timmar sparade per kund, per månad"
-      },
-      {
-        "value": 3,
-        "suffix": " v",
-        "label": "genomsnittlig tid till produktion"
-      },
-      {
         "value": 50,
         "suffix": "+",
-        "label": "automatiserade processer"
+        "label": "Företag hjälpta"
+      },
+      {
+        "value": 12,
+        "suffix": "+",
+        "label": "Branscher vi arbetat med"
+      },
+      {
+        "value": 200,
+        "suffix": "+",
+        "label": "Automationer levererade"
+      },
+      {
+        "value": 8,
+        "suffix": "+",
+        "label": "Års erfarenhet"
       }
     ]
   },

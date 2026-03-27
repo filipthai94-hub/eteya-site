@@ -75,22 +75,27 @@
     ]
   },
   "stats": {
-    "heading": "By the numbers.",
+    "heading": "In numbers.",
     "items": [
-      {
-        "value": 200,
-        "suffix": "+",
-        "label": "hours saved per client, per month"
-      },
-      {
-        "value": 3,
-        "suffix": "w",
-        "label": "average time to production"
-      },
       {
         "value": 50,
         "suffix": "+",
-        "label": "automated processes"
+        "label": "Companies helped"
+      },
+      {
+        "value": 12,
+        "suffix": "+",
+        "label": "Industries served"
+      },
+      {
+        "value": 200,
+        "suffix": "+",
+        "label": "Automations delivered"
+      },
+      {
+        "value": 8,
+        "suffix": "+",
+        "label": "Years of experience"
       }
     ]
   },
