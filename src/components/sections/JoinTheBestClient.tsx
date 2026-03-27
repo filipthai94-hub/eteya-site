@@ -91,24 +91,19 @@ const CSS = `
     object-fit: contain;
     pointer-events: none;
     -webkit-user-drag: none;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-  }
-
-  .join-item:hover img {
     opacity: 1;
   }
 
   /* ═══ RESPONSIVE ═══ */
   @media (max-width: 767px) {
     .join-section { margin-top: 100px; }
-    .join-heading { font-size: 36px; line-height: 36px; }
-    .join-container { max-width: calc(100% - 32px); }
-    .join-marquee-line { height: 30vw; }
-    .join-item { width: 30vw; height: 30vw; padding: 14px; }
+    .join-heading { font-size: 36px; line-height: 36px; margin-bottom: 32px; }
+    .join-container { max-width: none; width: 100%; }
+    .join-marquee-line { height: 125px; }
+    .join-item { width: 125px; height: 125px; padding: 20px; }
     .join-item img {
-      max-width: calc(30vw - 3rem);
-      max-height: calc(30vw - 5rem);
+      max-width: 76.8px;
+      max-height: 44.8px;
     }
   }
 
@@ -150,7 +145,7 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
     animFrame: 0,
   })
 
-  const baseSpeed = direction === 'left' ? -speed : speed
+  const speedRef = useRef(speed)
 
   const updatePosition = useCallback(() => {
     const s = stateRef.current
@@ -164,6 +159,18 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
     strip1.style.transform = `translate3d(${(s.x / 100) * stripW}px, 0, 0)`
     strip2.style.transform = `translate3d(${((s.x + 100) / 100) * stripW}px, 0, 0)`
   }, [])
+
+  useEffect(() => {
+    const updateSpeed = () => {
+      const isMobile = window.matchMedia('(max-width: 767px)').matches
+      const mobileFactor = 0.08 // tuned to match Redstone mobile pace
+      speedRef.current = isMobile ? speed * mobileFactor : speed
+    }
+
+    updateSpeed()
+    window.addEventListener('resize', updateSpeed)
+    return () => window.removeEventListener('resize', updateSpeed)
+  }, [speed])
 
   useEffect(() => {
     const s = stateRef.current
@@ -183,7 +190,8 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
         }
 
         // Auto-scroll
-        s.x += baseSpeed * dt
+        const autoSpeed = direction === 'left' ? -speedRef.current : speedRef.current
+        s.x += autoSpeed * dt
       }
 
       // Wrap around for infinite loop
@@ -197,7 +205,7 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
 
     s.animFrame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(s.animFrame)
-  }, [baseSpeed, updatePosition])
+  }, [direction, updatePosition])
 
   // Drag handlers
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
