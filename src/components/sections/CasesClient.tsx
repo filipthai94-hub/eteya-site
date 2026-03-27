@@ -152,7 +152,7 @@ const CSS = `
   /* Title row */
   #cases-section .case-title {
     position: relative; overflow: hidden; cursor: pointer;
-    gap: 1.5rem; display: flex; align-items: center;
+    gap: 2.5rem; display: flex; align-items: center;
     padding: 2.5rem 0.65rem;
     font-family: var(--ff); font-size: var(--h3);
     line-height: 1em; font-weight: 400; color: var(--clr-white);
