@@ -555,17 +555,29 @@ export default function CasesClient() {
         const shot = media.querySelector('.ts-shot') as HTMLImageElement | null
         if (!live || !shot || !shot.naturalWidth || !shot.naturalHeight) return
 
+        const slug = media.dataset.caseSlug ?? 'telestore'
         const isMobile = window.matchMedia('(max-width: 767px)').matches
-        const scale = isMobile ? 1.16 : 1.22
+
+        let scale = isMobile ? 1.16 : 1.22
+        let travelRatio = isMobile ? 0.42 : 0.5
+        let durationSec = 10.5
+
+        if (slug === 'nordicrank') {
+          scale = isMobile ? 1.08 : 1.12
+          travelRatio = isMobile ? 0.28 : 0.34
+          durationSec = isMobile ? 13.5 : 12.5
+        }
+
         live.style.setProperty('--ts-scale', String(scale))
 
         const renderedHeight = (live.clientWidth / shot.naturalWidth) * shot.naturalHeight * scale
         const maxPan = Math.max(0, renderedHeight - live.clientHeight)
-        const travelRatio = isMobile ? 0.42 : 0.5
         const panPx = Math.max(0, maxPan * travelRatio)
 
-        const speed = isMobile ? 58 : 72
-        const durationSec = Math.min(15.2, Math.max(8.4, panPx / speed))
+        if (slug !== 'nordicrank') {
+          const speed = isMobile ? 58 : 72
+          durationSec = Math.min(15.2, Math.max(8.4, panPx / speed))
+        }
 
         live.style.setProperty('--ts-pan-end', `${-Math.round(panPx)}px`)
         live.style.setProperty('--ts-duration', `${durationSec.toFixed(2)}s`)
@@ -706,7 +718,7 @@ export default function CasesClient() {
                   </blockquote>
                 </div>
                 {hasLiveCaseMedia(c.slug) ? (
-                  <div className="case-media case-media--telestore frame-luxury" aria-label={`${c.name} live preview`}>
+                  <div className="case-media case-media--telestore frame-luxury" data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
                     <div className="ts-brand">
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
