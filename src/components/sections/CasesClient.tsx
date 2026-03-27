@@ -289,12 +289,6 @@ const CSS = `
       gap: 16px !important;
     }
     #cases-section .case-arrow { width: 34px !important; height: 34px !important; }
-    #cases-section .case-counter {
-      gap: 0.75rem;
-      font-size: 1.125rem;
-      min-height: auto;
-    }
-    #cases-section .case-counter-lines { gap: 0.5rem; }
     #cases-section .case-inner { padding: 0 32px; }
     #cases-section .case-content {
       grid-template-columns: 1fr !important;
