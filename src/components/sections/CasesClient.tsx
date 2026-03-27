@@ -301,7 +301,8 @@ const CSS = `
     display: flex; align-items: center; justify-content: center;
     padding: 2rem;
   }
-  #cases-section .case-media img {
+  #cases-section .case-media > img,
+  #cases-section .ts-brand > img {
     max-width: min(70%, 320px); max-height: 56%; width: auto; height: auto;
     object-fit: contain; display: block; opacity: 0.96;
     filter: brightness(1.05) contrast(1.04);
@@ -316,6 +317,8 @@ const CSS = `
     position: absolute;
     inset: 0;
   }
+  #cases-section .ts-brand { z-index: 2; }
+  #cases-section .ts-live { z-index: 1; }
   #cases-section .ts-brand {
     display: flex;
     align-items: center;
@@ -433,7 +436,8 @@ const CSS = `
       gap: 20px;
     }
     #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
-    #cases-section .case-media img { max-width: 64%; max-height: 52%; }
+    #cases-section .case-media > img,
+    #cases-section .ts-brand > img { max-width: 64%; max-height: 52%; }
     #cases-section .case-media--telestore { padding: 0; }
     #cases-section .case-media--telestore .ts-brand { padding: 1.2rem; }
     #cases-section .case-media--telestore .ts-live {
