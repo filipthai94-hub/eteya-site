@@ -94,9 +94,8 @@ const CSS = `
   }
 
   .join-logo {
-    width: auto;
+    width: 72%;
     height: auto;
-    max-width: 72%;
     max-height: 34%;
     object-fit: contain;
     pointer-events: none;
@@ -105,11 +104,11 @@ const CSS = `
     transition: opacity 0.25s ease;
   }
 
-  .join-item--telestore .join-logo { max-width: 68%; max-height: 20%; }
-  .join-item--sannegarden .join-logo { max-width: 70%; max-height: 36%; }
-  .join-item--trainwithalbert .join-logo { max-width: 74%; max-height: 22%; }
-  .join-item--mbflytt .join-logo { max-width: 62%; max-height: 24%; }
-  .join-item--nordicrank .join-logo { max-width: 64%; max-height: 20%; }
+  .join-item--telestore .join-logo { width: 68%; max-height: 20%; }
+  .join-item--sannegarden .join-logo { width: 70%; max-height: 36%; }
+  .join-item--trainwithalbert .join-logo { width: 74%; max-height: 22%; }
+  .join-item--mbflytt .join-logo { width: 62%; max-height: 24%; }
+  .join-item--nordicrank .join-logo { width: 64%; max-height: 20%; }
 
   @media (hover: hover) and (pointer: fine) {
     .join-item:hover .join-logo { opacity: 1; }
@@ -122,12 +121,12 @@ const CSS = `
     .join-container { max-width: none; width: 100%; }
     .join-marquee-line { height: 125px; }
     .join-item { width: 125px; height: 125px; padding: 20px; }
-    .join-logo { max-width: 74px; max-height: 36px; }
-    .join-item--telestore .join-logo { max-width: 72px; max-height: 18px; }
-    .join-item--sannegarden .join-logo { max-width: 74px; max-height: 38px; }
-    .join-item--trainwithalbert .join-logo { max-width: 76px; max-height: 22px; }
-    .join-item--mbflytt .join-logo { max-width: 68px; max-height: 24px; }
-    .join-item--nordicrank .join-logo { max-width: 70px; max-height: 20px; }
+    .join-logo { width: 74px; max-height: 36px; }
+    .join-item--telestore .join-logo { width: 72px; max-height: 18px; }
+    .join-item--sannegarden .join-logo { width: 74px; max-height: 38px; }
+    .join-item--trainwithalbert .join-logo { width: 76px; max-height: 22px; }
+    .join-item--mbflytt .join-logo { width: 68px; max-height: 24px; }
+    .join-item--nordicrank .join-logo { width: 70px; max-height: 20px; }
   }
 
   @media (min-width: 2100px) {
