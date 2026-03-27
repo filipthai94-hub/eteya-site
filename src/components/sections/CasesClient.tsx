@@ -311,6 +311,36 @@ const CSS = `
   /* Telestore media v3 */
   #cases-section .case-media--telestore {
     padding: 0;
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  #cases-section .case-media--telestore::before,
+  #cases-section .case-media--telestore::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+  #cases-section .case-media--telestore.frame-glass::before {
+    background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 24%, rgba(255,255,255,0) 52%);
+    mix-blend-mode: screen;
+    opacity: 0.62;
+  }
+  #cases-section .case-media--telestore.frame-glass::after {
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 -40px 72px rgba(0,0,0,0.18);
+    border-radius: 12px;
+  }
+  #cases-section .case-media--telestore.frame-luxury::before {
+    background: radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 60%);
+    opacity: 0.42;
+  }
+  #cases-section .case-media--telestore.frame-luxury::after {
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.06),
+      inset 0 26px 52px rgba(255,255,255,0.03),
+      inset 0 -58px 96px rgba(0,0,0,0.46);
+    border-radius: 12px;
   }
   #cases-section .ts-brand,
   #cases-section .ts-live {
@@ -663,7 +693,7 @@ export default function CasesClient() {
                   </blockquote>
                 </div>
                 {c.slug === 'telestore' ? (
-                  <div className="case-media case-media--telestore" aria-label="Telestore live preview">
+                  <div className="case-media case-media--telestore frame-glass" aria-label="Telestore live preview">
                     <div className="ts-brand">
                       <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
                     </div>
