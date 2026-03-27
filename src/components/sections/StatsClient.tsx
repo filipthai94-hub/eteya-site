@@ -74,6 +74,7 @@ function StatRow({ value, suffix, label, intensity }: {
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const isMobile = window.matchMedia('(max-width: 690px)').matches
+    let parallaxRaf: number | null = null
 
     const ctx = gsap.context(() => {
       if (prefersReduced) {
@@ -123,25 +124,41 @@ function StatRow({ value, suffix, label, intensity }: {
         onEnter: () => tl.play(),
       })
 
-      // --- Desktop parallax (not on mobile) ---
+      // --- Desktop parallax (lerp-based rAF loop, matching Salient/Nectar exactly) ---
+      // Original: intensity = data-intensity / 10, lerp = 0.28
+      // Formula: translateX( -(lerpedScrollY - offsetTop + vertCenter) * intensity )
       if (!isMobile && containerRef.current) {
-        gsap.fromTo(containerRef.current,
-          { x: 0 },
-          {
-            x: intensity * 30,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: rowRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
+        const intensityNorm = intensity / 10 // e.g. -3 → -0.3
+        let lastY = window.scrollY || 0
+        const lerpFactor = 0.28
+
+        const animate = () => {
+          const scrollY = window.scrollY || window.pageYOffset
+          lastY = lastY + (scrollY - lastY) * lerpFactor
+
+          const el = rowRef.current
+          const inner = containerRef.current
+          if (el && inner) {
+            const rect = el.getBoundingClientRect()
+            const offsetTop = rect.top + scrollY
+            const height = rect.height
+            const vertCenter = window.innerHeight / 2 - height / 2
+            const tx = -(lastY - offsetTop + vertCenter) * intensityNorm
+
+            inner.style.transform = `translateX(${tx}px) translateZ(0)`
           }
-        )
+
+          parallaxRaf = requestAnimationFrame(animate)
+        }
+
+        parallaxRaf = requestAnimationFrame(animate)
       }
     }, rowRef)
 
-    return () => ctx.revert()
+    return () => {
+      if (parallaxRaf) cancelAnimationFrame(parallaxRaf)
+      ctx.revert()
+    }
   }, [value, suffix, intensity])
 
   return (
