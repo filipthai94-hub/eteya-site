@@ -571,13 +571,14 @@ export default function ROICalculatorClient() {
         }
 
         .roi-results-title {
-          margin: 0 0 14px;
+          margin: 0 0 8px;
           font-family: var(--font-body), sans-serif;
           font-size: 14px;
           line-height: 1.4;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           color: rgba(255,255,255,0.6);
+          text-align: center;
         }
 
         .roi-results-empty {
@@ -590,23 +591,24 @@ export default function ROICalculatorClient() {
 
         .roi-results-grid {
           display: grid;
-          gap: 24px;
+          gap: 0;
         }
 
         .roi-comparison-row {
           display: flex;
           align-items: center;
-          gap: 20px;
-          padding-bottom: 24px;
-          margin-bottom: 24px;
-          border-bottom: 1px solid rgba(128,128,128,0.2);
+          justify-content: center;
+          gap: 32px;
+          padding-bottom: 16px;
+          margin-bottom: 0;
+          border-bottom: 1px solid rgba(128,128,128,0.15);
         }
 
         .roi-comparison-item {
           display: flex;
           flex-direction: column;
           gap: 4px;
-          flex: 1;
+          text-align: center;
         }
 
         .roi-comparison-label {
@@ -643,7 +645,7 @@ export default function ROICalculatorClient() {
           flex-direction: column;
           gap: 6px;
           text-align: center;
-          padding: 8px 0 24px;
+          padding: 4px 0 16px;
         }
 
         .roi-annual-caption {
@@ -667,14 +669,14 @@ export default function ROICalculatorClient() {
 
         .roi-hours-line {
           display: flex;
-          align-items: center;
+          align-items: baseline;
           justify-content: center;
           gap: 8px;
-          padding: 14px 0 4px;
+          padding: 16px 0 0;
           font-family: var(--font-body), sans-serif;
-          font-size: 16px;
+          font-size: 15px;
           line-height: 1.4;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.5);
         }
 
         .roi-hours-value {
@@ -729,26 +731,31 @@ export default function ROICalculatorClient() {
         }
 
         .roi-transparency {
-          margin-top: 4px;
-          border-top: 1px solid rgba(128,128,128,0.15);
-          padding-top: 18px;
+          margin-top: 8px;
+          border-top: 1px solid rgba(128,128,128,0.12);
+          padding-top: 14px;
         }
 
         .roi-transparency-button {
           width: 100%;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          gap: 12px;
+          justify-content: center;
+          gap: 8px;
           background: transparent;
           border: 0;
           padding: 0;
-          color: #fff;
+          color: rgba(255,255,255,0.45);
           cursor: pointer;
-          text-align: left;
+          text-align: center;
           font-family: var(--font-body), sans-serif;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 1.4;
+          transition: color 200ms ease;
+        }
+
+        .roi-transparency-button:hover {
+          color: rgba(255,255,255,0.7);
         }
 
         .roi-transparency-button:focus-visible,
@@ -787,7 +794,8 @@ export default function ROICalculatorClient() {
           flex-wrap: wrap;
           gap: 14px 18px;
           justify-content: center;
-          padding-top: 28px;
+          padding-top: 24px;
+          padding-bottom: 8px;
         }
 
         .roi-cta-primary,
