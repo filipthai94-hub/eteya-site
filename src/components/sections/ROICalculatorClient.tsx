@@ -594,72 +594,29 @@ export default function ROICalculatorClient() {
           gap: 0;
         }
 
-        .roi-comparison-row {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 32px;
-          padding-bottom: 16px;
-          margin-bottom: 0;
-          border-bottom: 1px solid rgba(128,128,128,0.15);
-        }
-
-        .roi-comparison-item {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
+        /* === ZON 1: Hero panel === */
+        .roi-hero-zone {
+          background: rgba(255,255,255,0.035);
+          border-radius: 10px;
+          padding: 28px 32px 24px;
           text-align: center;
-        }
-
-        .roi-comparison-label {
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          color: rgba(255,255,255,0.5);
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-        }
-
-        .roi-comparison-value {
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(28px, 3vw, 40px);
-          line-height: 1;
-          letter-spacing: -0.03em;
-          color: #fff;
-        }
-
-        .roi-comparison-unit {
-          font-size: 0.55em;
-          color: rgba(255,255,255,0.4);
-          margin-left: 4px;
-        }
-
-        .roi-comparison-arrow {
-          font-size: 24px;
-          color: rgba(255,255,255,0.3);
-          flex-shrink: 0;
-          margin-top: 18px;
-        }
-
-        .roi-annual-row {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-          text-align: center;
-          padding: 4px 0 16px;
+          margin-bottom: 16px;
         }
 
         .roi-annual-caption {
+          display: block;
           font-family: var(--font-body), sans-serif;
           font-size: 14px;
           color: rgba(255,255,255,0.5);
           text-transform: uppercase;
           letter-spacing: 0.08em;
+          margin-bottom: 8px;
         }
 
         .roi-annual-value {
-          margin: 0;
+          margin: 0 0 16px;
           font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(40px, 5vw, 64px);
+          font-size: clamp(40px, 5vw, 60px);
           line-height: 1;
           letter-spacing: -0.04em;
           text-transform: uppercase;
@@ -667,24 +624,76 @@ export default function ROICalculatorClient() {
           font-weight: 600;
         }
 
-        .roi-hours-line {
+        .roi-before-after {
           display: flex;
           align-items: baseline;
           justify-content: center;
+          gap: 10px;
+          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+          font-size: clamp(20px, 2.5vw, 28px);
+          line-height: 1;
+          letter-spacing: -0.02em;
+          color: #fff;
+        }
+
+        .roi-old-cost {
+          text-decoration: line-through;
+          color: rgba(255,255,255,0.35);
+        }
+
+        .roi-before-after-arrow {
+          color: rgba(255,255,255,0.25);
+          font-size: 0.8em;
+        }
+
+        .roi-new-cost {
+          color: #fff;
+        }
+
+        .roi-before-after-unit {
+          font-size: 0.6em;
+          color: rgba(255,255,255,0.4);
+          margin-left: 2px;
+        }
+
+        /* === ZON 2: Metrics bar === */
+        .roi-metrics-bar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0;
+          padding: 16px 0 20px;
+          border-bottom: 1px solid rgba(128,128,128,0.12);
+        }
+
+        .roi-metric {
+          display: flex;
+          align-items: baseline;
           gap: 8px;
-          padding: 16px 0 0;
+          padding: 0 28px;
+        }
+
+        .roi-metric-value {
+          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+          font-size: 32px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          color: #fff;
+        }
+
+        .roi-metric-label {
           font-family: var(--font-body), sans-serif;
-          font-size: 15px;
+          font-size: 14px;
           line-height: 1.4;
           color: rgba(255,255,255,0.5);
         }
 
-        .roi-hours-value {
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: 28px;
-          font-weight: 600;
-          letter-spacing: -0.02em;
-          color: #fff;
+        .roi-metric-divider {
+          width: 1px;
+          height: 28px;
+          background: rgba(128,128,128,0.25);
+          flex-shrink: 0;
         }
 
         .roi-breakdown {
@@ -917,26 +926,36 @@ export default function ROICalculatorClient() {
             height: 8px;
           }
 
-          .roi-comparison-row {
-            flex-direction: row;
-            gap: 12px;
-          }
-
-          .roi-comparison-value {
-            font-size: 22px;
-          }
-
-          .roi-comparison-arrow {
-            font-size: 18px;
-            margin-top: 14px;
+          .roi-hero-zone {
+            padding: 20px 16px 18px;
           }
 
           .roi-annual-value {
             font-size: 32px;
           }
 
-          .roi-stats {
-            grid-template-columns: 1fr;
+          .roi-before-after {
+            font-size: 18px;
+            gap: 8px;
+          }
+
+          .roi-metrics-bar {
+            flex-direction: column;
+            gap: 12px;
+            padding: 14px 0 16px;
+          }
+
+          .roi-metric {
+            padding: 0;
+          }
+
+          .roi-metric-divider {
+            width: 40px;
+            height: 1px;
+          }
+
+          .roi-metric-value {
+            font-size: 26px;
           }
         }
 
@@ -1078,31 +1097,30 @@ export default function ROICalculatorClient() {
             <p className="roi-results-empty">{copy.empty}</p>
           ) : (
             <div className="roi-results-grid">
-              {/* 1. HERO — Annual savings (dominant) */}
-              <div className="roi-annual-row">
+              {/* ZON 1: Hero panel */}
+              <div className="roi-hero-zone">
                 <span className="roi-annual-caption">{copy.results.annual}</span>
                 <p className="roi-annual-value">
                   {formatCurrency(animatedLow, locale)} – {formatCurrency(animatedHigh, locale)}
                 </p>
+                <span className="roi-before-after">
+                  <span className="roi-old-cost">{formatCurrency(animatedCurrentCost, locale)}</span>
+                  <span className="roi-before-after-arrow" aria-hidden="true">→</span>
+                  <span className="roi-new-cost">{formatCurrency(animatedWithAiCost, locale)}<span className="roi-before-after-unit">{copy.results.perYear}</span></span>
+                </span>
               </div>
 
-              {/* 2. Before/After comparison */}
-              <div className="roi-comparison-row">
-                <div className="roi-comparison-item">
-                  <span className="roi-comparison-label">{copy.results.currentCostLabel}</span>
-                  <span className="roi-comparison-value">{formatCurrency(animatedCurrentCost, locale)}<span className="roi-comparison-unit">{copy.results.perYear}</span></span>
+              {/* ZON 2: Metrics bar */}
+              <div className="roi-metrics-bar">
+                <div className="roi-metric">
+                  <span className="roi-metric-value">{formatHours(animatedHours, locale)}</span>
+                  <span className="roi-metric-label">{copy.results.hoursSaved}</span>
                 </div>
-                <span className="roi-comparison-arrow" aria-hidden="true">→</span>
-                <div className="roi-comparison-item">
-                  <span className="roi-comparison-label">{copy.results.withAiLabel}</span>
-                  <span className="roi-comparison-value">{formatCurrency(animatedWithAiCost, locale)}<span className="roi-comparison-unit">{copy.results.perYear}</span></span>
+                <div className="roi-metric-divider" />
+                <div className="roi-metric">
+                  <span className="roi-metric-value">{totals.currentCost > 0 ? `${Math.round((1 - totals.withAiCost / totals.currentCost) * 100)}%` : '0%'}</span>
+                  <span className="roi-metric-label">{locale === 'sv' ? 'lägre kostnad' : 'lower cost'}</span>
                 </div>
-              </div>
-
-              {/* 3. Hours saved — one clean line */}
-              <div className="roi-hours-line">
-                <span className="roi-hours-value">{formatHours(animatedHours, locale)}</span>
-                <span>{copy.results.hoursSaved}</span>
               </div>
 
               {/* 4. CTA — the ONE next step */}
