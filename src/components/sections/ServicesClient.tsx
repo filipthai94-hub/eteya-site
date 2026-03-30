@@ -6,6 +6,7 @@ import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 const CSS = `
   #services-section {
     --ff: 'DM Sans', sans-serif;
+    --ff-body: var(--font-body), 'Geist', sans-serif;
     --clr-white: #FFFFFF;
     --clr-light-black: #0F0F0F;
     --rgb-white: 255,255,255;
@@ -20,12 +21,12 @@ const CSS = `
     --text: clamp(1.125rem, 0.7rem + 0.88vw, 1.375rem);
     --sp-block: clamp(3rem, 1rem + 4vw, 5rem);
     background: #000;
-    padding: 80px 62px;
-    font-family: var(--ff);
+    padding: 120px 62px;
+    font-family: var(--ff-body);
     color: #fff;
   }
   @media (max-width: 991px) {
-    #services-section { padding: 40px 0; }
+    #services-section { padding: 64px 0; }
     #services-section .svc-heading { font-size: 44px !important; margin-bottom: 32px !important; padding-left: 1rem; }
   }
   #services-section * { box-sizing: border-box; }

@@ -4,7 +4,7 @@ import { C } from '@/lib/colors'
 export default async function Footer() {
   const t = await getTranslations('footer')
   return (
-    <footer style={{ borderTop: `1px solid ${C.border}`, paddingTop: '4rem', paddingBottom: '4rem', backgroundColor: C.bg }}>
+    <footer style={{ fontFamily: 'var(--font-body)', borderTop: `1px solid ${C.border}`, paddingTop: '4rem', paddingBottom: '4rem', backgroundColor: C.bg }}>
       <div style={{
         maxWidth: '80rem', margin: '0 auto', padding: '0 2rem',
         display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '2rem', alignItems: 'flex-end',

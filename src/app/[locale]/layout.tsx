@@ -47,6 +47,11 @@ export async function generateMetadata({
       type: 'website',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: m.title,
+      description: m.description,
+    },
   }
 }
 

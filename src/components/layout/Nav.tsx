@@ -15,6 +15,22 @@ const ITEM_SPRING = { type: 'spring' as const, bounce: 0.3, duration: 0.4 }
 const ICON_SPRING = { type: 'spring' as const, bounce: 0.2, duration: 0.4 }
 const LOGO_SPRING = { type: 'spring' as const, bounce: 0.2, duration: 0.4 }
 
+// Premium smooth scroll — easeOutExpo for buttery deceleration
+function smoothScrollTo(targetY: number, duration = 900) {
+  const startY = window.scrollY
+  const diff = targetY - startY
+  if (Math.abs(diff) < 2) return
+  const start = performance.now()
+  const easeOutExpo = (t: number) => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t)
+  const step = () => {
+    const elapsed = performance.now() - start
+    const progress = Math.min(elapsed / duration, 1)
+    window.scrollTo(0, startY + diff * easeOutExpo(progress))
+    if (progress < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+
 interface StaggerItem {
   el: HTMLElement
   delay: number
@@ -81,6 +97,7 @@ export default function Nav() {
       const navRect = topbarEl.getBoundingClientRect()
       const navProbeY = navRect.top + navRect.height / 2
       const isOverHero = heroRect.top <= navProbeY && heroRect.bottom > navProbeY
+      // Hero has light/green video → dark text over hero, light text elsewhere
       setNavDark(isOverHero)
     }
 
@@ -254,7 +271,18 @@ export default function Nav() {
     }
   }, [menuOpen, openMenu, closeMenu])
 
-  const handleLinkClick = useCallback(() => {
+  const handleLinkClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If it's an anchor link, handle scroll
+    if (href.startsWith('#')) {
+      e.preventDefault()
+      const targetId = href.slice(1)
+      const el = document.getElementById(targetId)
+      if (el) {
+        // Set scroll target BEFORE closing menu — body unlock will land us there
+        // offsetTop is reliable even when body is position:fixed
+        scrollPosRef.current = Math.max(0, el.offsetTop - 80)
+      }
+    }
     setMenuOpen(false)
     closeMenu()
   }, [closeMenu])
@@ -296,7 +324,7 @@ export default function Nav() {
     { label: 'Hem', href: '#', badge: null },
     { label: 'Om oss', href: '#', badge: null },
     { label: 'Tjänster', href: '#', badge: null },
-    { label: 'Case', href: '#', badge: '[12]' },
+    { label: 'Case', href: '#cases-section', badge: '[5]' },
     { label: 'Kontakt', href: '#', badge: null },
   ]
 
@@ -315,8 +343,8 @@ export default function Nav() {
         .en-topbar>*{pointer-events:auto}
         .en-col{flex:1 0 0;display:flex;align-items:center;min-width:0}
         .en-logo{display:flex;align-items:flex-start;gap:1px;cursor:pointer;text-decoration:none}
-        .en-logo-text{font-family:var(--font-display),sans-serif;font-size:20px;font-weight:700;letter-spacing:-.6px;line-height:16px;color:#fff}
-        .en-logo-c{font-family:var(--font-body),sans-serif;font-size:11px;font-weight:400;letter-spacing:-.44px;line-height:9.9px;color:#fff}
+        .en-logo-text{font-family:var(--font-display),sans-serif;font-size:20px;font-weight:800;letter-spacing:-.6px;line-height:16px;color:#fff}
+        .en-logo-c{font-family:var(--font-display),sans-serif;font-size:5px;font-weight:800;letter-spacing:0;line-height:1;color:#fff;vertical-align:super;margin-left:1px}
         .en-location{display:flex;align-items:center;gap:8px}
         .en-location-city{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:#fff;white-space:nowrap}
         .en-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184);white-space:nowrap}
@@ -351,8 +379,8 @@ export default function Nav() {
         .en-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999;display:flex;pointer-events:none;transform:translateX(100%);visibility:hidden}
         .en-overlay.is-open{pointer-events:auto;visibility:visible}
         .en-overlay-left{flex:0 0 calc(100% - 600px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:transparent}
-        .en-overlay-logo-text{font-family:var(--font-display),sans-serif;font-size:64px;font-weight:700;letter-spacing:-1.92px;line-height:51.2px;color:#fff;text-transform:uppercase}
-        .en-overlay-logo-c{font-family:var(--font-body),sans-serif;font-size:14.6px;font-weight:400;letter-spacing:-.438px;line-height:11.68px;color:#fff;margin-top:4px}
+        .en-overlay-logo-text{font-family:var(--font-display),sans-serif;font-size:64px;font-weight:800;letter-spacing:-1.92px;line-height:51.2px;color:#fff;text-transform:uppercase}
+        .en-overlay-logo-c{font-family:var(--font-display),sans-serif;font-size:14px;font-weight:800;letter-spacing:0;line-height:1;color:#fff;margin-top:4px}
         .en-overlay-tagline{font-family:var(--font-body),sans-serif;font-size:17.5px;font-weight:600;letter-spacing:-.35px;line-height:26.25px;color:rgb(184,184,184)}
 
         /* ═══ RIGHT PANEL ═══ */
@@ -394,7 +422,7 @@ export default function Nav() {
         .en-popup{position:absolute;bottom:calc(100% + 8px);left:0;width:186px;background:rgb(22,22,22);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:0;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s cubic-bezier(.25,1,.5,1),transform .25s cubic-bezier(.25,1,.5,1);z-index:10;overflow:hidden}
         .en-popup.is-open{opacity:1;transform:translateY(0);pointer-events:auto}
         .en-popup-header{padding:14px 16px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
-        .en-popup-brand{font-family:var(--font-body),sans-serif;font-size:13px;font-weight:700;letter-spacing:-.3px;color:#fff;line-height:1.2}
+        .en-popup-brand{font-family:var(--font-display),sans-serif;font-size:13px;font-weight:800;letter-spacing:-.3px;color:#fff;line-height:1.2}
         .en-popup-sub{font-family:var(--font-body),sans-serif;font-size:11px;font-weight:500;color:rgb(140,140,140);margin-top:2px;line-height:1.3}
         .en-popup-actions{padding:6px 0}
         .en-popup-action{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;transition:background .15s ease;color:rgb(200,200,200);font-family:var(--font-body),sans-serif;font-size:12px;font-weight:500;letter-spacing:-.2px}
@@ -436,8 +464,24 @@ export default function Nav() {
         .en-hamburger.nav-dark .en-line{background:#000}
 
         /* Smooth transition between dark/light */
-        .en-logo-text,.en-logo-c,.en-location-city,.en-location-time,.en-work-text span,.en-work-count{transition:color .3s ease}
+        .en-logo-text,.en-logo-c,.en-location-city,.en-location-time,.en-work-count{transition:color .3s ease}
+        .en-work-text span{transition:color .3s ease,transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
         .en-line{transition:background .3s ease,width .4s cubic-bezier(.25,1,.5,1),left .4s cubic-bezier(.25,1,.5,1)}
+
+        /* ═══ DESKTOP 25% LARGER LOGO + HAMBURGER ═══ */
+        @media(min-width:810px){
+          .en-logo-text{font-size:31.25px;line-height:25px;letter-spacing:-.94px}
+          .en-logo-c{font-size:7.8px}
+          .en-ham-btn{width:56px;height:19px}
+          .en-line-top{width:28px}
+          .en-line-mid{width:56px;top:8px}
+          .en-line-bot{width:28px;top:16px;left:28px}
+          .en-ham-btn:not(.is-open):hover .en-line-top{width:56px}
+          .en-ham-btn:not(.is-open):hover .en-line-bot{width:56px;left:0}
+          .en-ham-btn.is-open{width:37px;height:37px}
+          .en-ham-btn.is-open .en-line-top{width:37px;top:17px}
+          .en-ham-btn.is-open .en-line-mid{width:37px;top:17px}
+        }
 
         /* ═══ MOBILE ═══ */
         @media(max-width:809px){
@@ -463,7 +507,7 @@ export default function Nav() {
       <nav ref={topbarRef} className={`en-topbar${navDark && !menuOpen ? ' nav-dark' : ''}`}>
         <div className="en-col en-col--left">
           <a href="#" className="en-logo">
-            <span className="en-logo-text">ETEYA</span>
+            <span className="en-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
             <span className="en-logo-c">©</span>
           </a>
         </div>
@@ -474,12 +518,20 @@ export default function Nav() {
           </div>
         </div>
         <div className="en-col en-col--right" style={{ justifyContent: 'flex-start' }}>
-          <a href="#" className="en-work">
+          <a
+            href="#cases-section"
+            className="en-work"
+            onClick={(e) => {
+              e.preventDefault()
+              const el = document.getElementById('cases-section')
+              if (el) smoothScrollTo(el.offsetTop - 80)
+            }}
+          >
             <div className="en-work-text">
               <span>Våra case</span>
               <span className="en-hover">Våra case</span>
             </div>
-            <span className="en-work-count">[12]</span>
+            <span className="en-work-count">[5]</span>
           </a>
         </div>
       </nav>
@@ -509,7 +561,7 @@ export default function Nav() {
         {/* Left panel */}
         <div className="en-overlay-left">
           <div className="en-overlay-logo" ref={logoRef} style={{ display: 'flex', alignItems: 'flex-start', gap: '2px' }}>
-            <span className="en-overlay-logo-text">ETEYA</span>
+            <span className="en-overlay-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
             <span className="en-overlay-logo-c">©</span>
           </div>
           <p className="en-overlay-tagline" ref={taglineRef}>AI consulting that actually delivers.</p>
@@ -527,7 +579,7 @@ export default function Nav() {
                   href={link.href}
                   className="en-menu-link"
                   ref={el => { linkRefs.current[i] = el }}
-                  onClick={handleLinkClick}
+                  onClick={(e) => handleLinkClick(e, link.href)}
                 >
                   <div className="en-menu-link-wrap">
                     <span className="en-menu-link-text">{link.label}</span>
@@ -559,7 +611,7 @@ export default function Nav() {
                     onMouseLeave={closePopup}
                   >
                     <div className="en-popup-header">
-                      <div className="en-popup-brand">ETEYA©</div>
+                      <div className="en-popup-brand" style={{position:'relative'}}><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A<span style={{fontSize:'5px',position:'absolute',top:'1px',marginLeft:'1px'}}>©</span></div>
                       <div className="en-popup-sub">Hör av dig</div>
                     </div>
                     <div className="en-popup-actions">

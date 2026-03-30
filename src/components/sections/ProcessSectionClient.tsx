@@ -2,17 +2,17 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Button from '@/components/ui/Button'
+
 
 gsap.registerPlugin(ScrollTrigger)
 
 const CSS = `
-  .process-wrap { background: #000; font-family: 'DM Sans', sans-serif; }
+  .process-wrap { background: #000; font-family: var(--font-body), 'Geist', sans-serif; --ff-section: 'DM Sans', sans-serif; }
 
   /* ── SECTION HEADER ── */
   .process-section-header {
     background: #000;
-    padding: 80px 60px 48px;
+    padding: 120px 60px 48px;
   }
   .process-section-header h2 {
     font-family: 'DM Sans', sans-serif;
@@ -124,7 +124,7 @@ const CSS = `
   /* ── TEXT-BLOCK ── */
   .process-text-block {
     background: #000;
-    padding: 86.4px 0;
+    padding: 86px 0;
   }
   .process-text-block-inner {
     display: flex;
@@ -139,22 +139,28 @@ const CSS = `
     align-self: stretch;
   }
   .process-col-num-sticky {
-    position: relative;
-    top: 0;
+    position: sticky;
+    top: calc(var(--nav-height) + var(--nav-gap));
+    min-height: 1px;
   }
   .process-big-num {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-nums), 'Inter', sans-serif;
     font-weight: 400;
+    font-variant-numeric: tabular-nums;
     color: #fff;
     line-height: 0.8;
     white-space: nowrap;
     user-select: none;
-    font-size: 10px;
-    display: inline-block;
+    font-size: 350px;
+    letter-spacing: -0.03em;
+    position: absolute;
+    right: 0;
+    top: -21px;
+    pointer-events: none;
   }
   .process-col-content {
     flex: 1;
-    padding: 0 13.45px;
+    padding: 0 13.45px 0 50px;
   }
   .process-content-heading {
     font-family: 'DM Sans', sans-serif;
@@ -167,8 +173,8 @@ const CSS = `
     margin-bottom: 7px;
   }
   .process-content-body {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
+    font-family: var(--font-body), 'Geist', sans-serif;
+    font-size: 18px;
     line-height: 28px;
     color: rgba(255,255,255,0.6);
     margin-bottom: 0;
@@ -176,7 +182,7 @@ const CSS = `
   }
   .process-list {
     list-style: none;
-    margin-top: 32px;
+    margin-top: 120px;
     padding: 0;
   }
   .process-list-item {
@@ -185,7 +191,7 @@ const CSS = `
     justify-content: space-between;
     padding: 22px 0;
     border-top: 1px solid rgba(255,255,255,0.12);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-body), 'Geist', sans-serif;
     font-size: 16px;
     font-weight: 400;
     color: #fff;
@@ -203,10 +209,10 @@ const CSS = `
   }
   .process-list-item:hover::after { width: 100%; }
   .process-item-num {
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.9);
   }
   .process-btn {
     display: inline-flex;
@@ -215,7 +221,7 @@ const CSS = `
     padding: 0 28px;
     background: #C8FF00;
     color: #000;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-body), 'Geist', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -228,10 +234,11 @@ const CSS = `
   .process-btn:hover { background: #d4ff33; }
 
   @media (max-width: 768px) {
-    .process-text-block { padding: 23.4px 0; }
+    .process-text-block { padding: 48px 0; }
     .process-col-num { display: none; }
     .process-col-content { padding: 0 16px; }
     .process-content-heading { font-size: 31.2px; line-height: 31.2px; }
+    .process-list { margin-top: 56px; }
   }
 `
 
@@ -252,8 +259,8 @@ const BLOCKS: Block[] = [
     label: '// 01',
     scramble: 'KARTLÄGGNING',
     bgImage: '/images/process/eteya-brain.png',
-    heading: 'VI HITTAR PENGARNA DU LÄMNAR KVAR.',
-    body: 'Innan vi bygger något lyssnar vi. Vi kartlägger dina flöden, hittar flaskhalsarna och identifierar exakt var AI gör störst skillnad — mätt i tid och pengar.',
+    heading: 'ERT TEAM JOBBAR FÖR HÅRT. PÅ FEL SAKER.',
+    body: 'De flesta företag lägger 60% av sin tid på saker AI gör bättre. Vi hittar vilka.',
     list: [
       { label: 'Processanalys', num: '01' },
       { label: 'Automationspotential', num: '02' },
@@ -270,13 +277,14 @@ const BLOCKS: Block[] = [
     label: '// 02',
     scramble: 'PRODUKTION',
     bgImage: '/images/process/eteya-arm.png',
-    heading: 'INGA PLANER. BARA RESULTAT.',
-    body: 'Vi levererar fungerande system, inte presentationer. Från godkänd brief till live-agent på veckor — integrerat i dina befintliga verktyg.',
+    heading: 'FRÅN BRIEF TILL LIVE PÅ VECKOR.',
+    body: 'Vi bygger fungerande system, inte presentationer. Integrerat i era verktyg, testat med riktig data.',
     list: [
-      { label: 'Agentbygge och konfiguration', num: '01' },
-      { label: 'Systemintegrationer', num: '02' },
-      { label: 'Testning i verklig miljö', num: '03' },
-      { label: 'Iteration och finjustering', num: '04' },
+      { label: 'MVP på 1 vecka', num: '01' },
+      { label: 'Systemintegration', num: '02' },
+      { label: 'Testning med riktig data', num: '03' },
+      { label: 'Finjustering & kvalitetssäkring', num: '04' },
+      { label: 'Teamonboarding', num: '05' },
     ],
     btnText: 'Boka ett samtal',
   },
@@ -285,13 +293,14 @@ const BLOCKS: Block[] = [
     label: '// 03',
     scramble: 'EXPANSION',
     bgImage: '/images/process/eteya-figure.png',
-    heading: 'VI STANNAR KVAR. DU FORTSÄTTER VÄXA.',
-    body: 'En agent är en start. Vi optimerar kontinuerligt, bygger nya automationer när du växer och rapporterar resultat varje månad.',
+    heading: 'VARJE VECKA SMARTARE. VARJE MÅNAD STARKARE.',
+    body: 'Era AI-agenter blir bättre med tiden. Vi optimerar, skalar och hittar nya möjligheter — utan att ni behöver lyfta ett finger.',
     list: [
-      { label: 'Löpande optimering', num: '01' },
-      { label: 'Ny automatisering', num: '02' },
-      { label: 'Support och underhåll', num: '03' },
-      { label: 'ROI-rapportering', num: '04' },
+      { label: 'Veckovis optimering', num: '01' },
+      { label: 'Nya automationer', num: '02' },
+      { label: 'Skalning till nya processer', num: '03' },
+      { label: 'Proaktiv rådgivning', num: '04' },
+      { label: 'Månadsrapport med ROI', num: '05' },
     ],
     btnText: 'Boka ett samtal',
   },
@@ -309,21 +318,7 @@ export default function ProcessSectionClient() {
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([])
 
   useEffect(() => {
-    // ── fitNum — fyller 95% av col-num ──
-    function fitNum(el: HTMLSpanElement) {
-      const col = el.closest('.process-col-num') as HTMLElement | null
-      if (!col || col.clientWidth < 10) return
-      const targetW = col.clientWidth * 0.95
-      let lo = 50, hi = 800
-      el.style.whiteSpace = 'nowrap'
-      for (let i = 0; i < 20; i++) {
-        const mid = Math.round((lo + hi) / 2)
-        el.style.fontSize = mid + 'px'
-        if (el.scrollWidth < targetW) lo = mid
-        else hi = mid
-      }
-      el.style.fontSize = lo + 'px'
-    }
+    // Fast font-size — alla siffror identiska, högerställda via CSS
 
     // ── scramble ──
     function scramble(el: HTMLElement, finalText: string, duration = 1000, delay = 200) {
@@ -382,14 +377,7 @@ export default function ProcessSectionClient() {
 
     const cleanups: (() => void)[] = []
 
-    // Kör fitNum efter att fonten är laddad — annars mäts alla siffror fel
-    const runAll = () => {
-      BLOCKS.forEach((_, i) => {
-        const bn = bigNumRefs.current[i]
-        if (bn) fitNum(bn)
-      })
-    }
-    document.fonts.ready.then(runAll)
+    // Font-size sätts via CSS — ingen JS behövs
 
     BLOCKS.forEach((_, i) => {
       const section = sectionRefs.current[i]
@@ -408,12 +396,7 @@ export default function ProcessSectionClient() {
         if (cleanup) cleanups.push(cleanup)
       }
 
-      // fitNum
-      fitNum(bigNum)
-      const ro = new ResizeObserver(() => fitNum(bigNum))
-      const colNum = bigNum.closest('.process-col-num') as HTMLElement
-      if (colNum) ro.observe(colNum)
-      cleanups.push(() => ro.disconnect())
+      // Font-size hanteras av CSS
 
       // Bygg letter-reveal markup
       const text = heading.dataset.scramble || ''
@@ -442,23 +425,11 @@ export default function ProcessSectionClient() {
       })
 
       // Opacity scrub på siffra
-      gsap.fromTo(bigNum, { opacity: 0.7 }, { opacity: 1, ease: 'none',
+      gsap.fromTo(bigNum, { opacity: 0.9 }, { opacity: 1, ease: 'none',
         scrollTrigger: { trigger: textBlock, start: 'top bottom', end: 'bottom top', scrub: true }
       })
 
-      // GSAP-driven sticky — simulerar position:sticky som Lenis bryter
-      // Siffran följer med nedåt tills kolumnen tar slut
-      const stickyEl = bigNumRefs.current[i]!.closest('.process-col-num-sticky') as HTMLElement
-      if (stickyEl) {
-        ScrollTrigger.create({
-          trigger: textBlock,
-          start: 'top 145px',
-          end: () => `+=${textBlock.offsetHeight - stickyEl.offsetHeight - 145}`,
-          pin: stickyEl,
-          pinSpacing: false,
-          scrub: false,
-        })
-      }
+      // Sticky hanteras av CSS position:sticky — ingen GSAP pin behövs
 
       // Rubrik blur-reveal
       const contentH = textBlock.querySelector<HTMLElement>('.process-content-heading')
@@ -466,11 +437,14 @@ export default function ProcessSectionClient() {
       const listItems = textBlock.querySelectorAll<HTMLElement>('.process-list-item')
       const list = textBlock.querySelector<HTMLElement>('.process-list')
 
+      const isMobile = window.innerWidth <= 768
+      const triggerStart = isMobile ? 'top 85%' : 'top bottom'
+
       if (contentH) {
         gsap.fromTo(contentH,
           { opacity: 0, y: 20, filter: 'blur(12px)' },
           { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: contentH, start: 'top bottom', once: true }
+            scrollTrigger: { trigger: contentH, start: triggerStart, once: true }
           }
         )
       }
@@ -478,7 +452,7 @@ export default function ProcessSectionClient() {
         gsap.fromTo(contentB,
           { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-            scrollTrigger: { trigger: contentB, start: 'top bottom', once: true }
+            scrollTrigger: { trigger: contentB, start: triggerStart, once: true }
           }
         )
       }
@@ -486,11 +460,46 @@ export default function ProcessSectionClient() {
         gsap.fromTo(listItems,
           { opacity: 0, y: 14 },
           { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.08,
-            scrollTrigger: { trigger: list, start: 'top bottom', once: true }
+            scrollTrigger: { trigger: list, start: triggerStart, once: true }
           }
         )
       }
     })
+
+    // ── Sticky calibration: räkna ut exakt min-height per block ──
+    // Siffrans botten ska aligna med sista listpunktens botten när sticky släpper.
+    // Formel: min-height = parentHeight - stickyTop - (lastItemBottom - colNumTop) + numVisualBottom
+    // numVisualBottom = stickyTop + absoluteTop(-21) + renderedHeight(~280)
+    function calibrateSticky() {
+      const stickyTop = 86 // calc(60 + 26)
+      document.querySelectorAll('.process-text-block').forEach(block => {
+        const colNum = block.querySelector<HTMLElement>('.process-col-num')
+        const sticky = block.querySelector<HTMLElement>('.process-col-num-sticky')
+        const num = block.querySelector<HTMLElement>('.process-big-num')
+        const colContent = block.querySelector<HTMLElement>('.process-col-content')
+        if (!colNum || !sticky || !num || !colContent) return
+
+        const listItems = colContent.querySelectorAll<HTMLElement>('.process-list-item')
+        const lastItem = listItems[listItems.length - 1]
+        if (!lastItem) return
+
+        const colNumRect = colNum.getBoundingClientRect()
+        const lastItemRect = lastItem.getBoundingClientRect()
+        const numRect = num.getBoundingClientRect()
+
+        const colNumAbsBottom = colNumRect.bottom + window.scrollY
+        const lastItemAbsBottom = lastItemRect.bottom + window.scrollY
+        const numRenderedHeight = numRect.height
+        const numAbsoluteTop = -21 // from CSS
+        const numVisualBottom = stickyTop + numAbsoluteTop + numRenderedHeight
+
+        const idealHeight = colNumAbsBottom - stickyTop - lastItemAbsBottom + numVisualBottom
+        if (idealHeight > 0) sticky.style.minHeight = `${Math.round(idealHeight)}px`
+      })
+    }
+    // Kör efter render + fonts loaded
+    const calibrateTimer = setTimeout(calibrateSticky, 200)
+    cleanups.push(() => clearTimeout(calibrateTimer))
 
     // Refresh ScrollTrigger efter att alla element renderats
     const refreshTimer = setTimeout(() => {
@@ -579,9 +588,7 @@ export default function ProcessSectionClient() {
                     </li>
                   ))}
                 </ul>
-                <div style={{ marginTop: 40 }}>
-                  <Button variant="primary" href="#contact">{block.btnText}</Button>
-                </div>
+
               </div>
             </div>
           </div>

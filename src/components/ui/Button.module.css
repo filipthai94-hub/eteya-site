@@ -76,7 +76,7 @@
   color: #fff;
   font-size: 14px;
   font-weight: 500;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-family: var(--font-body), 'Geist', sans-serif;
   position: relative;
   z-index: 1;
   background: radial-gradient(ellipse 160px 100px at 75% -20%, #2a2a2a, #0f1111 70%);
@@ -134,7 +134,7 @@
   color: rgba(255,255,255,0.45);
   font-size: 14px;
   font-weight: 500;
-  font-family: var(--font-body), 'DM Sans', sans-serif;
+  font-family: var(--font-body), 'Geist', sans-serif;
   padding: 13px 26px;
   border-radius: 16px;
   display: inline-flex;

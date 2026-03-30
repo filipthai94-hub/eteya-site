@@ -210,7 +210,11 @@ export default function StatsClient({
         .bd-stat-row {
           background: #C8FF00;
           padding: 2vw 0;
+          position: relative;
+          overflow: hidden;
         }
+
+        /* Bayer dither canvas handles the background */
 
         .bd-milestone-container {
           position: relative;

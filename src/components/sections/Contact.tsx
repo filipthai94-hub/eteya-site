@@ -32,7 +32,7 @@ export default function Contact() {
   const [state, action] = useActionState(sendContactEmail, null)
 
   return (
-    <section id="contact" style={{ backgroundColor: C.bg, paddingTop: '7rem', paddingBottom: '7rem', borderTop: `1px solid ${C.border}` }}>
+    <section id="contact" style={{ fontFamily: 'var(--font-body)', backgroundColor: C.bg, paddingTop: '7.5rem', paddingBottom: '7.5rem', borderTop: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
           {/* Left */}

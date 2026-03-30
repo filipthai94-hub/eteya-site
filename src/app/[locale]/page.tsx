@@ -6,9 +6,10 @@ import ProcessSection from '@/components/sections/ProcessSection'
 import JoinTheBest from '@/components/sections/JoinTheBestClient'
 import Cases from '@/components/sections/CasesClient'
 import Stats from '@/components/sections/Stats'
-import CTASection from '@/components/sections/CTASection'
-import Contact from '@/components/sections/Contact'
-import Footer from '@/components/layout/Footer'
+import FAQSection from '@/components/sections/FAQSection'
+import ROICalculatorSection from '@/components/sections/ROICalculatorSection'
+import TechStack from '@/components/sections/TechStack'
+import FooterCTAClient from '@/components/sections/FooterCTAClient'
 
 export default function Home() {
   return (
@@ -17,13 +18,14 @@ export default function Home() {
       <Hero />
       <MarqueeSection />
       <Services />
-      <ProcessSection />
       <JoinTheBest />
       <Cases />
+      <ROICalculatorSection />
       <Stats />
-      <CTASection />
-      <Contact />
-      <Footer />
+      <ProcessSection />
+      <TechStack />
+      <FAQSection />
+      <FooterCTAClient />
     </main>
   )
 }

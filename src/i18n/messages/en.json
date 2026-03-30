@@ -99,10 +99,38 @@
       }
     ]
   },
-  "cta": {
-    "headline": "Ready to put AI to work?",
-    "body": "Tell us about your business. We'll show you how AI can take it to the next level.",
-    "button": "Start a conversation"
+  "faq": {
+    "heading": "Frequently<br/>asked questions",
+    "items": [
+      {
+        "question": "How long does it take to implement an AI solution?",
+        "answer": "Most projects go live within 2–6 weeks. We start with a brief discovery phase to understand your needs and then build iteratively. You will see progress after the first week."
+      },
+      {
+        "question": "Do we need technical expertise in-house?",
+        "answer": "No. We handle the entire technical implementation. All we need from you is knowledge about your business and access to the systems that need to be integrated."
+      },
+      {
+        "question": "What does an AI agent or automation cost?",
+        "answer": "Every project is unique and pricing depends on complexity and scope. We always provide a fixed quote after the discovery phase so you know exactly what it costs before we start."
+      },
+      {
+        "question": "How do you handle our data and GDPR?",
+        "answer": "We are fully GDPR compliant. All data is processed within the EU, we sign DPAs when needed and build with privacy by design. Your data is never used to train AI models."
+      },
+      {
+        "question": "What tools and platforms do you work with?",
+        "answer": "We are tool-agnostic and choose what fits best. Common tools include OpenAI, Anthropic, Make, n8n and custom builds with Python, TypeScript and modern AI frameworks."
+      },
+      {
+        "question": "How do we know if AI is right for our business?",
+        "answer": "If you have repetitive processes, handle large volumes of data or want to scale without hiring, there is likely an AI solution that saves you time and money. Book a free call and we will do a quick assessment."
+      },
+      {
+        "question": "Do you offer support after delivery?",
+        "answer": "Yes. Every project includes documentation and handover. We also offer ongoing support, optimization and further development so the solution grows with your business."
+      }
+    ]
   },
   "contact": {
     "section_label": "Contact",
@@ -136,5 +164,57 @@
     "org_nr": "Reg. no. 559552-7390",
     "address": "Solhagsvägen 26A, 691 52 Karlskoga, Sweden",
     "copyright": "© 2026 Eteya Consulting AB"
+  },
+  "calculator": {
+    "heading": "Calculate your<br/>AI savings",
+    "subheading": "See how much time and money your company can save with AI and automation.",
+    "processLabel": "Which processes take up your time today?",
+    "processHint": "The percentage shows how much of the work can be automated with AI, based on industry data.",
+    "hoursLabel": "Hours per week",
+    "teamLabel": "Number of people performing these tasks",
+    "teamHint": "How many people on your team work on the selected processes?",
+    "teamUnit": "people",
+    "processes": {
+      "customerService": {
+        "name": "Customer service & support"
+      },
+      "invoicing": {
+        "name": "Invoicing & accounting"
+      },
+      "leads": {
+        "name": "Lead management & CRM"
+      },
+      "reporting": {
+        "name": "Reporting & data"
+      },
+      "email": {
+        "name": "Email & case management"
+      },
+      "scheduling": {
+        "name": "Scheduling & coordination"
+      }
+    },
+    "results": {
+      "title": "Your estimated savings",
+      "currentCostLabel": "Current cost",
+      "withAiLabel": "With AI automation",
+      "perYear": "/year",
+      "annual": "Annual savings",
+      "hoursSaved": "hours saved per year",
+      "fteEquivalent": "Equivalent to {{count}} full-time employees",
+      "perProcess": "Savings per process"
+    },
+    "transparency": {
+      "toggle": "How we calculate",
+      "hourlyRate": "Based on the latest SCB salary statistics (350 SEK/h fully loaded employer cost)",
+      "automationRates": "Automation rates from McKinsey & Forrester (conservative estimates)",
+      "yearOneFactor": "Year 1 factor: 65% of theoretical savings (includes ramp-up and implementation)",
+      "range": "Results shown as a range (±15%) to reflect real-world variation"
+    },
+    "cta": {
+      "primary": "Book a strategy meeting",
+      "secondary": "Get a detailed report"
+    },
+    "empty": "Select at least one process above to see your savings"
   }
 }

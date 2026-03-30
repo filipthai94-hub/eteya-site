@@ -99,10 +99,38 @@
       }
     ]
   },
-  "cta": {
-    "headline": "Redo att sätta AI i arbete?",
-    "body": "Berätta om din verksamhet. Vi berättar hur AI kan ta den till nästa nivå.",
-    "button": "Starta ett samtal"
+  "faq": {
+    "heading": "Vanliga frågor<br/>och svar",
+    "items": [
+      {
+        "question": "Hur lång tid tar det att implementera en AI-lösning?",
+        "answer": "De flesta projekt går live inom 2–6 veckor. Vi börjar med en kort kartläggning för att förstå era behov och bygger sedan iterativt. Ni ser framsteg redan efter första veckan."
+      },
+      {
+        "question": "Behöver vi teknisk kunskap internt?",
+        "answer": "Nej. Vi hanterar hela den tekniska implementationen. Det enda vi behöver från er är kunskap om er verksamhet och tillgång till de system som ska integreras."
+      },
+      {
+        "question": "Vad kostar en AI-agent eller automation?",
+        "answer": "Varje projekt är unikt och priset beror på komplexitet och omfattning. Vi ger alltid en fast offert efter kartläggningen så att ni vet exakt vad det kostar innan vi börjar."
+      },
+      {
+        "question": "Hur hanterar ni vår data och GDPR?",
+        "answer": "Vi följer GDPR fullt ut. All data behandlas inom EU, vi signerar DPA vid behov och bygger med privacy by design. Era data används aldrig för att träna AI-modeller."
+      },
+      {
+        "question": "Vilka verktyg och plattformar jobbar ni med?",
+        "answer": "Vi är verktygsoberoende och väljer det som passar bäst. Vanliga verktyg inkluderar OpenAI, Anthropic, Make, n8n samt custom-byggen med Python, TypeScript och moderna AI-ramverk."
+      },
+      {
+        "question": "Hur vet vi om AI passar vår verksamhet?",
+        "answer": "Om ni har repetitiva processer, hanterar stora volymer data eller vill skala utan att anställa finns det troligen en AI-lösning som sparar tid och pengar. Boka ett kostnadsfritt samtal så gör vi en snabb bedömning."
+      },
+      {
+        "question": "Erbjuder ni support efter leverans?",
+        "answer": "Ja. Varje projekt inkluderar dokumentation och överlämning. Vi erbjuder även löpande support, optimering och vidareutveckling så att lösningen växer med er verksamhet."
+      }
+    ]
   },
   "contact": {
     "section_label": "Kontakt",
@@ -136,5 +164,57 @@
     "org_nr": "Org.nr 559552-7390",
     "address": "Solhagsvägen 26A, 691 52 Karlskoga",
     "copyright": "© 2026 Eteya Consulting AB"
+  },
+  "calculator": {
+    "heading": "Räkna på din<br/>AI-besparing",
+    "subheading": "Se hur mycket tid och pengar ert företag kan spara med AI och automation.",
+    "processLabel": "Vilka processer lägger ni tid på idag?",
+    "processHint": "Procenten visar hur stor del av arbetet som kan automatiseras med AI, baserat på branschdata.",
+    "hoursLabel": "Timmar per vecka",
+    "teamLabel": "Antal personer som utför dessa uppgifter",
+    "teamHint": "Hur många i ert team jobbar med de valda processerna?",
+    "teamUnit": "personer",
+    "processes": {
+      "customerService": {
+        "name": "Kundtjänst & support"
+      },
+      "invoicing": {
+        "name": "Fakturor & bokföring"
+      },
+      "leads": {
+        "name": "Lead-hantering & CRM"
+      },
+      "reporting": {
+        "name": "Rapportering & data"
+      },
+      "email": {
+        "name": "E-post & ärendehantering"
+      },
+      "scheduling": {
+        "name": "Schemaläggning"
+      }
+    },
+    "results": {
+      "title": "Er beräknade besparing",
+      "currentCostLabel": "Nuvarande kostnad",
+      "withAiLabel": "Med AI-automation",
+      "perYear": "/år",
+      "annual": "Årlig besparing",
+      "hoursSaved": "timmar sparade per år",
+      "fteEquivalent": "Motsvarar {{count}} heltidstjänster",
+      "perProcess": "Besparing per process"
+    },
+    "transparency": {
+      "toggle": "Så räknar vi",
+      "hourlyRate": "Baserat på SCB:s senaste lönestatistik (350 kr/h fullt belastad arbetsgivarkostnad)",
+      "automationRates": "Automationsgrader från McKinsey & Forrester (konservativa estimat)",
+      "yearOneFactor": "År 1-faktor: 65% av teoretisk besparing (inkluderar ramp-up och implementation)",
+      "range": "Resultaten visas som ett intervall (±15%) för att spegla verklig variation"
+    },
+    "cta": {
+      "primary": "Boka ett strategimöte",
+      "secondary": "Få en detaljerad rapport"
+    },
+    "empty": "Välj minst en process ovan för att se din besparing"
   }
 }

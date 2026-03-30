@@ -10,14 +10,21 @@
   --accent: #6EE7B7;
   --border: #222222;
   --font-display: 'Barlow Condensed', sans-serif;
+  --nav-height: 60px;
+  --nav-gap: 26px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
+html {
   background-color: var(--bg);
   color: var(--primary);
   overflow-x: hidden;
+}
+body {
+  background-color: var(--bg);
+  color: var(--primary);
+  overflow: visible;
 }
 
 body {

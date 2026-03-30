@@ -146,7 +146,9 @@ function getCaseFrame(slug: string) {
 
 const CSS = `
   #cases-section {
+    scroll-margin-top: 80px;
     --ff: 'DM Sans', sans-serif;
+    --ff-body: var(--font-body), 'Geist', sans-serif;
     --clr-white: #FFFFFF;
     --clr-light-black: #0F0F0F;
     --rgb-white: 255,255,255;
@@ -157,12 +159,12 @@ const CSS = `
     --text-sm: clamp(0.875rem, 0.65rem + 0.5vw, 1rem);
     --sp-block: clamp(3rem, 1rem + 4vw, 5rem);
     background: #000;
-    padding: 80px 62px;
-    font-family: var(--ff);
+    padding: 120px 62px;
+    font-family: var(--ff-body);
     color: #fff;
   }
   @media (max-width: 991px) {
-    #cases-section { padding: 40px 0; }
+    #cases-section { padding: 64px 0; }
     #cases-section .cases-heading { font-size: 44px !important; margin-bottom: 32px !important; padding-left: 1rem; }
   }
   #cases-section * { box-sizing: border-box; }
@@ -318,14 +320,14 @@ const CSS = `
     color: rgba(var(--rgb-white), 0.5);
   }
 
-  /* Right col: branded media */
+  /* Right col: branded media
+     SIMPLIFIED: Single gradient with wider tonal spread (18 RGB steps)
+     to avoid 8-bit color banding. No stacked overlays. */
   #cases-section .case-media {
     position: relative; overflow: hidden;
     border-radius: 12px; aspect-ratio: 16/10;
     border: 1px solid rgba(var(--rgb-white), 0.08);
-    background:
-      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
-      linear-gradient(180deg, #141414 0%, #0D0D0D 100%);
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
     display: flex; align-items: center; justify-content: center;
     padding: 2rem;
   }
@@ -336,39 +338,12 @@ const CSS = `
     filter: brightness(1.05) contrast(1.04);
   }
 
-  /* Telestore media v3 */
+  /* Case media: clean single-layer design — no stacked pseudo gradients
+     One subtle inset shadow for depth, no banding-prone overlays */
   #cases-section .case-media--telestore {
     padding: 0;
-    border: 1px solid rgba(255,255,255,0.16);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08);
-  }
-  #cases-section .case-media--telestore::before,
-  #cases-section .case-media--telestore::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-  }
-  #cases-section .case-media--telestore.frame-glass::before {
-    background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 24%, rgba(255,255,255,0) 52%);
-    mix-blend-mode: screen;
-    opacity: 0.62;
-  }
-  #cases-section .case-media--telestore.frame-glass::after {
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), inset 0 -40px 72px rgba(0,0,0,0.18);
-    border-radius: 12px;
-  }
-  #cases-section .case-media--telestore.frame-luxury::before {
-    background: radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 60%);
-    opacity: 0.42;
-  }
-  #cases-section .case-media--telestore.frame-luxury::after {
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,0.06),
-      inset 0 26px 52px rgba(255,255,255,0.03),
-      inset 0 -58px 96px rgba(0,0,0,0.46);
-    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.34), inset 0 -48px 80px rgba(0,0,0,0.35);
   }
   #cases-section .ts-brand,
   #cases-section .ts-live {
@@ -384,9 +359,8 @@ const CSS = `
     padding: 2rem;
     opacity: 1;
     transform: scale(1);
-    background:
-      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
-      linear-gradient(180deg, #101010 0%, #070707 100%);
+    /* Single clean gradient — wider tonal spread, no stacking */
+    background: linear-gradient(180deg, #181818 0%, #080808 100%);
     transition: opacity 420ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: 0ms;
     will-change: opacity, transform;
@@ -410,9 +384,7 @@ const CSS = `
     opacity: 0;
     transform: translate3d(0, 0.65rem, 0) scale(1.03);
     transition: opacity 320ms ease;
-    background:
-      radial-gradient(120% 120% at 20% 10%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 40%),
-      linear-gradient(180deg, #141414 0%, #0D0D0D 100%);
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
     --ts-pan-end: -260px;
     --ts-scale: 1.22;
     --ts-duration: 7.4s;

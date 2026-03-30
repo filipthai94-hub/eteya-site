@@ -22,7 +22,7 @@ const ROW2_LOGOS: LogoItem[] = [
 const CSS = `
   /* ═══ JOIN THE BEST SECTION ═══ */
   .join-section {
-    padding-top: 200px;
+    padding-top: 120px;
     background: #000;
   }
 
@@ -34,10 +34,10 @@ const CSS = `
 
   .join-heading {
     font-family: 'DM Sans', sans-serif;
-    font-size: 64px;
-    font-weight: 400;
-    line-height: 64px;
-    letter-spacing: normal;
+    font-size: 98px;
+    font-weight: 500;
+    line-height: 98px;
+    letter-spacing: -1.96px;
     text-transform: uppercase;
     color: #fff;
     margin: 0 0 80px 0;
@@ -104,11 +104,12 @@ const CSS = `
     transition: opacity 0.25s ease;
   }
 
-  .join-item--telestore .join-logo { width: 78%; max-height: 22%; }
-  .join-item--sannegarden .join-logo { width: 84%; max-height: 48%; }
-  .join-item--trainwithalbert .join-logo { width: 76%; max-height: 42%; }
-  .join-item--mbflytt .join-logo { width: 70%; max-height: 28%; }
-  .join-item--nordicrank .join-logo { width: 72%; max-height: 24%; }
+  /* Normalized visual weight — alla logotyper ~samma upplevda storlek i cirkeln */
+  .join-item--telestore .join-logo { width: 88%; max-height: 34%; }
+  .join-item--sannegarden .join-logo { width: 68%; max-height: 40%; }
+  .join-item--trainwithalbert .join-logo { width: 62%; max-height: 38%; }
+  .join-item--mbflytt .join-logo { width: 75%; max-height: 34%; }
+  .join-item--nordicrank .join-logo { width: 86%; max-height: 34%; }
 
   @media (hover: hover) and (pointer: fine) {
     .join-item:hover .join-logo { opacity: 1; }
@@ -122,11 +123,11 @@ const CSS = `
     .join-marquee-line { height: 125px; }
     .join-item { width: 125px; height: 125px; padding: 20px; }
     .join-logo { width: 74px; max-height: 36px; }
-    .join-item--telestore .join-logo { width: 84px; max-height: 20px; }
-    .join-item--sannegarden .join-logo { width: 92px; max-height: 52px; }
-    .join-item--trainwithalbert .join-logo { width: 86px; max-height: 44px; }
-    .join-item--mbflytt .join-logo { width: 78px; max-height: 30px; }
-    .join-item--nordicrank .join-logo { width: 80px; max-height: 24px; }
+    .join-item--telestore .join-logo { width: 100px; max-height: 34px; }
+    .join-item--sannegarden .join-logo { width: 78px; max-height: 40px; }
+    .join-item--trainwithalbert .join-logo { width: 72px; max-height: 38px; }
+    .join-item--mbflytt .join-logo { width: 86px; max-height: 34px; }
+    .join-item--nordicrank .join-logo { width: 98px; max-height: 34px; }
   }
 
   @media (min-width: 2100px) {

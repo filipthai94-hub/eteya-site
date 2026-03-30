@@ -2,12 +2,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { C } from '@/lib/colors'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function HeroClient({
-  role, headline, subheadline, ctaPrimary, ctaSecondary,
+  role, headline, subheadline,
 }: {
   role: string; headline: string; subheadline: string
   ctaPrimary: string; ctaSecondary: string; scrollLabel: string
@@ -16,16 +15,22 @@ export default function HeroClient({
   const roleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const imgRef = useRef<HTMLDivElement>(null)
+  const videoWrapRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  // Intro animation
   useEffect(() => {
     const letters = nameRef.current?.querySelectorAll('[data-letter]')
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
 
+    tl.fromTo(videoWrapRef.current,
+      { opacity: 0, scale: 1.05 },
+      { opacity: 1, scale: 1, duration: 1.4 },
+    )
     tl.fromTo(roleRef.current,
       { y: 16, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6 }
+      { y: 0, opacity: 1, duration: 0.6 },
+      '-=1.0'
     )
     if (letters && letters.length > 0) {
       tl.fromTo(letters,
@@ -34,11 +39,6 @@ export default function HeroClient({
         '-=0.4'
       )
     }
-    tl.fromTo(imgRef.current,
-      { opacity: 0, scale: 1.03 },
-      { opacity: 1, scale: 1, duration: 1.2 },
-      '-=0.8'
-    )
     tl.fromTo(bottomRef.current,
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 },
@@ -50,6 +50,13 @@ export default function HeroClient({
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
+
+    // Respect prefers-reduced-motion
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (motionQuery.matches) {
+      video.pause()
+      return
+    }
 
     const tryPlay = () => {
       video.muted = true
@@ -85,134 +92,159 @@ export default function HeroClient({
   }, [])
 
   const letters = headline.split('')
+  // Optical kerning: E(+0.04) T(+0.02) E(+0.02) Y(-0.06) A
+  const kerning: Record<number, string> = { 0: '0.04em', 1: '0.02em', 2: '0.02em', 3: '-0.06em' }
 
   return (
     <section ref={heroRef} id="hero" style={{
       position: 'relative',
       height: '100vh',
       minHeight: '600px',
-      backgroundColor: C.accent,
-      display: 'grid',
-      gridTemplateRows: 'auto 1fr auto',
+      backgroundColor: '#0a0a0a',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
       overflow: 'hidden',
     }}>
-      {/* Mobilvy-CSS — rör INTE desktop */}
       <style>{`
+        /* Fullscreen video background */
+        .hero-video-wrap {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          overflow: hidden;
+          opacity: 0;
+        }
+        .hero-video-wrap video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+
+        /* No overlay needed — video is light/green, text is dark */
+        .hero-overlay {
+          display: none;
+        }
+
+
+
+        /* Centered text content */
+        .hero-content {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 0 2rem;
+        }
+
+        .hero-role {
+          font-family: var(--font-body);
+          font-weight: 500;
+          font-size: clamp(0.7rem, 1vw, 0.85rem);
+          text-transform: uppercase;
+          letter-spacing: 0.18em;
+          color: rgba(0, 0, 0, 0.55);
+          margin-bottom: 0.75rem;
+          opacity: 0;
+        }
+
+        .hero-eteya {
+          font-family: var(--font-display);
+          font-weight: 800;
+          font-size: clamp(5rem, 12vw, 14rem);
+          color: #000;
+          text-transform: uppercase;
+          line-height: 0.85;
+          letter-spacing: -0.04em;
+          white-space: nowrap;
+          display: flex;
+          justify-content: center;
+        }
+
+        .hero-bottom {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 10;
+          padding: 2rem 2.5rem 3.5rem;
+          display: flex;
+          justify-content: center;
+          opacity: 0;
+        }
+
+        .hero-subheadline {
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          color: rgba(0, 0, 0, 0.75);
+          max-width: 36rem;
+          line-height: 1.2;
+          text-align: center;
+        }
+
+        /* Desktop: slight zoom to crop Veo watermark from corners */
+        @media (min-width: 768px) {
+          .hero-video-wrap video {
+            transform: scale(1.04);
+          }
+        }
+
+        /* Mobile responsive video source swap via JS */
         @media (max-width: 767px) {
-          .hero-video-wrap { left: 0 !important; right: 0 !important; width: 100% !important; }
-          .hero-gradient { display: none !important; }
-          .hero-name-wrap { align-items: center !important; justify-content: center !important; padding: 0 1.5rem !important; }
-          .hero-name-wrap > div { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; width: 100% !important; }
-          .hero-eteya { font-size: 28vw !important; justify-content: center !important; }
-          .hero-subheadline { text-align: center !important; }
+          .hero-eteya {
+            font-size: 22vw !important;
+          }
+          .hero-bottom {
+            padding: 1.5rem 1.5rem 2.5rem;
+          }
         }
       `}</style>
 
-      {/* Hero video — loopande, muted, täcker höger */}
-      <div ref={imgRef} className="hero-video-wrap" style={{
-        position: 'absolute',
-        right: 0, top: 0, bottom: 0,
-        width: '55%',
-        zIndex: 1,
-        overflow: 'hidden',
-        opacity: 0,
-      }}>
+      {/* Fullscreen video background */}
+      <div ref={videoWrapRef} className="hero-video-wrap">
         <video
           ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="auto"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-          }}
+          preload="metadata"
+          poster="/hero-poster.webp"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         >
-          <source src="/hero-muted.mp4" type="video/mp4" />
-          <source src="/hero.mp4" type="video/mp4" />
+          <source src="/hero-desktop.mp4" type="video/mp4" />
         </video>
-        {/* Fix 4: mjukare gradient, bredare fade-zon */}
-        <div className="hero-gradient" style={{
-          position: 'absolute', inset: 0,
-          background: `linear-gradient(to right, ${C.accent} 0%, rgba(200,255,0,0.85) 15%, rgba(200,255,0,0.4) 40%, rgba(200,255,0,0) 70%)`,
-          pointerEvents: 'none',
-        }} />
       </div>
 
-      {/* RAD 1 — Nav spacer */}
-      <div style={{ height: '4.5rem' }} />
+      {/* Overlay for text readability */}
+      <div className="hero-overlay" />
 
-      {/* RAD 2 — Namn vertikalt centrerat (Fix 1) */}
-      <div ref={nameRef} className="hero-name-wrap" style={{
-        position: 'relative', zIndex: 10,
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 0 0 2.5rem',
-        overflow: 'visible',
-      }}>
-        <div>
-          {/* Fix 2: role-text mindre och diskret */}
-          <div ref={roleRef} style={{
-            marginBottom: '0.75rem',
-            opacity: 0,
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 500,
-              fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              color: 'rgba(0,0,0,0.55)',
-            }}>{role}</span>
-          </div>
-
-          {/* GIGANTISKT NAMN */}
-          <div className="hero-eteya" style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: 'clamp(5rem, 12vw, 14rem)',
-            color: C.black,
-            textTransform: 'uppercase',
-            lineHeight: 0.85,
-            letterSpacing: '-0.04em',
-            whiteSpace: 'nowrap',
-            display: 'flex',
-          }}>
+      {/* Centered content */}
+      <div className="hero-content">
+        <div ref={roleRef} className="hero-role">
+          {role}
+        </div>
+        <div ref={nameRef}>
+          <h1 className="hero-eteya">
             {letters.map((letter, i) => (
-              <span key={i} data-letter style={{ display: 'inline-block', opacity: 0 }}>
+              <span key={i} data-letter style={{ display: 'inline-block', opacity: 0, marginRight: kerning[i] || undefined }}>
                 {letter}
               </span>
             ))}
-          </div>
+          </h1>
         </div>
       </div>
 
-      {/* RAD 3 — Bottom bar */}
-      <div ref={bottomRef} style={{
-        position: 'relative', zIndex: 10,
-        padding: '2rem 2.5rem 3.5rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap',
-        gap: '2rem',
-        opacity: 0,
-      }}>
-        <div>
-          <p className="hero-subheadline" style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-            color: 'rgba(0,0,0,0.75)',
-            maxWidth: '36rem',
-            lineHeight: 1.2,
-          }}>{subheadline}</p>
-        </div>
+      {/* Bottom subheadline */}
+      <div ref={bottomRef} className="hero-bottom">
+        <p className="hero-subheadline">{subheadline}</p>
       </div>
     </section>
   )
