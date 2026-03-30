@@ -599,12 +599,9 @@ export default function ROICalculatorClient() {
           background: rgba(255,255,255,0.035);
           border: 1px solid rgba(128,128,128,0.25);
           border-radius: 10px;
-          padding: 28px 40px 24px;
+          padding: 32px 48px 28px;
           text-align: center;
-          margin-bottom: 12px;
-          max-width: 720px;
-          margin-left: auto;
-          margin-right: auto;
+          margin-bottom: 16px;
         }
 
         .roi-annual-caption {
@@ -664,16 +661,16 @@ export default function ROICalculatorClient() {
         .roi-metrics-bar {
           display: flex;
           align-items: center;
-          justify-content: space-evenly;
+          justify-content: center;
           gap: 0;
           padding: 16px 0 8px;
-          width: 100%;
         }
 
         .roi-metric {
           display: flex;
           align-items: baseline;
           gap: 8px;
+          padding: 0 32px;
         }
 
         .roi-metric-value {
@@ -930,7 +927,6 @@ export default function ROICalculatorClient() {
 
           .roi-hero-zone {
             padding: 20px 16px 18px;
-            max-width: none;
           }
 
           .roi-annual-value {
