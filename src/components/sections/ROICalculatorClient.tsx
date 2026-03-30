@@ -600,7 +600,7 @@ export default function ROICalculatorClient() {
           border-radius: 10px;
           padding: 28px 32px 24px;
           text-align: center;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
         }
 
         .roi-annual-caption {
@@ -630,7 +630,7 @@ export default function ROICalculatorClient() {
           justify-content: center;
           gap: 10px;
           font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(20px, 2.5vw, 28px);
+          font-size: clamp(22px, 2.8vw, 32px);
           line-height: 1;
           letter-spacing: -0.02em;
           color: #fff;
@@ -686,7 +686,7 @@ export default function ROICalculatorClient() {
           font-family: var(--font-body), sans-serif;
           font-size: 14px;
           line-height: 1.4;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.6);
         }
 
         .roi-metric-divider {
@@ -1091,14 +1091,13 @@ export default function ROICalculatorClient() {
             itemRefs.current[2] = element
           }}
         >
-          <h3 className="roi-results-title">{copy.results.title}</h3>
-
           {totals.breakdown.length === 0 ? (
             <p className="roi-results-empty">{copy.empty}</p>
           ) : (
             <div className="roi-results-grid">
               {/* ZON 1: Hero panel */}
               <div className="roi-hero-zone">
+                <h3 className="roi-results-title">{copy.results.title}</h3>
                 <span className="roi-annual-caption">{copy.results.annual}</span>
                 <p className="roi-annual-value">
                   {formatCurrency(animatedLow, locale)} – {formatCurrency(animatedHigh, locale)}
