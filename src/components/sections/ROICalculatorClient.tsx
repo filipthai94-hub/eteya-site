@@ -663,8 +663,7 @@ export default function ROICalculatorClient() {
           align-items: center;
           justify-content: center;
           gap: 0;
-          padding: 16px 0 20px;
-          border-bottom: 1px solid rgba(128,128,128,0.12);
+          padding: 16px 0 8px;
         }
 
         .roi-metric {
@@ -741,9 +740,8 @@ export default function ROICalculatorClient() {
         }
 
         .roi-transparency {
-          margin-top: 8px;
-          border-top: 1px solid rgba(128,128,128,0.12);
-          padding-top: 14px;
+          margin-top: 4px;
+          padding-top: 8px;
         }
 
         .roi-transparency-button {
