@@ -597,6 +597,7 @@ export default function ROICalculatorClient() {
         /* === ZON 1: Hero panel === */
         .roi-hero-zone {
           background: rgba(255,255,255,0.035);
+          border: 1px solid rgba(128,128,128,0.25);
           border-radius: 10px;
           padding: 28px 32px 24px;
           text-align: center;
