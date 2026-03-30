@@ -599,7 +599,7 @@ export default function ROICalculatorClient() {
           background: rgba(255,255,255,0.035);
           border: 1px solid rgba(128,128,128,0.25);
           border-radius: 10px;
-          padding: 28px 32px 24px;
+          padding: 28px 40px 24px;
           text-align: center;
           margin-bottom: 12px;
         }
@@ -629,7 +629,7 @@ export default function ROICalculatorClient() {
           display: flex;
           align-items: baseline;
           justify-content: center;
-          gap: 10px;
+          gap: 24px;
           font-family: var(--font-display, 'Barlow Condensed', sans-serif);
           font-size: clamp(22px, 2.8vw, 32px);
           line-height: 1;
@@ -670,7 +670,7 @@ export default function ROICalculatorClient() {
           display: flex;
           align-items: baseline;
           gap: 8px;
-          padding: 0 28px;
+          padding: 0 40px;
         }
 
         .roi-metric-value {
