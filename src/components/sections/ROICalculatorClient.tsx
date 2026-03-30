@@ -641,7 +641,9 @@ export default function ROICalculatorClient() {
         .roi-annual-row {
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 6px;
+          text-align: center;
+          padding: 8px 0 24px;
         }
 
         .roi-annual-caption {
@@ -655,41 +657,32 @@ export default function ROICalculatorClient() {
         .roi-annual-value {
           margin: 0;
           font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(36px, 4vw, 56px);
+          font-size: clamp(40px, 5vw, 64px);
           line-height: 1;
           letter-spacing: -0.04em;
           text-transform: uppercase;
           color: #fff;
+          font-weight: 600;
         }
 
-        .roi-stats {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 14px;
-        }
-
-        .roi-stat-box {
-          border: 1px solid rgba(128,128,128,0.25);
-          border-radius: 10px;
-          background: rgba(255,255,255,0.02);
-          padding: 18px;
-        }
-
-        .roi-stat-value {
-          display: block;
-          margin-bottom: 8px;
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: 34px;
-          line-height: 1;
-          letter-spacing: -0.03em;
-          color: #fff;
-        }
-
-        .roi-stat-label {
+        .roi-hours-line {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 14px 0 4px;
           font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.5;
+          font-size: 16px;
+          line-height: 1.4;
           color: rgba(255,255,255,0.6);
+        }
+
+        .roi-hours-value {
+          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+          font-size: 28px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #fff;
         }
 
         .roi-breakdown {
@@ -793,7 +786,8 @@ export default function ROICalculatorClient() {
           display: flex;
           flex-wrap: wrap;
           gap: 14px 18px;
-          padding-top: 8px;
+          justify-content: center;
+          padding-top: 28px;
         }
 
         .roi-cta-primary,
@@ -1076,6 +1070,15 @@ export default function ROICalculatorClient() {
             <p className="roi-results-empty">{copy.empty}</p>
           ) : (
             <div className="roi-results-grid">
+              {/* 1. HERO — Annual savings (dominant) */}
+              <div className="roi-annual-row">
+                <span className="roi-annual-caption">{copy.results.annual}</span>
+                <p className="roi-annual-value">
+                  {formatCurrency(animatedLow, locale)} – {formatCurrency(animatedHigh, locale)}
+                </p>
+              </div>
+
+              {/* 2. Before/After comparison */}
               <div className="roi-comparison-row">
                 <div className="roi-comparison-item">
                   <span className="roi-comparison-label">{copy.results.currentCostLabel}</span>
@@ -1088,76 +1091,60 @@ export default function ROICalculatorClient() {
                 </div>
               </div>
 
-              <div className="roi-annual-row">
-                <span className="roi-annual-caption">{copy.results.annual}</span>
-                <p className="roi-annual-value">
-                  {formatCurrency(animatedLow, locale)} – {formatCurrency(animatedHigh, locale)}
-                </p>
+              {/* 3. Hours saved — one clean line */}
+              <div className="roi-hours-line">
+                <span className="roi-hours-value">{formatHours(animatedHours, locale)}</span>
+                <span>{copy.results.hoursSaved}</span>
               </div>
 
-              <div className="roi-stats">
-                <div className="roi-stat-box">
-                  <span className="roi-stat-value">{formatHours(animatedHours, locale)}</span>
-                  <span className="roi-stat-label">{copy.results.hoursSaved}</span>
-                </div>
-                <div className="roi-stat-box">
-                  <span className="roi-stat-value">
-                    {animatedFte.toLocaleString(locale === 'sv' ? 'sv-SE' : 'en-US', {
-                      minimumFractionDigits: 1,
-                      maximumFractionDigits: 1,
-                    })}
-                  </span>
-                  <span className="roi-stat-label">{formatFteLabel(copy.results.fteEquivalent, animatedFte, locale)}</span>
-                </div>
+              {/* 4. CTA — the ONE next step */}
+              <div className="roi-cta-row">
+                <button type="button" className="roi-cta-primary" onClick={handleOpenContact}>
+                  {copy.cta.primary}
+                </button>
+                <button type="button" className="roi-cta-ghost" onClick={handleOpenContact}>
+                  {copy.cta.secondary}
+                </button>
               </div>
 
-              <div className="roi-breakdown">
-                <h4 className="roi-card-title" style={{ marginBottom: 0 }}>{copy.results.perProcess}</h4>
-                {totals.breakdown.map((item) => (
-                  <div className="roi-breakdown-item" key={item.key}>
-                    <span className="roi-breakdown-label">{copy.processes[item.key].name}</span>
-                    <span className="roi-breakdown-value">{formatCurrency(item.savings, locale)}</span>
-                    <div className="roi-breakdown-bar" aria-hidden="true">
-                      <div
-                        className="roi-breakdown-fill"
-                        style={{ width: `${(item.savings / maxBreakdownValue) * 100}%` }}
-                      />
+              {/* 5. Transparency + breakdown (tucked under CTA) */}
+              <div className="roi-transparency">
+                <button
+                  type="button"
+                  className="roi-transparency-button"
+                  onClick={() => setShowTransparency((current) => !current)}
+                  aria-expanded={showTransparency}
+                  aria-controls="roi-transparency-content"
+                >
+                  <span>{copy.transparency.toggle}</span>
+                  <span className="roi-transparency-icon" aria-hidden="true">+</span>
+                </button>
+                {showTransparency && (
+                  <div id="roi-transparency-content" className="roi-transparency-content">
+                    <div className="roi-breakdown">
+                      <h4 className="roi-card-title" style={{ marginBottom: 0 }}>{copy.results.perProcess}</h4>
+                      {totals.breakdown.map((item) => (
+                        <div className="roi-breakdown-item" key={item.key}>
+                          <span className="roi-breakdown-label">{copy.processes[item.key].name}</span>
+                          <span className="roi-breakdown-value">{formatCurrency(item.savings, locale)}</span>
+                          <div className="roi-breakdown-bar" aria-hidden="true">
+                            <div
+                              className="roi-breakdown-fill"
+                              style={{ width: `${(item.savings / maxBreakdownValue) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                    <p className="roi-transparency-text">{copy.transparency.hourlyRate}</p>
+                    <p className="roi-transparency-text">{copy.transparency.automationRates}</p>
+                    <p className="roi-transparency-text">{copy.transparency.yearOneFactor}</p>
+                    <p className="roi-transparency-text">{copy.transparency.range}</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}
-
-          <div className="roi-transparency">
-            <button
-              type="button"
-              className="roi-transparency-button"
-              onClick={() => setShowTransparency((current) => !current)}
-              aria-expanded={showTransparency}
-              aria-controls="roi-transparency-content"
-            >
-              <span>{copy.transparency.toggle}</span>
-              <span className="roi-transparency-icon" aria-hidden="true">+</span>
-            </button>
-            {showTransparency && (
-              <div id="roi-transparency-content" className="roi-transparency-content">
-                <p className="roi-transparency-text">{copy.transparency.hourlyRate}</p>
-                <p className="roi-transparency-text">{copy.transparency.automationRates}</p>
-                <p className="roi-transparency-text">{copy.transparency.yearOneFactor}</p>
-                <p className="roi-transparency-text">{copy.transparency.range}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="roi-cta-row">
-            <button type="button" className="roi-cta-primary" onClick={handleOpenContact}>
-              {copy.cta.primary}
-            </button>
-            <button type="button" className="roi-cta-ghost" onClick={handleOpenContact}>
-              {copy.cta.secondary}
-            </button>
-          </div>
         </div>
       </div>
     </section>
