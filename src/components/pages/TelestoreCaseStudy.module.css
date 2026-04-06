@@ -172,7 +172,6 @@
   text-transform: uppercase;
   margin-bottom: 68px;
   margin-top: 0;
-  padding-left: 62px;
   width: 100%;
 }
 
@@ -185,7 +184,13 @@
 /* ── STATS TITLE WRAPPER ─────────────────────────────────────── */
 .statsTitleWrapper {
   width: 100%;
-  padding: 120px 62px 40px 62px;
+  padding: 0 62px;
+}
+
+@media (max-width: 767px) {
+  .statsTitleWrapper {
+    padding: 0 24px;
+  }
 }
 
 .statsMetaWrapper {
@@ -197,7 +202,6 @@
   font-family: 'Geist', 'Geist Fallback', sans-serif;
   max-width: 780px;
   width: 100%;
-  padding: 0 62px;  /* Läsbarhet på små skärmar */
 }
 
 
