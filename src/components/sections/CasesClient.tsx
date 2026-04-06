@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import Button from '@/components/ui/Button'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
 interface CaseData {
@@ -451,15 +451,18 @@ const CSS = `
     }
   }
 
-  /* CTA row */
-  #cases-section .case-cta {
-    grid-column: 1 / -1;
-    display: flex; align-items: center; gap: 1rem;
-    padding-top: 0.25rem;
+  /* Right column wrapper — flex column, CTA sticks to bottom */
+  #cases-section .case-right {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
-  #cases-section .case-cta .btn {
-    background: transparent !important;
-    border: 1px solid rgba(var(--rgb-white), 0.22) !important;
+  #cases-section .case-right .case-media {
+    flex: 1;
+  }
+  #cases-section .case-cta {
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 1.5rem;
   }
 
   /* Mobile — pixel-match Redstone */
@@ -493,6 +496,8 @@ const CSS = `
     }
     #cases-section .case-metric { font-size: 1.375rem; }
     #cases-section .case-results li { font-size: 1rem; }
+    #cases-section .case-right { display: contents; }
+    #cases-section .case-cta { justify-content: flex-start; }
   }
 `
 
@@ -703,30 +708,34 @@ export default function CasesClient() {
                     <cite>— {c.quoteAuthor}</cite>
                   </blockquote>
                 </div>
-                {hasLiveCaseMedia(c.slug) ? (
-                  <div className={`case-media case-media--telestore ${getCaseFrame(c.slug)}`} data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
-                    <div className="ts-brand">
-                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" />
-                    </div>
-                    <div className="ts-live">
-                      <div className="ts-track">
-                        <img
-                          className="ts-shot"
-                          src={getLiveCaseShot(c.slug)}
-                          alt={`${c.name} startsida`}
-                          loading="eager"
-                          decoding="async"
-                        />
+                <div className="case-right">
+                  {hasLiveCaseMedia(c.slug) ? (
+                    <div className={`case-media case-media--telestore ${getCaseFrame(c.slug)}`} data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
+                      <div className="ts-brand">
+                        <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" width={200} height={60} />
+                      </div>
+                      <div className="ts-live">
+                        <div className="ts-track">
+                          <img
+                            className="ts-shot"
+                            src={getLiveCaseShot(c.slug)}
+                            alt={`${c.name} startsida`}
+                            loading="eager"
+                            decoding="async"
+                            width={1200}
+                            height={800}
+                          />
+                        </div>
                       </div>
                     </div>
+                  ) : (
+                    <div className="case-media">
+                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" width={200} height={60} />
+                    </div>
+                  )}
+                  <div className="case-cta">
+                    <ButtonSwap label="Läs hela caset" arrow href={`/cases/${c.slug}`} size="lg" variant="white" />
                   </div>
-                ) : (
-                  <div className="case-media">
-                    <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" />
-                  </div>
-                )}
-                <div className="case-cta">
-                  <Button variant="small" href={`/cases/${c.slug}`}>Läs hela caset</Button>
                 </div>
               </div>
             </div>

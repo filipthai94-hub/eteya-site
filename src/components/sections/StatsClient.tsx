@@ -228,7 +228,7 @@ export default function StatsClient({
         }
 
         .bd-col-spacer { flex: 0 0 15.3%; }
-        .bd-col-number { flex: 0 0 30.7%; }
+        .bd-col-number { flex: 0 0 50%; }
         .bd-col-label  { flex: 0 0 30.7%; }
 
         .bd-number-wrap {
@@ -248,7 +248,7 @@ export default function StatsClient({
           top: 0;
           right: 0;
           transform: translateX(43px);
-          font-size: 62px;
+          font-size: 48px;  /* Minskad från 62px för att få plats med långa suffix */
           line-height: 34px;
           font-weight: 600;
         }

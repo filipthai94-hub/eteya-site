@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import MotionProvider from '@/components/animations/MotionProvider'
+import TransitionProvider from '@/components/animations/TransitionProvider'
 import type { Metadata } from 'next'
 
 const BASE_URL = 'https://eteya.ai'
@@ -67,7 +68,10 @@ export default async function LocaleLayout({
   const messages = await getMessages()
   return (
     <NextIntlClientProvider messages={messages}>
-      <MotionProvider>{children}</MotionProvider>
+      <TransitionProvider>
+        <div className="page-transition-overlay" aria-hidden="true" />
+        <MotionProvider>{children}</MotionProvider>
+      </TransitionProvider>
     </NextIntlClientProvider>
   )
 }

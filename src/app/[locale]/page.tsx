@@ -13,19 +13,21 @@ import FooterCTAClient from '@/components/sections/FooterCTAClient'
 
 export default function Home() {
   return (
-    <main>
-      <Nav />
+    <>
+    <Nav />
+    <main className="page-content">
       <Hero />
       <MarqueeSection />
       <Services />
+      <Stats />
+      <ROICalculatorSection />
       <JoinTheBest />
       <Cases />
-      <ROICalculatorSection />
-      <Stats />
       <ProcessSection />
       <TechStack />
       <FAQSection />
       <FooterCTAClient />
     </main>
+    </>
   )
 }

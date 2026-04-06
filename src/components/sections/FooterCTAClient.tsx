@@ -460,7 +460,7 @@ export default function FooterCTAClient() {
           background: #080808;
           width: 100%;
           position: relative;
-          padding-top: 80px;
+          padding-top: 120px;
         }
         .fcta-container {
           width: 93%;

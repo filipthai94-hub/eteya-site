@@ -215,7 +215,7 @@ export default function HeroClient({
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster="/hero-poster.webp"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         >

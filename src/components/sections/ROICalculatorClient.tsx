@@ -6,6 +6,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import sv from '@/i18n/messages/sv.json'
 import en from '@/i18n/messages/en.json'
+import ButtonStripe from '@/components/ui/ButtonStripe'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,6 +40,7 @@ type MessageFile = {
       automationRates: string
       yearOneFactor: string
       range: string
+      disclaimer: string
     }
     cta: {
       primary: string
@@ -143,7 +146,7 @@ function formatFteLabel(template: string, value: number, locale: string) {
 
 function getSliderBackground(value: number, min: number, max: number) {
   const percentage = ((value - min) / (max - min)) * 100
-  return `linear-gradient(90deg, rgba(200,255,0,0.7) 0%, rgba(200,255,0,0.7) ${percentage}%, #222222 ${percentage}%, #222222 100%)`
+  return `linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) ${percentage}%, #222222 ${percentage}%, #222222 100%)`
 }
 
 export default function ROICalculatorClient() {
@@ -216,6 +219,7 @@ export default function ROICalculatorClient() {
     return () => ctx.revert()
   }, [])
 
+
   const totals = useMemo<Totals>(() => {
     const breakdown = PROCESS_CONFIG.filter(({ key }) => selectedProcesses[key]).map(({ key, rate }) => {
       const hours = hoursPerProcess[key]
@@ -265,11 +269,47 @@ export default function ROICalculatorClient() {
 
   return (
     <section className="roi-section" id="roi-calculator" ref={sectionRef}>
+      {/* Mörk overlay */}
+      <div className="roi-aurora-overlay" aria-hidden="true" />
       <style>{`
         .roi-section {
           padding: 120px 62px;
-          background: #080808;
+          background: #080808 url('/roi-bg2.jpg') -56px 100px / 2560px 1440px no-repeat;
           color: #f5f5f5;
+          position: relative;
+        }
+
+        .roi-bg-layer {
+          display: none;
+        }
+
+        .roi-bg-img {
+          display: none;
+        }
+
+        /* ── Aurora background — feTurbulence-teknik ── */
+
+        /* Wrap: täcker hela sektionen, z-index under innehåll */
+        .roi-aurora-wrap {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        /* Overlay — dimmar bakgrundsbilden, glassmorphism-korten syns tydligt */
+        .roi-aurora-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background: rgba(8, 8, 8, 0);
+        }
+
+        .roi-container, .roi-results-glow-wrap {
+          position: relative;
+          z-index: 1;
         }
 
         .roi-container {
@@ -315,12 +355,14 @@ export default function ROICalculatorClient() {
         }
 
         .roi-card {
-          border: 1px solid rgba(128,128,128,0.4);
-          background: rgba(17,17,17,0.5);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          border-radius: 10px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(15,15,20,0.72);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border-radius: 20px;
           padding: 32px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.35),
+                      inset 0 1px 0 rgba(255,255,255,0.12);
         }
 
         .roi-card-title {
@@ -332,6 +374,7 @@ export default function ROICalculatorClient() {
           letter-spacing: 0.08em;
           text-transform: uppercase;
           color: rgba(255,255,255,0.6);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-card-hint {
@@ -340,6 +383,7 @@ export default function ROICalculatorClient() {
           font-size: 14px;
           line-height: 1.5;
           color: rgba(255,255,255,0.45);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-process-list {
@@ -349,8 +393,8 @@ export default function ROICalculatorClient() {
         }
 
         .roi-process-item {
-          border: 1px solid rgba(128,128,128,0.25);
-          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.10);
+          background: rgba(0,0,0,0.35);
           border-radius: 10px;
           padding: 18px 18px 16px;
           cursor: pointer;
@@ -359,8 +403,8 @@ export default function ROICalculatorClient() {
         }
 
         .roi-process-item:hover {
-          border-color: rgba(128,128,128,0.4);
-          background: rgba(255,255,255,0.04);
+          border-color: rgba(255,255,255,0.18);
+          background: rgba(255,255,255,0.05);
         }
 
         .roi-process-item:focus-visible {
@@ -389,7 +433,7 @@ export default function ROICalculatorClient() {
           height: 20px;
           border-radius: 999px;
           background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.12);
           flex-shrink: 0;
           transition: background 200ms ease, border-color 200ms ease;
         }
@@ -407,13 +451,13 @@ export default function ROICalculatorClient() {
         }
 
         .roi-process-item.is-active .roi-toggle {
-          background: rgba(200,255,0,0.7);
-          border-color: rgba(200,255,0,0.5);
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(255,255,255,0.5);
         }
 
         .roi-process-item.is-active .roi-toggle::after {
           transform: translateX(16px);
-          background: #fff;
+          background: #080808;
         }
 
         .roi-process-texts {
@@ -430,6 +474,7 @@ export default function ROICalculatorClient() {
           font-size: 18px;
           line-height: 1.4;
           color: #f5f5f5;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-process-rate {
@@ -438,6 +483,7 @@ export default function ROICalculatorClient() {
           line-height: 1.4;
           color: rgba(255,255,255,0.6);
           white-space: nowrap;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-slider-wrap {
@@ -456,6 +502,8 @@ export default function ROICalculatorClient() {
           font-family: var(--font-body), sans-serif;
           font-size: 16px;
           line-height: 1.4;
+          color: rgba(255,255,255,0.7);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-slider-value {
@@ -470,7 +518,7 @@ export default function ROICalculatorClient() {
           height: 4px;
           border-radius: 999px;
           outline: none;
-          background: #222222;
+          background: rgba(255,255,255,0.15);
           cursor: pointer;
           transition: background 200ms ease;
         }
@@ -513,61 +561,16 @@ export default function ROICalculatorClient() {
           box-shadow: 0 0 0 5px rgba(255,255,255,0.12);
         }
 
-        /* Results card — full width + glow */
+        /* Results card — full width, clean */
         .roi-results-glow-wrap {
           position: relative;
           margin-top: 40px;
           border-radius: 12px;
         }
 
-        .roi-results-glow {
-          position: absolute;
-          inset: -1px;
-          border-radius: 12px;
-          pointer-events: none;
-          z-index: 0;
-          will-change: opacity, transform;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .roi-results-glow::before {
-          content: '';
-          display: block;
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 70%, rgba(255,255,255,0) 100%);
-          height: 300%;
-          width: 120px;
-          position: absolute;
-          animation: roi-sweep-rotate 8s linear infinite;
-          z-index: 0;
-          top: 50%;
-          transform-origin: top center;
-        }
-
-        .roi-results-glow::after {
-          content: '';
-          position: absolute;
-          inset: 2px;
-          border-radius: 10px;
-          background: #0f0f0f;
-          z-index: 1;
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
-        }
-
-        @keyframes roi-sweep-rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
         .roi-results-card {
           position: relative;
-          z-index: 2;
-          border: 1px solid rgba(128,128,128,0.4);
-          background: rgba(17,17,17,0.5);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          z-index: 1;
         }
 
         .roi-results-title {
@@ -579,6 +582,7 @@ export default function ROICalculatorClient() {
           text-transform: uppercase;
           color: rgba(255,255,255,0.6);
           text-align: center;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-results-empty {
@@ -596,12 +600,14 @@ export default function ROICalculatorClient() {
 
         /* === ZON 1: Hero panel === */
         .roi-hero-zone {
-          background: rgba(255,255,255,0.035);
-          border: 1px solid rgba(128,128,128,0.25);
-          border-radius: 10px;
+          background: rgba(15,15,20,0.72);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 20px;
           padding: 32px 48px 28px;
           text-align: center;
           margin-bottom: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.35),
+                      inset 0 1px 0 rgba(255,255,255,0.12);
         }
 
         .roi-annual-caption {
@@ -612,6 +618,7 @@ export default function ROICalculatorClient() {
           text-transform: uppercase;
           letter-spacing: 0.08em;
           margin-bottom: 8px;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-annual-value {
@@ -623,6 +630,7 @@ export default function ROICalculatorClient() {
           text-transform: uppercase;
           color: #fff;
           font-weight: 600;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-before-after {
@@ -635,6 +643,7 @@ export default function ROICalculatorClient() {
           line-height: 1;
           letter-spacing: -0.02em;
           color: #fff;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-old-cost {
@@ -680,6 +689,7 @@ export default function ROICalculatorClient() {
           letter-spacing: -0.02em;
           line-height: 1;
           color: #fff;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-metric-label {
@@ -687,6 +697,7 @@ export default function ROICalculatorClient() {
           font-size: 14px;
           line-height: 1.4;
           color: rgba(255,255,255,0.6);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-metric-divider {
@@ -713,6 +724,7 @@ export default function ROICalculatorClient() {
           font-size: 14px;
           line-height: 1.4;
           color: rgba(255,255,255,0.84);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-breakdown-value {
@@ -721,6 +733,7 @@ export default function ROICalculatorClient() {
           line-height: 1.4;
           color: #fff;
           text-align: right;
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-breakdown-bar {
@@ -775,7 +788,7 @@ export default function ROICalculatorClient() {
 
         .roi-transparency-icon {
           font-size: 18px;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.45);
           transition: transform 200ms ease;
         }
 
@@ -795,6 +808,7 @@ export default function ROICalculatorClient() {
           font-size: 14px;
           line-height: 1.6;
           color: rgba(255,255,255,0.6);
+          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
         }
 
         .roi-cta-row {
@@ -815,8 +829,8 @@ export default function ROICalculatorClient() {
         }
 
         .roi-cta-primary {
-          border: 1px solid #c8ff00;
-          background: #c8ff00;
+          border: 1px solid #ffffff;
+          background: #ffffff;
           color: #080808;
           border-radius: 999px;
           padding: 0 22px;
@@ -1082,7 +1096,6 @@ export default function ROICalculatorClient() {
 
       {/* Results card — full width below grid, with glow border */}
       <div className="roi-results-glow-wrap">
-        <div className="roi-results-glow" />
         <div
           className="roi-card roi-results-card"
           aria-live="polite"
@@ -1123,12 +1136,8 @@ export default function ROICalculatorClient() {
 
               {/* 4. CTA — the ONE next step */}
               <div className="roi-cta-row">
-                <button type="button" className="roi-cta-primary" onClick={handleOpenContact}>
-                  {copy.cta.primary}
-                </button>
-                <button type="button" className="roi-cta-ghost" onClick={handleOpenContact}>
-                  {copy.cta.secondary}
-                </button>
+                <ButtonStripe onClick={handleOpenContact}>{copy.cta.primary}</ButtonStripe>
+                <ButtonSwap label={copy.cta.secondary} arrow href={locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'} size="lg" variant="white" />
               </div>
 
               {/* 5. Transparency + breakdown (tucked under CTA) */}
@@ -1164,6 +1173,7 @@ export default function ROICalculatorClient() {
                     <p className="roi-transparency-text">{copy.transparency.automationRates}</p>
                     <p className="roi-transparency-text">{copy.transparency.yearOneFactor}</p>
                     <p className="roi-transparency-text">{copy.transparency.range}</p>
+                    <p className="roi-transparency-text" style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid rgba(128,128,128,0.15)', fontStyle: 'italic', color: 'rgba(255,255,255,0.4)' }}>{copy.transparency.disclaimer}</p>
                   </div>
                 )}
               </div>

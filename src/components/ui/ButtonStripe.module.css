@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════
+   ETEYA BUTTON — Stripe Fill
+   4 stripes slide in from all directions on hover.
+   ═══════════════════════════════════════ */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #C8FF00;
+  color: #F5F5F5;
+  text-decoration: none;
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: color 0.5s;
+  padding: 14px 30px;
+  font-size: 15px;
+}
+
+/* ── Sizes ── */
+.sm { padding: 8px 16px; font-size: 12px; }
+.lg { padding: 16px 36px; font-size: 17px; }
+
+/* ── Variants ── */
+.secondary { border-color: #444444; color: #9B9B9B; }
+.outline   { border-color: #222222; color: #9B9B9B; }
+.danger    { border-color: rgba(239,68,68,0.4); color: #F87171; }
+
+/* ── Stripes ── */
+.stripe {
+  position: absolute;
+  width: 100%;
+  height: 25%;
+  background-color: #C8FF00;
+  transition: all 0.5s;
+  z-index: 1;
+}
+
+.secondary .stripe { background-color: #444444; }
+.outline .stripe   { background-color: #C8FF00; }
+.danger .stripe    { background-color: #EF4444; }
+
+.s1 { top: -100%; left: 0; }
+.s2 { top: 25%; right: 100%; }
+.s3 { top: 50%; left: 100%; }
+.s4 { bottom: -100%; left: 0; }
+
+@media (hover: hover) {
+  .btn:hover { color: #080808; }
+  .secondary:hover { color: #F5F5F5; }
+  .danger:hover { color: #F5F5F5; }
+
+  .btn:hover .s1 { top: 0; }
+  .btn:hover .s2 { right: 0; }
+  .btn:hover .s3 { left: 0; }
+  .btn:hover .s4 { bottom: 0; }
+}
+
+.btn:active { transform: scale(0.98); }
+
+/* ── Text ── */
+.text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── States ── */
+.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fullWidth { width: 100%; }
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #080808, 0 0 0 4px #C8FF00;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .stripe {
+    transition: none !important;
+  }
+}

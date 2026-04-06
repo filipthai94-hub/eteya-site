@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { animate } from 'motion'
 
@@ -40,6 +42,8 @@ interface StaggerItem {
 }
 
 export default function Nav() {
+  const pathname = usePathname()
+  const homeHref = pathname?.startsWith('/sv') ? '/sv' : '/en'
   const [menuOpen, setMenuOpen] = useState(false)
   const [time, setTime] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
@@ -506,10 +510,10 @@ export default function Nav() {
       {/* ═══ TOP BAR ═══ */}
       <nav ref={topbarRef} className={`en-topbar${navDark && !menuOpen ? ' nav-dark' : ''}`}>
         <div className="en-col en-col--left">
-          <a href="#" className="en-logo">
+          <Link href={homeHref} className="en-logo" aria-label="Eteya home">
             <span className="en-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
             <span className="en-logo-c">©</span>
-          </a>
+          </Link>
         </div>
         <div className="en-col en-col--center" style={{ justifyContent: 'flex-start' }}>
           <div className="en-location">

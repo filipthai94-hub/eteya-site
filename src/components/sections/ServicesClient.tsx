@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import Button from '@/components/ui/Button'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
 const CSS = `
@@ -128,6 +128,7 @@ const CSS = `
     gap: 1.25rem var(--sp-block);
     display: grid;
     grid-template-columns: 0.47fr 0.50fr;
+    grid-template-rows: auto 1fr;
     justify-content: space-between;
     padding-block: 1.25rem 2.5rem;
     padding-inline: var(--pd-inline);
@@ -284,7 +285,7 @@ export default function ServicesClient() {
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" />
+                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" width={1524} height={964} />
               </a>
               <span className="svc-content-title">AI Agents</span>
               <ul className="service-list">
@@ -295,7 +296,7 @@ export default function ServicesClient() {
                 <li>Intern support</li>
                 <li>Uppföljning</li>
               </ul>
-              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
+              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
             </div>
           </div>
         </div>
@@ -312,7 +313,7 @@ export default function ServicesClient() {
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <img src="/images/service-automation.png" loading="lazy" alt="Automation" />
+                <img src="/images/service-automation.png" loading="lazy" alt="Automation" width={1524} height={964} />
               </a>
               <span className="svc-content-title">Automation</span>
               <ul className="service-list">
@@ -323,7 +324,7 @@ export default function ServicesClient() {
                 <li>Systemsynk</li>
                 <li>Aviseringar</li>
               </ul>
-              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
+              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
             </div>
           </div>
         </div>
@@ -340,7 +341,7 @@ export default function ServicesClient() {
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" />
+                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" width={1524} height={964} />
               </a>
               <span className="svc-content-title">AI Products</span>
               <ul className="service-list">
@@ -351,7 +352,7 @@ export default function ServicesClient() {
                 <li>MVP på veckor</li>
                 <li>Skräddarsydd AI</li>
               </ul>
-              <div className="eteya-btn-wrap"><Button variant="small" href="#contact">Läs mer</Button></div>
+              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
             </div>
           </div>
         </div>

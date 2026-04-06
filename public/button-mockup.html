@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eteya — Button Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #C8FF00;
+    --accent-hover: #D4FF33;
+    --accent-active: #B8E600;
+    --bg: #080808;
+    --surface: #111111;
+    --muted: #1A1A1A;
+    --border: #222222;
+    --border-hover: #444444;
+    --primary: #F5F5F5;
+    --secondary: #9B9B9B;
+    --danger: #EF4444;
+    --danger-text: #F87171;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--primary);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 60px 40px;
+  }
+
+  h1 { font-family: 'Barlow Condensed'; font-size: 42px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+  h2 { font-family: 'Barlow Condensed'; font-size: 22px; font-weight: 600; color: var(--accent); margin-bottom: 20px; margin-top: 56px; letter-spacing: 0.04em; text-transform: uppercase; }
+  h3 { font-family: 'Barlow Condensed'; font-size: 15px; font-weight: 600; color: var(--secondary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .subtitle { color: var(--secondary); font-size: 14px; margin-bottom: 40px; }
+  .row { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .group { margin-bottom: 40px; }
+  .label { font-size: 11px; color: var(--secondary); margin-top: 8px; text-align: center; }
+  .dark-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+  .separator { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  /* ═══════════════════════════════════
+     KNAPP 1: STRIPE-FILL — Primary CTA
+     4 stripes slide in from all directions
+     to fill the button on hover.
+     ═══════════════════════════════════ */
+
+  .btn-reveal {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 30px;
+    border: 2px solid var(--accent);
+    color: var(--primary);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: color 0.5s;
+  }
+
+  @media (hover: hover) {
+    .btn-reveal:hover { color: var(--bg); }
+  }
+
+  .btn-reveal:active {
+    transform: scale(0.98);
+  }
+
+  .btn-reveal .btn-reveal__text {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Stripes ── */
+  .btn-reveal .stripe {
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    background-color: var(--accent);
+    transition: all 0.5s;
+    z-index: 1;
+  }
+
+  .btn-reveal .stripe:nth-child(1) { top: -100%; left: 0; }
+  .btn-reveal .stripe:nth-child(2) { top: 25%; right: 100%; width: 100%; }
+  .btn-reveal .stripe:nth-child(3) { top: 50%; left: 100%; width: 100%; }
+  .btn-reveal .stripe:nth-child(4) { bottom: -100%; left: 0; }
+
+  @media (hover: hover) {
+    .btn-reveal:hover .stripe:nth-child(1) { top: 0; }
+    .btn-reveal:hover .stripe:nth-child(2) { right: 0; }
+    .btn-reveal:hover .stripe:nth-child(3) { left: 0; }
+    .btn-reveal:hover .stripe:nth-child(4) { bottom: 0; }
+  }
+
+  /* ── Variants ── */
+
+  /* Primary: accent border + lime fill */
+  .btn-reveal--primary { border-color: var(--accent); }
+  .btn-reveal--primary .stripe { background-color: var(--accent); }
+
+  /* Secondary: muted border + muted fill */
+  .btn-reveal--secondary { border-color: var(--border-hover); color: var(--secondary); }
+  .btn-reveal--secondary .stripe { background-color: var(--border-hover); }
+  @media (hover: hover) { .btn-reveal--secondary:hover { color: var(--primary); } }
+
+  /* Outline: subtle border + accent fill */
+  .btn-reveal--outline { border-color: var(--border); color: var(--secondary); }
+  .btn-reveal--outline .stripe { background-color: var(--accent); }
+  @media (hover: hover) { .btn-reveal--outline:hover { color: var(--bg); } }
+
+  /* Danger: red border + red fill */
+  .btn-reveal--danger { border-color: rgba(239,68,68,0.4); color: var(--danger-text); }
+  .btn-reveal--danger .stripe { background-color: var(--danger); }
+  @media (hover: hover) { .btn-reveal--danger:hover { color: var(--primary); } }
+
+  /* ── Sizes ── */
+  .btn-reveal--sm { padding: 8px 16px; font-size: 12px; }
+  .btn-reveal--lg { padding: 16px 36px; font-size: 17px; }
+
+  /* ═══════════════════════════════════
+     KNAPP 2: TEXT-SWAP — Navigation
+     ═══════════════════════════════════ */
+
+  .btn-swap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 48px;
+    overflow: hidden;
+    border: none;
+    color: var(--primary);
+    background: none;
+    padding-bottom: 0;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .btn-swap > .btn-swap__text {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-swap > .btn-swap__clone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Underline */
+  .btn-swap::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    background: currentColor;
+    transition: transform 0.25s ease-out;
+  }
+
+  @media (hover: hover) {
+    .btn-swap:hover::before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+  }
+
+  .btn-swap__text > span,
+  .btn-swap__clone > span {
+    display: inline-block;
+    font-size: 15px;
+    transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.3s;
+    margin-left: 4px;
+  }
+
+  .btn-swap__clone > span {
+    transform: translateY(48px);
+  }
+
+  @media (hover: hover) {
+    .btn-swap:hover .btn-swap__clone > span {
+      transform: translateY(0px);
+    }
+    .btn-swap:hover .btn-swap__text > span {
+      transform: translateY(-48px);
+    }
+    .btn-swap:hover .btn-swap__clone > :nth-child(1) { transition-delay: 0.1s; }
+    .btn-swap:hover .btn-swap__clone > :nth-child(2) { transition-delay: 0.15s; }
+    .btn-swap:hover .btn-swap__clone > :nth-child(3) { transition-delay: 0.2s; }
+    .btn-swap:hover .btn-swap__clone > :nth-child(4) { transition-delay: 0.25s; }
+    .btn-swap:hover .btn-swap__clone > :nth-child(5) { transition-delay: 0.3s; }
+    .btn-swap:hover .btn-swap__text > :nth-child(1) { transition-delay: 0.0s; }
+    .btn-swap:hover .btn-swap__text > :nth-child(2) { transition-delay: 0.05s; }
+    .btn-swap:hover .btn-swap__text > :nth-child(3) { transition-delay: 0.1s; }
+    .btn-swap:hover .btn-swap__text > :nth-child(4) { transition-delay: 0.15s; }
+    .btn-swap:hover .btn-swap__text > :nth-child(5) { transition-delay: 0.2s; }
+  }
+
+  .btn-swap:active {
+    transform: scale(0.98);
+  }
+
+  /* Arrow — inline, part of the text flow */
+  .btn-swap .btn-swap__arrow {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    transition: transform 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+    font-size: inherit;
+  }
+
+  .btn-swap .btn-swap__arrow svg {
+    width: 18px;
+    height: 18px;
+    transform: rotate(-45deg);
+    transition: transform 0.25s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  @media (hover: hover) {
+    .btn-swap:hover .btn-swap__arrow svg {
+      transform: rotate(0deg);
+    }
+  }
+
+  .btn-swap--lg .btn-swap__arrow svg { width: 22px; height: 22px; }
+  .btn-swap--sm .btn-swap__arrow svg { width: 14px; height: 14px; }
+
+  /* ── Variants ── */
+  .btn-swap--accent { color: var(--accent); }
+  .btn-swap--accent::before { background: var(--accent); }
+
+  .btn-swap--secondary { color: var(--secondary); }
+  .btn-swap--secondary::before { background: var(--secondary); }
+
+  /* ── Sizes ── */
+  .btn-swap--sm { height: 36px; }
+  .btn-swap--sm .btn-swap__text > span,
+  .btn-swap--sm .btn-swap__clone > span { font-size: 12px; }
+  .btn-swap--sm .btn-swap__clone > span { transform: translateY(36px); }
+  @media (hover: hover) {
+    .btn-swap--sm:hover .btn-swap__text > span { transform: translateY(-36px); }
+    .btn-swap--sm:hover .btn-swap__clone > span { transform: translateY(0); }
+  }
+
+  .btn-swap--lg { height: 56px; }
+  .btn-swap--lg .btn-swap__text > span,
+  .btn-swap--lg .btn-swap__clone > span { font-size: 18px; }
+  .btn-swap--lg .btn-swap__clone > span { transform: translateY(56px); }
+  @media (hover: hover) {
+    .btn-swap--lg:hover .btn-swap__text > span { transform: translateY(-56px); }
+    .btn-swap--lg:hover .btn-swap__clone > span { transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════
+     FOCUS & REDUCED MOTION
+     ═══════════════════════════════════ */
+
+  .btn-reveal:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+    border-radius: 0;
+  }
+  .btn-swap:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Eteya Button System</h1>
+<p class="subtitle">Mockup v1 — baserat på Button Bible + UIverse-inspiration. Hovra för animationer.</p>
+
+<!-- ═══ REVEAL BUTTONS ═══ -->
+<h2>Typ 1 — Reveal (CTA / Actions)</h2>
+
+<div class="group">
+  <h3>Primary</h3>
+  <div class="row">
+    <div>
+      <button class="btn-reveal btn-reveal--primary btn-reveal--sm"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Läs mer</span></button>
+      <div class="label">sm</div>
+    </div>
+    <div>
+      <button class="btn-reveal btn-reveal--primary"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Beräkna din besparing</span></button>
+      <div class="label">md (default)</div>
+    </div>
+    <div>
+      <button class="btn-reveal btn-reveal--primary btn-reveal--lg"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Boka konsultation</span></button>
+      <div class="label">lg</div>
+    </div>
+  </div>
+</div>
+
+<div class="group">
+  <h3>Secondary</h3>
+  <div class="row">
+    <button class="btn-reveal btn-reveal--secondary btn-reveal--sm"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Avbryt</span></button>
+    <button class="btn-reveal btn-reveal--secondary"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Ladda ner PDF</span></button>
+    <button class="btn-reveal btn-reveal--secondary btn-reveal--lg"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Se alla kundcase</span></button>
+  </div>
+</div>
+
+<div class="group">
+  <h3>Outline</h3>
+  <div class="row">
+    <button class="btn-reveal btn-reveal--outline btn-reveal--sm"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Filter</span></button>
+    <button class="btn-reveal btn-reveal--outline"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Visa metodik</span></button>
+  </div>
+</div>
+
+<div class="group">
+  <h3>Danger</h3>
+  <div class="row">
+    <button class="btn-reveal btn-reveal--danger btn-reveal--sm"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Radera</span></button>
+    <button class="btn-reveal btn-reveal--danger"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Ta bort konto</span></button>
+  </div>
+</div>
+
+<hr class="separator">
+
+<!-- ═══ TEXT-SWAP BUTTONS ═══ -->
+<h2>Typ 2 — Text-swap (Navigation / Links)</h2>
+
+<div class="group">
+  <h3>Accent (default)</h3>
+  <div class="row">
+    <div>
+      <button class="btn-swap btn-swap--accent btn-swap--sm">
+        <div class="btn-swap__text"><span>Läs</span><span>mer</span></div>
+        <div class="btn-swap__clone"><span>Läs</span><span>mer</span></div>
+      </button>
+      <div class="label">sm</div>
+    </div>
+    <div>
+      <button class="btn-swap btn-swap--accent">
+        <div class="btn-swap__text"><span>Läs</span><span>hela</span><span>kundcaset</span></div>
+        <div class="btn-swap__clone"><span>Läs</span><span>hela</span><span>kundcaset</span></div>
+      </button>
+      <div class="label">md</div>
+    </div>
+    <div>
+      <button class="btn-swap btn-swap--accent btn-swap--lg">
+        <div class="btn-swap__text"><span>Beräkna</span><span>din</span><span>besparing</span></div>
+        <div class="btn-swap__clone"><span>Beräkna</span><span>din</span><span>besparing</span></div>
+      </button>
+      <div class="label">lg</div>
+    </div>
+  </div>
+</div>
+
+<div class="group">
+  <h3>Accent med pil (inline)</h3>
+  <div class="row">
+    <button class="btn-swap btn-swap--accent">
+      <div class="btn-swap__text"><span>Se</span><span>alla</span><span>kundcase</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+      <div class="btn-swap__clone"><span>Se</span><span>alla</span><span>kundcase</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+    </button>
+    <button class="btn-swap btn-swap--accent btn-swap--lg">
+      <div class="btn-swap__text"><span>Boka</span><span>konsultation</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+      <div class="btn-swap__clone"><span>Boka</span><span>konsultation</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+    </button>
+  </div>
+</div>
+
+<div class="group">
+  <h3>Secondary (muted)</h3>
+  <div class="row">
+    <button class="btn-swap btn-swap--secondary">
+      <div class="btn-swap__text"><span>Tillbaka</span><span>till</span><span>toppen</span></div>
+      <div class="btn-swap__clone"><span>Tillbaka</span><span>till</span><span>toppen</span></div>
+    </button>
+    <button class="btn-swap btn-swap--secondary">
+      <div class="btn-swap__text"><span>Visa</span><span>metodik</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+      <div class="btn-swap__clone"><span>Visa</span><span>metodik</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+    </button>
+  </div>
+</div>
+
+<hr class="separator">
+
+<!-- ═══ COMBINED EXAMPLES ═══ -->
+<h2>Kombinations-exempel</h2>
+
+<div class="dark-section">
+  <h3>Hero CTA-area</h3>
+  <div class="row" style="gap: 16px">
+    <button class="btn-reveal btn-reveal--primary btn-reveal--lg"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Beräkna din besparing</span></button>
+    <button class="btn-swap btn-swap--secondary btn-swap--lg">
+      <div class="btn-swap__text"><span>Se</span><span>hur</span><span>vi</span><span>räknar</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+      <div class="btn-swap__clone"><span>Se</span><span>hur</span><span>vi</span><span>räknar</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+    </button>
+  </div>
+</div>
+
+<div class="dark-section">
+  <h3>Case study footer</h3>
+  <div class="row" style="gap: 16px">
+    <button class="btn-swap btn-swap--accent">
+      <div class="btn-swap__text"><span>Läs</span><span>hela</span><span>kundcaset</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+      <div class="btn-swap__clone"><span>Läs</span><span>hela</span><span>kundcaset</span><span class="btn-swap__arrow"><svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path></svg></span></div>
+    </button>
+    <button class="btn-reveal btn-reveal--outline btn-reveal--sm"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Ladda ner PDF</span></button>
+  </div>
+</div>
+
+<div class="dark-section">
+  <h3>Kalkylator-resultat</h3>
+  <div class="row" style="gap: 12px">
+    <button class="btn-reveal btn-reveal--primary"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Boka konsultation</span></button>
+    <button class="btn-reveal btn-reveal--secondary"><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="stripe"></span><span class="btn-reveal__text">Ladda ner rapport</span></button>
+    <button class="btn-swap btn-swap--secondary btn-swap--sm">
+      <div class="btn-swap__text"><span>Visa</span><span>metodik</span></div>
+      <div class="btn-swap__clone"><span>Visa</span><span>metodik</span></div>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

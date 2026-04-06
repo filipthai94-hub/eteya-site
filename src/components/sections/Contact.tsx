@@ -4,14 +4,14 @@ import { useActionState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { sendContactEmail } from '@/app/[locale]/actions/contact'
 import { C } from '@/lib/colors'
-import Button from '@/components/ui/Button'
+import ButtonStripe from '@/components/ui/ButtonStripe'
 
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
   return (
-    <Button type="submit" variant="primary" disabled={pending} fullWidth>
+    <ButtonStripe type="submit" disabled={pending} fullWidth>
       {pending ? loadingLabel : label}
-    </Button>
+    </ButtonStripe>
   )
 }
 

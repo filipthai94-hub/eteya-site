@@ -7,7 +7,7 @@
   --surface: #111111;
   --primary: #F5F5F5;
   --secondary: #9B9B9B;
-  --accent: #6EE7B7;
+  --accent: #C8FF00;
   --border: #222222;
   --font-display: 'Barlow Condensed', sans-serif;
   --nav-height: 60px;
@@ -15,6 +15,22 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: #080808;
+  z-index: 9999;
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.page-content {
+  position: relative;
+  will-change: opacity, transform;
+}
 
 html {
   background-color: var(--bg);
@@ -25,6 +41,7 @@ body {
   background-color: var(--bg);
   color: var(--primary);
   overflow: visible;
+  font-family: Geist, 'Geist Fallback', sans-serif;
 }
 
 body {

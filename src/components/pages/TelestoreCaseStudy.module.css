@@ -1,0 +1,1046 @@
+.page {
+  width: 100%;
+  background: var(--bg);
+  color: var(--primary);
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  /* padding-top: 60px removed — bakgrundsbilden ska starta direkt under nav */
+}
+
+.section {
+  width: 100%;
+  background: var(--bg);
+  /* padding-top: 60px removed — .inner hanterar all padding */
+}
+
+.inner {
+  width: 100%;
+  padding: 120px 62px;
+}
+
+/* -- OLD CLASSES (keep for backwards compatibility) -- */
+.caseStudyBackground {
+  position: relative;
+  width: 100%;
+  min-height: 120vh;
+  /* margin-top removed — padding-top på .page är borta */
+}
+
+/* -- Image wrapper för Next.js Image fill -- */
+.imageWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Tvinga object-position på bilden */
+.imageWrapper img {
+  object-position: center -20% !important;
+}
+
+/* -- Overlay för mörkare bakgrund -- */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75));
+  z-index: 1;
+  pointer-events: none;
+  display: none; /* TEMP: Testar utan overlay */
+}
+
+/* -- HERO SECTION (bakgrundsbild från wrapper) -- */
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background-image: url('/images/hero-telestore-bg.png');
+  background-size: 100% auto; /* Visar hela bilden i full bredd */
+  background-position: center bottom; /* Börjar från botten */
+  background-repeat: no-repeat;
+}
+
+/* -- UTMANINGEN HEADER (sista delen av bakgrundsbilden) -- */
+.utmaningenHeader {
+  position: relative;
+  width: 100%;
+  background: var(--bg); /* Lägg till mörk bakgrund */
+  z-index: 2;
+}
+
+.utmaningenHeader .inner {
+  padding: 60px 62px; /* Öka padding för att matcha andra sektioner */
+}
+
+/* -- UTMANINGEN KORT (efter bakgrundsbilden) -- */
+.utmaningenCards {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: var(--bg); /* Lägg till mörk bakgrund */
+  padding: 60px 62px; /* Öka padding för att matcha andra sektioner */
+}
+
+/* -- Gröna glow-effekter borttagna -- bakgrundsbild syns nu */
+
+.heroGrid {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: clamp(20rem, 50vh, 34rem);
+  padding-block: clamp(3rem, 4vw, 5rem);
+}
+
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  text-align: center;
+  align-items: center;
+}
+
+.kicker {
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--secondary);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.snapshotMeta {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 48px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+}
+
+/* Stats-sektion — ska matcha prod (kant-till-kant bakgrund, StatsClient 780px centrerad) */
+.statsSection {
+  background: var(--bg);  /* Samma som andra sektioner (#080808) */
+  padding: 120px 0;  /* Bara vertikal padding */
+  width: 100%;
+  max-width: 100%;  /* Tvinga 100% bred */
+}
+
+/* H2 — matchar prod: TJÄNSTER, VÅRA CASE */
+.statsTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 6.125rem);
+  font-weight: 500;
+  line-height: 1;
+  color: rgb(245, 245, 245);
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  margin-top: 0;
+  padding-left: 62px;
+  width: 100%;
+}
+
+/* StatsClient: ingen begränsning — ska gå kant-till-kant på prod */
+.statsSection :global(.bd-stats-section) {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── STATS TITLE WRAPPER ─────────────────────────────────────── */
+.statsTitleWrapper {
+  width: 100%;
+  padding: 120px 62px 40px 62px;
+}
+
+.statsMetaWrapper {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 48px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  max-width: 780px;
+  width: 100%;
+  padding: 0 62px;  /* Läsbarhet på små skärmar */
+}
+
+
+/* ── SNAPSHOT BAR ───────────────────────────────────────── */
+.snapshotGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.snapshotCell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.snapshotLabel {
+  margin: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.snapshotValue {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.1rem, 1.4vw, 1.5rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.snapshotValueAccent {
+  color: #C8FF00;
+}
+
+/* ── SECTION STYLES (samma som MethodologyContent) ──────── */
+.sectionMarker {
+  margin: 0 0 0.6rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.36);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6vw, 6.125rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+.sectionBody {
+  margin: 1.5rem 0 3rem;
+  max-width: 76ch;
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.75;
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+}
+
+.painPoints {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0;
+  max-width: 656px;
+}
+
+.painPoints li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-left: 32px;
+  position: relative;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.painPoints li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #C8FF00;
+  font-weight: 600;
+}
+
+.painPoints strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* -- Counter (från MethodologyContent) -- */
+.counter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.counterNumber {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2rem, 1.4rem + 1.4vw, 2.75rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.05;
+}
+
+.counterLines {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+}
+
+.counterLine {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+  transition: height 0.3s ease, background 0.3s ease;
+}
+
+.counterLineActive {
+  height: 58px;
+  background: rgba(255, 255, 255, 1);
+}
+
+/* -- Source Grid (från MethodologyContent) -- */
+.sourcesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 20px;
+  margin-top: clamp(1.3rem, 1rem + 1vw, 2.2rem);
+}
+
+.sourceCard {
+  padding: 0; /* Ta bort padding - .inner hanterar det */
+  background: transparent;
+}
+
+.sourceCard h3 { /* Matchar .metodikItemTitle */
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.15rem); /* Ändrat från clamp(1.1rem, 0.9rem + 0.8vw, 1.5rem) */
+  font-weight: 500;
+  color: #F5F5F5; /* Ändrat från #ffffff */
+}
+
+.sourceCard p { /* Matchar .metodikItemBody */
+  margin: 0.8rem 0 0;
+  font-family: 'Geist', 'Geist Fallback', sans-serif; /* Ändrat från DM Sans */
+  font-weight: normal; /* Ta bort font-weight: 500 */
+  color: rgba(255, 255, 255, 0.5); /* Ändrat från #ffffff */
+  line-height: 1.6; /* Ändrat från 1.75 */
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem); /* Ändrat från clamp(0.98rem, 0.9rem + 0.2vw, 1.08rem) */
+}
+
+.dataSources {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.dataSourceItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dataSourceNumber {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #C8FF00;
+  margin-bottom: 8px;
+}
+
+.dataSourceTitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.dataSourceBody {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.imageWrap {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+/* ── METODIK LAYOUT (samma som MethodologyContent) ─────── */
+.metodikInner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 750px 1fr;
+  gap: 60px;
+  padding: 120px 62px;
+}
+
+.metodikLeft {
+  position: relative;
+}
+
+.metodikLeftSticky {
+  position: sticky;
+  top: 86px;
+}
+
+.metodikSubtext {
+  margin-top: 1rem;
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+}
+
+.metodikRight {
+  padding: 0;
+}
+
+.metodikList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.metodikItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.metodikItem:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.metodikItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metodikItemTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  font-weight: 500;
+  color: #F5F5F5;
+  margin: 0;
+}
+
+.metodikItemBody {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.metodikItemNum {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+  margin-left: 24px;
+}
+
+/* ── SOURCES GRID (samma som MethodologyContent) ───────── */
+.sourcesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 20px;
+  margin-top: clamp(1.3rem, 1rem + 1vw, 2.2rem);
+}
+
+.sourceCard {
+  padding: 35px 10px 35px 10px;
+  background: transparent;
+}
+
+.utmaningenCards .sourceCard h3 {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.utmaningenCards .sourceCard p {
+  margin: 0.8rem 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.75;
+  font-size: clamp(0.98rem, 0.9rem + 0.2vw, 1.08rem);
+}
+
+/* ── COUNTER DECORATION (samma som MethodologyContent) ─── */
+.counter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.counterNumber {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2rem, 1.4rem + 1.4vw, 2.75rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 1.05;
+}
+
+.counterLines {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+}
+
+.counterLine {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+  transition: height 0.3s ease, background 0.3s ease;
+}
+
+.counterLineActive {
+  height: 58px;
+  background: rgba(255, 255, 255, 1);
+}
+
+/* ── RESULTAT TABLE ─────────────────────────────────────── */
+.tableWrap {
+  margin-top: 3rem;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.table th {
+  text-align: left;
+  padding: 16px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.table td {
+  padding: 16px 12px;
+  color: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tdBefore {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tdAfter {
+  color: #C8FF00;
+  font-weight: 500;
+}
+
+.tdSaved {
+  color: #C8FF00;
+  font-weight: 600;
+}
+
+/* ── ROI BOX ────────────────────────────────────────────── */
+.roiBox {
+  margin-top: 3rem;
+  padding: 32px;
+  background: rgba(200, 255, 0, 0.03);
+  border: 1px solid rgba(200, 255, 0, 0.1);
+  border-radius: 8px;
+}
+
+.roiBoxLabel {
+  margin: 0 0 1.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.roiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.roiItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.roiItem dt {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.roiItem dd {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+/* ── CITAT (PREMIUM DESIGN MED BILD) ─────────────────────── */
+.quoteSection {
+  padding: 120px 0;
+  background: #080808;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.quoteInner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.quoteImageWrap {
+  flex-shrink: 0;
+}
+
+.quoteImage {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.quoteContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quoteText {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.quoteAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.quoteName {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 1);
+}
+
+.quoteRole {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .quoteInner {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+  }
+
+  .quoteImage {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+
+
+/* ── CTAs ───────────────────────────────────────────────── */
+.ctaRow {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  background: #C8FF00;
+  color: #0a0a0a;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 255, 0, 0.2);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .snapshotGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sourcesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── SAVINGS CARDS ─────────────────────────────────────────── */
+.savingsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: clamp(1.3rem, 1rem + 1vw, 2.2rem);
+}
+
+.savingsCard {
+  position: relative;
+  padding: 28px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 0 0.5px rgba(255, 255, 255, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.savingsCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.savingsNum {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.savingsHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-right: 40px;
+}
+
+.savingsIcon {
+  width: 28px;
+  height: 28px;
+  color: #C8FF00;
+  flex-shrink: 0;
+}
+
+.savingsTitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1rem, 0.85rem + 0.5vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 1);
+}
+
+.savingsBefore,
+.savingsAfter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.savingsLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.savingsValue {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.savingsAfter {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-left: -20px;
+  margin-right: -20px;
+  width: calc(100% + 40px);
+}
+
+.savingsValueAfter {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+}
+
+.savingsVolume {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.savingsLabelVol {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.savingsValueVol {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.savingsDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 12px 0;
+}
+
+.savingsResult {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.savingsLabelResult {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.savingsValueResult {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 1);
+}
+
+@media (max-width: 1024px) {
+  .savingsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .savingsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .heroSection {
+    min-height: 50vh;
+    background-size: cover; /* På mobil: täck hela ytan istället */
+    background-position: center top; /* Börja från toppen på mobil */
+  }
+
+  .heroSection {
+    min-height: 50vh;
+  }
+
+  .heroGrid {
+    min-height: 50vh;
+    padding-block: 2rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .heroSubtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+
+  .inner {
+    padding-inline: 24px;
+    padding-block: 40px; /* Minska från 60px för att reducera mellanrummet efter hero */
+  }
+
+  .statsTitleWrapper {
+    padding-top: 60px;
+    padding-bottom: 24px;
+    padding-inline: 24px;
+  }
+
+  .snapshotGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .sectionTitle {
+    white-space: normal;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    line-height: 1;
+  }
+
+  .metodikInner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 60px 24px;
+  }
+
+  .metodikLeftSticky {
+    position: relative;
+    top: auto;
+  }
+
+  .sourcesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .roiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ctaPrimary {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .quoteSection {
+    padding: 60px 0;
+  }
+
+  .quoteInner {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+    padding: 0 24px;
+  }
+
+  .quoteImage {
+    width: 150px;
+    height: 150px;
+  }
+
+  .quoteText {
+    font-size: clamp(1.1rem, 0.9rem + 1vw, 1.5rem);
+  }
+
+  .counter {
+    gap: 14px;
+    margin-bottom: 24px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .counterLines {
+    gap: 10px;
+  }
+
+  .counterLine {
+    height: 10px;
+  }
+
+  .counterLineActive {
+    height: 44px;
+  }
+}

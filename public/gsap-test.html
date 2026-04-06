@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP Test - Telestore</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/ScrollTrigger.min.js"></script>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Geist', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .test-section {
+      padding: 100px 62px;
+      max-width: 1640px;
+      margin: 0 auto;
+    }
+    .test-box {
+      background: rgba(200, 255, 0, 0.1);
+      border: 1px solid rgba(200, 255, 0, 0.3);
+      padding: 40px;
+      margin: 40px 0;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .test-box h2 {
+      font-size: 2rem;
+      margin: 0 0 1rem;
+    }
+    .test-box p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-section">
+    <h1>GSAP ScrollTrigger Test</h1>
+    <p>Scrolla ner för att se animationerna</p>
+    
+    <div class="test-box" data-reveal>
+      <h2>Sektion 1</h2>
+      <p>Denna ruta ska anima in när den scrollas in i viewport (start: top 85%)</p>
+    </div>
+    
+    <div class="test-box" data-reveal style="margin-top: 600px;">
+      <h2>Sektion 2</h2>
+      <p>Ytterligare 600px ner — ska också anima in</p>
+    </div>
+    
+    <div class="test-box" data-reveal style="margin-top: 600px;">
+      <h2>Sektion 3</h2>
+      <p>Ännu längre ner — testar att ScrollTrigger fungerar</p>
+    </div>
+    
+    <div style="height: 800px;"></div>
+  </div>
+  
+  <script>
+    console.log('[GSAP Test] Starting...');
+    console.log('[GSAP Test] GSAP version:', gsap.version);
+    console.log('[GSAP Test] ScrollTrigger registered');
+    
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const sections = document.querySelectorAll('[data-reveal]');
+    console.log(`[GSAP Test] Found ${sections.length} [data-reveal] elements`);
+    
+    sections.forEach((el, i) => {
+      console.log(`[GSAP Test] Initializing animation for element ${i + 1}`);
+      gsap.fromTo(el,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+        }
+      );
+    });
+    
+    console.log('[GSAP Test] All animations initialized!');
+  </script>
+</body>
+</html>

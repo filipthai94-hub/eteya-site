@@ -1,0 +1,295 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Link from 'next/link'
+import Image from 'next/image'
+import ButtonSwap from '@/components/ui/ButtonSwap'
+import StatsClient from '@/components/sections/StatsClient'
+import { Smartphone, Package, ClipboardList, Sparkles, Database, FileSignature, Mail, Search } from 'lucide-react'
+import styles from './TelestoreCaseStudy.module.css'
+
+gsap.registerPlugin(ScrollTrigger)
+
+/* --- Counter decoration (samma som MethodologyContent) -- */
+function Counter({ current, total }: { current: number; total: number }) {
+  return (
+    <div className={styles.counter}>
+      <span className={styles.counterNumber}>{String(current).padStart(2, '0')}</span>
+      <div className={styles.counterLines}>
+        {Array.from({ length: total }, (_, i) => (
+          <span key={i} className={`${styles.counterLine} ${i + 1 === current ? styles.counterLineActive : ''}`} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* --- Main -------------------------------------------- */
+export default function TelestoreCaseStudy() {
+  const t = useTranslations('telestore')
+  const locale = useLocale()
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const methodologyPath = locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'
+
+  /* GSAP scroll reveals — EXAKT samma som MethodologyContent */
+  useEffect(() => {
+    if (!containerRef.current) return
+    const sections = containerRef.current.querySelectorAll('[data-reveal]')
+    sections.forEach((el) => {
+      gsap.fromTo(el,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+        }
+      )
+    })
+    return () => ScrollTrigger.getAll().forEach((st) => st.kill())
+  }, [])
+
+  return (
+    <div ref={containerRef} className={styles.page}>
+
+      {/* -- HERO (samma som /sv/ai-besparing) --------------------------------- */}
+      <section className={styles.heroSection} data-reveal>
+        <div className={styles.heroOverlay} />
+        <div className={`${styles.inner} ${styles.heroGrid}`}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>Telestore</h1>
+            <p className={styles.heroSubtitle}>
+              Från manuellt kaos till 390 000 kr/år i besparing
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* -- UTMANINGEN (01) ----------------------------- */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.inner}>
+          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          
+          <div className={styles.sourcesGrid}>
+            <article className={styles.sourceCard}>
+              <Counter current={1} total={4} />
+              <h3>Manuell listning</h3>
+              <p>
+                75 telefoner varje vecka listades manuellt på telestore.se, Blocket och Tradera. Varje listning tog 7.5 minuter — tid som kunde använts till försäljning och kundservice.
+              </p>
+            </article>
+            
+            <article className={styles.sourceCard}>
+              <Counter current={2} total={4} />
+              <h3>Excel-kaos</h3>
+              <p>
+                2.5 timmar varje vecka bortkastad på felsökning i manuella listor. När något gick fel var 2–3 personer inblandade i koordinering, felsökning och återställning.
+              </p>
+            </article>
+            
+            <article className={styles.sourceCard}>
+              <Counter current={3} total={4} />
+              <h3>Missade försäljningar</h3>
+              <p>
+                Felpriser, uteblivna leveranser och borttappade kundärenden skapade direkta kostnader. Varje manuellt fel riskerade att förlora kunder och skada företagets rykte.
+              </p>
+            </article>
+            
+            <article className={styles.sourceCard}>
+              <Counter current={4} total={4} />
+              <h3>Ingen skalbarhet</h3>
+              <p>
+                Varje ny telefon krävde manuell hantering. Affären kunde inte växa utan att anställa mer personal. Automationsbehovet var akut för att bryta botten-effekten.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* -- LÖSNINGEN (02) — sticky left + list --------------------------- */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.metodikInner}>
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h2 className={styles.sectionTitle}>
+                {locale === 'sv' ? 'Lösningen' : 'The Solution'}
+              </h2>
+              <p className={styles.metodikSubtext}>
+                {locale === 'sv'
+                  ? '56 automationer implementerade på 3 veckor. Make, AI-agenter och scripts — alla testade mot riktig data.'
+                  : '56 automations implemented in 3 weeks. Make, AI agents and scripts — all tested against real data.'}
+              </p>
+            </div>
+          </div>
+          <div className={styles.metodikRight}>
+            <ul className={styles.metodikList}>
+              {[
+                { title: locale === 'sv' ? 'Listning & IMEI' : 'Listing & IMEI', body: locale === 'sv' ? '75 telefoner/vecka listades automatiskt på telestore.se, Blocket och Tradera med rätt pris, bilder och spec.' : '75 phones/week listed automatically with correct price, images and spec.' },
+                { title: locale === 'sv' ? 'Order & frakt' : 'Order & shipping', body: locale === 'sv' ? 'Varje order genererade automatiskt bekräftelse, fraktsedel och avtal. Inga manuella steg, inga glömda detaljer.' : 'Every order automatically generated confirmation, shipping label and agreement. No manual steps, no forgotten details.' },
+                { title: locale === 'sv' ? 'Kundservice & AI' : 'Customer service & AI', body: locale === 'sv' ? 'AI-agenter klassificerade och besvarade inkommande mail dygnet runt, under en sekund per ärende.' : 'AI agents classified and responded to incoming mail around the clock, under one second per case.' },
+                { title: locale === 'sv' ? 'Skalbarhet' : 'Scalability', body: locale === 'sv' ? 'Affären växer utan att teamet växer. Varje ny telefon hanteras automatiskt.' : 'The business grows without the team growing. Every new phone is handled automatically.' },
+              ].map((item, i) => (
+                <li key={i} className={styles.metodikItem}>
+                  <div className={styles.metodikItemContent}>
+                    <h3 className={styles.metodikItemTitle}>{item.title}</h3>
+                    <p className={styles.metodikItemBody}>{item.body}</p>
+                  </div>
+                  <span className={styles.metodikItemNum}>{String(i + 1).padStart(2, '0')}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* -- BESPARINGAR (03) ------------------------------------------------ */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.inner}>
+          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
+          <div className={styles.savingsGrid}>
+            {[
+              {
+                num: 1,
+                title: locale === 'sv' ? 'Telefon → sajt/Blocket' : 'Phone → site/Blocket',
+                before: locale === 'sv' ? '7.5 min/telefon' : '7.5 min/phone',
+                after: locale === 'sv' ? '~0 min (automatiskt)' : '~0 min (automatic)',
+                volume: locale === 'sv' ? '75 st/vecka' : '75/week',
+                saved: locale === 'sv' ? '9.4 h/vecka' : '9.4 h/week'
+              },
+              {
+                num: 2,
+                title: locale === 'sv' ? 'PostNord fraktsedel' : 'PostNord shipping label',
+                before: locale === 'sv' ? '5 min/fraktsedel' : '5 min/label',
+                after: locale === 'sv' ? '~0 min (automatiskt)' : '~0 min (automatic)',
+                volume: locale === 'sv' ? '34 st/vecka' : '34/week',
+                saved: locale === 'sv' ? '2.8 h/vecka' : '2.8 h/week'
+              },
+              {
+                num: 3,
+                title: locale === 'sv' ? 'Orderhantering' : 'Order handling',
+                before: locale === 'sv' ? '10 min/order' : '10 min/order',
+                after: locale === 'sv' ? '2 min/order' : '2 min/order',
+                volume: locale === 'sv' ? '34 st/vecka' : '34/week',
+                saved: locale === 'sv' ? '4.5 h/vecka' : '4.5 h/week'
+              },
+              {
+                num: 4,
+                title: locale === 'sv' ? 'AI prisförslag-mail' : 'AI price quote emails',
+                before: locale === 'sv' ? '7.5 min/mail' : '7.5 min/email',
+                after: locale === 'sv' ? '~0 min (automatiskt)' : '~0 min (automatic)',
+                volume: locale === 'sv' ? '25 st/vecka' : '25/week',
+                saved: locale === 'sv' ? '3.1 h/vecka' : '3.1 h/week'
+              },
+              {
+                num: 5,
+                title: locale === 'sv' ? 'Registrering (Excel → AT)' : 'Registration (Excel → AT)',
+                before: locale === 'sv' ? '1 min/telefon' : '1 min/phone',
+                after: locale === 'sv' ? '~0 min (automatiskt)' : '~0 min (automatic)',
+                volume: locale === 'sv' ? '75 st/vecka' : '75/week',
+                saved: locale === 'sv' ? '1.3 h/vecka' : '1.3 h/week'
+              },
+              {
+                num: 6,
+                title: locale === 'sv' ? 'Scrive-avtal' : 'Scrive agreement',
+                before: locale === 'sv' ? '2 min/avtal' : '2 min/agreement',
+                after: locale === 'sv' ? '~0 min (automatiskt)' : '~0 min (automatic)',
+                volume: locale === 'sv' ? '43 st/vecka' : '43/week',
+                saved: locale === 'sv' ? '1.4 h/vecka' : '1.4 h/week'
+              },
+              {
+                num: 7,
+                title: locale === 'sv' ? 'Kundservice-mail' : 'Customer service emails',
+                before: locale === 'sv' ? '2 min/mail' : '2 min/email',
+                after: locale === 'sv' ? '~0.5 min/mail' : '~0.5 min/email',
+                volume: locale === 'sv' ? '75 st/vecka' : '75/week',
+                saved: locale === 'sv' ? '1.9 h/vecka' : '1.9 h/week'
+              },
+              {
+                num: 8,
+                title: locale === 'sv' ? 'Excel-felsökning' : 'Excel troubleshooting',
+                before: locale === 'sv' ? '2.5 h/vecka' : '2.5 h/week',
+                after: locale === 'sv' ? '0 h/vecka' : '0 h/week',
+                volume: locale === 'sv' ? '0.5×/vecka' : '0.5×/week',
+                saved: locale === 'sv' ? '1.3 h/vecka' : '1.3 h/week'
+              },
+            ].map((card) => {
+              const icons = [Smartphone, Package, ClipboardList, Sparkles, Database, FileSignature, Mail, Search]
+              const IconComponent = icons[card.num - 1]
+              return (
+                <article key={card.num} className={styles.savingsCard}>
+                  <span className={styles.savingsNum}>{String(card.num).padStart(2, '0')}</span>
+                  <div className={styles.savingsHeader}>
+                    <IconComponent className={styles.savingsIcon} />
+                    <h3 className={styles.savingsTitle}>{card.title}</h3>
+                  </div>
+                  <div className={styles.savingsBefore}>
+                    <span className={styles.savingsLabel}>{locale === 'sv' ? 'FÖRE' : 'BEFORE'}</span>
+                    <span className={styles.savingsValue}>{card.before}</span>
+                  </div>
+                  <div className={styles.savingsAfter}>
+                    <span className={styles.savingsLabel}>{locale === 'sv' ? 'EFTER' : 'AFTER'}</span>
+                    <span className={styles.savingsValueAfter}>{card.after}</span>
+                  </div>
+                  <div className={styles.savingsVolume}>
+                    <span className={styles.savingsLabelVol}>{locale === 'sv' ? 'Volym' : 'Volume'}:</span>
+                    <span className={styles.savingsValueVol}>{card.volume}</span>
+                  </div>
+                  <div className={styles.savingsDivider} />
+                  <div className={styles.savingsResult}>
+                    <span className={styles.savingsLabelResult}>{locale === 'sv' ? 'SPARAT' : 'SAVED'}</span>
+                    <span className={styles.savingsValueResult}>{card.saved}</span>
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* -- RESULTAT (04) — Stats-sektion ----------------------------- */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.statsTitleWrapper}>
+          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Resultat' : 'Results'}</h2>
+        </div>
+        <StatsClient items={[
+          { value: 390000, suffix: ' kr', label: locale === 'sv' ? 'Besparing/år' : 'Savings/year' },
+          { value: 1350, suffix: locale === 'sv' ? ' timmar' : ' hours', label: locale === 'sv' ? 'Sparad tid/år' : 'Hours saved/year' },
+          { value: 56, suffix: '', label: locale === 'sv' ? 'Automationer' : 'Automations' },
+        ]} />
+      </section>
+
+      {/* -- CITAT (premium design med bild) --------------------------------- */}
+      <section className={styles.quoteSection} data-reveal>
+        <div className={styles.quoteInner}>
+          <div className={styles.quoteImageWrap}>
+            <Image
+              src="/images/brindar-akalp.jpg"
+              alt="Brindar Akalp"
+              width={180}
+              height={180}
+              className={styles.quoteImage}
+            />
+          </div>
+          <div className={styles.quoteContent}>
+            <blockquote className={styles.quoteText}>
+              {locale === 'sv'
+                ? "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade."
+                : "We used to spend hours every week on manual tasks like creating shipping labels and confirming emails. Now Eteya handles all of that automatically. It's made us faster and less stressed."
+              }
+            </blockquote>
+            <div className={styles.quoteAuthor}>
+              <span className={styles.quoteName}>Brindar Akalp</span>
+              <span className={styles.quoteRole}>{locale === 'sv' ? 'VD, Telestore' : 'CEO, Telestore'}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  )
+}

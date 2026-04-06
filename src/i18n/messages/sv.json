@@ -169,7 +169,7 @@
     "heading": "Räkna på din<br/>AI-besparing",
     "subheading": "Se hur mycket tid och pengar ert företag kan spara med AI och automation.",
     "processLabel": "Vilka processer lägger ni tid på idag?",
-    "processHint": "Procenten visar hur stor del av arbetet som kan automatiseras med AI, baserat på branschdata.",
+    "processHint": "Procenten visar hur stor del av arbetet som kan automatiseras med AI, baserat på branschdata och verifierad kunddata.",
     "hoursLabel": "Timmar per vecka",
     "teamLabel": "Antal personer som utför dessa uppgifter",
     "teamHint": "Hur många i ert team jobbar med de valda processerna?",
@@ -206,15 +206,237 @@
     },
     "transparency": {
       "toggle": "Så räknar vi",
-      "hourlyRate": "Baserat på SCB:s senaste lönestatistik (350 kr/h fullt belastad arbetsgivarkostnad)",
-      "automationRates": "Automationsgrader från McKinsey & Forrester (konservativa estimat)",
-      "yearOneFactor": "År 1-faktor: 65% av teoretisk besparing (inkluderar ramp-up och implementation)",
-      "range": "Resultaten visas som ett intervall (±15%) för att spegla verklig variation"
+      "hourlyRate": "Timkostnad: 350 kr/h — baserat på SCB lönestatistik 2024, korsvaliderat mot faktisk kunddata (269–370 kr/h)",
+      "automationRates": "Automationsgrader: baserade på McKinsey (2023) och verifierade mot ett svenskt e-handelsföretag med 56 aktiva automationer",
+      "yearOneFactor": "År 1-faktor: 65% av full besparing (inkluderar implementation och ramp-up, verifierat mot faktisk kunddata)",
+      "range": "Intervall (±15%) speglar variation mellan företag. Alla antaganden är konservativa — kalkylatorn underskattar snarare än överskattar",
+      "disclaimer": "Estimat baserat på SCB, McKinsey och verifierad kunddata. Faktisk besparing beror på er processmognad, systemlandskap och implementation."
     },
     "cta": {
       "primary": "Boka ett strategimöte",
-      "secondary": "Få en detaljerad rapport"
+      "secondary": "Se hur vi beräknar"
     },
     "empty": "Välj minst en process ovan för att se din besparing"
+  },
+  "methodology": {
+    "meta": {
+      "title": "AI-besparing — Så beräknar vi din ROI | Eteya",
+      "description": "Transparent metodik bakom Eteyas ROI-kalkylator. Baserat på SCB, McKinsey och verifierad kunddata från ett svenskt e-handelsföretag."
+    },
+    "hero": {
+      "title": "Så beräknar vi din AI-besparing",
+      "subtitle": "Transparent metodik baserad på akademiska källor och verifierad kunddata"
+    },
+    "sections": {
+      "approachTitle": "VÅR METODIK",
+      "approachBody": "De flesta ROI-kalkylatorer på marknaden bygger enbart på generella branschrapporter och teoretiska antaganden. Problemet? Varje företag är unikt — processer, teamstorlek, verktyg och systemlandskap skiljer sig dramatiskt. Generiska siffror ger generiska resultat som sällan stämmer med verkligheten.",
+      "approachBody2": "Vi löser det genom att kombinera branschdata från erkända källor som SCB lönestatistik och McKinsey Global Institute med verifierad kunddata från riktiga AI-implementationer. Det ger beräkningar baserade på faktiska tidsbesparingar — inte teoretiska uppskattningar från konsultrapporter.",
+      "approachBody3": "Alla våra antaganden är dessutom konservativa. Vi rundar alltid nedåt, aldrig uppåt. Det betyder att besparingen vi visar är en nedre gräns — den verkliga besparingen är med stor sannolikhet högre.",
+      "approachTraditionalTitle": "Traditionell metodik",
+      "approachTraditionalItems": [
+        "Enbart branschrapporter",
+        "Generiska antaganden",
+        "Ingen verifiering mot verkliga resultat",
+        "Optimistiska uppskattningar"
+      ],
+      "approachHybridTitle": "Eteya Hybrid-metodik",
+      "approachHybridItems": [
+        "Branschdata + verifierad kunddata",
+        "Konservativa beräkningar",
+        "Transparent metodik med källhänvisningar",
+        "Baserad på 56 aktiva automationer"
+      ],
+      "sourcesTitle": "Datakällor",
+      "scbTitle": "SCB Lönestatistik 2024",
+      "scbBody": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån → 370 kr/h. Kalkylatorns värde: 350 kr/h (konservativt).",
+      "mckinseyTitle": "McKinsey (2023)",
+      "mckinseyBody": "\"The Economic Potential of Generative AI\" — automationspotential per funktion. Kundtjänst: 30–45% kostnadsreduktion. Alla arbetsaktiviteter: 60–70% av tid (teoretiskt).",
+      "verifiedTitle": "Verifierad kunddata",
+      "verifiedBody": "56 aktiva automationer kartlagda hos Telestore Sverige AB. Transaktionsvolymer hämtade direkt från Airtable. Tidsuppskattningar (före/efter) från strukturerad intervju med grundaren. Total verifierad besparing: ~390 000 kr/år.",
+      "verifiedLink": "Läs hela kundcaset",
+      "formulaTitle": "Beräkningsformel",
+      "formulaBody": "Besparingstimmar = Antal anställda × Timmar/vecka × Automationsgrad\n\nBesparing (kr/år) = Besparingstimmar × 52 × 350 kr/h\n\nÅr 1-besparing = Total × 0.65 (ramp-up-faktor)\n\nIntervall: ±15% för att spegla variation",
+      "conservativeTitle": "Konservativa antaganden",
+      "conservativeBody": [
+        "Timkostnad 350 kr/h — SCB beräknar belastad kostnad till 370 kr/h. Vi räknar med 350 kr/h — en medveten 5% marginal nedåt för att hålla estimatet konservativt.",
+        "Overhead ej inkluderat — Kontorsplats, IT-licenser och utrustning är reella kostnader kopplade till manuellt arbete, men de ingår inte i kalkylatorn. Den faktiska besparingen är högre.",
+        "Felkostnader ej medräknade — Telestore eliminerade ~26 400 kr/år i direkta felkostnader genom automation. Vi räknar inte in det. Kalkylatorn visar bara tidsbesparing.",
+        "Kvalitetseffekter ej värderade — AI-drivet arbete minskar fel och ökar konsistens. Telestore gick från 3,2 till 4,6 på Trustpilot på 3 år. Det monetära värdet är reellt men inte inkluderat.",
+        "Systematisk underskattning — Summan av alla konservativa val innebär att kalkylatorn alltid visar ett lägre värde än verkligheten. Det är ett medvetet designbeslut — hellre för lågt än för högt."
+      ],
+      "limitationsTitle": "Begränsningar",
+      "limitationsBody": "Enskilt case study (e-handel, <10 anställda). Tidsuppskattningar baserade på minne, ej systematisk mätning. Ingen kontrollgrupp. McKinseys data från 2023 — teknologin utvecklas snabbt.",
+      "disclaimerTitle": "Disclaimer",
+      "disclaimerBody": "Kalkylatorn är ett estimeringsverktyg, inte en garanti. Faktisk besparing beror på processmognad, systemlandskap och implementationskvalitet."
+    },
+    "cta": {
+      "downloadTitle": "Ladda ner fullständig metodik",
+      "downloadBody": "Få hela dokumentet med formler, källor och Telestore-caset som PDF.",
+      "namePlaceholder": "Ditt namn",
+      "emailPlaceholder": "Din e-postadress",
+      "companyPlaceholder": "Företag",
+      "submitButton": "Ladda ner PDF",
+      "gdpr": "Vi behandlar dina uppgifter enligt GDPR. Inga nyhetsbrev utan ditt samtycke.",
+      "successMessage": "Tack! Din PDF laddas ner nu.",
+      "errorMessage": "Något gick fel. Försök igen."
+    },
+    "sources": {
+      "title": "Referenser",
+      "items": [
+        {
+          "text": "SCB (2024). Lönestrukturstatistik, hela ekonomin.",
+          "url": "https://scb.se/hitta-statistik/sverige-i-siffror/lonesok/"
+        },
+        {
+          "text": "Skatteverket (2026). Arbetsgivaravgifter 2026. 31.42%.",
+          "url": "https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivaravgifterochskatteavdrag/arbetsgivaravgifter.4.233f91f71260075abe8800020817.html"
+        },
+        {
+          "text": "McKinsey Global Institute (2023). The Economic Potential of Generative AI.",
+          "url": "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier"
+        },
+        {
+          "text": "McKinsey & Company (2023). The State of AI in 2023.",
+          "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year"
+        },
+        {
+          "text": "Unionen (2025). Marknadslöner — Kundtjänstmedarbetare.",
+          "url": "https://www.unionen.se/rad-och-stod/om-lon/marknadsloner"
+        },
+        {
+          "text": "Telestore Sverige AB (2026). Airtable-data + grundarintervju, 2026-03-31.",
+          "url": null
+        }
+      ]
+    },
+    "backToCalculator": "Beräkna din besparing"
+  },
+  "caseStudies": {
+    "meta": {
+      "title": "Kundcase — AI-automation i praktiken | Eteya",
+      "description": "Se hur svenska företag sparar tid och pengar med AI-automation. Verifierade resultat med riktig data."
+    },
+    "hero": {
+      "title": "Kundcase",
+      "subtitle": "Verifierade resultat från riktiga företag"
+    }
+  },
+  "telestore": {
+    "meta": {
+      "title": "Telestore — 390 000 kr/år i besparing med AI | Eteya",
+      "description": "Hur Telestore Sverige AB automatiserade 56 processer och sparar nästan en halvtidstjänst per år. Verifierad data.",
+      "ogImageAlt": "Telestore Case Study — 390 000 kr/år i besparing med AI"
+    },
+    "hero": {
+      "title": "Telestore Sverige AB",
+      "subtitle": "390 000 kr/år i verifierad besparing",
+      "tag": "Kundcase"
+    },
+    "about": {
+      "title": "Om företaget",
+      "industry": "E-handel (begagnade telefoner)",
+      "employees": "<10 anställda",
+      "platforms": "telestore.se, Blocket, Tradera",
+      "achievement": "Sveriges nöjdaste kunder på Trustpilot — 3 år i rad"
+    },
+    "challenge": {
+      "title": "Utmaningen",
+      "body": "Telestore hanterade alla processer manuellt — från inköp och listning till kundservice och orderhantering. Excel-listor skapade fel som kostade pengar. Felsökning tog 2–3 timmar per incident med flera personer inblandade."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "56 automationer implementerades stegvis: 47 Make-flöden, 2 AI-agenter och 7 automatiserade scripts. Varje process — från IMEI-validering till AI-drivna prisförslag — automatiserades med fokus på kvalitet.",
+      "stats": {
+        "automations": "56",
+        "automationsLabel": "Aktiva automationer",
+        "integrations": "11",
+        "integrationsLabel": "Externa integrationer",
+        "platforms": "3",
+        "platformsLabel": "Säljplattformar"
+      }
+    },
+    "results": {
+      "title": "Resultatet",
+      "timeSaved": "26 h/vecka",
+      "timeSavedLabel": "Tid sparad",
+      "moneySaved": "390 000 kr",
+      "moneySavedLabel": "Årlig besparing",
+      "errors": "~0",
+      "errorsLabel": "Fel per månad (från 2)",
+      "table": {
+        "process": "Process",
+        "before": "Före",
+        "after": "Efter",
+        "volume": "Volym/vecka",
+        "saved": "Sparad tid/vecka"
+      },
+      "rows": [
+        {
+          "process": "Telefon → sajt/Blocket",
+          "before": "7.5 min",
+          "after": "~0",
+          "volume": "75 st",
+          "saved": "9.4 h"
+        },
+        {
+          "process": "PostNord fraktsedel",
+          "before": "5 min",
+          "after": "~0",
+          "volume": "34 st",
+          "saved": "2.8 h"
+        },
+        {
+          "process": "Orderhantering",
+          "before": "10 min",
+          "after": "2 min",
+          "volume": "34 st",
+          "saved": "4.5 h"
+        },
+        {
+          "process": "AI prisförslag-mail",
+          "before": "7.5 min",
+          "after": "~0",
+          "volume": "25 st",
+          "saved": "3.1 h"
+        },
+        {
+          "process": "Registrering (Excel → AT)",
+          "before": "1 min",
+          "after": "~0",
+          "volume": "75 st",
+          "saved": "1.3 h"
+        },
+        {
+          "process": "Scrive-avtal",
+          "before": "2 min",
+          "after": "~0",
+          "volume": "43 st",
+          "saved": "1.4 h"
+        },
+        {
+          "process": "Kundservice-mail",
+          "before": "2 min",
+          "after": "~0.5 min",
+          "volume": "75 st",
+          "saved": "1.9 h"
+        },
+        {
+          "process": "Excel-felsökning",
+          "before": "2.5 h",
+          "after": "0",
+          "volume": "0.5×/v",
+          "saved": "1.3 h"
+        }
+      ]
+    },
+    "quote": {
+      "text": "Vi gick från att jaga Excel-fel till att fokusera på att växa. Automationen har inte bara sparat tid — den har eliminerat hela kategorier av problem.",
+      "author": "Filip Thai",
+      "role": "Grundare, Telestore Sverige AB"
+    },
+    "cta": {
+      "calculate": "Beräkna din besparing",
+      "methodology": "Se vår metodik"
+    }
   }
 }

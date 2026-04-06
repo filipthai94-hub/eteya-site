@@ -206,15 +206,227 @@
     },
     "transparency": {
       "toggle": "How we calculate",
-      "hourlyRate": "Based on the latest SCB salary statistics (350 SEK/h fully loaded employer cost)",
-      "automationRates": "Automation rates from McKinsey & Forrester (conservative estimates)",
-      "yearOneFactor": "Year 1 factor: 65% of theoretical savings (includes ramp-up and implementation)",
-      "range": "Results shown as a range (±15%) to reflect real-world variation"
+      "hourlyRate": "Hourly cost: 350 SEK/h — based on SCB salary statistics 2024, cross-validated against actual client data (269–370 SEK/h)",
+      "automationRates": "Automation rates: based on McKinsey (2023) and verified against a Swedish e-commerce company with 56 active automations",
+      "yearOneFactor": "Year 1 factor: 65% of full savings (includes implementation and ramp-up, verified against actual client data)",
+      "range": "Range (±15%) reflects variation between companies. All assumptions are conservative — the calculator underestimates rather than overestimates",
+      "disclaimer": "Estimates based on SCB, McKinsey and verified client data. Actual savings depend on your process maturity, system landscape and implementation."
     },
     "cta": {
       "primary": "Book a strategy meeting",
-      "secondary": "Get a detailed report"
+      "secondary": "See how we calculate"
     },
     "empty": "Select at least one process above to see your savings"
+  },
+  "methodology": {
+    "meta": {
+      "title": "AI Savings — How We Calculate Your ROI | Eteya",
+      "description": "Transparent methodology behind Eteya's ROI calculator. Based on SCB, McKinsey and verified client data from a Swedish e-commerce company."
+    },
+    "hero": {
+      "title": "How we calculate your AI savings",
+      "subtitle": "Transparent methodology based on academic sources and verified client data"
+    },
+    "sections": {
+      "approachTitle": "OUR METHODOLOGY",
+      "approachBody": "Most ROI calculators on the market rely solely on generic industry reports and theoretical assumptions. The problem? Every company is unique — processes, team sizes, tools, and system landscapes differ dramatically. Generic numbers produce generic results that rarely match reality.",
+      "approachBody2": "We solve this by combining industry data from recognized sources like SCB wage statistics and McKinsey Global Institute with verified customer data from real AI implementations. This gives calculations based on actual time savings — not theoretical estimates from consulting reports.",
+      "approachBody3": "All our assumptions are also conservative. We always round down, never up. This means the savings we show represent a lower bound — the actual savings are very likely higher.",
+      "approachTraditionalTitle": "Traditional methodology",
+      "approachTraditionalItems": ["Industry reports only", "Generic assumptions", "No verification against real results", "Optimistic estimates"],
+      "approachHybridTitle": "Eteya Hybrid methodology",
+      "approachHybridItems": ["Industry data + verified customer data", "Conservative calculations", "Transparent methodology with source references", "Based on 56 active automations"],
+      "sourcesTitle": "Data sources",
+      "scbTitle": "SCB Salary Statistics 2024",
+      "scbBody": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month → loaded cost 54,333 SEK/month → 370 SEK/h. Calculator value: 350 SEK/h (conservative).",
+      "mckinseyTitle": "McKinsey (2023)",
+      "mckinseyBody": "\"The Economic Potential of Generative AI\" — automation potential per function. Customer operations: 30–45% cost reduction. All work activities: 60–70% of time (theoretical).",
+      "verifiedTitle": "Verified client data",
+      "verifiedBody": "56 active automations mapped at Telestore Sverige AB. Transaction volumes pulled directly from Airtable. Time estimates (before/after) from structured interview with the founder. Total verified savings: ~390,000 SEK/year.",
+      "verifiedLink": "Read the full case study",
+      "formulaTitle": "Calculation formula",
+      "formulaBody": "Hours saved = Employees × Hours/week × Automation rate\n\nSavings (SEK/year) = Hours saved × 52 × 350 SEK/h\n\nYear 1 savings = Total × 0.65 (ramp-up factor)\n\nRange: ±15% to reflect variation",
+      "conservativeTitle": "Conservative assumptions",
+      "conservativeBody": [
+        "Hourly cost: 350 SEK/h (vs 370 SEK/h calculated — 5% conservative margin)",
+        "Overhead not included (office space, IT, equipment)",
+        "Error costs not included (Telestore: ~26,400 SEK/year eliminated)",
+        "Quality effects not monetized (Trustpilot 3 years running)",
+        "The calculator systematically underestimates actual savings"
+      ],
+      "limitationsTitle": "Limitations",
+      "limitationsBody": "Single case study (e-commerce, <10 employees). Time estimates based on memory, not systematic measurement. No control group. McKinsey data from 2023 — technology evolves rapidly.",
+      "disclaimerTitle": "Disclaimer",
+      "disclaimerBody": "The calculator is an estimation tool, not a guarantee. Actual savings depend on process maturity, system landscape and implementation quality."
+    },
+    "cta": {
+      "downloadTitle": "Download full methodology",
+      "downloadBody": "Get the complete document with formulas, sources and the Telestore case as PDF.",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "Your email",
+      "companyPlaceholder": "Company",
+      "submitButton": "Download PDF",
+      "gdpr": "We process your data in accordance with GDPR. No newsletters without your consent.",
+      "successMessage": "Thank you! Your PDF is downloading now.",
+      "errorMessage": "Something went wrong. Please try again."
+    },
+    "sources": {
+      "title": "References",
+      "items": [
+        {
+          "text": "SCB (2024). Salary Structure Statistics.",
+          "url": "https://scb.se/hitta-statistik/sverige-i-siffror/lonesok/"
+        },
+        {
+          "text": "Skatteverket (2026). Employer contributions 2026. 31.42%.",
+          "url": "https://www.skatteverket.se"
+        },
+        {
+          "text": "McKinsey Global Institute (2023). The Economic Potential of Generative AI.",
+          "url": "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier"
+        },
+        {
+          "text": "McKinsey & Company (2023). The State of AI in 2023.",
+          "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year"
+        },
+        {
+          "text": "Unionen (2025). Market salaries — Customer service.",
+          "url": "https://www.unionen.se/rad-och-stod/om-lon/marknadsloner"
+        },
+        {
+          "text": "Telestore Sverige AB (2026). Airtable data + founder interview, 2026-03-31.",
+          "url": null
+        }
+      ]
+    },
+    "backToCalculator": "Calculate your savings"
+  },
+  "caseStudies": {
+    "meta": {
+      "title": "Case Studies — AI Automation in Practice | Eteya",
+      "description": "See how Swedish companies save time and money with AI automation. Verified results with real data."
+    },
+    "hero": {
+      "title": "Case Studies",
+      "subtitle": "Verified results from real companies"
+    }
+  },
+  "telestore": {
+    "meta": {
+      "title": "Telestore — 390,000 SEK/year saved with AI | Eteya",
+      "description": "How Telestore Sverige AB automated 56 processes and saves nearly a half-time position per year. Verified data.",
+      "ogImageAlt": "Telestore Case Study — 390,000 SEK/year savings with AI"
+    },
+    "hero": {
+      "title": "Telestore Sverige AB",
+      "subtitle": "390,000 SEK/year in verified savings",
+      "tag": "Case Study"
+    },
+    "about": {
+      "title": "About the company",
+      "industry": "E-commerce (used phones)",
+      "employees": "<10 employees",
+      "platforms": "telestore.se, Blocket, Tradera",
+      "achievement": "Sweden's most satisfied customers on Trustpilot — 3 years running"
+    },
+    "challenge": {
+      "title": "The Challenge",
+      "body": "Telestore handled all processes manually — from purchasing and listing to customer service and order management. Excel sheets created errors that cost money. Troubleshooting took 2–3 hours per incident with multiple people involved."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "56 automations implemented step by step: 47 Make flows, 2 AI agents and 7 automated scripts. Every process — from IMEI validation to AI-powered price suggestions — was automated with a focus on quality.",
+      "stats": {
+        "automations": "56",
+        "automationsLabel": "Active automations",
+        "integrations": "11",
+        "integrationsLabel": "External integrations",
+        "platforms": "3",
+        "platformsLabel": "Sales platforms"
+      }
+    },
+    "results": {
+      "title": "The Results",
+      "timeSaved": "26 h/week",
+      "timeSavedLabel": "Time saved",
+      "moneySaved": "390,000 SEK",
+      "moneySavedLabel": "Annual savings",
+      "errors": "~0",
+      "errorsLabel": "Errors per month (from 2)",
+      "table": {
+        "process": "Process",
+        "before": "Before",
+        "after": "After",
+        "volume": "Volume/week",
+        "saved": "Time saved/week"
+      },
+      "rows": [
+        {
+          "process": "Phone → site/Blocket",
+          "before": "7.5 min",
+          "after": "~0",
+          "volume": "75",
+          "saved": "9.4 h"
+        },
+        {
+          "process": "PostNord shipping label",
+          "before": "5 min",
+          "after": "~0",
+          "volume": "34",
+          "saved": "2.8 h"
+        },
+        {
+          "process": "Order handling",
+          "before": "10 min",
+          "after": "2 min",
+          "volume": "34",
+          "saved": "4.5 h"
+        },
+        {
+          "process": "AI price proposal email",
+          "before": "7.5 min",
+          "after": "~0",
+          "volume": "25",
+          "saved": "3.1 h"
+        },
+        {
+          "process": "Registration (Excel → AT)",
+          "before": "1 min",
+          "after": "~0",
+          "volume": "75",
+          "saved": "1.3 h"
+        },
+        {
+          "process": "Scrive contracts",
+          "before": "2 min",
+          "after": "~0",
+          "volume": "43",
+          "saved": "1.4 h"
+        },
+        {
+          "process": "Customer service email",
+          "before": "2 min",
+          "after": "~0.5 min",
+          "volume": "75",
+          "saved": "1.9 h"
+        },
+        {
+          "process": "Excel troubleshooting",
+          "before": "2.5 h",
+          "after": "0",
+          "volume": "0.5×/w",
+          "saved": "1.3 h"
+        }
+      ]
+    },
+    "quote": {
+      "text": "We went from chasing Excel errors to focusing on growth. Automation hasn't just saved time — it has eliminated entire categories of problems.",
+      "author": "Filip Thai",
+      "role": "Founder, Telestore Sverige AB"
+    },
+    "cta": {
+      "calculate": "Calculate your savings",
+      "methodology": "See our methodology"
+    }
   }
 }
