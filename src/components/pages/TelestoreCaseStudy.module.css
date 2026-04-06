@@ -123,12 +123,12 @@
 
 .heroTitle {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(3.5rem, 10vw, 9rem);
-  line-height: 0.9;
+  font-size: clamp(3.5rem, 22vw, 9rem);
+  line-height: 0.85;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
 }
 
 .heroSubtitle {
@@ -157,8 +157,8 @@
 }
 
 /* H2 — matchar prod: TJÄNSTER, VÅRA CASE */
-.statsTitle {
-  font-family: 'DM Sans', sans-serif;
+.sectionTitle {
+  font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 6.125rem);
   font-weight: 500;
   line-height: 1;
@@ -349,19 +349,22 @@
 
 .sourceCard h3 { /* Matchar .metodikItemTitle */
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1rem, 1.2vw, 1.15rem); /* Ändrat från clamp(1.1rem, 0.9rem + 0.8vw, 1.5rem) */
-  font-weight: 500;
-  color: #F5F5F5; /* Ändrat från #ffffff */
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  color: #F5F5F5;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 .sourceCard p { /* Matchar .metodikItemBody */
-  margin: 0.8rem 0 0;
-  font-family: 'Geist', 'Geist Fallback', sans-serif; /* Ändrat från DM Sans */
-  font-weight: normal; /* Ta bort font-weight: 500 */
-  color: rgba(255, 255, 255, 0.5); /* Ändrat från #ffffff */
-  line-height: 1.6; /* Ändrat från 1.75 */
-  font-size: clamp(0.85rem, 0.95vw, 0.95rem); /* Ändrat från clamp(0.98rem, 0.9rem + 0.2vw, 1.08rem) */
+  margin: 0;
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: normal;
 }
 
 .dataSources {
@@ -461,19 +464,22 @@
 }
 
 .metodikItemTitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-weight: 700;
   color: #F5F5F5;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 .metodikItemBody {
   font-family: 'Geist', 'Geist Fallback', sans-serif;
-  font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
 }
 
 .metodikItemNum {
