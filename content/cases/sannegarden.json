@@ -1,0 +1,94 @@
+{
+  "name": "Sannegårdens Pizzeria",
+  "slug": "sannegarden",
+  "tagline": "AI-telefonist för beställningar dygnet runt",
+  "industry": "Restaurang & takeaway",
+  "order": 3,
+  "hero": {
+    "title": "Sannegårdens Pizzeria",
+    "words": [
+      "Missade samtal",
+      "30+ beställningar",
+      "Aldrig upptaget"
+    ],
+    "backgroundImage": "/images/hero-telestore-bg.png",
+    "logo": "/images/logos/nordicrank.svg",
+    "livePreview": "/images/cases/nordicrank-home-full.png"
+  },
+  "challenge": {
+    "title": "Utmaningen",
+    "cards": [
+      {
+        "number": 1,
+        "title": "Missade beställningar",
+        "description": "Göteborgs mest populära pizzeria missade telefonbeställningar under rusningstid. Personalen hann inte svara och varje missat samtal blev förlorad omsättning."
+      },
+      {
+        "number": 2,
+        "title": "Menyfrågor tog tid",
+        "description": "Samtal om meny, öppettider och alternativ avbröt arbetet i köket och vid kassan. Det tog tid från både service och matlagning."
+      },
+      {
+        "number": 3,
+        "title": "Ingen täckning dygnet runt",
+        "description": "Beställningar kom även när bemanningen var pressad eller lägre. Utan någon som alltid kunde svara gick restaurangen miste om intäkter."
+      },
+      {
+        "number": 4,
+        "title": "Svårt att skala rusningen",
+        "description": "När samtalen ökade blev telefonen en flaskhals. Mer efterfrågan skapade mer stress i stället för högre kapacitet."
+      }
+    ]
+  },
+  "solution": {
+    "title": "Lösningen",
+    "subtitle": "En AI-telefonist som tar emot beställningar dygnet runt, hanterar menyfrågor och bekräftar ordrar automatiskt via telefon.",
+    "items": [
+      {
+        "number": 1,
+        "title": "Tar emot beställningar",
+        "description": "AI-telefonisten svarar direkt och guidar kunden genom beställningen utan att personalen behöver lämna köket eller kassan."
+      },
+      {
+        "number": 2,
+        "title": "Meny & frågor",
+        "description": "Vanliga frågor om meny, öppettider och alternativ hanteras automatiskt så att gästen får svar direkt."
+      },
+      {
+        "number": 3,
+        "title": "Bekräftar ordrar",
+        "description": "Varje beställning bekräftas tydligt via telefon, vilket minskar missförstånd och skapar trygghet för kunden."
+      },
+      {
+        "number": 4,
+        "title": "Dygnet runt-kapacitet",
+        "description": "Sannegårdens kan ta emot fler samtal utan att anställa extra bara för telefonen."
+      }
+    ]
+  },
+  "results": {
+    "title": "Resultat",
+    "stats": [
+      {
+        "value": 0,
+        "suffix": " missade",
+        "label": "Samtal i rusning"
+      },
+      {
+        "value": 30,
+        "suffix": "+",
+        "label": "Extra beställningar/vecka"
+      },
+      {
+        "value": 23,
+        "suffix": "%",
+        "label": "Ökad kundnöjdhet"
+      }
+    ]
+  },
+  "quote": {
+    "text": "AI-telefonisten blev som en extra anställd som aldrig tar paus.",
+    "author": "Omid Haddad",
+    "role": "Ägare"
+  }
+}

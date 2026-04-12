@@ -1,0 +1,149 @@
+/* Footer styles */
+.footer {
+  font-family: var(--font-body);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: #080808;
+}
+
+.footerInner {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+}
+
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerLogo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.4em;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.footerTagline {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.8125rem;
+}
+
+.footerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.5rem;
+}
+
+.footerInfo {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  line-height: 1.8;
+  text-align: right;
+}
+
+.footerCopyright {
+  margin-top: 1rem;
+  font-size: 0.6875rem;
+}
+
+/* Social icons */
+.socialIcons {
+  display: flex;
+  gap: 12px;
+}
+
+.socialLink {
+  width: 36px;
+  height: 36px;
+  background-color: rgb(44, 44, 44);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  background-color: white;
+  transform: scale(1);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.socialLink:active {
+  transform: scale(0.9);
+  transition: transform 0.3s;
+}
+
+.socialLink:hover .socialSvg path {
+  fill: rgb(44, 44, 44);
+  transition: fill 0.3s;
+}
+
+.socialSvg {
+  width: 17px;
+  height: 17px;
+  transition: transform 0.3s;
+}
+
+.socialSvg path {
+  fill: rgb(255, 255, 255);
+  transition: fill 0.3s;
+}
+
+.socialLink:hover .socialSvg {
+  animation: slideInTop 0.3s both;
+}
+
+@keyframes slideInTop {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .footer {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .footerInner {
+    padding: 0 24px;
+    gap: 1.5rem;
+  }
+
+  .footerLogo {
+    font-size: 1.25rem;
+  }
+
+  .socialIcons {
+    gap: 10px;
+  }
+
+  .socialLink {
+    width: 40px;
+    height: 40px;
+  }
+
+  .socialSvg {
+    width: 18px;
+    height: 18px;
+  }
+}

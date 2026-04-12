@@ -1,0 +1,63 @@
+"use client";
+import React, { useState, useEffect, useId, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+
+export const LayoutTextFlip = ({
+  text = "",
+  words = ["Landing Pages", "Component Blocks", "Page Sections", "3D Shaders"],
+  duration = 3000,
+}: {
+  text?: string;
+  words: string[];
+  duration?: number;
+}) => {
+  const id = useId();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % words.length);
+    }, duration);
+
+    return () => clearInterval(intervalId);
+  }, [words.length, duration]);
+
+  return (
+    <motion.span
+      layout
+      style={{
+        display: 'inline-block',
+        fontFamily: 'var(--font-display)',
+        color: '#F5F5F5',
+        background: 'linear-gradient(to bottom, #1a1a1a, #0f0f0f)',
+        letterSpacing: '-0.04em',
+        boxShadow: 'inset 0 -1px #000000, inset 0 0 0 1px #333333, 0 4px 8px rgba(0, 0, 0, 0.5)',
+      }}
+      className="relative inline-block rounded-lg pt-2 pb-3 text-center text-[clamp(1.75rem,11vw,4.5rem)] font-[800] uppercase"
+      key={words[currentIndex]}
+    >
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={currentIndex}
+          ref={textRef}
+          layoutId={`word-${words[currentIndex]}-${id}`}
+          className="inline-block"
+          style={{ transition: 'opacity 0.3s ease' }}
+        >
+          {words[currentIndex].split('').map((letter, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, filter: 'blur(0px)' }}
+              transition={{ delay: index * 0.02 }}
+              style={{ letterSpacing: '-0.04em' }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+    </motion.span>
+  );
+};

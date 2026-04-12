@@ -1,0 +1,89 @@
+{
+  "name": "Nordicrank",
+  "slug": "nordicrank",
+  "tagline": "Automatiserad order- och länkhatering",
+  "industry": "SEO & länkar",
+  "order": 2,
+  "hero": {
+    "title": "Nordicrank",
+    "words": [
+      "Excel-kaos",
+      "18 automationer",
+      "180 000 kr/år"
+    ],
+    "backgroundImage": "/images/hero-telestore-bg.png",
+    "logo": "/images/logos/nordicrank.svg",
+    "livePreview": "/images/cases/nordicrank-home-full.png"
+  },
+  "challenge": {
+    "title": "Utmaningen",
+    "cards": [
+      {
+        "number": 1,
+        "title": "Manuella beställningar",
+        "description": "Varje ny beställning krävde manuell hantering i flera steg. Teamet flyttade information mellan formulär, inbox och interna listor i stället för att fokusera på leverans och kunddialog."
+      },
+      {
+        "number": 2,
+        "title": "Excel-listor överallt",
+        "description": "Länkar, ordrar och status uppdaterades i Excel-ark som skickades fram och tillbaka. Det var tidskrävande, svårt att få överblick och enkelt att missa en uppdatering."
+      },
+      {
+        "number": 3,
+        "title": "Felbenägen leverans",
+        "description": "När allt sköttes manuellt ökade risken för fel i beställningar, dubletter och tappade ärenden. Små misstag skapade extraarbete och onödig friktion för både team och kunder."
+      },
+      {
+        "number": 4,
+        "title": "Ingen skala i processen",
+        "description": "Varje ny kund betydde mer administration. Utan automation blev tillväxt direkt kopplad till fler manuella timmar, vilket bromsade både marginal och tempo."
+      }
+    ]
+  },
+  "solution": {
+    "title": "Lösningen",
+    "subtitle": "18 automatiserade flöden implementerade på 2 veckor. Order in, leverans ut — utan Excel-listor fram och tillbaka.",
+    "items": [
+      {
+        "number": 1,
+        "title": "Beställning → produktion",
+        "description": "När kunden beställer skickas all data automatiskt vidare till rätt steg i flödet, utan manuell kopiering mellan system."
+      },
+      {
+        "number": 2,
+        "title": "Order & status",
+        "description": "Varje order får automatiskt rätt status, ansvarig och uppföljning. Teamet ser alltid vad som är gjort och vad som är nästa steg."
+      },
+      {
+        "number": 3,
+        "title": "Leverans & notifieringar",
+        "description": "Kunder och interna team triggas automatiskt vid leverans, uppdatering eller avvikelse. Inga fler manuella påminnelser eller dubbeljobb."
+      },
+      {
+        "number": 4,
+        "title": "Skalbarhet",
+        "description": "Nordicrank kan ta fler ordrar utan att bygga upp mer administration. Processen skalar med affären i stället för att bromsa den."
+      }
+    ]
+  },
+  "results": {
+    "title": "Resultat",
+    "stats": [
+      {
+        "value": 180000,
+        "suffix": " kr",
+        "label": "Besparing/år"
+      },
+      {
+        "value": 780,
+        "suffix": " timmar",
+        "label": "Sparad tid/år"
+      },
+      {
+        "value": 18,
+        "suffix": "",
+        "label": "Automationer"
+      }
+    ]
+  }
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Enhancement Spec — Eteya</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #080808; color: #fff; font-family: 'Barlow Condensed', sans-serif; }
+  
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  h1 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #C8FF00; }
+  
+  .hero-preview {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 40px;
+    background: #080808;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Simulated beams */
+  .beams-bg { position: absolute; inset: 0; overflow: hidden; opacity: 0.15; }
+  .beam { position: absolute; background: linear-gradient(90deg, transparent, #C8FF00, transparent); opacity: 0.3; animation: beamMove 8s linear infinite; }
+  @keyframes beamMove { 0% { transform: translateX(-100%) rotate(-35deg); } 100% { transform: translateX(200%) rotate(-35deg); } }
+  
+  .hero-title {
+    font-size: clamp(3.85rem, 8vw, 7rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .pill {
+    font-size: clamp(1.7rem, 4vw, 3.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0.375rem 2rem;
+    color: #080808;
+    position: relative;
+    z-index: 1;
+    cursor: default;
+    transition: transform 0.2s ease;
+  }
+  .pill:hover { transform: translateY(-2px) scale(1.02); }
+  
+  .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+  .label .rec { display: inline-block; background: #C8FF00; color: #080808; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border-radius: 4px; margin-left: 12px; vertical-align: middle; }
+  
+  .desc { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.5); margin-bottom: 8px; max-width: 700px; }
+  .desc strong { color: rgba(255,255,255,0.8); }
+  .desc em { color: #C8FF00; font-style: normal; }
+  
+  .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.08); margin: 30px 0 40px; }
+
+  /* CURRENT: Option D */
+  .pill-current {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 15%, #EBEBEF 50%, #DCDCE2 85%, #D4D4DC 100%);
+    border: 1px solid rgba(220, 220, 230, 0.8);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 1), inset 0 -2px 6px rgba(0, 0, 0, 0.12), inset 4px 0 8px rgba(0, 0, 0, 0.04), inset -4px 0 8px rgba(0, 0, 0, 0.04);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* E: LUXE AMBIENT GLOW */
+  .pill-e {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 15%, #EBEBEF 50%, #DCDCE2 85%, #D4D4DC 100%);
+    border: 1px solid rgba(220, 220, 230, 0.9);
+    box-shadow: 
+      0 16px 50px rgba(0, 0, 0, 0.6),
+      0 8px 20px rgba(0, 0, 0, 0.4),
+      0 2px 6px rgba(0, 0, 0, 0.25),
+      0 0 80px rgba(200, 255, 0, 0.08),
+      0 0 120px rgba(200, 255, 0, 0.04),
+      inset 0 2px 4px rgba(255, 255, 255, 1),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.12),
+      inset 4px 0 8px rgba(0, 0, 0, 0.04),
+      inset -4px 0 8px rgba(0, 0, 0, 0.04);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* F: MULTI-LIGHT DEPTH */
+  .pill-f {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 15%, #EBEBEF 50%, #DCDCE2 85%, #D4D4DC 100%);
+    border: 1px solid rgba(230, 230, 235, 0.85);
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.55),
+      0 10px 30px rgba(0, 0, 0, 0.35),
+      0 4px 12px rgba(0, 0, 0, 0.25),
+      0 1px 3px rgba(0, 0, 0, 0.18),
+      0 0 60px rgba(200, 255, 0, 0.06),
+      0 0 100px rgba(100, 180, 255, 0.03),
+      inset 0 3px 6px rgba(255, 255, 255, 1),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.15),
+      inset 5px 0 10px rgba(0, 0, 0, 0.05),
+      inset -5px 0 10px rgba(0, 0, 0, 0.05);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* G: RIM LIGHT EDGE GLOW */
+  .pill-g {
+    background: 
+      linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 15%, #EBEBEF 50%, #DCDCE2 85%, #D4D4DC 100%),
+      radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+    border: 1px solid rgba(235, 235, 240, 0.9);
+    box-shadow: 
+      0 18px 55px rgba(0, 0, 0, 0.58),
+      0 9px 25px rgba(0, 0, 0, 0.38),
+      0 3px 10px rgba(0, 0, 0, 0.28),
+      0 0 70px rgba(200, 255, 0, 0.1),
+      0 0 110px rgba(200, 255, 0, 0.05),
+      0 0 2px rgba(255, 255, 255, 0.6),
+      inset 0 2px 5px rgba(255, 255, 255, 1),
+      inset 0 -3px 7px rgba(0, 0, 0, 0.14),
+      inset 4px 0 9px rgba(0, 0, 0, 0.05),
+      inset -4px 0 9px rgba(0, 0, 0, 0.05);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* H: ULTIMATE LUXE */
+  .pill-h {
+    background: 
+      linear-gradient(180deg, #FFFFFF 0%, #F8F8FA 12%, #F0F0F3 45%, #E1E1E8 80%, #D7D7DE 100%),
+      radial-gradient(ellipse at 50% -20%, rgba(255, 255, 255, 0.9) 0%, transparent 50%);
+    border: 1px solid rgba(240, 240, 245, 0.92);
+    box-shadow: 
+      0 24px 70px rgba(0, 0, 0, 0.62),
+      0 14px 40px rgba(0, 0, 0, 0.42),
+      0 6px 18px rgba(0, 0, 0, 0.3),
+      0 2px 6px rgba(0, 0, 0, 0.22),
+      0 0 90px rgba(200, 255, 0, 0.12),
+      0 0 140px rgba(200, 255, 0, 0.06),
+      0 0 180px rgba(200, 255, 0, 0.03),
+      0 0 3px rgba(255, 255, 255, 0.7),
+      inset 0 4px 8px rgba(255, 255, 255, 1),
+      inset 0 -4px 10px rgba(0, 0, 0, 0.16),
+      inset 6px 0 12px rgba(0, 0, 0, 0.06),
+      inset -6px 0 12px rgba(0, 0, 0, 0.06);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* Flip animation */
+  .flip-word { display: inline-flex; animation: flipIn 0.5s ease-out; }
+  .flip-word .letter { display: inline-block; animation: letterBlurIn 0.4s ease-out both; }
+  @keyframes flipIn { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes letterBlurIn { 0% { opacity: 0; filter: blur(10px); } 100% { opacity: 1; filter: blur(0px); } }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Shadow Enhancement Spec — Eteya</h1>
+  <h2>Nuvarande → Förbättrade alternativ</h2>
+
+  <!-- CURRENT -->
+  <div class="label">Nuvarande — Option D (som den är nu)</div>
+  <div class="hero-preview">
+    <div class="beams-bg"><div class="beam" style="top:20%;left:0;width:200px;height:60px;animation-delay:0s;"></div><div class="beam" style="top:60%;left:0;width:180px;height:40px;animation-delay:3s;"></div></div>
+    <div class="hero-title">Telestore</div>
+    <div class="pill pill-current" id="pill-current"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- E -->
+  <div class="label">Option E — Luxe Ambient Glow</div>
+  <div class="desc"><strong>+ Neon green aura</strong> — Subtil <em>#C8FF00</em> glow runt pillen (80px + 120px). Djupare skuggor (50px blur). Känns "laddad" med energi.</div>
+  <div class="hero-preview">
+    <div class="beams-bg"><div class="beam" style="top:20%;left:0;width:200px;height:60px;animation-delay:0s;"></div><div class="beam" style="top:60%;left:0;width:180px;height:40px;animation-delay:3s;"></div></div>
+    <div class="hero-title">Telestore</div>
+    <div class="pill pill-e" id="pill-e"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- F -->
+  <div class="label">Option F — Multi-Light Depth</div>
+  <div class="desc"><strong>+ 4 external shadows + green glow + blå tint</strong> — Simulerar flera ljuskällor. Ultra-subtil blå ambient (100px, 3%). Apple Vision Pro-nivå.</div>
+  <div class="hero-preview">
+    <div class="beams-bg"><div class="beam" style="top:20%;left:0;width:200px;height:60px;animation-delay:0s;"></div><div class="beam" style="top:60%;left:0;width:180px;height:40px;animation-delay:3s;"></div></div>
+    <div class="hero-title">Telestore</div>
+    <div class="pill pill-f" id="pill-f"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- G -->
+  <div class="label">Option G — Rim Light Edge Glow <span class="rec">★</span></div>
+  <div class="desc"><strong>+ Radial gradient spotlight + vit rim light</strong> — Ljusastecken på toppen skapar "studiolampor"-känsla. <em>Vit kantglow</em> (0 0 2px) separerar pillen från bakgrunden. Filmisk.</div>
+  <div class="hero-preview">
+    <div class="beams-bg"><div class="beam" style="top:20%;left:0;width:200px;height:60px;animation-delay:0s;"></div><div class="beam" style="top:60%;left:0;width:180px;height:40px;animation-delay:3s;"></div></div>
+    <div class="hero-title">Telestore</div>
+    <div class="pill pill-g" id="pill-g"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- H -->
+  <div class="label">Option H — Ultimate Luxe <span class="rec">★ Max</span></div>
+  <div class="desc"><strong>+ 12 shadow layers + trippel green glow + spotlight gradient</strong> — Full studio lighting simulation. <em>Green aura</em> (90/140/180px), <em>white rim</em>, <em>radial spotlight</em>. Awwwards-nivå.</div>
+  <div class="hero-preview">
+    <div class="beams-bg"><div class="beam" style="top:20%;left:0;width:200px;height:60px;animation-delay:0s;"></div><div class="beam" style="top:60%;left:0;width:180px;height:40px;animation-delay:3s;"></div></div>
+    <div class="hero-title">Telestore</div>
+    <div class="pill pill-h" id="pill-h"></div>
+  </div>
+
+</div>
+
+<script>
+const words = ["Manuellt kaos", "56 automationer", "390 000 kr/år"];
+const pillIds = ['pill-current', 'pill-e', 'pill-f', 'pill-g', 'pill-h'];
+
+function flipWord(pillEl) {
+  let index = 0;
+  function animate() {
+    const word = words[index % words.length];
+    pillEl.innerHTML = '';
+    const container = document.createElement('span');
+    container.className = 'flip-word';
+    word.split('').forEach((letter, i) => {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = letter === ' ' ? '\u00A0' : letter;
+      span.style.animationDelay = `${i * 0.02}s`;
+      container.appendChild(span);
+    });
+    pillEl.appendChild(container);
+    index++;
+  }
+  animate();
+  setInterval(animate, 2500);
+}
+
+pillIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) flipWord(el);
+});
+</script>
+</body>
+</html>

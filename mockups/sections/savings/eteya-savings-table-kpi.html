@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eteya — Besparingar (Fas 1 v3)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --primary: #F5F5F5;
+      --secondary: #9B9B9B;
+      --accent: #C8FF00;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.12);
+      --text-dim: rgba(255, 255, 255, 0.5);
+      --text-mid: rgba(255, 255, 255, 0.7);
+      --text-bright: rgba(255, 255, 255, 0.9);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 120px 62px;
+    }
+
+    @media (max-width: 767px) {
+      .section { padding: 60px 24px; }
+    }
+
+    /* Title */
+    .sectionTitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 6.125rem);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .sectionSubtitle {
+      font-family: 'Geist', 'DM Sans', sans-serif;
+      color: var(--text-dim);
+      font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+      max-width: 700px;
+      margin-bottom: 64px;
+      line-height: 1.75;
+    }
+
+    /* KPI Cards — minimal, premium */
+    .kpiGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 80px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .kpiCard {
+      padding: 48px 32px;
+      text-align: left;
+      transition: background 0.3s;
+    }
+
+    .kpiCard:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .kpiValue {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .kpiLabel {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Table — matching existing .tableWrap styles */
+    .tableWrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.9rem, 1vw, 1rem);
+    }
+
+    thead th {
+      text-align: left;
+      padding: 16px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      color: var(--text-bright);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    tbody td {
+      padding: 16px 12px;
+      color: var(--text-mid);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    tbody tr {
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .colNum {
+      color: var(--text-dim);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      width: 50px;
+    }
+
+    .colProcess {
+      font-weight: 500;
+      color: var(--primary);
+      min-width: 200px;
+    }
+
+    .colBefore {
+      color: var(--text-dim);
+    }
+
+    .colAfter {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .colSaved {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Total row */
+    tfoot td {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      padding: 20px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .totalLabel {
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .totalValue {
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .kpiGrid { grid-template-columns: 1fr; }
+      td, th { padding: 12px 8px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="section">
+  <h1 class="sectionTitle">Besparingar</h1>
+  <p class="sectionSubtitle">
+    Detaljerad genomgång av alla automationer implementerade för Telestore. 
+    Varje process har optimerats från manuell hantering till fullautomatiserad drift.
+  </p>
+
+  <!-- KPI Cards -->
+  <div class="kpiGrid">
+    <div class="kpiCard">
+      <div class="kpiValue">390 000 kr</div>
+      <div class="kpiLabel">Besparing/år</div>
+    </div>
+    <div class="kpiCard">
+      <div class="kpiValue">1 350 timmar</div>
+      <div class="kpiLabel">Sparad tid/år</div>
+    </div>
+    <div class="kpiCard">
+      <div class="kpiValue">56</div>
+      <div class="kpiLabel">Automationer</div>
+    </div>
+  </div>
+
+  <!-- Data Table — matching existing case study table styles -->
+  <div class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Process</th>
+          <th>Tid före</th>
+          <th>Tid efter</th>
+          <th>Volym/vecka</th>
+          <th>Sparat/vecka</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="colNum">01</td>
+          <td class="colProcess">Telefon → sajt/Blocket</td>
+          <td class="colBefore">7.5 min/st</td>
+          <td class="colAfter">~0 min</td>
+          <td>75 st</td>
+          <td class="colSaved">9.4 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">02</td>
+          <td class="colProcess">PostNord fraktsedel</td>
+          <td class="colBefore">5 min/st</td>
+          <td class="colAfter">~0 min</td>
+          <td>34 st</td>
+          <td class="colSaved">2.8 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">03</td>
+          <td class="colProcess">Orderhantering</td>
+          <td class="colBefore">10 min/st</td>
+          <td class="colAfter">2 min/st</td>
+          <td>34 st</td>
+          <td class="colSaved">4.5 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">04</td>
+          <td class="colProcess">AI prisförslag-mail</td>
+          <td class="colBefore">7.5 min/st</td>
+          <td class="colAfter">~0 min</td>
+          <td>25 st</td>
+          <td class="colSaved">3.1 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">05</td>
+          <td class="colProcess">Registrering (Excel→AT)</td>
+          <td class="colBefore">1 min/st</td>
+          <td class="colAfter">~0 min</td>
+          <td>75 st</td>
+          <td class="colSaved">1.3 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">06</td>
+          <td class="colProcess">Scrive-avtal</td>
+          <td class="colBefore">2 min/st</td>
+          <td class="colAfter">~0 min</td>
+          <td>43 st</td>
+          <td class="colSaved">1.4 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">07</td>
+          <td class="colProcess">Kundservice-mail</td>
+          <td class="colBefore">2 min/st</td>
+          <td class="colAfter">~0.5 min</td>
+          <td>75 st</td>
+          <td class="colSaved">1.9 h</td>
+        </tr>
+        <tr>
+          <td class="colNum">08</td>
+          <td class="colProcess">Excel-felsökning</td>
+          <td class="colBefore">2.5 h/v</td>
+          <td class="colAfter">0 h/v</td>
+          <td>0.5×/v</td>
+          <td class="colSaved">1.3 h</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" class="totalLabel">Totalt sparad tid per vecka</td>
+          <td class="totalValue">27.7 h</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+</body>
+</html>

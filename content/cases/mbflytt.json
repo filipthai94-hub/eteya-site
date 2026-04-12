@@ -1,0 +1,63 @@
+{
+  "id": "mbflytt",
+  "slug": "mbflytt",
+  "order": 5,
+  "category": "logistics",
+  "title": {
+    "sv": "MB Flytt",
+    "en": "MB Flytt"
+  },
+  "subtitle": {
+    "sv": "Flytt & Logistik",
+    "en": "Moving & Logistics"
+  },
+  "heroStats": {
+    "sv": [
+      { "value": "2x", "label": "Fler offerter/dag" },
+      { "value": "15 min", "label": "Offertid" },
+      { "value": "35%", "label": "Högre konvertering" }
+    ],
+    "en": [
+      { "value": "2x", "label": "More quotes/day" },
+      { "value": "15 min", "label": "Quote time" },
+      { "value": "35%", "label": "Higher conversion" }
+    ]
+  },
+  "challenge": {
+    "sv": "Offerter skapades manuellt — varje förfrågan krävde telefonsamtal, hembesök och timmar av kalkylering. De tappade kunder till snabbare konkurrenter.",
+    "en": "Quotes were created manually — every inquiry required phone calls, home visits and hours of calculation. They lost customers to faster competitors."
+  },
+  "solution": {
+    "sv": "AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.",
+    "en": "AI-driven quote generation based on customer data. Automatic calculation, digital signing and booking confirmation."
+  },
+  "results": [
+    {
+      "sv": "2x fler offerter skickade per dag",
+      "en": "2x more quotes sent per day"
+    },
+    {
+      "sv": "Offertid: från 24h till 15 minuter",
+      "en": "Quote time: from 24h to 15 minutes"
+    },
+    {
+      "sv": "35% högre konvertering",
+      "en": "35% higher conversion"
+    },
+    {
+      "sv": "Digitala avtal → noll pappersarbete",
+      "en": "Digital contracts → zero paperwork"
+    }
+  ],
+  "quote": {
+    "sv": "Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först.",
+    "en": "We used to lose jobs because we were too slow. Now we are always first.",
+    "author": "Marcus Bengtsson",
+    "role": {
+      "sv": "VD, MB Flytt",
+      "en": "CEO, MB Flytt"
+    }
+  },
+  "logo": "/images/logos/mbflytt.png",
+  "image": "/images/mbflytt-startsida.jpg"
+}

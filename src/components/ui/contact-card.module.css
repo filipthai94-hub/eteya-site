@@ -1,0 +1,419 @@
+/* ContactCard CSS Module - Next.js 16 + React 19 Best Practice */
+
+/* ============================================
+   ANIMATIONER
+   ============================================ */
+
+@keyframes cc-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cc-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============================================
+   ROOT CONTAINER
+   ============================================ */
+
+.root {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1100px;
+  min-height: 400px; /* Förhindra collapse */
+  z-index: 10001; /* Mycket högre än allt annat */
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+}
+
+/* ============================================
+   PLUS IKONER (DEKORATION)
+   ============================================ */
+
+.plus {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  color: #ffffff;
+  z-index: 10;
+}
+
+.plusTopLeft {
+  composes: plus;
+  top: -12px;
+  left: -12px;
+}
+
+.plusTopRight {
+  composes: plus;
+  top: -12px;
+  right: -12px;
+}
+
+.plusBottomLeft {
+  composes: plus;
+  bottom: -12px;
+  left: -12px;
+}
+
+.plusBottomRight {
+  composes: plus;
+  bottom: -12px;
+  right: -12px;
+}
+
+/* ============================================
+   GRID LAYOUT (KORT)
+   ============================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  opacity: 1; /* Alltid synlig */
+  animation: cc-card-in 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   VÄNSTER SEKTION (KONTAKTINFO)
+   ============================================ */
+
+.left {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 14px 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  margin: 0 0 40px 0;
+  line-height: 1.65;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.contactItem:last-child {
+  margin-bottom: 0;
+}
+
+.contactIcon {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contactLabel {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  margin: 0 0 2px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.contactValue {
+  color: #ffffff;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* ============================================
+   HÖGER SEKTION (FORMULÄR)
+   ============================================ */
+
+.form {
+  padding: 48px 44px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.form form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Form row (2 kolumner) */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Form field container */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Label */
+.label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Input fields */
+.input {
+  height: 42px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Textarea */
+.textarea {
+  min-height: 100px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+/* Submit button */
+.submitButton {
+  height: 44px;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+
+.submitButton:hover {
+  opacity: 0.88;
+}
+
+.submitButton:active {
+  transform: translateY(1px);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dropdown container */
+.dropdownContainer {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownButton {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.dropdownButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.dropdownButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropdownButtonSelected {
+  color: #ffffff;
+}
+
+.dropdownButtonPlaceholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  z-index: 20;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  cursor: pointer;
+  transition: background 100ms;
+}
+
+.dropdownItem:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Error message */
+.error {
+  color: #f87171;
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+/* Success state */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  text-align: center;
+}
+
+.successIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.successIcon svg {
+  width: 28px;
+  height: 28px;
+  color: #22c55e;
+}
+
+.successText {
+  color: #ffffff;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Close button */
+.closeButton {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  color: rgba(255, 255, 255, 0.5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+}
+
+.closeButton:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN (MOBIL ≤680px)
+   ============================================ */
+
+@media (max-width: 680px) {
+  /* Grid blir single column */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Göm kontaktinfo-sektionen */
+  .left {
+    display: none;
+  }
+
+  /* Form row blir single column */
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  /* Root container - mindre bredd */
+  .root {
+    width: calc(100% - 32px);
+    max-width: 420px;
+  }
+
+  /* Minska padding på formulär */
+  .form {
+    padding: 32px 24px !important;
+  }
+
+  /* Minska rubrikstorlek */
+  .title {
+    font-size: 1.75rem !important;
+  }
+
+  /* Rundare hörn på mobil */
+  .grid {
+    border-radius: 16px;
+  }
+}

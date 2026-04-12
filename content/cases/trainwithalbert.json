@@ -1,0 +1,99 @@
+{
+  "name": "TrainWithAlbert",
+  "slug": "trainwithalbert",
+  "tagline": "AI coach som sparar 8h/vecka",
+  "industry": "Personlig träning & coaching",
+  "order": 4,
+  "hero": {
+    "title": "TrainWithAlbert",
+    "words": [
+      "Admin-kaos",
+      "3x fler bokningar",
+      "8h/vecka sparad"
+    ],
+    "backgroundImage": "/images/hero-telestore-bg.png",
+    "logo": "/images/logos/trainwithalbert.svg",
+    "livePreview": "/images/cases/trainwithalbert-home-full.png"
+  },
+  "challenge": {
+    "title": "Utmaningen",
+    "cards": [
+      {
+        "number": 1,
+        "title": "Schemaläggning tog tid",
+        "description": "Albert spenderade timmar varje vecka på att koordinera tider med klienter via mail och sms. Dubbelbokningar och missade tillfällen var vanligt."
+      },
+      {
+        "number": 2,
+        "title": "Uppföljning glömdes",
+        "description": "Efter varje pass behövde klienter få uppföljning och nästa steg. Utan automatisering föll många bort eller bokade inte om."
+      },
+      {
+        "number": 3,
+        "title": "Betalningspåminnelser",
+        "description": "Att påminna om obetalda fakturor var obekvämt och tidskrävande. Det ledde till sämre kassaflöde och onödig administration."
+      },
+      {
+        "number": 4,
+        "title": "Manuella träningsprogram",
+        "description": "Varje klient fick ett skräddarsytt program som skickades manuellt. Det tog tid från själva coachingen och var svårt att skala."
+      }
+    ]
+  },
+  "solution": {
+    "title": "Lösningen",
+    "subtitle": "Automatiserad klientresa från bokning till uppföljning. AI-driven schemaläggning, automatiska påminnelser och personliga träningsprogram.",
+    "items": [
+      {
+        "number": 1,
+        "title": "AI-driven schemaläggning",
+        "description": "Klienter bokar själva via en intelligent kalender som undviker dubbelbokningar och skickar automatiska bekräftelser."
+      },
+      {
+        "number": 2,
+        "title": "Automatiska påminnelser",
+        "description": "Påminnelser om kommande pass, obetalda fakturor och uppföljning skickas automatiskt vid rätt tidpunkt."
+      },
+      {
+        "number": 3,
+        "title": "Personliga träningsprogram",
+        "description": "AI genererar skräddarsydda träningsprogram baserat på klientens mål och framsteg, redo att skickas direkt."
+      },
+      {
+        "number": 4,
+        "title": "Automatiserad uppföljning",
+        "description": "Efter varje pass får klienten automatisk uppföljning med nästa steg, vilket ökar återbokningen markant."
+      }
+    ]
+  },
+  "results": {
+    "title": "Resultat",
+    "stats": [
+      {
+        "value": 3,
+        "suffix": "x",
+        "label": "Fler bokningar/månad"
+      },
+      {
+        "value": 8,
+        "suffix": "h/vecka",
+        "label": "Sparad admin-tid"
+      },
+      {
+        "value": 45,
+        "suffix": "%",
+        "label": "Återbokning"
+      },
+      {
+        "value": 60,
+        "suffix": "%",
+        "label": "Ökad intäkt på 3 månader"
+      }
+    ]
+  },
+  "quote": {
+    "text": "Jag är coach igen, inte administratör. Det förändrade allt.",
+    "author": "Albert Wan",
+    "role": "Grundare"
+  }
+}

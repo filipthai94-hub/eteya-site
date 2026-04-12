@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Glow Text — Spec for Eteya Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #080808; color: #fff; font-family: 'Barlow Condensed', sans-serif; }
+  
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  
+  h1 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+  h2 { font-size: 20px; font-weight: 600; margin-bottom: 40px; color: #C8FF00; }
+  
+  .spec-grid { display: grid; grid-template-columns: 1fr; gap: 60px; }
+  
+  .spec-section { }
+  .spec-label { 
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; 
+    color: rgba(255,255,255,0.3); margin-bottom: 8px; 
+  }
+  .spec-code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.05);
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.6);
+    margin: 12px 0 40px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .spec-code .prop { color: #C8FF00; }
+  .spec-code .val { color: #fff; }
+  
+  /* Hero preview area */
+  .hero-preview {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 0;
+    background: #080808;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .hero-title {
+    font-size: clamp(3.85rem, 8vw, 7rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+    color: #fff;
+  }
+  
+  .flip-text {
+    font-size: clamp(1.7rem, 4vw, 3.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  
+  /* ============ LEVEL 1: SUBTLE GLOW ============ */
+  .glow-subtle {
+    color: #C8FF00;
+    text-shadow: 
+      0 0 10px rgba(200, 255, 0, 0.3),
+      0 0 20px rgba(200, 255, 0, 0.15);
+  }
+  
+  /* ============ LEVEL 2: MEDIUM GLOW (RECOMMENDED) ============ */
+  .glow-medium {
+    color: #C8FF00;
+    text-shadow: 
+      0 0 7px rgba(200, 255, 0, 0.6),
+      0 0 15px rgba(200, 255, 0, 0.4),
+      0 0 30px rgba(200, 255, 0, 0.2),
+      0 0 60px rgba(200, 255, 0, 0.1);
+  }
+  
+  /* ============ LEVEL 3: STRONG GLOW ============ */
+  .glow-strong {
+    color: #C8FF00;
+    text-shadow: 
+      0 0 7px #C8FF00,
+      0 0 10px #C8FF00,
+      0 0 21px #C8FF00,
+      0 0 42px rgba(200, 255, 0, 0.5),
+      0 0 82px rgba(200, 255, 0, 0.3),
+      0 0 120px rgba(200, 255, 0, 0.15);
+  }
+  
+  /* ============ LEVEL 4: GRADIENT TEXT ============ */
+  .gradient-text {
+    background: linear-gradient(135deg, #ffffff 0%, #C8FF00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* ============ LEVEL 5: GRADIENT TEXT + MEDIUM GLOW ============ */
+  .gradient-glow {
+    background: linear-gradient(135deg, #ffffff 0%, #C8FF00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(200, 255, 0, 0.4)) drop-shadow(0 0 20px rgba(200, 255, 0, 0.2));
+  }
+  
+  /* ============ LEVEL 6: WHITE TEXT + ACCENT GLOW UNDERLINE ============ */
+  .underline-glow {
+    color: #fff;
+    position: relative;
+    display: inline-block;
+  }
+  .underline-glow::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #C8FF00;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(200, 255, 0, 0.6), 0 0 20px rgba(200, 255, 0, 0.3);
+  }
+  
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 20px 0 50px;
+  }
+  
+  /* Recommendation badge */
+  .rec-badge {
+    display: inline-block;
+    background: #C8FF00;
+    color: #080808;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Eteya Hero — Neon Glow Spec</h1>
+  <h2>Flip Text Alternatives (No Pill/Badge)</h2>
+
+  <div class="spec-grid">
+
+    <!-- LEVEL 1: SUBTLE -->
+    <div class="spec-section">
+      <div class="spec-label">Level 1 — Subtle Glow <span class="rec-badge">Too subtle</span></div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text glow-subtle">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">color</span>: <span class="val">#C8FF00</span>;
+<span class="prop">text-shadow</span>: 
+  <span class="val">0 0 10px rgba(200, 255, 0, 0.3)</span>,
+  <span class="val">0 0 20px rgba(200, 255, 0, 0.15)</span>;</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LEVEL 2: MEDIUM (RECOMMENDED) -->
+    <div class="spec-section">
+      <div class="spec-label">Level 2 — Medium Glow <span class="rec-badge">★ Recommended</span></div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text glow-medium">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">color</span>: <span class="val">#C8FF00</span>;
+<span class="prop">text-shadow</span>: 
+  <span class="val">0 0 7px rgba(200, 255, 0, 0.6)</span>,
+  <span class="val">0 0 15px rgba(200, 255, 0, 0.4)</span>,
+  <span class="val">0 0 30px rgba(200, 255, 0, 0.2)</span>,
+  <span class="val">0 0 60px rgba(200, 255, 0, 0.1)</span>;</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LEVEL 3: STRONG -->
+    <div class="spec-section">
+      <div class="spec-label">Level 3 — Strong Glow <span class="rec-badge">Too much</span></div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text glow-strong">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">color</span>: <span class="val">#C8FF00</span>;
+<span class="prop">text-shadow</span>: 
+  <span class="val">0 0 7px #C8FF00</span>,
+  <span class="val">0 0 10px #C8FF00</span>,
+  <span class="val">0 0 21px #C8FF00</span>,
+  <span class="val">0 0 42px rgba(200, 255, 0, 0.5)</span>,
+  <span class="val">0 0 82px rgba(200, 255, 0, 0.3)</span>,
+  <span class="val">0 0 120px rgba(200, 255, 0, 0.15)</span>;</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LEVEL 4: GRADIENT TEXT -->
+    <div class="spec-section">
+      <div class="spec-label">Level 4 — Gradient Text (White → Green)</div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text gradient-text">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">background</span>: <span class="val">linear-gradient(135deg, #fff 0%, #C8FF00 100%)</span>;
+<span class="prop">-webkit-background-clip</span>: <span class="val">text</span>;
+<span class="prop">-webkit-text-fill-color</span>: <span class="val">transparent</span>;</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LEVEL 5: GRADIENT + GLOW -->
+    <div class="spec-section">
+      <div class="spec-label">Level 5 — Gradient + Glow <span class="rec-badge">Alternative</span></div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text gradient-glow">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">background</span>: <span class="val">linear-gradient(135deg, #fff 0%, #C8FF00 100%)</span>;
+<span class="prop">-webkit-background-clip</span>: <span class="val">text</span>;
+<span class="prop">-webkit-text-fill-color</span>: <span class="val">transparent</span>;
+<span class="prop">filter</span>: <span class="val">drop-shadow(0 0 10px rgba(200, 255, 0, 0.4)) drop-shadow(0 0 20px rgba(200, 255, 0, 0.2))</span>;</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- LEVEL 6: UNDERLINE GLOW -->
+    <div class="spec-section">
+      <div class="spec-label">Level 6 — White Text + Accent Underline</div>
+      <div class="hero-preview">
+        <div class="hero-title">Telestore</div>
+        <div class="flip-text underline-glow">390 000 kr/år</div>
+      </div>
+      <div class="spec-code"><span class="prop">color</span>: <span class="val">#fff</span>;
+<span class="prop">border-bottom</span>: <span class="val">3px solid #C8FF00</span>;
+<span class="prop">box-shadow (on pseudo)</span>: <span class="val">0 0 8px rgba(200, 255, 0, 0.6), 0 0 20px rgba(200, 255, 0, 0.3)</span>;</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 80px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <h1 style="color: #C8FF00; font-size: 11px;">RECOMMENDATION</h1>
+    <p style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 600px;">
+      <strong style="color:#fff;">Level 2 — Medium Glow</strong> is the sweet spot. 
+      Visible enough to pop on #080808, subtle enough to feel premium B2B. 
+      The 4-layer shadow creates depth without looking like a neon sign.
+      Works perfectly with Framer Motion blur-in animation on each letter.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eteya — Besparingar (Komplett)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface-hover: #161616;
+      --primary: #F5F5F5;
+      --secondary: #9B9B9B;
+      --accent: #C8FF00;
+      --bar-bg: #1a1a1a;
+      --bar-before: #3a3a3a;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.12);
+      --text-dim: rgba(255, 255, 255, 0.5);
+      --text-mid: rgba(255, 255, 255, 0.7);
+      --text-bright: rgba(255, 255, 255, 0.9);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 62px;
+    }
+
+    @media (max-width: 767px) {
+      .section { padding: 60px 24px; }
+    }
+
+    .sectionTitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 6.125rem);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .sectionSubtitle {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dim);
+      font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+      max-width: 700px;
+      margin-bottom: 64px;
+      line-height: 1.75;
+    }
+
+    /* Snapshot Bar */
+    .snapshotBar {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 48px 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 64px;
+    }
+
+    .snapshotItem {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 140px;
+    }
+
+    .snapshotValue {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+
+    .snapshotLabel {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .snapshotDivider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    @media (max-width: 640px) {
+      .snapshotBar { flex-direction: column; gap: 24px; padding: 20px; }
+      .snapshotDivider { width: 100%; height: 1px; align-self: center; }
+    }
+
+    /* Two-column layout: Donut + Bullet Chart */
+    .savingsLayout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .savingsLayout { grid-template-columns: 1fr; }
+    }
+
+    /* Donut Chart */
+    .donutSection {
+      position: sticky;
+      top: 86px;
+    }
+
+    .donutTitle {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .donutWrap {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 0 auto 32px;
+    }
+
+    .donutSvg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .donutSegment {
+      fill: none;
+      stroke-width: 32;
+      transition: opacity 0.2s;
+    }
+
+    .donutSegment:hover {
+      opacity: 0.8;
+    }
+
+    .donutCenter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donutCenterValue {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1;
+    }
+
+    .donutCenterLabel {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Legend */
+    .donutLegend {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .legendItem {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .legendItem:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .legendDot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legendText {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+
+    .legendValue {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-bright);
+    }
+
+    /* Bullet Chart Table */
+    .bulletTable {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .tableHeader {
+      display: grid;
+      grid-template-columns: 2fr 3fr 1fr;
+      gap: 24px;
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-strong);
+    }
+
+    .tableHeader span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .tableRow {
+      display: grid;
+      grid-template-columns: 2fr 3fr 1fr;
+      gap: 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .tableRow:last-child { border-bottom: none; }
+    .tableRow:hover { background: var(--surface-hover); }
+
+    .processInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .processName {
+      font-weight: 500;
+      color: var(--text-bright);
+      font-size: 0.95rem;
+    }
+
+    .processVolume {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    .bulletChart {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .bulletBar {
+      position: relative;
+      height: 24px;
+      background: var(--bar-bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bulletBarBefore {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--bar-before);
+      border-radius: 4px;
+    }
+
+    .bulletBarAfter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      opacity: 0.9;
+    }
+
+    .bulletLabels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .bulletLabelAfter {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .savedValue {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-bright);
+    }
+
+    .totalRow {
+      display: grid;
+      grid-template-columns: 2fr 3fr 1fr;
+      gap: 24px;
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-strong);
+      background: transparent;
+    }
+
+    .totalLabel {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+    }
+
+    .totalValue {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: var(--text-bright);
+    }
+
+    @media (max-width: 767px) {
+      .savingsLayout { grid-template-columns: 1fr; }
+      .donutSection { position: static; order: -1; }
+      .tableHeader span { display: none; }
+      .tableHeader { grid-template-columns: 1fr; gap: 12px; padding: 14px 16px; }
+      .tableRow { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+      .bulletChart { order: 2; }
+      .savedValue { order: 3; justify-content: flex-start; font-size: 1.1rem; }
+      .totalRow { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
+      .totalValue { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="section">
+  <h1 class="sectionTitle">Besparingar</h1>
+  <p class="sectionSubtitle">
+    Detaljerad genomgång av alla automationer implementerade för Telestore. 
+    Varje process har optimerats från manuell hantering till fullautomatiserad drift.
+  </p>
+
+  <!-- Snapshot Bar -->
+  <div class="snapshotBar">
+    <div class="snapshotItem">
+      <span class="snapshotValue">390 000 kr</span>
+      <span class="snapshotLabel">Besparing/år</span>
+    </div>
+    <div class="snapshotDivider"></div>
+    <div class="snapshotItem">
+      <span class="snapshotValue">1 350 timmar</span>
+      <span class="snapshotLabel">Sparad tid/år</span>
+    </div>
+    <div class="snapshotDivider"></div>
+    <div class="snapshotItem">
+      <span class="snapshotValue">56</span>
+      <span class="snapshotLabel">Automationer</span>
+    </div>
+  </div>
+
+  <!-- Two-column: Donut + Bullet Chart -->
+  <div class="savingsLayout">
+
+    <!-- Donut Chart (sticky left) -->
+    <div class="donutSection">
+      <div class="donutTitle">Fördelning av sparad tid</div>
+
+      <div class="donutWrap">
+        <svg class="donutSvg" viewBox="0 0 200 200">
+          <!-- Listning & publicering: 10.7h / 27.7h = 38.6% -->
+          <circle class="donutSegment" cx="100" cy="100" r="80"
+            stroke="#C8FF00" stroke-dasharray="193.7 309.3" stroke-dashoffset="0" />
+          <!-- Order & frakt: 7.3h = 26.4% -->
+          <circle class="donutSegment" cx="100" cy="100" r="80"
+            stroke="#8BCC00" stroke-dasharray="132.5 370.5" stroke-dashoffset="-193.7" />
+          <!-- Kundservice & AI: 5.0h = 18.1% -->
+          <circle class="donutSegment" cx="100" cy="100" r="80"
+            stroke="#5A8A00" stroke-dasharray="90.7 412.3" stroke-dashoffset="-326.2" />
+          <!-- Admin & Avtal: 2.7h = 9.7% -->
+          <circle class="donutSegment" cx="100" cy="100" r="80"
+            stroke="#3D5E00" stroke-dasharray="48.7 454.3" stroke-dashoffset="-416.9" />
+          <!-- Remaining gap: 7.2% -->
+          <circle class="donutSegment" cx="100" cy="100" r="80"
+            stroke="#2A3A00" stroke-dasharray="36.2 466.8" stroke-dashoffset="-465.6" />
+        </svg>
+        <div class="donutCenter">
+          <span class="donutCenterValue">27.7</span>
+          <span class="donutCenterLabel">Timmar/vecka</span>
+        </div>
+      </div>
+
+      <div class="donutLegend">
+        <div class="legendItem">
+          <span class="legendDot" style="background: #C8FF00;"></span>
+          <span class="legendText">Listning & publicering</span>
+          <span class="legendValue">10.7 h</span>
+        </div>
+        <div class="legendItem">
+          <span class="legendDot" style="background: #8BCC00;"></span>
+          <span class="legendText">Order & frakt</span>
+          <span class="legendValue">7.3 h</span>
+        </div>
+        <div class="legendItem">
+          <span class="legendDot" style="background: #5A8A00;"></span>
+          <span class="legendText">Kundservice & AI</span>
+          <span class="legendValue">5.0 h</span>
+        </div>
+        <div class="legendItem">
+          <span class="legendDot" style="background: #3D5E00;"></span>
+          <span class="legendText">Admin & avtal</span>
+          <span class="legendValue">2.7 h</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bullet Chart Table (right) -->
+    <div class="bulletTable">
+      <div class="tableHeader">
+        <span>Process</span>
+        <span>Tidsjämförelse (per enhet)</span>
+        <span>Sparat/vecka</span>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Telefon → sajt/Blocket</span>
+          <span class="processVolume">75 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 2%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>7.5 min</span>
+            <span class="bulletLabelAfter">~0 min</span>
+          </div>
+        </div>
+        <div class="savedValue">9.4 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">PostNord fraktsedel</span>
+          <span class="processVolume">34 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 2%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>5 min</span>
+            <span class="bulletLabelAfter">~0 min</span>
+          </div>
+        </div>
+        <div class="savedValue">2.8 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Orderhantering</span>
+          <span class="processVolume">34 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 20%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>10 min</span>
+            <span class="bulletLabelAfter">2 min</span>
+          </div>
+        </div>
+        <div class="savedValue">4.5 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">AI prisförslag-mail</span>
+          <span class="processVolume">25 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 2%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>7.5 min</span>
+            <span class="bulletLabelAfter">~0 min</span>
+          </div>
+        </div>
+        <div class="savedValue">3.1 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Registrering (Excel→AT)</span>
+          <span class="processVolume">75 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 2%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>1 min</span>
+            <span class="bulletLabelAfter">~0 min</span>
+          </div>
+        </div>
+        <div class="savedValue">1.3 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Scrive-avtal</span>
+          <span class="processVolume">43 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 2%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>2 min</span>
+            <span class="bulletLabelAfter">~0 min</span>
+          </div>
+        </div>
+        <div class="savedValue">1.4 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Kundservice-mail</span>
+          <span class="processVolume">75 st/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 25%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>2 min</span>
+            <span class="bulletLabelAfter">~0.5 min</span>
+          </div>
+        </div>
+        <div class="savedValue">1.9 h</div>
+      </div>
+
+      <div class="tableRow">
+        <div class="processInfo">
+          <span class="processName">Excel-felsökning</span>
+          <span class="processVolume">0.5×/vecka</span>
+        </div>
+        <div class="bulletChart">
+          <div class="bulletBar">
+            <div class="bulletBarBefore" style="width: 100%;"></div>
+            <div class="bulletBarAfter" style="width: 0%;"></div>
+          </div>
+          <div class="bulletLabels">
+            <span>2.5 h</span>
+            <span class="bulletLabelAfter">0 h</span>
+          </div>
+        </div>
+        <div class="savedValue">1.3 h</div>
+      </div>
+
+      <div class="totalRow">
+        <div class="totalLabel">Totalt sparad tid per vecka</div>
+        <div></div>
+        <div class="totalValue">27.7 h</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

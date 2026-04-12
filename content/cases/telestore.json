@@ -1,0 +1,164 @@
+{
+  "name": "Telestore",
+  "slug": "telestore",
+  "tagline": "40% snabbare orderhantering",
+  "industry": "E-handel",
+  "order": 1,
+  "hero": {
+    "title": "Telestore",
+    "words": [
+      "Manuellt kaos",
+      "56 automationer",
+      "390 000 kr/år"
+    ],
+    "backgroundImage": "/images/hero-telestore-bg.png",
+    "logo": "/images/telestore-logo.svg",
+    "livePreview": "/images/telestore-shot.png"
+  },
+  "challenge": {
+    "title": "Utmaningen",
+    "cards": [
+      {
+        "number": 1,
+        "title": "Manuell listning",
+        "description": "75 telefoner varje vecka listades manuellt på telestore.se, Blocket och Tradera. Varje listning tog 7.5 minuter — tid som kunde använts till försäljning och kundservice."
+      },
+      {
+        "number": 2,
+        "title": "Excel-kaos",
+        "description": "2.5 timmar varje vecka bortkastad på felsökning i manuella listor. När något gick fel var 2–3 personer inblandade i koordinering, felsökning och återställning."
+      },
+      {
+        "number": 3,
+        "title": "Missade försäljningar",
+        "description": "Felpriser, uteblivna leveranser och borttappade kundärenden skapade direkta kostnader. Varje manuellt fel riskerade att förlora kunder och skada företagets rykte."
+      },
+      {
+        "number": 4,
+        "title": "Ingen skalbarhet",
+        "description": "Varje ny telefon krävde manuell hantering. Affären kunde inte växa utan att anställa mer personal. Automationsbehovet var akut för att bryta botten-effekten."
+      }
+    ]
+  },
+  "solution": {
+    "title": "Lösningen",
+    "subtitle": "56 automationer implementerade på 3 veckor. Make, AI-agenter och scripts — alla testade mot riktig data.",
+    "items": [
+      {
+        "number": 1,
+        "title": "Listning & IMEI",
+        "description": "75 telefoner/vecka listades automatiskt på telestore.se, Blocket och Tradera med rätt pris, bilder och spec."
+      },
+      {
+        "number": 2,
+        "title": "Order & frakt",
+        "description": "Varje order genererade automatiskt bekräftelse, fraktsedel och avtal. Inga manuella steg, inga glömda detaljer."
+      },
+      {
+        "number": 3,
+        "title": "Kundservice & AI",
+        "description": "AI-agenter klassificerade och besvarade inkommande mail dygnet runt, under en sekund per ärende."
+      },
+      {
+        "number": 4,
+        "title": "Skalbarhet",
+        "description": "Affären växer utan att teamet växer. Varje ny telefon hanteras automatiskt."
+      }
+    ]
+  },
+  "results": {
+    "title": "Resultat",
+    "stats": [
+      {
+        "value": 390000,
+        "suffix": " kr",
+        "label": "Besparing/år"
+      },
+      {
+        "value": 1350,
+        "suffix": " timmar",
+        "label": "Sparad tid/år"
+      },
+      {
+        "value": 56,
+        "suffix": "",
+        "label": "Automationer"
+      }
+    ]
+  },
+  "savings": {
+    "title": "Besparingar",
+    "cards": [
+      {
+        "number": 1,
+        "title": "Telefon → sajt/Blocket",
+        "before": "7.5 min/telefon",
+        "after": "~0 min (automatiskt)",
+        "volume": "75 st/vecka",
+        "saved": "9.4 h/vecka"
+      },
+      {
+        "number": 2,
+        "title": "PostNord fraktsedel",
+        "before": "5 min/fraktsedel",
+        "after": "~0 min (automatiskt)",
+        "volume": "34 st/vecka",
+        "saved": "2.8 h/vecka"
+      },
+      {
+        "number": 3,
+        "title": "Orderhantering",
+        "before": "10 min/order",
+        "after": "2 min/order",
+        "volume": "34 st/vecka",
+        "saved": "4.5 h/vecka"
+      },
+      {
+        "number": 4,
+        "title": "AI prisförslag-mail",
+        "before": "7.5 min/mail",
+        "after": "~0 min (automatiskt)",
+        "volume": "25 st/vecka",
+        "saved": "3.1 h/vecka"
+      },
+      {
+        "number": 5,
+        "title": "Registrering (Excel → AT)",
+        "before": "1 min/telefon",
+        "after": "~0 min (automatiskt)",
+        "volume": "75 st/vecka",
+        "saved": "1.3 h/vecka"
+      },
+      {
+        "number": 6,
+        "title": "Scrive-avtal",
+        "before": "2 min/avtal",
+        "after": "~0 min (automatiskt)",
+        "volume": "43 st/vecka",
+        "saved": "1.4 h/vecka"
+      },
+      {
+        "number": 7,
+        "title": "Kundservice-mail",
+        "before": "2 min/mail",
+        "after": "~0.5 min/mail",
+        "volume": "75 st/vecka",
+        "saved": "1.9 h/vecka"
+      },
+      {
+        "number": 8,
+        "title": "Excel-felsökning",
+        "before": "2.5 h/vecka",
+        "after": "0 h/vecka",
+        "volume": "0.5×/vecka",
+        "saved": "1.3 h/vecka"
+      }
+    ]
+  },
+  "quote": {
+    "text": "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade.",
+    "author": "Brindar Akalp",
+    "role": "VD, Telestore",
+    "image": "/images/brindar-akalp.jpg"
+  }
+}

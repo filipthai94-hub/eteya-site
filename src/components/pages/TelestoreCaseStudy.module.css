@@ -63,16 +63,12 @@
 .heroSection {
   position: relative;
   width: 100%;
-  height: 80vh;
-  min-height: 60vh;
+  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
-  background-image: url('/images/hero-telestore-bg.png');
-  background-size: 100% auto; /* Visar hela bilden i full bredd */
-  background-position: center bottom; /* Börjar från botten */
-  background-repeat: no-repeat;
 }
 
 /* -- UTMANINGEN HEADER (sista delen av bakgrundsbilden) -- */
@@ -163,17 +159,7 @@
 }
 
 /* H2 — matchar prod: TJÄNSTER, VÅRA CASE */
-.sectionTitle {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 6.125rem);
-  font-weight: 500;
-  line-height: 1;
-  color: rgb(245, 245, 245);
-  text-transform: uppercase;
-  margin-bottom: 68px;
-  margin-top: 0;
-  width: 100%;
-}
+/* sectionTitle defined below (unified) */
 
 /* StatsClient: ingen begränsning — ska gå kant-till-kant på prod */
 .statsSection :global(.bd-stats-section) {
@@ -184,7 +170,7 @@
 /* ── STATS TITLE WRAPPER ─────────────────────────────────────── */
 .statsTitleWrapper {
   width: 100%;
-  padding: 0 62px;
+  padding: 80px 62px 40px;
 }
 
 @media (max-width: 767px) {
@@ -771,6 +757,349 @@
   box-shadow: 0 8px 24px rgba(200, 255, 0, 0.2);
 }
 
+/* ── NEW SAVINGS DESIGN: Snapshot Bar + Donut + Bullet Table ────── */
+
+.savingsSubtitle {
+  max-width: 700px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  line-height: 1.75;
+  margin: 0 0 64px;
+  text-align: left;
+}
+
+.savingsSnapshotBar {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 48px 32px;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  margin-bottom: 64px;
+  overflow: hidden;
+}
+
+.savingsSnapshotItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 140px;
+  gap: 8px;
+}
+
+.savingsSnapshotValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 0;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: -0.03em;
+}
+
+.savingsSnapshotLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.savingsSnapshotDivider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  align-self: stretch;
+}
+
+.savingsLayout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.savingsDonutSection {
+  position: sticky;
+  top: 2rem;
+}
+
+.savingsDonutTitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 1.5rem;
+}
+
+.savingsDonutWrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 0 auto 32px;
+}
+
+.savingsDonutSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.savingsDonutSegment {
+  fill: none;
+  stroke-width: 32;
+  stroke-linecap: butt;
+  filter: drop-shadow(0 0 6px rgba(200, 255, 0, 0.2));
+}
+
+.savingsDonutTrack {
+  fill: none;
+  stroke: #1a1a1a;
+  stroke-width: 28;
+}
+
+.savingsDonutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.savingsDonutCenterValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1;
+}
+
+.savingsDonutCenterLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.savingsLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.savingsLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: default;
+  transition: background 0.2s;
+}
+
+.savingsLegendItem:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 1);
+}
+
+.savingsLegendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.savingsLegendText {
+  flex: 1;
+}
+
+.savingsLegendValue {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.savingsBulletTable {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.savingsTableHeader {
+  display: grid;
+  grid-template-columns: 180px 1fr 90px;
+  gap: 24px;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.savingsTableHeader span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.savingsTableRow {
+  display: grid;
+  grid-template-columns: 180px 1fr 90px;
+  gap: 24px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.2s, filter 0.2s;
+}
+
+.savingsTableRow:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.savingsTableRow:last-child {
+  border-bottom: none;
+}
+
+.savingsTableRow:hover {
+  background: rgba(200, 255, 0, 0.04);
+}
+
+.savingsTableRow:hover .savingsBulletAfter {
+  filter: drop-shadow(0 0 10px rgba(200, 255, 0, 0.4));
+}
+
+.savingsProcessInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.savingsProcessName {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.savingsProcessVolume {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.savingsBulletChart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.savingsBulletBar {
+  position: relative;
+  height: 24px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.savingsBulletBefore {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #2a2a2a;
+  border-radius: 4px;
+  opacity: 0.7;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.savingsBulletAfter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(180deg, #d4ff33, #C8FF00);
+  border-radius: 4px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px rgba(200, 255, 0, 0.2));
+}
+
+.savingsBulletLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.savingsBulletLabelAfter {
+  color: #C8FF00;
+  font-weight: 500;
+}
+
+.savingsSavedValue {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  align-self: center;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.savingsTotalRow {
+  display: grid;
+  grid-template-columns: 180px 1fr 90px;
+  gap: 24px;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.savingsTotalLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  align-self: center;
+}
+
+.savingsTotalValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
+  text-align: right;
+}
+
+/* Hero content wrapper for BeamsBackground hero */
+.heroContentWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .heroContentWrapper {
+    flex-direction: column;
+  }
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .snapshotGrid {
@@ -937,6 +1266,9 @@
   .savingsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .savingsLayout {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
@@ -947,13 +1279,10 @@
 
 @media (max-width: 767px) {
   .heroSection {
-    min-height: 50vh;
-    background-size: cover; /* På mobil: täck hela ytan istället */
-    background-position: center top; /* Börja från toppen på mobil */
+    min-height: 100vh;
   }
 
   .heroSection {
-    min-height: 50vh;
   }
 
   .heroGrid {
@@ -1058,5 +1387,41 @@
 
   .counterLineActive {
     height: 44px;
+  }
+
+  .savingsSnapshotBar {
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+  }
+  .savingsSnapshotDivider {
+    width: 100%;
+    height: 1px;
+  }
+  .savingsLayout {
+    grid-template-columns: 1fr;
+  }
+  .savingsDonutSection {
+    position: static;
+  }
+  .savingsTableHeader,
+  .savingsTableRow,
+  .savingsTotalRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+  .savingsProcessInfo {
+    order: 1;
+  }
+  .savingsBulletChart {
+    order: 2;
+  }
+  .savingsSavedValue {
+    order: 3;
+    text-align: left;
+  }
+  .savingsSubtitle {
+    margin-bottom: 40px;
   }
 }
