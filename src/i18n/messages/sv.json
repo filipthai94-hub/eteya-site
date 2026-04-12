@@ -323,9 +323,8 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — 390 000 kr/år i besparing med AI | Eteya",
-      "description": "Hur Telestore Sverige AB automatiserade 56 processer och sparar nästan en halvtidstjänst per år. Verifierad data.",
-      "ogImageAlt": "Telestore Case Study — 390 000 kr/år i besparing med AI"
+      "title": "Telestore — Kundcase | Eteya AI",
+      "description": "Hur Eteya automatiserade Telestores arbetsflöden med 56 automationer och sparade 390 000 kr/år."
     },
     "hero": {
       "title": "Telestore Sverige AB",
@@ -437,6 +436,30 @@
     "cta": {
       "calculate": "Beräkna din besparing",
       "methodology": "Se vår metodik"
+    }
+  },
+  "mbflytt": {
+    "meta": {
+      "title": "MB Flytt — Kundcase | Eteya AI",
+      "description": "Hur Eteya automatiserade MB Flytts offertprocess med 12 automationer och 95% snabbare hantering."
+    }
+  },
+  "nordicrank": {
+    "meta": {
+      "title": "Nordicrank — Kundcase | Eteya AI",
+      "description": "Hur Eteya sparade Nordicrank 13.4 timmar/vecka med 18 automationer och 95% färre fel."
+    }
+  },
+  "sannegarden": {
+    "meta": {
+      "title": "Sannegården — Kundcase | Eteya AI",
+      "description": "Hur Eteya hjälpte Sannegården till 0 missade samtal och 30+ extra beställningar per vecka."
+    }
+  },
+  "trainwithalbert": {
+    "meta": {
+      "title": "TrainWithAlbert — Kundcase | Eteya AI",
+      "description": "Hur Eteya gav TrainWithAlbert 3x fler bokningar och 45% återbokning med 8 automationer."
     }
   }
 }

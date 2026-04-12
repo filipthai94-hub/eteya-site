@@ -87,15 +87,29 @@ export default function SannegardenCaseStudy() {
     if (!donutRef.current) return
     const ctx = gsap.context(() => {
       const segments = donutRef.current!.querySelectorAll('[data-donut-segment]')
-      segments.forEach((seg) => {
-        gsap.fromTo(seg, { opacity: 0 }, { opacity: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out',
-          scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true }
-        })
+      segments.forEach((seg, i) => {
+        const el = seg as SVGCircleElement
+        const dashArray = el.getAttribute('stroke-dasharray')
+        const segLength = dashArray ? parseFloat(dashArray.split(' ')[0]) : 0
+        const originalOffset = parseFloat(el.getAttribute('stroke-dashoffset') || '0')
+        gsap.fromTo(el,
+          { strokeDashoffset: segLength + originalOffset, opacity: 1 },
+          {
+            strokeDashoffset: originalOffset,
+            duration: 1.2,
+            delay: i * 0.15,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true },
+          }
+        )
       })
       if (donutCenterRef.current) {
-        gsap.fromTo(donutCenterRef.current, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.7)',
-          scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true }
-        })
+        gsap.fromTo(donutCenterRef.current,
+          { scale: 0.5, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.8, delay: 0.6, ease: 'back.out(1.7)',
+            scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true }
+          }
+        )
       }
     }, donutRef)
     return () => ctx.revert()
@@ -122,7 +136,7 @@ export default function SannegardenCaseStudy() {
     <div ref={containerRef} className={styles.page}>
 
       {/* HERO */}
-      <section className={styles.heroSection} data-reveal>
+      <section className={styles.heroSection}>
         <BeamsBackground intensity="subtle" />
         <div className={styles.heroGrid}>
           <div className={styles.heroContentWrapper}>
@@ -242,6 +256,7 @@ export default function SannegardenCaseStudy() {
               <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av besparingar' : 'Distribution of savings'}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
+                  <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
                   <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#C8FF00" strokeDasharray="175.9 327.1" strokeDashoffset="0" />
                   <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#8BCC00" strokeDasharray="125.7 377.3" strokeDashoffset="-175.9" />
                   <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#5A8A00" strokeDasharray="100.5 402.5" strokeDashoffset="-301.6" />

@@ -233,9 +233,19 @@
       "approachBody2": "We solve this by combining industry data from recognized sources like SCB wage statistics and McKinsey Global Institute with verified customer data from real AI implementations. This gives calculations based on actual time savings — not theoretical estimates from consulting reports.",
       "approachBody3": "All our assumptions are also conservative. We always round down, never up. This means the savings we show represent a lower bound — the actual savings are very likely higher.",
       "approachTraditionalTitle": "Traditional methodology",
-      "approachTraditionalItems": ["Industry reports only", "Generic assumptions", "No verification against real results", "Optimistic estimates"],
+      "approachTraditionalItems": [
+        "Industry reports only",
+        "Generic assumptions",
+        "No verification against real results",
+        "Optimistic estimates"
+      ],
       "approachHybridTitle": "Eteya Hybrid methodology",
-      "approachHybridItems": ["Industry data + verified customer data", "Conservative calculations", "Transparent methodology with source references", "Based on 56 active automations"],
+      "approachHybridItems": [
+        "Industry data + verified customer data",
+        "Conservative calculations",
+        "Transparent methodology with source references",
+        "Based on 56 active automations"
+      ],
       "sourcesTitle": "Data sources",
       "scbTitle": "SCB Salary Statistics 2024",
       "scbBody": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month → loaded cost 54,333 SEK/month → 370 SEK/h. Calculator value: 350 SEK/h (conservative).",
@@ -313,9 +323,8 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — 390,000 SEK/year saved with AI | Eteya",
-      "description": "How Telestore Sverige AB automated 56 processes and saves nearly a half-time position per year. Verified data.",
-      "ogImageAlt": "Telestore Case Study — 390,000 SEK/year savings with AI"
+      "title": "Telestore — Case Study | Eteya AI",
+      "description": "How Eteya automated Telestores workflows with 56 automations, saving 390,000 SEK/year."
     },
     "hero": {
       "title": "Telestore Sverige AB",
@@ -427,6 +436,30 @@
     "cta": {
       "calculate": "Calculate your savings",
       "methodology": "See our methodology"
+    }
+  },
+  "mbflytt": {
+    "meta": {
+      "title": "MB Flytt — Case Study | Eteya AI",
+      "description": "How Eteya automated MB Flytts quote process with 12 automations and 95% faster handling."
+    }
+  },
+  "nordicrank": {
+    "meta": {
+      "title": "Nordicrank — Case Study | Eteya AI",
+      "description": "How Eteya saved Nordicrank 13.4 hours/week with 18 automations and 95% fewer errors."
+    }
+  },
+  "sannegarden": {
+    "meta": {
+      "title": "Sannegården — Case Study | Eteya AI",
+      "description": "How Eteya helped Sannegården achieve 0 missed calls and 30+ extra orders per week."
+    }
+  },
+  "trainwithalbert": {
+    "meta": {
+      "title": "TrainWithAlbert — Case Study | Eteya AI",
+      "description": "How Eteya gave TrainWithAlbert 3x more bookings and 45% rebooking with 8 automations."
     }
   }
 }

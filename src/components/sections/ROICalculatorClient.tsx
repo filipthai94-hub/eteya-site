@@ -274,7 +274,7 @@ export default function ROICalculatorClient() {
       <style>{`
         .roi-section {
           padding: 120px 62px;
-          background: #080808 url('/roi-bg2.jpg') -56px 100px / 2560px 1440px no-repeat;
+          background: #080808;
           color: #f5f5f5;
           position: relative;
         }
