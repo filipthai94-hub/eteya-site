@@ -67,7 +67,7 @@ export default function ContactCard({ onClose }: ContactCardProps) {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} style={{ position: 'relative', top: 'auto', left: 'auto', transform: 'none', width: '100%' }}>
       {/* Plus icons in corners */}
       <PlusIcon className={styles.plusTopLeft} />
       <PlusIcon className={styles.plusTopRight} />

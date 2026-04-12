@@ -1,25 +1,21 @@
 'use client'
 import React, { useEffect, useRef, useCallback, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
+import ContactCard from '../ui/contact-card'
 import type { ChangeEvent, FormEvent } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type FormState = 'idle' | 'submitting' | 'success' | 'error'
-type FormField = 'name' | 'email' | 'company' | 'service' | 'message' | 'website'
-type FormValues = Record<FormField, string>
-type TouchedState = Partial<Record<Exclude<FormField, 'website'>, boolean>>
-type ErrorState = Partial<Record<'name' | 'email' | 'company' | 'service', string>>
 
-const initialValues: FormValues = {
-  name: '',
-  email: '',
-  company: '',
-  service: '',
-  message: '',
-  website: '',
-}
+
+
+
+
+
+
 
 const focusableSelector = [
   'a[href]',
@@ -106,54 +102,39 @@ export default function FooterCTAClient() {
   const footerBarRef = useRef<HTMLDivElement>(null)
   const footerSenRef = useRef<HTMLSpanElement>(null)
   const borderGlowRef = useRef<HTMLDivElement>(null)
-  const hasPlayed = useRef(false)
-
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const modalPanelRef = useRef<HTMLDivElement>(null)
-  const modalFieldsRef = useRef<HTMLDivElement>(null)
-  const firstInputRef = useRef<HTMLInputElement>(null)
-  const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const openTimestampRef = useRef<number>(0)
-  const restoreFocusRef = useRef<HTMLButtonElement | null>(null)
   const reducedMotionRef = useRef(false)
+const overlayRef = useRef<HTMLDivElement>(null)
+const modalPanelRef = useRef<HTMLDivElement>(null)
+const firstInputRef = useRef<HTMLInputElement>(null)
+const closeButtonRef = useRef<HTMLButtonElement>(null)
+const openTimestampRef = useRef<number>(0)
+const restoreFocusRef = useRef<HTMLButtonElement | null>(null)
+const hasPlayed = useRef(false)
+
+  
+  
+  const modalFieldsRef = useRef<HTMLDivElement>(null)
+  
+  
+  
+  
+  
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalMounted, setIsModalMounted] = useState(false)
-  const [formValues, setFormValues] = useState<FormValues>(initialValues)
-  const [touched, setTouched] = useState<TouchedState>({})
-  const [errors, setErrors] = useState<ErrorState>({})
-  const [formState, setFormState] = useState<FormState>('idle')
-  const [serverError, setServerError] = useState('')
+  
+  
+  
+  
+  
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const validateField = useCallback((field: keyof ErrorState, value: string) => {
-    if (!value.trim()) {
-      return 'Det här fältet är obligatoriskt.'
-    }
+  
 
-    if (field === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      return 'Ange en giltig e-postadress.'
-    }
+  
 
-    return ''
-  }, [])
-
-  const validateForm = useCallback(
-    (values: FormValues) => {
-      const nextErrors: ErrorState = {
-        name: validateField('name', values.name),
-        email: validateField('email', values.email),
-        company: validateField('company', values.company),
-        service: validateField('service', values.service),
-      }
-
-      return Object.fromEntries(Object.entries(nextErrors).filter(([, value]) => value)) as ErrorState
-    },
-    [validateField],
-  )
-
-  const closeModal = useCallback(() => {
+    const closeModal = useCallback(() => {
     const overlay = overlayRef.current
     const panel = modalPanelRef.current
     const shouldReduce = reducedMotionRef.current
@@ -161,11 +142,6 @@ export default function FooterCTAClient() {
     const completeClose = () => {
       setIsModalOpen(false)
       setIsModalMounted(false)
-      setFormState('idle')
-      setServerError('')
-      setTouched({})
-      setErrors({})
-      setFormValues(initialValues)
       document.body.style.overflow = ''
       restoreFocusRef.current?.focus()
     }
@@ -195,16 +171,11 @@ export default function FooterCTAClient() {
       )
   }, [])
 
-  const openModal = useCallback(() => {
+    const openModal = useCallback(() => {
     restoreFocusRef.current = circleRef.current
     openTimestampRef.current = Date.now()
     setIsModalOpen(true)
     setIsModalMounted(true)
-    setFormState('idle')
-    setServerError('')
-    setTouched({})
-    setErrors({})
-    setFormValues(initialValues)
   }, [])
 
   /* Listen for open-contact-modal custom event (from ROI calculator CTA etc.) */
@@ -305,7 +276,6 @@ export default function FooterCTAClient() {
 
     const overlay = overlayRef.current
     const panel = modalPanelRef.current
-    const fields = modalFieldsRef.current?.querySelectorAll('.fcta-modal-anim-item')
     const shouldReduce = reducedMotionRef.current
 
     document.body.style.overflow = 'hidden'
@@ -318,14 +288,10 @@ export default function FooterCTAClient() {
       gsap.killTweensOf([overlay, panel])
       gsap.set(overlay, { opacity: 0 })
       gsap.set(panel, { opacity: 0, scale: 0.95, y: 20 })
-      if (fields?.length) {
-        gsap.set(fields, { opacity: 0, y: 15 })
-      }
 
       gsap.timeline()
         .to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' })
         .to(panel, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: 'back.out(1.0)' }, 0.1)
-        .to(fields || [], { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out', stagger: 0.05 }, 0.25)
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -391,65 +357,11 @@ export default function FooterCTAClient() {
     gsap.to(btnArrowRef.current, { opacity: 0, duration: 0.25 })
   }
 
-  const handleFieldChange = (field: FormField) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const value = event.target.value
-    setFormValues((prev) => ({ ...prev, [field]: value }))
+  
 
-    if (field !== 'message' && field !== 'website' && touched[field]) {
-      setErrors((prev) => ({ ...prev, [field]: validateField(field, value) }))
-    }
+  
 
-    if (formState === 'error') {
-      setFormState('idle')
-      setServerError('')
-    }
-  }
-
-  const handleFieldBlur = (field: keyof ErrorState) => () => {
-    setTouched((prev) => ({ ...prev, [field]: true }))
-    setErrors((prev) => ({ ...prev, [field]: validateField(field, formValues[field]) }))
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const nextTouched = { name: true, email: true, company: true, service: true }
-    const nextErrors = validateForm(formValues)
-    setTouched(nextTouched)
-    setErrors(nextErrors)
-    setServerError('')
-
-    if (Object.keys(nextErrors).length > 0) {
-      return
-    }
-
-    setFormState('submitting')
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formValues,
-          _ts: openTimestampRef.current,
-        }),
-      })
-
-      const data = (await response.json()) as { ok?: boolean; error?: string }
-
-      if (!response.ok) {
-        setFormState('error')
-        setServerError(data.error || 'Något gick fel. Försök igen.')
-        return
-      }
-
-      setFormState('success')
-      setServerError('')
-    } catch {
-      setFormState('error')
-      setServerError('Något gick fel. Försök igen.')
-    }
-  }
+  
 
   const headingLines = ['Redo att sätta AI i arbete?']
 
@@ -467,7 +379,7 @@ export default function FooterCTAClient() {
           max-width: none;
           margin: 0 auto;
           border-radius: 48px;
-          min-height: 694px;
+          height: 80svh;
           position: relative;
           overflow: visible;
           background: transparent;
@@ -629,6 +541,7 @@ export default function FooterCTAClient() {
         }
         .fcta-footer-left {
           overflow: hidden;
+          flex: 1;
         }
         .fcta-footer-left-text {
           font-family: var(--font-body, 'Geist', sans-serif);
@@ -638,49 +551,42 @@ export default function FooterCTAClient() {
           text-transform: uppercase;
           color: rgba(255, 255, 255, 0.4);
           display: inline-block;
+          white-space: normal;
+          line-height: 1.4;
         }
         .fcta-footer-links {
           display: flex;
-          gap: 0;
+          gap: 8px;
+          flex-shrink: 0;
         }
-        .fcta-footer-link-item {
-          padding: 7px 19px 6px;
-          overflow: hidden;
-          border-radius: 48px;
-        }
-        .fcta-footer-link-item:not(:last-child) {
-          margin-right: 24px;
-        }
-        .fcta-footer-link {
-          position: relative;
-          overflow: hidden;
-          display: inline-block;
+        .fcta-footer-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 4px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: transparent;
           text-decoration: none;
-          color: rgba(255, 255, 255, 0.5);
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 16px;
-          font-weight: 400;
-          letter-spacing: -0.67px;
-          text-transform: uppercase;
-          height: 22px;
+          color: rgba(255, 255, 255, 0.6);
+          transition: border-color 0.2s ease, background 0.2s ease;
+          flex-shrink: 0;
         }
-        .fcta-link-outer,
-        .fcta-link-inner {
-          display: inline-block;
-          transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+        .fcta-footer-button:hover {
+          border-color: rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.08);
         }
-        .fcta-link-inner {
-          position: absolute;
-          left: 0;
-          top: 0;
-          transform: translateY(100%);
-          color: #fff;
+        .fcta-footer-icon {
+          display: block;
+          color: inherit;
         }
-        .fcta-footer-link:hover .fcta-link-outer {
-          transform: translateY(-100%);
+        .fcta-footer-button:hover .fcta-footer-icon {
+          animation: slide-in-top 0.3s both;
         }
-        .fcta-footer-link:hover .fcta-link-inner {
-          transform: translateY(0);
+        @keyframes slide-in-top {
+          0% { transform: translateY(-20px); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
         }
 
         .fcta-modal-overlay {
@@ -997,7 +903,7 @@ export default function FooterCTAClient() {
           .fcta-container {
             width: calc(100% - 60px);
             border-radius: 32px;
-            min-height: 500px;
+            height: 80vh;
           }
           .fcta-border-glow { inset: -1px; border-radius: 32px; }
           .fcta-bg-fill { border-radius: 30px; }
@@ -1010,14 +916,15 @@ export default function FooterCTAClient() {
           .fcta-char-wrap { height: 1.15em; padding-top: 0.18em; }
           .fcta-circle-wrap { margin-top: 48px; }
           .fcta-footer-bar { padding: 20px 30px; }
-          .fcta-footer-link-item:not(:last-child) { margin-right: 0; }
+          .fcta-footer-links { gap: 6px; }
+          .fcta-footer-button { width: 40px; height: 40px; }
         }
         @media (max-width: 690px) {
           .fcta-section { padding-top: 48px; }
           .fcta-container {
             width: calc(100% - 32px);
             border-radius: 42px;
-            min-height: 468px;
+            height: 80dvh;
           }
           .fcta-border-glow { inset: -1px; border-radius: 42px; }
           .fcta-bg-fill { border-radius: 40px; }
@@ -1046,15 +953,16 @@ export default function FooterCTAClient() {
           }
           .fcta-footer-bar {
             flex-direction: row;
-            padding: 21px 16px;
+            align-items: center;
+            padding: 18px 16px;
           }
-          .fcta-footer-left-text,
-          .fcta-footer-link {
-            font-size: 15px;
+          .fcta-footer-left-text {
+            font-size: 13px;
+            white-space: normal;
           }
-          .fcta-footer-link { height: 20px; }
-          .fcta-footer-link-item:not(:last-child) { margin-right: 0; }
-          .fcta-footer-links { gap: 4px; }
+          .fcta-footer-links { gap: 6px; }
+          .fcta-footer-button { width: 44px; height: 44px; }
+          .fcta-footer-icon { width: 16px; height: 16px; }
           .fcta-border-glow::before { width: 60px; }
           .fcta-modal-overlay {
             padding: 24px 16px;
@@ -1142,158 +1050,27 @@ export default function FooterCTAClient() {
               </span>
             </div>
             <nav className="fcta-footer-links">
-              <div className="fcta-footer-link-item">
-                <a className="fcta-footer-link" href="https://www.instagram.com/eteyaconsulting/" target="_blank" rel="noopener noreferrer">
-                  <span className="fcta-link-outer">Instagram</span>
-                  <span className="fcta-link-inner">Instagram</span>
-                </a>
-              </div>
-              <div className="fcta-footer-link-item">
-                <a className="fcta-footer-link" href="https://www.linkedin.com/company/eteya/" target="_blank" rel="noopener noreferrer">
-                  <span className="fcta-link-outer">LinkedIn</span>
-                  <span className="fcta-link-inner">LinkedIn</span>
-                </a>
-              </div>
+              <a className="fcta-footer-button" href="https://www.instagram.com/eteyaconsulting/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <FaInstagram className="fcta-footer-icon" size={18} />
+              </a>
+              <a className="fcta-footer-button" href="https://www.linkedin.com/company/eteya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <FaLinkedinIn className="fcta-footer-icon" size={18} />
+              </a>
+              <a className="fcta-footer-button" href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <FaFacebookF className="fcta-footer-icon" size={18} />
+              </a>
             </nav>
           </div>
         </div>
       </section>
 
-      {isModalMounted && (
+      {isModalMounted && createPortal(
         <div ref={overlayRef} className="fcta-modal-overlay" onClick={(event) => event.target === event.currentTarget && closeModal()}>
-          <div ref={modalPanelRef} className="fcta-modal-panel" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
-            <button ref={closeButtonRef} type="button" className="fcta-modal-close fcta-modal-anim-item" onClick={closeModal} aria-label="Stäng formulär" />
-            <div className="fcta-modal-content">
-              <h2 id="contact-modal-title" className="fcta-modal-title fcta-modal-anim-item">
-                Berätta om ditt projekt
-              </h2>
-
-              {formState === 'success' ? (
-                <div className="fcta-modal-success">
-                  <div className="fcta-modal-success-check" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12.5L9.5 17L19 7.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <p className="fcta-modal-success-text">Tack! Vi återkommer inom 24 timmar.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate>
-                  <div ref={modalFieldsRef} className="fcta-modal-fields">
-                    <div className="fcta-modal-field fcta-modal-anim-item">
-                      <input
-                        ref={firstInputRef}
-                        className="fcta-modal-input"
-                        type="text"
-                        name="name"
-                        placeholder="Ditt namn"
-                        value={formValues.name}
-                        onChange={handleFieldChange('name')}
-                        onBlur={handleFieldBlur('name')}
-                        aria-invalid={Boolean(touched.name && errors.name)}
-                        aria-describedby={touched.name && errors.name ? 'contact-name-error' : undefined}
-                        required
-                      />
-                      {touched.name && errors.name && <span id="contact-name-error" className="fcta-modal-error">{errors.name}</span>}
-                    </div>
-
-                    <div className="fcta-modal-field fcta-modal-anim-item">
-                      <input
-                        className="fcta-modal-input"
-                        type="email"
-                        name="email"
-                        placeholder="din@email.com"
-                        value={formValues.email}
-                        onChange={handleFieldChange('email')}
-                        onBlur={handleFieldBlur('email')}
-                        aria-invalid={Boolean(touched.email && errors.email)}
-                        aria-describedby={touched.email && errors.email ? 'contact-email-error' : undefined}
-                        required
-                      />
-                      {touched.email && errors.email && <span id="contact-email-error" className="fcta-modal-error">{errors.email}</span>}
-                    </div>
-
-                    <div className="fcta-modal-field fcta-modal-anim-item">
-                      <input
-                        className="fcta-modal-input"
-                        type="text"
-                        name="company"
-                        placeholder="Företag eller webbadress"
-                        value={formValues.company}
-                        onChange={handleFieldChange('company')}
-                        onBlur={handleFieldBlur('company')}
-                        aria-invalid={Boolean(touched.company && errors.company)}
-                        aria-describedby={touched.company && errors.company ? 'contact-company-error' : undefined}
-                        required
-                      />
-                      {touched.company && errors.company && <span id="contact-company-error" className="fcta-modal-error">{errors.company}</span>}
-                    </div>
-
-                    <div className="fcta-modal-field fcta-modal-field--dropdown fcta-modal-anim-item">
-                      <div className="fcta-modal-dropdown" ref={dropdownRef}>
-                        <button
-                          type="button"
-                          className={`fcta-modal-dropdown-trigger${formValues.service ? ' has-value' : ''}`}
-                          onClick={() => setDropdownOpen(!dropdownOpen)}
-                          onBlur={(e) => { if (!e.currentTarget.parentElement?.contains(e.relatedTarget as Node)) { setDropdownOpen(false); handleFieldBlur('service')(); } }}
-                          aria-expanded={dropdownOpen}
-                          aria-haspopup="listbox"
-                          aria-invalid={Boolean(touched.service && errors.service)}
-                          aria-describedby={touched.service && errors.service ? 'contact-service-error' : undefined}
-                        >
-                          {formValues.service || 'Vad behöver ni hjälp med?'}
-                          <svg className="fcta-modal-dropdown-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M1 1L7 7L13 1" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                        </button>
-                        <div className={`fcta-modal-dropdown-menu${dropdownOpen ? ' open' : ''}`} role="listbox">
-                          {['AI-agent / Assistent', 'AI-automatisering', 'Strategi & Rådgivning', 'Annat'].map((opt) => (
-                            <button
-                              key={opt}
-                              type="button"
-                              role="option"
-                              aria-selected={formValues.service === opt}
-                              className={`fcta-modal-dropdown-option${formValues.service === opt ? ' selected' : ''}`}
-                              onClick={() => { handleFieldChange('service')({ target: { value: opt } } as any); setDropdownOpen(false); }}
-                            >
-                              {opt}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      {touched.service && errors.service && <span id="contact-service-error" className="fcta-modal-error">{errors.service}</span>}
-                    </div>
-
-                    <div className="fcta-modal-field fcta-modal-anim-item">
-                      <textarea
-                        className="fcta-modal-textarea"
-                        name="message"
-                        placeholder="Beskriv kort vad ni vill uppnå..."
-                        rows={3}
-                        value={formValues.message}
-                        onChange={handleFieldChange('message')}
-                      />
-                    </div>
-
-                    <input
-                      className="fcta-modal-anim-item"
-                      name="website"
-                      type="text"
-                      style={{ display: 'none' }}
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={formValues.website}
-                      onChange={handleFieldChange('website')}
-                    />
-                  </div>
-
-                  <button className="fcta-modal-submit fcta-modal-anim-item" type="submit" disabled={formState === 'submitting'}>
-                    {formState === 'submitting' ? 'Skickar...' : 'Skicka förfrågan'}
-                  </button>
-                  {serverError && <p className="fcta-modal-server-error">{serverError}</p>}
-                </form>
-              )}
-            </div>
+          <div ref={modalPanelRef} style={{ position: 'relative', width: '100%', maxWidth: '1100px' }}>
+            <ContactCard onClose={closeModal} />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
