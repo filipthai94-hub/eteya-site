@@ -556,16 +556,16 @@ const hasPlayed = useRef(false)
         }
         .fcta-footer-links {
           display: flex;
-          gap: 8px;
+          gap: 12px;
           flex-shrink: 0;
         }
         .fcta-footer-button {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 4px;
+          width: 48px;
+          height: 48px;
+          border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.2);
           background: transparent;
           text-decoration: none;
