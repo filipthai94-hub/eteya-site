@@ -36,6 +36,8 @@ html {
   background-color: var(--bg);
   color: var(--primary);
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* För sticky header */
 }
 body {
   background-color: var(--bg);
@@ -47,6 +49,11 @@ body {
 body {
   letter-spacing: -0.01em;
   line-height: 1.75;
+}
+
+#services-section,
+#cases-section {
+  scroll-margin-top: 80px;
 }
 
 /* Lenis smooth scroll */

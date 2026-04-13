@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import HashLink from '@/components/ui/HashLink'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { animate } from 'motion'
@@ -276,20 +277,37 @@ export default function Nav() {
   }, [menuOpen, openMenu, closeMenu])
 
   const handleLinkClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // If it's an anchor link, handle scroll
-    if (href.startsWith('#')) {
+    const hashIndex = href.indexOf('#')
+    const pathPart = hashIndex !== -1 ? href.slice(0, hashIndex) : href
+    const hashPart = hashIndex !== -1 ? href.slice(hashIndex + 1) : null
+    const isCurrentPage = pathname === pathPart
+
+    if (hashPart && isCurrentPage) {
+      // Scenario A: redan på rätt sida — scrolla efter att menyn stängts (body-lock borttaget)
       e.preventDefault()
-      const targetId = href.slice(1)
-      const el = document.getElementById(targetId)
-      if (el) {
-        // Set scroll target BEFORE closing menu — body unlock will land us there
-        // offsetTop is reliable even when body is position:fixed
-        scrollPosRef.current = Math.max(0, el.offsetTop - 80)
+      setTimeout(() => {
+        const el = document.getElementById(hashPart)
+        const navH = ( document.querySelector('.en-topbar') as HTMLElement | null)?.offsetHeight ?? 80
+        if (el && window.__lenis) {
+          window.__lenis.scrollTo(el, { offset: navH + 15, duration: 1.2 })
+        }
+      }, 50)
+    } else if (!hashPart) {
+      // Vanlig sida utan hash — scrolla till toppen
+      scrollPosRef.current = 0
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { immediate: true, force: true })
+      }
+    } else {
+      // Scenario B: annan sida med hash — spara target i sessionStorage
+      scrollPosRef.current = 0
+      if (hashPart) {
+        sessionStorage.setItem('scrollTarget', hashPart)
       }
     }
     setMenuOpen(false)
     closeMenu()
-  }, [closeMenu])
+  }, [closeMenu, pathname])
 
   const handleBlurClick = useCallback(() => {
     setMenuOpen(false)
@@ -327,6 +345,8 @@ export default function Nav() {
   const NAV_LINKS = [
     { label: 'Hem', href: '/sv', badge: null },
     { label: 'Om oss', href: '/sv/om-oss', badge: null },
+    { label: 'Tjänster', href: '/sv#services-section', badge: null },
+    { label: 'Våra case', href: '/sv#cases-section', badge: '[5]' },
     { label: 'Kontakt', href: '/sv/kontakt', badge: null },
   ]
 
@@ -529,7 +549,8 @@ export default function Nav() {
             onClick={(e) => {
               e.preventDefault()
               const el = document.getElementById('cases-section')
-              if (el) smoothScrollTo(el.offsetTop - 80)
+              const navH = ( document.querySelector('.en-topbar') as HTMLElement | null)?.offsetHeight ?? 80
+              if (el && window.__lenis) window.__lenis.scrollTo(el, { offset: navH + 15, duration: 1.2 })
             }}
           >
             <div className="en-work-text">
@@ -579,11 +600,10 @@ export default function Nav() {
             <p className="en-menu-label" ref={menuLabelRef}>Meny</p>
             <div className="en-menu-links">
               {NAV_LINKS.map((link, i) => (
-                <a
+                <HashLink
                   key={link.label}
                   href={link.href}
                   className="en-menu-link"
-                  ref={el => { linkRefs.current[i] = el }}
                   onClick={(e) => handleLinkClick(e, link.href)}
                 >
                   <div className="en-menu-link-wrap">
@@ -591,7 +611,7 @@ export default function Nav() {
                     <span className="en-menu-link-text en-hover">{link.label}</span>
                   </div>
                   {link.badge && <span className="en-menu-badge">{link.badge}</span>}
-                </a>
+                </HashLink>
               ))}
             </div>
           </div>

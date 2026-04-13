@@ -6,6 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Global Lenis instance so other components (e.g. Nav) can call lenis.scrollTo(0)
+declare global { interface Window { __lenis?: Lenis } }
+
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -15,8 +18,11 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      anchors: true,
+      stopInertiaOnNavigate: true,
     })
     lenisRef.current = lenis
+    window.__lenis = lenis
 
     // Connect Lenis to GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)

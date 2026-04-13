@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import MotionProvider from '@/components/animations/MotionProvider'
+import ScrollReset from '@/components/ui/ScrollReset'
 import TransitionProvider from '@/components/animations/TransitionProvider'
 import type { Metadata } from 'next'
 
@@ -70,7 +71,10 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <TransitionProvider>
         <div className="page-transition-overlay" aria-hidden="true" />
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <ScrollReset />
+          {children}
+        </MotionProvider>
       </TransitionProvider>
     </NextIntlClientProvider>
   )
