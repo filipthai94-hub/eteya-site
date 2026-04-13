@@ -461,5 +461,95 @@
       "title": "TrainWithAlbert — Case Study | Eteya AI",
       "description": "How Eteya gave TrainWithAlbert 3x more bookings and 45% rebooking with 8 automations."
     }
+  },
+  "about": {
+    "meta": {
+      "title": "About Us — Eteya AI",
+      "description": "We are Eteya — AI consultants automating Swedish businesses with smart solutions and measurable results."
+    },
+    "ourStory": {
+      "quote": "We believe AI should work for people — not the other way around.",
+      "points": [
+        {
+          "title": "Founded 2025",
+          "text": "Eteya was born from the insight that Swedish businesses need AI that delivers — not experiments."
+        },
+        {
+          "title": "Measurable results",
+          "text": "Every project is measured in hours saved, money saved, and errors eliminated."
+        },
+        {
+          "title": "Swedish infrastructure",
+          "text": "All data is handled within the EU. Nothing is sent to third parties without your control."
+        }
+      ]
+    },
+    "socialProof": {
+      "title": "Results that speak for themselves",
+      "subtitle": "Real customers, real savings.",
+      "customers": [
+        {
+          "name": "Telestore",
+          "bigNumber": "390K kr/år",
+          "bigNumberLabel": "Saved per year",
+          "quote": "Eteya took us from chaos to control in weeks.",
+          "caseStudyUrl": "/sv/kundcase/telestore",
+          "logo": "/images/telestore-logo.png"
+        },
+        {
+          "name": "Nordicrank",
+          "bigNumber": "13.4 h/v",
+          "bigNumberLabel": "Time saved",
+          "quote": "We got back an entire workday per week.",
+          "caseStudyUrl": "/sv/kundcase/nordicrank",
+          "logo": "/images/nordicrank-logo.png"
+        },
+        {
+          "name": "Sannegården",
+          "bigNumber": "0",
+          "bigNumberLabel": "Missed calls",
+          "quote": "Never a missed call during rush hour again.",
+          "caseStudyUrl": "/sv/kundcase/sannegarden",
+          "logo": "/images/sannegarden-logo.png"
+        }
+      ]
+    }
+  },
+  "why": {
+    "section_label": "Why Eteya",
+    "heading": "We build AI that actually gets used — not PowerPoints about AI.",
+    "items": [
+      {
+        "title": "From brief to live in 2 weeks",
+        "body": "No 3-month feasibility study. We identify the right automation, build it, and deliver something that works — before your competitor has even had their kickoff meeting."
+      },
+      {
+        "title": "You see ROI in currency, not percentages",
+        "body": "Every solution we build comes with a clear before/after calculation. You know exactly what you're saving before we start."
+      },
+      {
+        "title": "A partner, not a vendor",
+        "body": "We own the problem together with you. Swedish support, EU-hosted data, and we're available when things happen — not just at invoice time."
+      }
+    ]
+  },
+  "team": {
+    "label": "The Team",
+    "heading": "The people behind Eteya",
+    "members": [
+      {
+        "name": "Filip Thai",
+        "role": "Founder & CEO",
+        "bio": "Entrepreneur focused on AI-driven growth. Building the bridge between technology and business value.",
+        "image": "/images/team/filip.jpg"
+      },
+      {
+        "name": "Agit Demir",
+        "role": "AI Engineer",
+        "bio": "Specialist in automation and AI integration. Turns complex workflows into simple solutions.",
+        "image": "/images/team/agit.jpg"
+      }
+    ],
+    "teamNote": "We're growing — looking for people passionate about AI and Swedish businesses."
   }
 }
