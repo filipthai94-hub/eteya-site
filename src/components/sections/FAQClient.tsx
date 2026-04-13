@@ -155,14 +155,16 @@ export default function FAQClient() {
         }
 
         .faq-list {
-          border-top: 1px solid rgba(255,255,255,0.08);
+          border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .faq-item {
-          border-bottom: 1px solid rgba(255,255,255,0.08);
+          overflow: hidden;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .faq-button {
+          position: relative;
           width: 100%;
           display: flex;
           align-items: center;
@@ -173,6 +175,31 @@ export default function FAQClient() {
           color: #fff;
           text-align: left;
           cursor: pointer;
+        }
+
+        .faq-button::before {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          top: 0;
+          left: 0;
+          transform: translateY(100%);
+          width: 100%;
+          height: 100%;
+          transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
+                      border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+          background-color: #0F0F0F;
+          border-radius: 100%;
+        }
+
+        .faq-item:not(.is-active) .faq-button:hover::before {
+          border-radius: 0;
+          transform: translateY(0%);
+        }
+
+        .faq-item.is-active .faq-button::before {
+          border-radius: 0;
+          transform: translateY(0%);
         }
 
         .faq-button:focus-visible {
@@ -201,33 +228,20 @@ export default function FAQClient() {
           opacity: 1;
         }
 
-        .faq-button:hover .faq-icon,
-        .faq-button:focus-visible .faq-icon {
-          color: rgba(255,255,255,0.7);
-        }
-
         .faq-icon {
-          position: relative;
-          flex: 0 0 30px;
-          width: 30px;
-          height: 30px;
+          width: 34px;
+          height: 34px;
+          flex-shrink: 0;
           margin-left: 28px;
-          color: rgba(255,255,255,0.4);
-          transform-origin: 50% 50%;
+          transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
         }
 
-        .faq-icon-line {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 20px;
-          height: 1px;
-          background: currentColor;
-          transform: translate(-50%, -50%);
-        }
-
-        .faq-icon-line--vertical {
-          transform: translate(-50%, -50%) rotate(90deg);
+        .faq-button:hover .faq-icon,
+        .faq-item.is-active .faq-icon {
+          transform: rotate(45deg) !important;
         }
 
         .faq-answer-wrap {
@@ -289,7 +303,16 @@ export default function FAQClient() {
           }
 
           .faq-icon {
+            width: 24px;
+            height: 24px;
             margin-left: 16px;
+          }
+
+          .faq-button::before,
+          .faq-item:not(.is-active) .faq-button:hover::before,
+          .faq-item.is-active .faq-button::before {
+            transform: translateY(100%) !important;
+            border-radius: 100% !important;
           }
 
           .faq-answer {
@@ -323,7 +346,7 @@ export default function FAQClient() {
 
               return (
                 <div
-                  className="faq-item"
+                  className={`faq-item ${openIndex === index ? 'is-active' : ''}`}
                   key={item.question}
                   ref={(element) => {
                     itemRefs.current[index] = element
@@ -345,10 +368,7 @@ export default function FAQClient() {
                       ref={(element) => {
                         iconRefs.current[index] = element
                       }}
-                    >
-                      <span className="faq-icon-line" />
-                      <span className="faq-icon-line faq-icon-line--vertical" />
-                    </span>
+                    />
                   </button>
 
                   <div
