@@ -570,12 +570,13 @@ const hasPlayed = useRef(false)
           background: transparent;
           text-decoration: none;
           color: rgba(255, 255, 255, 0.6);
-          transition: border-color 0.2s ease, background 0.2s ease;
+          transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
           flex-shrink: 0;
         }
         .fcta-footer-button:hover {
           border-color: rgba(255, 255, 255, 0.6);
           background: rgba(255, 255, 255, 0.08);
+          color: #fff;
         }
         .fcta-footer-icon {
           display: block;

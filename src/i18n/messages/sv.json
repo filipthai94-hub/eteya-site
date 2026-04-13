@@ -447,7 +447,8 @@
   "nordicrank": {
     "meta": {
       "title": "Nordicrank — Kundcase | Eteya AI",
-      "description": "Hur Eteya sparade Nordicrank 13.4 timmar/vecka med 18 automationer och 95% färre fel."
+      "description": "Hur Eteya sparade Nordicrank 13.4 timmar/vecka med 18 automationer och 95% färre fel.",
+      "ogImageAlt": "Nordicrank kundcase — 13.4 timmar sparade per vecka med AI-automation"
     }
   },
   "sannegarden": {
@@ -485,7 +486,7 @@
       ]
     },
     "socialProof": {
-      "title": "Resultat som talar för sig själva",
+      "title": "",
       "subtitle": "Verkliga kunder, verkliga besparingar.",
       "customers": [
         {
@@ -534,7 +535,7 @@
     ]
   },
   "team": {
-    "label": "Teamet",
+    "label": "",
     "heading": "Människorna bakom Eteya",
     "members": [
       {

@@ -56,8 +56,7 @@ export default function TeamClient({ label, heading, members, teamNote }: {
       style={{ 
         backgroundColor: '#0a0a0a', 
         paddingTop: '8rem', 
-        paddingBottom: '8rem',
-        borderTop: '1px solid rgba(255,255,255,0.05)'
+        paddingBottom: '8rem'
       }}
     >
       <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
