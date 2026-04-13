@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eteya — Mission + Proof + Origin (v2 — minimal accent)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Geist:wght@300;400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #080808;
+    color: #f5f5f5;
+    font-family: 'Geist', sans-serif;
+  }
+
+  /* 1. MISSION STRIP */
+  .mission {
+    padding: 8rem 62px;
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+  .mission p {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.75rem, 3.5vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #f5f5f5;
+    line-height: 1.15;
+    max-width: 900px;
+  }
+
+  .sep {
+    width: 100%;
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 0 62px;
+  }
+  .sep-line {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* 2. PROOF BLOCK */
+  .proof {
+    padding: 6rem 62px 8rem;
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .proof-number {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    color: #f5f5f5;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .proof-number .accent {
+    color: #C8FF00;
+  }
+  .proof-label {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .sep2 {
+    width: 100%;
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 0 62px;
+  }
+  .sep2-line {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* 3. ORIGIN */
+  .origin {
+    padding: 6rem 62px 8rem;
+    max-width: 1640px;
+    margin: 0 auto;
+  }
+  .origin-year {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 5vw, 5rem);
+    color: rgba(255,255,255,0.06);
+    margin-bottom: 0.75rem;
+    line-height: 1;
+  }
+  .origin-text {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.55);
+    max-width: 600px;
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .mission, .proof, .origin { padding-left: 24px; padding-right: 24px; }
+    .proof-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1. MISSION STRIP -->
+<section class="mission">
+  <p>Vi bygger AI-system som svenska företag faktiskt använder — inte experimenterar med.</p>
+</section>
+
+<div class="sep"><div class="sep-line"></div></div>
+
+<!-- 2. PROOF BLOCK -->
+<section class="proof">
+  <div class="proof-grid">
+    <div class="proof-item">
+      <span class="proof-number">5<span class="accent">+</span></span>
+      <span class="proof-label">Verksamma kunder</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">56</span>
+      <span class="proof-label">Automationer i produktion</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">390K<span class="accent"> kr</span></span>
+      <span class="proof-label">Besparade per år</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-number">0</span>
+      <span class="proof-label">Missade samtal</span>
+    </div>
+  </div>
+</section>
+
+<div class="sep2"><div class="sep2-line"></div></div>
+
+<!-- 3. ORIGIN -->
+<section class="origin">
+  <div class="origin-year">2025</div>
+  <p class="origin-text">
+    Eteya startades ur frustrationen över att svenska företag fick AI-lösningar som såg bra ut i presentationer men aldrig levererade i verkligheten. Vi ville bygga något annorlunda — system som faktiskt används, mäts i sparade timmar och besparade kronor, och som fungerar från dag ett.
+  </p>
+</section>
+
+</body>
+</html>

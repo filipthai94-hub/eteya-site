@@ -1,9 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
-import Hero from '@/components/sections/Hero'
-import OurStory from '@/components/sections/OurStory'
-import WhyEteya from '@/components/sections/WhyEteya'
+import AboutHeroClient from '@/components/sections/AboutHeroClient'
+import WhyEteyaOmOssWrapper from '@/components/sections/WhyEteyaOmOssWrapper'
 import SocialProof from '@/components/sections/SocialProof'
 import Team from '@/components/sections/Team'
 import FAQSection from '@/components/sections/FAQSection'
@@ -84,9 +83,8 @@ export default async function AboutPage({
       <BreadcrumbSchema locale={locale} />
       <Nav />
       <main className="page-content">
-        <Hero variant="about" />
-        <OurStory />
-        <WhyEteya />
+        <AboutHeroClient />
+        <WhyEteyaOmOssWrapper />
         <SocialProof />
         <Team />
         <FAQSection variant="about" />

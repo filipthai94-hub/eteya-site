@@ -1,0 +1,113 @@
+/* ── WhyEteyaOmOss — matches "Lösningen" section from TelestoreCaseStudy ── */
+
+.section {
+  width: 100%;
+  background: var(--bg);
+}
+
+.metodikInner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 750px 1fr;
+  gap: 60px;
+  padding: 120px 62px;
+}
+
+.metodikLeft {
+  position: relative;
+}
+
+.metodikLeftSticky {
+  position: sticky;
+  top: 86px;
+}
+
+.metodikRight {
+  padding: 0;
+}
+
+.metodikList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.metodikItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.metodikItem:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.metodikItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metodikItemTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  color: #F5F5F5;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.metodikItemBody {
+  font-family: 'Geist', 'Geist Fallback', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+}
+
+.metodikItemNum {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+  margin-left: 24px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 10vw, 3.5rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .metodikInner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 60px 24px;
+  }
+
+  .metodikLeftSticky {
+    position: relative;
+    top: auto;
+  }
+
+  .sectionTitle {
+    white-space: normal;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    line-height: 1;
+  }
+}

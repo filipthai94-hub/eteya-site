@@ -53,8 +53,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
       style={{ 
         backgroundColor: '#0a0a0a', 
         paddingTop: '6rem', 
-        paddingBottom: '6rem',
-        borderTop: '1px solid rgba(255,255,255,0.05)'
+        paddingBottom: '6rem'
       }}
     >
       <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
