@@ -316,7 +316,7 @@ export default function FAQClient() {
           }
 
           .faq-answer {
-            padding: 0 0 24px 62px;
+            padding: 0 0 24px 0;
             font-size: 16px;
           }
         }
