@@ -1,7 +1,17 @@
 'use client'
 import { useEffect } from 'react'
-import ButtonSwap from '@/components/ui/ButtonSwap'
+import ButtonStripe from '@/components/ui/ButtonStripe'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
+
+function SvcListLines({ activeIndex, total }: { activeIndex: number; total: number }) {
+  return (
+    <div className="svc-list-lines">
+      {Array.from({ length: total }).map((_, i) => (
+        <span key={i} className={`svc-list-line${i === activeIndex ? ' is-active' : ''}`} />
+      ))}
+    </div>
+  )
+}
 
 const CSS = `
   #services-section {
@@ -125,10 +135,10 @@ const CSS = `
   /* Inner / content */
   #services-section .service-inner { overflow: hidden; }
   #services-section .service-content {
-    gap: 1.25rem var(--sp-block);
+    gap: 2rem var(--sp-block);
     display: grid;
     grid-template-columns: 0.47fr 0.50fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto auto;
     justify-content: space-between;
     padding-block: 1.25rem 2.5rem;
     padding-inline: var(--pd-inline);
@@ -139,15 +149,21 @@ const CSS = `
     display: block;
     grid-column: 2;
     grid-row: 1 / 4;
-    align-self: center;
-    position: relative;
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+    position: -webkit-sticky;
     overflow: hidden;
     width: 100%;
     aspect-ratio: 76 / 48;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   }
   #services-section .svc-content-title{ display: none; /* dold på desktop */ }
-  #services-section .service-list     { grid-column: 1; grid-row: 1; }
-  #services-section .eteya-btn        { grid-column: 1; grid-row: 2; }
+  #services-section .service-desc     { grid-column: 1; grid-row: 1; }
+  #services-section .service-list     { grid-column: 1; grid-row: 2; }
+  #services-section .eteya-btn        { grid-column: 1; grid-row: 3; }
   #services-section .service-media img {
     position: absolute;
     inset: 0;
@@ -161,23 +177,77 @@ const CSS = `
 
   /* List */
   #services-section .service-list {
-    gap: 0.5rem 0.75rem; display: grid;
-    grid-template-columns: auto auto; justify-content: space-between;
-    font-size: var(--text); line-height: 1.28em; font-weight: 400;
-    color: rgba(var(--rgb-white), 0.7); list-style: none; padding: 0; margin: 0;
-    align-content: start;
+    display: flex;
+    flex-direction: column;
+    list-style: none; padding: 0; margin: 0;
   }
-  #services-section .service-list li { padding-left: 1.1rem; position: relative; }
-  #services-section .service-list li::before {
-    content: "○"; position: absolute; left: 0; font-size: 0.7em; top: 0.15em; opacity: 0.6;
+  #services-section .svc-list-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  #services-section .svc-list-item:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+  #services-section .svc-list-num {
+    font-family: var(--ff);
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    min-width: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+    letter-spacing: 0.06em;
+  }
+  #services-section .svc-list-text {
+    font-family: var(--ff-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.45;
+    flex: 1;
+  }
+  #services-section .svc-list-lines {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  #services-section .svc-list-line {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+    transition: height 0.3s ease, background 0.3s ease;
+  }
+  #services-section .svc-list-line.is-active {
+    height: 28px;
+    background: rgba(255,255,255,0.85);
+  }
+  @media (max-width: 767px) {
+    #services-section .svc-list-lines { display: none; }
+  }
+
+  /* Slug-text / service description */
+  #services-section .service-desc {
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    max-width: none;
+    margin: 0;
+    font-family: var(--ff-body);
+    font-weight: 400;
   }
 
   /* Button wrapper — grid placement only */
   #services-section .eteya-btn-wrap {
     display: inline-flex; width: fit-content;
-    align-self: end; justify-self: start;
+    align-self: start; justify-self: start;
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
+    margin-top: 24px;
   }
 
   /* Mobile — pixel-match Redstone */
@@ -202,7 +272,7 @@ const CSS = `
     }
     #services-section .service-content {
       grid-template-columns: 1fr !important;
-      grid-template-rows: auto auto auto auto !important;
+      grid-template-rows: auto auto auto auto auto auto !important;
       padding: 20px 16px 24px !important;
       gap: 20px;
     }
@@ -220,14 +290,23 @@ const CSS = `
       color: #fff;
       margin: 0;
     }
-    #services-section .service-list {
+    #services-section .service-desc {
       grid-column: 1 !important;
       grid-row: 3 !important;
-      grid-template-columns: 1fr 1fr !important;
+      font-size: 15px;
+      max-width: 100%;
+    }
+    #services-section .service-desc::after {
+      margin-top: 16px;
+    }
+    #services-section .service-list {
+      grid-column: 1 !important;
+      grid-row: 4 !important;
     }
     #services-section .eteya-btn-wrap {
       grid-column: 1 !important;
-      grid-row: 4 !important;
+      grid-row: 5 !important;
+      margin-top: 4px;
     }
   }
 `
@@ -288,15 +367,24 @@ export default function ServicesClient() {
                 <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" width={1524} height={964} />
               </a>
               <span className="svc-content-title">AI Agents</span>
+              <p className="service-desc">Medan du hanterar förfrågningar manuellt har dina konkurrenter redan satt AI-agenter på jobbet. En agent som aldrig sover, aldrig missar och tar på sig allt du inte hinner med, så du kan fokusera på det bara du kan göra.</p>
               <ul className="service-list">
-                <li>Kundtjänst</li>
-                <li>Leadsgenerering</li>
-                <li>Bokningar</li>
-                <li>Orderhantering</li>
-                <li>Intern support</li>
-                <li>Uppföljning</li>
+                {[
+                  'Tillgänglig dygnet runt, svarar när du inte kan',
+                  'Hanterar hundra samtal samtidigt utan att tappa kvalitet',
+                  'Lär sig din affär, inte en generisk mall',
+                  'Tar över repetitiva uppgifter, du delegerar och den levererar',
+                  'Fungerar i alla kanaler: mail, chatt, telefon, internt',
+                  'Skalar med dig från dag ett till tusentals interaktioner',
+                ].map((text, i) => (
+                  <li key={i} className="svc-list-item">
+                    <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="svc-list-text">{text}</span>
+                    <SvcListLines activeIndex={i} total={6} />
+                  </li>
+                ))}
               </ul>
-              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
+              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
             </div>
           </div>
         </div>
@@ -316,15 +404,24 @@ export default function ServicesClient() {
                 <img src="/images/service-automation.png" loading="lazy" alt="Automation" width={1524} height={964} />
               </a>
               <span className="svc-content-title">Automation</span>
+              <p className="service-desc">Det som tar dig 3 timmar idag tar 3 minuter imorgon. AI-automationer som inte bara följer regler utan förstår din verksamhet, fattar egna beslut och hanterar det som mänskliga händer aldrig borde rört.</p>
               <ul className="service-list">
-                <li>E-postautomation</li>
-                <li>Fakturahantering</li>
-                <li>Lead-flöden</li>
-                <li>Rapportering</li>
-                <li>Systemsynk</li>
-                <li>Aviseringar</li>
+                {[
+                  '3 timmar blir 3 minuter, varje dag',
+                  'Fattar beslut i flödet, du sätter riktningen och AI kör',
+                  'Hanterar undantag som en människa, fast snabbare',
+                  'Frigör tid för det som faktiskt bygger bolaget',
+                  'Skalbar från dag ett utan extra anställningar',
+                  'Kopplad till hela din verksamhet, ett flöde och noll manuellt',
+                ].map((text, i) => (
+                  <li key={i} className="svc-list-item">
+                    <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="svc-list-text">{text}</span>
+                    <SvcListLines activeIndex={i} total={6} />
+                  </li>
+                ))}
               </ul>
-              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
+              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
             </div>
           </div>
         </div>
@@ -344,15 +441,24 @@ export default function ServicesClient() {
                 <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" width={1524} height={964} />
               </a>
               <span className="svc-content-title">AI Products</span>
+              <p className="service-desc">Alla dina konkurrenter hyr samma AI-verktyg. Du kan äga ditt. En skräddarsydd produkt byggd exakt för din affär, som ingen annan kan köpa, kopiera eller ta ifrån dig.</p>
               <ul className="service-list">
-                <li>Webbapplikationer</li>
-                <li>Interna verktyg</li>
-                <li>API-integrationer</li>
-                <li>Databaslösningar</li>
-                <li>MVP på veckor</li>
-                <li>Skräddarsydd AI</li>
+                {[
+                  'Du äger allt: kod, data, logik och framtid',
+                  'Byggt för din affär, inte anpassat till ett generiskt verktyg',
+                  'Lansering på veckor, inte månader',
+                  'Din idé och vår expertis, vi gör det möjligt',
+                  'Skalbar från dag ett utan tak',
+                  'Ingen vendor lock-in, aldrig beroende av någon annans beslut',
+                ].map((text, i) => (
+                  <li key={i} className="svc-list-item">
+                    <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="svc-list-text">{text}</span>
+                    <SvcListLines activeIndex={i} total={6} />
+                  </li>
+                ))}
               </ul>
-              <div className="eteya-btn-wrap"><ButtonSwap label="Läs mer" arrow href="#contact" size="lg" variant="white" /></div>
+              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
             </div>
           </div>
         </div>
