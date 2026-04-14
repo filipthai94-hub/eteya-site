@@ -36,37 +36,27 @@
    PLUS IKONER (DEKORATION)
    ============================================ */
 
-.plus {
+.corner {
   position: absolute;
-  width: 26px;
-  height: 26px;
-  color: #ffffff;
+  width: 16px;
+  height: 16px;
   z-index: 10;
 }
 
-.plusTopLeft {
-  composes: plus;
-  top: -12px;
-  left: -12px;
+.corner::before,
+.corner::after {
+  content: '';
+  position: absolute;
+  background: #ffffff;
 }
 
-.plusTopRight {
-  composes: plus;
-  top: -12px;
-  right: -12px;
-}
+.corner::before { width: 16px; height: 2px; top: 50%; left: 0; margin-top: -1px; }
+.corner::after  { width: 2px; height: 16px; left: 50%; top: 0; margin-left: -1px; }
 
-.plusBottomLeft {
-  composes: plus;
-  bottom: -12px;
-  left: -12px;
-}
-
-.plusBottomRight {
-  composes: plus;
-  bottom: -12px;
-  right: -12px;
-}
+.cornerTL { top: -8px; left: -8px; }
+.cornerTR { top: -8px; right: -8px; }
+.cornerBL { bottom: -8px; left: -8px; }
+.cornerBR { bottom: -8px; right: -8px; }
 
 /* ============================================
    GRID LAYOUT (KORT)
@@ -183,24 +173,25 @@
   letter-spacing: 0.02em;
 }
 
-/* Input fields */
+/* Input fields — underline style */
 .input {
   height: 42px;
-  padding: 0 14px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
   color: #ffffff;
   font-size: 0.875rem;
-  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  font-family: var(--font-body, 'Geist', -apple-system, sans-serif);
+  transition: border-color 0.2s ease;
   box-sizing: border-box;
+  width: 100%;
+  outline: none;
 }
 
 .input:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  border-bottom-color: #C8FF00;
 }
 
 .input::placeholder {
@@ -209,36 +200,10 @@
 
 /* Textarea */
 .textarea {
-  min-height: 100px;
-  padding: 12px 14px;
-  resize: vertical;
-}
-
-/* Submit button */
-.submitButton {
-  height: 44px;
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.1s;
-  letter-spacing: 0.01em;
-}
-
-.submitButton:hover {
-  opacity: 0.88;
-}
-
-.submitButton:active {
-  transform: translateY(1px);
-}
-
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  height: auto;
+  min-height: 80px;
+  padding: 8px 0;
+  resize: none;
 }
 
 /* Dropdown container */
@@ -327,9 +292,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 400px;
   gap: 16px;
   text-align: center;
+  padding: 48px 44px;
 }
 
 .successIcon {

@@ -1,78 +1,66 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { MailIcon, PhoneIcon, PlusIcon, XIcon } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
+import { XIcon } from "lucide-react"
+import ButtonStripe from "./ButtonStripe"
+import { sendContactEmail } from "@/app/[locale]/actions/contact"
 import styles from "./contact-card.module.css"
 
-type FormState = "idle" | "submitting" | "success" | "error"
-type FormField = "name" | "email" | "company" | "service" | "message"
-type FormValues = Record<FormField, string>
-
-const initialValues: FormValues = {
-  name: "",
-  email: "",
-  company: "",
-  service: "",
-  message: "",
-}
-
 const services = [
-  "AI-agent / Assistent",
-  "AI-automatisering",
-  "Strategi & Rådgivning",
-  "Annat",
+  { value: "ai-agent", label: "AI-agent / Assistent" },
+  { value: "ai-automatisering", label: "AI-automatisering" },
+  { value: "strategi", label: "Strategi & Rådgivning" },
+  { value: "annat", label: "Annat" },
 ]
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  return (
+    <ButtonStripe type="submit" disabled={pending} fullWidth>
+      {pending ? "Skickar..." : "Skicka förfrågan"}
+    </ButtonStripe>
+  )
+}
 
 interface ContactCardProps {
   onClose?: () => void
 }
 
 export default function ContactCard({ onClose }: ContactCardProps) {
-  const [formValues, setFormValues] = useState<FormValues>(initialValues)
-  const [formState, setFormState] = useState<FormState>("idle")
+  const [state, action] = useActionState(sendContactEmail, null)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [serverError, setServerError] = useState("")
-  const [visible, setVisible] = useState(false)
+  const [serviceValue, setServiceValue] = useState("")
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Trigger animation after mount
+  // Close dropdown on outside click
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 10)
-    return () => clearTimeout(t)
-  }, [])
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setServerError("")
-
-    if (!formValues.name || !formValues.email || !formValues.company || !formValues.service) {
-      setServerError("Vänligen fyll i alla obligatoriska fält.")
-      return
+    if (!dropdownOpen) return
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
     }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [dropdownOpen])
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email)) {
-      setServerError("Ange en giltig e-postadress.")
-      return
+  // Auto-close modal on success
+  useEffect(() => {
+    if (state?.success) {
+      const t = setTimeout(() => onClose?.(), 2500)
+      return () => clearTimeout(t)
     }
-
-    setFormState("submitting")
-    try {
-      // TODO: Implementera riktig e-postsändning med Resend
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setFormState("success")
-      setTimeout(() => onClose?.(), 2000)
-    } catch {
-      setFormState("error")
-      setServerError("Något gick fel. Vänligen försök igen.")
-    }
-  }
+  }, [state, onClose])
 
   return (
     <div className={styles.root} style={{ position: 'relative', top: 'auto', left: 'auto', transform: 'none', width: '100%' }}>
-      {/* Plus icons in corners */}
-      <PlusIcon className={styles.plusTopLeft} />
-      <PlusIcon className={styles.plusTopRight} />
-      <PlusIcon className={styles.plusBottomLeft} />
-      <PlusIcon className={styles.plusBottomRight} />
+      {/* Corners */}
+      <span className={`${styles.corner} ${styles.cornerTL}`} />
+      <span className={`${styles.corner} ${styles.cornerTR}`} />
+      <span className={`${styles.corner} ${styles.cornerBL}`} />
+      <span className={`${styles.corner} ${styles.cornerBR}`} />
 
       {/* Close button */}
       {onClose && (
@@ -101,7 +89,10 @@ export default function ContactCard({ onClose }: ContactCardProps) {
           <div>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
-                <MailIcon style={{ width: '17px', height: '17px', color: '#ffffff' }} />
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
               </div>
               <div>
                 <p className={styles.contactLabel}>Email</p>
@@ -110,7 +101,9 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             </div>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
-                <PhoneIcon style={{ width: '17px', height: '17px', color: '#ffffff' }} />
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
               </div>
               <div>
                 <p className={styles.contactLabel}>Telefon</p>
@@ -122,7 +115,7 @@ export default function ContactCard({ onClose }: ContactCardProps) {
 
         {/* Right: Form */}
         <div className={styles.form}>
-          {formState === "success" ? (
+          {state?.success ? (
             <div className={styles.success}>
               <div className={styles.successIcon}>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,15 +125,20 @@ export default function ContactCard({ onClose }: ContactCardProps) {
               <p className={styles.successText}>Tack! Vi återkommer inom 1 vardag.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form action={action}>
+              {/* Honeypot */}
+              <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              {/* Hidden service value */}
+              <input type="hidden" name="service" value={serviceValue} />
+
               {/* Row: Name + Email */}
               <div className={styles.formRow}>
                 <div className={styles.field}>
                   <label className={styles.label}>Namn *</label>
                   <input
                     type="text"
-                    value={formValues.name}
-                    onChange={(e) => setFormValues({ ...formValues, name: e.target.value })}
+                    name="name"
+                    required
                     placeholder="Ditt namn"
                     className={styles.input}
                   />
@@ -149,8 +147,8 @@ export default function ContactCard({ onClose }: ContactCardProps) {
                   <label className={styles.label}>Email *</label>
                   <input
                     type="email"
-                    value={formValues.email}
-                    onChange={(e) => setFormValues({ ...formValues, email: e.target.value })}
+                    name="email"
+                    required
                     placeholder="din@email.com"
                     className={styles.input}
                   />
@@ -159,40 +157,39 @@ export default function ContactCard({ onClose }: ContactCardProps) {
 
               {/* Company */}
               <div className={styles.field}>
-                <label className={styles.label}>Företag *</label>
+                <label className={styles.label}>Företag</label>
                 <input
                   type="text"
-                  value={formValues.company}
-                  onChange={(e) => setFormValues({ ...formValues, company: e.target.value })}
+                  name="company"
                   placeholder="Företagsnamn"
                   className={styles.input}
                 />
               </div>
 
               {/* Service dropdown */}
-              <div className={styles.field}>
-                <label className={styles.label}>Vad behöver ni hjälp med? *</label>
+              <div className={styles.field} ref={dropdownRef}>
+                <label className={styles.label}>Vad behöver ni hjälp med?</label>
                 <div className={styles.dropdownContainer}>
                   <button
                     type="button"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className={`${styles.dropdownButton} ${formValues.service ? styles.dropdownButtonSelected : styles.dropdownButtonPlaceholder}`}
+                    className={`${styles.dropdownButton} ${serviceValue ? styles.dropdownButtonSelected : styles.dropdownButtonPlaceholder}`}
                   >
-                    <span>{formValues.service || "Välj tjänst..."}</span>
+                    <span>{serviceValue ? services.find(s => s.value === serviceValue)?.label : "Välj tjänst..."}</span>
                     <svg style={{ width: '13px', height: '13px', flexShrink: 0, transition: 'transform 150ms', transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
                   {dropdownOpen && (
                     <div className={styles.dropdown}>
-                      {services.map((service) => (
+                      {services.map((s) => (
                         <button
-                          key={service}
+                          key={s.value}
                           type="button"
-                          onClick={() => { setFormValues({ ...formValues, service }); setDropdownOpen(false) }}
+                          onClick={() => { setServiceValue(s.value); setDropdownOpen(false) }}
                           className={styles.dropdownItem}
                         >
-                          {service}
+                          {s.label}
                         </button>
                       ))}
                     </div>
@@ -204,25 +201,21 @@ export default function ContactCard({ onClose }: ContactCardProps) {
               <div className={styles.field}>
                 <label className={styles.label}>Beskrivning</label>
                 <textarea
-                  value={formValues.message}
-                  onChange={(e) => setFormValues({ ...formValues, message: e.target.value })}
+                  name="message"
+                  required
                   placeholder="Berätta om ert projekt..."
                   rows={4}
                   className={`${styles.input} ${styles.textarea}`}
                 />
               </div>
 
-              {serverError && (
-                <p className={styles.error}>{serverError}</p>
+              {(state as { error?: string } | null)?.error && (
+                <p className={styles.error}>
+                  {(state as { error: string }).error}
+                </p>
               )}
 
-              <button
-                type="submit"
-                disabled={formState === "submitting"}
-                className={styles.submitButton}
-              >
-                {formState === "submitting" ? "Skickar..." : "Skicka förfrågan"}
-              </button>
+              <SubmitButton />
             </form>
           )}
         </div>

@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import ContactCard from '../ui/contact-card'
 import type { ChangeEvent, FormEvent } from 'react'
 import { gsap } from 'gsap'
@@ -400,7 +399,7 @@ const hasPlayed = useRef(false)
           position: absolute;
           inset: 2px;
           border-radius: 46px;
-          background: #141414;
+          background: #0d0d0d;
           opacity: 0;
           z-index: 2;
           pointer-events: none;
@@ -410,7 +409,7 @@ const hasPlayed = useRef(false)
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          background: url('/images/grain.png') repeat;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fcta-grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fcta-grain)' opacity='1'/%3E%3C/svg%3E");
           background-size: 200px 200px;
           opacity: 0.35;
           mix-blend-mode: soft-light;
@@ -611,7 +610,7 @@ const hasPlayed = useRef(false)
           padding: 56px 48px 48px;
           border-radius: 24px;
           border: 1px solid rgba(255, 255, 255, 0.1);
-          background: #141414;
+          background: #0d0d0d;
           color: #fff;
           box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
         }
@@ -620,7 +619,7 @@ const hasPlayed = useRef(false)
           position: absolute;
           inset: 0;
           border-radius: inherit;
-          background: url('/images/grain.png') repeat;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fcta-grain2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fcta-grain2)' opacity='1'/%3E%3C/svg%3E");
           background-size: 200px 200px;
           opacity: 0.35;
           mix-blend-mode: soft-light;
@@ -717,8 +716,8 @@ const hasPlayed = useRef(false)
         .fcta-modal-textarea:-webkit-autofill,
         .fcta-modal-textarea:-webkit-autofill:hover,
         .fcta-modal-textarea:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0 1000px #141414 inset !important;
-          box-shadow: 0 0 0 1000px #141414 inset !important;
+          -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset !important;
+          box-shadow: 0 0 0 1000px #0d0d0d inset !important;
           -webkit-text-fill-color: #fff !important;
           transition: background-color 5000s ease-in-out 0s;
           border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -1052,13 +1051,21 @@ const hasPlayed = useRef(false)
             </div>
             <nav className="fcta-footer-links">
               <a className="fcta-footer-button" href="https://www.instagram.com/eteyaconsulting/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <FaInstagram className="fcta-footer-icon" size={18} />
+                <svg className="fcta-footer-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
               </a>
               <a className="fcta-footer-button" href="https://www.linkedin.com/company/eteya/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <FaLinkedinIn className="fcta-footer-icon" size={18} />
+                <svg className="fcta-footer-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <path d="M2 9h4v12H2z"/>
+                  <path d="M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                </svg>
               </a>
               <a className="fcta-footer-button" href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <FaFacebookF className="fcta-footer-icon" size={18} />
+                <svg className="fcta-footer-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
               </a>
             </nav>
           </div>
