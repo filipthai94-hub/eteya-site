@@ -3,16 +3,6 @@ import { useEffect } from 'react'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
-function SvcListLines({ activeIndex, total }: { activeIndex: number; total: number }) {
-  return (
-    <div className="svc-list-lines">
-      {Array.from({ length: total }).map((_, i) => (
-        <span key={i} className={`svc-list-line${i === activeIndex ? ' is-active' : ''}`} />
-      ))}
-    </div>
-  )
-}
-
 const CSS = `
   #services-section {
     --ff: 'DM Sans', sans-serif;
@@ -207,28 +197,7 @@ const CSS = `
     line-height: 1.45;
     flex: 1;
   }
-  #services-section .svc-list-lines {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  #services-section .svc-list-line {
-    display: inline-block;
-    width: 1px;
-    height: 14px;
-    background: rgba(255,255,255,0.25);
-    flex-shrink: 0;
-    transition: height 0.3s ease, background 0.3s ease;
-  }
-  #services-section .svc-list-line.is-active {
-    height: 28px;
-    background: rgba(255,255,255,0.85);
-  }
-  @media (max-width: 767px) {
-    #services-section .svc-list-lines { display: none; }
-  }
+
 
   /* Slug-text / service description */
   #services-section .service-desc {
@@ -380,7 +349,6 @@ export default function ServicesClient() {
                   <li key={i} className="svc-list-item">
                     <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
                     <span className="svc-list-text">{text}</span>
-                    <SvcListLines activeIndex={i} total={6} />
                   </li>
                 ))}
               </ul>
@@ -417,7 +385,6 @@ export default function ServicesClient() {
                   <li key={i} className="svc-list-item">
                     <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
                     <span className="svc-list-text">{text}</span>
-                    <SvcListLines activeIndex={i} total={6} />
                   </li>
                 ))}
               </ul>
@@ -454,7 +421,6 @@ export default function ServicesClient() {
                   <li key={i} className="svc-list-item">
                     <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
                     <span className="svc-list-text">{text}</span>
-                    <SvcListLines activeIndex={i} total={6} />
                   </li>
                 ))}
               </ul>
