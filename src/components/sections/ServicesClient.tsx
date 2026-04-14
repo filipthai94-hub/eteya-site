@@ -30,7 +30,7 @@ const CSS = `
     --h4: clamp(1.5rem, 0.87rem + 1.32vw, 2rem);
     --text: clamp(1.125rem, 0.7rem + 0.88vw, 1.375rem);
     --sp-block: clamp(3rem, 1rem + 4vw, 5rem);
-    background: #000;
+    background: #080808;
     padding: 120px 62px;
     font-family: var(--ff-body);
     color: #fff;

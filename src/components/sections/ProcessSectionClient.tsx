@@ -7,11 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const CSS = `
-  .process-wrap { background: #000; font-family: var(--font-body), 'Geist', sans-serif; --ff-section: 'DM Sans', sans-serif; }
+  .process-wrap { background: #080808; font-family: var(--font-body), 'Geist', sans-serif; --ff-section: 'DM Sans', sans-serif; }
 
   /* ── SECTION HEADER ── */
   .process-section-header {
-    background: #000;
+    background: #080808;
     padding: 120px 60px 48px;
   }
   .process-section-header h2 {
@@ -123,7 +123,7 @@ const CSS = `
 
   /* ── TEXT-BLOCK ── */
   .process-text-block {
-    background: #000;
+    background: #080808;
     padding: 86px 0;
   }
   .process-text-block-inner {

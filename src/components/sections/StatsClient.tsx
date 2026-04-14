@@ -204,7 +204,7 @@ export default function StatsClient({
           display: flex;
           flex-direction: column;
           gap: 2px;
-          background: #121213;
+          background: #080808;
         }
 
         .bd-stat-row {
@@ -238,7 +238,7 @@ export default function StatsClient({
           font-size: 12vw;
           font-weight: 600;
           line-height: 1em;
-          color: #121213;
+          color: #080808;
           letter-spacing: -0.001em;
           /* autoAlpha handles visibility */
         }
@@ -258,7 +258,7 @@ export default function StatsClient({
           font-family: var(--font-display, 'Inter', sans-serif);
           font-size: 3.42vw;
           font-weight: 400;
-          color: #121213;
+          color: #080808;
           line-height: 1.1;
           letter-spacing: -0.03em;
         }

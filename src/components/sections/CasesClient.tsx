@@ -159,7 +159,7 @@ const CSS = `
     --text: clamp(1rem, 0.7rem + 0.6vw, 1.175rem);
     --text-sm: clamp(0.875rem, 0.65rem + 0.5vw, 1rem);
     --sp-block: clamp(3rem, 1rem + 4vw, 5rem);
-    background: #000;
+    background: #080808;
     padding: 120px 62px;
     font-family: var(--ff-body);
     color: #fff;

@@ -23,7 +23,7 @@ const CSS = `
   /* ═══ JOIN THE BEST SECTION ═══ */
   .join-section {
     padding-top: 120px;
-    background: #000;
+    background: #080808;
   }
 
   .join-container {
