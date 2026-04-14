@@ -19,7 +19,7 @@
   cursor: pointer;
   border-radius: 6px;
   overflow: hidden;
-  transition: color 0.5s, box-shadow 0.3s, transform 0.3s;
+  transition: color 0s, box-shadow 0.3s, transform 0.3s;
   padding: 14px 30px;
   font-size: 15px;
   box-shadow:
@@ -58,8 +58,11 @@
 
 @media (hover: hover) {
   .btn:hover { color: #080808; transform: translateY(-1px); border-color: transparent; }
+  .btn:hover .text { color: #080808; }
   .secondary:hover { color: #F5F5F5; }
+  .secondary:hover .text { color: #F5F5F5; }
   .danger:hover { color: #F5F5F5; }
+  .danger:hover .text { color: #F5F5F5; }
 
   .btn:hover {
     box-shadow:
@@ -84,6 +87,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  color: inherit;
+  transition: color 0s;
 }
 
 /* ── States ── */
