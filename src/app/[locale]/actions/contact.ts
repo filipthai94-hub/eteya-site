@@ -4,6 +4,8 @@ import { z } from 'zod'
 const schema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
+  company: z.string().max(200).optional(),
+  service: z.string().optional(),
   message: z.string().min(10).max(2000),
   website: z.string().max(0),
 })
@@ -23,6 +25,8 @@ export async function sendContactEmail(_prevState: unknown, formData: FormData) 
       html: `
         <p><strong>Namn:</strong> ${result.data.name}</p>
         <p><strong>Email:</strong> ${result.data.email}</p>
+        ${result.data.company ? `<p><strong>Företag:</strong> ${result.data.company}</p>` : ''}
+        ${result.data.service ? `<p><strong>Tjänst:</strong> ${result.data.service}</p>` : ''}
         <p><strong>Meddelande:</strong></p>
         <p>${result.data.message.replace(/\n/g, '<br/>')}</p>
       `,

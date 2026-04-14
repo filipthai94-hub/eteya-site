@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
-import Hero from '@/components/sections/Hero'
 import Contact from '@/components/sections/Contact'
 
 const BASE_URL = 'https://eteya.ai'
@@ -55,7 +54,6 @@ export default async function ContactPage({
     <>
       <Nav />
       <main className="page-content">
-        <Hero variant="about" />
         <Contact />
       </main>
     </>

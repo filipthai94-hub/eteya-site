@@ -134,8 +134,9 @@
   },
   "contact": {
     "section_label": "Contact",
+    "hero_subheading": "We respond within 1 business day",
     "heading": "Get in touch.",
-    "subheading": "We respond within 24 hours.",
+    "subheading": "Fill in the form and we'll get back to you within 1 business day.",
     "fields": {
       "name": {
         "label": "Name",
@@ -145,18 +146,30 @@
         "label": "Email",
         "placeholder": "john@company.com"
       },
-      "message": {
-        "label": "Message",
-        "placeholder": "Tell us about your project or challenge..."
+      "company": {
+        "label": "Company",
+        "placeholder": "Company name"
       },
-      "honeypot": {
-        "label": "Leave this field empty"
+      "service": {
+        "label": "What do you need help with?",
+        "placeholder": "Select service...",
+        "options": {
+          "ai_automation": "AI & Automation",
+          "ai_strategy": "AI Strategy & Advisory",
+          "integration": "System Integration",
+          "training": "Training & Workshop",
+          "other": "Other"
+        }
+      },
+      "message": {
+        "label": "Description",
+        "placeholder": "Tell us about your project or challenge..."
       }
     },
-    "submit": "Send",
+    "submit": "Send request",
     "submit_loading": "Sending...",
-    "success": "Thank you! We'll be in touch within 24 hours.",
-    "error": "Something went wrong. Please try again or email us directly."
+    "success": "Thank you! We'll be in touch within 1 business day.",
+    "error": "Something went wrong. Please try again or email us at kontakt@eteya.ai"
   },
   "footer": {
     "tagline": "AI that runs your business.",

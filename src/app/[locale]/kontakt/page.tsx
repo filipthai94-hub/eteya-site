@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
-import Hero from '@/components/sections/Hero'
 import Contact from '@/components/sections/Contact'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 
@@ -56,7 +55,6 @@ export default async function KontaktPage({
     <>
       <Nav />
       <main className="page-content">
-        <Hero variant="contact" />
         <Contact />
         <FooterCTAClient />
       </main>

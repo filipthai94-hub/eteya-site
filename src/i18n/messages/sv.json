@@ -134,29 +134,42 @@
   },
   "contact": {
     "section_label": "Kontakt",
+    "hero_subheading": "Vi svarar inom 1 vardag",
     "heading": "Hör av dig.",
-    "subheading": "Vi svarar inom 24 timmar.",
+    "subheading": "Fyll i formuläret så återkommer vi inom 1 vardag.",
     "fields": {
       "name": {
         "label": "Namn",
         "placeholder": "Anna Svensson"
       },
       "email": {
-        "label": "E-post",
+        "label": "Email",
         "placeholder": "anna@företaget.se"
       },
-      "message": {
-        "label": "Meddelande",
-        "placeholder": "Berätta om ditt projekt eller din utmaning..."
+      "company": {
+        "label": "Företag",
+        "placeholder": "Företagsnamn"
       },
-      "honeypot": {
-        "label": "Lämna detta fält tomt"
+      "service": {
+        "label": "Vad behöver ni hjälp med?",
+        "placeholder": "Välj tjänst...",
+        "options": {
+          "ai_automation": "AI & Automation",
+          "ai_strategy": "AI-strategi & Rådgivning",
+          "integration": "Systemintegration",
+          "training": "Utbildning & Workshop",
+          "other": "Annat"
+        }
+      },
+      "message": {
+        "label": "Beskrivning",
+        "placeholder": "Berätta om ert projekt eller er utmaning..."
       }
     },
-    "submit": "Skicka",
+    "submit": "Skicka förfrågan",
     "submit_loading": "Skickar...",
-    "success": "Tack! Vi hör av oss inom 24 timmar.",
-    "error": "Något gick fel. Försök igen eller maila oss direkt."
+    "success": "Tack! Vi hör av oss inom 1 vardag.",
+    "error": "Något gick fel. Försök igen eller maila oss på kontakt@eteya.ai"
   },
   "footer": {
     "tagline": "AI som driver ditt företag.",
