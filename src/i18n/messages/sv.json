@@ -553,24 +553,22 @@
     "members": [
       {
         "name": "Filip Thai",
-        "role": "Grundare & CEO",
-        "bio": "Entreprenör med fokus på AI-driven tillväxt. Bygger bryggan mellan teknik och affärsnytta.",
-        "image": "",
+        "role": "Grundare och CEO",
+        "bio": "Startade Eteya för att bevisa att AI faktiskt levererar, inte bara låter bra på möten.",
+        "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
         "initials": "F.T.",
         "social": {
-          "linkedin": "https://www.linkedin.com/in/filipthai/",
-          "email": "filip@eteya.ai"
+          "linkedin": "https://www.linkedin.com/in/filipthai/"
         }
       },
       {
-        "name": "Agit Demir",
-        "role": "AI Engineer",
-        "bio": "Specialist på automation och AI-integration. Omsätter komplexa flöden till enkla lösningar.",
-        "image": "",
-        "initials": "A.D.",
+        "name": "Agit Akalp",
+        "role": "Medgrundare",
+        "bio": "Grundare av Telestore. Efter över 10 år som entreprenör vet han vad som funkar i verkligheten och vad som bara är Powerpoint.",
+        "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+        "initials": "A.A.",
         "social": {
-          "linkedin": "https://www.linkedin.com/in/agitdemir/",
-          "email": "agit@eteya.ai"
+          "linkedin": "https://www.linkedin.com/in/agitakalp/"
         }
       }
     ]

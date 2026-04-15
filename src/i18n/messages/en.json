@@ -552,24 +552,22 @@
     "members": [
       {
         "name": "Filip Thai",
-        "role": "Founder & CEO",
-        "bio": "Entrepreneur focused on AI-driven growth. Building the bridge between technology and business value.",
-        "image": "",
+        "role": "Founder and CEO",
+        "bio": "Started Eteya to prove that AI actually delivers, not just sounds good in meetings.",
+        "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
         "initials": "F.T.",
         "social": {
-          "linkedin": "https://www.linkedin.com/in/filipthai/",
-          "email": "filip@eteya.ai"
+          "linkedin": "https://www.linkedin.com/in/filipthai/"
         }
       },
       {
-        "name": "Agit Demir",
-        "role": "AI Engineer",
-        "bio": "Specialist in automation and AI integration. Turns complex workflows into simple solutions.",
-        "image": "",
-        "initials": "A.D.",
+        "name": "Agit Akalp",
+        "role": "Co-founder",
+        "bio": "Founder of Telestore. After 10+ years as an entrepreneur, he knows what works in the real world — and what's just Powerpoint.",
+        "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+        "initials": "A.A.",
         "social": {
-          "linkedin": "https://www.linkedin.com/in/agitdemir/",
-          "email": "agit@eteya.ai"
+          "linkedin": "https://www.linkedin.com/in/agitakalp/"
         }
       }
     ]

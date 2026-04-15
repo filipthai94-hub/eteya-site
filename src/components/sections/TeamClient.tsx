@@ -100,7 +100,8 @@ export default function TeamClient({ label, heading, members }: {
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '2rem',
           maxWidth: '900px',
-          margin: '0 auto'
+          margin: '0 auto',
+          perspective: '1000px',
         }}>
           {members.map((member, i) => {
             const initials = member.initials || member.name.split(' ').map(n => n[0]).join('')
@@ -116,19 +117,26 @@ export default function TeamClient({ label, heading, members }: {
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
-                  transition: 'border-color 0.3s ease',
+                  transform: 'scale(1)',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  willChange: 'transform, box-shadow',
                   minHeight: '520px',
                 }}
                 onMouseEnter={(e) => {
                   gsap.to(e.currentTarget, {
-                    borderColor: 'rgba(255,255,255,0.08)',
-                    duration: 0.3
+                    scale: 1.02,
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+                    duration: 0.2,
+                    ease: 'power2.out'
                   })
                 }}
                 onMouseLeave={(e) => {
                   gsap.to(e.currentTarget, {
-                    borderColor: 'rgba(255,255,255,0.06)',
-                    duration: 0.3
+                    scale: 1,
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                    duration: 0.2,
+                    ease: 'power2.out'
                   })
                 }}
               >
@@ -154,13 +162,13 @@ export default function TeamClient({ label, heading, members }: {
                       }}
                     />
                   ) : (
-                    // Placeholder with initials
+                    // Placeholder with initials - ENHANCED VISIBILITY
                     <div style={{
                       width: '120px',
                       height: '120px',
                       borderRadius: '50%',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '2px solid rgba(255,255,255,0.08)',
+                      background: 'rgba(200,255,0,0.08)',
+                      border: '2px solid rgba(200,255,0,0.2)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -169,7 +177,7 @@ export default function TeamClient({ label, heading, members }: {
                         fontFamily: "'DM Sans', sans-serif",
                         fontSize: '2rem',
                         fontWeight: 700,
-                        color: 'rgba(255,255,255,0.3)',
+                        color: 'rgba(255,255,255,0.6)',
                         letterSpacing: '0.05em',
                       }}>
                         {initials}
@@ -199,10 +207,10 @@ export default function TeamClient({ label, heading, members }: {
                     {member.name}
                   </h3>
 
-                  {/* Role */}
+                  {/* Role - ENHANCED VISIBILITY */}
                   <p style={{ 
-                    color: 'rgba(255,255,255,0.5)', 
-                    fontSize: '0.75rem', 
+                    color: 'rgba(255,255,255,0.7)', 
+                    fontSize: '0.875rem', 
                     textTransform: 'uppercase', 
                     letterSpacing: '0.14em', 
                     margin: 0,
@@ -223,7 +231,7 @@ export default function TeamClient({ label, heading, members }: {
                     {member.bio}
                   </p>
 
-                  {/* Social Icons */}
+                  {/* Social Icons - ENHANCED VISIBILITY */}
                   <div style={{
                     display: 'flex',
                     gap: '12px',
@@ -241,7 +249,7 @@ export default function TeamClient({ label, heading, members }: {
                           width: '36px',
                           height: '36px',
                           borderRadius: '50%',
-                          backgroundColor: 'rgba(255,255,255,0.05)',
+                          backgroundColor: 'rgba(255,255,255,0.08)',
                           transition: 'background-color 0.2s ease, color 0.2s ease',
                           textDecoration: 'none',
                         }}
@@ -250,8 +258,8 @@ export default function TeamClient({ label, heading, members }: {
                           e.currentTarget.style.color = '#080808'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
+                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
+                          e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
                         }}
                       >
                         <svg 
@@ -259,7 +267,7 @@ export default function TeamClient({ label, heading, members }: {
                           height="18" 
                           viewBox="0 0 24 24" 
                           fill="currentColor"
-                          style={{ color: 'rgba(255,255,255,0.4)' }}
+                          style={{ color: 'rgba(255,255,255,0.6)' }}
                         >
                           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
@@ -275,7 +283,7 @@ export default function TeamClient({ label, heading, members }: {
                           width: '36px',
                           height: '36px',
                           borderRadius: '50%',
-                          backgroundColor: 'rgba(255,255,255,0.05)',
+                          backgroundColor: 'rgba(255,255,255,0.08)',
                           transition: 'background-color 0.2s ease, color 0.2s ease',
                           textDecoration: 'none',
                         }}
@@ -284,8 +292,8 @@ export default function TeamClient({ label, heading, members }: {
                           e.currentTarget.style.color = '#080808'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
+                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
+                          e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
                         }}
                       >
                         <svg 
@@ -297,7 +305,7 @@ export default function TeamClient({ label, heading, members }: {
                           strokeWidth="1.5" 
                           strokeLinecap="round" 
                           strokeLinejoin="round"
-                          style={{ color: 'rgba(255,255,255,0.4)' }}
+                          style={{ color: 'rgba(255,255,255,0.6)' }}
                         >
                           <rect x="2" y="4" width="20" height="16" rx="2"/>
                           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
