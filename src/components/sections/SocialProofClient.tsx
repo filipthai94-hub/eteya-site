@@ -122,9 +122,10 @@ export default function SocialProofClient({ title, subtitle, customers }: {
             >
               {/* Logo */}
               <div style={{
-                height: '48px',
+                height: '64px',
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
               }}>
                 <img
                   src={customer.logo}

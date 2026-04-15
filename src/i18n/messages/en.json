@@ -507,7 +507,7 @@
           "bigNumberLabel": "Saved per year",
           "quote": "Eteya took us from chaos to control in weeks.",
           "caseStudyUrl": "/sv/kundcase/telestore",
-          "logo": "/images/telestore-logo.png"
+          "logo": "/images/logos/telestore-new.png"
         },
         {
           "name": "Nordicrank",
@@ -515,7 +515,7 @@
           "bigNumberLabel": "Time saved",
           "quote": "We got back an entire workday per week.",
           "caseStudyUrl": "/sv/kundcase/nordicrank",
-          "logo": "/images/nordicrank-logo.png"
+          "logo": "/images/logos/nordicrank.svg"
         },
         {
           "name": "Sannegården",
@@ -523,7 +523,7 @@
           "bigNumberLabel": "Missed calls",
           "quote": "Never a missed call during rush hour again.",
           "caseStudyUrl": "/sv/kundcase/sannegarden",
-          "logo": "/images/sannegarden-logo.png"
+          "logo": "/images/logos/sannegarden-new.svg"
         }
       ]
     }
@@ -554,15 +554,24 @@
         "name": "Filip Thai",
         "role": "Founder & CEO",
         "bio": "Entrepreneur focused on AI-driven growth. Building the bridge between technology and business value.",
-        "image": "/images/team/filip.jpg"
+        "image": "",
+        "initials": "F.T.",
+        "social": {
+          "linkedin": "https://www.linkedin.com/in/filipthai/",
+          "email": "filip@eteya.ai"
+        }
       },
       {
         "name": "Agit Demir",
         "role": "AI Engineer",
         "bio": "Specialist in automation and AI integration. Turns complex workflows into simple solutions.",
-        "image": "/images/team/agit.jpg"
+        "image": "",
+        "initials": "A.D.",
+        "social": {
+          "linkedin": "https://www.linkedin.com/in/agitdemir/",
+          "email": "agit@eteya.ai"
+        }
       }
-    ],
-    "teamNote": "We're growing — looking for people passionate about AI and Swedish businesses."
+    ]
   }
 }
