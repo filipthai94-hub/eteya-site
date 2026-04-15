@@ -1,1186 +1,626 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLocale } from 'next-intl'
+import ButtonStripe from '@/components/ui/ButtonStripe'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import sv from '@/i18n/messages/sv.json'
 import en from '@/i18n/messages/en.json'
-import ButtonStripe from '@/components/ui/ButtonStripe'
-import ButtonSwap from '@/components/ui/ButtonSwap'
+import s from './ROICalculatorClient.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type ProcessKey = 'customerService' | 'invoicing' | 'leads' | 'reporting' | 'email' | 'scheduling'
+// ── i18n messages ─────────────────────────────────────────────────────────────
+const messages: Record<string, any> = { sv, en }
 
-type MessageFile = {
-  calculator: {
-    heading: string
-    subheading: string
-    processLabel: string
-    processHint: string
-    hoursLabel: string
-    teamLabel: string
-    teamHint: string
-    teamUnit: string
-    processes: Record<ProcessKey, { name: string }>
-    results: {
-      title: string
-      currentCostLabel: string
-      withAiLabel: string
-      perYear: string
-      annual: string
-      hoursSaved: string
-      fteEquivalent: string
-      perProcess: string
-    }
-    transparency: {
-      toggle: string
-      hourlyRate: string
-      automationRates: string
-      yearOneFactor: string
-      range: string
-      disclaimer: string
-    }
-    cta: {
-      primary: string
-      secondary: string
-    }
-    empty: string
-  }
+// ── Konstanter (v4.0 — 2026-04-15) ───────────────────────────────────────────
+const HOURLY = 350
+const F1     = 0.65
+const F2     = 0.85
+const F3     = 1.00
+const FTE_H  = 1760
+const UNCERT = 0.15
+
+const RATES: Record<string, number> = {
+  kundtjanst:    0.45,
+  fakturering:   0.65,
+  leads:         0.60,
+  rapportering:  0.70,
+  epost:         0.50,
+  kommunikation: 0.65,
 }
 
-type ProcessConfig = {
-  key: ProcessKey
-  rate: number
+// Lime-nyanser per process — matchar Telestore case study DNA
+const PROC_COLORS: Record<string, string> = {
+  kundtjanst:    '#C8FF00',
+  fakturering:   '#9FCC00',
+  leads:         '#7BA300',
+  rapportering:  '#5A7A00',
+  epost:         '#3D5200',
+  kommunikation: '#2A3800',
 }
 
-type Totals = {
-  totalSavings: number
-  lowSavings: number
-  highSavings: number
-  totalHoursSaved: number
-  totalFte: number
-  currentCost: number
-  withAiCost: number
-  breakdown: Array<{
-    key: ProcessKey
-    savings: number
-    hoursSaved: number
-    rate: number
-  }>
+const PROC_LABELS: Record<string, string> = {
+  kundtjanst:    'Kundtjänst',
+  fakturering:   'Fakturering & Admin',
+  leads:         'Leads & Försäljning',
+  rapportering:  'Rapportering & Ekonomi',
+  epost:         'E-post & Schemaläggning',
+  kommunikation: 'Intern kommunikation',
 }
 
-const messages: Record<string, MessageFile> = { sv, en }
+const PROC_RATE_LABELS: Record<string, string> = {
+  kundtjanst:    '45% automation',
+  fakturering:   '65% automation',
+  leads:         '60% automation',
+  rapportering:  '70% automation',
+  epost:         '50% automation',
+  kommunikation: '65% automation',
+}
 
-const PROCESS_CONFIG: ProcessConfig[] = [
-  { key: 'customerService', rate: 0.4 },
-  { key: 'invoicing', rate: 0.8 },
-  { key: 'leads', rate: 0.6 },
-  { key: 'reporting', rate: 0.7 },
-  { key: 'email', rate: 0.5 },
-  { key: 'scheduling', rate: 0.65 },
-]
+const DEFAULTS: Record<string, { on: boolean; hours: number }> = {
+  kundtjanst:    { on: true,  hours: 8  },
+  fakturering:   { on: true,  hours: 5  },
+  leads:         { on: false, hours: 6  },
+  rapportering:  { on: false, hours: 4  },
+  epost:         { on: false, hours: 8  },
+  kommunikation: { on: false, hours: 5  },
+}
 
-const HOURLY_COST = 350
-const YEAR_ONE_FACTOR = 0.65
-const HOURS_PER_FTE = 1760
-const DEFAULT_HOURS = 5
-const DEFAULT_TEAM_SIZE = 3
-const MIN_HOURS = 1
-const MAX_HOURS = 40
-const MIN_TEAM_SIZE = 1
-const MAX_TEAM_SIZE = 50
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function fmt(n: number) {
+  return Math.round(n).toLocaleString('sv-SE')
+}
+function fmtK(n: number) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace('.', ',') + ' mkr'
+  if (n >= 1_000)     return Math.round(n / 1_000) + ' tkr'
+  return fmt(n) + ' kr'
+}
 
-function useAnimatedNumber(target: number, duration = 700) {
-  const [value, setValue] = useState(target)
+type ProcKey = keyof typeof RATES
+interface ProcState { on: boolean; hours: number }
 
+// ── Donut Chart SVG ───────────────────────────────────────────────────────────
+// Spec matchar exakt TelestoreCaseStudy.tsx: r=80, stroke-width=32, viewBox 200×200
+const CIRCUMFERENCE = 2 * Math.PI * 80 // ≈ 502.65
+
+function DonutChart({
+  segments,
+  centerValue,
+  centerLabel,
+}: {
+  segments: { color: string; pct: number; label: string; value: string }[]
+  centerValue: string
+  centerLabel: string
+}) {
+  let offset = 0
+  const gapSize = 2; // px gap mellan segment
+  const arcs = segments.map((seg, i) => {
+    const dash    = seg.pct * CIRCUMFERENCE - gapSize
+    const gap     = CIRCUMFERENCE - dash + gapSize
+    const dashOff = -offset
+    offset += dash + gapSize
+    return (
+      <circle
+        key={i}
+        cx="100" cy="100" r="80"
+        fill="none"
+        stroke={seg.color}
+        strokeWidth="32"
+        strokeLinecap="butt"
+        strokeDasharray={`${dash.toFixed(2)} ${gap.toFixed(2)}`}
+        strokeDashoffset={dashOff.toFixed(2)}
+        style={{ filter: 'brightness(1.0)', transition: 'filter 0.2s ease' }}
+      />
+    )
+  })
+
+  return (
+    <div className={s.donutWrap}>
+      <svg
+        viewBox="0 0 200 200"
+        className={s.donutSvg}
+        aria-hidden
+        style={{ transform: 'rotate(-90deg)' }}
+      >
+        <defs>
+          <radialGradient id="donutGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#D4FF33" />
+            <stop offset="100%" stopColor="#9FCC00" />
+          </radialGradient>
+        </defs>
+        {/* Track */}
+        <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="28" />
+        {arcs}
+      </svg>
+      <div className={s.donutCenter}>
+        <span className={s.donutCenterValue}>{centerValue}</span>
+        <span className={s.donutCenterLabel}>{centerLabel}</span>
+      </div>
+    </div>
+  )
+}
+
+// ── Donut Draw-in Animation Hook ─────────────────────────────────────────────
+function useDonutAnimation(donutRef: React.RefObject<HTMLDivElement>) {
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      setValue(target)
-      return
-    }
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-      setValue(target)
-      return
-    }
-
-    const startValue = value
-    const startTime = performance.now()
-    let frameId = 0
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setValue(startValue + (target - startValue) * eased)
-      if (progress < 1) {
-        frameId = window.requestAnimationFrame(tick)
-      }
-    }
-
-    frameId = window.requestAnimationFrame(tick)
-    return () => window.cancelAnimationFrame(frameId)
-  }, [duration, target])
-
-  return value
-}
-
-function formatCurrency(value: number, locale: string) {
-  return `${Math.round(value).toLocaleString(locale === 'sv' ? 'sv-SE' : 'en-US')} kr`
-}
-
-function formatHours(value: number, locale: string) {
-  return Math.round(value).toLocaleString(locale === 'sv' ? 'sv-SE' : 'en-US')
-}
-
-function formatFteLabel(template: string, value: number, locale: string) {
-  const formatted = value.toLocaleString(locale === 'sv' ? 'sv-SE' : 'en-US', {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  })
-
-  return template.replace('{{count}}', formatted)
-}
-
-function getSliderBackground(value: number, min: number, max: number) {
-  const percentage = ((value - min) / (max - min)) * 100
-  return `linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) ${percentage}%, #222222 ${percentage}%, #222222 100%)`
-}
-
-export default function ROICalculatorClient() {
-  const locale = useLocale()
-  const copy = (messages[locale] ?? messages.sv).calculator
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const itemRefs = useRef<Array<HTMLDivElement | null>>([])
-  const [selectedProcesses, setSelectedProcesses] = useState<Record<ProcessKey, boolean>>({
-    customerService: true,
-    invoicing: true,
-    leads: false,
-    reporting: false,
-    email: false,
-    scheduling: false,
-  })
-  const [hoursPerProcess, setHoursPerProcess] = useState<Record<ProcessKey, number>>({
-    customerService: DEFAULT_HOURS,
-    invoicing: DEFAULT_HOURS,
-    leads: DEFAULT_HOURS,
-    reporting: DEFAULT_HOURS,
-    email: DEFAULT_HOURS,
-    scheduling: DEFAULT_HOURS,
-  })
-  const [teamSize, setTeamSize] = useState(DEFAULT_TEAM_SIZE)
-  const [showTransparency, setShowTransparency] = useState(false)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
+    if (!donutRef.current) return
+    
     const ctx = gsap.context(() => {
-      if (prefersReducedMotion) {
-        gsap.set(section, { autoAlpha: 1, y: 0 })
-        gsap.set(itemRefs.current.filter(Boolean), { autoAlpha: 1, y: 0 })
-        return
+      const segments = donutRef.current!.querySelectorAll('circle[stroke]')
+      segments.forEach((seg, i) => {
+        const el = seg as SVGCircleElement
+        const dashArray = el.getAttribute('stroke-dasharray')
+        const segLength = dashArray ? parseFloat(dashArray.split(' ')[0]) : 0
+        const originalOffset = parseFloat(el.getAttribute('stroke-dashoffset') || '0')
+        
+        // Start: helt dold (offset = segLength + originalOffset)
+        // Slut: korrekt position (offset = originalOffset)
+        gsap.fromTo(el,
+          { strokeDashoffset: segLength + originalOffset, opacity: 1 },
+          {
+            strokeDashoffset: originalOffset,
+            duration: 1.2,
+            delay: i * 0.15, // Stagger!
+            ease: 'power2.out',
+            scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true },
+          }
+        )
+      })
+      
+      // Center text scale-in
+      const centerEl = donutRef.current!.querySelector('.donutCenter')
+      if (centerEl) {
+        gsap.fromTo(centerEl,
+          { scale: 0.5, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            delay: 0.6,
+            ease: 'back.out(1.7)',
+            scrollTrigger: { trigger: donutRef.current!, start: 'top 80%', once: true },
+          }
+        )
       }
-
-      gsap.set(section, { autoAlpha: 0, y: 30 })
-      gsap.set(itemRefs.current.filter(Boolean), { autoAlpha: 0, y: 24 })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          once: true,
-        },
-      })
-
-      tl.to(section, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power2.out',
-      })
-      tl.to(
-        itemRefs.current.filter(Boolean),
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          stagger: 0.08,
-        },
-        0.1,
-      )
-    }, section)
-
+    }, donutRef)
+    
     return () => ctx.revert()
+  }, [donutRef])
+}
+
+// ── Bar Chart SVG ─────────────────────────────────────────────────────────────
+function BarChart({ y1, y2, y3 }: { y1: number; y2: number; y3: number }) {
+  const vals   = [y1, y2, y3]
+  const labels = ['År 1', 'År 2', 'År 3']
+  const maxV   = Math.max(...vals, 1)
+  const H = 110, pad = 8, bW = 64, gap = 20
+  const sx = (280 - (3 * bW + 2 * gap)) / 2
+
+  return (
+    <svg viewBox="0 0 280 130" className={s.barSvg} aria-hidden>
+      <defs>
+        <linearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#D4FF33" />
+          <stop offset="100%" stopColor="#9FCC00" />
+        </linearGradient>
+      </defs>
+      {/* Grid lines — nästan osynliga */}
+      {[1,2,3].map(i => {
+        const y = H - pad - (i / 4) * (H - pad * 2)
+        return <line key={i} x1={0} y1={y} x2={280} y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
+      })}
+      {vals.map((v, i) => {
+        const bH = (v / maxV) * (H - pad * 2 - 20)
+        const x  = sx + i * (bW + gap)
+        const y  = H - pad - bH - 16
+        return (
+          <g key={i} style={{ animation: `barGrow 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.15}s forwards` }}>
+            <rect x={x} y={y} width={bW} height={bH} fill="url(#barGradient)" opacity="0.9" rx={2} />
+            <text x={x + bW / 2} y={y - 5} fill="#FFFFFF" fontSize={13} textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontWeight="600">
+              {fmtK(v)}
+            </text>
+            <text x={x + bW / 2} y={H + 4} fill="rgba(255,255,255,0.60)" fontSize={11} textAnchor="middle" fontFamily="'Barlow Condensed', sans-serif" letterSpacing="0.1em">
+              {labels[i].toUpperCase()}
+            </text>
+          </g>
+        )
+      })}
+      <style>{`
+        @keyframes barGrow {
+          from { transform: scaleY(0); opacity: 0; }
+          to { transform: scaleY(1); opacity: 0.9; }
+        }
+      `}</style>
+    </svg>
+  )
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+export default function ROITestClient() {
+  const [implCost, setImplCost] = useState(50_000)
+  const [useImpl,  setUseImpl]  = useState(true)
+  const [showMethodology, setShowMethodology] = useState(false)
+  const [procs,    setProcs]    = useState<Record<ProcKey, ProcState>>(
+    Object.fromEntries(
+      Object.entries(DEFAULTS).map(([k, v]) => [k, { ...v }])
+    ) as Record<ProcKey, ProcState>
+  )
+
+  // Refs för animationer
+  const snapshotRef = useRef<HTMLDivElement>(null)
+  const donutRef = useRef<HTMLDivElement>(null)
+  const barsRef = useRef<HTMLDivElement>(null)
+  const socialProofRef = useRef<HTMLDivElement>(null)
+  const methodologyRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
+
+  // GSAP Scroll Reveal — samma som Telestore Case Study
+  useEffect(() => {
+    const sections = [
+      snapshotRef, donutRef, barsRef, socialProofRef, methodologyRef, ctaRef
+    ].filter(ref => ref.current)
+    
+    sections.forEach((ref, i) => {
+      gsap.fromTo(ref.current,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          delay: i * 0.1, // Stagger!
+          ease: 'power3.out',
+          scrollTrigger: { trigger: ref.current, start: 'top 85%', once: true },
+        }
+      )
+    })
+    
+    return () => ScrollTrigger.getAll().forEach(st => st.kill())
   }, [])
 
+  // Donut draw-in animation
+  useDonutAnimation(donutRef)
 
-  const totals = useMemo<Totals>(() => {
-    const breakdown = PROCESS_CONFIG.filter(({ key }) => selectedProcesses[key]).map(({ key, rate }) => {
-      const hours = hoursPerProcess[key]
-      const savings = hours * rate * HOURLY_COST * 52 * teamSize * YEAR_ONE_FACTOR
-      const hoursSaved = hours * rate * 52 * teamSize * YEAR_ONE_FACTOR
+  // ── i18n ────────────────────────────────────────────────────────────────────
+  const locale = useLocale()
+  const copy = (messages[locale] ?? messages.sv).calculator
 
-      return { key, savings, hoursSaved, rate }
-    })
+  // ── Beräkning v4.0 ─────────────────────────────────────────────────────────
+  const totals = (() => {
+    const perProc: Record<string, number> = {}
+    let totalSav = 0, totalHrs = 0
 
-    const totalSavings = breakdown.reduce((sum, item) => sum + item.savings, 0)
-    const totalHoursSaved = breakdown.reduce((sum, item) => sum + item.hoursSaved, 0)
+    for (const [key, p] of Object.entries(procs)) {
+      if (!p.on) continue
+      const hrs = p.hours * RATES[key] * 52
+      const sav = hrs * HOURLY
+      perProc[key] = sav
+      totalSav += sav
+      totalHrs += hrs
+    }
 
-    const currentCost = PROCESS_CONFIG
-      .filter(({ key }) => selectedProcesses[key])
-      .reduce((sum, { key }) => sum + hoursPerProcess[key] * HOURLY_COST * 52 * teamSize, 0)
+    const y1   = totalSav * F1
+    const y2   = totalSav * F2
+    const y3   = totalSav * F3
+    const tot3 = y1 + y2 + y3
+    const impl = useImpl ? implCost : 0
+
+    // Donut segments — proportioner av total besparing
+    const donutSegs = (Object.keys(RATES) as ProcKey[])
+      .filter(k => procs[k].on && perProc[k] > 0)
+      .map(k => ({
+        color: PROC_COLORS[k],
+        pct:   perProc[k] / (totalSav || 1),
+        label: PROC_LABELS[k],
+        value: fmtK(perProc[k] * F1),
+      }))
 
     return {
-      totalSavings,
-      lowSavings: totalSavings * 0.85,
-      highSavings: totalSavings * 1.15,
-      totalHoursSaved,
-      totalFte: totalHoursSaved / HOURS_PER_FTE,
-      currentCost,
-      withAiCost: currentCost - totalSavings,
-      breakdown,
+      y1, y2, y3,
+      totalHrs,
+      fte:     (totalHrs * F1) / FTE_H,
+      low:     y1 * (1 - UNCERT),
+      high:    y1 * (1 + UNCERT),
+      roi:     tot3 > 0 ? ((tot3 - impl) / Math.max(impl, 1)) * 100 : 0,
+      pb:      y1 > 0 && impl > 0 ? Math.ceil(impl / (y1 / 12)) : null,
+      donutSegs,
+      ok:      totalSav > 0,
     }
-  }, [hoursPerProcess, selectedProcesses, teamSize])
+  })()
 
-  const animatedLow = useAnimatedNumber(totals.lowSavings)
-  const animatedHigh = useAnimatedNumber(totals.highSavings)
-  const animatedHours = useAnimatedNumber(totals.totalHoursSaved)
-  const animatedFte = useAnimatedNumber(totals.totalFte, 800)
-  const animatedCurrentCost = useAnimatedNumber(totals.currentCost)
-  const animatedWithAiCost = useAnimatedNumber(totals.withAiCost)
-  const maxBreakdownValue = Math.max(...totals.breakdown.map((item) => item.savings), 1)
+  const toggleProc = (key: ProcKey) =>
+    setProcs(prev => ({ ...prev, [key]: { ...prev[key], on: !prev[key].on } }))
 
-  const toggleProcess = (key: ProcessKey) => {
-    setSelectedProcesses((current) => ({
-      ...current,
-      [key]: !current[key],
-    }))
-  }
+  const setHours = (key: ProcKey, h: number) =>
+    setProcs(prev => ({ ...prev, [key]: { ...prev[key], hours: h } }))
 
+  // ── CTA: Öppna kontakt-modal ────────────────────────────────────────────────
   const handleOpenContact = () => {
     window.dispatchEvent(new CustomEvent('open-contact-modal'))
   }
 
+  // Counter animation för Snapshot Bar — samma som Telestore
+  useEffect(() => {
+    if (!snapshotRef.current || !totals.ok) return
+    
+    const ctx = gsap.context(() => {
+      // Counter 1: Besparing år 1
+      const y1El = snapshotRef.current?.querySelector('.snapshotValue')
+      if (y1El) {
+        const obj = { val: 0 }
+        const target = totals.y1
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: snapshotRef.current, start: 'top 80%', once: true },
+          onUpdate: () => {
+            y1El.textContent = fmtK(Math.round(obj.val))
+          },
+        })
+      }
+      
+      // Counter 2: Timmar/år
+      const hrsEl = snapshotRef.current?.querySelectorAll('.snapshotValue')[1]
+      if (hrsEl) {
+        const obj = { val: 0 }
+        const target = Math.round(totals.totalHrs * F1)
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: snapshotRef.current, start: 'top 80%', once: true },
+          delay: 0.2,
+          onUpdate: () => {
+            hrsEl.textContent = Math.round(obj.val).toLocaleString('sv-SE') + ' h'
+          },
+        })
+      }
+      
+      // Counter 3: Payback
+      const pbEl = snapshotRef.current?.querySelectorAll('.snapshotValue')[2]
+      if (pbEl) {
+        const obj = { val: 0 }
+        const target = totals.pb || 0
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: snapshotRef.current, start: 'top 80%', once: true },
+          delay: 0.4,
+          onUpdate: () => {
+            pbEl.textContent = totals.pb ? `${Math.round(obj.val)} mån` : '< 1 mån'
+          },
+        })
+      }
+    }, snapshotRef)
+    
+    return () => ctx.revert()
+  }, [totals.ok, totals.y1, totals.totalHrs, totals.pb, F1])
+
   return (
-    <section className="roi-section" id="roi-calculator" ref={sectionRef}>
-      {/* Mörk overlay */}
-      <div className="roi-aurora-overlay" aria-hidden="true" />
-      <style>{`
-        .roi-section {
-          padding: 120px 62px;
-          background: #080808;
-          color: #f5f5f5;
-          position: relative;
-        }
-
-        .roi-bg-layer {
-          display: none;
-        }
-
-        .roi-bg-img {
-          display: none;
-        }
-
-        /* ── Aurora background — feTurbulence-teknik ── */
-
-        /* Wrap: täcker hela sektionen, z-index under innehåll */
-        .roi-aurora-wrap {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          overflow: hidden;
-        }
-
-        /* Overlay — dimmar bakgrundsbilden, glassmorphism-korten syns tydligt */
-        .roi-aurora-overlay {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          pointer-events: none;
-          background: rgba(8, 8, 8, 0);
-        }
-
-        .roi-container, .roi-results-glow-wrap {
-          position: relative;
-          z-index: 1;
-        }
-
-        .roi-container {
-          display: grid;
-          grid-template-columns: 660px 1fr;
-          gap: 40px;
-          width: 100%;
-        }
-
-        .roi-heading-wrap {
-          position: relative;
-        }
-
-        .roi-heading-sticky {
-          position: sticky;
-          top: 120px;
-        }
-
-        .roi-heading {
-          margin: 0;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 98px;
-          font-weight: 500;
-          line-height: 98px;
-          letter-spacing: -1.96px;
-          text-transform: uppercase;
-          color: #fff;
-        }
-
-        .roi-subheading {
-          max-width: 480px;
-          margin: 24px 0 0;
-          font-family: var(--font-body), sans-serif;
-          font-size: 16px;
-          line-height: 1.6;
-          color: rgba(255,255,255,0.6);
-        }
-
-        .roi-calculator {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-
-        .roi-card {
-          border: 1px solid rgba(255,255,255,0.12);
-          background: rgba(15,15,20,0.72);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border-radius: 20px;
-          padding: 32px;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.35),
-                      inset 0 1px 0 rgba(255,255,255,0.12);
-        }
-
-        .roi-card-title {
-          margin: 0 0 20px;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.4;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.6);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-card-hint {
-          margin: -12px 0 16px;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.5;
-          color: rgba(255,255,255,0.45);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-process-list {
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-        }
-
-        .roi-process-item {
-          border: 1px solid rgba(255,255,255,0.10);
-          background: rgba(0,0,0,0.35);
-          border-radius: 10px;
-          padding: 18px 18px 16px;
-          cursor: pointer;
-          user-select: none;
-          transition: border-color 200ms ease, background 200ms ease;
-        }
-
-        .roi-process-item:hover {
-          border-color: rgba(255,255,255,0.18);
-          background: rgba(255,255,255,0.05);
-        }
-
-        .roi-process-item:focus-visible {
-          outline: 2px solid rgba(128,128,128,0.4);
-          outline-offset: 2px;
-        }
-
-        .roi-process-item.is-active {
-          border-color: rgba(128,128,128,0.35);
-          background: rgba(255,255,255,0.04);
-        }
-
-        .roi-process-item.is-active:hover {
-          background: rgba(255,255,255,0.06);
-        }
-
-        .roi-process-label {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-
-        .roi-toggle {
-          position: relative;
-          width: 36px;
-          height: 20px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.12);
-          flex-shrink: 0;
-          transition: background 200ms ease, border-color 200ms ease;
-        }
-
-        .roi-toggle::after {
-          content: '';
-          position: absolute;
-          top: 2px;
-          left: 2px;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.4);
-          transition: transform 200ms ease, background 200ms ease;
-        }
-
-        .roi-process-item.is-active .roi-toggle {
-          background: rgba(255,255,255,0.85);
-          border-color: rgba(255,255,255,0.5);
-        }
-
-        .roi-process-item.is-active .roi-toggle::after {
-          transform: translateX(16px);
-          background: #080808;
-        }
-
-        .roi-process-texts {
-          flex: 1 1 auto;
-          min-width: 0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-        }
-
-        .roi-process-name {
-          font-family: var(--font-body), sans-serif;
-          font-size: 18px;
-          line-height: 1.4;
-          color: #f5f5f5;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-process-rate {
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          color: rgba(255,255,255,0.6);
-          white-space: nowrap;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-slider-wrap {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid rgba(128,128,128,0.15);
-          display: grid;
-          gap: 10px;
-        }
-
-        .roi-slider-topline {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          font-family: var(--font-body), sans-serif;
-          font-size: 16px;
-          line-height: 1.4;
-          color: rgba(255,255,255,0.7);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-slider-value {
-          color: #fff;
-          font-weight: 500;
-        }
-
-        .roi-range {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 100%;
-          height: 4px;
-          border-radius: 999px;
-          outline: none;
-          background: rgba(255,255,255,0.15);
-          cursor: pointer;
-          transition: background 200ms ease;
-        }
-
-        .roi-range::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #fff;
-          cursor: pointer;
-          border: 2px solid #080808;
-          box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
-          transition: transform 200ms ease, box-shadow 200ms ease;
-        }
-
-        .roi-range::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #fff;
-          cursor: pointer;
-          border: 2px solid #080808;
-          box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
-          transition: transform 200ms ease, box-shadow 200ms ease;
-        }
-
-        .roi-range::-moz-range-track {
-          height: 4px;
-          border-radius: 999px;
-          background: transparent;
-        }
-
-        .roi-range:hover::-webkit-slider-thumb,
-        .roi-range:focus-visible::-webkit-slider-thumb,
-        .roi-range:hover::-moz-range-thumb,
-        .roi-range:focus-visible::-moz-range-thumb {
-          transform: scale(1.06);
-          box-shadow: 0 0 0 5px rgba(255,255,255,0.12);
-        }
-
-        /* Results card — full width, clean */
-        .roi-results-glow-wrap {
-          position: relative;
-          margin-top: 40px;
-          border-radius: 12px;
-        }
-
-        .roi-results-card {
-          position: relative;
-          z-index: 1;
-        }
-
-        .roi-results-title {
-          margin: 0 0 8px;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.6);
-          text-align: center;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-results-empty {
-          margin: 0;
-          font-family: var(--font-body), sans-serif;
-          font-size: 18px;
-          line-height: 1.6;
-          color: rgba(255,255,255,0.65);
-        }
-
-        .roi-results-grid {
-          display: grid;
-          gap: 0;
-        }
-
-        /* === ZON 1: Hero panel === */
-        .roi-hero-zone {
-          background: rgba(15,15,20,0.72);
-          border: 1px solid rgba(255,255,255,0.12);
-          border-radius: 20px;
-          padding: 32px 48px 28px;
-          text-align: center;
-          margin-bottom: 16px;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.35),
-                      inset 0 1px 0 rgba(255,255,255,0.12);
-        }
-
-        .roi-annual-caption {
-          display: block;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          color: rgba(255,255,255,0.5);
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          margin-bottom: 8px;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-annual-value {
-          margin: 0 0 16px;
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(40px, 5vw, 60px);
-          line-height: 1;
-          letter-spacing: -0.04em;
-          text-transform: uppercase;
-          color: #fff;
-          font-weight: 600;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-before-after {
-          display: flex;
-          align-items: baseline;
-          justify-content: center;
-          gap: 24px;
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: clamp(22px, 2.8vw, 32px);
-          line-height: 1;
-          letter-spacing: -0.02em;
-          color: #fff;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-old-cost {
-          text-decoration: line-through;
-          color: rgba(255,255,255,0.35);
-        }
-
-        .roi-before-after-arrow {
-          color: rgba(255,255,255,0.25);
-          font-size: 0.8em;
-        }
-
-        .roi-new-cost {
-          color: #fff;
-        }
-
-        .roi-before-after-unit {
-          font-size: 0.6em;
-          color: rgba(255,255,255,0.4);
-          margin-left: 2px;
-        }
-
-        /* === ZON 2: Metrics bar === */
-        .roi-metrics-bar {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0;
-          padding: 16px 0 8px;
-        }
-
-        .roi-metric {
-          display: flex;
-          align-items: baseline;
-          gap: 8px;
-          padding: 0 32px;
-        }
-
-        .roi-metric-value {
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: 32px;
-          font-weight: 600;
-          letter-spacing: -0.02em;
-          line-height: 1;
-          color: #fff;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-metric-label {
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          color: rgba(255,255,255,0.6);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-metric-divider {
-          width: 1px;
-          height: 28px;
-          background: rgba(128,128,128,0.25);
-          flex-shrink: 0;
-        }
-
-        .roi-breakdown {
-          display: grid;
-          gap: 12px;
-        }
-
-        .roi-breakdown-item {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) auto;
-          gap: 10px 16px;
-          align-items: center;
-        }
-
-        .roi-breakdown-label {
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          color: rgba(255,255,255,0.84);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-breakdown-value {
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          color: #fff;
-          text-align: right;
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-breakdown-bar {
-          grid-column: 1 / -1;
-          width: 100%;
-          height: 8px;
-          border-radius: 999px;
-          background: rgba(128,128,128,0.15);
-          overflow: hidden;
-        }
-
-        .roi-breakdown-fill {
-          height: 100%;
-          border-radius: inherit;
-          background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.7) 100%);
-          transition: width 300ms ease;
-        }
-
-        .roi-transparency {
-          margin-top: 4px;
-          padding-top: 8px;
-        }
-
-        .roi-transparency-button {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          background: transparent;
-          border: 0;
-          padding: 0;
-          color: rgba(255,255,255,0.45);
-          cursor: pointer;
-          text-align: center;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.4;
-          transition: color 200ms ease;
-        }
-
-        .roi-transparency-button:hover {
-          color: rgba(255,255,255,0.7);
-        }
-
-        .roi-transparency-button:focus-visible,
-        .roi-cta-primary:focus-visible,
-        .roi-cta-ghost:focus-visible {
-          outline: 2px solid rgba(255,255,255,0.4);
-          outline-offset: 4px;
-        }
-
-        .roi-transparency-icon {
-          font-size: 18px;
-          color: rgba(255,255,255,0.45);
-          transition: transform 200ms ease;
-        }
-
-        .roi-transparency-button[aria-expanded='true'] .roi-transparency-icon {
-          transform: rotate(45deg);
-        }
-
-        .roi-transparency-content {
-          display: grid;
-          gap: 10px;
-          padding-top: 14px;
-        }
-
-        .roi-transparency-text {
-          margin: 0;
-          font-family: var(--font-body), sans-serif;
-          font-size: 14px;
-          line-height: 1.6;
-          color: rgba(255,255,255,0.6);
-          text-shadow: 0 1px 4px rgba(0,0,0,0.55);
-        }
-
-        .roi-cta-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 14px 18px;
-          justify-content: center;
-          padding-top: 24px;
-          padding-bottom: 8px;
-        }
-
-        .roi-cta-primary,
-        .roi-cta-ghost {
-          font-family: var(--font-body), sans-serif;
-          font-size: 16px;
-          line-height: 1.2;
-          min-height: 48px;
-        }
-
-        .roi-cta-primary {
-          border: 1px solid #ffffff;
-          background: #ffffff;
-          color: #080808;
-          border-radius: 999px;
-          padding: 0 22px;
-          cursor: pointer;
-          transition: transform 200ms ease, opacity 200ms ease;
-        }
-
-        .roi-cta-primary:hover {
-          transform: translateY(-1px);
-          opacity: 0.95;
-        }
-
-        .roi-cta-ghost {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: transparent;
-          color: rgba(255,255,255,0.8);
-          border-radius: 999px;
-          padding: 0 22px;
-          min-height: 48px;
-          font-family: var(--font-body), sans-serif;
-          font-size: 16px;
-          line-height: 1.2;
-          cursor: pointer;
-          transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
-        }
-
-        .roi-cta-ghost:hover {
-          border-color: #fff;
-          color: #fff;
-          transform: translateY(-1px);
-        }
-
-        .roi-cta-ghost:focus-visible {
-          outline: 2px solid rgba(255,255,255,0.4);
-          outline-offset: 4px;
-        }
-
-        @media (max-width: 999px) {
-          .roi-section {
-            padding: 80px 40px;
-          }
-
-          .roi-container {
-            grid-template-columns: 1fr;
-            gap: 36px;
-          }
-
-          .roi-heading-sticky {
-            position: static;
-          }
-
-          .roi-heading {
-            font-size: 7vw;
-            line-height: 1;
-          }
-        }
-
-        @media (max-width: 690px) {
-          .roi-section {
-            padding: 60px 20px;
-          }
-
-          .roi-container {
-            gap: 24px;
-          }
-
-          .roi-heading {
-            font-size: 40px;
-            line-height: 42px;
-            letter-spacing: -0.8px;
-          }
-
-          .roi-subheading {
-            margin-top: 18px;
-            font-size: 16px;
-          }
-
-          .roi-card {
-            padding: 20px;
-            border-radius: 10px;
-          }
-
-          .roi-process-texts,
-          .roi-breakdown-item,
-          .roi-slider-topline,
-          .roi-cta-row {
-            gap: 10px;
-          }
-
-          .roi-process-texts {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .roi-process-name,
-          .roi-slider-topline,
-          .roi-cta-primary,
-          .roi-cta-ghost {
-            font-size: 14px;
-          }
-
-          .roi-range {
-            height: 8px;
-          }
-
-          .roi-hero-zone {
-            padding: 20px 16px 18px;
-          }
-
-          .roi-annual-value {
-            font-size: 32px;
-          }
-
-          .roi-before-after {
-            font-size: 18px;
-            gap: 8px;
-          }
-
-          .roi-metrics-bar {
-            flex-direction: column;
-            gap: 12px;
-            padding: 14px 0 16px;
-          }
-
-          .roi-metric {
-            padding: 0;
-          }
-
-          .roi-metric-divider {
-            width: 40px;
-            height: 1px;
-          }
-
-          .roi-metric-value {
-            font-size: 26px;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .roi-section,
-          .roi-process-item,
-          .roi-breakdown-fill,
-          .roi-transparency-icon,
-          .roi-range,
-          .roi-range::-webkit-slider-thumb,
-          .roi-range::-moz-range-thumb,
-          .roi-cta-primary,
-          .roi-cta-ghost {
-            transition: none !important;
-            animation: none !important;
-          }
-        }
-      `}</style>
-
-      <div className="roi-container">
-        <div className="roi-heading-wrap">
-          <div className="roi-heading-sticky">
-            <h2 className="roi-heading" dangerouslySetInnerHTML={{ __html: copy.heading }} />
-            <p className="roi-subheading">{copy.subheading}</p>
-          </div>
-        </div>
-
-        <div className="roi-calculator">
-          <div
-            className="roi-card"
-            ref={(element) => {
-              itemRefs.current[0] = element
-            }}
-          >
-            <h3 className="roi-card-title">{copy.processLabel}</h3>
-            <p className="roi-card-hint">{copy.processHint}</p>
-            <div className="roi-process-list">
-              {PROCESS_CONFIG.map(({ key, rate }) => {
-                const checked = selectedProcesses[key]
-                const sliderId = `roi-process-hours-${key}`
-                return (
-                  <div
-                    className={`roi-process-item${checked ? ' is-active' : ''}`}
-                    key={key}
-                    role="button"
-                    tabIndex={0}
-                    aria-pressed={checked}
-                    onClick={() => toggleProcess(key)}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleProcess(key) } }}
-                  >
-                    <div className="roi-process-label">
-                      <span className="roi-toggle" aria-hidden="true" />
-                      <span className="roi-process-texts">
-                        <span className="roi-process-name">{copy.processes[key].name}</span>
-                        <span className="roi-process-rate">{Math.round(rate * 100)}% {locale === 'sv' ? 'kan automatiseras' : 'automatable'}</span>
-                      </span>
-                    </div>
-
-                    {checked && (
-                      <div className="roi-slider-wrap" onClick={(e) => e.stopPropagation()}>
-                        <div className="roi-slider-topline">
-                          <span>{copy.hoursLabel}</span>
-                          <span className="roi-slider-value">{hoursPerProcess[key]}h</span>
-                        </div>
-                        <input
-                          id={sliderId}
-                          className="roi-range"
-                          type="range"
-                          min={MIN_HOURS}
-                          max={MAX_HOURS}
-                          value={hoursPerProcess[key]}
-                          role="slider"
-                          aria-label={`${copy.processes[key].name}. ${copy.hoursLabel}`}
-                          aria-valuemin={MIN_HOURS}
-                          aria-valuemax={MAX_HOURS}
-                          aria-valuenow={hoursPerProcess[key]}
-                          onChange={(event) =>
-                            setHoursPerProcess((current) => ({
-                              ...current,
-                              [key]: Number(event.target.value),
-                            }))
-                          }
-                          style={{ background: getSliderBackground(hoursPerProcess[key], MIN_HOURS, MAX_HOURS) }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          <div
-            className="roi-card"
-            ref={(element) => {
-              itemRefs.current[1] = element
-            }}
-          >
-            <h3 className="roi-card-title">{copy.teamLabel}</h3>
-            <p className="roi-card-hint">{copy.teamHint}</p>
-            <div className="roi-slider-wrap" style={{ marginTop: 0, paddingTop: 0, borderTop: '0' }}>
-              <div className="roi-slider-topline">
-                <span>{copy.teamLabel}</span>
-                <span className="roi-slider-value">{teamSize} {copy.teamUnit}</span>
-              </div>
-              <input
-                className="roi-range"
-                type="range"
-                min={MIN_TEAM_SIZE}
-                max={MAX_TEAM_SIZE}
-                value={teamSize}
-                role="slider"
-                aria-label={copy.teamLabel}
-                aria-valuemin={MIN_TEAM_SIZE}
-                aria-valuemax={MAX_TEAM_SIZE}
-                aria-valuenow={teamSize}
-                onChange={(event) => setTeamSize(Number(event.target.value))}
-                style={{ background: getSliderBackground(teamSize, MIN_TEAM_SIZE, MAX_TEAM_SIZE) }}
-              />
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Results card — full width below grid, with glow border */}
-      <div className="roi-results-glow-wrap">
-        <div
-          className="roi-card roi-results-card"
-          aria-live="polite"
-          ref={(element) => {
-            itemRefs.current[2] = element
-          }}
-        >
-          {totals.breakdown.length === 0 ? (
-            <p className="roi-results-empty">{copy.empty}</p>
-          ) : (
-            <div className="roi-results-grid">
-              {/* ZON 1: Hero panel */}
-              <div className="roi-hero-zone">
-                <h3 className="roi-results-title">{copy.results.title}</h3>
-                <span className="roi-annual-caption">{copy.results.annual}</span>
-                <p className="roi-annual-value">
-                  {formatCurrency(animatedLow, locale)} – {formatCurrency(animatedHigh, locale)}
-                </p>
-                <span className="roi-before-after">
-                  <span className="roi-old-cost">{formatCurrency(animatedCurrentCost, locale)}</span>
-                  <span className="roi-before-after-arrow" aria-hidden="true">→</span>
-                  <span className="roi-new-cost">{formatCurrency(animatedWithAiCost, locale)}<span className="roi-before-after-unit">{copy.results.perYear}</span></span>
-                </span>
-              </div>
-
-              {/* ZON 2: Metrics bar */}
-              <div className="roi-metrics-bar">
-                <div className="roi-metric">
-                  <span className="roi-metric-value">{formatHours(animatedHours, locale)}</span>
-                  <span className="roi-metric-label">{copy.results.hoursSaved}</span>
-                </div>
-                <div className="roi-metric-divider" />
-                <div className="roi-metric">
-                  <span className="roi-metric-value">{totals.currentCost > 0 ? `${Math.round((1 - totals.withAiCost / totals.currentCost) * 100)}%` : '0%'}</span>
-                  <span className="roi-metric-label">{locale === 'sv' ? 'lägre kostnad' : 'lower cost'}</span>
-                </div>
-              </div>
-
-              {/* 4. CTA — the ONE next step */}
-              <div className="roi-cta-row">
-                <ButtonStripe onClick={handleOpenContact}>{copy.cta.primary}</ButtonStripe>
-                <ButtonSwap label={copy.cta.secondary} arrow href={locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'} size="lg" variant="white" />
-              </div>
-
-              {/* 5. Transparency + breakdown (tucked under CTA) */}
-              <div className="roi-transparency">
-                <button
-                  type="button"
-                  className="roi-transparency-button"
-                  onClick={() => setShowTransparency((current) => !current)}
-                  aria-expanded={showTransparency}
-                  aria-controls="roi-transparency-content"
-                >
-                  <span>{copy.transparency.toggle}</span>
-                  <span className="roi-transparency-icon" aria-hidden="true">+</span>
-                </button>
-                {showTransparency && (
-                  <div id="roi-transparency-content" className="roi-transparency-content">
-                    <div className="roi-breakdown">
-                      <h4 className="roi-card-title" style={{ marginBottom: 0 }}>{copy.results.perProcess}</h4>
-                      {totals.breakdown.map((item) => (
-                        <div className="roi-breakdown-item" key={item.key}>
-                          <span className="roi-breakdown-label">{copy.processes[item.key].name}</span>
-                          <span className="roi-breakdown-value">{formatCurrency(item.savings, locale)}</span>
-                          <div className="roi-breakdown-bar" aria-hidden="true">
-                            <div
-                              className="roi-breakdown-fill"
-                              style={{ width: `${(item.savings / maxBreakdownValue) * 100}%` }}
+    <main className={s.root}>
+      <div className={s.wrap}>
+
+        {/* ── Header ── */}
+        <header className={s.header}>
+          <h1 className={s.h1} dangerouslySetInnerHTML={{ __html: copy.heading }} />
+          <p className={s.sub}>
+            {copy.subheading}
+          </p>
+        </header>
+
+        {/* ── Grid ── */}
+        <div className={s.grid}>
+
+          {/* ── VÄNSTER: Inputs ── */}
+          <div className={s.inputs}>
+
+            {/* Processer */}
+            <div className={s.card}>
+              <div className={s.cardTitle}>{copy.processLabel}</div>
+              <p className={s.cardHint}>
+                {copy.processHint}
+              </p>
+              <div className={s.procList}>
+                {(Object.keys(RATES) as ProcKey[]).map(key => {
+                  const p = procs[key]
+                  return (
+                    <div key={key} className={s.procItem}>
+                      <button
+                        type="button"
+                        className={`${s.procHdr} ${p.on ? s.procOn : ''}`}
+                        onClick={() => toggleProc(key)}
+                      >
+                        <span className={`${s.procChk} ${p.on ? s.procChkOn : ''}`}>
+                          {p.on && (
+                            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden>
+                              <path d="M1.5 5l3 3L10.5 1" stroke="#080808" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </span>
+                        <span className={s.procName}>{PROC_LABELS[key]}</span>
+                        <span className={s.procRate}>{PROC_RATE_LABELS[key]}</span>
+                      </button>
+                      {p.on && (
+                        <div className={s.procSlider}>
+                          <div className={s.sliderRow}>
+                            <div className={s.sliderTop}>
+                              <label className={s.sliderLabel}>{copy.hoursLabel} — totalt i teamet</label>
+                              <span className={s.sliderVal}>{p.hours}h</span>
+                            </div>
+                            <input
+                              type="range" min={1} max={80} value={p.hours}
+                              className={s.range}
+                              onChange={e => setHours(key, +e.target.value)}
                             />
+                            <p className={s.sliderHint}>Räkna ihop alla som jobbar med den här processen</p>
                           </div>
                         </div>
-                      ))}
+                      )}
                     </div>
-                    <p className="roi-transparency-text">{copy.transparency.hourlyRate}</p>
-                    <p className="roi-transparency-text">{copy.transparency.automationRates}</p>
-                    <p className="roi-transparency-text">{copy.transparency.yearOneFactor}</p>
-                    <p className="roi-transparency-text">{copy.transparency.range}</p>
-                    <p className="roi-transparency-text" style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid rgba(128,128,128,0.15)', fontStyle: 'italic', color: 'rgba(255,255,255,0.4)' }}>{copy.transparency.disclaimer}</p>
-                  </div>
-                )}
+                  )
+                })}
               </div>
             </div>
-          )}
+
+            {/* Implementationskostnad */}
+            <div className={s.card}>
+              <div className={s.implRow}>
+                <div>
+                  <div className={s.cardTitle} style={{ marginBottom: 4 }}>Implementationskostnad</div>
+                  <p className={s.cardHint} style={{ marginBottom: 0 }}>Påverkar ROI% och payback-period</p>
+                </div>
+                <label className={s.switch}>
+                  <input type="checkbox" checked={useImpl} onChange={e => setUseImpl(e.target.checked)} />
+                  <span className={s.switchTrack} />
+                </label>
+              </div>
+              {useImpl && (
+                <div className={s.implSliderWrap}>
+                  <div className={s.sliderRow}>
+                    <div className={s.sliderTop}>
+                      <label className={s.sliderLabel}>Kostnad</label>
+                      <span className={s.sliderVal}>{fmt(implCost)} kr</span>
+                    </div>
+                    <input
+                      type="range" min={25_000} max={500_000} step={25_000} value={implCost}
+                      className={s.range}
+                      onChange={e => setImplCost(+e.target.value)}
+                    />
+                  </div>
+                  <p className={s.hint}>Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ── HÖGER: Results (sticky) ── */}
+          <aside className={s.results}>
+
+            {/* 1. Snapshot-bar */}
+            <div className={s.snapshotBar}>
+              <div className={s.snapshotItem}>
+                <span className={s.snapshotValue}>
+                  {totals.ok ? fmtK(totals.y1) : '– –'}
+                </span>
+                <span className={s.snapshotLabel}>Besparing år 1</span>
+              </div>
+              <div className={s.snapshotDivider} />
+              <div className={s.snapshotItem}>
+                <span className={s.snapshotValue}>
+                  {totals.ok ? `${fmt(Math.round(totals.totalHrs * F1))} h` : '– –'}
+                </span>
+                <span className={s.snapshotLabel}>Timmar/år</span>
+              </div>
+              <div className={s.snapshotDivider} />
+              <div className={s.snapshotItem}>
+                <span className={s.snapshotValue}>
+                  {totals.ok ? (totals.pb ? `${totals.pb} mån` : '< 1 mån') : '– –'}
+                </span>
+                <span className={s.snapshotLabel}>Payback</span>
+              </div>
+            </div>
+
+            {/* 2. Donut + Legend */}
+            <div className={s.donutSection}>
+              <div className={s.sectionLabel}>Fördelning av besparing</div>
+              {totals.ok ? (
+                <>
+                  <DonutChart
+                    segments={totals.donutSegs}
+                    centerValue={totals.ok ? `${fmt(Math.round(totals.roi))}%` : '– –'}
+                    centerLabel="ROI"
+                  />
+                  <div className={s.legend}>
+                    {totals.donutSegs.map((seg, i) => (
+                      <div key={i} className={s.legendItem}>
+                        <span className={s.legendDot} style={{ background: seg.color }} />
+                        <span className={s.legendText}>{seg.label}</span>
+                        <span className={s.legendValue}>{seg.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className={s.chartEmpty}>Aktivera processer för att se fördelningen</div>
+              )}
+            </div>
+
+            {/* 3. Staplar År 1–3 */}
+            <div ref={barsRef} className={s.barsSection}>
+              <div className={s.sectionLabel}>Projektion 3 år</div>
+              {totals.ok ? (
+                <>
+                  <BarChart y1={totals.y1} y2={totals.y2} y3={totals.y3} />
+                  <p className={s.barsNote}>
+                    År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing.
+                  </p>
+                </>
+              ) : (
+                <div className={s.chartEmpty}>Aktivera processer för att se projektionen</div>
+              )}
+            </div>
+
+            {/* 4. Social proof — Kundresultat */}
+            {totals.ok && (
+              <div ref={socialProofRef} className={s.socialProof}>
+                <div className={s.socialProofValue}>390 000 kr/år</div>
+                <div className={s.socialProofText}>i snittbesparing för Telestore AB</div>
+                <div className={s.socialProofHint}>(Verifierad data)</div>
+              </div>
+            )}
+
+            {/* 5. Trust-rad */}
+            <div className={s.trustRow}>
+              SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%
+            </div>
+
+            {/* 6. CTA */}
+            <div ref={ctaRef} className={`${s.ctaArea} ${showMethodology ? s.ctaAreaOpen : ''}`}>
+              <ButtonStripe onClick={handleOpenContact} fullWidth>
+                {copy.cta.primary}
+              </ButtonStripe>
+              <p className={s.ctaSub}>Gratis 30 min — inga förpliktelser</p>
+              <button
+                type="button"
+                className={s.methodologyToggle}
+                onClick={() => setShowMethodology(!showMethodology)}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                {showMethodology ? 'Dölj beräkningsmodell' : 'Visa beräkningsmodell'}
+              </button>
+            </div>
+
+            {/* 7. Metodologi */}
+            {showMethodology && (
+              <div ref={methodologyRef} className={s.methodology}>
+                <div className={s.methodologyLabel}>
+                  <svg className={s.methodologyIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  BERÄKNINGSMODELL
+                </div>
+                <div className={s.methodologyFormula}>
+                  Timmar × Automation% × 52 veckor × 350 kr/h
+                </div>
+                <div className={s.methodologyHint}>
+                  År 1: 65% potential · År 2: 85% · År 3: 100%
+                </div>
+                <div className={s.methodologyDivider} />
+                <div className={s.methodologySources}>
+                  Källor: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%
+                </div>
+              </div>
+            )}
+
+          </aside>
         </div>
       </div>
-    </section>
+    </main>
   )
 }

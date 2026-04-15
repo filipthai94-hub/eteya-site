@@ -188,23 +188,23 @@
     "teamHint": "How many people on your team work on the selected processes?",
     "teamUnit": "people",
     "processes": {
-      "customerService": {
-        "name": "Customer service & support"
+      "kundtjanst": {
+        "name": "Customer Service"
       },
-      "invoicing": {
-        "name": "Invoicing & accounting"
+      "fakturering": {
+        "name": "Invoicing & Admin"
       },
       "leads": {
-        "name": "Lead management & CRM"
+        "name": "Leads & Sales"
       },
-      "reporting": {
-        "name": "Reporting & data"
+      "rapportering": {
+        "name": "Reporting & Finance"
       },
-      "email": {
-        "name": "Email & case management"
+      "epost": {
+        "name": "Email & Scheduling"
       },
-      "scheduling": {
-        "name": "Scheduling & coordination"
+      "kommunikation": {
+        "name": "Internal Communication"
       }
     },
     "results": {

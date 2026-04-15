@@ -1,0 +1,859 @@
+/* ══════════════════════════════════════════════════════════════
+   ROI TEST CLIENT — CSS Module v4.0
+   DNA: matchar TelestoreCaseStudy + ROICalculatorClient
+   Typsnitt: DM Sans (rubrik/siffror) + Barlow Condensed (labels)
+   Färger: #080808 bg · #111111 kort · #C8FF00 lime · rgba(255,255,255,0.08) border
+   ══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;500;600&display=swap');
+
+/* ── Root & Wrap ──────────────────────────────────────────────── */
+.root {
+  background: #080808;
+  min-height: 100vh;
+  padding: 120px 62px;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.wrap {
+  width: 100%;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.header {
+  margin-bottom: 64px;
+}
+
+.h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 98px;
+  font-weight: 500;
+  line-height: 98px;
+  letter-spacing: -1.96px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+}
+
+.sub {
+  color: rgba(255, 255, 255, 0.60);
+  font-size: 1rem;
+  max-width: none;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.formula {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.60);
+  max-width: 720px;
+  line-height: 1.5;
+  background: rgba(200, 255, 0, 0.03);
+  border: 1px solid rgba(200, 255, 0, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.formulaIcon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+/* ── Grid ─────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Inputs col ───────────────────────────────────────────────── */
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────── */
+.card {
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+.cardTitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.87);
+  margin-bottom: 20px;
+}
+
+.cardHint {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.60);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+/* ── Slider ───────────────────────────────────────────────────── */
+.sliderRow {
+  margin-bottom: 16px;
+}
+.sliderRow:last-child {
+  margin-bottom: 0;
+}
+
+.sliderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.sliderLabel {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.87);
+}
+
+.sliderVal {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #C8FF00;
+  letter-spacing: -0.02em;
+}
+
+.sliderHint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.38);
+  margin-top: 6px;
+}
+
+.range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.15);
+  outline: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #C8FF00;
+  cursor: pointer;
+  box-shadow: none;
+}
+.range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #C8FF00;
+  cursor: pointer;
+  border: none;
+}
+
+/* ── Process list ─────────────────────────────────────────────── */
+.procList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.procItem {
+  border-radius: 8px;
+}
+
+.procHdr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  color: #ffffff;
+  font-family: inherit;
+}
+
+.procHdr:hover {
+  border-color: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.02);
+  transform: translateY(-1px);
+}
+
+.procOn {
+  border-color: rgba(200,255,0,0.6) !important;
+  background: rgba(200,255,0,0.02);
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.1);
+}
+
+.procChk {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.procChkOn {
+  background: #C8FF00;
+  border-color: #C8FF00;
+  transform: scale(1);
+}
+
+.procName {
+  flex: 1;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.procRate {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.60);
+}
+
+.procSlider {
+  padding: 14px 16px 16px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0 0 8px 8px;
+  margin-top: 0;
+}
+
+/* ── Impl toggle ──────────────────────────────────────────────── */
+.implRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.implSliderWrap {
+  margin-top: 4px;
+}
+
+.switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.switchTrack {
+  position: absolute;
+  inset: 0;
+  background: #333333;
+  border-radius: 26px;
+  transition: background 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.switch input:checked + .switchTrack {
+  background: #C8FF00;
+}
+
+.switchTrack::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.switch input:checked + .switchTrack::before {
+  transform: translateX(20px);
+  background: #080808;
+}
+
+.hint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.38);
+  margin-top: 6px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HÖGER KOLUMN — Results (sticky)
+   ══════════════════════════════════════════════════════════════ */
+
+.results {
+  position: sticky;
+  top: 40px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Sektion-label (Barlow Condensed — matchar Telestore case) ── */
+.sectionLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.60);
+  margin-bottom: 20px;
+}
+
+/* ── 1. Snapshot Bar ──────────────────────────────────────────── */
+.snapshotBar {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  padding: 40px 32px;
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+.snapshotItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.snapshotValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.snapshotLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.60);
+  white-space: nowrap;
+}
+
+.snapshotDivider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  align-self: stretch;
+  margin: 8px 0;
+}
+
+/* ── 2. Donut + Legend ────────────────────────────────────────── */
+.donutSection {
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 32px 32px 28px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+/* Donut wrap — exakt spec från TelestoreCaseStudy: 260×260px */
+.donutWrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 24px;
+}
+
+.donutSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.donutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.donutCenterValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.donutCenterLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.60);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+.legendItem:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendText {
+  flex: 1;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.60);
+}
+
+.legendValue {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── 3. Staplar År 1–3 ────────────────────────────────────────── */
+.barsSection {
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 32px 32px 24px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+.barSvg {
+  width: 100%;
+  height: 130px;
+  overflow: visible;
+  margin-bottom: 4px;
+}
+
+.barsNote {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.38);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.chartEmpty {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.38);
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* ── 4. Social proof — Kundresultat ───────────────────────────── */
+.socialProof {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 32px;
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+.socialProofValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.socialProofText {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+  max-width: 280px;
+}
+
+.socialProofHint {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── 5. Trust-rad ─────────────────────────────────────────────── */
+.trustRow {
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 32px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+/* ── 6. CTA ───────────────────────────────────────────────────── */
+.ctaArea {
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px 32px 28px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+}
+
+.ctaAreaOpen {
+  border-radius: 16px 16px 0 0;
+  border-bottom: none;
+}
+
+.ctaSub {
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin-top: 10px;
+}
+
+.methodologyToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.60);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.methodologyToggle:hover {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.87);
+}
+
+.methodologyToggle svg {
+  transition: transform 0.2s ease;
+}
+
+.methodologyToggle:active svg {
+  transform: scaleY(0.9);
+}
+
+/* ── 7. Metodologi ────────────────────────────────────────────── */
+.methodology {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 40px;
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
+  text-align: center;
+  animation: methodologyExpand 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes methodologyExpand {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.methodologyIcon {
+  color: #C8FF00;
+  flex-shrink: 0;
+}
+
+.methodologyLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.60);
+}
+
+.methodologyFormula {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.87);
+  line-height: 1.5;
+}
+
+.methodologyHint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.60);
+  line-height: 1.4;
+}
+
+.methodologyDivider {
+  width: 100%;
+  max-width: 200px;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 8px 0;
+}
+
+.methodologySources {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .root {
+    padding: 80px 32px;
+  }
+  .h1 {
+    font-size: 72px;
+    line-height: 72px;
+  }
+  .grid {
+    grid-template-columns: 65% 35%;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse; /* Results först! */
+  }
+  .results {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .root {
+    padding: 60px 20px;
+    padding-bottom: 60px;
+  }
+  .h1 {
+    font-size: 44px;
+    line-height: 46px;
+    letter-spacing: -0.02em;
+  }
+  .sub {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+  }
+  
+  /* Stackad layout på mobil */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  /* Card padding - reducerad för mobil */
+  .card {
+    padding: 24px 20px;
+  }
+  .cardTitle {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+  .cardHint {
+    font-size: clamp(0.8rem, 2vw, 0.875rem);
+  }
+  
+  /* Section labels - responsive */
+  .sectionLabel {
+    font-size: clamp(0.68rem, 2vw, 0.75rem);
+  }
+  
+  /* Snapshot bar - reducerad padding */
+  .snapshotBar {
+    padding: 24px 16px;
+  }
+  
+  /* Donut + Legend - reducerad padding */
+  .donutSection {
+    padding: 24px 20px;
+  }
+  
+  /* Bars - reducerad padding */
+  .barsSection {
+    padding: 24px 20px;
+  }
+  
+  /* Metodologi - reducerad padding */
+  .methodology {
+    padding: 24px 20px;
+  }
+  
+  /* Results - inte längre sticky */
+  .results {
+    position: static;
+  }
+  
+  /* CTA - naturlig plats (inte sticky) */
+  .ctaArea {
+    padding: 24px 20px 28px;
+  }
+  
+  /* Touch targets — minsta 44px */
+  .range {
+    height: 6px;
+  }
+  .range::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  .range::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .procHdr {
+    padding: 16px;
+    min-height: 44px;
+  }
+  
+  .procChk {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .switch {
+    width: 48px;
+    height: 28px;
+  }
+  
+  .methodologyToggle {
+    min-height: 48px;
+    padding: 14px 16px;
+  }
+  
+  .formula {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+}

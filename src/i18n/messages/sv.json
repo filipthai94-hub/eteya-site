@@ -188,23 +188,23 @@
     "teamHint": "Hur många i ert team jobbar med de valda processerna?",
     "teamUnit": "personer",
     "processes": {
-      "customerService": {
-        "name": "Kundtjänst & support"
+      "kundtjanst": {
+        "name": "Kundtjänst"
       },
-      "invoicing": {
-        "name": "Fakturor & bokföring"
+      "fakturering": {
+        "name": "Fakturering & Admin"
       },
       "leads": {
-        "name": "Lead-hantering & CRM"
+        "name": "Leads & Försäljning"
       },
-      "reporting": {
-        "name": "Rapportering & data"
+      "rapportering": {
+        "name": "Rapportering & Ekonomi"
       },
-      "email": {
-        "name": "E-post & ärendehantering"
+      "epost": {
+        "name": "E-post & Schemaläggning"
       },
-      "scheduling": {
-        "name": "Schemaläggning"
+      "kommunikation": {
+        "name": "Intern kommunikation"
       }
     },
     "results": {
