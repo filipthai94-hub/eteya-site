@@ -1,0 +1,171 @@
+/**
+ * JsonLd Component — Wrapper för strukturerad data (JSON-LD)
+ * 
+ * Användning:
+ * <JsonLd data={organizationSchema} />
+ * <JsonLd data={webSiteSchema} />
+ */
+
+export function JsonLd({ data }: { data: object }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  )
+}
+
+/**
+ * Organization Schema — Ska finnas på ALLA sidor
+ */
+export const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Eteya AI',
+  url: 'https://eteya.ai',
+  logo: 'https://eteya.ai/logo.png',
+  description: 'AI-konsulter som bygger automationer som faktiskt levererar resultat. Vi startade bolaget för att bevisa att AI inte bara låter bra på möten.',
+  foundingDate: '2024-11',
+  founders: [
+    {
+      '@type': 'Person',
+      name: 'Filip Thai',
+      jobTitle: 'CEO & Founder',
+    },
+    {
+      '@type': 'Person',
+      name: 'Agit Akalp',
+      jobTitle: 'Co-founder',
+    },
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    email: 'kontakt@eteya.ai',
+    areaServed: 'SE',
+    availableLanguage: ['Swedish', 'English'],
+  },
+  sameAs: [
+    'https://www.linkedin.com/company/eteya',
+    'https://twitter.com/eteya',
+  ],
+}
+
+/**
+ * WebSite Schema — Bara på hemsidan
+ */
+export const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Eteya AI',
+  url: 'https://eteya.ai',
+  description: 'AI-automation som driver ditt företag — mindre manuellt, mer tillväxt',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://eteya.ai/sok?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+  inLanguage: ['sv-SE', 'en-US'],
+}
+
+/**
+ * Person Schema — För team-medlemmar (om-oss)
+ */
+export function createPersonSchema(person: {
+  name: string
+  jobTitle: string
+  bio: string
+  image?: string
+  linkedin?: string
+}): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: person.name,
+    jobTitle: person.jobTitle,
+    description: person.bio,
+    image: person.image,
+    url: person.linkedin,
+    sameAs: person.linkedin ? [person.linkedin] : [],
+    knowsAbout: ['AI', 'Automation', 'Machine Learning', 'Business Strategy'],
+  }
+}
+
+/**
+ * FAQPage Schema — För FAQ-sektioner
+ */
+export function createFaqSchema(faqs: Array<{ question: string; answer: string }>): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+}
+
+/**
+ * BreadcrumbList Schema — För alla undersidor
+ */
+export function createBreadcrumbSchema(items: Array<{
+  position: number
+  name: string
+  item: string
+}>): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map(item => ({
+      '@type': 'ListItem',
+      position: item.position,
+      name: item.name,
+      item: item.item,
+    })),
+  }
+}
+
+/**
+ * Article Schema — För case studies och blogg
+ */
+export function createArticleSchema(article: {
+  headline: string
+  description: string
+  image: string[]
+  datePublished: string
+  dateModified: string
+  author: { name: string; url: string }
+  url: string
+}): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.headline,
+    description: article.description,
+    image: article.image,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    author: {
+      '@type': 'Person',
+      name: article.author.name,
+      url: article.author.url,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Eteya AI',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://eteya.ai/logo.png',
+      },
+    },
+    url: article.url,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': article.url,
+    },
+  }
+}

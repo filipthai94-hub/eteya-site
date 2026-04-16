@@ -53,10 +53,10 @@ export default async function AboutPage({
     <>
       <Nav />
       <main className="page-content">
-        <Hero variant="about" />
+        <Hero />
         <WhyEteya />
         <Team />
-        <FAQSection variant="about" />
+        <FAQSection />
         <FooterCTAClient />
       </main>
     </>

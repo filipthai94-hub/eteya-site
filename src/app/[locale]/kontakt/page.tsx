@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
+import { JsonLd, organizationSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import Contact from '@/components/sections/Contact'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
@@ -53,6 +54,7 @@ export default async function KontaktPage({
 
   return (
     <>
+      <JsonLd data={organizationSchema} />
       <Nav />
       <main className="page-content">
         <Contact />

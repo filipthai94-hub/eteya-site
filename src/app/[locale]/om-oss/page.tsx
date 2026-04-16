@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
+import { JsonLd, organizationSchema, createPersonSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import AboutHeroClient from '@/components/sections/AboutHeroClient'
 import WhyEteyaOmOssWrapper from '@/components/sections/WhyEteyaOmOssWrapper'
@@ -77,9 +78,24 @@ export default async function AboutPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'team' })
+  const members = t.raw('members') as Array<{ name: string; role: string; bio: string; image?: string; social?: { linkedin?: string } }>
+
+  // Create Person schemas for team members
+  const personSchemas = members.map(member =>
+    createPersonSchema({
+      name: member.name,
+      jobTitle: member.role,
+      bio: member.bio,
+      image: member.image,
+      linkedin: member.social?.linkedin,
+    })
+  )
 
   return (
     <>
+      <JsonLd data={organizationSchema} />
+      {personSchemas.map((schema, i) => <JsonLd key={i} data={schema} />)}
       <BreadcrumbSchema locale={locale} />
       <Nav />
       <main className="page-content">
@@ -87,7 +103,7 @@ export default async function AboutPage({
         <WhyEteyaOmOssWrapper />
         <SocialProof />
         <Team />
-        <FAQSection variant="about" />
+        <FAQSection />
         <FooterCTAClient />
       </main>
     </>
