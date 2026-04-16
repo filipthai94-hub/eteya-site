@@ -119,38 +119,30 @@ export default function TeamClient({ label, heading, members }: {
                   flexDirection: 'column',
                   transform: 'scale(1)',
                   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  willChange: 'transform, box-shadow',
+                  willChange: 'auto',
                   minHeight: '520px',
                 }}
-                onMouseEnter={(e) => {
-                  gsap.to(e.currentTarget, {
-                    scale: 1.02,
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
-                    duration: 0.2,
-                    ease: 'power2.out'
-                  })
-                }}
-                onMouseLeave={(e) => {
-                  gsap.to(e.currentTarget, {
-                    scale: 1,
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                    duration: 0.2,
-                    ease: 'power2.out'
-                  })
-                }}
+
               >
                 {/* Image Container - 60% of card */}
                 <div style={{
                   height: '312px',
                   width: '100%',
-                  background: 'linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%)',
+                  background: '#111111',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   position: 'relative',
                   overflow: 'hidden',
                 }}>
+                  {/* Vit mjuk glow uppifrån */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.15) 0%, transparent 60%)',
+                    pointerEvents: 'none',
+                    zIndex: 1,
+                  }} />
                   {member.image ? (
                     <img
                       src={member.image}
@@ -159,6 +151,8 @@ export default function TeamClient({ label, heading, members }: {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
+                        position: 'relative',
+                        zIndex: 2,
                       }}
                     />
                   ) : (
@@ -231,7 +225,7 @@ export default function TeamClient({ label, heading, members }: {
                     {member.bio}
                   </p>
 
-                  {/* Social Icons - ENHANCED VISIBILITY */}
+                  {/* Social Icons - minimal, ingen bakgrund */}
                   <div style={{
                     display: 'flex',
                     gap: '12px',
@@ -246,28 +240,25 @@ export default function TeamClient({ label, heading, members }: {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '36px',
-                          height: '36px',
-                          borderRadius: '50%',
-                          backgroundColor: 'rgba(255,255,255,0.08)',
-                          transition: 'background-color 0.2s ease, color 0.2s ease',
+                          width: '24px',
+                          height: '24px',
+                          transition: 'opacity 0.2s ease',
                           textDecoration: 'none',
+                          opacity: 0.4,
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#ffffff'
-                          e.currentTarget.style.color = '#080808'
+                          e.currentTarget.style.opacity = '1'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
+                          e.currentTarget.style.opacity = '0.4'
                         }}
                       >
                         <svg 
-                          width="18" 
-                          height="18" 
+                          width="20" 
+                          height="20" 
                           viewBox="0 0 24 24" 
                           fill="currentColor"
-                          style={{ color: 'rgba(255,255,255,0.6)' }}
+                          style={{ color: '#ffffff' }}
                         >
                           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
@@ -280,32 +271,29 @@ export default function TeamClient({ label, heading, members }: {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '36px',
-                          height: '36px',
-                          borderRadius: '50%',
-                          backgroundColor: 'rgba(255,255,255,0.08)',
-                          transition: 'background-color 0.2s ease, color 0.2s ease',
+                          width: '24px',
+                          height: '24px',
+                          transition: 'opacity 0.2s ease',
                           textDecoration: 'none',
+                          opacity: 0.4,
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#ffffff'
-                          e.currentTarget.style.color = '#080808'
+                          e.currentTarget.style.opacity = '1'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
-                          e.currentTarget.style.color = 'rgba(255,255,255,0.6)'
+                          e.currentTarget.style.opacity = '0.4'
                         }}
                       >
                         <svg 
-                          width="18" 
-                          height="18" 
+                          width="20" 
+                          height="20" 
                           viewBox="0 0 24 24" 
                           fill="none" 
                           stroke="currentColor" 
-                          strokeWidth="1.5" 
+                          strokeWidth="2" 
                           strokeLinecap="round" 
                           strokeLinejoin="round"
-                          style={{ color: 'rgba(255,255,255,0.6)' }}
+                          style={{ color: '#ffffff' }}
                         >
                           <rect x="2" y="4" width="20" height="16" rx="2"/>
                           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>

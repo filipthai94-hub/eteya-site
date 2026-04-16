@@ -555,7 +555,7 @@
         "name": "Filip Thai",
         "role": "Grundare och CEO",
         "bio": "Startade Eteya för att bevisa att AI faktiskt levererar, inte bara låter bra på möten.",
-        "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+        "image": "/images/team/filip.png",
         "initials": "F.T.",
         "social": {
           "linkedin": "https://www.linkedin.com/in/filipthai/"
@@ -572,5 +572,9 @@
         }
       }
     ]
+  },
+  "methodologyHero": {
+    "title": "AI-BESPARING",
+    "subtitle": "Så mycket kan du spara med AI-automation"
   }
 }

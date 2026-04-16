@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import FormulaCircles from './FormulaCircles'
+import MethodologyHeroClient from '@/components/sections/MethodologyHeroClient'
 import styles from './MethodologyContent.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -16,6 +17,7 @@ type AccordionItemKey = 'limitations' | 'disclaimer'
 
 export default function MethodologyContent() {
   const t = useTranslations('methodology')
+  const tHero = useTranslations('methodologyHero')
   const locale = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
   const ctaCountRef = useRef<HTMLSpanElement>(null)
@@ -98,14 +100,11 @@ export default function MethodologyContent() {
 
   return (
     <div ref={containerRef} className={styles.page}>
-      <section className={styles.section} data-reveal>
-        <div className={`${styles.inner} ${styles.heroGrid}`}>
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>{t('hero.title')}</h1>
-            <p className={styles.heroSubtitle}>{t('hero.subtitle')}</p>
-          </div>
-        </div>
-      </section>
+      {/* NEW HERO SECTION */}
+      <MethodologyHeroClient
+        title={tHero('title')}
+        subtitle={tHero('subtitle')}
+      />
 
       <section className={styles.section} data-reveal>
         <div className={styles.metodikInner}>
