@@ -22,6 +22,7 @@ export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Eteya AI',
+  legalName: 'Eteya Consulting AB',
   url: 'https://eteya.ai',
   logo: 'https://eteya.ai/logo.png',
   description: 'AI-konsulter som bygger automationer som faktiskt levererar resultat. Vi startade bolaget för att bevisa att AI inte bara låter bra på möten.',
@@ -38,17 +39,25 @@ export const organizationSchema = {
       jobTitle: 'Co-founder',
     },
   ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Solhagsvägen 26A',
+    addressLocality: 'Karlskoga',
+    postalCode: '691 52',
+    addressCountry: 'SE',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
     email: 'kontakt@eteya.ai',
+    telephone: '+46 50-000 00 00', // Placeholder tills företagsabonnemang finns
     areaServed: 'SE',
     availableLanguage: ['Swedish', 'English'],
   },
   sameAs: [
-    'https://www.linkedin.com/company/eteya',
-    'https://twitter.com/eteya',
+    'https://x.com/EteyaAI',
   ],
+  vatID: 'SE559552739001',
 }
 
 /**
