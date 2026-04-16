@@ -240,6 +240,42 @@
       "title": "Så beräknar vi din AI-besparing",
       "subtitle": "Transparent metodik baserad på akademiska källor och verifierad kunddata"
     },
+    "quickResult": {
+      "label": "Genomsnittlig besparing",
+      "value": "390 000 kr/år",
+      "source": "Baserat på {{count}} verifierade automationer inom {{industry}} ({{employees}} anställda)",
+      "cta": "Beräkna din besparing"
+    },
+    "cards": {
+      "scb": {
+        "icon": "📊",
+        "title": "SCB Lönedata",
+        "value": "370 kr/h",
+        "subvalue": "(vi: 350 kr)",
+        "footnote": "Bruttolöner per yrkesgrupp (SSYK-koder) 2024"
+      },
+      "mckinsey": {
+        "icon": "📈",
+        "title": "McKinsey Research",
+        "value": "30-45%",
+        "subvalue": "automationspotential",
+        "footnote": "\"The Economic Potential of Generative AI\" (2023)"
+      },
+      "verified": {
+        "icon": "✅",
+        "title": "Verifierad Kunddata",
+        "value": "56 st",
+        "subvalue": "automationer",
+        "footnote": "Telestore Sverige AB — Airtable-data + intervju"
+      }
+    },
+    "trustStack": {
+      "quote": "Eteya eliminerade {amount} kr/år i felkostnader — helt automatiserat. Kalkylatorn visar bara tidsbesparing, så siffran är ännu högre i verkligheten.",
+      "author": "Filip Thai",
+      "role": "Grundare, Telestore Sverige AB",
+      "trustpilot": "{rating} på Trustpilot",
+      "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
+    },
     "sections": {
       "approachTitle": "VÅR METODIK",
       "approachBody": "De flesta ROI-kalkylatorer på marknaden bygger enbart på generella branschrapporter och teoretiska antaganden. Problemet? Varje företag är unikt — processer, teamstorlek, verktyg och systemlandskap skiljer sig dramatiskt. Generiska siffror ger generiska resultat som sällan stämmer med verkligheten.",
@@ -283,15 +319,23 @@
       "disclaimerBody": "Kalkylatorn är ett estimeringsverktyg, inte en garanti. Faktisk besparing beror på processmognad, systemlandskap och implementationskvalitet."
     },
     "cta": {
-      "downloadTitle": "Ladda ner fullständig metodik",
-      "downloadBody": "Få hela dokumentet med formler, källor och Telestore-caset som PDF.",
-      "namePlaceholder": "Ditt namn",
-      "emailPlaceholder": "Din e-postadress",
-      "companyPlaceholder": "Företag",
-      "submitButton": "Ladda ner PDF",
-      "gdpr": "Vi behandlar dina uppgifter enligt GDPR. Inga nyhetsbrev utan ditt samtycke.",
-      "successMessage": "Tack! Din PDF laddas ner nu.",
-      "errorMessage": "Något gick fel. Försök igen."
+      "title": "Få din anpassade ROI-rapport",
+      "subtitle": "Vi räknar på ert case och återkommer inom 24h med en konkret besparingsanalys — utan kostnad.",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "filip@foretaget.se"
+        },
+        "company": {
+          "label": "Företag",
+          "placeholder": "Företagsnamn AB"
+        }
+      },
+      "submit": "Skicka förfrågan",
+      "socialProof": "{count} företag har redan fått sin analys",
+      "gdprCheckbox": "Jag godkänner att Eteya behandlar mina uppgifter enligt GDPR",
+      "successMessage": "Tack! Vi återkommer inom 24h.",
+      "errorMessage": "Något gick fel. Försök igen eller maila kontakt@eteya.ai"
     },
     "sources": {
       "title": "Referenser",

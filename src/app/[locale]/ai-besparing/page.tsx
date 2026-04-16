@@ -81,12 +81,12 @@ const citationSchema = {
 export default function MethodologyPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(citationSchema) }}
+      />
       <Nav />
       <main className="page-content">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(citationSchema) }}
-        />
         <MethodologyContent />
       </main>
     </>

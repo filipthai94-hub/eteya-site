@@ -240,6 +240,42 @@
       "title": "How we calculate your AI savings",
       "subtitle": "Transparent methodology based on academic sources and verified client data"
     },
+    "quickResult": {
+      "label": "Average savings",
+      "value": "390,000 SEK/year",
+      "source": "Based on {{count}} verified automations in {{industry}} ({{employees}} employees)",
+      "cta": "Calculate your savings"
+    },
+    "cards": {
+      "scb": {
+        "icon": "📊",
+        "title": "SCB Salary Data",
+        "value": "370 SEK/h",
+        "subvalue": "(we: 350 SEK)",
+        "footnote": "Gross salaries per occupation (SSYK codes) 2024"
+      },
+      "mckinsey": {
+        "icon": "📈",
+        "title": "McKinsey Research",
+        "value": "30-45%",
+        "subvalue": "automation potential",
+        "footnote": "\"The Economic Potential of Generative AI\" (2023)"
+      },
+      "verified": {
+        "icon": "✅",
+        "title": "Verified Client Data",
+        "value": "56",
+        "subvalue": "automations",
+        "footnote": "Telestore Sverige AB — Airtable data + interview"
+      }
+    },
+    "trustStack": {
+      "quote": "Eteya eliminated {amount} SEK/year in error costs — fully automated. The calculator only shows time savings, so the actual number is even higher.",
+      "author": "Filip Thai",
+      "role": "Founder, Telestore Sverige AB",
+      "trustpilot": "{rating} on Trustpilot",
+      "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
+    },
     "sections": {
       "approachTitle": "OUR METHODOLOGY",
       "approachBody": "Most ROI calculators on the market rely solely on generic industry reports and theoretical assumptions. The problem? Every company is unique — processes, team sizes, tools, and system landscapes differ dramatically. Generic numbers produce generic results that rarely match reality.",
@@ -283,15 +319,23 @@
       "disclaimerBody": "The calculator is an estimation tool, not a guarantee. Actual savings depend on process maturity, system landscape and implementation quality."
     },
     "cta": {
-      "downloadTitle": "Download full methodology",
-      "downloadBody": "Get the complete document with formulas, sources and the Telestore case as PDF.",
-      "namePlaceholder": "Your name",
-      "emailPlaceholder": "Your email",
-      "companyPlaceholder": "Company",
-      "submitButton": "Download PDF",
-      "gdpr": "We process your data in accordance with GDPR. No newsletters without your consent.",
-      "successMessage": "Thank you! Your PDF is downloading now.",
-      "errorMessage": "Something went wrong. Please try again."
+      "title": "Get your customized ROI report",
+      "subtitle": "We'll analyze your case and get back to you within 24h with a concrete savings analysis — free of charge.",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "filip@company.com"
+        },
+        "company": {
+          "label": "Company",
+          "placeholder": "Company Name AB"
+        }
+      },
+      "submit": "Send request",
+      "socialProof": "{count} companies have already received their analysis",
+      "gdprCheckbox": "I approve that Eteya processes my data according to GDPR",
+      "successMessage": "Thank you! We'll get back to you within 24h.",
+      "errorMessage": "Something went wrong. Please try again or email contact@eteya.ai"
     },
     "sources": {
       "title": "References",

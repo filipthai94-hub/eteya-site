@@ -18,12 +18,16 @@ type AccordionItemKey = 'limitations' | 'disclaimer'
 export default function MethodologyContent() {
   const t = useTranslations('methodology')
   const tHero = useTranslations('methodologyHero')
+  const tCards = useTranslations('methodology.cards')
+  const tTrust = useTranslations('methodology.trustStack')
+  const tCta = useTranslations('methodology.cta')
   const locale = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
   const ctaCountRef = useRef<HTMLSpanElement>(null)
+  const resultCountRef = useRef<HTMLSpanElement>(null)
   const [openItem, setOpenItem] = useState<AccordionItemKey | null>('limitations')
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [formData, setFormData] = useState({ name: '', email: '', company: '', _honey: '' })
+  const [formData, setFormData] = useState({ email: '', company: '', _honey: '', gdpr: false })
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -41,7 +45,29 @@ export default function MethodologyContent() {
         }
       )
     })
-    // CTA counter 0 → 247
+    
+    // Result count animation (0 → 390,000)
+    if (resultCountRef.current) {
+      const obj = { val: 0 }
+      gsap.to(obj, {
+        val: 390,
+        duration: 2.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: resultCountRef.current, start: 'top 80%', once: true },
+        onUpdate() { 
+          if (resultCountRef.current) {
+            resultCountRef.current.textContent = Math.round(obj.val).toLocaleString('sv-SE')
+          }
+        },
+        onComplete() { 
+          if (resultCountRef.current) {
+            resultCountRef.current.textContent = '390'
+          }
+        },
+      })
+    }
+
+    // CTA counter 0 → 12
     if (ctaCountRef.current) {
       const obj = { val: 0 }
       gsap.to(obj, {
@@ -59,21 +85,16 @@ export default function MethodologyContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (formData._honey) return // honeypot
+    if (formData._honey || !formData.gdpr) return
     setFormState('loading')
     try {
       const res = await fetch('/api/lead-capture', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: formData.name, email: formData.email, company: formData.company }),
+        body: JSON.stringify({ name: '', email: formData.email, company: formData.company }),
       })
       if (res.ok) {
         setFormState('success')
-        // Auto-download PDF
-        const link = document.createElement('a')
-        link.href = '/eteya-roi-methodology.pdf'
-        link.download = 'Eteya-ROI-Methodology.pdf'
-        link.click()
       } else {
         setFormState('error')
       }
@@ -100,55 +121,80 @@ export default function MethodologyContent() {
 
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* NEW HERO SECTION */}
+      {/* HERO SECTION */}
       <MethodologyHeroClient
         title={tHero('title')}
         subtitle={tHero('subtitle')}
       />
 
+      {/* QUICK RESULT CARD */}
       <section className={styles.section} data-reveal>
-        <div className={styles.metodikInner}>
-            <div className={styles.metodikLeft}>
-              <div className={styles.metodikLeftSticky}>
-                <h2 className={styles.sectionTitle}>VÅR METODIK</h2>
-                <p className={styles.metodikSubtext}>Siffran du såg är inte gissad. Så här räknar vi.</p>
-              </div>
-            </div>
-            <div className={styles.metodikRight}>
-              <ul className={styles.metodikList}>
-                <li className={styles.metodikItem}>
-                  <div className={styles.metodikItemContent}>
-                    <h3 className={styles.metodikItemTitle}>Inte gissningar</h3>
-                    <p className={styles.metodikItemBody}>SCB, McKinsey och 56 verifierade automationer</p>
-                  </div>
-                  <span className={styles.metodikItemNum}>01</span>
-                </li>
-                <li className={styles.metodikItem}>
-                  <div className={styles.metodikItemContent}>
-                    <h3 className={styles.metodikItemTitle}>Alltid konservativt</h3>
-                    <p className={styles.metodikItemBody}>Vi rundar nedåt — siffran du ser är en nedre gräns</p>
-                  </div>
-                  <span className={styles.metodikItemNum}>02</span>
-                </li>
-                <li className={styles.metodikItem}>
-                  <div className={styles.metodikItemContent}>
-                    <h3 className={styles.metodikItemTitle}>Helt transparent</h3>
-                    <p className={styles.metodikItemBody}>Alla källor redovisas öppet längre ner på sidan</p>
-                  </div>
-                  <span className={styles.metodikItemNum}>03</span>
-                </li>
-                <li className={styles.metodikItem}>
-                  <div className={styles.metodikItemContent}>
-                    <h3 className={styles.metodikItemTitle}>Bevisat i praktiken</h3>
-                    <p className={styles.metodikItemBody}>Telestore sparar 390 000 kr/år — verifierat, inte estimerat</p>
-                  </div>
-                  <span className={styles.metodikItemNum}>04</span>
-                </li>
-              </ul>
-            </div>
+        <div className={styles.quickResultCard}>
+          <p className={styles.quickResultLabel}>{t('quickResult.label')}</p>
+          <div className={styles.quickResultValue}>
+            <span ref={resultCountRef}>0</span>&nbsp;000 kr/år
           </div>
+          <p className={styles.quickResultSource}>
+            {t('quickResult.source', { count: 56, industry: 'e-handel', employees: '<10' })}
+          </p>
+          <ButtonSwap
+            label={t('quickResult.cta')}
+            arrow
+            href="/#roi-calculator"
+            variant="accent"
+            size="lg"
+          />
+        </div>
       </section>
 
+      {/* 3 CARDS - METHODOLOGY */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.cardsGrid}>
+          <article className={styles.methodCard}>
+            <div className={styles.cardIcon}>{tCards('scb.icon')}</div>
+            <h3 className={styles.cardTitle}>{tCards('scb.title')}</h3>
+            <div className={styles.cardValue}>{tCards('scb.value')}</div>
+            <div className={styles.cardSubvalue}>{tCards('scb.subvalue')}</div>
+            <p className={styles.cardFootnote}>{tCards('scb.footnote')}</p>
+          </article>
+
+          <article className={styles.methodCard}>
+            <div className={styles.cardIcon}>{tCards('mckinsey.icon')}</div>
+            <h3 className={styles.cardTitle}>{tCards('mckinsey.title')}</h3>
+            <div className={styles.cardValue}>{tCards('mckinsey.value')}</div>
+            <div className={styles.cardSubvalue}>{tCards('mckinsey.subvalue')}</div>
+            <p className={styles.cardFootnote}>{tCards('mckinsey.footnote')}</p>
+          </article>
+
+          <article className={styles.methodCard}>
+            <div className={styles.cardIcon}>{tCards('verified.icon')}</div>
+            <h3 className={styles.cardTitle}>{tCards('verified.title')}</h3>
+            <div className={styles.cardValue}>{tCards('verified.value')}</div>
+            <div className={styles.cardSubvalue}>{tCards('verified.subvalue')}</div>
+            <p className={styles.cardFootnote}>{tCards('verified.footnote')}</p>
+          </article>
+        </div>
+      </section>
+
+      {/* TRUST STACK - QUOTE + LOGOS */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.trustStack}>
+          <blockquote className={styles.trustQuote}>
+            "{tTrust('quote', { amount: '26 400', rating: '4.6' })}"
+          </blockquote>
+          <div className={styles.trustAuthor}>
+            <strong>{tTrust('author')}</strong>
+            <span>{tTrust('role')}</span>
+          </div>
+          <div className={styles.trustLogos}>
+            {tTrust.raw('logos').map((logo: string) => (
+              <div key={logo} className={styles.trustLogo}>{logo}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DATAKÄLLOR */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
           <h2 className={styles.sectionTitle}>{t('sections.sourcesTitle')}</h2>
@@ -181,6 +227,7 @@ export default function MethodologyContent() {
         </div>
       </section>
 
+      {/* FORMEL */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
           <h2 className={styles.sectionTitle}>{t('sections.formulaTitle')}</h2>
@@ -188,6 +235,7 @@ export default function MethodologyContent() {
         </div>
       </section>
 
+      {/* KONSERVATIVA ANTAGANDEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
           <h3 className={styles.subsectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h3>
@@ -206,52 +254,76 @@ export default function MethodologyContent() {
         </div>
       </section>
 
-
-
+      {/* CTA - FÖRENKLAT FORMULÄR */}
       <section className={styles.section} data-reveal>
         <div className={`${styles.inner} ${styles.ctaSplit}`}>
-          {/* VÄNSTER */}
           <div className={styles.ctaLeft}>
-            <h2 className={styles.ctaTitle}>{t('cta.downloadTitle')}</h2>
+            <h2 className={styles.ctaTitle}>{tCta('title')}</h2>
+            <p className={styles.ctaSubtitle}>{tCta('subtitle')}</p>
             <ul className={styles.ctaBullets}>
-              <li><span className={styles.ctaCheck}>✓</span>Komplett beräkningsmodell (Excel + PDF)</li>
-              <li><span className={styles.ctaCheck}>✓</span>SCB-data och McKinsey-källor</li>
-              <li><span className={styles.ctaCheck}>✓</span>Telestore case study — 390 000 kr verifierat</li>
-              <li><span className={styles.ctaCheck}>✓</span>Kalkylatorns fullständiga formelblad</li>
+              <li><span className={styles.ctaCheck}>✓</span>Anpassad analys av ert case</li>
+              <li><span className={styles.ctaCheck}>✓</span>Konkret besparingsberäkning</li>
+              <li><span className={styles.ctaCheck}>✓</span>Återkoppling inom 24h</li>
+              <li><span className={styles.ctaCheck}>✓</span>Helt kostnadsfritt</li>
             </ul>
             <div className={styles.ctaCounter}>
               <span className={styles.ctaCounterNum} ref={ctaCountRef}>0</span>
-              <span className={styles.ctaCounterLabel}>&nbsp;företag har laddat ner rapporten</span>
+              <span className={styles.ctaCounterLabel}>&nbsp;{tCta('socialProof', { count: 12 }).replace('12 företag har redan fått sin analys', 'företag har redan fått sin analys')}</span>
             </div>
           </div>
 
-          {/* HÖGER */}
           <div className={styles.ctaRight}>
             {formState === 'success' ? (
-              <p className={styles.successText}>{t('cta.successMessage')}</p>
+              <p className={styles.successText}>{tCta('successMessage')}</p>
             ) : (
               <form onSubmit={handleSubmit} className={styles.form}>
-                <input type="text" name="name" required placeholder={t('cta.namePlaceholder')} value={formData.name} onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))} className={styles.input} />
-                <input type="email" name="email" required placeholder={t('cta.emailPlaceholder')} value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} className={styles.input} />
-                <input type="text" name="company" placeholder={t('cta.companyPlaceholder')} value={formData.company} onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))} className={styles.input} />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder={tCta('fields.email.placeholder')}
+                  value={formData.email}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                  className={styles.input}
+                />
+                <input
+                  type="text"
+                  name="company"
+                  required
+                  placeholder={tCta('fields.company.placeholder')}
+                  value={formData.company}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
+                  className={styles.input}
+                />
+                <label className={styles.gdprLabel}>
+                  <input
+                    type="checkbox"
+                    name="gdpr"
+                    required
+                    checked={formData.gdpr}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, gdpr: e.target.checked }))}
+                  />
+                  {tCta('gdprCheckbox')}
+                </label>
                 <input type="text" name="_honey" value={formData._honey} onChange={(e) => setFormData((prev) => ({ ...prev, _honey: e.target.value }))} className={styles.honeypot} tabIndex={-1} autoComplete="off" />
                 <ButtonStripe type="submit" disabled={formState === 'loading'} fullWidth>
-                  {formState === 'loading' ? '...' : t('cta.submitButton')}
+                  {formState === 'loading' ? '...' : tCta('submit')}
                 </ButtonStripe>
-                {formState === 'error' ? <p className={styles.errorText}>{t('cta.errorMessage')}</p> : null}
-                <p className={styles.gdpr}>{t('cta.gdpr')}</p>
+                {formState === 'error' ? <p className={styles.errorText}>{tCta('errorMessage')}</p> : null}
               </form>
             )}
           </div>
         </div>
       </section>
 
+      {/* BACK TO CALCULATOR */}
       <section className={styles.section} data-reveal>
         <div className={styles.backWrap}>
           <ButtonSwap label={`← ${t('backToCalculator')}`} href="/#roi-calculator" variant="accent" />
         </div>
       </section>
 
+      {/* FOOTNOTES */}
       <section className={styles.section}>
         <div className={styles.inner}>
           <ol className={styles.footnoteList}>
@@ -283,7 +355,7 @@ function renderCounter(currentIndex: number, totalItems: number) {
         {Array.from({ length: totalItems }, (_, index) => (
           <span
             key={index}
-            className={`${styles.counterLine} ${index + 1 === currentIndex ? styles.counterLineActive : ''}`.trim()}
+            className={`${styles.counterLine} ${index + 1 === currentIndex ? styles.counterLineActive : ''}`}
           />
         ))}
       </div>

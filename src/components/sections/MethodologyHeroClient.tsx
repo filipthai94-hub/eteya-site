@@ -49,17 +49,26 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
       position: 'relative',
       height: '100vh',
       minHeight: '600px',
+      backgroundColor: '#080808',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
     }}>
-      {/* Mesh Gradient Background — CORRECTED (Best Practice 2026) */}
+      {/* Layer 1: Radial glow (EXAKT SOM AboutHeroClient) */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        backgroundColor: '#080808',
+        background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
+
+      {/* Layer 2: Additional mesh gradients */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
         backgroundImage: `
           radial-gradient(ellipse 80% 50% at 50% 0%, 
             rgba(255, 255, 255, 0.08) 0%, 
@@ -75,10 +84,10 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         backgroundPosition: '0% 0%, 0% 0%, 0% 0%',
         animation: 'meshFloat 30s ease-in-out infinite',
         pointerEvents: 'none',
-        zIndex: 1,
+        zIndex: 2,
       }} />
 
-      {/* Content */}
+      {/* Layer 3: Content */}
       <div style={{
         position: 'relative',
         zIndex: 10,
