@@ -119,7 +119,7 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         </div>
       </div>
 
-      {/* Subtitle */}
+      {/* Subtitle + Savings + CTA - NO BOX */}
       <div ref={subtitleRef} style={{
         position: 'absolute',
         bottom: 0,
@@ -128,22 +128,75 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         zIndex: 10,
         padding: '2rem 2.5rem 3.5rem',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
         opacity: 0,
       }}>
-        <p style={{
+        {/* Divider */}
+        <div style={{
+          width: '80px',
+          height: '1px',
+          background: 'rgba(255, 255, 255, 0.08)',
+          margin: '24px auto 32px',
+        }} />
+        
+        {/* Savings Number */}
+        <div style={{
           fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.04em',
-          color: 'rgba(255, 255, 255, 0.6)',
-          maxWidth: '36rem',
-          lineHeight: 1.2,
-          textAlign: 'center',
+          fontWeight: 800,
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+          color: '#f5f5f5',
+          letterSpacing: '-0.02em',
+          marginBottom: '12px',
+          lineHeight: 1,
         }}>
           {subtitle}
+        </div>
+        
+        {/* Source Text */}
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '0.875rem',
+          color: 'rgba(255, 255, 255, 0.4)',
+          maxWidth: '480px',
+          lineHeight: 1.6,
+          marginBottom: '32px',
+        }}>
+          Baserat på 56 verifierade automationer inom e-handel (&lt;10 anställda)
         </p>
+        
+        {/* CTA Button */}
+        <a
+          href="/#roi-calculator"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '16px 32px',
+            background: 'transparent',
+            color: '#C8FF00',
+            border: '1px solid #C8FF00',
+            borderRadius: '8px',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.14em',
+            textDecoration: 'none',
+            transition: 'all 0.2s ease',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(200, 255, 0, 0.08)'
+            e.currentTarget.style.transform = 'translateY(-2px)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent'
+            e.currentTarget.style.transform = 'translateY(0)'
+          }}
+        >
+          Beräkna din besparing <span style={{ marginLeft: '4px' }}>→</span>
+        </a>
       </div>
 
       {/* CSS Animation Keyframes */}

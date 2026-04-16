@@ -243,7 +243,7 @@
     "quickResult": {
       "label": "Average savings",
       "value": "390,000 SEK/year",
-      "source": "Based on {{count}} verified automations in {{industry}} ({{employees}} employees)",
+      "source": "Based on {count} verified automations in {industry} ({employees} employees)",
       "cta": "Calculate your savings"
     },
     "cards": {

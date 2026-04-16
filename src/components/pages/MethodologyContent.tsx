@@ -127,49 +127,50 @@ export default function MethodologyContent() {
         subtitle={tHero('subtitle')}
       />
 
-      {/* QUICK RESULT CARD */}
-      <section className={styles.section} data-reveal>
-        <div className={styles.quickResultCard}>
-          <p className={styles.quickResultLabel}>{t('quickResult.label')}</p>
-          <div className={styles.quickResultValue}>
-            <span ref={resultCountRef}>0</span>&nbsp;000 kr/år
-          </div>
-          <p className={styles.quickResultSource}>
-            {t('quickResult.source', { count: 56, industry: 'e-handel', employees: '<10' })}
-          </p>
-          <ButtonSwap
-            label={t('quickResult.cta')}
-            arrow
-            href="/#roi-calculator"
-            variant="accent"
-            size="lg"
-          />
-        </div>
-      </section>
-
       {/* 3 CARDS - METHODOLOGY */}
       <section className={styles.section} data-reveal>
         <div className={styles.cardsGrid}>
           <article className={styles.methodCard}>
-            <div className={styles.cardValue}>{tCards('scb.value')}</div>
+            <div className={styles.cardIcon}>{tCards('scb.icon')}</div>
             <h3 className={styles.cardTitle}>{tCards('scb.title')}</h3>
+            <div className={styles.cardValue}>{tCards('scb.value')}</div>
             <div className={styles.cardSubvalue}>{tCards('scb.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('scb.footnote')}</p>
           </article>
 
           <article className={styles.methodCard}>
-            <div className={styles.cardValue}>{tCards('mckinsey.value')}</div>
+            <div className={styles.cardIcon}>{tCards('mckinsey.icon')}</div>
             <h3 className={styles.cardTitle}>{tCards('mckinsey.title')}</h3>
+            <div className={styles.cardValue}>{tCards('mckinsey.value')}</div>
             <div className={styles.cardSubvalue}>{tCards('mckinsey.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('mckinsey.footnote')}</p>
           </article>
 
           <article className={styles.methodCard}>
-            <div className={styles.cardValue}>{tCards('verified.value')}</div>
+            <div className={styles.cardIcon}>{tCards('verified.icon')}</div>
             <h3 className={styles.cardTitle}>{tCards('verified.title')}</h3>
+            <div className={styles.cardValue}>{tCards('verified.value')}</div>
             <div className={styles.cardSubvalue}>{tCards('verified.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('verified.footnote')}</p>
           </article>
+        </div>
+      </section>
+
+      {/* TRUST STACK - QUOTE + LOGOS */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.trustStack}>
+          <blockquote className={styles.trustQuote}>
+            "{tTrust('quote', { amount: '26 400', rating: '4.6' })}"
+          </blockquote>
+          <div className={styles.trustAuthor}>
+            <strong>{tTrust('author')}</strong>
+            <span>{tTrust('role')}</span>
+          </div>
+          <div className={styles.trustLogos}>
+            {tTrust.raw('logos').map((logo: string) => (
+              <div key={logo} className={styles.trustLogo}>{logo}</div>
+            ))}
+          </div>
         </div>
       </section>
 
