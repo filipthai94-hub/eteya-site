@@ -143,7 +143,7 @@ function DonutChart({
 }
 
 // ── Donut Draw-in Animation Hook ─────────────────────────────────────────────
-function useDonutAnimation(donutRef: React.RefObject<HTMLDivElement>) {
+function useDonutAnimation(donutRef: React.RefObject<HTMLDivElement | null>) {
   useEffect(() => {
     if (!donutRef.current) return
     
