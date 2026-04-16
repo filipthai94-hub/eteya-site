@@ -151,46 +151,25 @@ export default function MethodologyContent() {
       <section className={styles.section} data-reveal>
         <div className={styles.cardsGrid}>
           <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('scb.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('scb.title')}</h3>
             <div className={styles.cardValue}>{tCards('scb.value')}</div>
+            <h3 className={styles.cardTitle}>{tCards('scb.title')}</h3>
             <div className={styles.cardSubvalue}>{tCards('scb.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('scb.footnote')}</p>
           </article>
 
           <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('mckinsey.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('mckinsey.title')}</h3>
             <div className={styles.cardValue}>{tCards('mckinsey.value')}</div>
+            <h3 className={styles.cardTitle}>{tCards('mckinsey.title')}</h3>
             <div className={styles.cardSubvalue}>{tCards('mckinsey.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('mckinsey.footnote')}</p>
           </article>
 
           <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('verified.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('verified.title')}</h3>
             <div className={styles.cardValue}>{tCards('verified.value')}</div>
+            <h3 className={styles.cardTitle}>{tCards('verified.title')}</h3>
             <div className={styles.cardSubvalue}>{tCards('verified.subvalue')}</div>
             <p className={styles.cardFootnote}>{tCards('verified.footnote')}</p>
           </article>
-        </div>
-      </section>
-
-      {/* TRUST STACK - QUOTE + LOGOS */}
-      <section className={styles.section} data-reveal>
-        <div className={styles.trustStack}>
-          <blockquote className={styles.trustQuote}>
-            "{tTrust('quote', { amount: '26 400', rating: '4.6' })}"
-          </blockquote>
-          <div className={styles.trustAuthor}>
-            <strong>{tTrust('author')}</strong>
-            <span>{tTrust('role')}</span>
-          </div>
-          <div className={styles.trustLogos}>
-            {tTrust.raw('logos').map((logo: string) => (
-              <div key={logo} className={styles.trustLogo}>{logo}</div>
-            ))}
-          </div>
         </div>
       </section>
 
