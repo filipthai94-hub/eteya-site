@@ -42,7 +42,7 @@ export async function generateMetadata({
       description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-automation som faktiskt levererar resultat.',
       url: `${BASE_URL}${currentPath}`,
       siteName: 'Eteya',
-      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Eteya AI' }],
+      images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Eteya AI' }],
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
       type: 'website',
     },
@@ -50,7 +50,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: 'Eteya AI — AI som driver ditt företag',
       description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-automation som faktiskt levererar resultat.',
-      images: ['/og-image.jpg'],
+      images: ['/images/og-image.jpg'],
     },
   }
 }

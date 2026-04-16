@@ -37,7 +37,7 @@ export async function generateMetadata({
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
       images: [{
-        url: '/images/og/mbflytt.jpg',
+        url: '/images/og-mbflytt-case.jpg',
         width: 1200,
         height: 630,
         alt: t('ogImageAlt'),
@@ -47,7 +47,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: ['/images/og/mbflytt.jpg'],
+      images: ['/images/og-mbflytt-case.jpg'],
     },
   }
 }

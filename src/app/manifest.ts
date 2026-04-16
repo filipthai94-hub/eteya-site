@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next'
 
+type IconPurpose = 'any' | 'maskable' | 'monochrome'
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Eteya AI — AI som driver ditt företag',
@@ -15,13 +17,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/favicon-192x192.png',
         sizes: '192x192',
         type: 'image/png',
-        purpose: 'any maskable',
+        purpose: 'any' as IconPurpose,
       },
       {
         src: '/favicon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
-        purpose: 'any maskable',
+        purpose: 'any' as IconPurpose,
       },
     ],
     categories: ['business', 'productivity', 'technology'],
