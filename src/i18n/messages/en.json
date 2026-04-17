@@ -277,6 +277,24 @@
       "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
     },
     "sections": {
+      "howWeCalculate": {
+        "title": "HOW WE CALCULATE",
+        "subtext": "Three independent sources. Conservative numbers. All verified.",
+        "sources": [
+          {
+            "title": "SCB Wage Statistics",
+            "body": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month → loaded cost 54,333 SEK/month. Calculator value: 350 SEK/h (conservative)."
+          },
+          {
+            "title": "McKinsey Research",
+            "body": "\"The Economic Potential of Generative AI\" (2023). Customer operations: 30–45% cost reduction. All work activities: 60–70% of time (theoretical)."
+          },
+          {
+            "title": "Verified Client Data",
+            "body": "56 active automations mapped at Telestore Sverige AB. Transaction volumes pulled directly from Airtable. Total verified savings: ~390,000 SEK/year."
+          }
+        ]
+      },
       "approachTitle": "OUR METHODOLOGY",
       "approachBody": "Most ROI calculators on the market rely solely on generic industry reports and theoretical assumptions. The problem? Every company is unique — processes, team sizes, tools, and system landscapes differ dramatically. Generic numbers produce generic results that rarely match reality.",
       "approachBody2": "We solve this by combining industry data from recognized sources like SCB wage statistics and McKinsey Global Institute with verified customer data from real AI implementations. This gives calculations based on actual time savings — not theoretical estimates from consulting reports.",

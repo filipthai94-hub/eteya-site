@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 
 interface MethodologyHeroClientProps {
   title: string
@@ -167,36 +168,13 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         </p>
         
         {/* CTA Button */}
-        <a
+        <ButtonSwap
+          label="Beräkna din besparing"
+          variant="white"
+          arrow
           href="/#roi-calculator"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '16px 32px',
-            background: 'transparent',
-            color: '#C8FF00',
-            border: '1px solid #C8FF00',
-            borderRadius: '8px',
-            fontSize: '0.875rem',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.14em',
-            textDecoration: 'none',
-            transition: 'all 0.2s ease',
-            cursor: 'pointer',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'rgba(200, 255, 0, 0.08)'
-            e.currentTarget.style.transform = 'translateY(-2px)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.transform = 'translateY(0)'
-          }}
-        >
-          Beräkna din besparing <span style={{ marginLeft: '4px' }}>→</span>
-        </a>
+          size="lg"
+        />
       </div>
 
       {/* CSS Animation Keyframes */}

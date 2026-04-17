@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './FormulaCircles.module.css'
@@ -11,15 +11,16 @@ const RADIUS = 100
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 const circles = [
-  { value: '350 kr/h', label: 'SCB lönestatistik', fill: 0.75 },
-  { value: '52 v', label: 'Helårsbasis', fill: 0.85 },
-  { value: '0.65', label: 'Ramp-up år 1', fill: 0.65 },
+  { value: '350 kr/h', label: 'SCB lönestatistik', fill: 0.75, tooltip: '350 kr/h baserat på SCB lönestatistik 2024' },
+  { value: '52 v', label: 'Helårsbasis', fill: 0.85, tooltip: '52 veckor = helårsbasis (4 veckor semester ej avdragna)' },
+  { value: '0.65', label: 'Ramp-up år 1', fill: 0.65, tooltip: '65% av teoretisk besparing realiseras år 1 (implementation + ramp-up)' },
 ]
 
 export default function FormulaCircles() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const ringRefs = useRef<(SVGCircleElement | null)[]>([])
   const countRef = useRef<HTMLSpanElement>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   useEffect(() => {
     if (!wrapperRef.current) return
@@ -77,7 +78,17 @@ export default function FormulaCircles() {
       {/* LAGER 1 — Cirklar */}
       <div className={styles.circles}>
         {circles.map((c, i) => (
-          <div key={i} className={styles.circleItem}>
+          <div
+            key={i}
+            className={styles.circleItem}
+            onMouseEnter={() => setHoveredIndex(i)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {hoveredIndex === i && (
+              <div className={styles.tooltip}>
+                {c.tooltip}
+              </div>
+            )}
             <div className={styles.svgWrap}>
               <svg viewBox="0 0 220 220" width="100%" height="100%" className={styles.svg}>
                 <circle

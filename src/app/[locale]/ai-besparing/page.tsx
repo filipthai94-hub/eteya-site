@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import MethodologyContent from '@/components/pages/MethodologyContent'
+import FooterCTAClient from '@/components/sections/FooterCTAClient'
 
 const BASE_URL = 'https://eteya.ai'
 
@@ -89,6 +90,7 @@ export default function MethodologyPage() {
       <main className="page-content">
         <MethodologyContent />
       </main>
+      <FooterCTAClient />
     </>
   )
 }

@@ -8,6 +8,7 @@ import ButtonStripe from '@/components/ui/ButtonStripe'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import FormulaCircles from './FormulaCircles'
 import MethodologyHeroClient from '@/components/sections/MethodologyHeroClient'
+import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import styles from './MethodologyContent.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -127,199 +128,172 @@ export default function MethodologyContent() {
         subtitle={tHero('subtitle')}
       />
 
-      {/* 3 CARDS - METHODOLOGY */}
+      {/* HUR VI RÄKNAR — metodikkInner layout */}
       <section className={styles.section} data-reveal>
-        <div className={styles.cardsGrid}>
-          <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('scb.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('scb.title')}</h3>
-            <div className={styles.cardValue}>{tCards('scb.value')}</div>
-            <div className={styles.cardSubvalue}>{tCards('scb.subvalue')}</div>
-            <p className={styles.cardFootnote}>{tCards('scb.footnote')}</p>
-          </article>
-
-          <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('mckinsey.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('mckinsey.title')}</h3>
-            <div className={styles.cardValue}>{tCards('mckinsey.value')}</div>
-            <div className={styles.cardSubvalue}>{tCards('mckinsey.subvalue')}</div>
-            <p className={styles.cardFootnote}>{tCards('mckinsey.footnote')}</p>
-          </article>
-
-          <article className={styles.methodCard}>
-            <div className={styles.cardIcon}>{tCards('verified.icon')}</div>
-            <h3 className={styles.cardTitle}>{tCards('verified.title')}</h3>
-            <div className={styles.cardValue}>{tCards('verified.value')}</div>
-            <div className={styles.cardSubvalue}>{tCards('verified.subvalue')}</div>
-            <p className={styles.cardFootnote}>{tCards('verified.footnote')}</p>
-          </article>
-        </div>
-      </section>
-
-      {/* TRUST STACK - QUOTE + LOGOS */}
-      <section className={styles.section} data-reveal>
-        <div className={styles.trustStack}>
-          <blockquote className={styles.trustQuote}>
-            "{tTrust('quote', { amount: '26 400', rating: '4.6' })}"
-          </blockquote>
-          <div className={styles.trustAuthor}>
-            <strong>{tTrust('author')}</strong>
-            <span>{tTrust('role')}</span>
+        <div className={styles.metodikInner}>
+          
+          {/* Vänster: Sticky titel */}
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h2 className={styles.sectionTitle}>HUR VI RÄKNAR</h2>
+              <p className={styles.metodikSubtext}>
+                Tre oberoende källor. Konservativa siffror. Allt verifierat.
+              </p>
+            </div>
           </div>
-          <div className={styles.trustLogos}>
-            {tTrust.raw('logos').map((logo: string) => (
-              <div key={logo} className={styles.trustLogo}>{logo}</div>
-            ))}
+          
+          {/* Höger: Lista med källor */}
+          <div className={styles.metodikRight}>
+            <ul className={styles.metodikList}>
+              <li className={styles.metodikItem}>
+                <div className={styles.metodikItemContent}>
+                  <h3 className={styles.metodikItemTitle}>SCB Lönestatistik</h3>
+                  <p className={styles.metodikItemBody}>
+                    Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). 
+                    Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån. 
+                    Kalkylatorns värde: 350 kr/h (konservativt).
+                  </p>
+                </div>
+                <span className={styles.metodikItemNum}>01</span>
+              </li>
+              
+              <li className={styles.metodikItem}>
+                <div className={styles.metodikItemContent}>
+                  <h3 className={styles.metodikItemTitle}>McKinsey Research</h3>
+                  <p className={styles.metodikItemBody}>
+                    "The Economic Potential of Generative AI" (2023). 
+                    Kundtjänst: 30–45% kostnadsreduktion. 
+                    Alla arbetsaktiviteter: 60–70% av tid (teoretiskt).
+                  </p>
+                </div>
+                <span className={styles.metodikItemNum}>02</span>
+              </li>
+              
+              <li className={styles.metodikItem}>
+                <div className={styles.metodikItemContent}>
+                  <h3 className={styles.metodikItemTitle}>Verifierad Kunddata</h3>
+                  <p className={styles.metodikItemBody}>
+                    56 aktiva automationer kartlagda hos Telestore Sverige AB. 
+                    Transaktionsvolymer hämtade direkt från Airtable. 
+                    Total verifierad besparing: ~390 000 kr/år.
+                  </p>
+                </div>
+                <span className={styles.metodikItemNum}>03</span>
+              </li>
+            </ul>
           </div>
-        </div>
-      </section>
-
-      {/* DATAKÄLLOR */}
-      <section className={styles.section} data-reveal>
-        <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{t('sections.sourcesTitle')}</h2>
-          <div className={styles.sourcesGrid}>
-            <article className={styles.sourceCard}>
-              {renderCounter(1, 3)}
-              <h3>{t('sections.scbTitle')}</h3>
-              <p>{t('sections.scbBody')}</p>
-            </article>
-            <article className={styles.sourceCard}>
-              {renderCounter(2, 3)}
-              <h3>{t('sections.mckinseyTitle')}</h3>
-              <p>{t('sections.mckinseyBody')}</p>
-            </article>
-            <article className={styles.sourceCard}>
-              {renderCounter(3, 3)}
-              <h3>{t('sections.verifiedTitle')}</h3>
-              <p>{t('sections.verifiedBody')}</p>
-              <div className={styles.sourceLinkWrap}>
-                <ButtonSwap
-                  label={t('sections.verifiedLink')}
-                  arrow
-                  href={locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}
-                  size="sm"
-                  variant="white"
-                />
-              </div>
-            </article>
-          </div>
+          
         </div>
       </section>
 
       {/* FORMEL */}
       <section className={styles.section} data-reveal>
-        <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{t('sections.formulaTitle')}</h2>
-          <FormulaCircles />
+        <div className={styles.metodikInner}>
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h2 className={styles.sectionTitle}>{t('sections.formulaTitle')}</h2>
+            </div>
+          </div>
+          <div className={styles.metodikRight}>
+            <FormulaCircles />
+          </div>
+        </div>
+      </section>
+
+      {/* TELESTORE BREAKDOWN — REN LISTA, INGA BOXAR */}
+      <section className={styles.section} data-reveal>
+        <div className={styles.metodikInner}>
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h3 className={styles.subsectionTitle}>Så här räknade vi på Telestore</h3>
+            </div>
+          </div>
+          <div className={styles.metodikRight}>
+            <div className={styles.breakdownList}>
+              <div className={styles.breakdownRow}>
+                <span>26 timmar/vecka (faktisk tidsbesparing)</span>
+                <span className={styles.op}>×</span>
+                <span>52 veckor</span>
+                <span className={styles.op}>×</span>
+                <span>350 kr/h</span>
+              </div>
+              <div className={styles.breakdownTotal}>
+                = 473 200 kr/år (teoretiskt max)
+              </div>
+              
+              <div className={styles.breakdownRow}>
+                <span>× 0.65 (år 1 ramp-up)</span>
+              </div>
+              <div className={styles.breakdownTotal}>
+                = 307 580 kr/år (tidsbesparing, år 1)
+              </div>
+              
+              <div className={styles.breakdownRow}>
+                <span>+ 26 400 kr/år (eliminerade felkostnader)</span>
+              </div>
+              <div className={styles.breakdownTotal}>
+                = ~334 000 kr/år (totalt, år 1)
+              </div>
+              
+              <div className={styles.breakdownNote}>
+                <strong>År 2+ (full effekt):</strong> 26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år
+                <br />
+                Telestores faktiska resultat: <strong>~390 000 kr/år</strong> (konservativt räknat)
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* KONSERVATIVA ANTAGANDEN */}
       <section className={styles.section} data-reveal>
-        <div className={styles.inner}>
-          <h3 className={styles.subsectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h3>
-          <div className={styles.sourcesGrid}>
-            {conservativeItems.map((item, index) => {
-              const { title, text } = splitFact(item)
-              return (
-                <article key={index} className={styles.sourceCard}>
-                  {renderCounter(index + 1, conservativeItems.length)}
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA - FÖRENKLAT FORMULÄR */}
-      <section className={styles.section} data-reveal>
-        <div className={`${styles.inner} ${styles.ctaSplit}`}>
-          <div className={styles.ctaLeft}>
-            <h2 className={styles.ctaTitle}>{tCta('title')}</h2>
-            <p className={styles.ctaSubtitle}>{tCta('subtitle')}</p>
-            <ul className={styles.ctaBullets}>
-              <li><span className={styles.ctaCheck}>✓</span>Anpassad analys av ert case</li>
-              <li><span className={styles.ctaCheck}>✓</span>Konkret besparingsberäkning</li>
-              <li><span className={styles.ctaCheck}>✓</span>Återkoppling inom 24h</li>
-              <li><span className={styles.ctaCheck}>✓</span>Helt kostnadsfritt</li>
-            </ul>
-            <div className={styles.ctaCounter}>
-              <span className={styles.ctaCounterNum} ref={ctaCountRef}>0</span>
-              <span className={styles.ctaCounterLabel}>&nbsp;{tCta('socialProof', { count: 12 }).replace('12 företag har redan fått sin analys', 'företag har redan fått sin analys')}</span>
+        <div className={styles.metodikInner}>
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h3 className={styles.subsectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h3>
             </div>
           </div>
-
-          <div className={styles.ctaRight}>
-            {formState === 'success' ? (
-              <p className={styles.successText}>{tCta('successMessage')}</p>
-            ) : (
-              <form onSubmit={handleSubmit} className={styles.form}>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder={tCta('fields.email.placeholder')}
-                  value={formData.email}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                  className={styles.input}
-                />
-                <input
-                  type="text"
-                  name="company"
-                  required
-                  placeholder={tCta('fields.company.placeholder')}
-                  value={formData.company}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
-                  className={styles.input}
-                />
-                <label className={styles.gdprLabel}>
-                  <input
-                    type="checkbox"
-                    name="gdpr"
-                    required
-                    checked={formData.gdpr}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, gdpr: e.target.checked }))}
-                  />
-                  {tCta('gdprCheckbox')}
-                </label>
-                <input type="text" name="_honey" value={formData._honey} onChange={(e) => setFormData((prev) => ({ ...prev, _honey: e.target.value }))} className={styles.honeypot} tabIndex={-1} autoComplete="off" />
-                <ButtonStripe type="submit" disabled={formState === 'loading'} fullWidth>
-                  {formState === 'loading' ? '...' : tCta('submit')}
-                </ButtonStripe>
-                {formState === 'error' ? <p className={styles.errorText}>{tCta('errorMessage')}</p> : null}
-              </form>
-            )}
+          <div className={styles.metodikRight}>
+            <div className={styles.conservativeGrid}>
+              {conservativeItems.map((item, index) => {
+                const { title, text } = splitFact(item)
+                return (
+                  <article key={index} className={styles.sourceCard}>
+                    {renderCounter(index + 1, conservativeItems.length)}
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </article>
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* BACK TO CALCULATOR */}
-      <section className={styles.section} data-reveal>
-        <div className={styles.backWrap}>
-          <ButtonSwap label={`← ${t('backToCalculator')}`} href="/#roi-calculator" variant="accent" />
         </div>
       </section>
 
       {/* FOOTNOTES */}
       <section className={styles.section}>
-        <div className={styles.inner}>
-          <ol className={styles.footnoteList}>
-            {sourceItems.map((source, index) => (
-              <li key={index}>
-                <span className={styles.footnoteNum}>[{index + 1}]</span>
-                {source.url ? (
-                  <a href={source.url} target="_blank" rel="nofollow noopener noreferrer">
-                    {source.text}
-                  </a>
-                ) : (
-                  source.text
-                )}
-              </li>
-            ))}
-          </ol>
+        <div className={styles.metodikInner}>
+          <div className={styles.metodikLeft}>
+            <div className={styles.metodikLeftSticky}>
+              <h3 className={styles.subsectionTitle}>Källor</h3>
+            </div>
+          </div>
+          <div className={styles.metodikRight}>
+            <ol className={styles.footnoteList}>
+              {sourceItems.map((source, index) => (
+                <li key={index}>
+                  <span className={styles.footnoteNum}>[{index + 1}]</span>
+                  {source.url ? (
+                    <a href={source.url} target="_blank" rel="nofollow noopener noreferrer">
+                      {source.text}
+                    </a>
+                  ) : (
+                    source.text
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 

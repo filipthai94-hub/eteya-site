@@ -277,6 +277,24 @@
       "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
     },
     "sections": {
+      "howWeCalculate": {
+        "title": "HUR VI RÄKNAR",
+        "subtext": "Tre oberoende källor. Konservativa siffror. Allt verifierat.",
+        "sources": [
+          {
+            "title": "SCB Lönestatistik",
+            "body": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån. Kalkylatorns värde: 350 kr/h (konservativt)."
+          },
+          {
+            "title": "McKinsey Research",
+            "body": "\"The Economic Potential of Generative AI\" (2023). Kundtjänst: 30–45% kostnadsreduktion. Alla arbetsaktiviteter: 60–70% av tid (teoretiskt)."
+          },
+          {
+            "title": "Verifierad Kunddata",
+            "body": "56 aktiva automationer kartlagda hos Telestore Sverige AB. Transaktionsvolymer hämtade direkt från Airtable. Total verifierad besparing: ~390 000 kr/år."
+          }
+        ]
+      },
       "approachTitle": "VÅR METODIK",
       "approachBody": "De flesta ROI-kalkylatorer på marknaden bygger enbart på generella branschrapporter och teoretiska antaganden. Problemet? Varje företag är unikt — processer, teamstorlek, verktyg och systemlandskap skiljer sig dramatiskt. Generiska siffror ger generiska resultat som sällan stämmer med verkligheten.",
       "approachBody2": "Vi löser det genom att kombinera branschdata från erkända källor som SCB lönestatistik och McKinsey Global Institute med verifierad kunddata från riktiga AI-implementationer. Det ger beräkningar baserade på faktiska tidsbesparingar — inte teoretiska uppskattningar från konsultrapporter.",
