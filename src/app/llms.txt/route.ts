@@ -11,7 +11,6 @@ export async function GET() {
 
 ## Tjänster
 - [AI Automation](https://eteya.ai/sv): AI-agenter, processautomation, custom AI-lösningar
-- [ROI-kalkylator](https://eteya.ai/sv/roi-test): Räkna på er potentiella besparing
 
 ## Case Studies
 - [Telestore](https://eteya.ai/sv/kundcase/telestore): E-handel — automatiserad orderhantering

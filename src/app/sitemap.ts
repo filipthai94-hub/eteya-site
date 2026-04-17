@@ -61,14 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
 
-    // ROI Test (noindex men ändå i sitemap för referens)
-    {
-      url: `${baseUrl}/sv/roi-test`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-
     // Kundcase / Case Studies - Översikt
     {
       url: `${baseUrl}/sv/kundcase`,
