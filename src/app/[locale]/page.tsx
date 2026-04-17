@@ -12,6 +12,7 @@ import FAQSection from '@/components/sections/FAQSection'
 import ROICalculatorSection from '@/components/sections/ROICalculatorSection'
 import TechStack from '@/components/sections/TechStack'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+import ScrollOnLoad from '@/components/ScrollOnLoad'
 
 const BASE_URL = 'https://eteya.ai'
 
@@ -72,6 +73,7 @@ export default async function Home({
       <MarqueeSection />
       <Services />
       <Stats />
+      <ScrollOnLoad />
       <div id="roi-calculator">
         <ROICalculatorSection />
       </div>
@@ -82,6 +84,7 @@ export default async function Home({
       <FAQSection />
       <FooterCTAClient />
     </main>
+    <ScrollOnLoad />
     </>
   )
 }
