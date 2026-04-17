@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Eteya — Kontakt Modal Preview v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0a;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Geist', sans-serif;
+  color: #fff;
+}
+
+/* Simulated page behind */
+.page-hint {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 100;
+}
+
+/* Viewport size label */
+.viewport-label {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  font-size: 10px;
+  color: rgba(200,255,0,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 100;
+  font-family: monospace;
+}
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ── MODAL PANEL ── */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  /* FIT ON SCREEN: max-height with padding for viewport */
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  background: #0d0d0d;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grain texture */
+.modal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.25;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Border glow */
+.modal::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(200,255,0,0.06), rgba(255,255,255,0.04));
+  z-index: -1;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.close-btn:hover { background: rgba(255,255,255,0.12); }
+.close-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.5); }
+.close-btn:hover svg { stroke: rgba(255,255,255,0.9); }
+
+/* ── GRID LAYOUT ── */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* FIT: use flex-grow instead of fixed height */
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── LEFT: FORM ── */
+.form-col {
+  padding: 40px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.form-col::-webkit-scrollbar { width: 4px; }
+.form-col::-webkit-scrollbar-track { background: transparent; }
+.form-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.form-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  padding-right: 36px;
+}
+
+.form-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Contact info - compact */
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-icon svg { width: 13px; height: 13px; }
+.contact-label { font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.06em; }
+.contact-value { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+/* Form fields */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field { display: flex; flex-direction: column; }
+.field label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.field input, .field textarea, .field select {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  border-radius: 0;
+  padding: 10px 0;
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff;
+  transition: border-color 0.3s;
+  outline: none;
+  resize: none;
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.25); }
+.field input:focus, .field textarea:focus, .field select:focus { border-bottom-color: #C8FF00; }
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.4)' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 24px;
+  cursor: pointer;
+}
+.field select option { color: #111; background: #1a1a1a; }
+
+/* GDPR - compact */
+.gdpr {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.gdpr input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin-top: 1px;
+  accent-color: #C8FF00;
+  cursor: pointer;
+}
+.gdpr label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.4;
+  cursor: pointer;
+}
+.gdpr a { color: rgba(255,255,255,0.6); text-decoration: none; }
+.gdpr a:hover { color: #fff; text-decoration: underline; }
+
+/* ROI badge - compact */
+.roi-badge {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.roi-badge-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3);
+}
+.roi-badge-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+
+/* ── RIGHT: CAL.COM ── */
+.cal-col {
+  padding: 40px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.015);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.cal-col::-webkit-scrollbar { width: 4px; }
+.cal-col::-webkit-scrollbar-track { background: transparent; }
+.cal-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.cal-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.cal-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Cal.com mock - compact */
+.cal-mock {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.cal-month {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.cal-month-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.cal-nav {
+  display: flex;
+  gap: 4px;
+}
+.cal-nav button {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+.cal-nav button:hover {
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+  background: rgba(255,255,255,0.04);
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+}
+.cal-weekday {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  padding: 2px;
+}
+
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+  margin-bottom: 16px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.cal-day:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.6); }
+.cal-day.available { color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.08); }
+.cal-day.available:hover { background: rgba(200,255,0,0.08); border-color: rgba(200,255,0,0.25); color: #C8FF00; }
+.cal-day.selected { background: #C8FF00; color: #0a0a0a; font-weight: 600; border-color: #C8FF00; }
+.cal-day.empty { cursor: default; }
+.cal-day.empty:hover { background: transparent; color: rgba(255,255,255,0.15); }
+
+.time-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 8px;
+}
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.time-slot {
+  padding: 8px 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Geist', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.time-slot:hover { border-color: rgba(200,255,0,0.35); color: #C8FF00; background: rgba(200,255,0,0.04); }
+.time-slot.selected { background: #C8FF00; color: #0a0a0a; border-color: #C8FF00; font-weight: 500; }
+
+.cal-brand {
+  margin-top: 12px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.15);
+  text-align: center;
+}
+
+/* ── RESPONSIVE ── */
+
+/* Tablet: Stack vertically */
+@media (max-width: 1099px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
+    /* On tablet, modal takes full height */
+  }
+  .form-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 32px 24px;
+  }
+  .cal-col {
+    padding: 24px 32px 32px;
+  }
+  .modal {
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+  }
+}
+
+/* Mobile: Bottom sheet style */
+@media (max-width: 690px) {
+  .overlay { padding: 0; align-items: flex-end; }
+  .modal {
+    max-width: 100%;
+    max-height: 95vh;
+    max-height: 95dvh;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+  }
+  .form-col { padding: 24px 20px 20px; }
+  .cal-col { padding: 20px 20px 28px; }
+  .form-row { grid-template-columns: 1fr; gap: 14px; }
+  .form-title { font-size: 20px; }
+  .form-subtitle { font-size: 12px; margin-bottom: 16px; }
+  .contact-row { flex-direction: column; gap: 10px; margin-bottom: 16px; padding-bottom: 16px; }
+  .form-fields { gap: 14px; }
+  .roi-badge-value { font-size: 20px; }
+  .time-slots { grid-template-columns: repeat(4, 1fr); }
+  .cal-mock { max-width: 100%; }
+
+  /* Drag handle for mobile bottom sheet */
+  .modal-drag-handle {
+    display: block !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 400px) {
+  .form-col { padding: 20px 16px 16px; }
+  .cal-col { padding: 16px 16px 24px; }
+  .form-title { font-size: 18px; }
+  .cal-month-name { font-size: 14px; }
+}
+
+/* Drag handle - hidden on desktop, visible on mobile */
+.modal-drag-handle {
+  display: none;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.2);
+  margin: 8px auto 4px;
+}
+
+/* Landscape phones */
+@media (max-height: 600px) {
+  .modal {
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+  .form-col, .cal-col { padding-top: 20px; padding-bottom: 16px; }
+  .form-fields { gap: 12px; }
+  .form-subtitle { display: none; }
+  .contact-row { margin-bottom: 12px; padding-bottom: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="viewport-label" id="viewport"></div>
+
+<div class="overlay">
+  <div class="modal">
+    <div class="modal-drag-handle"></div>
+    <button class="close-btn" aria-label="Stäng">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="modal-grid">
+      <!-- LEFT: FORM -->
+      <div class="form-col">
+        <h1 class="form-title">Kontakta oss</h1>
+        <p class="form-subtitle">Fyll i formuläret och boka en tid — vi återkommer med en analys av ert företag.</p>
+
+        <div class="contact-row">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">kontakt@eteya.ai</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-label">Telefon</div>
+              <div class="contact-value">+46 50-000 00 00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <div class="form-row">
+            <div class="field">
+              <label>Namn *</label>
+              <input type="text" placeholder="Ditt namn">
+            </div>
+            <div class="field">
+              <label>Email *</label>
+              <input type="email" placeholder="din@email.com">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Företag *</label>
+            <input type="text" placeholder="Företagsnamn">
+          </div>
+
+          <div class="field">
+            <label>Vad behöver ni hjälp med?</label>
+            <select>
+              <option value="" disabled selected>Välj tjänst...</option>
+              <option>AI-agent / Assistent</option>
+              <option>AI-automatisering</option>
+              <option>Strategi & Rådgivning</option>
+              <option>Annat</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Beskrivning</label>
+            <textarea rows="2" placeholder="Berätta kort om ert projekt..."></textarea>
+          </div>
+
+          <div class="gdpr">
+            <input type="checkbox" id="gdpr">
+            <label for="gdpr">Jag godkänner att Eteya behandlar mina uppgifter enligt <a href="/sv/integritetspolicy">integritetspolicyn</a></label>
+          </div>
+        </div>
+
+        <div class="roi-badge">
+          <div class="roi-badge-label">Din ROI-prognos</div>
+          <div class="roi-badge-value">390 000 kr/år</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: CAL.COM -->
+      <div class="cal-col">
+        <div class="cal-header">
+          <div class="cal-title">Välj en tid</div>
+        </div>
+
+        <div class="cal-mock">
+          <div class="cal-month">
+            <div class="cal-month-name">April 2026</div>
+            <div class="cal-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </div>
+
+          <div class="cal-weekdays">
+            <div class="cal-weekday">Mån</div>
+            <div class="cal-weekday">Tis</div>
+            <div class="cal-weekday">Ons</div>
+            <div class="cal-weekday">Tor</div>
+            <div class="cal-weekday">Fre</div>
+          </div>
+
+          <div class="cal-days">
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day available">1</div>
+            <div class="cal-day available">2</div>
+            <div class="cal-day available">3</div>
+            <div class="cal-day available">6</div>
+            <div class="cal-day available">7</div>
+            <div class="cal-day available">8</div>
+            <div class="cal-day available">9</div>
+            <div class="cal-day available">10</div>
+            <div class="cal-day available">13</div>
+            <div class="cal-day available">14</div>
+            <div class="cal-day selected">15</div>
+            <div class="cal-day available">16</div>
+            <div class="cal-day available">17</div>
+            <div class="cal-day available">20</div>
+            <div class="cal-day available">21</div>
+            <div class="cal-day available">22</div>
+            <div class="cal-day available">23</div>
+            <div class="cal-day available">24</div>
+            <div class="cal-day available">27</div>
+            <div class="cal-day available">28</div>
+            <div class="cal-day available">29</div>
+            <div class="cal-day available">30</div>
+            <div class="cal-day empty"></div>
+          </div>
+
+          <div class="time-section-title">Tillgängliga tider — 15 april</div>
+          <div class="time-slots">
+            <div class="time-slot">09:00</div>
+            <div class="time-slot">09:30</div>
+            <div class="time-slot">10:00</div>
+            <div class="time-slot">10:30</div>
+            <div class="time-slot selected">11:00</div>
+            <div class="time-slot">11:30</div>
+            <div class="time-slot">13:00</div>
+            <div class="time-slot">13:30</div>
+            <div class="time-slot">14:00</div>
+            <div class="time-slot">14:30</div>
+            <div class="time-slot">15:00</div>
+            <div class="time-slot">15:30</div>
+          </div>
+        </div>
+
+        <div class="cal-brand">Bokning via Cal.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-hint">Eteya — Kontakt Modal Preview v2</div>
+
+<script>
+  // Interactive calendar
+  document.querySelectorAll('.cal-day.available').forEach(day => {
+    day.addEventListener('click', () => {
+      document.querySelectorAll('.cal-day.selected').forEach(d => d.classList.remove('selected'));
+      day.classList.add('selected');
+    });
+  });
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    slot.addEventListener('click', () => {
+      document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+    });
+  });
+
+  // Viewport label
+  function updateVP() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    let label = w >= 1100 ? 'DESKTOP' : w >= 690 ? 'TABLET' : 'MOBILE';
+    document.getElementById('viewport').textContent = `${label} — ${w}×${h}`;
+  }
+  updateVP();
+  window.addEventListener('resize', updateVP);
+</script>
+</body>
+</html>

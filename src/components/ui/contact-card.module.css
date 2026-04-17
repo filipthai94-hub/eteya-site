@@ -1,7 +1,7 @@
-/* ContactCard CSS Module - Next.js 16 + React 19 Best Practice */
+/* ContactCard CSS Module — Matched to preview-modal.html design */
 
 /* ============================================
-   ANIMATIONER
+   ANIMATIONS
    ============================================ */
 
 @keyframes cc-overlay-in {
@@ -28,166 +28,238 @@
   position: relative;
   width: 100%;
   max-width: 1100px;
-  min-height: 400px;
+  max-height: calc(100dvh - 48px);
   font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  background: #0d0d0d;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  overscroll-behavior: contain;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ============================================
-   PLUS IKONER (DEKORATION)
-   ============================================ */
-
-.corner {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  z-index: 10;
-}
-
-.corner::before,
-.corner::after {
+/* Grain texture */
+.root::after {
   content: '';
   position: absolute;
-  background: #ffffff;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.25;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.corner::before { width: 16px; height: 2px; top: 50%; left: 0; margin-top: -1px; }
-.corner::after  { width: 2px; height: 16px; left: 50%; top: 0; margin-left: -1px; }
-
-.cornerTL { top: -8px; left: -8px; }
-.cornerTR { top: -8px; right: -8px; }
-.cornerBL { bottom: -8px; left: -8px; }
-.cornerBR { bottom: -8px; right: -8px; }
+/* Border glow */
+.root::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(200,255,0,0.06), rgba(255,255,255,0.04));
+  z-index: -1;
+}
 
 /* ============================================
-   GRID LAYOUT (KORT)
+   DRAG HANDLE (mobile bottom sheet)
+   ============================================ */
+
+.dragHandle {
+  display: none;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 8px auto 4px;
+}
+
+/* ============================================
+   CLOSE BUTTON (circle with X)
+   ============================================ */
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.closeButton svg {
+  width: 16px;
+  height: 16px;
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.closeButton:hover svg {
+  stroke: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   GRID LAYOUT
    ============================================ */
 
 .grid {
   display: grid;
-  grid-template-columns: 2fr 3fr;
-  background: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
-  width: 100%;
-  opacity: 1;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================
-   VÄNSTER SEKTION (KONTAKTINFO)
+   LEFT: FORM COLUMN
    ============================================ */
 
-.left {
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 48px 40px;
+.formCol {
+  padding: 40px 40px 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  min-height: 0;
 }
 
+.formCol::-webkit-scrollbar { width: 4px; }
+.formCol::-webkit-scrollbar-track { background: transparent; }
+.formCol::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+
+/* ============================================
+   FORM TITLE
+   ============================================ */
+
 .title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 14px 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+  padding-right: 36px;
+  color: #fff;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
-  margin: 0 0 40px 0;
-  line-height: 1.65;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+/* ============================================
+   CONTACT INFO ROW (email + phone side by side)
+   ============================================ */
+
+.contactRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .contactItem {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.contactItem:last-child {
-  margin-bottom: 0;
+  gap: 10px;
 }
 
 .contactIcon {
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  padding: 11px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
+.contactIcon svg {
+  width: 13px;
+  height: 13px;
+}
+
 .contactLabel {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.75rem;
-  margin: 0 0 2px 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  margin: 0 0 2px 0;
 }
 
 .contactValue {
-  color: #ffffff;
-  font-size: 0.875rem;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }
 
 /* ============================================
-   HÖGER SEKTION (FORMULÄR)
+   FORM FIELDS
    ============================================ */
 
-.form {
-  padding: 48px 44px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.form form {
+.formFields {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 1;
+  min-height: 0;
 }
 
-/* Form row (2 kolumner) */
 .formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
-/* Form field container */
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
 }
 
-/* Label */
 .label {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 6px;
+  font-weight: 400;
 }
 
-/* Input fields — underline style */
 .input {
-  height: 42px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 0;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-family: var(--font-body, 'Geist', -apple-system, sans-serif);
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
   width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  border-radius: 0;
+  padding: 10px 0;
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff;
+  transition: border-color 0.3s;
   outline: none;
+  resize: none;
 }
 
 .input:focus {
@@ -195,186 +267,287 @@
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.25);
 }
 
-/* Textarea */
 .textarea {
-  height: auto;
-  min-height: 80px;
-  padding: 8px 0;
-  resize: none;
+  min-height: 52px;
 }
 
-/* Dropdown container */
-.dropdownContainer {
-  position: relative;
-  width: 100%;
-}
-
-.dropdownButton {
-  width: 100%;
-  height: 42px;
-  padding: 0 14px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+/* Select (native) */
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.4)' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 24px;
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.select option {
+  color: #111;
+  background: #1a1a1a;
+}
+
+/* ============================================
+   GDPR CHECKBOX
+   ============================================ */
+
+.gdpr {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+  align-items: flex-start;
+  gap: 8px;
 }
 
-.dropdownButton:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-.dropdownButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.dropdownButtonSelected {
-  color: #ffffff;
-}
-
-.dropdownButtonPlaceholder {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  background: #1c1c1c;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  z-index: 20;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.dropdownItem {
-  display: block;
-  width: 100%;
-  padding: 11px 14px;
-  text-align: left;
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 0.875rem;
-  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+.gdprCheckbox {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin-top: 1px;
+  accent-color: #C8FF00;
   cursor: pointer;
-  transition: background 100ms;
 }
 
-.dropdownItem:hover {
-  background: rgba(255, 255, 255, 0.07);
+.gdprLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.4;
+  cursor: pointer;
 }
 
-/* Error message */
+.gdprLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+
+.gdprLink:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ============================================
+   ROI BADGE
+   ============================================ */
+
+.roiBadge {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.roiBadgeLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.roiBadgeValue {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+
+/* ============================================
+   RIGHT: CAL.COM COLUMN
+   ============================================ */
+
+.calCol {
+  padding: 40px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.015);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  min-height: 0;
+}
+
+.calCol::-webkit-scrollbar { width: 4px; }
+.calCol::-webkit-scrollbar-track { background: transparent; }
+.calCol::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+
+.calHeader {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.calTitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.calEmbed {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ============================================
+   ERROR / SUCCESS
+   ============================================ */
+
 .error {
-  color: #f87171;
-  font-size: 0.82rem;
+  color: rgba(255, 100, 100, 0.8);
+  font-size: 12px;
   margin: 0;
 }
 
-/* Success state */
 .success {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 200px;
   gap: 16px;
   text-align: center;
-  padding: 48px 44px;
 }
 
 .successIcon {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(34, 197, 94, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
 }
 
 .successIcon svg {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   color: #22c55e;
 }
 
 .successText {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 16px;
   font-weight: 500;
   margin: 0;
 }
 
-/* Close button */
-.closeButton {
-  position: absolute;
-  top: -48px;
-  right: 0;
-  color: rgba(255, 255, 255, 0.5);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
-}
+/* ============================================
+   RESPONSIVE: TABLET (690-1099px)
+   ============================================ */
 
-.closeButton:hover {
-  color: rgba(255, 255, 255, 0.8);
+@media (max-width: 1099px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .formCol {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 32px 32px 24px;
+  }
+  .calCol {
+    padding: 24px 32px 32px;
+  }
+  .root {
+    max-height: calc(100dvh - 32px);
+  }
 }
 
 /* ============================================
-   RESPONSIVE DESIGN (MOBIL ≤680px)
+   RESPONSIVE: MOBILE (≤690px) — Bottom sheet
    ============================================ */
 
-@media (max-width: 680px) {
-  /* Grid blir single column */
-  .grid {
-    grid-template-columns: 1fr;
+@media (max-width: 690px) {
+  .root {
+    max-width: 100%;
+    max-height: 95dvh;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
   }
 
-  /* Göm kontaktinfo-sektionen */
-  .left {
-    display: none;
+  .dragHandle {
+    display: block;
   }
 
-  /* Form row blir single column */
+  .formCol {
+    padding: 24px 20px 20px;
+  }
+
+  .calCol {
+    padding: 20px 20px 28px;
+  }
+
   .formRow {
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  /* Root container - mindre bredd */
-  .root {
-    width: calc(100% - 32px);
-    max-width: 420px;
-  }
-
-  /* Minska padding på formulär */
-  .form {
-    padding: 32px 24px !important;
-  }
-
-  /* Minska rubrikstorlek */
   .title {
-    font-size: 1.75rem !important;
+    font-size: 20px;
   }
 
-  /* Rundare hörn på mobil */
-  .grid {
-    border-radius: 16px;
+  .subtitle {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .contactRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+
+  .formFields {
+    gap: 14px;
+  }
+
+  .roiBadgeValue {
+    font-size: 20px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: SMALL MOBILE (≤400px)
+   ============================================ */
+
+@media (max-width: 400px) {
+  .formCol {
+    padding: 20px 16px 16px;
+  }
+  .calCol {
+    padding: 16px 16px 24px;
+  }
+  .title {
+    font-size: 18px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: LANDSCAPE (max-height: 600px)
+   ============================================ */
+
+@media (max-height: 600px) {
+  .root {
+    max-height: calc(100dvh - 16px);
+  }
+  .formCol,
+  .calCol {
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+  .formFields {
+    gap: 12px;
+  }
+  .subtitle {
+    display: none;
+  }
+  .contactRow {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
   }
 }

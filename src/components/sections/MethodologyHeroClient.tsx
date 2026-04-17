@@ -6,9 +6,10 @@ import ButtonSwap from '@/components/ui/ButtonSwap'
 interface MethodologyHeroClientProps {
   title: string
   subtitle: string
+  locale: string  // Locale för korrekt länk
 }
 
-export default function MethodologyHeroClient({ title, subtitle }: MethodologyHeroClientProps) {
+export default function MethodologyHeroClient({ title, subtitle, locale }: MethodologyHeroClientProps) {
   const heroRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLDivElement>(null)
@@ -95,7 +96,8 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        textAlign: 'center',
+        justifyContent: 'flex-start',  /* Flytta rubriken högre upp */
+        paddingTop: '15vh',  /* 15% från toppen */
         padding: '0 2rem',
       }}>
         <div ref={titleRef}>
@@ -146,11 +148,12 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         <div style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
-          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+          fontSize: 'clamp(1.25rem, 3vw, 2rem)', /* Minska från 2.5rem-4rem för bättre hierarki */
           color: '#f5f5f5',
           letterSpacing: '-0.02em',
+          marginTop: '1.5rem', /* Separation från rubrik */
           marginBottom: '12px',
-          lineHeight: 1,
+          lineHeight: 1.3, /* Mer luft mellan rader */
         }}>
           {subtitle}
         </div>
@@ -172,8 +175,19 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
           label="Beräkna din besparing"
           variant="white"
           arrow
-          href="/#roi-calculator"
+          href={locale === 'sv' ? '/sv/#roi-calculator' : '/en/#roi-calculator'}
           size="lg"
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault()
+            // Använd Lenis smooth scroll — exakt som i Nav.tsx
+            setTimeout(() => {
+              const el = document.getElementById('roi-calculator')
+              const navH = (document.querySelector('.en-topbar') as HTMLElement | null)?.offsetHeight ?? 80
+              if (el && window.__lenis) {
+                window.__lenis.scrollTo(el, { offset: navH + 15, duration: 1.2 })
+              }
+            }, 50)
+          }}
         />
       </div>
 
@@ -189,7 +203,10 @@ export default function MethodologyHeroClient({ title, subtitle }: MethodologyHe
         }
 
         @media (max-width: 767px) {
-          h1 { font-size: 22vw !important; }
+          h1 { font-size: 16vw !important; } /* Minska från 22vw för att ge plats åt subtitle */
+          p { font-size: 0.75rem !important; } /* Minska subtitle text */
+          /* Flytta upp subtitle för mer luft från rubriken */
+          div[ref="subtitleRef"] { padding-bottom: 4rem !important; }
         }
         @media (prefers-reduced-motion: reduce) {
           [data-letter] { opacity: 1 !important; transform: none !important; }

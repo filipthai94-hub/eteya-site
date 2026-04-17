@@ -72,7 +72,9 @@ export default async function Home({
       <MarqueeSection />
       <Services />
       <Stats />
-      <ROICalculatorSection />
+      <div id="roi-calculator">
+        <ROICalculatorSection />
+      </div>
       <JoinTheBest />
       <Cases />
       <ProcessSection />

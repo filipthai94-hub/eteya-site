@@ -1,11 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useActionState } from "react"
-import { useFormStatus } from "react-dom"
 import { XIcon } from "lucide-react"
-import ButtonStripe from "./ButtonStripe"
-import { sendContactEmail } from "@/app/[locale]/actions/contact"
+import Cal from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
 
 const services = [
@@ -15,83 +12,50 @@ const services = [
   { value: "annat", label: "Annat" },
 ]
 
-function SubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <ButtonStripe type="submit" disabled={pending} fullWidth>
-      {pending ? "Skickar..." : "Skicka förfrågan"}
-    </ButtonStripe>
-  )
-}
-
 interface ContactCardProps {
   onClose?: () => void
 }
 
 export default function ContactCard({ onClose }: ContactCardProps) {
-  const [state, action] = useActionState(sendContactEmail, null)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [serviceValue, setServiceValue] = useState("")
-  const dropdownRef = useRef<HTMLDivElement>(null)
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    if (!dropdownOpen) return
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handler)
-    return () => document.removeEventListener("mousedown", handler)
-  }, [dropdownOpen])
-
-  // Auto-close modal on success
-  useEffect(() => {
-    if (state?.success) {
-      const t = setTimeout(() => onClose?.(), 2500)
-      return () => clearTimeout(t)
-    }
-  }, [state, onClose])
+  const [gdprChecked, setGdprChecked] = useState(false)
+  const selectRef = useRef<HTMLSelectElement>(null)
 
   return (
-    <div className={styles.root} style={{ position: 'relative', top: 'auto', left: 'auto', transform: 'none', width: '100%' }}>
-      {/* Corners */}
-      <span className={`${styles.corner} ${styles.cornerTL}`} />
-      <span className={`${styles.corner} ${styles.cornerTR}`} />
-      <span className={`${styles.corner} ${styles.cornerBL}`} />
-      <span className={`${styles.corner} ${styles.cornerBR}`} />
+    <div className={styles.root}>
+      {/* Drag handle (mobile) */}
+      <div className={styles.dragHandle} />
 
-      {/* Close button */}
+      {/* Close button — circle with X */}
       {onClose && (
         <button
           onClick={onClose}
           className={styles.closeButton}
           type="button"
+          aria-label="Stäng"
         >
-          <XIcon style={{ width: '22px', height: '22px' }} />
+          <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" />
+            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" />
+          </svg>
         </button>
       )}
 
-      {/* Card — animated */}
       <div className={styles.grid}>
-        {/* Left: Contact Info */}
-        <div className={styles.left}>
-          <div>
-            <h1 className={styles.title}>
-              Kontakta oss
-            </h1>
-            <p className={styles.subtitle}>
-              Fyll i formuläret så återkommer vi inom 1 vardag.
-            </p>
-          </div>
+        {/* Vänster: Form */}
+        <div className={styles.formCol}>
+          <h1 className={styles.title}>Kontakta oss</h1>
+          <p className={styles.subtitle}>
+            Fyll i formuläret och boka en tid — vi återkommer med en analys av ert företag.
+          </p>
 
-          <div>
+          {/* Kontaktinfo — en rad */}
+          <div className={styles.contactRow}>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
               </div>
               <div>
@@ -101,123 +65,117 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             </div>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
               </div>
               <div>
                 <p className={styles.contactLabel}>Telefon</p>
-                <p className={styles.contactValue}>+46 8 123 45 67</p>
+                <p className={styles.contactValue}>+46 50-000 00 00</p>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right: Form */}
-        <div className={styles.form}>
-          {state?.success ? (
-            <div className={styles.success}>
-              <div className={styles.successIcon}>
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className={styles.successText}>Tack! Vi återkommer inom 1 vardag.</p>
-            </div>
-          ) : (
-            <form action={action}>
-              {/* Honeypot */}
-              <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
-              {/* Hidden service value */}
-              <input type="hidden" name="service" value={serviceValue} />
-
-              {/* Row: Name + Email */}
-              <div className={styles.formRow}>
-                <div className={styles.field}>
-                  <label className={styles.label}>Namn *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="Ditt namn"
-                    className={styles.input}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label className={styles.label}>Email *</label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="din@email.com"
-                    className={styles.input}
-                  />
-                </div>
-              </div>
-
-              {/* Company */}
+          {/* Form fields */}
+          <div className={styles.formFields}>
+            <div className={styles.formRow}>
               <div className={styles.field}>
-                <label className={styles.label}>Företag</label>
+                <label className={styles.label}>Namn *</label>
                 <input
                   type="text"
-                  name="company"
-                  placeholder="Företagsnamn"
+                  name="name"
+                  required
+                  placeholder="Ditt namn"
                   className={styles.input}
                 />
               </div>
-
-              {/* Service dropdown */}
-              <div className={styles.field} ref={dropdownRef}>
-                <label className={styles.label}>Vad behöver ni hjälp med?</label>
-                <div className={styles.dropdownContainer}>
-                  <button
-                    type="button"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className={`${styles.dropdownButton} ${serviceValue ? styles.dropdownButtonSelected : styles.dropdownButtonPlaceholder}`}
-                  >
-                    <span>{serviceValue ? services.find(s => s.value === serviceValue)?.label : "Välj tjänst..."}</span>
-                    <svg style={{ width: '13px', height: '13px', flexShrink: 0, transition: 'transform 150ms', transform: dropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {dropdownOpen && (
-                    <div className={styles.dropdown}>
-                      {services.map((s) => (
-                        <button
-                          key={s.value}
-                          type="button"
-                          onClick={() => { setServiceValue(s.value); setDropdownOpen(false) }}
-                          className={styles.dropdownItem}
-                        >
-                          {s.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Message */}
               <div className={styles.field}>
-                <label className={styles.label}>Beskrivning</label>
-                <textarea
-                  name="message"
+                <label className={styles.label}>Email *</label>
+                <input
+                  type="email"
+                  name="email"
                   required
-                  placeholder="Berätta om ert projekt..."
-                  rows={4}
-                  className={`${styles.input} ${styles.textarea}`}
+                  placeholder="din@email.com"
+                  className={styles.input}
                 />
               </div>
+            </div>
 
-              {(state as { error?: string } | null)?.error && (
-                <p className={styles.error}>
-                  {(state as { error: string }).error}
-                </p>
-              )}
+            <div className={styles.field}>
+              <label className={styles.label}>Företag *</label>
+              <input
+                type="text"
+                name="company"
+                required
+                placeholder="Företagsnamn"
+                className={styles.input}
+              />
+            </div>
 
-              <SubmitButton />
-            </form>
-          )}
+            <div className={styles.field}>
+              <label className={styles.label}>Vad behöver ni hjälp med?</label>
+              <select
+                ref={selectRef}
+                name="service"
+                value={serviceValue}
+                onChange={(e) => setServiceValue(e.target.value)}
+                className={`${styles.input} ${styles.select}`}
+              >
+                <option value="" disabled>Välj tjänst...</option>
+                {services.map((s) => (
+                  <option key={s.value} value={s.value}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>Beskrivning</label>
+              <textarea
+                name="message"
+                placeholder="Berätta kort om ert projekt..."
+                rows={2}
+                className={`${styles.input} ${styles.textarea}`}
+              />
+            </div>
+
+            {/* GDPR checkbox */}
+            <div className={styles.gdpr}>
+              <input
+                type="checkbox"
+                id="gdpr"
+                checked={gdprChecked}
+                onChange={(e) => setGdprChecked(e.target.checked)}
+                className={styles.gdprCheckbox}
+                required
+              />
+              <label htmlFor="gdpr" className={styles.gdprLabel}>
+                Jag godkänner att Eteya behandlar mina uppgifter enligt{" "}
+                <a href="/sv/integritetspolicy" className={styles.gdprLink}>
+                  integritetspolicyn
+                </a>
+              </label>
+            </div>
+          </div>
+
+          {/* ROI badge */}
+          <div className={styles.roiBadge}>
+            <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
+            <span className={styles.roiBadgeValue}>390 000 kr/år</span>
+          </div>
+        </div>
+
+        {/* Höger: Cal.com */}
+        <div className={styles.calCol}>
+          <div className={styles.calHeader}>
+            <div className={styles.calTitle}>Välj en tid</div>
+          </div>
+          <div className={styles.calEmbed}>
+            <Cal
+              calLink="filip-thai-8l9zgr/test"
+              style={{ width: "100%", height: "100%" }}
+              config={{ theme: "dark" }}
+            />
+          </div>
         </div>
       </div>
     </div>

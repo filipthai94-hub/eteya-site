@@ -596,10 +596,10 @@ const hasPlayed = useRef(false)
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 24px 16px;
-          background: rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          padding: 24px;
+          background: rgba(0, 0, 0, 0.75);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
         }
         .fcta-modal-panel {
           position: relative;
@@ -965,11 +965,13 @@ const hasPlayed = useRef(false)
           .fcta-footer-icon { width: 16px; height: 16px; }
           .fcta-border-glow::before { width: 60px; }
           .fcta-modal-overlay {
-            padding: 24px 16px;
+            padding: 0;
+            align-items: flex-end;
           }
           .fcta-modal-panel {
-            width: calc(100% - 32px);
-            padding: 48px 28px 36px;
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -1074,7 +1076,7 @@ const hasPlayed = useRef(false)
 
       {isModalMounted && createPortal(
         <div ref={overlayRef} className="fcta-modal-overlay" onClick={(event) => event.target === event.currentTarget && closeModal()}>
-          <div ref={modalPanelRef} style={{ position: 'relative', width: '100%', maxWidth: '1100px' }}>
+          <div ref={modalPanelRef} style={{ position: 'relative', width: '100%', maxWidth: '1100px', maxHeight: 'calc(100dvh - 48px)' }}>
             <ContactCard onClose={closeModal} />
           </div>
         </div>,

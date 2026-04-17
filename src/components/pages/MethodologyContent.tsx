@@ -126,6 +126,7 @@ export default function MethodologyContent() {
       <MethodologyHeroClient
         title={tHero('title')}
         subtitle={tHero('subtitle')}
+        locale={locale}
       />
 
       {/* HUR VI RÄKNAR — metodikkInner layout */}
@@ -188,13 +189,9 @@ export default function MethodologyContent() {
 
       {/* FORMEL */}
       <section className={styles.section} data-reveal>
-        <div className={styles.metodikInner}>
-          <div className={styles.metodikLeft}>
-            <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>{t('sections.formulaTitle')}</h2>
-            </div>
-          </div>
-          <div className={styles.metodikRight}>
+        <div className={styles.inner}>
+          <h2 className={styles.sectionTitle}>{t('sections.formulaTitle')}</h2>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '48px' }}>
             <FormulaCircles />
           </div>
         </div>
@@ -202,44 +199,38 @@ export default function MethodologyContent() {
 
       {/* TELESTORE BREAKDOWN — REN LISTA, INGA BOXAR */}
       <section className={styles.section} data-reveal>
-        <div className={styles.metodikInner}>
-          <div className={styles.metodikLeft}>
-            <div className={styles.metodikLeftSticky}>
-              <h3 className={styles.subsectionTitle}>Så här räknade vi på Telestore</h3>
+        <div className={`${styles.inner} ${styles.innerTight}`}>
+          <h3 className={styles.subsectionTitle}>Så här räknade vi på Telestore</h3>
+          <div className={styles.breakdownList}>
+            <div className={styles.breakdownRow}>
+              <span>26 timmar/vecka (faktisk tidsbesparing)</span>
+              <span className={styles.op}>×</span>
+              <span>52 veckor</span>
+              <span className={styles.op}>×</span>
+              <span>350 kr/h</span>
             </div>
-          </div>
-          <div className={styles.metodikRight}>
-            <div className={styles.breakdownList}>
-              <div className={styles.breakdownRow}>
-                <span>26 timmar/vecka (faktisk tidsbesparing)</span>
-                <span className={styles.op}>×</span>
-                <span>52 veckor</span>
-                <span className={styles.op}>×</span>
-                <span>350 kr/h</span>
-              </div>
-              <div className={styles.breakdownTotal}>
-                = 473 200 kr/år (teoretiskt max)
-              </div>
-              
-              <div className={styles.breakdownRow}>
-                <span>× 0.65 (år 1 ramp-up)</span>
-              </div>
-              <div className={styles.breakdownTotal}>
-                = 307 580 kr/år (tidsbesparing, år 1)
-              </div>
-              
-              <div className={styles.breakdownRow}>
-                <span>+ 26 400 kr/år (eliminerade felkostnader)</span>
-              </div>
-              <div className={styles.breakdownTotal}>
-                = ~334 000 kr/år (totalt, år 1)
-              </div>
-              
-              <div className={styles.breakdownNote}>
-                <strong>År 2+ (full effekt):</strong> 26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år
-                <br />
-                Telestores faktiska resultat: <strong>~390 000 kr/år</strong> (konservativt räknat)
-              </div>
+            <div className={styles.breakdownTotal}>
+              = 473 200 kr/år (teoretiskt max)
+            </div>
+            
+            <div className={styles.breakdownRow}>
+              <span>× 0.65 (år 1 ramp-up)</span>
+            </div>
+            <div className={styles.breakdownTotal}>
+              = 307 580 kr/år (tidsbesparing, år 1)
+            </div>
+            
+            <div className={styles.breakdownRow}>
+              <span>+ 26 400 kr/år (eliminerade felkostnader)</span>
+            </div>
+            <div className={styles.breakdownTotal}>
+              = ~334 000 kr/år (totalt, år 1)
+            </div>
+            
+            <div className={styles.breakdownNote}>
+              <strong>År 2+ (full effekt):</strong> 26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år
+              <br />
+              Telestores faktiska resultat: <strong>~390 000 kr/år</strong> (konservativt räknat)
             </div>
           </div>
         </div>
@@ -247,53 +238,41 @@ export default function MethodologyContent() {
 
       {/* KONSERVATIVA ANTAGANDEN */}
       <section className={styles.section} data-reveal>
-        <div className={styles.metodikInner}>
-          <div className={styles.metodikLeft}>
-            <div className={styles.metodikLeftSticky}>
-              <h3 className={styles.subsectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h3>
-            </div>
-          </div>
-          <div className={styles.metodikRight}>
-            <div className={styles.conservativeGrid}>
-              {conservativeItems.map((item, index) => {
-                const { title, text } = splitFact(item)
-                return (
-                  <article key={index} className={styles.sourceCard}>
-                    {renderCounter(index + 1, conservativeItems.length)}
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                  </article>
-                )
-              })}
-            </div>
+        <div className={styles.inner}>
+          <h2 className={styles.sectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h2>
+          <div className={styles.conservativeGrid}>
+            {conservativeItems.map((item, index) => {
+              const { title, text } = splitFact(item)
+              return (
+                <article key={index} className={styles.sourceCard}>
+                  {renderCounter(index + 1, conservativeItems.length)}
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
 
       {/* FOOTNOTES */}
       <section className={styles.section}>
-        <div className={styles.metodikInner}>
-          <div className={styles.metodikLeft}>
-            <div className={styles.metodikLeftSticky}>
-              <h3 className={styles.subsectionTitle}>Källor</h3>
-            </div>
-          </div>
-          <div className={styles.metodikRight}>
-            <ol className={styles.footnoteList}>
-              {sourceItems.map((source, index) => (
-                <li key={index}>
-                  <span className={styles.footnoteNum}>[{index + 1}]</span>
-                  {source.url ? (
-                    <a href={source.url} target="_blank" rel="nofollow noopener noreferrer">
-                      {source.text}
-                    </a>
-                  ) : (
-                    source.text
-                  )}
-                </li>
-              ))}
-            </ol>
-          </div>
+        <div className={styles.inner}>
+          <h3 className={styles.subsectionTitle}>Källor</h3>
+          <ol className={styles.footnoteList}>
+            {sourceItems.map((source, index) => (
+              <li key={index}>
+                <span className={styles.footnoteNum}>[{index + 1}]</span>
+                {source.url ? (
+                  <a href={source.url} target="_blank" rel="nofollow noopener noreferrer">
+                    {source.text}
+                  </a>
+                ) : (
+                  source.text
+                )}
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 

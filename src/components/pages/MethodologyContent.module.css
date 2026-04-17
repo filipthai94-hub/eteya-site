@@ -17,6 +17,11 @@
   padding: 120px 62px;
 }
 
+/* För sektioner som hör ihop med föregående — mindre padding-top */
+.innerTight {
+  padding-top: 48px; /* Matchar .subsectionTitle margin — ger tightare gap */
+}
+
 /* FÖRSTA .inner/.metodikInner EFTER HERO — extra padding-top SOM CASE STUDY */
 .page > .inner:first-child,
 .section:first-child .inner,
@@ -27,6 +32,10 @@
 @media (max-width: 767px) {
   .inner {
     padding: 60px 24px;
+  }
+  
+  .innerTight {
+    padding-top: 24px; /* Mindre på mobil */
   }
   
   .metodikInner {
@@ -296,7 +305,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2.5rem; /* 40px — matchar Telestore */
   margin-bottom: 35px;
 }
 
@@ -367,15 +376,16 @@
   word-break: keep-all;
   overflow-wrap: normal;
   hyphens: none;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.0; /* Matchar "Our Tech" på startsidan */
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .conservativeGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 48px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 2.5rem;
+  margin-top: clamp(1.3rem, 1rem + 1vw, 2.2rem);
 }
 
 .ctaSplit {
@@ -531,6 +541,23 @@
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
+  .sectionTitle {
+    white-space: normal;
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    line-height: 1;
+  }
+  
+  .counter {
+    gap: 14px;
+    margin-bottom: 24px;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .counterLines {
+    gap: 10px;
+  }
+  
   .cardsGrid,
   .sourcesStatsGrid,
   .sourcesGrid {
