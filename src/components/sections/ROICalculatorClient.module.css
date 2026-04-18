@@ -833,6 +833,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   touch-action: none;
+  min-height: 0;
 }
 
 .modalOverlayOpen {
