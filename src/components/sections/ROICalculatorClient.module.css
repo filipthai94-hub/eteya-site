@@ -11,7 +11,8 @@
 .root {
   background: #080808;
   min-height: 100vh;
-  padding: 120px 62px;
+  padding: 60px 20px;
+  padding-bottom: 60px;
   color: #ffffff;
   font-family: 'DM Sans', sans-serif;
 }
@@ -27,10 +28,10 @@
 
 .h1 {
   font-family: 'DM Sans', sans-serif;
-  font-size: 98px;
+  font-size: 40px;
   font-weight: 500;
-  line-height: 98px;
-  letter-spacing: -1.96px;
+  line-height: 44px;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #ffffff;
   margin: 0 0 24px 0;
@@ -65,9 +66,9 @@
 
 /* ── Grid ─────────────────────────────────────────────────────── */
 .grid {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   align-items: start;
 }
 
@@ -86,7 +87,7 @@
   border-right: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   border-radius: 16px;
-  padding: 40px;
+  padding: 20px 16px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
 }
 
@@ -184,7 +185,7 @@
 .procHdr {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
   padding: 14px 16px;
   background: #080808;
@@ -229,6 +230,7 @@
 
 .procName {
   flex: 1;
+  min-width: 0;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -322,9 +324,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 .results {
-  position: sticky;
-  top: 40px;
-  align-self: start;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -407,8 +407,8 @@
 /* Donut wrap — exakt spec från TelestoreCaseStudy: 260×260px */
 .donutWrap {
   position: relative;
-  width: 220px;
-  height: 220px;
+  width: clamp(160px, 50vw, 220px);
+  aspect-ratio: 1;
   margin: 0 auto 24px;
 }
 
@@ -500,7 +500,8 @@
 
 .barSvg {
   width: 100%;
-  height: 130px;
+  height: auto;
+  max-width: 100%;
   overflow: visible;
   margin-bottom: 4px;
 }
@@ -575,14 +576,15 @@
   border-right: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 12px 32px;
+  padding: 12px 16px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.38);
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
 }
 
@@ -729,132 +731,88 @@
 }
 
 /* ── Responsive ───────────────────────────────────────────────── */
-@media (max-width: 1200px) {
+/* Mobile-first: base styles are for mobile (390px), then scale up */
+
+@media (min-width: 768px) {
+  /* Tablet */
   .root {
     padding: 80px 32px;
   }
   .h1 {
-    font-size: 72px;
-    line-height: 72px;
+    font-size: 60px;
+    line-height: 64px;
   }
+  .grid {
+    display: flex;
+    flex-direction: column-reverse; /* Results under inputs on tablet */
+    gap: 32px;
+  }
+  .card {
+    padding: 32px 24px;
+  }
+  .snapshotBar {
+    padding: 32px 24px;
+  }
+  .donutSection,
+  .barsSection,
+  .socialProof,
+  .methodology {
+    padding: 32px 24px;
+  }
+  .ctaArea {
+    padding: 32px 24px 36px;
+  }
+  .trustRow {
+    padding: 12px 24px;
+  }
+}
+
+@media (min-width: 1000px) {
+  /* Desktop */
+  .root {
+    padding: 120px 62px;
+  }
+  .h1 {
+    font-size: 98px;
+    line-height: 98px;
+    letter-spacing: -1.96px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 48px;
+  }
+  .results {
+    position: sticky;
+    top: 40px;
+    align-self: start;
+  }
+  .card {
+    padding: 40px;
+  }
+  .snapshotBar {
+    padding: 40px 32px;
+  }
+  .donutSection,
+  .barsSection,
+  .socialProof,
+  .methodology {
+    padding: 32px 32px;
+  }
+  .ctaArea {
+    padding: 24px 32px 28px;
+  }
+  .trustRow {
+    padding: 12px 32px;
+    white-space: nowrap;
+    word-break: normal;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Wide desktop */
   .grid {
     grid-template-columns: 65% 35%;
     gap: 32px;
-  }
-}
-
-@media (max-width: 1000px) {
-  .grid {
-    grid-template-columns: 1fr;
-    display: flex;
-    flex-direction: column-reverse; /* Results först! */
-  }
-  .results {
-    position: static;
-  }
-}
-
-@media (max-width: 768px) {
-  .root {
-    padding: 60px 20px;
-    padding-bottom: 60px;
-  }
-  .h1 {
-    font-size: 44px;
-    line-height: 46px;
-    letter-spacing: -0.02em;
-  }
-  .sub {
-    font-size: clamp(0.875rem, 2vw, 1rem);
-  }
-  
-  /* Stackad layout på mobil */
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  
-  /* Card padding - reducerad för mobil */
-  .card {
-    padding: 24px 20px;
-  }
-  .cardTitle {
-    font-size: clamp(0.75rem, 2vw, 0.875rem);
-  }
-  .cardHint {
-    font-size: clamp(0.8rem, 2vw, 0.875rem);
-  }
-  
-  /* Section labels - responsive */
-  .sectionLabel {
-    font-size: clamp(0.68rem, 2vw, 0.75rem);
-  }
-  
-  /* Snapshot bar - reducerad padding */
-  .snapshotBar {
-    padding: 24px 16px;
-  }
-  
-  /* Donut + Legend - reducerad padding */
-  .donutSection {
-    padding: 24px 20px;
-  }
-  
-  /* Bars - reducerad padding */
-  .barsSection {
-    padding: 24px 20px;
-  }
-  
-  /* Metodologi - reducerad padding */
-  .methodology {
-    padding: 24px 20px;
-  }
-  
-  /* Results - inte längre sticky */
-  .results {
-    position: static;
-  }
-  
-  /* CTA - naturlig plats (inte sticky) */
-  .ctaArea {
-    padding: 24px 20px 28px;
-  }
-  
-  /* Touch targets — minsta 44px */
-  .range {
-    height: 6px;
-  }
-  .range::-webkit-slider-thumb {
-    width: 24px;
-    height: 24px;
-  }
-  .range::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .procHdr {
-    padding: 16px;
-    min-height: 44px;
-  }
-  
-  .procChk {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .switch {
-    width: 48px;
-    height: 28px;
-  }
-  
-  .methodologyToggle {
-    min-height: 48px;
-    padding: 14px 16px;
-  }
-  
-  .formula {
-    font-size: 0.8rem;
-    padding: 10px 12px;
   }
 }
