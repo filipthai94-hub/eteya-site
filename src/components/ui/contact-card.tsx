@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { XIcon } from "lucide-react"
 import Cal from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
@@ -12,7 +12,6 @@ const services = [
   { value: "annat", label: "Annat" },
 ]
 
-// ROI data type — matches what ROICalculatorClient sends
 export interface ROIData {
   annualSavings: number
   totalHours: number
@@ -45,12 +44,13 @@ function fmtK(n: number) {
 }
 
 export default function ContactCard({ onClose, roiData }: ContactCardProps) {
+  const [step, setStep] = useState<1 | 2>(1)
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
     service: '',
-    description: '',
   })
   const [gdprChecked, setGdprChecked] = useState(false)
 
@@ -58,10 +58,36 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  // Form validation — step 1 is valid when name + email + GDPR are filled
+  const isStep1Valid = formData.name.trim().length > 0 && formData.email.trim().length > 0 && gdprChecked
+
+  // Esc key closes modal
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose?.()
+    }
+    document.addEventListener('keydown', handleEsc)
+    return () => document.removeEventListener('keydown', handleEsc)
+  }, [onClose])
+
+  // Navigate to step 2
+  const goToStep2 = useCallback(() => {
+    if (!isStep1Valid) return
+    setDirection('forward')
+    setStep(2)
+  }, [isStep1Valid])
+
+  // Navigate back to step 1
+  const goToStep1 = useCallback(() => {
+    setDirection('backward')
+    setStep(1)
+  }, [])
+
   // Build Cal.com config with conditional metadata
   const calConfig = useMemo(() => {
     const base: Record<string, string> = {
       theme: "dark",
+      brandColor: "#C8FF00",
       "metadata[source]": roiData ? "roi-calculator" : "footer-cta",
     }
 
@@ -72,7 +98,6 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
     // Form metadata
     if (formData.company) base["metadata[company]"] = formData.company
     if (formData.service) base["metadata[service]"] = formData.service
-    if (formData.description) base["metadata[description]"] = formData.description
 
     // ROI-specific metadata — only when roiData exists
     if (roiData) {
@@ -98,7 +123,7 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
     }
 
     return base
-  }, [roiData, formData.name, formData.email, formData.company, formData.service, formData.description])
+  }, [roiData, formData.name, formData.email, formData.company, formData.service])
 
   return (
     <div className={styles.root}>
@@ -120,14 +145,27 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
         </button>
       )}
 
-      <div className={styles.grid}>
-        {/* Vänster: Form */}
+      {/* Progress indicator */}
+      <div className={styles.progress}>
+        <div className={styles.progressStep}>
+          <div className={`${styles.progressDot} ${step >= 1 ? styles.progressDotActive : ''}`} />
+          <span className={styles.progressLabel}>Uppgifter</span>
+        </div>
+        <div className={styles.progressLine} />
+        <div className={styles.progressStep}>
+          <div className={`${styles.progressDot} ${step >= 2 ? styles.progressDotActive : ''}`} />
+          <span className={styles.progressLabel}>Boka tid</span>
+        </div>
+      </div>
+
+      {/* Step 1: Form */}
+      <div className={`${styles.stepContent} ${step === 1 ? styles.stepVisible : styles.stepHidden} ${direction === 'forward' ? styles.slideLeft : styles.slideRight}`}>
         <div className={styles.formCol}>
           <h1 className={styles.title}>Kontakta oss</h1>
           <p className={styles.subtitle}>
             {roiData
-              ? "Din ROI-prognos sparas automatiskt. Fyll i formuläret och boka en tid."
-              : "Fyll i formuläret och boka en tid — vi återkommer med en analys av ert företag."}
+              ? "Din ROI-prognos sparas automatiskt. Fyll i och boka en tid."
+              : "Fyll i och boka en tid — vi återkommer med en analys av ert företag."}
           </p>
 
           {/* Kontaktinfo */}
@@ -157,7 +195,7 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
             </div>
           </div>
 
-          {/* Form fields — controlled inputs */}
+          {/* Form fields */}
           <div className={styles.formFields}>
             <div className={styles.formRow}>
               <div className={styles.field}>
@@ -211,17 +249,6 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
               </select>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>Beskrivning</label>
-              <textarea
-                placeholder="Berätta kort om ert projekt..."
-                rows={2}
-                className={`${styles.input} ${styles.textarea}`}
-                value={formData.description}
-                onChange={(e) => updateField('description', e.target.value)}
-              />
-            </div>
-
             {/* GDPR checkbox */}
             <div className={styles.gdpr}>
               <input
@@ -273,10 +300,36 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
               </div>
             </div>
           )}
-        </div>
 
-        {/* Höger: Cal.com */}
+          {/* CTA button */}
+          <button
+            className={`${styles.ctaButton} ${!isStep1Valid ? styles.ctaButtonDisabled : ''}`}
+            onClick={goToStep2}
+            disabled={!isStep1Valid}
+            type="button"
+          >
+            Välj tid
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 8 }}>
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          {/* Trust copy */}
+          <p className={styles.trustCopy}>
+            Vi svarar inom 24 timmar · Dina uppgifter är säkra
+          </p>
+        </div>
+      </div>
+
+      {/* Step 2: Calendar */}
+      <div className={`${styles.stepContent} ${step === 2 ? styles.stepVisible : styles.stepHidden} ${direction === 'forward' ? styles.slideRight : styles.slideLeft}`}>
         <div className={styles.calCol}>
+          <button className={styles.backButton} onClick={goToStep1} type="button">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginRight: 6 }}>
+              <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Tillbaka
+          </button>
           <div className={styles.calHeader}>
             <div className={styles.calTitle}>Välj en tid</div>
           </div>

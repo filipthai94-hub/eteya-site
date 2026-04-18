@@ -1069,7 +1069,7 @@ const hasPlayed = useRef(false)
 
       {isModalMounted && createPortal(
         <div ref={overlayRef} className="fcta-modal-overlay" onClick={(event) => event.target === event.currentTarget && closeModal()}>
-          <div ref={modalPanelRef} style={{ position: 'relative', width: '100%', maxWidth: '1100px', maxHeight: 'calc(100dvh - 48px)' }}>
+          <div ref={modalPanelRef} style={{ position: 'relative', width: '100%', maxWidth: '680px', maxHeight: 'calc(100dvh - 48px)' }}>
             <ContactCard onClose={closeModal} />
           </div>
         </div>,

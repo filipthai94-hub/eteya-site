@@ -1,4 +1,4 @@
-/* ContactCard CSS Module — Matched to preview-modal.html design */
+/* ContactCard CSS Module — Multi-step Premium Design */
 
 /* ============================================
    ANIMATIONS
@@ -27,7 +27,7 @@
 .root {
   position: relative;
   width: 100%;
-  max-width: 1100px;
+  max-width: 640px;
   max-height: calc(100dvh - 48px);
   font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
   background: #0d0d0d;
@@ -95,7 +95,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.15s ease-out;
   padding: 0;
 }
 
@@ -114,35 +114,107 @@
 }
 
 /* ============================================
-   GRID LAYOUT
+   PROGRESS INDICATOR
    ============================================ */
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  flex: 1;
-  min-height: 0;
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 40px 0;
   position: relative;
   z-index: 1;
 }
 
+.progressStep {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.progressDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.progressDotActive {
+  background: #C8FF00;
+  box-shadow: 0 0 8px rgba(200, 255, 0, 0.3);
+}
+
+.progressLine {
+  width: 24px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.progressLabel {
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
 /* ============================================
-   LEFT: FORM COLUMN
+   STEP CONTENT (slide transitions)
+   ============================================ */
+
+.stepContent {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.stepContent::-webkit-scrollbar { width: 4px; }
+.stepContent::-webkit-scrollbar-track { background: transparent; }
+.stepContent::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+
+.stepVisible {
+  display: block;
+  animation: stepIn 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stepHidden {
+  display: none;
+}
+
+.slideLeft {
+  --slide-from: 24px;
+}
+
+.slideRight {
+  --slide-from: -24px;
+}
+
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--slide-from, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   FORM COLUMN (Step 1)
    ============================================ */
 
 .formCol {
-  padding: 40px 40px 32px;
+  padding: 20px 40px 32px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  min-height: 0;
 }
-
-.formCol::-webkit-scrollbar { width: 4px; }
-.formCol::-webkit-scrollbar-track { background: transparent; }
-.formCol::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 
 /* ============================================
    FORM TITLE
@@ -150,8 +222,8 @@
 
 .title {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -161,6 +233,7 @@
 }
 
 .subtitle {
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
   margin: 0 0 24px 0;
@@ -168,7 +241,7 @@
 }
 
 /* ============================================
-   CONTACT INFO ROW (email + phone side by side)
+   CONTACT INFO ROW
    ============================================ */
 
 .contactRow {
@@ -240,6 +313,7 @@
 }
 
 .label {
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
   margin-bottom: 6px;
@@ -257,13 +331,14 @@
   font-size: 14px;
   line-height: 1.4;
   color: #fff;
-  transition: border-color 0.3s;
+  transition: border-color 0.15s ease-out;
   outline: none;
   resize: none;
 }
 
 .input:focus {
-  border-bottom-color: #C8FF00;
+  border-bottom-color: rgba(200, 255, 0, 0.4);
+  box-shadow: 0 1px 0 0 rgba(200, 255, 0, 0.15);
 }
 
 .input::placeholder {
@@ -330,9 +405,11 @@
    ============================================ */
 
 .roiBadge {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: baseline;
   gap: 12px;
@@ -404,23 +481,95 @@
 }
 
 /* ============================================
-   RIGHT: CAL.COM COLUMN
+   CTA BUTTON
+   ============================================ */
+
+.ctaButton {
+  width: 100%;
+  padding: 14px 24px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 12px;
+  background: #C8FF00;
+  color: #0d0d0d;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: filter 0.15s ease-out, box-shadow 0.15s ease-out, background 0.15s ease-out;
+}
+
+.ctaButton:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 4px 20px rgba(200, 255, 0, 0.15);
+}
+
+.ctaButton:active:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.ctaButtonDisabled {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: none;
+}
+
+.ctaButtonDisabled svg {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   TRUST COPY
+   ============================================ */
+
+.trustCopy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  margin: 12px 0 0 0;
+}
+
+/* ============================================
+   BACK BUTTON (Step 2)
+   ============================================ */
+
+.backButton {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 16px;
+  transition: color 0.15s ease-out;
+}
+
+.backButton:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================
+   CAL.COM COLUMN (Step 2)
    ============================================ */
 
 .calCol {
-  padding: 40px 40px 32px;
+  padding: 20px 40px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.015);
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  min-height: 0;
 }
-
-.calCol::-webkit-scrollbar { width: 4px; }
-.calCol::-webkit-scrollbar-track { background: transparent; }
-.calCol::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 
 .calHeader {
   width: 100%;
@@ -440,11 +589,144 @@
 .calEmbed {
   width: 100%;
   flex: 1;
-  min-height: 0;
+  min-height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 /* ============================================
-   ERROR / SUCCESS
+   RESPONSIVE: MOBILE (≤690px) — Bottom sheet
+   ============================================ */
+
+@media (max-width: 690px) {
+  .root {
+    max-width: 100%;
+    max-height: 95dvh;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+  }
+
+  .dragHandle {
+    display: block;
+  }
+
+  .progress {
+    padding: 16px 20px 0;
+  }
+
+  .formCol {
+    padding: 16px 20px 24px;
+  }
+
+  .calCol {
+    padding: 16px 20px 24px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .contactRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+
+  .formFields {
+    gap: 14px;
+  }
+
+  .roiBadgeValue {
+    font-size: 20px;
+  }
+
+  .calEmbed {
+    min-height: 350px;
+  }
+
+  /* Sticky CTA on mobile */
+  .formCol {
+    padding-bottom: 100px; /* space for sticky CTA */
+  }
+  .ctaButton {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin-top: 16px;
+    border-radius: 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  }
+  .trustCopy {
+    position: sticky;
+    bottom: 52px;
+    z-index: 10;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: SMALL MOBILE (≤400px)
+   ============================================ */
+
+@media (max-width: 400px) {
+  .formCol {
+    padding: 12px 16px 20px;
+  }
+  .calCol {
+    padding: 12px 16px 20px;
+  }
+  .title {
+    font-size: 18px;
+  }
+  .progress {
+    padding: 12px 16px 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: LANDSCAPE (max-height: 600px)
+   ============================================ */
+
+@media (max-height: 600px) {
+  .root {
+    max-height: calc(100dvh - 16px);
+  }
+  .formCol {
+    padding-top: 12px;
+    padding-bottom: 16px;
+  }
+  .formFields {
+    gap: 12px;
+  }
+  .subtitle {
+    display: none;
+  }
+  .contactRow {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+  .progress {
+    padding-top: 12px;
+  }
+  .calEmbed {
+    min-height: 280px;
+  }
+}
+
+/* ============================================
+   ERROR / SUCCESS (kept for future use)
    ============================================ */
 
 .error {
@@ -484,120 +766,4 @@
   font-size: 16px;
   font-weight: 500;
   margin: 0;
-}
-
-/* ============================================
-   RESPONSIVE: TABLET (690-1099px)
-   ============================================ */
-
-@media (max-width: 1099px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .formCol {
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 32px 32px 24px;
-  }
-  .calCol {
-    padding: 24px 32px 32px;
-  }
-  .root {
-    max-height: calc(100dvh - 32px);
-  }
-}
-
-/* ============================================
-   RESPONSIVE: MOBILE (≤690px) — Bottom sheet
-   ============================================ */
-
-@media (max-width: 690px) {
-  .root {
-    max-width: 100%;
-    max-height: 95dvh;
-    border-radius: 20px 20px 0 0;
-    border-bottom: none;
-  }
-
-  .dragHandle {
-    display: block;
-  }
-
-  .formCol {
-    padding: 24px 20px 20px;
-  }
-
-  .calCol {
-    padding: 20px 20px 28px;
-  }
-
-  .formRow {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .subtitle {
-    font-size: 12px;
-    margin-bottom: 16px;
-  }
-
-  .contactRow {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-  }
-
-  .formFields {
-    gap: 14px;
-  }
-
-  .roiBadgeValue {
-    font-size: 20px;
-  }
-}
-
-/* ============================================
-   RESPONSIVE: SMALL MOBILE (≤400px)
-   ============================================ */
-
-@media (max-width: 400px) {
-  .formCol {
-    padding: 20px 16px 16px;
-  }
-  .calCol {
-    padding: 16px 16px 24px;
-  }
-  .title {
-    font-size: 18px;
-  }
-}
-
-/* ============================================
-   RESPONSIVE: LANDSCAPE (max-height: 600px)
-   ============================================ */
-
-@media (max-height: 600px) {
-  .root {
-    max-height: calc(100dvh - 16px);
-  }
-  .formCol,
-  .calCol {
-    padding-top: 20px;
-    padding-bottom: 16px;
-  }
-  .formFields {
-    gap: 12px;
-  }
-  .subtitle {
-    display: none;
-  }
-  .contactRow {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-  }
 }
