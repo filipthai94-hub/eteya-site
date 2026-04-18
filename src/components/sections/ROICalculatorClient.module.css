@@ -847,6 +847,7 @@
   max-height: calc(100dvh - 48px);
   overflow-y: auto;
   border-radius: 24px;
+  clip-path: inset(0 round 24px);
   transform: translateY(24px);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
