@@ -336,6 +336,7 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .roiBadgeLabel {
@@ -349,8 +350,57 @@
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #fff;
+  color: #C8FF00;
   line-height: 1;
+}
+
+.roiBadgeDetails {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.roiDetailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.roiDetailLabel {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.roiDetailValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.roiProcesses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.roiProcessTag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background: rgba(200, 255, 0, 0.03);
 }
 
 /* ============================================

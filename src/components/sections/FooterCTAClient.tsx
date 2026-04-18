@@ -177,13 +177,6 @@ const hasPlayed = useRef(false)
     setIsModalMounted(true)
   }, [])
 
-  /* Listen for open-contact-modal custom event (from ROI calculator CTA etc.) */
-  useEffect(() => {
-    const handler = () => openModal()
-    window.addEventListener('open-contact-modal', handler)
-    return () => window.removeEventListener('open-contact-modal', handler)
-  }, [openModal])
-
   useEffect(() => {
     if (!sectionRef.current) return
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useMemo } from "react"
 import { XIcon } from "lucide-react"
 import Cal from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
@@ -12,21 +12,100 @@ const services = [
   { value: "annat", label: "Annat" },
 ]
 
-interface ContactCardProps {
-  onClose?: () => void
+// ROI data type — matches what ROICalculatorClient sends
+export interface ROIData {
+  annualSavings: number
+  totalHours: number
+  fte: number
+  roi: number
+  payback: number | null
+  implCost?: number
+  hourlyRate?: number
+  year1?: number
+  year2?: number
+  year3?: number
+  processes?: {
+    key: string
+    label: string
+    hoursPerWeek: number
+    automationRate: number
+    annualSavings: number
+  }[]
 }
 
-export default function ContactCard({ onClose }: ContactCardProps) {
-  const [serviceValue, setServiceValue] = useState("")
+interface ContactCardProps {
+  onClose?: () => void
+  roiData?: ROIData | null
+}
+
+function fmtK(n: number) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace('.', ',') + ' mkr'
+  if (n >= 1_000) return Math.round(n / 1_000) + ' tkr'
+  return Math.round(n).toLocaleString('sv-SE') + ' kr'
+}
+
+export default function ContactCard({ onClose, roiData }: ContactCardProps) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    service: '',
+    description: '',
+  })
   const [gdprChecked, setGdprChecked] = useState(false)
-  const selectRef = useRef<HTMLSelectElement>(null)
+
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  // Build Cal.com config with conditional metadata
+  const calConfig = useMemo(() => {
+    const base: Record<string, string> = {
+      theme: "dark",
+      "metadata[source]": roiData ? "roi-calculator" : "footer-cta",
+    }
+
+    // Prefill name + email from form
+    if (formData.name) base.name = formData.name
+    if (formData.email) base.email = formData.email
+
+    // Form metadata
+    if (formData.company) base["metadata[company]"] = formData.company
+    if (formData.service) base["metadata[service]"] = formData.service
+    if (formData.description) base["metadata[description]"] = formData.description
+
+    // ROI-specific metadata — only when roiData exists
+    if (roiData) {
+      base["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
+      base["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
+      base["metadata[roi]"] = String(Math.round(roiData.roi))
+      if (roiData.payback) base["metadata[payback]"] = String(roiData.payback)
+      if (roiData.implCost) base["metadata[implCost]"] = String(Math.round(roiData.implCost))
+      if (roiData.hourlyRate) base["metadata[hourlyRate]"] = String(roiData.hourlyRate)
+      if (roiData.year1) base["metadata[year1]"] = String(Math.round(roiData.year1))
+      if (roiData.year2) base["metadata[year2]"] = String(Math.round(roiData.year2))
+      if (roiData.year3) base["metadata[year3]"] = String(Math.round(roiData.year3))
+      if (roiData.processes?.length) {
+        base["metadata[roiProcesses]"] = JSON.stringify(
+          roiData.processes.map(p => ({
+            k: p.key,
+            l: p.label,
+            h: p.hoursPerWeek,
+            r: p.automationRate,
+          }))
+        )
+      }
+    }
+
+    return base
+  }, [roiData, formData.name, formData.email, formData.company, formData.service, formData.description])
 
   return (
     <div className={styles.root}>
       {/* Drag handle (mobile) */}
       <div className={styles.dragHandle} />
 
-      {/* Close button — circle with X */}
+      {/* Close button */}
       {onClose && (
         <button
           onClick={onClose}
@@ -46,10 +125,12 @@ export default function ContactCard({ onClose }: ContactCardProps) {
         <div className={styles.formCol}>
           <h1 className={styles.title}>Kontakta oss</h1>
           <p className={styles.subtitle}>
-            Fyll i formuläret och boka en tid — vi återkommer med en analys av ert företag.
+            {roiData
+              ? "Din ROI-prognos sparas automatiskt. Fyll i formuläret och boka en tid."
+              : "Fyll i formuläret och boka en tid — vi återkommer med en analys av ert företag."}
           </p>
 
-          {/* Kontaktinfo — en rad */}
+          {/* Kontaktinfo */}
           <div className={styles.contactRow}>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
@@ -76,27 +157,29 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             </div>
           </div>
 
-          {/* Form fields */}
+          {/* Form fields — controlled inputs */}
           <div className={styles.formFields}>
             <div className={styles.formRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Namn *</label>
                 <input
                   type="text"
-                  name="name"
                   required
                   placeholder="Ditt namn"
                   className={styles.input}
+                  value={formData.name}
+                  onChange={(e) => updateField('name', e.target.value)}
                 />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Email *</label>
                 <input
                   type="email"
-                  name="email"
                   required
                   placeholder="din@email.com"
                   className={styles.input}
+                  value={formData.email}
+                  onChange={(e) => updateField('email', e.target.value)}
                 />
               </div>
             </div>
@@ -105,20 +188,20 @@ export default function ContactCard({ onClose }: ContactCardProps) {
               <label className={styles.label}>Företag *</label>
               <input
                 type="text"
-                name="company"
                 required
                 placeholder="Företagsnamn"
                 className={styles.input}
+                value={formData.company}
+                onChange={(e) => updateField('company', e.target.value)}
               />
             </div>
 
             <div className={styles.field}>
               <label className={styles.label}>Vad behöver ni hjälp med?</label>
               <select
-                ref={selectRef}
                 name="service"
-                value={serviceValue}
-                onChange={(e) => setServiceValue(e.target.value)}
+                value={formData.service}
+                onChange={(e) => updateField('service', e.target.value)}
                 className={`${styles.input} ${styles.select}`}
               >
                 <option value="" disabled>Välj tjänst...</option>
@@ -131,10 +214,11 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             <div className={styles.field}>
               <label className={styles.label}>Beskrivning</label>
               <textarea
-                name="message"
                 placeholder="Berätta kort om ert projekt..."
                 rows={2}
                 className={`${styles.input} ${styles.textarea}`}
+                value={formData.description}
+                onChange={(e) => updateField('description', e.target.value)}
               />
             </div>
 
@@ -157,11 +241,38 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             </div>
           </div>
 
-          {/* ROI badge */}
-          <div className={styles.roiBadge}>
-            <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
-            <span className={styles.roiBadgeValue}>390 000 kr/år</span>
-          </div>
+          {/* ROI badge — only when roiData exists */}
+          {roiData && (
+            <div className={styles.roiBadge}>
+              <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
+              <span className={styles.roiBadgeValue}>{fmtK(roiData.annualSavings)}/år</span>
+              <div className={styles.roiBadgeDetails}>
+                {roiData.implCost != null && (
+                  <div className={styles.roiDetailItem}>
+                    <span className={styles.roiDetailLabel}>Implementering</span>
+                    <span className={styles.roiDetailValue}>{fmtK(roiData.implCost)}</span>
+                  </div>
+                )}
+                {roiData.year1 != null && roiData.year2 != null && roiData.year3 != null && (
+                  <div className={styles.roiDetailItem}>
+                    <span className={styles.roiDetailLabel}>3-årsprognos</span>
+                    <span className={styles.roiDetailValue}>
+                      År1: {fmtK(roiData.year1)} · År2: {fmtK(roiData.year2)} · År3: {fmtK(roiData.year3)}
+                    </span>
+                  </div>
+                )}
+                {roiData.processes && roiData.processes.length > 0 && (
+                  <div className={styles.roiProcesses}>
+                    {roiData.processes.map((p) => (
+                      <span key={p.key} className={styles.roiProcessTag}>
+                        {p.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Höger: Cal.com */}
@@ -173,7 +284,7 @@ export default function ContactCard({ onClose }: ContactCardProps) {
             <Cal
               calLink="filip-thai-8l9zgr/test"
               style={{ width: "100%", height: "100%" }}
-              config={{ theme: "dark" }}
+              config={calConfig}
             />
           </div>
         </div>

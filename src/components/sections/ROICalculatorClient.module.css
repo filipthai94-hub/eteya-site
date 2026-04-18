@@ -816,3 +816,53 @@
     gap: 32px;
   }
 }
+
+/* ── Modal Overlay & Panel ──────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  overflow-y: auto;
+}
+
+.modalOverlayOpen {
+  opacity: 1;
+}
+
+.modalPanel {
+  position: relative;
+  width: calc(100% - 32px);
+  max-width: 1100px;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  border-radius: 24px;
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modalPanelOpen {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .modalOverlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modalPanel {
+    width: 100%;
+    max-width: 100%;
+    max-height: 95dvh;
+    border-radius: 24px 24px 0 0;
+  }
+}

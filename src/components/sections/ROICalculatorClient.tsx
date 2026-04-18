@@ -1,8 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { useLocale } from 'next-intl'
 import ButtonStripe from '@/components/ui/ButtonStripe'
+import ContactCard from '@/components/ui/contact-card'
+import type { ROIData } from '@/components/ui/contact-card'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import sv from '@/i18n/messages/sv.json'
@@ -336,8 +339,48 @@ export default function ROITestClient() {
     setProcs(prev => ({ ...prev, [key]: { ...prev[key], hours: h } }))
 
   // ── CTA: Öppna kontakt-modal ────────────────────────────────────────────────
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalMounted, setIsModalMounted] = useState(false)
+
+  const openModal = useCallback(() => {
+    setIsModalMounted(true)
+    requestAnimationFrame(() => setIsModalOpen(true))
+    document.body.style.overflow = 'hidden'
+  }, [])
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false)
+    setTimeout(() => {
+      setIsModalMounted(false)
+      document.body.style.overflow = ''
+    }, 300)
+  }, [])
+
+  // Build ROI data for ContactCard
+  const roiData: ROIData | null = totals.ok ? {
+    annualSavings: totals.y1,
+    totalHours: totals.totalHrs,
+    fte: totals.fte,
+    roi: totals.roi,
+    payback: totals.pb,
+    implCost: useImpl ? implCost : undefined,
+    hourlyRate: HOURLY,
+    year1: totals.y1,
+    year2: totals.y2,
+    year3: totals.y3,
+    processes: (Object.entries(procs) as [ProcKey, ProcState][])
+      .filter(([key, p]) => p.on)
+      .map(([key, p]) => ({
+        key,
+        label: PROC_LABELS[key],
+        hoursPerWeek: p.hours,
+        automationRate: RATES[key],
+        annualSavings: p.hours * RATES[key] * 52 * HOURLY,
+      })),
+  } : null
+
   const handleOpenContact = () => {
-    window.dispatchEvent(new CustomEvent('open-contact-modal'))
+    openModal()
   }
 
   // Counter animation för Snapshot Bar — samma som Telestore
@@ -621,6 +664,19 @@ export default function ROITestClient() {
           </aside>
         </div>
       </div>
+
+      {/* ROI Booking Modal */}
+      {isModalMounted && createPortal(
+        <div
+          className={`${s.modalOverlay} ${isModalOpen ? s.modalOverlayOpen : ''}`}
+          onClick={(e) => e.target === e.currentTarget && closeModal()}
+        >
+          <div className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}>
+            <ContactCard onClose={closeModal} roiData={roiData} />
+          </div>
+        </div>,
+        document.body
+      )}
     </main>
   )
 }

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Eteya — Strategimöte Briefing</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    background: #0d0d0d;
+    color: #b3b3b3;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Each page */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 56px 64px 48px;
+    position: relative;
+    break-after: page;
+    break-inside: avoid;
+    page-break-after: always;
+  }
+  .page:last-child { break-after: auto; page-break-after: auto; }
+
+  /* Common */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 28px 0;
+  }
+  .section-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #84cc16;
+    margin-bottom: 24px;
+  }
+  .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #3a3a3a;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .value {
+    font-size: 14px;
+    color: #e5e5e5;
+    font-weight: 500;
+  }
+
+  /* Footer */
+  .page-footer {
+    position: absolute;
+    bottom: 48px;
+    left: 64px;
+    right: 64px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #2a2a2a;
+    letter-spacing: 0.5px;
+  }
+  .page-footer .lime { color: #84cc16; opacity: 0.4; }
+  .page-footer .page-num { color: #333; }
+
+  /* ===================== PAGE 1: COVER ===================== */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .cover-logo {
+    font-size: 48px;
+    font-weight: 800;
+    color: #84cc16;
+    letter-spacing: 8px;
+    margin-bottom: 16px;
+  }
+  .cover-line {
+    width: 48px;
+    height: 2px;
+    background: #84cc16;
+    margin: 0 auto 24px;
+  }
+  .cover-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #4a4a4a;
+    margin-bottom: 48px;
+  }
+  .cover-company {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e5e5e5;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .cover-date {
+    font-size: 14px;
+    color: #555;
+    font-weight: 400;
+  }
+
+  /* ===================== PAGE 2: MEETING + ROI ===================== */
+  .meeting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+
+  .roi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .roi-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #999;
+  }
+  .roi-highlight {
+    text-align: right;
+  }
+  .roi-highlight .label {
+    color: #5a7a1a;
+  }
+  .roi-amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: #84cc16;
+    line-height: 1;
+    margin-top: 6px;
+  }
+  .roi-period {
+    font-size: 13px;
+    color: #5a7a1a;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  /* ===================== PAGE 3: ANALYSIS + COMPETITORS ===================== */
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 48px;
+  }
+  .analysis-full { grid-column: 1 / -1; }
+  .analysis-value {
+    font-size: 13px;
+    color: #ccc;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .comp-table th {
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #3a3a3a;
+    font-weight: 600;
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .comp-table td {
+    font-size: 13px;
+    padding: 14px 0;
+    color: #999;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .comp-table td:first-child { color: #e5e5e5; font-weight: 500; }
+  .comp-table td:nth-child(2) { color: #84cc16; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .comp-table th:last-child, .comp-table td:last-child { text-align: right; }
+
+  /* ===================== PAGE 4: OPPORTUNITIES + FOCUS ===================== */
+  .opp-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    align-items: baseline;
+    break-inside: avoid;
+  }
+  .opp-item:last-child { border-bottom: none; }
+  .opp-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: #84cc16;
+    width: 20px;
+  }
+  .opp-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e5e5e5;
+    margin-bottom: 4px;
+  }
+  .opp-desc {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.4;
+  }
+  .opp-impact {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .opp-priority {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #444;
+    font-weight: 600;
+  }
+
+  .focus-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #888;
+    border-left: 2px solid #84cc16;
+    padding-left: 24px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1: COVER ============ -->
+<div class="page cover">
+  <div class="cover-logo">ETEYA</div>
+  <div class="cover-line"></div>
+  <div class="cover-title">Strategimöte — Briefing</div>
+  <div class="cover-company">{{company}}</div>
+  <div class="cover-date">{{meetingDate}}</div>
+  <div class="page-footer">
+    <div>Konfidentiellt — Eteya Consulting AB</div>
+    <div class="page-num">1 / 4</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 2: MEETING + ROI ============ -->
+<div class="page">
+  <!-- Header -->
+  <div style="margin-bottom: 40px;">
+    <div style="font-size:18px;font-weight:700;color:#84cc16;letter-spacing:3px;">ETEYA</div>
+    <div style="font-size:10px;font-weight:500;color:#3a3a3a;text-transform:uppercase;letter-spacing:2px;">Strategimöte — Briefing</div>
+  </div>
+
+  <div class="section-title">Mötesinformation</div>
+  <div class="meeting-grid">
+    <div>
+      <div class="label">Möte</div>
+      <div class="value">{{meetingDate}}</div>
+    </div>
+    <div>
+      <div class="label">Företag</div>
+      <div class="value">{{company}}</div>
+    </div>
+    <div>
+      <div class="label">Kontakt</div>
+      <div class="value">{{contactName}}</div>
+      <div style="font-size:12px;color:#555;margin-top:2px;">{{contactEmail}}</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">ROI-Prognos</div>
+  <div class="roi-grid">
+    <div>
+      <div class="label">Anställda</div>
+      <div class="roi-value">{{roiEmployees}}</div>
+    </div>
+    <div>
+      <div class="label">Timlön</div>
+      <div class="roi-value">{{roiHourlyRate}} kr</div>
+    </div>
+    <div>
+      <div class="label">Admin h/vecka</div>
+      <div class="roi-value">{{roiAdminHours}}</div>
+    </div>
+    <div class="roi-highlight">
+      <div class="label">Uppskattad besparing</div>
+      <div class="roi-amount">{{roiAnnualSavings}} kr</div>
+      <div class="roi-period">per år</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div>Konfidentiellt — Eteya Consulting AB</div>
+    <div class="page-num">2 / 4</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 3: ANALYSIS + COMPETITORS ============ -->
+<div class="page">
+  <div style="margin-bottom: 40px;">
+    <div style="font-size:18px;font-weight:700;color:#84cc16;letter-spacing:3px;">ETEYA</div>
+    <div style="font-size:10px;font-weight:500;color:#3a3a3a;text-transform:uppercase;letter-spacing:2px;">Strategimöte — Briefing</div>
+  </div>
+
+  <div class="section-title">Företagsanalys</div>
+  <div class="analysis-grid">
+    <div>
+      <div class="label">Bransch</div>
+      <div class="analysis-value">{{analysisIndustry}}</div>
+    </div>
+    <div>
+      <div class="label">Omsättning</div>
+      <div class="analysis-value">{{analysisRevenue}}</div>
+    </div>
+    <div>
+      <div class="label">Anställda</div>
+      <div class="analysis-value">{{analysisEmployees}}</div>
+    </div>
+    <div>
+      <div class="label">Hemsida</div>
+      <div class="analysis-value">{{analysisWebsite}}</div>
+    </div>
+    <div class="analysis-full">
+      <div class="label">Verksamhet</div>
+      <div class="analysis-value">{{analysisDescription}}</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Konkurrenspriser</div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Aktör</th>
+        <th>Pris</th>
+        <th>Tjänst</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{competitorsRows}}
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <div>Konfidentiellt — Eteya Consulting AB</div>
+    <div class="page-num">3 / 4</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 4: OPPORTUNITIES + FOCUS ============ -->
+<div class="page">
+  <div style="margin-bottom: 40px;">
+    <div style="font-size:18px;font-weight:700;color:#84cc16;letter-spacing:3px;">ETEYA</div>
+    <div style="font-size:10px;font-weight:500;color:#3a3a3a;text-transform:uppercase;letter-spacing:2px;">Strategimöte — Briefing</div>
+  </div>
+
+  <div class="section-title">AI-Möjligheter</div>
+  {{opportunitiesItems}}
+
+  <div class="divider"></div>
+
+  <div class="section-title">Rekommenderat fokus</div>
+  <div class="focus-text">{{recommendedFocus}}</div>
+
+  <div class="page-footer">
+    <div>Konfidentiellt — Eteya Consulting AB</div>
+    <div class="lime">eteya.ai · kontakt@eteya.ai</div>
+    <div class="page-num">4 / 4</div>
+  </div>
+</div>
+
+</body>
+</html>
