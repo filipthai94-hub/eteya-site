@@ -18,10 +18,19 @@ export function useScrollLock(options: UseScrollLockOptions = {}) {
     if (!target) return
 
     const targetEl = target as HTMLElement
-    const originalStyle = targetEl.style.overflow
+    const scrollY = window.scrollY
+    const originalStyle = {
+      overflow: targetEl.style.overflow,
+      position: targetEl.style.position,
+      top: targetEl.style.top,
+      width: targetEl.style.width,
+    }
     const originalHtmlStyle = document.documentElement.style.overflow
 
-    // Lock scroll
+    // Lock scroll using position: fixed (most robust method)
+    targetEl.style.position = 'fixed'
+    targetEl.style.top = `-${scrollY}px`
+    targetEl.style.width = '100%'
     targetEl.style.overflow = 'hidden'
     document.documentElement.style.overflow = 'hidden'
 
@@ -31,9 +40,15 @@ export function useScrollLock(options: UseScrollLockOptions = {}) {
 
     return () => {
       // Restore original styles
-      targetEl.style.overflow = originalStyle
+      targetEl.style.overflow = originalStyle.overflow
+      targetEl.style.position = originalStyle.position
+      targetEl.style.top = originalStyle.top
+      targetEl.style.width = originalStyle.width
       document.documentElement.style.overflow = originalHtmlStyle
       ;(targetEl.style as any).webkitOverflowScrolling = originalIOS
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY)
     }
   }, [lockTarget, autoLock])
 
