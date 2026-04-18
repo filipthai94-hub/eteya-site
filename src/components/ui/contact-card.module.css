@@ -406,17 +406,22 @@
 
 .roiBadge {
   margin-top: 20px;
-  padding: 12px 16px;
+  padding: 16px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.roiBadgeHeader {
   display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(200, 255, 0, 0.2);
 }
 
 .roiBadgeLabel {
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -425,40 +430,67 @@
 
 .roiBadgeValue {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
-  color: #C8FF00;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
 
-.roiBadgeDetails {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 4px;
+.roiForecast {
+  margin-top: 14px;
 }
 
-.roiDetailItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.roiDetailLabel {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.72rem;
+.roiForecastLabel {
+  font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  display: block;
+  margin-bottom: 10px;
 }
 
-.roiDetailValue {
+.roiForecastRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.roiForecastYear {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.4);
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.roiForecastBar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.roiForecastBarFill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(200, 255, 0, 0.6), rgba(200, 255, 0, 0.25));
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roiForecastAmount {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.8rem;
+  font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
+  width: 64px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .roiProcesses {
@@ -648,7 +680,21 @@
   }
 
   .roiBadgeValue {
-    font-size: 20px;
+    font-size: 22px;
+  }
+
+  .roiForecastRow {
+    gap: 8px;
+  }
+
+  .roiForecastAmount {
+    font-size: 12px;
+    width: 52px;
+  }
+
+  .roiForecastYear {
+    width: 32px;
+    font-size: 11px;
   }
 
   .calEmbed {
@@ -657,7 +703,7 @@
 
   /* Sticky CTA on mobile */
   .formCol {
-    padding-bottom: 100px; /* space for sticky CTA */
+    padding-bottom: 80px;
   }
   .ctaButton {
     position: sticky;
@@ -667,12 +713,8 @@
     z-index: 10;
     margin-top: 16px;
     border-radius: 0;
+    background: #C8FF00; /* solid bg so content doesn't bleed through */
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-  }
-  .trustCopy {
-    position: sticky;
-    bottom: 52px;
-    z-index: 10;
   }
 }
 

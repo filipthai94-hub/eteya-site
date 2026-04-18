@@ -271,33 +271,46 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
           {/* ROI badge — only when roiData exists */}
           {roiData && (
             <div className={styles.roiBadge}>
-              <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
-              <span className={styles.roiBadgeValue}>{fmtK(roiData.annualSavings)}/år</span>
-              <div className={styles.roiBadgeDetails}>
-                {roiData.implCost != null && (
-                  <div className={styles.roiDetailItem}>
-                    <span className={styles.roiDetailLabel}>Implementering</span>
-                    <span className={styles.roiDetailValue}>{fmtK(roiData.implCost)}</span>
-                  </div>
-                )}
-                {roiData.year1 != null && roiData.year2 != null && roiData.year3 != null && (
-                  <div className={styles.roiDetailItem}>
-                    <span className={styles.roiDetailLabel}>3-årsprognos</span>
-                    <span className={styles.roiDetailValue}>
-                      År1: {fmtK(roiData.year1)} · År2: {fmtK(roiData.year2)} · År3: {fmtK(roiData.year3)}
-                    </span>
-                  </div>
-                )}
-                {roiData.processes && roiData.processes.length > 0 && (
-                  <div className={styles.roiProcesses}>
-                    {roiData.processes.map((p) => (
-                      <span key={p.key} className={styles.roiProcessTag}>
-                        {p.label}
-                      </span>
-                    ))}
-                  </div>
-                )}
+              <div className={styles.roiBadgeHeader}>
+                <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
+                <span className={styles.roiBadgeValue}>{fmtK(roiData.annualSavings)}/år</span>
               </div>
+
+              {roiData.year1 != null && roiData.year2 != null && roiData.year3 != null && (
+                <div className={styles.roiForecast}>
+                  <span className={styles.roiForecastLabel}>3-årsprognos</span>
+                  {[
+                    { year: 'År 1', value: roiData.year1! },
+                    { year: 'År 2', value: roiData.year2! },
+                    { year: 'År 3', value: roiData.year3! },
+                  ].map((item) => {
+                    const maxVal = roiData.year3!
+                    const pct = Math.round((item.value / maxVal) * 100)
+                    return (
+                      <div key={item.year} className={styles.roiForecastRow}>
+                        <span className={styles.roiForecastYear}>{item.year}</span>
+                        <div className={styles.roiForecastBar}>
+                          <div
+                            className={styles.roiForecastBarFill}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <span className={styles.roiForecastAmount}>{fmtK(item.value)}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {roiData.processes && roiData.processes.length > 0 && (
+                <div className={styles.roiProcesses}>
+                  {roiData.processes.map((p) => (
+                    <span key={p.key} className={styles.roiProcessTag}>
+                      {p.label}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
