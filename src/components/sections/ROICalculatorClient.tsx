@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocale } from 'next-intl'
+import { useScrollLock } from '@/hooks/useScrollLock'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import ContactCard from '@/components/ui/contact-card'
 import type { ROIData } from '@/components/ui/contact-card'
@@ -342,18 +343,17 @@ export default function ROITestClient() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalMounted, setIsModalMounted] = useState(false)
 
+  // Lock body scroll when modal is mounted
+  useScrollLock({ lockTarget: 'body', autoLock: isModalMounted })
+
   const openModal = useCallback(() => {
     setIsModalMounted(true)
     requestAnimationFrame(() => setIsModalOpen(true))
-    document.body.style.overflow = 'hidden'
   }, [])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
-    setTimeout(() => {
-      setIsModalMounted(false)
-      document.body.style.overflow = ''
-    }, 300)
+    setTimeout(() => setIsModalMounted(false), 300)
   }, [])
 
   // Build ROI data for ContactCard

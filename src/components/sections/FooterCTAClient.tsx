@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useScrollLock } from '@/hooks/useScrollLock'
 import ContactCard from '../ui/contact-card'
 import type { ChangeEvent, FormEvent } from 'react'
 import { gsap } from 'gsap'
@@ -121,6 +122,9 @@ const hasPlayed = useRef(false)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalMounted, setIsModalMounted] = useState(false)
+
+  // Lock body scroll when modal is mounted
+  useScrollLock({ lockTarget: 'body', autoLock: isModalMounted })
   
   
   
@@ -141,7 +145,6 @@ const hasPlayed = useRef(false)
     const completeClose = () => {
       setIsModalOpen(false)
       setIsModalMounted(false)
-      document.body.style.overflow = ''
       restoreFocusRef.current?.focus()
     }
 
@@ -270,8 +273,6 @@ const hasPlayed = useRef(false)
     const panel = modalPanelRef.current
     const shouldReduce = reducedMotionRef.current
 
-    document.body.style.overflow = 'hidden'
-
     const focusTimer = window.setTimeout(() => {
       firstInputRef.current?.focus()
     }, shouldReduce ? 0 : 180)
@@ -323,6 +324,7 @@ const hasPlayed = useRef(false)
       document.removeEventListener('keydown', handleKeyDown)
       if (!isModalOpen) {
         document.body.style.overflow = ''
+        document.documentElement.style.overflow = ''
       }
     }
   }, [closeModal, isModalMounted, isModalOpen])
@@ -593,6 +595,9 @@ const hasPlayed = useRef(false)
           background: rgba(0, 0, 0, 0.75);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          touch-action: none;
         }
         .fcta-modal-panel {
           position: relative;

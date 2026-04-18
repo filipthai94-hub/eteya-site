@@ -35,10 +35,15 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   overscroll-behavior: contain;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
+
+.root::-webkit-scrollbar { width: 4px; }
+.root::-webkit-scrollbar-track { background: transparent; }
+.root::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 
 /* Grain texture */
 .root::after {
@@ -170,13 +175,7 @@
   z-index: 1;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
 }
-
-.stepContent::-webkit-scrollbar { width: 4px; }
-.stepContent::-webkit-scrollbar-track { background: transparent; }
-.stepContent::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 
 .stepVisible {
   display: block;
