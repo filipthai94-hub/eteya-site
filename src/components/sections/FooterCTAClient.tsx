@@ -603,7 +603,6 @@ const hasPlayed = useRef(false)
           width: calc(100% - 32px);
           max-width: 520px;
           max-height: calc(100vh - 48px);
-          overflow-y: auto;
           padding: 56px 48px 48px;
           border-radius: 24px;
           border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1073,15 +1072,8 @@ const hasPlayed = useRef(false)
 
       {isModalMounted && createPortal(
         <div ref={overlayRef} className="fcta-modal-overlay" onClick={(event) => event.target === event.currentTarget && closeModal()}>
-          <div 
-            ref={modalPanelRef} 
-            style={{ position: 'relative', width: '100%', maxWidth: '680px', maxHeight: 'calc(100dvh - 48px)' }}
-          >
-            <div 
-              style={{ width: '100%', height: '100%', overflowX: 'hidden' }}
-            >
-              <ContactCard onClose={closeModal} />
-            </div>
+          <div className="fcta-modal-panel" ref={modalPanelRef}>
+            <ContactCard onClose={closeModal} />
           </div>
         </div>,
         document.body
