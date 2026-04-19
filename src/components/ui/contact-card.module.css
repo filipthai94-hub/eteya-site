@@ -174,8 +174,6 @@
   z-index: 1;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .stepVisible {
@@ -621,7 +619,7 @@
 .calEmbed {
   width: 100%;
   flex: 1;
-  min-height: 400px;
+  max-height: 650px;
   border-radius: 12px;
 }
 
@@ -697,7 +695,7 @@
   }
 
   .calEmbed {
-    min-height: 350px;
+    max-height: 600px;
   }
 
   /* Sticky CTA on mobile */

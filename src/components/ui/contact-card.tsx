@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react"
 import { XIcon } from "lucide-react"
-import Cal from "@calcom/embed-react"
+import Cal, { getCalApi } from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
 
 const services = [
@@ -84,6 +84,19 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     setStep(1)
   }, [])
 
+  // Init Cal.com embed with auto-height support (official Cal.com solution)
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi()
+      cal("ui", {
+        styles: { branding: { brandColor: "#C8FF00" } },
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        theme: "dark",
+      })
+    })()
+  }, [])
+
   // Build Cal.com config with conditional metadata
   const calConfig = useMemo(() => {
     const base: Record<string, string> = {
@@ -127,7 +140,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
   }, [roiData, formData.name, formData.email, formData.company, formData.service])
 
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} main`}>
       {/* Drag handle (mobile) */}
       <div className={styles.dragHandle} />
 
