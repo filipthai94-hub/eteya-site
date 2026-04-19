@@ -673,7 +673,7 @@ export default function ROITestClient() {
         >
           <div className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}>
             <div className={s.modalPanelContent}>
-              <ContactCard onClose={closeModal} roiData={roiData} />
+              <ContactCard onClose={closeModal} roiData={roiData} showContactInfo={false} />
             </div>
           </div>
         </div>,

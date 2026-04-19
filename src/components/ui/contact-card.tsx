@@ -35,6 +35,7 @@ export interface ROIData {
 interface ContactCardProps {
   onClose?: () => void
   roiData?: ROIData | null
+  showContactInfo?: boolean
 }
 
 function fmtK(n: number) {
@@ -43,7 +44,7 @@ function fmtK(n: number) {
   return Math.round(n).toLocaleString('sv-SE') + ' kr'
 }
 
-export default function ContactCard({ onClose, roiData }: ContactCardProps) {
+export default function ContactCard({ onClose, roiData, showContactInfo = true }: ContactCardProps) {
   const [step, setStep] = useState<1 | 2>(1)
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
   const [formData, setFormData] = useState({
@@ -169,6 +170,7 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
           </p>
 
           {/* Kontaktinfo */}
+          {showContactInfo && (
           <div className={styles.contactRow}>
             <div className={styles.contactItem}>
               <div className={styles.contactIcon}>
@@ -194,6 +196,7 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
               </div>
             </div>
           </div>
+          )}
 
           {/* Form fields */}
           <div className={styles.formFields}>
