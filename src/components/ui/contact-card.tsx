@@ -349,7 +349,7 @@ export default function ContactCard({ onClose, roiData }: ContactCardProps) {
           <div className={styles.calEmbed}>
             <Cal
               calLink="filip-thai-8l9zgr/test"
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: "100%", height: "100%", overflow: "scroll" }}
               config={calConfig}
             />
           </div>
