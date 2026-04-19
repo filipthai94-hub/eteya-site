@@ -588,14 +588,13 @@ const hasPlayed = useRef(false)
           position: fixed;
           inset: 0;
           z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: grid;
+          place-items: center;
+          overflow-y: auto;
           padding: 24px;
           background: rgba(0, 0, 0, 0.75);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          overflow-y: auto;
           overscroll-behavior: contain;
           touch-action: none;
         }
@@ -1079,7 +1078,7 @@ const hasPlayed = useRef(false)
             style={{ position: 'relative', width: '100%', maxWidth: '680px', maxHeight: 'calc(100dvh - 48px)', overflow: 'hidden' }}
           >
             <div 
-              style={{ width: '100%', height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
+              style={{ width: '100%', height: '100%', overflowX: 'hidden' }}
             >
               <ContactCard onClose={closeModal} />
             </div>

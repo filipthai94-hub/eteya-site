@@ -824,16 +824,14 @@
   z-index: 9999;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
   padding: 24px;
   opacity: 0;
   transition: opacity 0.3s ease;
-  overflow-y: auto;
   overscroll-behavior: contain;
   touch-action: none;
-  min-height: 0;
 }
 
 .modalOverlayOpen {
@@ -857,9 +855,7 @@
 .modalPanelContent {
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-gutter: stable;
 }
 
 .modalPanelOpen {
