@@ -672,9 +672,7 @@ export default function ROITestClient() {
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
           <div className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}>
-            <div className={s.modalPanelContent}>
-              <ContactCard onClose={closeModal} roiData={roiData} showContactInfo={false} />
-            </div>
+            <ContactCard onClose={closeModal} roiData={roiData} showContactInfo={false} />
           </div>
         </div>,
         document.body
