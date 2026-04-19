@@ -671,17 +671,10 @@ export default function ROITestClient() {
           className={`${s.modalOverlay} ${isModalOpen ? s.modalOverlayOpen : ''}`}
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
-          <div 
-            className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}
-            onWheel={(e) => {
-              // Manually scroll modalPanel
-              const panel = e.currentTarget
-              panel.scrollTop += e.deltaY
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-          >
-            <ContactCard onClose={closeModal} roiData={roiData} />
+          <div className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}>
+            <div className={s.modalPanelContent}>
+              <ContactCard onClose={closeModal} roiData={roiData} />
+            </div>
           </div>
         </div>,
         document.body

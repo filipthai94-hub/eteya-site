@@ -18,25 +18,14 @@ export function useScrollLock(options: UseScrollLockOptions = {}) {
     if (!target) return
 
     const targetEl = target as HTMLElement
-    const scrollY = window.scrollY
-    
-    // Lock body with position: fixed
-    targetEl.style.position = 'fixed'
-    targetEl.style.top = `-${scrollY}px`
-    targetEl.style.left = '0'
-    targetEl.style.right = '0'
-    targetEl.style.width = '100%'
+    const originalStyle = targetEl.style.overflow
+
+    // Lock scroll with overflow: hidden (compatible with modal scroll)
+    targetEl.style.overflow = 'hidden'
 
     return () => {
-      // Restore body
-      targetEl.style.position = ''
-      targetEl.style.top = ''
-      targetEl.style.left = ''
-      targetEl.style.right = ''
-      targetEl.style.width = ''
-      
-      // Restore scroll position
-      window.scrollTo(0, scrollY)
+      // Restore original style
+      targetEl.style.overflow = originalStyle
     }
   }, [lockTarget, autoLock])
 

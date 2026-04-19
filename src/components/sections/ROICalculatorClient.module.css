@@ -845,12 +845,21 @@
   width: calc(100% - 32px);
   max-width: 680px;
   max-height: calc(100dvh - 48px);
-  overflow-y: auto;
+  overflow: hidden;
   border-radius: 24px;
-  clip-path: inset(0 round 24px);
   transform: translateY(24px);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalPanelContent {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 .modalPanelOpen {
