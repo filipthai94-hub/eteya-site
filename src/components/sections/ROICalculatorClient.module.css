@@ -843,7 +843,6 @@
   width: calc(100% - 32px);
   max-width: 680px;
   max-height: calc(100dvh - 48px);
-  overflow: hidden;
   border-radius: 24px;
   transform: translateY(24px);
   opacity: 0;
@@ -855,6 +854,7 @@
 .modalPanelContent {
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
