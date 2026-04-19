@@ -1078,7 +1078,7 @@ const hasPlayed = useRef(false)
             style={{ position: 'relative', width: '100%', maxWidth: '680px', maxHeight: 'calc(100dvh - 48px)' }}
           >
             <div 
-              style={{ width: '100%', height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
+              style={{ width: '100%', height: '100%', overflowX: 'hidden' }}
             >
               <ContactCard onClose={closeModal} />
             </div>
