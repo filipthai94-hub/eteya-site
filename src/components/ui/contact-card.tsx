@@ -135,6 +135,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
 
     console.log('🔵 Cal.com config:', config)
     console.log('🔵 formData:', formData)
+    console.log('🔵 calConfig key:', `${formData.name}-${formData.email}`)
 
     return config
   }, [roiData, formData.name, formData.email, formData.website, formData.service])
@@ -365,6 +366,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           </div>
           <div className={styles.calEmbed}>
             <Cal
+              key={`${formData.name}-${formData.email}`}
               calLink={process.env.NEXT_PUBLIC_CAL_LINK || "eteya/strategimote"}
               style={{ width: "100%", height: "100%", overflow: "scroll" }}
               config={calConfig}
