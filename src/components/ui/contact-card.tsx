@@ -97,50 +97,44 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     })()
   }, [])
 
-  // Apply Cal.com prefill config when step 2 is shown
-  useEffect(() => {
-    if (step !== 2) return
+  // Build Cal.com config object for prefill
+  const calConfig = useMemo(() => {
+    const config: Record<string, any> = {}
     
-    (async function () {
-      const cal = await getCalApi()
-      
-      const config: Record<string, any> = {
-        name: formData.name || undefined,
-        email: formData.email || undefined,
-      }
-      
-      // Metadata
-      config["metadata[source]"] = roiData ? "roi-calculator" : "footer-cta"
-      if (formData.website) config["metadata[website]"] = formData.website
-      if (formData.service) config["metadata[service]"] = formData.service
+    // Prefill name and email
+    if (formData.name) config.name = formData.name
+    if (formData.email) config.email = formData.email
+    
+    // Metadata
+    config["metadata[source]"] = roiData ? "roi-calculator" : "footer-cta"
+    if (formData.website) config["metadata[website]"] = formData.website
+    if (formData.service) config["metadata[service]"] = formData.service
 
-      // ROI-specific metadata
-      if (roiData) {
-        config["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
-        config["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
-        config["metadata[roi]"] = String(Math.round(roiData.roi))
-        if (roiData.payback) config["metadata[payback]"] = String(roiData.payback)
-        if (roiData.implCost) config["metadata[implCost]"] = String(Math.round(roiData.implCost))
-        if (roiData.hourlyRate) config["metadata[hourlyRate]"] = String(roiData.hourlyRate)
-        if (roiData.year1) config["metadata[year1]"] = String(Math.round(roiData.year1))
-        if (roiData.year2) config["metadata[year2]"] = String(Math.round(roiData.year2))
-        if (roiData.year3) config["metadata[year3]"] = String(Math.round(roiData.year3))
-        if (roiData.processes?.length) {
-          config["metadata[roiProcesses]"] = JSON.stringify(
-            roiData.processes.map(p => ({
-              k: p.key,
-              l: p.label,
-              h: p.hoursPerWeek,
-              r: p.automationRate,
-            }))
-          )
-        }
+    // ROI-specific metadata
+    if (roiData) {
+      config["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
+      config["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
+      config["metadata[roi]"] = String(Math.round(roiData.roi))
+      if (roiData.payback) config["metadata[payback]"] = String(roiData.payback)
+      if (roiData.implCost) config["metadata[implCost]"] = String(Math.round(roiData.implCost))
+      if (roiData.hourlyRate) config["metadata[hourlyRate]"] = String(roiData.hourlyRate)
+      if (roiData.year1) config["metadata[year1]"] = String(Math.round(roiData.year1))
+      if (roiData.year2) config["metadata[year2]"] = String(Math.round(roiData.year2))
+      if (roiData.year3) config["metadata[year3]"] = String(Math.round(roiData.year3))
+      if (roiData.processes?.length) {
+        config["metadata[roiProcesses]"] = JSON.stringify(
+          roiData.processes.map(p => ({
+            k: p.key,
+            l: p.label,
+            h: p.hoursPerWeek,
+            r: p.automationRate,
+          }))
+        )
       }
+    }
 
-      // Apply config using Cal.com's official inline instruction
-      cal("inline", { config })
-    })()
-  }, [step, formData.name, formData.email, formData.website, formData.service, roiData])
+    return config
+  }, [roiData, formData.name, formData.email, formData.website, formData.service])
 
   return (
     <div className={`${styles.root} main`}>
@@ -370,6 +364,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             <Cal
               calLink={process.env.NEXT_PUBLIC_CAL_LINK || "eteya/strategimote"}
               style={{ width: "100%", height: "100%", overflow: "scroll" }}
+              config={calConfig}
             />
           </div>
         </div>
