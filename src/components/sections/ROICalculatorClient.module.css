@@ -45,6 +45,17 @@
   margin-bottom: 12px;
 }
 
+.subLink {
+  color: #C8FF00;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.subLink:hover {
+  opacity: 0.8;
+}
+
 .formula {
   display: flex;
   align-items: flex-start;

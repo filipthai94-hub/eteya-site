@@ -450,7 +450,8 @@ export default function ROITestClient() {
         <header className={s.header}>
           <h1 className={s.h1} dangerouslySetInnerHTML={{ __html: copy.heading }} />
           <p className={s.sub}>
-            {copy.subheading}
+            {copy.subheading.split('spara med AI och automation')[0]}
+            <a href="/sv/ai-besparing" className={s.subLink}>spara med AI och automation</a>.
           </p>
         </header>
 
