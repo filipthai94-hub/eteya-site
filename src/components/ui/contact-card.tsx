@@ -97,6 +97,32 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     })()
   }, [])
 
+  // Inject CSS to hide Cal.com scrollbar (after Cal.com loads)
+  useEffect(() => {
+    if (step !== 2) return
+    
+    // Wait for Cal.com to fully load, then inject CSS to hide scrollbar
+    const timer = setTimeout(() => {
+      const style = document.createElement('style')
+      style.textContent = `
+        .cal-inline-container::-webkit-scrollbar { display: none !important; }
+        .cal-inline-container { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+        
+        /* Fallback - target any scrollable container inside Cal.com */
+        [class*="scroll"]::-webkit-scrollbar { display: none !important; }
+        [class*="scroll"] { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+      `
+      
+      // Inject into calEmbed container
+      const calEmbed = document.querySelector('.calEmbed')
+      if (calEmbed) {
+        calEmbed.appendChild(style)
+      }
+    }, 500) // Wait 500ms for Cal.com to load
+    
+    return () => clearTimeout(timer)
+  }, [step])
+
   // Build Cal.com config object for prefill
   const calConfig = useMemo(() => {
     const config: Record<string, any> = {}
