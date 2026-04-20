@@ -133,6 +133,9 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
       }
     }
 
+    console.log('🔵 Cal.com config:', config)
+    console.log('🔵 formData:', formData)
+
     return config
   }, [roiData, formData.name, formData.email, formData.website, formData.service])
 
