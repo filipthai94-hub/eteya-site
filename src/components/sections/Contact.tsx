@@ -247,6 +247,35 @@ export default function Contact() {
                   </div>
                   <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>+46 8 123 45 67</p>
                 </div>
+                {/* Adress & Orgnr */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>ADRESS</p>
+                  </div>
+                  <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>
+                    Solhagsvägen 26 A<br/>
+                    691 52 Karlskoga<br/>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem' }}>Org.nr: 559552-7390</span>
+                  </p>
+                </div>
+                {/* Öppettider */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>ÖPPETTIDER</p>
+                  </div>
+                  <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>
+                    Mån–Fre: 09:00–17:00<br/>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem' }}>Efter överenskommelse</span>
+                  </p>
+                </div>
               </div>
 
               {/* Social icons — footer style */}
