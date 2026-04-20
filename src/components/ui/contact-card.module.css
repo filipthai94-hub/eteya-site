@@ -624,6 +624,13 @@
   color-scheme: dark;
 }
 
+/* Desktop - öka höjd så Cal.com får plats utan scroll */
+@media (min-width: 769px) {
+  .calEmbed {
+    max-height: 800px;
+  }
+}
+
 /* Hide Cal.com scrollbar - works in all browsers */
 .calEmbed ::-webkit-scrollbar {
   display: none !important;
