@@ -50,7 +50,7 @@ export const organizationSchema = {
     '@type': 'ContactPoint',
     contactType: 'customer service',
     email: 'kontakt@eteya.ai',
-    telephone: '+46 50-000 00 00', // Placeholder tills företagsabonnemang finns
+    telephone: '', // Placeholder tills företagsabonnemang finns
     areaServed: 'SE',
     availableLanguage: ['Swedish', 'English'],
   },
