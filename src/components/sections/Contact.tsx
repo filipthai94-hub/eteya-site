@@ -272,8 +272,7 @@ export default function Contact() {
                     <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>ÖPPETTIDER</p>
                   </div>
                   <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>
-                    Mån–Fre: 09:00–17:00<br/>
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem' }}>Efter överenskommelse</span>
+                    Mån–Fre: 09:00–17:00
                   </p>
                 </div>
               </div>
