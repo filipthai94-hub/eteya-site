@@ -368,7 +368,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             <Cal
               key={`${formData.name}-${formData.email}`}
               calLink={process.env.NEXT_PUBLIC_CAL_LINK || "eteya/strategimote"}
-              style={{ width: "100%", height: "100%", overflow: "scroll" }}
+              style={{ width: "100%", height: "100%" }}
               config={calConfig}
             />
           </div>
