@@ -61,6 +61,52 @@ async function notifyDiscord(data: {
   })
 }
 
+async function sendEmailNotification(data: {
+  name: string
+  email: string
+  company: string
+  service: string
+  bookingDate: string
+  pdfUrl: string
+}) {
+  const { RESEND_API_KEY } = process.env
+  if (!RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY missing, skipping email notification')
+    return
+  }
+
+  const { Resend } = await import('resend')
+  const resend = new Resend(RESEND_API_KEY)
+
+  try {
+    await resend.emails.send({
+      from: 'Eteya <noreply@eteya.ai>',
+      to: ['kontakt@eteya.ai'],
+      subject: `🟢 Ny bokning: ${data.name} — ${data.company}`,
+      html: `
+        <h2>Ny mötesbokning via Cal.com</h2>
+        <p><strong>Namn:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Företag:</strong> ${data.company}</p>
+        <p><strong>Tjänst:</strong> ${data.service}</p>
+        <p><strong>Bokad tid:</strong> ${data.bookingDate}</p>
+        <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 20px 0;" />
+        <p><strong>📄 Sales Briefing PDF:</strong> <a href="${data.pdfUrl}">Ladda ner briefing</a></p>
+        <p style="color: #666; font-size: 12px; margin-top: 30px;">Automatiskt genererad briefing baserad på företagsdata från Apiverket och SCB.</p>
+      `,
+      attachments: [
+        {
+          filename: `briefing-${data.company.replace(/[^a-z0-9]/gi, '-')}.pdf`,
+          path: data.pdfUrl,
+        },
+      ],
+    })
+    console.log('✅ Email notification sent to kontakt@eteya.ai')
+  } catch (error) {
+    console.error('Email notification failed:', error)
+  }
+}
+
 async function runResearchAndGeneratePDF(data: {
   name: string
   email: string
@@ -208,6 +254,16 @@ async function runResearchAndGeneratePDF(data: {
       })
 
       console.log('✅ PDF uploaded:', pdfUrl)
+
+      // Send email notification with PDF attachment
+      await sendEmailNotification({
+        name: data.name,
+        email: data.email,
+        company: data.company,
+        service: data.service,
+        bookingDate: data.bookingDate,
+        pdfUrl,
+      })
 
       // Cleanup temp file
       try { await fs.unlink(pdfPath) } catch {}
