@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
       await resend.emails.send({
         from: 'Eteya <noreply@eteya.ai>',
-        to: ['kontakt@eteyaconsulting.se'],
+        to: ['kontakt@eteya.ai'],
         subject: `Ny förfrågan: ${name} — ${service}`,
         html: `
           <h2>Ny förfrågan från eteya.ai</h2>
