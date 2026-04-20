@@ -8,12 +8,38 @@ const schema = z.object({
   service: z.string().optional(),
   message: z.string().min(10).max(2000),
   website: z.string().max(0),
+  'cf-turnstile-response': z.string().min(1, 'Spam-skydd krävs'),
 })
 
 export async function sendContactEmail(_prevState: unknown, formData: FormData) {
   const result = schema.safeParse(Object.fromEntries(formData))
-  if (!result.success) return { error: 'Ogiltiga uppgifter. Kontrollera formuläret.' }
+  if (!result.success) {
+    const fieldErrors = result.error.flatten().fieldErrors
+    if (fieldErrors['cf-turnstile-response']?.[0]) {
+      return { error: 'Spam-skydd misslyckades. Försök igen.' }
+    }
+    return { error: 'Ogiltiga uppgifter. Kontrollera formuläret.' }
+  }
   if (result.data.website) return { success: true }
+
+  // Verify Turnstile token with Cloudflare
+  const turnstileToken = result.data['cf-turnstile-response']
+  const turnstileVerification = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: turnstileToken,
+      }),
+    }
+  )
+  const turnstileResult = await turnstileVerification.json()
+  
+  if (!turnstileResult.success) {
+    return { error: 'Spam-skydd misslyckades. Försök igen.' }
+  }
 
   try {
     const { Resend } = await import('resend')

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { AnimatedGridPattern } from '@/components/ui/AnimatedGridPattern'
 import { useTranslations } from 'next-intl'
@@ -9,10 +9,20 @@ import { sendContactEmail } from '@/app/[locale]/actions/contact'
 import { C } from '@/lib/colors'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: { sitekey: string; callback?: (token: string) => void; theme?: string }) => string
+      reset: (widgetId: string) => void
+      remove: (widgetId: string) => void
+    }
+  }
+}
+
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
   return (
-    <ButtonStripe type="submit" disabled={pending} fullWidth>
+    <ButtonStripe type="submit" disabled={pending || !window.turnstile} fullWidth>
       {pending ? loadingLabel : label}
     </ButtonStripe>
   )
@@ -36,12 +46,47 @@ const inputStyle = {
 export default function Contact() {
   const t = useTranslations('contact')
   const [state, action] = useActionState(sendContactEmail, null)
+  const [turnstileToken, setTurnstileToken] = useState<string>('')
+  const turnstileWidgetRef = useRef<string | null>(null)
 
   // Custom select state
   const [serviceOpen, setServiceOpen] = useState(false)
   const [serviceValue, setServiceValue] = useState('')
   const [serviceHighlight, setServiceHighlight] = useState(-1)
   const serviceRef = useRef<HTMLDivElement>(null)
+
+  // Load Cloudflare Turnstile script
+  useEffect(() => {
+    if (window.turnstile) {
+      initTurnstile()
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+    script.async = true
+    script.defer = true
+    script.onload = initTurnstile
+    document.body.appendChild(script)
+
+    return () => {
+      if (turnstileWidgetRef.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetRef.current)
+      }
+    }
+  }, [])
+
+  const initTurnstile = () => {
+    if (!window.turnstile) return
+
+    turnstileWidgetRef.current = window.turnstile.render('#turnstile-widget', {
+      sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+      callback: (token: string) => {
+        setTurnstileToken(token)
+      },
+      theme: 'dark',
+    })
+  }
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -303,6 +348,7 @@ export default function Contact() {
             {/* Right column — form */}
             <form action={action} className="contact-form-glow" style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'relative' }}>
               <input type="text" name="website" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+              <input type="hidden" name="cf-turnstile-response" value={turnstileToken} />
 
               {/* Row 1: Name + Email */}
               <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
@@ -447,6 +493,9 @@ export default function Contact() {
                   onFocus={e => (e.target.style.borderBottomColor = '#C8FF00')}
                   onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)')} />
               </div>
+
+              {/* Cloudflare Turnstile */}
+              <div id="turnstile-widget" style={{ marginTop: '1rem', marginBottom: '1rem' }} />
 
               {/* Submit */}
               <div style={{ marginTop: '0' }}>
