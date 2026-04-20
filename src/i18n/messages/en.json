@@ -2,7 +2,52 @@
   "nav": {
     "logo": "ETEYA",
     "cta": "Contact",
-    "lang": "SV"
+    "lang": "SV",
+    "links": [
+      {
+        "label": "Home",
+        "href": "/en"
+      },
+      {
+        "label": "About",
+        "href": "/en/about"
+      },
+      {
+        "label": "Services",
+        "href": "/en#services-section"
+      },
+      {
+        "label": "Our cases",
+        "href": "/en#cases-section",
+        "badge": "[5]"
+      },
+      {
+        "label": "Contact",
+        "href": "/en/contact"
+      }
+    ],
+    "menuLabel": "Menu",
+    "contactUs": "Contact us",
+    "location": "Sweden (SE)",
+    "ourCases": "Our cases",
+    "tagline": "AI consulting that actually delivers.",
+    "socialMedia": "Social media",
+    "popup": {
+      "brand": "ETEYA",
+      "sub": "Get in touch",
+      "copyEmail": "Copy email",
+      "openMail": "Open mail client",
+      "bookCall": "Book a call",
+      "copied": "copied"
+    },
+    "footer": {
+      "privacy": "Privacy Policy",
+      "privacyHref": "/en/privacy",
+      "terms": "Terms",
+      "termsHref": "/en/terms",
+      "copyright": "© 2026 Eteya"
+    },
+    "email": "kontakt@eteya.ai"
   },
   "hero": {
     "role": "AI that drives your business",
@@ -52,25 +97,153 @@
   "services": {
     "label_ja": "専門分野",
     "label_en": "What we do",
-    "heading": "Three ways we deliver.",
+    "heading": "SERVICES",
+    "cta": "Book a call",
     "items": [
       {
         "number": "01",
         "title": "AI Agents",
-        "description": "Autonomous agents that handle workflows, communication, and decisions — around the clock. No human input required at every step.",
-        "detail": "From customer service to internal automation. We build agents that actually work in production."
+        "description": "While you handle requests manually, your competitors have already put AI agents to work. An agent that never sleeps, never misses, and takes on everything you can't keep up with — so you can focus on what only you can do.",
+        "detail": "From customer service to internal automation. We build agents that actually work in production.",
+        "features": [
+          "Available 24/7, answers when you can't",
+          "Handles a hundred calls simultaneously without losing quality",
+          "Learns your business, not a generic template",
+          "Takes over repetitive tasks, you delegate and it delivers",
+          "Works across all channels: email, chat, phone, internal",
+          "Scales with you from day one to thousands of interactions"
+        ]
       },
       {
         "number": "02",
-        "title": "Process Automation",
-        "description": "We identify and automate the manual processes that drain your time. Integrations, triggers, and flows that run without your hand.",
-        "detail": "Make, n8n, custom webhooks — whatever it takes to connect your systems and eliminate manual work."
+        "title": "Automation",
+        "description": "What takes you 3 hours today takes 3 minutes tomorrow. AI automations that don't just follow rules but understand your business, make their own decisions, and handle what human hands should never have touched.",
+        "detail": "Make, n8n, custom webhooks — whatever it takes to connect your systems and eliminate manual work.",
+        "features": [
+          "3 hours becomes 3 minutes, every day",
+          "Makes decisions in the flow, you set the direction and AI executes",
+          "Handles exceptions like a human, but faster",
+          "Frees up time for what actually builds the company",
+          "Scalable from day one without extra hires",
+          "Connected to your entire operation, one flow and zero manual work"
+        ]
       },
       {
         "number": "03",
-        "title": "Custom Builds",
-        "description": "Need something that doesn't exist yet? We build it. AI-powered software tailored to your problem, your industry, your requirements.",
-        "detail": "Full-stack development with AI at the core. From idea to deployed product in weeks, not months."
+        "title": "AI Products",
+        "description": "All your competitors rent the same AI tools. You can own yours. A custom product built exactly for your business, that no one else can buy, copy, or take from you.",
+        "detail": "Full-stack development with AI at the core. From idea to deployed product in weeks, not months.",
+        "features": [
+          "You own everything: code, data, logic and future",
+          "Built for your business, not adapted to a generic tool",
+          "Launch in weeks, not months",
+          "Your idea and our expertise, we make it possible",
+          "Scalable from day one with no ceiling",
+          "No vendor lock-in, never dependent on someone else's decisions"
+        ]
+      }
+    ]
+  },
+  "process": {
+    "heading": "HOW WE DELIVER",
+    "blocks": [
+      {
+        "num": "01",
+        "label": "// 01",
+        "scramble": "DISCOVERY",
+        "heading": "YOUR TEAM WORKS TOO HARD. ON THE WRONG THINGS.",
+        "body": "Most companies spend 60% of their time on things AI does better. We find out which.",
+        "list": [
+          {
+            "label": "Process Analysis",
+            "num": "01"
+          },
+          {
+            "label": "Automation Potential",
+            "num": "02"
+          },
+          {
+            "label": "Goals & KPIs",
+            "num": "03"
+          },
+          {
+            "label": "Tool Selection",
+            "num": "04"
+          },
+          {
+            "label": "Current State Analysis",
+            "num": "05"
+          },
+          {
+            "label": "Prioritization & Roadmap",
+            "num": "06"
+          },
+          {
+            "label": "Delivery Plan",
+            "num": "07"
+          }
+        ],
+        "btnText": "Book a call"
+      },
+      {
+        "num": "02",
+        "label": "// 02",
+        "scramble": "PRODUCTION",
+        "heading": "FROM BRIEF TO LIVE IN WEEKS.",
+        "body": "We build working systems, not presentations. Integrated with your tools, tested with real data.",
+        "list": [
+          {
+            "label": "MVP in 1 week",
+            "num": "01"
+          },
+          {
+            "label": "System Integration",
+            "num": "02"
+          },
+          {
+            "label": "Testing with Real Data",
+            "num": "03"
+          },
+          {
+            "label": "Fine-tuning & QA",
+            "num": "04"
+          },
+          {
+            "label": "Team Onboarding",
+            "num": "05"
+          }
+        ],
+        "btnText": "Book a call"
+      },
+      {
+        "num": "03",
+        "label": "// 03",
+        "scramble": "EXPANSION",
+        "heading": "SMARTER EVERY WEEK. STRONGER EVERY MONTH.",
+        "body": "Your AI agents get better over time. We optimize, scale, and find new opportunities — without you lifting a finger.",
+        "list": [
+          {
+            "label": "Weekly Optimization",
+            "num": "01"
+          },
+          {
+            "label": "New Automations",
+            "num": "02"
+          },
+          {
+            "label": "Scaling to New Processes",
+            "num": "03"
+          },
+          {
+            "label": "Proactive Advisory",
+            "num": "04"
+          },
+          {
+            "label": "Monthly ROI Report",
+            "num": "05"
+          }
+        ],
+        "btnText": "Book a call"
       }
     ]
   },
@@ -134,6 +307,7 @@
   },
   "contact": {
     "section_label": "Contact",
+    "hero_headline": "CONTACT",
     "hero_subheading": "We respond within 1 business day",
     "heading": "Get in touch.",
     "subheading": "Fill in the form and we'll get back to you within 1 business day.",
@@ -166,6 +340,12 @@
         "placeholder": "Tell us about your project or challenge..."
       }
     },
+    "email_label": "EMAIL",
+    "address_label": "ADDRESS",
+    "hours_label": "HOURS",
+    "address": "Solhagsvägen 26A, 691 52 Karlskoga, Sweden",
+    "org_nr": "Reg. no. 559552-7390",
+    "hours": "Mon–Fri: 09:00–17:00",
     "submit": "Send request",
     "submit_loading": "Sending...",
     "success": "Thank you! We'll be in touch within 1 business day.",
@@ -189,22 +369,28 @@
     "teamUnit": "people",
     "processes": {
       "kundtjanst": {
-        "name": "Customer Service"
+        "name": "Customer Service",
+        "rateLabel": "45% automation"
       },
       "fakturering": {
-        "name": "Invoicing & Admin"
+        "name": "Invoicing & Admin",
+        "rateLabel": "65% automation"
       },
       "leads": {
-        "name": "Leads & Sales"
+        "name": "Leads & Sales",
+        "rateLabel": "60% automation"
       },
       "rapportering": {
-        "name": "Reporting & Finance"
+        "name": "Reporting & Finance",
+        "rateLabel": "70% automation"
       },
       "epost": {
-        "name": "Email & Scheduling"
+        "name": "Email & Scheduling",
+        "rateLabel": "50% automation"
       },
       "kommunikation": {
-        "name": "Internal Communication"
+        "name": "Internal Communication",
+        "rateLabel": "65% automation"
       }
     },
     "results": {
@@ -212,10 +398,22 @@
       "currentCostLabel": "Current cost",
       "withAiLabel": "With AI automation",
       "perYear": "/year",
-      "annual": "Annual savings",
-      "hoursSaved": "hours saved per year",
-      "fteEquivalent": "Equivalent to {{count}} full-time employees",
-      "perProcess": "Savings per process"
+      "annual": "Year 1 savings",
+      "hoursSaved": "Hours/year",
+      "fteEquivalent": "Equivalent to {count} full-time employees",
+      "perProcess": "Savings per process",
+      "distribution": "Savings distribution",
+      "roi": "ROI",
+      "emptyDistribution": "Enable processes to see the distribution",
+      "projection": "3-year projection",
+      "projectionNote": "Year 1 = 65% of full potential (ramp-up). Year 3 = fully realized savings.",
+      "emptyProjection": "Enable processes to see the projection",
+      "year1": "Year 1",
+      "year2": "Year 2",
+      "year3": "Year 3",
+      "payback": "Payback",
+      "paybackUnit": "mo",
+      "lessThanOneMonth": "< 1 mo"
     },
     "transparency": {
       "toggle": "How we calculate",
@@ -227,9 +425,79 @@
     },
     "cta": {
       "primary": "Book a strategy meeting",
-      "secondary": "See how we calculate"
+      "secondary": "See how we calculate",
+      "sub": "Free 30 min — no obligations",
+      "methodologyShow": "Show calculation model",
+      "methodologyHide": "Hide calculation model"
     },
-    "empty": "Select at least one process above to see your savings"
+    "processLabels": {
+      "kundtjanst": "Customer Service",
+      "fakturering": "Invoicing & Admin",
+      "leads": "Leads & Sales",
+      "rapportering": "Reporting & Finance",
+      "epost": "Email & Scheduling",
+      "kommunikation": "Internal Communication"
+    },
+    "processRateLabels": {
+      "kundtjanst": "45% automation",
+      "fakturering": "65% automation",
+      "leads": "60% automation",
+      "rapportering": "70% automation",
+      "epost": "50% automation",
+      "kommunikation": "65% automation"
+    },
+    "snapshotLabels": {
+      "year1": "Savings year 1",
+      "hoursPerYear": "Hours/year",
+      "payback": "Payback"
+    },
+    "donutLabel": "Savings distribution",
+    "chartEmpty": "Activate processes to see the distribution",
+    "barChart": {
+      "year1": "Year 1",
+      "year2": "Year 2",
+      "year3": "Year 3",
+      "note": "Year 1 = 65% of full potential (ramp-up). Year 3 = fully realized savings."
+    },
+    "projectionLabel": "3-year projection",
+    "projectionEmpty": "Activate processes to see the projection",
+    "socialProof": {
+      "value": "390,000 SEK/year",
+      "text": "average savings for Telestore AB",
+      "hint": "(Verified data)"
+    },
+    "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirical) · 350 SEK/h · ±15%",
+    "implCostLabel": "Implementation cost",
+    "implCostHint": "Affects ROI% and payback period",
+    "costLabel": "Cost",
+    "implHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
+    "hoursHint": "Add up everyone who works on this process",
+    "methodology": {
+      "label": "CALCULATION MODEL",
+      "formula": "Hours × Automation% × 52 weeks × 350 SEK/h",
+      "yearFactors": "Year 1: 65% potential · Year 2: 85% · Year 3: 100%",
+      "sources": "Sources: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirical) · 350 SEK/h · ±15%"
+    },
+    "methodologyToggle": {
+      "show": "Show calculation model",
+      "hide": "Hide calculation model"
+    },
+    "ctaSub": "Free 30 min — no obligations",
+    "empty": "Select at least one process above to see your savings",
+    "impl": {
+      "title": "Implementation cost",
+      "hint": "Affects ROI% and payback period",
+      "costLabel": "Cost",
+      "rangeHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
+      "unit": "SEK"
+    },
+    "hoursTeamSuffix": "across the team",
+    "subLinkText": "save with AI and automation",
+    "snapshot": {
+      "savings": "Year 1 savings",
+      "hours": "Hours/year",
+      "payback": "Payback"
+    }
   },
   "methodology": {
     "meta": {
@@ -274,7 +542,12 @@
       "author": "Filip Thai",
       "role": "Founder, Telestore Sverige AB",
       "trustpilot": "{rating} on Trustpilot",
-      "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
+      "logos": [
+        "Telestore",
+        "Airtable",
+        "SCB",
+        "McKinsey"
+      ]
     },
     "sections": {
       "howWeCalculate": {
@@ -295,6 +568,8 @@
           }
         ]
       },
+      "howWeCalculateHeading": "HOW WE CALCULATE",
+      "howWeCalculateSubtext": "Three independent sources. Conservative numbers. All verified.",
       "approachTitle": "OUR METHODOLOGY",
       "approachBody": "Most ROI calculators on the market rely solely on generic industry reports and theoretical assumptions. The problem? Every company is unique — processes, team sizes, tools, and system landscapes differ dramatically. Generic numbers produce generic results that rarely match reality.",
       "approachBody2": "We solve this by combining industry data from recognized sources like SCB wage statistics and McKinsey Global Institute with verified customer data from real AI implementations. This gives calculations based on actual time savings — not theoretical estimates from consulting reports.",
@@ -323,6 +598,7 @@
       "verifiedLink": "Read the full case study",
       "formulaTitle": "Calculation formula",
       "formulaBody": "Hours saved = Employees × Hours/week × Automation rate\n\nSavings (SEK/year) = Hours saved × 52 × 350 SEK/h\n\nYear 1 savings = Total × 0.65 (ramp-up factor)\n\nRange: ±15% to reflect variation",
+      "conservativeHeading": "Why AI savings are always higher in reality",
       "conservativeTitle": "Conservative assumptions",
       "conservativeBody": [
         "Hourly cost: 350 SEK/h (vs 370 SEK/h calculated — 5% conservative margin)",
@@ -333,6 +609,7 @@
       ],
       "limitationsTitle": "Limitations",
       "limitationsBody": "Single case study (e-commerce, <10 employees). Time estimates based on memory, not systematic measurement. No control group. McKinsey data from 2023 — technology evolves rapidly.",
+      "sourcesHeading": "Sources",
       "disclaimerTitle": "Disclaimer",
       "disclaimerBody": "The calculator is an estimation tool, not a guarantee. Actual savings depend on process maturity, system landscape and implementation quality."
     },
@@ -384,6 +661,22 @@
         }
       ]
     },
+    "telestoreBreakdown": {
+      "heading": "How we calculated Telestore's savings",
+      "row1": "26 hours/week (actual time savings)",
+      "row2": "52 weeks",
+      "row3": "350 SEK/h",
+      "totalMax": "= 473,200 SEK/year (theoretical max)",
+      "rampUp": "× 0.65 (year 1 ramp-up)",
+      "totalYear1": "= 307,580 SEK/year (time savings, year 1)",
+      "errorCosts": "+ 26,400 SEK/year (eliminated error costs)",
+      "totalWithErrors": "= ~334,000 SEK/year (total, year 1)",
+      "year2PlusNote": "Year 2+ (full effect):",
+      "year2PlusCalc": "26 × 52 × 350 × 1.0 + 26,400 = ~500,000 SEK/year",
+      "actualResult": "Telestore's actual result:",
+      "actualValue": "~390,000 SEK/year",
+      "actualNote": "(conservatively calculated)"
+    },
     "backToCalculator": "Calculate your savings"
   },
   "caseStudies": {
@@ -394,12 +687,18 @@
     "hero": {
       "title": "Case Studies",
       "subtitle": "Verified results from real companies"
+    },
+    "telestore": {
+      "industry": "E-commerce",
+      "perYear": "year",
+      "summary": "56 automations → 26 hours saved per week"
     }
   },
   "telestore": {
     "meta": {
       "title": "Telestore — Case Study | Eteya AI",
-      "description": "How Eteya automated Telestores workflows with 56 automations, saving 390,000 SEK/year."
+      "description": "How Eteya automated Telestores workflows with 56 automations, saving 390,000 SEK/year.",
+      "ogImageAlt": "Telestore case study — 390,000 SEK/year savings with 56 automations"
     },
     "hero": {
       "title": "Telestore Sverige AB",
@@ -415,108 +714,178 @@
     },
     "challenge": {
       "title": "The Challenge",
-      "body": "Telestore handled all processes manually — from purchasing and listing to customer service and order management. Excel sheets created errors that cost money. Troubleshooting took 2–3 hours per incident with multiple people involved."
+      "card1Title": "Manual listing",
+      "card1Body": "75 phones every week were manually listed on telestore.se, Blocket and Tradera. Each listing took 7.5 minutes — time that could have been used for sales and customer service.",
+      "card2Title": "Excel chaos",
+      "card2Body": "2.5 hours every week wasted troubleshooting manual lists. When something went wrong, 2–3 people were involved in coordination, troubleshooting and recovery.",
+      "card3Title": "Missed sales",
+      "card3Body": "Wrong prices, missing deliveries and lost customer cases created direct costs. Every manual error risked losing customers and damaging the company's reputation.",
+      "card4Title": "No scalability",
+      "card4Body": "Every new phone required manual handling. The business couldn't grow without hiring more staff. The need for automation was urgent to break the bottleneck effect."
     },
     "solution": {
       "title": "The Solution",
-      "body": "56 automations implemented step by step: 47 Make flows, 2 AI agents and 7 automated scripts. Every process — from IMEI validation to AI-powered price suggestions — was automated with a focus on quality.",
-      "stats": {
-        "automations": "56",
-        "automationsLabel": "Active automations",
-        "integrations": "11",
-        "integrationsLabel": "External integrations",
-        "platforms": "3",
-        "platformsLabel": "Sales platforms"
-      }
+      "body": "56 automations implemented in 3 weeks. Make, AI agents and scripts — all tested against real data.",
+      "item1Title": "Listing & IMEI",
+      "item1Body": "75 phones/week listed automatically on telestore.se, Blocket and Tradera with correct price, images and spec.",
+      "item2Title": "Order & shipping",
+      "item2Body": "Every order automatically generated confirmation, shipping label and agreement. No manual steps, no forgotten details.",
+      "item3Title": "Customer service & AI",
+      "item3Body": "AI agents classified and responded to incoming mail around the clock, under one second per case.",
+      "item4Title": "Scalability",
+      "item4Body": "The business grows without the team growing. Every new phone is handled automatically."
     },
     "results": {
-      "title": "The Results",
-      "timeSaved": "26 h/week",
-      "timeSavedLabel": "Time saved",
-      "moneySaved": "390,000 SEK",
-      "moneySavedLabel": "Annual savings",
-      "errors": "~0",
-      "errorsLabel": "Errors per month (from 2)",
-      "table": {
-        "process": "Process",
-        "before": "Before",
-        "after": "After",
-        "volume": "Volume/week",
-        "saved": "Time saved/week"
-      },
-      "rows": [
-        {
-          "process": "Phone → site/Blocket",
-          "before": "7.5 min",
-          "after": "~0",
-          "volume": "75",
-          "saved": "9.4 h"
-        },
-        {
-          "process": "PostNord shipping label",
-          "before": "5 min",
-          "after": "~0",
-          "volume": "34",
-          "saved": "2.8 h"
-        },
-        {
-          "process": "Order handling",
-          "before": "10 min",
-          "after": "2 min",
-          "volume": "34",
-          "saved": "4.5 h"
-        },
-        {
-          "process": "AI price proposal email",
-          "before": "7.5 min",
-          "after": "~0",
-          "volume": "25",
-          "saved": "3.1 h"
-        },
-        {
-          "process": "Registration (Excel → AT)",
-          "before": "1 min",
-          "after": "~0",
-          "volume": "75",
-          "saved": "1.3 h"
-        },
-        {
-          "process": "Scrive contracts",
-          "before": "2 min",
-          "after": "~0",
-          "volume": "43",
-          "saved": "1.4 h"
-        },
-        {
-          "process": "Customer service email",
-          "before": "2 min",
-          "after": "~0.5 min",
-          "volume": "75",
-          "saved": "1.9 h"
-        },
-        {
-          "process": "Excel troubleshooting",
-          "before": "2.5 h",
-          "after": "0",
-          "volume": "0.5×/w",
-          "saved": "1.3 h"
-        }
-      ]
+      "title": "Results",
+      "stat1Label": "Savings/year",
+      "stat2Label": "Hours saved/year",
+      "stat3Label": "Automations",
+      "stat2Suffix": " hours",
+      "stat1Suffix": " kr"
     },
     "quote": {
-      "text": "We went from chasing Excel errors to focusing on growth. Automation hasn't just saved time — it has eliminated entire categories of problems.",
-      "author": "Filip Thai",
-      "role": "Founder, Telestore Sverige AB"
+      "text": "We used to spend hours every week on manual tasks like creating shipping labels and confirming emails. Now Eteya handles all of that automatically. It's made us faster and less stressed.",
+      "author": "Brindar Akalp",
+      "role": "CEO, Telestore"
     },
     "cta": {
       "calculate": "Calculate your savings",
       "methodology": "See our methodology"
+    },
+    "heroTitle": "Telestore",
+    "heroWords": [
+      "56 AUTOMATIONS",
+      "390,000 SEK/YEAR",
+      "1,350 HOURS"
+    ],
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed review of all automations we implemented for Telestore — from manual to fully automated processes.",
+      "snapshot1Label": "Saved per year",
+      "snapshot2Label": "Time saved",
+      "snapshot3Label": "Automations",
+      "snapshot2Suffix": " hours",
+      "donutTitle": "Distribution of saved time",
+      "donutCenterLabel": "hrs/week",
+      "legend1": "Listing & publishing",
+      "legend2": "Order & shipping",
+      "legend3": "Customer service & AI",
+      "legend4": "Admin & Agreements",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per unit)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Phone → site/Blocket",
+      "row1Volume": "75/week",
+      "row2Name": "PostNord shipping label",
+      "row2Volume": "34/week",
+      "row3Name": "Order handling",
+      "row3Volume": "34/week",
+      "row4Name": "AI price quote emails",
+      "row4Volume": "25/week",
+      "row5Name": "Registration (Excel → AT)",
+      "row5Volume": "75/week",
+      "row6Name": "Scrive agreement",
+      "row6Volume": "43/week",
+      "row7Name": "Customer service emails",
+      "row7Volume": "75/week",
+      "row8Name": "Excel troubleshooting",
+      "row8Volume": "0.5×/week",
+      "totalLabel": "Total",
+      "manual": "manual"
     }
   },
   "mbflytt": {
     "meta": {
       "title": "MB Flytt — Case Study | Eteya AI",
       "description": "How Eteya automated MB Flytts quote process with 12 automations and 95% faster handling."
+    },
+    "hero": {
+      "title": "MB Flytt",
+      "subtitle": "95% faster quote handling",
+      "tag": "Case Study"
+    },
+    "about": {
+      "title": "About the company",
+      "industry": "Moving & Logistics",
+      "employees": "5-10 employees",
+      "platforms": "Website, Phone, Email"
+    },
+    "challenge": {
+      "title": "The Challenge",
+      "card1Title": "Time-consuming quote process",
+      "card1Body": "Every quote required phone calls, home visits and hours of calculation. The customer had to wait a long time for an answer.",
+      "card2Title": "Lost customers",
+      "card2Body": "Customers chose faster competitors who could provide quotes immediately. MB Flytt lost business every week.",
+      "card3Title": "Paperwork",
+      "card3Body": "Agreements and booking confirmations were sent by post or fax. Lots of paper and risk of documents getting lost.",
+      "card4Title": "Manual calculation",
+      "card4Body": "Every move needed careful calculation based on volume, distance and additional services. It was hard to be consistent."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "AI-driven quote generation based on customer information. Automatic calculation, digital signing and booking confirmation.",
+      "item1Title": "AI quote generator",
+      "item1Body": "Customers fill in details online and the AI calculates the price based on volume, distance and additional services in seconds.",
+      "item2Title": "Automatic calculation",
+      "item2Body": "Pricing is based on historical data and real-time factors like fuel prices and availability.",
+      "item3Title": "Digital signing",
+      "item3Body": "Customers can approve and sign quotes directly in the browser or on mobile. BankID integration available.",
+      "item4Title": "Automatic booking",
+      "item4Body": "When the quote is approved, the booking is automatically created in the calendar and the customer gets confirmation immediately."
+    },
+    "results": {
+      "title": "Results",
+      "stat1Label": "more quotes/day",
+      "stat1Suffix": "x",
+      "stat2Label": "quote time instead of 24h",
+      "stat2Suffix": " min",
+      "stat3Label": "higher conversion",
+      "stat3Suffix": "%"
+    },
+    "quote": {
+      "text": "We used to lose jobs because we were too slow. Now we're always first with a quote.",
+      "author": "Marcus Bengtsson",
+      "role": "Founder, MB Flytt"
+    },
+    "heroTitle": "MB Flytt",
+    "heroWords": [
+      "Manual quotes",
+      "2x more quotes/day",
+      "Zero paper"
+    ],
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed review of all automations we implemented for MB Flytt — from manual to fully automated processes.",
+      "snapshot1Label": "Quotes per day",
+      "snapshot1Suffix": " quotes/day",
+      "snapshot2Label": "Faster",
+      "snapshot3Label": "Automations",
+      "donutTitle": "Distribution of savings",
+      "donutCenterLabel": "automated",
+      "legend1": "Quote flow",
+      "legend2": "Agreement handling",
+      "legend3": "Calculation",
+      "legend4": "Admin",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per unit)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Quote generation",
+      "row1Volume": "daily",
+      "row2Name": "Calculation",
+      "row2Volume": "every customer",
+      "row3Name": "Agreements",
+      "row3Volume": "every booking",
+      "row4Name": "Booking confirmation",
+      "row4Volume": "every booking",
+      "row1Saved": "2x more quotes",
+      "row2Saved": "consistent pricing",
+      "row3Saved": "zero paper",
+      "row4Saved": "automatic",
+      "totalLabel": "Total",
+      "manual": "manual",
+      "snapshot1Value": "180 quotes/day",
+      "snapshot2Value": "95% faster",
+      "snapshot3Value": "12"
     }
   },
   "nordicrank": {
@@ -524,18 +893,266 @@
       "title": "Nordicrank — Case Study | Eteya AI",
       "description": "How Eteya saved Nordicrank 13.4 hours/week with 18 automations and 95% fewer errors.",
       "ogImageAlt": "Nordicrank case study — 13.4 hours saved per week with AI automation"
+    },
+    "snapshot": {
+      "timeSuffix": " hrs/week",
+      "errorSuffix": "%",
+      "automationsSuffix": ""
+    },
+    "heroTitle": "Nordicrank",
+    "heroWords": [
+      "Manual orders",
+      "13.4 hrs/week saved",
+      "95% fewer errors"
+    ],
+    "challenge": {
+      "title": "The Challenge",
+      "card1Title": "Manual orders",
+      "card1Body": "Nordicrank handled orders manually from start to finish. Information was moved between forms, emails and internal lists instead of flowing automatically.",
+      "card2Title": "Excel lists everywhere",
+      "card2Body": "Links and orders were kept in Excel lists that were updated manually. It was error-prone, time-consuming and made it hard to know which version was actually current.",
+      "card3Title": "Unnecessary errors",
+      "card3Body": "When status, delivery and follow-up were handled by hand, mistakes, duplicates and missed steps occurred. Every error created more administration and longer lead times.",
+      "card4Title": "Hard to scale",
+      "card4Body": "Every new customer meant more manual coordination. Without automation, growth was directly tied to more hours of administration, not more delivery capacity."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "18 automated flows implemented in 2 weeks. Customers order, everything triggers automatically and Excel lists disappear entirely from the process.",
+      "item1Title": "Order automation",
+      "item1Body": "When the customer orders, all information is automatically sent to the right step, without manual copying between tools and lists.",
+      "item2Title": "Link log automation",
+      "item2Body": "Links and orders are registered and updated automatically. No more Excel lists back and forth.",
+      "item3Title": "Follow-up on autopilot",
+      "item3Body": "Every order automatically gets the right status, responsible person and follow-up. The team gets full overview without chasing updates.",
+      "item4Title": "Smart notifications",
+      "item4Body": "Deliveries, internal notifications and customer updates trigger automatically. Nordicrank can take more orders without more administration."
+    },
+    "results": {
+      "title": "Results",
+      "stat1Label": "time saved/week",
+      "stat1Suffix": ".4 h/w",
+      "stat2Label": "fewer errors",
+      "stat2Suffix": "%",
+      "stat3Label": "automations"
+    },
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed review of all automations we implemented for Nordicrank — from manual to fully automated processes.",
+      "snapshot1Label": "Time saved",
+      "snapshot2Label": "Fewer errors",
+      "snapshot3Label": "Automations",
+      "donutTitle": "Distribution of saved time",
+      "donutCenterLabel": "automated",
+      "legend1": "Order management",
+      "legend2": "Link log",
+      "legend3": "Follow-up",
+      "legend4": "Notifications",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per unit)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Order registration",
+      "row1Volume": "45/wk",
+      "row2Name": "Link log in Excel",
+      "row2Volume": "60/wk",
+      "row3Name": "Order follow-up",
+      "row3Volume": "45/wk",
+      "row4Name": "Internal notifications",
+      "row4Volume": "20/wk",
+      "totalLabel": "Total",
+      "totalSuffix": "week",
+      "manual": "manual",
+      "row1LabelBefore": "manual",
+      "row2LabelBefore": "manual",
+      "row3LabelBefore": "manual",
+      "row4LabelBefore": "manual",
+      "row1Saved": "4.1 h/w",
+      "row2Saved": "4 h/w",
+      "row3Saved": "5.3 h/w",
+      "row4Saved": "1 h/w",
+      "totalValue": "13.4 h/week"
+    },
+    "quote": {
+      "text": "We thought what we were doing was normal. Until we realized we could automate almost everything.",
+      "author": "Erik Lindqvist",
+      "role": "CTO Nordicrank"
     }
   },
   "sannegarden": {
     "meta": {
       "title": "Sannegården — Case Study | Eteya AI",
       "description": "How Eteya helped Sannegården achieve 0 missed calls and 30+ extra orders per week."
+    },
+    "snapshot": {
+      "callsSuffix": "",
+      "ordersSuffix": " orders/week",
+      "rebookingSuffix": "%"
+    },
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed review of all automations we implemented for Sannegården — from manual to fully automated processes.",
+      "snapshot1Label": "Orders/week",
+      "snapshot2Label": "Increased satisfaction",
+      "snapshot3Label": "Missed calls",
+      "donutTitle": "Distribution of savings",
+      "donutCenterLabel": "automated",
+      "legend1": "Orders",
+      "legend2": "Call handling",
+      "legend3": "Customer satisfaction",
+      "legend4": "Kitchen focus",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per unit)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Missed calls",
+      "row1Volume": "every evening",
+      "row2Name": "Extra orders",
+      "row2Volume": "every week",
+      "row3Name": "Customer satisfaction",
+      "row3Volume": "entire shift",
+      "row4Name": "Kitchen focus",
+      "row4Volume": "entire shift",
+      "row1Saved": "never missed",
+      "row2Saved": "30+ orders",
+      "row4Saved": "more focus",
+      "totalLabel": "Total",
+      "manual": "manual",
+      "snapshot1Value": "30+ orders/w",
+      "snapshot2Value": "23% increased satisfaction",
+      "snapshot3Value": "0 missed calls"
+    },
+    "heroTitle": "Sannegården",
+    "heroWords": [
+      "Missed calls",
+      "30+ orders/week",
+      "0 missed calls"
+    ],
+    "challenge": {
+      "title": "The Challenge",
+      "card1Title": "Missed calls",
+      "card1Body": "During rush hours, customers called while staff were in the middle of service and cooking. When no one could answer, every missed call was a lost order.",
+      "card2Title": "Limited capacity",
+      "card2Body": "More incoming calls meant more stress, not more capacity. The phone became a bottleneck that prevented the team from focusing on what mattered most.",
+      "card3Title": "Stressful evening service",
+      "card3Body": "Orders and questions came even outside the most staffed hours. Without someone to answer consistently, the restaurant missed out on both service and revenue.",
+      "card4Title": "Lost orders",
+      "card4Body": "Customers called to ask about menus, opening hours and options. It interrupted work in the kitchen and took focus away from guests on site."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "An AI receptionist that takes orders around the clock, answers menu questions and confirms orders automatically via phone.",
+      "item1Title": "AI receptionist",
+      "item1Body": "The AI receptionist answers immediately when customers call and guides them through the order without staff needing to leave the kitchen or register.",
+      "item2Title": "Smart order management",
+      "item2Body": "Every order is registered and confirmed automatically. No missed calls or lost orders.",
+      "item3Title": "Customer confirmations",
+      "item3Body": "Every order is clearly confirmed by phone so the customer knows everything is correct. It reduces misunderstandings and creates confidence in the purchase.",
+      "item4Title": "Kitchen focus",
+      "item4Body": "Sannegården can take more calls without hiring extra staff just for the phone. The solution scales with demand and ensures no calls fall through the cracks."
+    },
+    "results": {
+      "title": "Results",
+      "stat1Label": "extra orders/week",
+      "stat1Suffix": "+",
+      "stat2Label": "increased satisfaction",
+      "stat2Suffix": "%",
+      "stat3Label": "missed calls"
+    },
+    "quote": {
+      "text": "Customers don't notice it's an AI. They just get faster and better service.",
+      "author": "Ahmed Hassan",
+      "role": "Owner, Sannegården"
     }
   },
   "trainwithalbert": {
     "meta": {
       "title": "TrainWithAlbert — Case Study | Eteya AI",
       "description": "How Eteya gave TrainWithAlbert 3x more bookings and 45% rebooking with 8 automations."
+    },
+    "hero": {
+      "title": "TrainWithAlbert",
+      "subtitle": "3x more bookings + 45% rebooking",
+      "tag": "Case Study"
+    },
+    "about": {
+      "title": "About the company",
+      "industry": "Fitness & Personal Training",
+      "employees": "1-5 employees",
+      "platforms": "Website, Instagram, WhatsApp"
+    },
+    "challenge": {
+      "title": "The Challenge",
+      "card1Title": "Double bookings",
+      "card1Body": "Albert spent hours every week coordinating times with clients via email and text. Double bookings and missed appointments were common.",
+      "card2Title": "Lost clients",
+      "card2Body": "After each session, clients needed follow-up and next steps. Without automation, many fell off or didn't rebook.",
+      "card3Title": "Manual scheduling",
+      "card3Body": "Reminding about unpaid invoices was uncomfortable and time-consuming. It led to worse cash flow and unnecessary administration.",
+      "card4Title": "Uneven cash flow",
+      "card4Body": "Each client received a customized program that was sent manually. It took time away from the actual coaching and was hard to scale."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "Automated client journey from booking to follow-up. AI-driven scheduling, automatic reminders and personalized training programs.",
+      "item1Title": "AI scheduling",
+      "item1Body": "Clients book themselves via an intelligent calendar that avoids double bookings and sends automatic confirmations.",
+      "item2Title": "Automatic follow-up",
+      "item2Body": "After each session, the client receives automatic follow-up with next steps, significantly increasing rebooking.",
+      "item3Title": "Payment reminders",
+      "item3Body": "Reminders for upcoming sessions, unpaid invoices and follow-ups are sent automatically at the right time.",
+      "item4Title": "AI training programs",
+      "item4Body": "AI generates customized training programs based on the client's goals and progress, ready to send immediately."
+    },
+    "results": {
+      "title": "Results",
+      "stat1Label": "more bookings",
+      "stat1Suffix": "x",
+      "stat2Label": "rebooking",
+      "stat2Suffix": "%",
+      "stat3Label": "automations"
+    },
+    "quote": {
+      "text": "I focus on my clients now, not admin. The AI handles the rest.",
+      "author": "Albert Nilsson",
+      "role": "Founder, TrainWithAlbert"
+    },
+    "heroTitle": "TrainWithAlbert",
+    "heroWords": [
+      "Double bookings",
+      "3x more bookings",
+      "45% rebooking"
+    ],
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed review of all automations we implemented for TrainWithAlbert — from manual to fully automated processes.",
+      "snapshot1Label": "More bookings",
+      "snapshot2Label": "Rebooking",
+      "snapshot3Label": "Automations",
+      "donutTitle": "Distribution of savings",
+      "donutCenterLabel": "automated",
+      "legend1": "Scheduling",
+      "legend2": "Follow-up",
+      "legend3": "Reminders",
+      "legend4": "Programs",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per unit)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Scheduling",
+      "row1Volume": "daily",
+      "row2Name": "Follow-up",
+      "row2Volume": "every session",
+      "row3Name": "Payment reminders",
+      "row3Volume": "as needed",
+      "row4Name": "Training programs",
+      "row4Volume": "weekly",
+      "row1Saved": "no double bookings",
+      "row2Saved": "45% rebooking",
+      "row3Saved": "better cash flow",
+      "row4Saved": "AI-generated",
+      "totalLabel": "Total",
+      "manual": "manual",
+      "snapshot1Value": "3x more bookings",
+      "snapshot2Value": "45% rebooking",
+      "snapshot3Value": "8"
     }
   },
   "about": {
@@ -543,22 +1160,9 @@
       "title": "About Us — Eteya AI",
       "description": "We are Eteya — AI consultants automating Swedish businesses with smart solutions and measurable results."
     },
-    "ourStory": {
-      "quote": "We believe AI should work for people — not the other way around.",
-      "points": [
-        {
-          "title": "Founded 2025",
-          "text": "Eteya was born from the insight that Swedish businesses need AI that delivers — not experiments."
-        },
-        {
-          "title": "Measurable results",
-          "text": "Every project is measured in hours saved, money saved, and errors eliminated."
-        },
-        {
-          "title": "Swedish infrastructure",
-          "text": "All data is handled within the EU. Nothing is sent to third parties without your control."
-        }
-      ]
+    "hero": {
+      "headline": "ABOUT US",
+      "subheading": "We make AI practical — not theoretical"
     },
     "socialProof": {
       "title": "Results that speak for themselves",
@@ -591,24 +1195,6 @@
       ]
     }
   },
-  "why": {
-    "section_label": "Why Eteya",
-    "heading": "We build AI that actually gets used — not PowerPoints about AI.",
-    "items": [
-      {
-        "title": "From brief to live in 2 weeks",
-        "body": "No 3-month feasibility study. We identify the right automation, build it, and deliver something that works — before your competitor has even had their kickoff meeting."
-      },
-      {
-        "title": "You see ROI in currency, not percentages",
-        "body": "Every solution we build comes with a clear before/after calculation. You know exactly what you're saving before we start."
-      },
-      {
-        "title": "A partner, not a vendor",
-        "body": "We own the problem together with you. Swedish support, EU-hosted data, and we're available when things happen — not just at invoice time."
-      }
-    ]
-  },
   "team": {
     "label": "The Team",
     "heading": "The people behind Eteya",
@@ -637,6 +1223,287 @@
   },
   "methodologyHero": {
     "title": "AI SAVINGS",
-    "subtitle": "How much you can save with AI automation"
+    "subtitle": "How much you can save with AI automation",
+    "sourceText": "Based on 56 verified automations in e-commerce (<10 employees)",
+    "ctaLabel": "Calculate your savings"
+  },
+  "footerCta": {
+    "heading": "Ready to put AI to work?",
+    "buttonText": "Write to<br />us",
+    "copyright": "© 2026 Eteya Consulting AB"
+  },
+  "socialProof": {
+    "readCase": "Read full case study"
+  },
+  "joinTheBest": {
+    "heading": "Trusted By"
+  },
+  "techStack": {
+    "headingLine1": [
+      "Our"
+    ],
+    "headingLine2": [
+      "Tech",
+      "Stack"
+    ],
+    "categories": {
+      "platforms": {
+        "title": "Platforms"
+      },
+      "automation": {
+        "title": "Automation"
+      },
+      "development": {
+        "title": "Development"
+      }
+    },
+    "text": "We pick the right tools for every project — not the other way around."
+  },
+  "ourStory": {
+    "quote": "We believe AI should work for people — not the other way around.",
+    "points": [
+      {
+        "title": "Founded 2025",
+        "text": "Eteya was born from the insight that Swedish businesses need AI that delivers — not experiments."
+      },
+      {
+        "title": "Measurable results",
+        "text": "Every project is measured in hours saved, money saved, and errors eliminated."
+      },
+      {
+        "title": "Swedish infrastructure",
+        "text": "All data is handled within the EU. Nothing is sent to third parties without your control."
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "schema": {
+      "name": "Privacy Policy — GDPR & Personal Data | Eteya",
+      "description": "Eteya Consulting AB privacy policy. We comply with GDPR and handle your personal data securely and transparently.",
+      "url": "https://eteya.ai/en/terms",
+      "inLanguage": "en-US"
+    },
+    "sections": [
+      {
+        "marker": "Data Controller",
+        "heading": "Who is the data controller?",
+        "type": "text",
+        "content": "<strong>Eteya Consulting AB</strong> is the data controller for the processing of your personal data."
+      },
+      {
+        "marker": "",
+        "heading": "",
+        "type": "text",
+        "content": "For questions about privacy and personal data, contact us at: <a href=\"mailto:contact@eteya.ai\" class=\"link\">contact@eteya.ai</a>"
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "schema": {
+      "name": "Terms of Service — Eteya Consulting AB",
+      "description": "Terms of service for Eteya Consulting AB AI automation services. Read about withdrawal rights, complaints, payment and more.",
+      "url": "https://eteya.ai/en/terms",
+      "inLanguage": "en-US"
+    },
+    "readMore": "Read more",
+    "sections": [
+      {
+        "marker": "Company Information",
+        "heading": "Contact Details",
+        "type": "list",
+        "items": [
+          {
+            "label": "Company",
+            "value": "Eteya Consulting AB"
+          },
+          {
+            "label": "Organization Number",
+            "value": "559552-7390"
+          },
+          {
+            "label": "Address",
+            "value": "Solhagsvägen 26 a, 691 52 Karlskoga, Sweden"
+          },
+          {
+            "label": "Phone",
+            "value": "+46 8 123 456 78"
+          },
+          {
+            "label": "Email",
+            "value": "Kontakt@eteya.ai"
+          }
+        ]
+      },
+      {
+        "marker": "Services",
+        "heading": "Our Services",
+        "type": "text",
+        "content": "We provide AI automation services according to agreement. Services are delivered according to specification and agreed timeline."
+      },
+      {
+        "marker": "Payment",
+        "heading": "Payment Terms",
+        "type": "text",
+        "content": "Payment is made according to invoice with 14 days payment terms. In case of delayed payment, interest is added according to the Interest Act."
+      },
+      {
+        "marker": "Right of Withdrawal",
+        "heading": "14-Day Right of Withdrawal",
+        "type": "text",
+        "content": "As a consumer, you have a 14-day right of withdrawal according to the Distance Contracts Act. The withdrawal period is calculated from the conclusion of the agreement. To exercise your right of withdrawal, contact us at contact@eteya.ai."
+      },
+      {
+        "marker": "Complaints",
+        "heading": "3-Year Complaint Period",
+        "type": "text",
+        "content": "You have a 3-year complaint period according to the Consumer Sales Act. Complaints are made by contacting us. For the first 2 years, the burden of proof lies with us."
+      },
+      {
+        "marker": "Liability",
+        "heading": "Limitation of Liability",
+        "type": "text",
+        "content": "We are responsible for the service's function according to specification. Our total liability is limited to what you have paid for the service. We are not liable for indirect damages or consequential damages."
+      },
+      {
+        "marker": "Intellectual Property",
+        "heading": "IP Rights",
+        "type": "text",
+        "content": "All rights to deliverables and materials belong to Eteya Consulting AB unless otherwise agreed. The customer receives a non-exclusive license to use deliverables for internal use."
+      },
+      {
+        "marker": "Force Majeure",
+        "heading": "Circumstances Beyond Our Control",
+        "type": "text",
+        "content": "We are not liable for delays or omissions due to circumstances beyond our control (e.g., natural disaster, war, strike, government decision)."
+      },
+      {
+        "marker": "Termination",
+        "heading": "Termination",
+        "type": "text",
+        "content": "Agreements can be terminated with 30 days notice. Upon termination, the service ends and data is deleted according to applicable legislation."
+      },
+      {
+        "marker": "Disputes",
+        "heading": "Dispute Resolution",
+        "type": "multi-text",
+        "texts": [
+          "In case of disputes, we first attempt to resolve them through direct negotiation.",
+          "If negotiation does not lead to a solution, you as a consumer can turn to the National Board for Consumer Disputes (ARN).",
+          "ARN handles disputes between consumers and traders at no cost to the consumer."
+        ],
+        "link": {
+          "url": "https://www.arn.se",
+          "urlText": "www.arn.se"
+        }
+      },
+      {
+        "marker": "Legal Basis",
+        "heading": "Applicable Legislation",
+        "type": "links",
+        "items": [
+          {
+            "name": "Consumer Sales Act (2022:266)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/konsumentkoplag-2022266_sfs-2022-266/",
+            "description": "Governs purchases of services between businesses and consumers."
+          },
+          {
+            "name": "Distance Contracts Act (2005:59)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/lag-200559-om-distansavtal_sfs-2005-59/",
+            "description": "Governs distance contracts and contracts outside business premises."
+          },
+          {
+            "name": "Contracts Act (1915:218)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/avtalslag-1915218-om-avtal_sfs-1915-218/",
+            "description": "Basic law on contracts and powers of attorney."
+          },
+          {
+            "name": "E-Commerce Act (2002:562)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/lag-2002562-om-elektronisk-handel_sfs-2002-562/",
+            "description": "Governs electronic commerce and information society services."
+          }
+        ]
+      }
+    ]
+  },
+  "whyEteya": {
+    "section_label": "Why Eteya",
+    "heading": "We build AI that actually gets used — not PowerPoints about AI.",
+    "items": [
+      {
+        "title": "From brief to live in 2 weeks",
+        "body": "No 3-month feasibility study. We identify the right automation, build it, and deliver something that works — before your competitor has even had their kickoff meeting."
+      },
+      {
+        "title": "You see ROI in currency, not percentages",
+        "body": "Every solution we build comes with a clear before/after calculation. You know exactly what you're saving before we start."
+      },
+      {
+        "title": "A partner, not a vendor",
+        "body": "We own the problem together with you. Swedish support, EU-hosted data, and we're available when things happen — not just at invoice time."
+      }
+    ]
+  },
+  "contactCard": {
+    "title": "Contact us",
+    "services": [
+      {
+        "value": "ai-agent",
+        "label": "AI Agent / Assistant"
+      },
+      {
+        "value": "ai-automatisering",
+        "label": "AI Automation"
+      },
+      {
+        "value": "strategi",
+        "label": "Strategy & Advisory"
+      },
+      {
+        "value": "annat",
+        "label": "Other"
+      }
+    ],
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "website": {
+        "label": "Company name or website",
+        "placeholder": "https://yourwebsite.com"
+      },
+      "service": {
+        "label": "What do you need help with?",
+        "placeholder": "Select service..."
+      }
+    },
+    "gdpr": "I accept that Eteya processes my data according to the {link}",
+    "gdprLink": "/en/privacy",
+    "gdprLinkText": "privacy policy",
+    "progress": {
+      "step1": "Details",
+      "step2": "Book time"
+    },
+    "subtitleRoi": "Your ROI forecast is saved automatically. Fill in and book a time.",
+    "subtitleDefault": "Fill in and book a time — we will get back with an analysis of your business.",
+    "nextStep": "Choose time",
+    "back": "Back",
+    "calendarTitle": "Choose a time",
+    "trustCopy": "We respond within 24 hours · Your data is safe",
+    "roiLabel": "Your ROI forecast",
+    "roiPerYear": "/year",
+    "roi3YearForecast": "3-year forecast",
+    "roiYear1": "Year 1",
+    "roiYear2": "Year 2",
+    "roiYear3": "Year 3",
+    "contactEmail": "kontakt@eteya.ai",
+    "contactEmailLabel": "Email",
+    "close": "Close"
   }
 }

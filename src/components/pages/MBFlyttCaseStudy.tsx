@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 }
 
 export default function MBFlyttCaseStudy() {
-  const locale = useLocale()
+  const t = useTranslations('mbflytt')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -55,12 +55,12 @@ export default function MBFlyttCaseStudy() {
     return () => ScrollTrigger.getAll().forEach((st) => st.kill())
   }, [])
 
-  /* Counter animation for Snapshot Bar */
   useEffect(() => {
     if (!snapshotRef.current) return
+    const quoteSuffix = t('savings.snapshot1Suffix')
     const ctx = gsap.context(() => {
       const counters = [
-        { el: counter1Ref.current, target: 180, prefix: '', suffix: locale === 'sv' ? ' offerter/dag' : ' quotes/day', format: false },
+        { el: counter1Ref.current, target: 180, prefix: '', suffix: quoteSuffix, format: false },
         { el: counter2Ref.current, target: 95, prefix: '', suffix: '%', format: false },
         { el: counter3Ref.current, target: 12, prefix: '', suffix: '', format: false },
       ]
@@ -80,9 +80,8 @@ export default function MBFlyttCaseStudy() {
       })
     }, snapshotRef)
     return () => ctx.revert()
-  }, [locale])
+  }, [t])
 
-  /* Donut draw-in animation */
   useEffect(() => {
     if (!donutRef.current) return
     const ctx = gsap.context(() => {
@@ -115,7 +114,6 @@ export default function MBFlyttCaseStudy() {
     return () => ctx.revert()
   }, [])
 
-  /* Bullet bar animation */
   useEffect(() => {
     if (!bulletTableRef.current) return
     const ctx = gsap.context(() => {
@@ -132,6 +130,22 @@ export default function MBFlyttCaseStudy() {
     return () => ctx.revert()
   }, [])
 
+  const heroWords = [t('heroWords.0'), t('heroWords.1'), t('heroWords.2')]
+
+  const solutionItems = [
+    { title: t('solution.item1Title'), body: t('solution.item1Body') },
+    { title: t('solution.item2Title'), body: t('solution.item2Body') },
+    { title: t('solution.item3Title'), body: t('solution.item3Body') },
+    { title: t('solution.item4Title'), body: t('solution.item4Body') },
+  ]
+
+  const bulletRows = [
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '15%', saved: t('savings.row1Saved') },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '80%', after: '10%', saved: t('savings.row2Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '70%', after: '5%', saved: t('savings.row3Saved') },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '60%', after: '3%', saved: t('savings.row4Saved') },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -141,10 +155,10 @@ export default function MBFlyttCaseStudy() {
         <div className={styles.heroGrid}>
           <div className={styles.heroContentWrapper}>
             <motion.h1 layoutId="hero-title" className={styles.heroTitle}>
-              MB Flytt
+              {t('heroTitle')}
             </motion.h1>
             <LayoutTextFlip
-              words={["Manuella offerter", "2x fler offerter/dag", "Noll papper"]}
+              words={heroWords}
               duration={2500}
             />
           </div>
@@ -154,27 +168,27 @@ export default function MBFlyttCaseStudy() {
       {/* UTMANINGEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
           <div className={styles.sourcesGrid}>
             <article className={styles.sourceCard}>
               <Counter current={1} total={4} />
-              <h3>Tidskrävande offertprocess</h3>
-              <p>Varje offert krävde telefonsamtal, hembesök och timmar av kalkylering. Kunden fick vänta länge på besked.</p>
+              <h3>{t('challenge.card1Title')}</h3>
+              <p>{t('challenge.card1Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={2} total={4} />
-              <h3>Förlorade kunder</h3>
-              <p>Kunder valde snabbare konkurrenter som kunde lämna offerter direkt. MB Flytt förlorade affärer varje vecka.</p>
+              <h3>{t('challenge.card2Title')}</h3>
+              <p>{t('challenge.card2Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={3} total={4} />
-              <h3>Pappersarbete</h3>
-              <p>Avtal och bokningsbekräftelser skickades per post eller fax. Mycket papper och risk för att dokument försvann.</p>
+              <h3>{t('challenge.card3Title')}</h3>
+              <p>{t('challenge.card3Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={4} total={4} />
-              <h3>Manuell kalkylering</h3>
-              <p>Varje flytt behövde noggrann kalkylering baserat på volym, avstånd och tilläggstjänster. Det var svårt att vara konsekvent.</p>
+              <h3>{t('challenge.card4Title')}</h3>
+              <p>{t('challenge.card4Body')}</p>
             </article>
           </div>
         </div>
@@ -185,20 +199,13 @@ export default function MBFlyttCaseStudy() {
         <div className={styles.metodikInner}>
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>Lösningen</h2>
-              <p className={styles.metodikSubtext}>
-                AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.
-              </p>
+              <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
+              <p className={styles.metodikSubtext}>{t('solution.body')}</p>
             </div>
           </div>
           <div className={styles.metodikRight}>
             <ul className={styles.metodikList}>
-              {[
-                { title: 'AI-offertgenerator', body: 'Kunder fyller i uppgifter online och AI:n beräknar pris baserat på volym, avstånd och tilläggstjänster på sekunder.' },
-                { title: 'Automatisk kalkylering', body: 'Prissättning baseras på historisk data och realtidsfaktorer som bränslepris och tillgänglighet.' },
-                { title: 'Digital signering', body: 'Kunder kan godkänna och signera offerter direkt i webbläsaren eller på mobilen. BankID-integration finns.' },
-                { title: 'Automatisk bokning', body: 'När offerten är godkänd skapas bokningen automatiskt i kalendern och kunden får bekräftelse direkt.' },
-              ].map((item, i) => (
+              {solutionItems.map((item, i) => (
                 <li key={i} className={styles.metodikItem}>
                   <div className={styles.metodikItemContent}>
                     <h3 className={styles.metodikItemTitle}>{item.title}</h3>
@@ -215,36 +222,36 @@ export default function MBFlyttCaseStudy() {
       {/* RESULTAT */}
       <section className={styles.section} data-reveal>
         <div className={styles.statsTitleWrapper}>
-          <h2 className={styles.sectionTitle}>Resultat</h2>
+          <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 2, suffix: 'x', label: 'fler offerter/dag' },
-          { value: 15, suffix: ' min', label: 'offertid istället för 24h' },
-          { value: 35, suffix: '%', label: 'högre konvertering' },
+          { value: 2, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 15, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 35, suffix: t('results.stat3Suffix'), label: t('results.stat3Label') },
         ]} />
       </section>
 
       {/* BESPARINGAR */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
-          <p className={styles.savingsSubtitle}>{locale === 'sv' ? 'En detaljerad genomgång av alla automations vi implementerat för MB Flytt — från manuell till fullt automatiserad process.' : 'A detailed review of all automations we implemented for MB Flytt — from manual to fully automated processes.'}</p>
+          <h2 className={styles.sectionTitle}>{t('savings.title')}</h2>
+          <p className={styles.savingsSubtitle}>{t('savings.subtitle')}</p>
 
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>180 offerter/dag</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Offerter per dag' : 'Quotes per day'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>{t('savings.snapshot1Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>95% snabbare</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Snabbare' : 'Faster'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>{t('savings.snapshot2Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>12</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Automationer' : 'Automations'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>{t('savings.snapshot3Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
 
@@ -253,7 +260,7 @@ export default function MBFlyttCaseStudy() {
 
             {/* Donut Chart */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
-              <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av besparingar' : 'Distribution of savings'}</div>
+              <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
@@ -264,34 +271,29 @@ export default function MBFlyttCaseStudy() {
                 </svg>
                 <div className={styles.savingsDonutCenter}>
                   <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>68%</span>
-                  <span className={styles.savingsDonutCenterLabel}>{locale === 'sv' ? 'automatiserat' : 'automated'}</span>
+                  <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Offertflöde' : 'Quote flow'}</span><span className={styles.savingsLegendValue}>35%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>35%</span></div>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Avtalshantering' : 'Agreement handling'}</span><span className={styles.savingsLegendValue}>25%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>25%</span></div>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Kalkylering' : 'Calculation'}</span><span className={styles.savingsLegendValue}>20%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>20%</span></div>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Admin' : 'Admin'}</span><span className={styles.savingsLegendValue}>10%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>10%</span></div>
               </div>
             </div>
 
             {/* Bullet Chart Table */}
             <div className={styles.savingsBulletTable} ref={bulletTableRef}>
               <div className={styles.savingsTableHeader}>
-                <span>{locale === 'sv' ? 'Process' : 'Process'}</span>
-                <span>{locale === 'sv' ? 'Tidsjämförelse (per enhet)' : 'Time comparison (per unit)'}</span>
-                <span>{locale === 'sv' ? 'Sparat/vecka' : 'Saved/week'}</span>
+                <span>{t('savings.tableProcess')}</span>
+                <span>{t('savings.tableComparison')}</span>
+                <span>{t('savings.tableSaved')}</span>
               </div>
-              {[
-                { name: locale === 'sv' ? 'Offertgenerering' : 'Quote generation', volume: locale === 'sv' ? 'dagligen' : 'daily', before: '100%', after: '15%', saved: locale === 'sv' ? '2x fler offerter' : '2x more quotes' },
-                { name: locale === 'sv' ? 'Kalkylering' : 'Calculation', volume: locale === 'sv' ? 'varje kund' : 'every customer', before: '80%', after: '10%', saved: locale === 'sv' ? 'konsekventa priser' : 'consistent pricing' },
-                { name: locale === 'sv' ? 'Avtal' : 'Agreements', volume: locale === 'sv' ? 'varje bokning' : 'every booking', before: '70%', after: '5%', saved: locale === 'sv' ? 'noll papper' : 'zero paper' },
-                { name: locale === 'sv' ? 'Bokningsbekräftelse' : 'Booking confirmation', volume: locale === 'sv' ? 'varje bokning' : 'every booking', before: '60%', after: '3%', saved: locale === 'sv' ? 'automatisk' : 'automatic' },
-              ].map((row, i) => (
+              {bulletRows.map((row, i) => (
                 <div key={i} className={styles.savingsTableRow} data-bullet-row>
                   <div className={styles.savingsProcessInfo}>
                     <span className={styles.savingsProcessName}>{row.name}</span>
@@ -303,7 +305,7 @@ export default function MBFlyttCaseStudy() {
                       <div className={styles.savingsBulletAfter} data-bullet-after style={{ width: row.after }} />
                     </div>
                     <div className={styles.savingsBulletLabels}>
-                      <span>{row.before === '100%' ? (locale === 'sv' ? 'manuellt' : 'manual') : row.before}</span>
+                      <span>{row.before === '100%' ? t('savings.manual') : row.before}</span>
                       <span className={styles.savingsBulletLabelAfter}>{row.after}</span>
                     </div>
                   </div>
@@ -311,7 +313,7 @@ export default function MBFlyttCaseStudy() {
                 </div>
               ))}
               <div className={styles.savingsTotalRow}>
-                <div className={styles.savingsTotalLabel}>{locale === 'sv' ? 'Totalt' : 'Total'}</div>
+                <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
                 <div className={styles.savingsTotalValue}>68%</div>
               </div>
@@ -326,17 +328,17 @@ export default function MBFlyttCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/marcus-bengtsson.jpg"
-              alt="Marcus Bengtsson"
+              alt={t('quote.author')}
               width={180}
               height={180}
               className={styles.quoteImage}
             />
           </div>
           <div className={styles.quoteContent}>
-            <blockquote className={styles.quoteText}>Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först med offert.</blockquote>
+            <blockquote className={styles.quoteText}>{t('quote.text')}</blockquote>
             <div className={styles.quoteAuthor}>
-              <span className={styles.quoteName}>Marcus Bengtsson</span>
-              <span className={styles.quoteRole}>Grundare MB Flytt</span>
+              <span className={styles.quoteName}>{t('quote.author')}</span>
+              <span className={styles.quoteRole}>{t('quote.role')}</span>
             </div>
           </div>
         </div>

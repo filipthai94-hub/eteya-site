@@ -242,6 +242,8 @@ const CSS = `
   }
 `
 
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789'
+
 interface Block {
   num: string
   label: string
@@ -253,62 +255,10 @@ interface Block {
   btnText: string
 }
 
-const BLOCKS: Block[] = [
-  {
-    num: '01',
-    label: '// 01',
-    scramble: 'KARTLÄGGNING',
-    bgImage: '/images/process/eteya-brain.png',
-    heading: 'ERT TEAM JOBBAR FÖR HÅRT. PÅ FEL SAKER.',
-    body: 'De flesta företag lägger 60% av sin tid på saker AI gör bättre. Vi hittar vilka.',
-    list: [
-      { label: 'Processanalys', num: '01' },
-      { label: 'Automationspotential', num: '02' },
-      { label: 'Målsättning & KPI:er', num: '03' },
-      { label: 'Verktygsval', num: '04' },
-      { label: 'Nulägesanalys', num: '05' },
-      { label: 'Prioritering & roadmap', num: '06' },
-      { label: 'Leveransplan', num: '07' },
-    ],
-    btnText: 'Boka ett samtal',
-  },
-  {
-    num: '02',
-    label: '// 02',
-    scramble: 'PRODUKTION',
-    bgImage: '/images/process/eteya-arm.png',
-    heading: 'FRÅN BRIEF TILL LIVE PÅ VECKOR.',
-    body: 'Vi bygger fungerande system, inte presentationer. Integrerat i era verktyg, testat med riktig data.',
-    list: [
-      { label: 'MVP på 1 vecka', num: '01' },
-      { label: 'Systemintegration', num: '02' },
-      { label: 'Testning med riktig data', num: '03' },
-      { label: 'Finjustering & kvalitetssäkring', num: '04' },
-      { label: 'Teamonboarding', num: '05' },
-    ],
-    btnText: 'Boka ett samtal',
-  },
-  {
-    num: '03',
-    label: '// 03',
-    scramble: 'EXPANSION',
-    bgImage: '/images/process/eteya-figure.png',
-    heading: 'VARJE VECKA SMARTARE. VARJE MÅNAD STARKARE.',
-    body: 'Era AI-agenter blir bättre med tiden. Vi optimerar, skalar och hittar nya möjligheter — utan att ni behöver lyfta ett finger.',
-    list: [
-      { label: 'Veckovis optimering', num: '01' },
-      { label: 'Nya automationer', num: '02' },
-      { label: 'Skalning till nya processer', num: '03' },
-      { label: 'Proaktiv rådgivning', num: '04' },
-      { label: 'Månadsrapport med ROI', num: '05' },
-    ],
-    btnText: 'Boka ett samtal',
-  },
-]
-
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789'
-
-export default function ProcessSectionClient() {
+export default function ProcessSectionClient({ heading, blocks }: {
+  heading: string
+  blocks: Block[]
+}) {
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
   const bgRefs = useRef<(HTMLDivElement | null)[]>([])
   const headingRefs = useRef<(HTMLHeadingElement | null)[]>([])
@@ -379,7 +329,8 @@ export default function ProcessSectionClient() {
 
     // Font-size sätts via CSS — ingen JS behövs
 
-    BLOCKS.forEach((_, i) => {
+    blocks.forEach((_, i) => {
+      const block = blocks[i]
       const section = sectionRefs.current[i]
       const bg = bgRefs.current[i]
       const heading = headingRefs.current[i]
@@ -530,10 +481,10 @@ export default function ProcessSectionClient() {
 
       {/* Section Header */}
       <div className="process-section-header">
-        <h2>SÅ HÄR LEVERERAR VI</h2>
+        <h2>{heading}</h2>
       </div>
 
-      {BLOCKS.map((block, i) => (
+      {blocks.map((block, i) => (
         <div key={block.num}>
           {/* Bildsektion */}
           <div

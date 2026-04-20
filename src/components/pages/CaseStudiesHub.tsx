@@ -2,14 +2,15 @@
 
 import { useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { useLocale } from 'next-intl'
+import { Link } from '@/i18n/navigation'
+import { usePathname } from '@/i18n/navigation'
 
 export default function CaseStudiesHub() {
   const t = useTranslations('caseStudies')
-  const locale = useLocale()
+  const pathname = usePathname()
+  const locale = pathname?.startsWith('/sv') ? 'sv' : 'en'
 
-  const telestorePath = locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'
+  const telestorePath = `/kundcase/telestore`
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '120px 24px 80px', textAlign: 'center' }}>
@@ -50,18 +51,16 @@ export default function CaseStudiesHub() {
           onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
           >
             <span style={{ color: 'var(--accent)', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-              {locale === 'sv' ? 'E-handel' : 'E-commerce'}
+              {t('telestore.industry')}
             </span>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', fontWeight: 600, marginTop: 8 }}>
               Telestore Sverige AB
             </h2>
             <p style={{ color: 'var(--accent)', fontSize: '2rem', fontWeight: 700, margin: '12px 0' }}>
-              390 000 kr/{locale === 'sv' ? 'år' : 'year'}
+              390 000 kr/{t('telestore.perYear')}
             </p>
             <p style={{ color: 'var(--secondary)' }}>
-              {locale === 'sv'
-                ? '56 automationer → 26 timmar sparade per vecka'
-                : '56 automations → 26 hours saved per week'}
+              {t('telestore.summary')}
             </p>
           </div>
         </Link>

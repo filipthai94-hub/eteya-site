@@ -2,15 +2,9 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react"
 import { XIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import Cal, { getCalApi } from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
-
-const services = [
-  { value: "ai-agent", label: "AI-agent / Assistent" },
-  { value: "ai-automatisering", label: "AI-automatisering" },
-  { value: "strategi", label: "Strategi & Rådgivning" },
-  { value: "annat", label: "Annat" },
-]
 
 export interface ROIData {
   annualSavings: number
@@ -45,6 +39,8 @@ function fmtK(n: number) {
 }
 
 export default function ContactCard({ onClose, roiData, showContactInfo = true }: ContactCardProps) {
+  const t = useTranslations('contactCard')
+  const services = t.raw('services') as { value: string; label: string }[]
   const [step, setStep] = useState<1 | 2>(1)
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
   const [formData, setFormData] = useState({
@@ -176,7 +172,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           onClick={onClose}
           className={styles.closeButton}
           type="button"
-          aria-label="Stäng"
+          aria-label={t('close')}
         >
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round">
             <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" />
@@ -189,23 +185,23 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
       <div className={styles.progress}>
         <div className={styles.progressStep}>
           <div className={`${styles.progressDot} ${step >= 1 ? styles.progressDotActive : ''}`} />
-          <span className={styles.progressLabel}>Uppgifter</span>
+          <span className={styles.progressLabel}>{t('progress.step1')}</span>
         </div>
         <div className={styles.progressLine} />
         <div className={styles.progressStep}>
           <div className={`${styles.progressDot} ${step >= 2 ? styles.progressDotActive : ''}`} />
-          <span className={styles.progressLabel}>Boka tid</span>
+          <span className={styles.progressLabel}>{t('progress.step2')}</span>
         </div>
       </div>
 
       {/* Step 1: Form */}
       <div className={`${styles.stepContent} ${step === 1 ? styles.stepVisible : styles.stepHidden} ${direction === 'forward' ? styles.slideLeft : styles.slideRight}`}>
         <div className={styles.formCol}>
-          <h1 className={styles.title}>Kontakta oss</h1>
+          <h1 className={styles.title}>{t('title')}</h1>
           <p className={styles.subtitle}>
             {roiData
-              ? "Din ROI-prognos sparas automatiskt. Fyll i och boka en tid."
-              : "Fyll i och boka en tid — vi återkommer med en analys av ert företag."}
+              ? t('subtitleRoi')
+              : t('subtitleDefault')}
           </p>
 
           {/* Kontaktinfo */}
@@ -219,8 +215,8 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 </svg>
               </div>
               <div>
-                <p className={styles.contactLabel}>Email</p>
-                <p className={styles.contactValue}>kontakt@eteya.ai</p>
+                <p className={styles.contactLabel}>{t('contactEmailLabel')}</p>
+                <p className={styles.contactValue}>{t('contactEmail')}</p>
               </div>
             </div>
             {/* Telefon — tillfälligt borttagen tills företagsabonnemang finns */}
@@ -242,22 +238,22 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           <div className={styles.formFields}>
             <div className={styles.formRow}>
               <div className={styles.field}>
-                <label className={styles.label}>Namn *</label>
+                <label className={styles.label}>{t('form.name.label')} *</label>
                 <input
                   type="text"
                   required
-                  placeholder="Ditt namn"
+                  placeholder={t('form.name.placeholder')}
                   className={styles.input}
                   value={formData.name}
                   onChange={(e) => updateField('name', e.target.value)}
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Email *</label>
+                <label className={styles.label}>{t('form.email.label')} *</label>
                 <input
                   type="email"
                   required
-                  placeholder="din@email.com"
+                  placeholder={t('form.email.placeholder')}
                   className={styles.input}
                   value={formData.email}
                   onChange={(e) => updateField('email', e.target.value)}
@@ -266,11 +262,11 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Företagsnamn eller hemsida *</label>
+              <label className={styles.label}>{t('form.website.label')} *</label>
               <input
                 type="text"
                 required
-                placeholder="https://dinhemsida.se"
+                placeholder={t('form.website.placeholder')}
                 className={styles.input}
                 value={formData.website}
                 onChange={(e) => updateField('website', e.target.value)}
@@ -278,7 +274,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Vad behöver ni hjälp med?</label>
+              <label className={styles.label}>{t('form.service.label')}</label>
               <select
                 name="service"
                 value={formData.service}
@@ -286,7 +282,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 className={`${styles.input} ${styles.select}`}
                 style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}
               >
-                <option value="" disabled style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>Välj tjänst...</option>
+                <option value="" disabled style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>{t('form.service.placeholder')}</option>
                 {services.map((s) => (
                   <option key={s.value} value={s.value} style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>{s.label}</option>
                 ))}
@@ -304,10 +300,13 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 required
               />
               <label htmlFor="gdpr" className={styles.gdprLabel}>
-                Jag godkänner att Eteya behandlar mina uppgifter enligt{" "}
-                <a href="/sv/integritetspolicy" className={styles.gdprLink}>
-                  integritetspolicyn
-                </a>
+                {t.rich('gdpr', {
+                  link: (chunks) => (
+                    <a href={t('gdprLink')} className={styles.gdprLink}>
+                      {t('gdprLinkText')}
+                    </a>
+                  )
+                })}
               </label>
             </div>
           </div>
@@ -316,17 +315,17 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           {roiData && (
             <div className={styles.roiBadge}>
               <div className={styles.roiBadgeHeader}>
-                <span className={styles.roiBadgeLabel}>Din ROI-prognos</span>
-                <span className={styles.roiBadgeValue}>{fmtK(roiData.annualSavings)}/år</span>
+                <span className={styles.roiBadgeLabel}>{t('roiLabel')}</span>
+                <span className={styles.roiBadgeValue}>{fmtK(roiData.annualSavings)}{t('roiPerYear')}</span>
               </div>
 
               {roiData.year1 != null && roiData.year2 != null && roiData.year3 != null && (
                 <div className={styles.roiForecast}>
-                  <span className={styles.roiForecastLabel}>3-årsprognos</span>
+                  <span className={styles.roiForecastLabel}>{t('roi3YearForecast')}</span>
                   {[
-                    { year: 'År 1', value: roiData.year1! },
-                    { year: 'År 2', value: roiData.year2! },
-                    { year: 'År 3', value: roiData.year3! },
+                    { year: t('roiYear1'), value: roiData.year1! },
+                    { year: t('roiYear2'), value: roiData.year2! },
+                    { year: t('roiYear3'), value: roiData.year3! },
                   ].map((item) => {
                     const maxVal = roiData.year3!
                     const pct = Math.round((item.value / maxVal) * 100)
@@ -365,7 +364,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             disabled={!isStep1Valid}
             type="button"
           >
-            Välj tid
+            {t('nextStep')}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginLeft: 8 }}>
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -373,7 +372,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
 
           {/* Trust copy */}
           <p className={styles.trustCopy}>
-            Vi svarar inom 24 timmar · Dina uppgifter är säkra
+            {t('trustCopy')}
           </p>
         </div>
       </div>
@@ -385,10 +384,10 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ marginRight: 6 }}>
               <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Tillbaka
+            {t('back')}
           </button>
           <div className={styles.calHeader}>
-            <div className={styles.calTitle}>Välj en tid</div>
+            <div className={styles.calTitle}>{t('calendarTitle')}</div>
           </div>
           <div className={styles.calEmbed}>
             <Cal

@@ -1,9 +1,11 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { AnimatedGridPattern } from '@/components/ui/AnimatedGridPattern'
 
 export default function AboutHeroClient() {
+  const t = useTranslations('about.hero')
   const heroRef = useRef<HTMLElement>(null)
   const roleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
@@ -31,7 +33,7 @@ export default function AboutHeroClient() {
     )
   }, [])
 
-  const headline = 'OM OSS'
+  const headline = t('headline')
   const letters = headline.split('')
   // Optical kerning for O-M O-S-S
   const kerning: Record<number, string> = { 0: '-0.02em', 1: '0.02em', 3: '-0.02em' }
@@ -132,7 +134,7 @@ export default function AboutHeroClient() {
           lineHeight: 1.2,
           textAlign: 'center',
         }}>
-          Vi gör AI praktiskt — inte teoretiskt
+          {t('subheading')}
         </p>
       </div>
 

@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import OurStoryClient from './OurStoryClient'
 
 export default async function OurStory() {
-  const t = await getTranslations('about.ourStory')
+  const t = await getTranslations('ourStory')
 
   return (
     <OurStoryClient

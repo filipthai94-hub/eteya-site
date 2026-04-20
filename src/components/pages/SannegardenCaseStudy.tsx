@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 }
 
 export default function SannegardenCaseStudy() {
-  const locale = useLocale()
+  const t = useTranslations('sannegarden')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -55,7 +55,6 @@ export default function SannegardenCaseStudy() {
     return () => ScrollTrigger.getAll().forEach((st) => st.kill())
   }, [])
 
-  /* Counter animation for Snapshot Bar */
   useEffect(() => {
     if (!snapshotRef.current) return
     const ctx = gsap.context(() => {
@@ -80,9 +79,8 @@ export default function SannegardenCaseStudy() {
       })
     }, snapshotRef)
     return () => ctx.revert()
-  }, [locale])
+  }, [])
 
-  /* Donut draw-in animation */
   useEffect(() => {
     if (!donutRef.current) return
     const ctx = gsap.context(() => {
@@ -115,7 +113,6 @@ export default function SannegardenCaseStudy() {
     return () => ctx.revert()
   }, [])
 
-  /* Bullet bar animation */
   useEffect(() => {
     if (!bulletTableRef.current) return
     const ctx = gsap.context(() => {
@@ -132,6 +129,22 @@ export default function SannegardenCaseStudy() {
     return () => ctx.revert()
   }, [])
 
+  const heroWords = [t('heroWords.0'), t('heroWords.1'), t('heroWords.2')]
+
+  const solutionItems = [
+    { title: t('solution.item1Title'), body: t('solution.item1Body') },
+    { title: t('solution.item2Title'), body: t('solution.item2Body') },
+    { title: t('solution.item3Title'), body: t('solution.item3Body') },
+    { title: t('solution.item4Title'), body: t('solution.item4Body') },
+  ]
+
+  const bulletRows = [
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '0%', saved: t('savings.row1Saved') },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '20%', after: '85%', saved: t('savings.row2Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '62%', after: '85%', saved: '+23%' },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '30%', after: '90%', saved: t('savings.row4Saved') },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -141,10 +154,10 @@ export default function SannegardenCaseStudy() {
         <div className={styles.heroGrid}>
           <div className={styles.heroContentWrapper}>
             <motion.h1 layoutId="hero-title" className={styles.heroTitle}>
-              Sannegården
+              {t('heroTitle')}
             </motion.h1>
             <LayoutTextFlip
-              words={["Missade samtal", "30+ beställningar/v", "0 missade samtal"]}
+              words={heroWords}
               duration={2500}
             />
           </div>
@@ -154,27 +167,27 @@ export default function SannegardenCaseStudy() {
       {/* UTMANINGEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
           <div className={styles.sourcesGrid}>
             <article className={styles.sourceCard}>
               <Counter current={1} total={4} />
-              <h3>Missade samtal</h3>
-              <p>Under rusningstid ringde kunder samtidigt som personalen stod mitt i service och matlagning. När ingen hann svara blev varje missat samtal en förlorad beställning.</p>
+              <h3>{t('challenge.card1Title')}</h3>
+              <p>{t('challenge.card1Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={2} total={4} />
-              <h3>Begränsad kapacitet</h3>
-              <p>Fler inkommande samtal betydde mer stress, inte mer kapacitet. Telefonen blev en flaskhals som hindrade teamet från att fokusera på det viktigaste.</p>
+              <h3>{t('challenge.card2Title')}</h3>
+              <p>{t('challenge.card2Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={3} total={4} />
-              <h3>Stressig kvällsservice</h3>
-              <p>Beställningar och frågor kom även utanför de mest bemannade timmarna. Utan någon som kunde svara konsekvent gick restaurangen miste om både service och intäkter.</p>
+              <h3>{t('challenge.card3Title')}</h3>
+              <p>{t('challenge.card3Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={4} total={4} />
-              <h3>Borttappade beställningar</h3>
-              <p>Kunder ringde för att fråga om menyer, öppettider och alternativ. Det avbröt arbetet i köket och tog fokus från gästerna på plats.</p>
+              <h3>{t('challenge.card4Title')}</h3>
+              <p>{t('challenge.card4Body')}</p>
             </article>
           </div>
         </div>
@@ -185,20 +198,13 @@ export default function SannegardenCaseStudy() {
         <div className={styles.metodikInner}>
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>Lösningen</h2>
-              <p className={styles.metodikSubtext}>
-                En AI-telefonist som tar emot beställningar dygnet runt, svarar på menyfrågor och bekräftar ordrar automatiskt via telefon.
-              </p>
+              <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
+              <p className={styles.metodikSubtext}>{t('solution.body')}</p>
             </div>
           </div>
           <div className={styles.metodikRight}>
             <ul className={styles.metodikList}>
-              {[
-                { title: 'AI-telefonist', body: 'AI-telefonisten svarar direkt när kunder ringer och guidar dem genom beställningen utan att personalen behöver lämna köket eller kassan.' },
-                { title: 'Smart orderhantering', body: 'Varje beställning registreras och bekräftas automatiskt. Inga missade samtal eller borttappade ordrar.' },
-                { title: 'Kundbekräftelser', body: 'Varje beställning bekräftas tydligt via telefon så att kunden vet att allt blivit rätt. Det minskar missförstånd och skapar trygghet i köpet.' },
-                { title: 'Köksfokus', body: 'Sannegårdens kan ta emot fler samtal utan att anställa extra bara för telefonen. Lösningen skalar med trycket och ser till att inga samtal faller mellan stolarna.' },
-              ].map((item, i) => (
+              {solutionItems.map((item, i) => (
                 <li key={i} className={styles.metodikItem}>
                   <div className={styles.metodikItemContent}>
                     <h3 className={styles.metodikItemTitle}>{item.title}</h3>
@@ -215,36 +221,36 @@ export default function SannegardenCaseStudy() {
       {/* RESULTAT */}
       <section className={styles.section} data-reveal>
         <div className={styles.statsTitleWrapper}>
-          <h2 className={styles.sectionTitle}>Resultat</h2>
+          <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 30, suffix: '+', label: 'extra beställningar/v' },
-          { value: 23, suffix: '%', label: 'ökad nöjdhet' },
-          { value: 0, suffix: '', label: 'missade samtal' },
+          { value: 30, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 23, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 0, suffix: '', label: t('results.stat3Label') },
         ]} />
       </section>
 
       {/* BESPARINGAR */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
-          <p className={styles.savingsSubtitle}>{locale === 'sv' ? 'En detaljerad genomgång av alla automations vi implementerat för Sannegården — från manuell till fullt automatiserad process.' : 'A detailed review of all automations we implemented for Sannegården — from manual to fully automated processes.'}</p>
+          <h2 className={styles.sectionTitle}>{t('savings.title')}</h2>
+          <p className={styles.savingsSubtitle}>{t('savings.subtitle')}</p>
 
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>30+ beställningar/v</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Beställningar/vecka' : 'Orders/week'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>{t('savings.snapshot1Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>23% ökad nöjdhet</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Ökad nöjdhet' : 'Increased satisfaction'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>{t('savings.snapshot2Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>0 missade samtal</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Missade samtal' : 'Missed calls'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>{t('savings.snapshot3Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
 
@@ -253,7 +259,7 @@ export default function SannegardenCaseStudy() {
 
             {/* Donut Chart */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
-              <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av besparingar' : 'Distribution of savings'}</div>
+              <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
@@ -264,30 +270,25 @@ export default function SannegardenCaseStudy() {
                 </svg>
                 <div className={styles.savingsDonutCenter}>
                   <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>75%</span>
-                  <span className={styles.savingsDonutCenterLabel}>{locale === 'sv' ? 'automatiserat' : 'automated'}</span>
+                  <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Beställningar' : 'Orders'}</span><span className={styles.savingsLegendValue}>35%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Samtalshantering' : 'Call handling'}</span><span className={styles.savingsLegendValue}>25%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Kundnöjdhet' : 'Customer satisfaction'}</span><span className={styles.savingsLegendValue}>20%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Kökfokus' : 'Kitchen focus'}</span><span className={styles.savingsLegendValue}>10%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>35%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>25%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>20%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>10%</span></div>
               </div>
             </div>
 
             {/* Bullet Chart Table */}
             <div className={styles.savingsBulletTable} ref={bulletTableRef}>
               <div className={styles.savingsTableHeader}>
-                <span>{locale === 'sv' ? 'Process' : 'Process'}</span>
-                <span>{locale === 'sv' ? 'Tidsjämförelse (per enhet)' : 'Time comparison (per unit)'}</span>
-                <span>{locale === 'sv' ? 'Sparat/vecka' : 'Saved/week'}</span>
+                <span>{t('savings.tableProcess')}</span>
+                <span>{t('savings.tableComparison')}</span>
+                <span>{t('savings.tableSaved')}</span>
               </div>
-              {[
-                { name: locale === 'sv' ? 'Missade samtal' : 'Missed calls', volume: locale === 'sv' ? 'varje kväll' : 'every evening', before: '100%', after: '0%', saved: locale === 'sv' ? 'aldrig missat' : 'never missed' },
-                { name: locale === 'sv' ? 'Extra beställningar' : 'Extra orders', volume: locale === 'sv' ? 'varje vecka' : 'every week', before: '20%', after: '85%', saved: locale === 'sv' ? '30+ order' : '30+ orders' },
-                { name: locale === 'sv' ? 'Kundnöjdhet' : 'Customer satisfaction', volume: locale === 'sv' ? 'hela passet' : 'entire shift', before: '62%', after: '85%', saved: '+23%' },
-                { name: locale === 'sv' ? 'Kökfokus' : 'Kitchen focus', volume: locale === 'sv' ? 'hela passet' : 'entire shift', before: '30%', after: '90%', saved: locale === 'sv' ? 'mer arbetsro' : 'more focus' },
-              ].map((row, i) => (
+              {bulletRows.map((row, i) => (
                 <div key={i} className={styles.savingsTableRow} data-bullet-row>
                   <div className={styles.savingsProcessInfo}>
                     <span className={styles.savingsProcessName}>{row.name}</span>
@@ -299,7 +300,7 @@ export default function SannegardenCaseStudy() {
                       <div className={styles.savingsBulletAfter} data-bullet-after style={{ width: row.after }} />
                     </div>
                     <div className={styles.savingsBulletLabels}>
-                      <span>{row.before === '100%' ? (locale === 'sv' ? 'manuellt' : 'manual') : row.before}</span>
+                      <span>{row.before === '100%' ? t('savings.manual') : row.before}</span>
                       <span className={styles.savingsBulletLabelAfter}>{row.after}</span>
                     </div>
                   </div>
@@ -307,7 +308,7 @@ export default function SannegardenCaseStudy() {
                 </div>
               ))}
               <div className={styles.savingsTotalRow}>
-                <div className={styles.savingsTotalLabel}>{locale === 'sv' ? 'Totalt' : 'Total'}</div>
+                <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
                 <div className={styles.savingsTotalValue}>75%</div>
               </div>
@@ -322,17 +323,17 @@ export default function SannegardenCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/brindar-akalp.jpg"
-              alt="Ahmed Hassan"
+              alt={t('quote.author')}
               width={180}
               height={180}
               className={styles.quoteImage}
             />
           </div>
           <div className={styles.quoteContent}>
-            <blockquote className={styles.quoteText}>Kunderna märker inte att det är en AI. De får bara snabbare och bättre service.</blockquote>
+            <blockquote className={styles.quoteText}>{t('quote.text')}</blockquote>
             <div className={styles.quoteAuthor}>
-              <span className={styles.quoteName}>Ahmed Hassan</span>
-              <span className={styles.quoteRole}>Ägare Sannegården</span>
+              <span className={styles.quoteName}>{t('quote.author')}</span>
+              <span className={styles.quoteRole}>{t('quote.role')}</span>
             </div>
           </div>
         </div>

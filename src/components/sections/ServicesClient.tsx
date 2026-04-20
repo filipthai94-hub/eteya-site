@@ -280,7 +280,11 @@ const CSS = `
   }
 `
 
-export default function ServicesClient() {
+export default function ServicesClient({ heading, cta, items }: {
+  heading: string
+  cta: string
+  items: Array<{ number: string; title: string; description: string; detail: string; features: string[] }>
+}) {
   useEffect(() => {
     const cards = document.querySelectorAll('#services-section .service-card')
 
@@ -317,118 +321,41 @@ export default function ServicesClient() {
     <section id="services-section">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <h2 className="svc-heading">TJÄNSTER</h2>
+      <h2 className="svc-heading">{heading}</h2>
 
       <div className="service-block">
 
-        {/* 01 AI Agents */}
-        <div className="service-card">
+        {items.map((item, idx) => {
+        const isActive = idx === 0
+        return (
+        <div className={`service-card${isActive ? ' is-active' : ''}`} key={item.number}>
           <AccordionRowHeader
             prefix="service"
-            title="AI Agents"
-            indexDisplay="01"
+            title={item.title}
+            indexDisplay={item.number}
             counterLineCount={3}
-            activeLineIndex={0}
+            activeLineIndex={idx}
           />
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <img src="/images/service-ai-agents.png" loading="lazy" alt="AI Agents" width={1524} height={964} />
+                <img src={`/images/service-${item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'}.png`} loading="lazy" alt={item.title} width={1524} height={964} />
               </a>
-              <span className="svc-content-title">AI Agents</span>
-              <p className="service-desc">Medan du hanterar förfrågningar manuellt har dina konkurrenter redan satt AI-agenter på jobbet. En agent som aldrig sover, aldrig missar och tar på sig allt du inte hinner med, så du kan fokusera på det bara du kan göra.</p>
+              <span className="svc-content-title">{item.title}</span>
+              <p className="service-desc">{item.description}</p>
               <ul className="service-list">
-                {[
-                  'Tillgänglig dygnet runt, svarar när du inte kan',
-                  'Hanterar hundra samtal samtidigt utan att tappa kvalitet',
-                  'Lär sig din affär, inte en generisk mall',
-                  'Tar över repetitiva uppgifter, du delegerar och den levererar',
-                  'Fungerar i alla kanaler: mail, chatt, telefon, internt',
-                  'Skalar med dig från dag ett till tusentals interaktioner',
-                ].map((text, i) => (
+                {item.features.map((text, i) => (
                   <li key={i} className="svc-list-item">
                     <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
                     <span className="svc-list-text">{text}</span>
                   </li>
                 ))}
               </ul>
-              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
+              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">{cta}</ButtonStripe></div>
             </div>
           </div>
         </div>
-
-        {/* 02 Automation */}
-        <div className="service-card">
-          <AccordionRowHeader
-            prefix="service"
-            title="Automation"
-            indexDisplay="02"
-            counterLineCount={3}
-            activeLineIndex={1}
-          />
-          <div className="service-inner">
-            <div className="service-content">
-              <a className="service-media" href="#contact">
-                <img src="/images/service-automation.png" loading="lazy" alt="Automation" width={1524} height={964} />
-              </a>
-              <span className="svc-content-title">Automation</span>
-              <p className="service-desc">Det som tar dig 3 timmar idag tar 3 minuter imorgon. AI-automationer som inte bara följer regler utan förstår din verksamhet, fattar egna beslut och hanterar det som mänskliga händer aldrig borde rört.</p>
-              <ul className="service-list">
-                {[
-                  '3 timmar blir 3 minuter, varje dag',
-                  'Fattar beslut i flödet, du sätter riktningen och AI kör',
-                  'Hanterar undantag som en människa, fast snabbare',
-                  'Frigör tid för det som faktiskt bygger bolaget',
-                  'Skalbar från dag ett utan extra anställningar',
-                  'Kopplad till hela din verksamhet, ett flöde och noll manuellt',
-                ].map((text, i) => (
-                  <li key={i} className="svc-list-item">
-                    <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="svc-list-text">{text}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
-            </div>
-          </div>
-        </div>
-
-        {/* 03 AI Products */}
-        <div className="service-card">
-          <AccordionRowHeader
-            prefix="service"
-            title="AI Products"
-            indexDisplay="03"
-            counterLineCount={3}
-            activeLineIndex={2}
-          />
-          <div className="service-inner">
-            <div className="service-content">
-              <a className="service-media" href="#contact">
-                <img src="/images/service-ai-products.png" loading="lazy" alt="AI Products" width={1524} height={964} />
-              </a>
-              <span className="svc-content-title">AI Products</span>
-              <p className="service-desc">Alla dina konkurrenter hyr samma AI-verktyg. Du kan äga ditt. En skräddarsydd produkt byggd exakt för din affär, som ingen annan kan köpa, kopiera eller ta ifrån dig.</p>
-              <ul className="service-list">
-                {[
-                  'Du äger allt: kod, data, logik och framtid',
-                  'Byggt för din affär, inte anpassat till ett generiskt verktyg',
-                  'Lansering på veckor, inte månader',
-                  'Din idé och vår expertis, vi gör det möjligt',
-                  'Skalbar från dag ett utan tak',
-                  'Ingen vendor lock-in, aldrig beroende av någon annans beslut',
-                ].map((text, i) => (
-                  <li key={i} className="svc-list-item">
-                    <span className="svc-list-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="svc-list-text">{text}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">Boka samtal</ButtonStripe></div>
-            </div>
-          </div>
-        </div>
-
+      )})}
       </div>
     </section>
   )

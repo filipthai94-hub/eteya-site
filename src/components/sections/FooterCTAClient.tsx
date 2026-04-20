@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { useScrollLock } from '@/hooks/useScrollLock'
 import ContactCard from '../ui/contact-card'
 import type { ChangeEvent, FormEvent } from 'react'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -90,6 +91,7 @@ function CircleBorder({ className = '' }: { className?: string }) {
 }
 
 export default function FooterCTAClient() {
+  const t = useTranslations('footerCta')
   const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -357,7 +359,7 @@ const hasPlayed = useRef(false)
 
   
 
-  const headingLines = ['Redo att sätta AI i arbete?']
+  const headingLines = [t('heading')]
 
   return (
     <>
@@ -996,7 +998,8 @@ const hasPlayed = useRef(false)
               {headingLines.map((line, li) => (
                 <span key={li} className="fcta-heading-line">
                   {[...line].map((char, ci) => {
-                    const breakAfter = ci === 14 // After "Redo att sätta " (index 14 = space after "a" in "sätta")
+                    // Dynamic break: after first half of heading on mobile
+                    const breakAfter = ci === Math.floor(line.length / 2)
                     return (
                       <React.Fragment key={ci}>
                         <span className="fcta-char-wrap">
@@ -1025,7 +1028,9 @@ const hasPlayed = useRef(false)
                 <CircleBorder />
               </div>
               <div ref={btnTextRef} className="fcta-btn-text">
-                Skriv till<br />oss
+                {t.raw('buttonText').split('<br />').map((part: string, i: number) => (
+                  <React.Fragment key={i}>{i > 0 && <br />}{part}</React.Fragment>
+                ))}
               </div>
               <div ref={btnArrowRef} className="fcta-btn-arrow" aria-hidden="true">
                 <svg viewBox="0 0 26 27" fill="white">
@@ -1040,7 +1045,7 @@ const hasPlayed = useRef(false)
           <div ref={footerBarRef} className="fcta-footer-bar">
             <div className="fcta-footer-left">
               <span ref={footerSenRef} className="fcta-footer-left-text fcta-footer-reveal">
-                © 2026 Eteya Consulting AB
+                {t('copyright')}
               </span>
             </div>
             <nav className="fcta-footer-links">

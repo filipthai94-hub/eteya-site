@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filip Thai — Eteya Consulting</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Geist:wght@300;400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #080808;
+    color: #f5f5f5;
+    font-family: 'Geist', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+  
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(200,255,0,0.08) 0%, transparent 70%);
+  }
+  
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-image: 
+      linear-gradient(rgba(200,255,0,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,255,0,0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(600px circle at center, black, transparent);
+    -webkit-mask-image: radial-gradient(600px circle at center, black, transparent);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  /* Profile Image */
+  .profile-image-wrapper {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 3rem;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(200,255,0,0.4);
+    background: linear-gradient(135deg, rgba(200,255,0,0.15) 0%, rgba(200,255,0,0.05) 100%);
+  }
+  
+  .profile-glow {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,255,0,0.3) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.08); }
+  }
+
+  /* Name & Title */
+  .hero-name {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6rem);
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f5f5f5 0%, rgba(245,245,245,0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #C8FF00;
+    margin-bottom: 2rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: rgba(255,255,255,0.6);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  /* CTA Buttons */
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #C8FF00 0%, #A8E600 100%);
+    color: #080808;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(200,255,0,0.4);
+  }
+  
+  .btn-secondary {
+    background: rgba(255,255,255,0.05);
+    color: #f5f5f5;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.4);
+  }
+  
+  .btn-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.5;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, #C8FF00, transparent);
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  /* ABOUT SECTION */
+  .about {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .section-label {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #C8FF00;
+    margin-bottom: 1.5rem;
+  }
+  
+  .about-text {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.7);
+  }
+  
+  .about-text strong {
+    color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  /* STATS */
+  .stats {
+    padding: 6rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-number {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #C8FF00;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-label {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* EXPERTISE */
+  .expertise {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  
+  .expertise-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .expertise-card:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(200,255,0,0.2);
+    transform: translateY(-4px);
+  }
+  
+  .expertise-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .expertise-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .expertise-desc {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  /* CONTACT SECTION */
+  .contact {
+    padding: 8rem 2rem;
+    background: linear-gradient(180deg, transparent 0%, rgba(200,255,0,0.02) 100%);
+  }
+  
+  .contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .contact-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .contact-subtitle {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #f5f5f5;
+  }
+  
+  .contact-item:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(200,255,0,0.3);
+    transform: translateX(8px);
+  }
+  
+  .contact-item-icon {
+    width: 24px;
+    height: 24px;
+    color: #C8FF00;
+  }
+  
+  .contact-item-label {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.25rem;
+  }
+  
+  .contact-item-value {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  /* Social Links */
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.6);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .social-link:hover {
+    background: rgba(200,255,0,0.15);
+    color: #C8FF00;
+    border-color: rgba(200,255,0,0.4);
+    transform: translateY(-4px);
+  }
+  
+  .social-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.875rem;
+  }
+  
+  .footer a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    color: #C8FF00;
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+    
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    
+    .expertise-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  
+  <div class="hero-content">
+    <div class="profile-image-wrapper">
+      <div class="profile-glow"></div>
+      <!-- Placeholder image - byt ut mot riktig bild -->
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Filip&backgroundColor=transparent&clothing=blazerAndShirt&hair=short&eyes=default" alt="Filip Thai" class="profile-image" />
+    </div>
+    
+    <h1 class="hero-name">Filip Thai</h1>
+    <p class="hero-title">VD & Grundare</p>
+    <p class="hero-tagline">
+      Bygger AI-system som svenska företag faktiskt använder. 
+      Fokuserar på automation, CRO och skalbara digitala lösningar.
+    </p>
+    
+    <div class="hero-cta">
+      <a href="https://cal.com/filip" target="_blank class="btn btn-primary">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        Boka ett möte
+      </a>
+      <a href="/api/vcard/filip.vcf" download class="btn btn-secondary">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Spara kontakt
+      </a>
+    </div>
+  </div>
+  
+  <div class="scroll-indicator">
+    <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;">Scrolla</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <p class="section-label">Om Filip</p>
+  <div class="about-text">
+    <p>
+      <strong>Praktisk entreprenör och generalist</strong> med spets i CRO och automation. 
+      Jag bygger digitala projekt som handlar om försäljning och effektivitet — inte bara snygga sajter.
+    </p>
+    <br>
+    <p>
+      Som VD för Eteya Consulting hjälper jag företag att implementera AI-lösningar som levererar 
+      mätbara resultat. Min approach är hands-on: jag förstår både affären, tekniken och kundresan.
+    </p>
+    <br>
+    <p>
+      Driver även Telestore Sverige AB (e-handel) och flera SEO-projekt. 
+      Tror på att testa, iterera och alltid fokusera på impact.
+    </p>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">5+</div>
+      <div class="stat-label">Aktiva bolag</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">56</div>
+      <div class="stat-label">Automationer</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">390K</div>
+      <div class="stat-label">Kr sparade/år</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">8+</div>
+      <div class="stat-label">År erfarenhet</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="expertise">
+  <p class="section-label">Expertis</p>
+  <div class="expertise-grid">
+    <div class="expertise-card">
+      <div class="expertise-icon">🤖</div>
+      <h3 class="expertise-title">AI & Automation</h3>
+      <p class="expertise-desc">Bygger AI-agenter och automationer som sparar tid och ökar effektivitet.</p>
+    </div>
+    <div class="expertise-card">
+      <div class="expertise-icon">📈</div>
+      <h3 class="expertise-title">CRO & Tillväxt</h3>
+      <p class="expertise-desc">Optimerar kundresor, copy och konvertering för maximerad försäljning.</p>
+    </div>
+    <div class="expertise-card">
+      <div class="expertise-icon">🏗️</div>
+      <h3 class="expertise-title">System & Infrastruktur</h3>
+      <p class="expertise-desc">Skalbara lösningar med modern tech stack (Next.js, Vercel, Cloudflare).</p>
+    </div>
+    <div class="expertise-card">
+      <div class="expertise-icon">📊</div>
+      <h3 class="expertise-title">Data & Analys</h3>
+      <p class="expertise-desc">Strukturerad datahantering, mail-analys och dashboard-lösningar.</p>
+    </div>
+    <div class="expertise-card">
+      <div class="expertise-icon">🛒</div>
+      <h3 class="expertise-title">E-handel</h3>
+      <p class="expertise-desc">Driver Telestore — förstår hela flödet från inköp till kundsupport.</p>
+    </div>
+    <div class="expertise-card">
+      <div class="expertise-icon">🔍</div>
+      <h3 class="expertise-title">SEO & Content</h3>
+      <p class="expertise-desc">Bygger organisk trafik genom strategiskt innehåll och teknisk SEO.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="contact-container">
+    <h2 class="contact-title">Kontakta Filip</h2>
+    <p class="contact-subtitle">Redo att optimera din verksamhet? Hör av dig!</p>
+    
+    <div class="contact-list">
+      <a href="tel:+46701234567" class="contact-item">
+        <svg class="contact-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        </svg>
+        <div>
+          <div class="contact-item-label">Telefon</div>
+          <div class="contact-item-value">+46 70 123 45 67</div>
+        </div>
+      </a>
+      
+      <a href="mailto:filip@eteya.ai" class="contact-item">
+        <svg class="contact-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">filip@eteya.ai</div>
+        </div>
+      </a>
+      
+      <a href="https://etea.ai" target="_blank" class="contact-item">
+        <svg class="contact-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+        </svg>
+        <div>
+          <div class="contact-item-label">Website</div>
+          <div class="contact-item-value">etea.ai</div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="social-links">
+      <a href="https://linkedin.com/in/filipthai" target="_blank" class="social-link" title="LinkedIn">
+        <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/filipthai94-hub" target="_blank" class="social-link" title="GitHub">
+        <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+      <a href="https://twitter.com/filipthai" target="_blank" class="social-link" title="X / Twitter">
+        <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© 2026 Eteya Consulting AB — <a href="/om-oss">Tillbaka till teamet</a></p>
+</footer>
+
+</body>
+</html>

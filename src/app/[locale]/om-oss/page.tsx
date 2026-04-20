@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { JsonLd, organizationSchema, createPersonSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import AboutHeroClient from '@/components/sections/AboutHeroClient'
+import OurStory from '@/components/sections/OurStory'
 import WhyEteyaOmOssWrapper from '@/components/sections/WhyEteyaOmOssWrapper'
 import SocialProof from '@/components/sections/SocialProof'
 import Team from '@/components/sections/Team'
@@ -100,6 +101,7 @@ export default async function AboutPage({
       <Nav />
       <main className="page-content">
         <AboutHeroClient />
+        <OurStory />
         <WhyEteyaOmOssWrapper />
         <SocialProof />
         <Team />

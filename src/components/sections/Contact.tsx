@@ -126,7 +126,7 @@ export default function Contact() {
     )
   }, [])
 
-  const headline = 'KONTAKT'
+  const headline = t('hero_headline')
   const letters = headline.split('')
   // Optical kerning for K-O-N-T-A-K-T
   const kerning: Record<number, string> = { 0: '-0.02em', 2: '0.01em', 5: '-0.01em' }
@@ -273,7 +273,7 @@ export default function Contact() {
                       <rect x="2" y="4" width="20" height="16" rx="2"/>
                       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                     </svg>
-                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>EMAIL</p>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>{t('email_label')}</p>
                   </div>
                   <a href="mailto:kontakt@eteya.ai"
                     style={{ color: '#f5f5f5', fontSize: '1.0625rem', textDecoration: 'none', transition: 'color 0.2s' }}
@@ -299,12 +299,12 @@ export default function Contact() {
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                       <circle cx="12" cy="10" r="3"/>
                     </svg>
-                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>ADRESS</p>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>{t('address_label')}</p>
                   </div>
                   <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>
-                    Solhagsvägen 26 A<br/>
-                    691 52 Karlskoga<br/>
-                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem' }}>Org.nr: 559552-7390</span>
+                    {t('address').split(',')[0]}<br/>
+                    {t('address').split(',').slice(1).join(',').trim()}<br/>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem' }}>{t('org_nr')}</span>
                   </p>
                 </div>
                 {/* Öppettider */}
@@ -314,10 +314,10 @@ export default function Contact() {
                       <circle cx="12" cy="12" r="10"/>
                       <polyline points="12 6 12 12 16 14"/>
                     </svg>
-                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>ÖPPETTIDER</p>
+                    <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>{t('hours_label')}</p>
                   </div>
                   <p style={{ color: '#f5f5f5', fontSize: '1.0625rem', margin: 0 }}>
-                    Mån–Fre: 09:00–17:00
+                    {t('hours')}
                   </p>
                 </div>
               </div>

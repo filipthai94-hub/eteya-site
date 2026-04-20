@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useCallback } from 'react'
 
 type LogoItem = {
@@ -300,12 +301,13 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
 }
 
 export default function JoinTheBestClient() {
+  const t = useTranslations('joinTheBest')
   return (
     <section className="join-section">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
       <div className="join-container">
-        <h2 className="join-heading">Trusted By</h2>
+        <h2 className="join-heading">{t('heading')}</h2>
       </div>
 
       <div className="join-marquee-wrap">

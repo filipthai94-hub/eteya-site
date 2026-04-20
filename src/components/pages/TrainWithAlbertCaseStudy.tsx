@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 }
 
 export default function TrainWithAlbertCaseStudy() {
-  const locale = useLocale()
+  const t = useTranslations('trainwithalbert')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -55,7 +55,6 @@ export default function TrainWithAlbertCaseStudy() {
     return () => ScrollTrigger.getAll().forEach((st) => st.kill())
   }, [])
 
-  /* Counter animation for Snapshot Bar */
   useEffect(() => {
     if (!snapshotRef.current) return
     const ctx = gsap.context(() => {
@@ -80,9 +79,8 @@ export default function TrainWithAlbertCaseStudy() {
       })
     }, snapshotRef)
     return () => ctx.revert()
-  }, [locale])
+  }, [])
 
-  /* Donut draw-in animation */
   useEffect(() => {
     if (!donutRef.current) return
     const ctx = gsap.context(() => {
@@ -115,7 +113,6 @@ export default function TrainWithAlbertCaseStudy() {
     return () => ctx.revert()
   }, [])
 
-  /* Bullet bar animation */
   useEffect(() => {
     if (!bulletTableRef.current) return
     const ctx = gsap.context(() => {
@@ -132,6 +129,22 @@ export default function TrainWithAlbertCaseStudy() {
     return () => ctx.revert()
   }, [])
 
+  const heroWords = [t('heroWords.0'), t('heroWords.1'), t('heroWords.2')]
+
+  const solutionItems = [
+    { title: t('solution.item1Title'), body: t('solution.item1Body') },
+    { title: t('solution.item2Title'), body: t('solution.item2Body') },
+    { title: t('solution.item3Title'), body: t('solution.item3Body') },
+    { title: t('solution.item4Title'), body: t('solution.item4Body') },
+  ]
+
+  const bulletRows = [
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '10%', saved: t('savings.row1Saved') },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '100%', after: '15%', saved: t('savings.row2Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '100%', after: '5%', saved: t('savings.row3Saved') },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '100%', after: '20%', saved: t('savings.row4Saved') },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -141,10 +154,10 @@ export default function TrainWithAlbertCaseStudy() {
         <div className={styles.heroGrid}>
           <div className={styles.heroContentWrapper}>
             <motion.h1 layoutId="hero-title" className={styles.heroTitle}>
-              TrainWithAlbert
+              {t('heroTitle')}
             </motion.h1>
             <LayoutTextFlip
-              words={["Dubbelbokningar", "3x fler bokningar", "45% återbokning"]}
+              words={heroWords}
               duration={2500}
             />
           </div>
@@ -154,27 +167,27 @@ export default function TrainWithAlbertCaseStudy() {
       {/* UTMANINGEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
           <div className={styles.sourcesGrid}>
             <article className={styles.sourceCard}>
               <Counter current={1} total={4} />
-              <h3>Dubbelbokningar</h3>
-              <p>Albert spenderade timmar varje vecka på att koordinera tider med klienter via mail och sms. Dubbelbokningar och missade tillfällen var vanligt.</p>
+              <h3>{t('challenge.card1Title')}</h3>
+              <p>{t('challenge.card1Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={2} total={4} />
-              <h3>Borta-kunder</h3>
-              <p>Efter varje pass behövde klienter få uppföljning och nästa steg. Utan automatisering föll många bort eller bokade inte om.</p>
+              <h3>{t('challenge.card2Title')}</h3>
+              <p>{t('challenge.card2Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={3} total={4} />
-              <h3>Manuell schemaläggning</h3>
-              <p>Att påminna om obetalda fakturor var obekvämt och tidskrävande. Det ledde till sämre kassaflöde och onödig administration.</p>
+              <h3>{t('challenge.card3Title')}</h3>
+              <p>{t('challenge.card3Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={4} total={4} />
-              <h3>Ojämn kassaflöde</h3>
-              <p>Varje klient fick ett skräddarsytt program som skickades manuellt. Det tog tid från själva coachingen och var svårt att skala.</p>
+              <h3>{t('challenge.card4Title')}</h3>
+              <p>{t('challenge.card4Body')}</p>
             </article>
           </div>
         </div>
@@ -185,20 +198,13 @@ export default function TrainWithAlbertCaseStudy() {
         <div className={styles.metodikInner}>
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>Lösningen</h2>
-              <p className={styles.metodikSubtext}>
-                Automatiserad klientresa från bokning till uppföljning. AI-driven schemaläggning, automatiska påminnelser och personliga träningsprogram.
-              </p>
+              <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
+              <p className={styles.metodikSubtext}>{t('solution.body')}</p>
             </div>
           </div>
           <div className={styles.metodikRight}>
             <ul className={styles.metodikList}>
-              {[
-                { title: 'AI-schemaläggning', body: 'Klienter bokar själva via en intelligent kalender som undviker dubbelbokningar och skickar automatiska bekräftelser.' },
-                { title: 'Automatisk uppföljning', body: 'Efter varje pass får klienten automatisk uppföljning med nästa steg, vilket ökar återbokningen markant.' },
-                { title: 'Betalningspåminnelser', body: 'Påminnelser om kommande pass, obetalda fakturor och uppföljning skickas automatiskt vid rätt tidpunkt.' },
-                { title: 'AI-träningsprogram', body: 'AI genererar skräddarsydda träningsprogram baserat på klientens mål och framsteg, redo att skickas direkt.' },
-              ].map((item, i) => (
+              {solutionItems.map((item, i) => (
                 <li key={i} className={styles.metodikItem}>
                   <div className={styles.metodikItemContent}>
                     <h3 className={styles.metodikItemTitle}>{item.title}</h3>
@@ -215,36 +221,36 @@ export default function TrainWithAlbertCaseStudy() {
       {/* RESULTAT */}
       <section className={styles.section} data-reveal>
         <div className={styles.statsTitleWrapper}>
-          <h2 className={styles.sectionTitle}>Resultat</h2>
+          <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 3, suffix: 'x', label: 'fler bokningar' },
-          { value: 45, suffix: '%', label: 'återbokning' },
-          { value: 8, suffix: '', label: 'automationer' },
+          { value: 3, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 45, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 8, suffix: '', label: t('results.stat3Label') },
         ]} />
       </section>
 
       {/* BESPARINGAR */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
-          <p className={styles.savingsSubtitle}>{locale === 'sv' ? 'En detaljerad genomgång av alla automations vi implementerat för TrainWithAlbert — från manuell till fullt automatiserad process.' : 'A detailed review of all automations we implemented for TrainWithAlbert — from manual to fully automated processes.'}</p>
+          <h2 className={styles.sectionTitle}>{t('savings.title')}</h2>
+          <p className={styles.savingsSubtitle}>{t('savings.subtitle')}</p>
 
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>3x fler bokningar</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Fler bokningar' : 'More bookings'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>{t('savings.snapshot1Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>45% återbokning</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Återbokning' : 'Rebooking'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>{t('savings.snapshot2Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>8</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Automationer' : 'Automations'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>{t('savings.snapshot3Value')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
 
@@ -253,7 +259,7 @@ export default function TrainWithAlbertCaseStudy() {
 
             {/* Donut Chart */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
-              <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av besparingar' : 'Distribution of savings'}</div>
+              <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
@@ -264,28 +270,28 @@ export default function TrainWithAlbertCaseStudy() {
                 </svg>
                 <div className={styles.savingsDonutCenter}>
                   <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>65%</span>
-                  <span className={styles.savingsDonutCenterLabel}>{locale === 'sv' ? 'automatiserat' : 'automated'}</span>
+                  <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
                 <div className={styles.savingsLegendItem}>
                   <span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} />
-                  <span className={styles.savingsLegendText}>{locale === 'sv' ? 'Schemaläggning' : 'Scheduling'}</span>
+                  <span className={styles.savingsLegendText}>{t('savings.legend1')}</span>
                   <span className={styles.savingsLegendValue}>35%</span>
                 </div>
                 <div className={styles.savingsLegendItem}>
                   <span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} />
-                  <span className={styles.savingsLegendText}>{locale === 'sv' ? 'Uppföljning' : 'Follow-up'}</span>
+                  <span className={styles.savingsLegendText}>{t('savings.legend2')}</span>
                   <span className={styles.savingsLegendValue}>25%</span>
                 </div>
                 <div className={styles.savingsLegendItem}>
                   <span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} />
-                  <span className={styles.savingsLegendText}>{locale === 'sv' ? 'Påminnelser' : 'Reminders'}</span>
+                  <span className={styles.savingsLegendText}>{t('savings.legend3')}</span>
                   <span className={styles.savingsLegendValue}>20%</span>
                 </div>
                 <div className={styles.savingsLegendItem}>
                   <span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} />
-                  <span className={styles.savingsLegendText}>{locale === 'sv' ? 'Program' : 'Programs'}</span>
+                  <span className={styles.savingsLegendText}>{t('savings.legend4')}</span>
                   <span className={styles.savingsLegendValue}>10%</span>
                 </div>
               </div>
@@ -294,16 +300,11 @@ export default function TrainWithAlbertCaseStudy() {
             {/* Bullet Chart Table */}
             <div className={styles.savingsBulletTable} ref={bulletTableRef}>
               <div className={styles.savingsTableHeader}>
-                <span>{locale === 'sv' ? 'Process' : 'Process'}</span>
-                <span>{locale === 'sv' ? 'Tidsjämförelse (per enhet)' : 'Time comparison (per unit)'}</span>
-                <span>{locale === 'sv' ? 'Sparat/vecka' : 'Saved/week'}</span>
+                <span>{t('savings.tableProcess')}</span>
+                <span>{t('savings.tableComparison')}</span>
+                <span>{t('savings.tableSaved')}</span>
               </div>
-              {[
-                { name: locale === 'sv' ? 'Schemaläggning' : 'Scheduling', volume: locale === 'sv' ? 'dagligen' : 'daily', before: '100%', after: '10%', saved: locale === 'sv' ? 'inga dubbelbokningar' : 'no double bookings' },
-                { name: locale === 'sv' ? 'Uppföljning' : 'Follow-up', volume: locale === 'sv' ? 'varje pass' : 'every session', before: '100%', after: '15%', saved: locale === 'sv' ? '45% återbokning' : '45% rebooking' },
-                { name: locale === 'sv' ? 'Betalningspåminnelser' : 'Payment reminders', volume: locale === 'sv' ? 'vid behov' : 'as needed', before: '100%', after: '5%', saved: locale === 'sv' ? 'bättre kassaflöde' : 'better cash flow' },
-                { name: locale === 'sv' ? 'Träningsprogram' : 'Training programs', volume: locale === 'sv' ? 'veckovis' : 'weekly', before: '100%', after: '20%', saved: locale === 'sv' ? 'AI-genererade' : 'AI-generated' },
-              ].map((row, i) => (
+              {bulletRows.map((row, i) => (
                 <div key={i} className={styles.savingsTableRow} data-bullet-row>
                   <div className={styles.savingsProcessInfo}>
                     <span className={styles.savingsProcessName}>{row.name}</span>
@@ -315,7 +316,7 @@ export default function TrainWithAlbertCaseStudy() {
                       <div className={styles.savingsBulletAfter} data-bullet-after style={{ width: row.after }} />
                     </div>
                     <div className={styles.savingsBulletLabels}>
-                      <span>{row.before === '100%' ? (locale === 'sv' ? 'manuellt' : 'manual') : row.before}</span>
+                      <span>{row.before === '100%' ? t('savings.manual') : row.before}</span>
                       <span className={styles.savingsBulletLabelAfter}>{row.after}</span>
                     </div>
                   </div>
@@ -323,7 +324,7 @@ export default function TrainWithAlbertCaseStudy() {
                 </div>
               ))}
               <div className={styles.savingsTotalRow}>
-                <div className={styles.savingsTotalLabel}>{locale === 'sv' ? 'Totalt' : 'Total'}</div>
+                <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
                 <div className={styles.savingsTotalValue}>65%</div>
               </div>
@@ -338,17 +339,17 @@ export default function TrainWithAlbertCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/brindar-akalp.jpg"
-              alt="Albert Nilsson"
+              alt={t('quote.author')}
               width={180}
               height={180}
               className={styles.quoteImage}
             />
           </div>
           <div className={styles.quoteContent}>
-            <blockquote className={styles.quoteText}>Jag fokuserar på mina kunder nu, inte på admin. AI:n sköter resten.</blockquote>
+            <blockquote className={styles.quoteText}>{t('quote.text')}</blockquote>
             <div className={styles.quoteAuthor}>
-              <span className={styles.quoteName}>Albert Nilsson</span>
-              <span className={styles.quoteRole}>Grundare TrainWithAlbert</span>
+              <span className={styles.quoteName}>{t('quote.author')}</span>
+              <span className={styles.quoteRole}>{t('quote.role')}</span>
             </div>
           </div>
         </div>

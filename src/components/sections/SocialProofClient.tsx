@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTranslations } from 'next-intl'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import { C } from '@/lib/colors'
 
@@ -22,6 +23,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
   subtitle: string
   customers: Customer[]
 }) {
+  const t = useTranslations('socialProof')
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -195,7 +197,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
               {/* Case Study Button */}
               <div style={{ marginTop: 'auto', display: 'inline-flex' }}>
                 <ButtonSwap 
-                  label="Läs hela caset" 
+                  label={t('readCase')} 
                   arrow 
                   href={customer.caseStudyUrl} 
                   size="lg" 

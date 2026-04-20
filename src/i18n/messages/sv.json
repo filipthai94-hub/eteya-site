@@ -2,7 +2,52 @@
   "nav": {
     "logo": "ETEYA",
     "cta": "Kontakt",
-    "lang": "EN"
+    "lang": "EN",
+    "links": [
+      {
+        "label": "Hem",
+        "href": "/sv"
+      },
+      {
+        "label": "Om oss",
+        "href": "/sv/om-oss"
+      },
+      {
+        "label": "Tjänster",
+        "href": "/sv#services-section"
+      },
+      {
+        "label": "Våra case",
+        "href": "/sv#cases-section",
+        "badge": "[5]"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/sv/kontakt"
+      }
+    ],
+    "menuLabel": "Meny",
+    "contactUs": "Kontakta oss",
+    "location": "Sweden (SE)",
+    "ourCases": "Våra case",
+    "tagline": "AI consulting that actually delivers.",
+    "socialMedia": "Sociala medier",
+    "popup": {
+      "brand": "ETEYA",
+      "sub": "Hör av dig",
+      "copyEmail": "Kopiera email",
+      "openMail": "Öppna mailklient",
+      "bookCall": "Boka samtal",
+      "copied": "kopierad"
+    },
+    "footer": {
+      "privacy": "Integritetspolicy",
+      "privacyHref": "/sv/integritetspolicy",
+      "terms": "Villkor",
+      "termsHref": "/sv/villkor",
+      "copyright": "© 2026 Eteya"
+    },
+    "email": "kontakt@eteya.ai"
   },
   "hero": {
     "role": "AI som driver ditt företag",
@@ -52,25 +97,153 @@
   "services": {
     "label_ja": "専門分野",
     "label_en": "Vad vi gör",
-    "heading": "Tre sätt vi levererar.",
+    "heading": "TJÄNSTER",
+    "cta": "Boka samtal",
     "items": [
       {
         "number": "01",
         "title": "AI Agents",
-        "description": "Autonoma agenter som hanterar arbetsflöden, kommunikation och beslut — dygnet runt. Utan mänsklig input för varje steg.",
-        "detail": "Från kundservice till intern automation. Vi bygger agenter som faktiskt fungerar i produktion."
+        "description": "Medan du hanterar förfrågningar manuellt har dina konkurrenter redan satt AI-agenter på jobbet. En agent som aldrig sover, aldrig missar och tar på sig allt du inte hinner med, så du kan fokusera på det bara du kan göra.",
+        "detail": "Från kundservice till intern automation. Vi bygger agenter som faktiskt fungerar i produktion.",
+        "features": [
+          "Tillgänglig dygnet runt, svarar när du inte kan",
+          "Hanterar hundra samtal samtidigt utan att tappa kvalitet",
+          "Lär sig din affär, inte en generisk mall",
+          "Tar över repetitiva uppgifter, du delegerar och den levererar",
+          "Fungerar i alla kanaler: mail, chatt, telefon, internt",
+          "Skalar med dig från dag ett till tusentals interaktioner"
+        ]
       },
       {
         "number": "02",
-        "title": "Process Automation",
-        "description": "Vi identifierar och automatiserar de manuella processer som äter din tid. Integrationer, triggers och flöden som fungerar utan din hand.",
-        "detail": "Make, n8n, custom webhooks — vad som krävs för att koppla ihop dina system och eliminera manuellt arbete."
+        "title": "Automation",
+        "description": "Det som tar dig 3 timmar idag tar 3 minuter imorgon. AI-automationer som inte bara följer regler utan förstår din verksamhet, fattar egna beslut och hanterar det som mänskliga händer aldrig borde rört.",
+        "detail": "Make, n8n, custom webhooks — vad som krävs för att koppla ihop dina system och eliminera manuellt arbete.",
+        "features": [
+          "3 timmar blir 3 minuter, varje dag",
+          "Fattar beslut i flödet, du sätter riktningen och AI kör",
+          "Hanterar undantag som en människa, fast snabbare",
+          "Frigör tid för det som faktiskt bygger bolaget",
+          "Skalbar från dag ett utan extra anställningar",
+          "Kopplad till hela din verksamhet, ett flöde och noll manuellt"
+        ]
       },
       {
         "number": "03",
-        "title": "Custom Builds",
-        "description": "Behöver du något som inte finns? Vi bygger det. AI-driven mjukvara anpassad exakt till ditt problem, din bransch, dina krav.",
-        "detail": "Full-stack utveckling med AI i kärnan. Från idé till deployad produkt på veckor, inte månader."
+        "title": "AI Products",
+        "description": "Alla dina konkurrenter hyr samma AI-verktyg. Du kan äga ditt. En skräddarsydd produkt byggd exakt för din affär, som ingen annan kan köpa, kopiera eller ta ifrån dig.",
+        "detail": "Full-stack utveckling med AI i kärnan. Från idé till deployad produkt på veckor, inte månader.",
+        "features": [
+          "Du äger allt: kod, data, logik och framtid",
+          "Byggt för din affär, inte anpassat till ett generiskt verktyg",
+          "Lansering på veckor, inte månader",
+          "Din idé och vår expertis, vi gör det möjligt",
+          "Skalbar från dag ett utan tak",
+          "Ingen vendor lock-in, aldrig beroende av någon annans beslut"
+        ]
+      }
+    ]
+  },
+  "process": {
+    "heading": "SÅ HÄR LEVERERAR VI",
+    "blocks": [
+      {
+        "num": "01",
+        "label": "// 01",
+        "scramble": "KARTLÄGGNING",
+        "heading": "ERT TEAM JOBBAR FÖR HÅRT. PÅ FEL SAKER.",
+        "body": "De flesta företag lägger 60% av sin tid på saker AI gör bättre. Vi hittar vilka.",
+        "list": [
+          {
+            "label": "Processanalys",
+            "num": "01"
+          },
+          {
+            "label": "Automationspotential",
+            "num": "02"
+          },
+          {
+            "label": "Målsättning & KPI:er",
+            "num": "03"
+          },
+          {
+            "label": "Verktygsval",
+            "num": "04"
+          },
+          {
+            "label": "Nulägesanalys",
+            "num": "05"
+          },
+          {
+            "label": "Prioritering & roadmap",
+            "num": "06"
+          },
+          {
+            "label": "Leveransplan",
+            "num": "07"
+          }
+        ],
+        "btnText": "Boka ett samtal"
+      },
+      {
+        "num": "02",
+        "label": "// 02",
+        "scramble": "PRODUKTION",
+        "heading": "FRÅN BRIEF TILL LIVE PÅ VECKOR.",
+        "body": "Vi bygger fungerande system, inte presentationer. Integrerat i era verktyg, testat med riktig data.",
+        "list": [
+          {
+            "label": "MVP på 1 vecka",
+            "num": "01"
+          },
+          {
+            "label": "Systemintegration",
+            "num": "02"
+          },
+          {
+            "label": "Testning med riktig data",
+            "num": "03"
+          },
+          {
+            "label": "Finjustering & kvalitetssäkring",
+            "num": "04"
+          },
+          {
+            "label": "Teamonboarding",
+            "num": "05"
+          }
+        ],
+        "btnText": "Boka ett samtal"
+      },
+      {
+        "num": "03",
+        "label": "// 03",
+        "scramble": "EXPANSION",
+        "heading": "VARJE VECKA SMARTARE. VARJE MÅNAD STARKARE.",
+        "body": "Era AI-agenter blir bättre med tiden. Vi optimerar, skalar och hittar nya möjligheter — utan att ni behöver lyfta ett finger.",
+        "list": [
+          {
+            "label": "Veckovis optimering",
+            "num": "01"
+          },
+          {
+            "label": "Nya automationer",
+            "num": "02"
+          },
+          {
+            "label": "Skalning till nya processer",
+            "num": "03"
+          },
+          {
+            "label": "Proaktiv rådgivning",
+            "num": "04"
+          },
+          {
+            "label": "Månadsrapport med ROI",
+            "num": "05"
+          }
+        ],
+        "btnText": "Boka ett samtal"
       }
     ]
   },
@@ -134,6 +307,7 @@
   },
   "contact": {
     "section_label": "Kontakt",
+    "hero_headline": "KONTAKT",
     "hero_subheading": "Vi svarar inom 1 vardag",
     "heading": "Hör av dig.",
     "subheading": "Fyll i formuläret så återkommer vi inom 1 vardag.",
@@ -166,6 +340,12 @@
         "placeholder": "Berätta om ert projekt eller er utmaning..."
       }
     },
+    "email_label": "EMAIL",
+    "address_label": "ADRESS",
+    "hours_label": "ÖPPETTIDER",
+    "address": "Solhagsvägen 26 A, 691 52 Karlskoga",
+    "org_nr": "Org.nr: 559552-7390",
+    "hours": "Mån–Fre: 09:00–17:00",
     "submit": "Skicka förfrågan",
     "submit_loading": "Skickar...",
     "success": "Tack! Vi hör av oss inom 1 vardag.",
@@ -189,22 +369,28 @@
     "teamUnit": "personer",
     "processes": {
       "kundtjanst": {
-        "name": "Kundtjänst"
+        "name": "Kundtjänst",
+        "rateLabel": "45% automation"
       },
       "fakturering": {
-        "name": "Fakturering & Admin"
+        "name": "Fakturering & Admin",
+        "rateLabel": "65% automation"
       },
       "leads": {
-        "name": "Leads & Försäljning"
+        "name": "Leads & Försäljning",
+        "rateLabel": "60% automation"
       },
       "rapportering": {
-        "name": "Rapportering & Ekonomi"
+        "name": "Rapportering & Ekonomi",
+        "rateLabel": "70% automation"
       },
       "epost": {
-        "name": "E-post & Schemaläggning"
+        "name": "E-post & Schemaläggning",
+        "rateLabel": "50% automation"
       },
       "kommunikation": {
-        "name": "Intern kommunikation"
+        "name": "Intern kommunikation",
+        "rateLabel": "65% automation"
       }
     },
     "results": {
@@ -212,10 +398,22 @@
       "currentCostLabel": "Nuvarande kostnad",
       "withAiLabel": "Med AI-automation",
       "perYear": "/år",
-      "annual": "Årlig besparing",
-      "hoursSaved": "timmar sparade per år",
-      "fteEquivalent": "Motsvarar {{count}} heltidstjänster",
-      "perProcess": "Besparing per process"
+      "annual": "Besparing år 1",
+      "hoursSaved": "Timmar/år",
+      "fteEquivalent": "Motsvarar {count} heltidstjänster",
+      "perProcess": "Besparing per process",
+      "distribution": "Fördelning av besparing",
+      "roi": "ROI",
+      "emptyDistribution": "Aktivera processer för att se fördelningen",
+      "projection": "Projektion 3 år",
+      "projectionNote": "År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing.",
+      "emptyProjection": "Aktivera processer för att se projektionen",
+      "year1": "År 1",
+      "year2": "År 2",
+      "year3": "År 3",
+      "payback": "Payback",
+      "paybackUnit": "mån",
+      "lessThanOneMonth": "< 1 mån"
     },
     "transparency": {
       "toggle": "Så räknar vi",
@@ -227,9 +425,79 @@
     },
     "cta": {
       "primary": "Boka ett strategimöte",
-      "secondary": "Se hur vi beräknar"
+      "secondary": "Se hur vi beräknar",
+      "sub": "Gratis 30 min — inga förpliktelser",
+      "methodologyShow": "Visa beräkningsmodell",
+      "methodologyHide": "Dölj beräkningsmodell"
     },
-    "empty": "Välj minst en process ovan för att se din besparing"
+    "processLabels": {
+      "kundtjanst": "Kundtjänst",
+      "fakturering": "Fakturering & Admin",
+      "leads": "Leads & Försäljning",
+      "rapportering": "Rapportering & Ekonomi",
+      "epost": "E-post & Schemaläggning",
+      "kommunikation": "Intern kommunikation"
+    },
+    "processRateLabels": {
+      "kundtjanst": "45% automation",
+      "fakturering": "65% automation",
+      "leads": "60% automation",
+      "rapportering": "70% automation",
+      "epost": "50% automation",
+      "kommunikation": "65% automation"
+    },
+    "snapshotLabels": {
+      "year1": "Besparing år 1",
+      "hoursPerYear": "Timmar/år",
+      "payback": "Payback"
+    },
+    "donutLabel": "Fördelning av besparing",
+    "chartEmpty": "Aktivera processer för att se fördelningen",
+    "barChart": {
+      "year1": "År 1",
+      "year2": "År 2",
+      "year3": "År 3",
+      "note": "År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing."
+    },
+    "projectionLabel": "Projektion 3 år",
+    "projectionEmpty": "Aktivera processer för att se projektionen",
+    "socialProof": {
+      "value": "390 000 kr/år",
+      "text": "i snittbesparing för Telestore AB",
+      "hint": "(Verifierad data)"
+    },
+    "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%",
+    "implCostLabel": "Implementationskostnad",
+    "implCostHint": "Påverkar ROI% och payback-period",
+    "costLabel": "Kostnad",
+    "implHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
+    "hoursHint": "Räkna ihop alla som jobbar med den här processen",
+    "methodology": {
+      "label": "BERÄKNINGSMODELL",
+      "formula": "Timmar × Automation% × 52 veckor × 350 kr/h",
+      "yearFactors": "År 1: 65% potential · År 2: 85% · År 3: 100%",
+      "sources": "Källor: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%"
+    },
+    "methodologyToggle": {
+      "show": "Visa beräkningsmodell",
+      "hide": "Dölj beräkningsmodell"
+    },
+    "ctaSub": "Gratis 30 min — inga förpliktelser",
+    "empty": "Välj minst en process ovan för att se din besparing",
+    "impl": {
+      "title": "Implementationskostnad",
+      "hint": "Påverkar ROI% och payback-period",
+      "costLabel": "Kostnad",
+      "rangeHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
+      "unit": "kr"
+    },
+    "hoursTeamSuffix": "totalt i teamet",
+    "subLinkText": "spara med AI och automation",
+    "snapshot": {
+      "savings": "Besparing år 1",
+      "hours": "Timmar/år",
+      "payback": "Payback"
+    }
   },
   "methodology": {
     "meta": {
@@ -274,7 +542,12 @@
       "author": "Filip Thai",
       "role": "Grundare, Telestore Sverige AB",
       "trustpilot": "{rating} på Trustpilot",
-      "logos": ["Telestore", "Airtable", "SCB", "McKinsey"]
+      "logos": [
+        "Telestore",
+        "Airtable",
+        "SCB",
+        "McKinsey"
+      ]
     },
     "sections": {
       "howWeCalculate": {
@@ -295,6 +568,8 @@
           }
         ]
       },
+      "howWeCalculateHeading": "HUR VI RÄKNAR",
+      "howWeCalculateSubtext": "Tre oberoende källor. Konservativa siffror. Allt verifierat.",
       "approachTitle": "VÅR METODIK",
       "approachBody": "De flesta ROI-kalkylatorer på marknaden bygger enbart på generella branschrapporter och teoretiska antaganden. Problemet? Varje företag är unikt — processer, teamstorlek, verktyg och systemlandskap skiljer sig dramatiskt. Generiska siffror ger generiska resultat som sällan stämmer med verkligheten.",
       "approachBody2": "Vi löser det genom att kombinera branschdata från erkända källor som SCB lönestatistik och McKinsey Global Institute med verifierad kunddata från riktiga AI-implementationer. Det ger beräkningar baserade på faktiska tidsbesparingar — inte teoretiska uppskattningar från konsultrapporter.",
@@ -323,6 +598,7 @@
       "verifiedLink": "Läs hela kundcaset",
       "formulaTitle": "Beräkningsformel",
       "formulaBody": "Besparingstimmar = Antal anställda × Timmar/vecka × Automationsgrad\n\nBesparing (kr/år) = Besparingstimmar × 52 × 350 kr/h\n\nÅr 1-besparing = Total × 0.65 (ramp-up-faktor)\n\nIntervall: ±15% för att spegla variation",
+      "conservativeHeading": "Varför AI-besparing alltid är högre i verkligheten",
       "conservativeTitle": "Konservativa antaganden",
       "conservativeBody": [
         "Timkostnad 350 kr/h — SCB beräknar belastad kostnad till 370 kr/h. Vi räknar med 350 kr/h — en medveten 5% marginal nedåt för att hålla estimatet konservativt.",
@@ -333,6 +609,7 @@
       ],
       "limitationsTitle": "Begränsningar",
       "limitationsBody": "Enskilt case study (e-handel, <10 anställda). Tidsuppskattningar baserade på minne, ej systematisk mätning. Ingen kontrollgrupp. McKinseys data från 2023 — teknologin utvecklas snabbt.",
+      "sourcesHeading": "Källor",
       "disclaimerTitle": "Disclaimer",
       "disclaimerBody": "Kalkylatorn är ett estimeringsverktyg, inte en garanti. Faktisk besparing beror på processmognad, systemlandskap och implementationskvalitet."
     },
@@ -384,6 +661,22 @@
         }
       ]
     },
+    "telestoreBreakdown": {
+      "heading": "Så här räknade vi på Telestore",
+      "row1": "26 timmar/vecka (faktisk tidsbesparing)",
+      "row2": "52 veckor",
+      "row3": "350 kr/h",
+      "totalMax": "= 473 200 kr/år (teoretiskt max)",
+      "rampUp": "× 0.65 (år 1 ramp-up)",
+      "totalYear1": "= 307 580 kr/år (tidsbesparing, år 1)",
+      "errorCosts": "+ 26 400 kr/år (eliminerade felkostnader)",
+      "totalWithErrors": "= ~334 000 kr/år (totalt, år 1)",
+      "year2PlusNote": "År 2+ (full effekt):",
+      "year2PlusCalc": "26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år",
+      "actualResult": "Telestores faktiska resultat:",
+      "actualValue": "~390 000 kr/år",
+      "actualNote": "(konservativt räknat)"
+    },
     "backToCalculator": "Beräkna din besparing"
   },
   "caseStudies": {
@@ -394,12 +687,18 @@
     "hero": {
       "title": "Kundcase",
       "subtitle": "Verifierade resultat från riktiga företag"
+    },
+    "telestore": {
+      "industry": "E-handel",
+      "perYear": "år",
+      "summary": "56 automationer → 26 timmar sparade per vecka"
     }
   },
   "telestore": {
     "meta": {
       "title": "Telestore — Kundcase | Eteya AI",
-      "description": "Hur Eteya automatiserade Telestores arbetsflöden med 56 automationer och sparade 390 000 kr/år."
+      "description": "Hur Eteya automatiserade Telestores arbetsflöden med 56 automationer och sparade 390 000 kr/år.",
+      "ogImageAlt": "Telestore kundcase — 390 000 kr/år i besparing med 56 automationer"
     },
     "hero": {
       "title": "Telestore Sverige AB",
@@ -415,108 +714,178 @@
     },
     "challenge": {
       "title": "Utmaningen",
-      "body": "Telestore hanterade alla processer manuellt — från inköp och listning till kundservice och orderhantering. Excel-listor skapade fel som kostade pengar. Felsökning tog 2–3 timmar per incident med flera personer inblandade."
+      "card1Title": "Manuell listning",
+      "card1Body": "75 telefoner varje vecka listades manuellt på telestore.se, Blocket och Tradera. Varje listning tog 7.5 minuter — tid som kunde använts till försäljning och kundservice.",
+      "card2Title": "Excel-kaos",
+      "card2Body": "2.5 timmar varje vecka bortkastad på felsökning i manuella listor. När något gick fel var 2–3 personer inblandade i koordinering, felsökning och återställning.",
+      "card3Title": "Missade försäljningar",
+      "card3Body": "Felpriser, uteblivna leveranser och borttappade kundärenden skapade direkta kostnader. Varje manuellt fel riskerade att förlora kunder och skada företagets rykte.",
+      "card4Title": "Ingen skalbarhet",
+      "card4Body": "Varje ny telefon krävde manuell hantering. Affären kunde inte växa utan att anställa mer personal. Automationsbehovet var akut för att bryta botten-effekten."
     },
     "solution": {
       "title": "Lösningen",
-      "body": "56 automationer implementerades stegvis: 47 Make-flöden, 2 AI-agenter och 7 automatiserade scripts. Varje process — från IMEI-validering till AI-drivna prisförslag — automatiserades med fokus på kvalitet.",
-      "stats": {
-        "automations": "56",
-        "automationsLabel": "Aktiva automationer",
-        "integrations": "11",
-        "integrationsLabel": "Externa integrationer",
-        "platforms": "3",
-        "platformsLabel": "Säljplattformar"
-      }
+      "body": "56 automationer implementerade på 3 veckor. Make, AI-agenter och scripts — alla testade mot riktig data.",
+      "item1Title": "Listning & IMEI",
+      "item1Body": "75 telefoner/vecka listades automatiskt på telestore.se, Blocket och Tradera med rätt pris, bilder och spec.",
+      "item2Title": "Order & frakt",
+      "item2Body": "Varje order genererade automatiskt bekräftelse, fraktsedel och avtal. Inga manuella steg, inga glömda detaljer.",
+      "item3Title": "Kundservice & AI",
+      "item3Body": "AI-agenter klassificerade och besvarade inkommande mail dygnet runt, under en sekund per ärende.",
+      "item4Title": "Skalbarhet",
+      "item4Body": "Affären växer utan att teamet växer. Varje ny telefon hanteras automatiskt."
     },
     "results": {
-      "title": "Resultatet",
-      "timeSaved": "26 h/vecka",
-      "timeSavedLabel": "Tid sparad",
-      "moneySaved": "390 000 kr",
-      "moneySavedLabel": "Årlig besparing",
-      "errors": "~0",
-      "errorsLabel": "Fel per månad (från 2)",
-      "table": {
-        "process": "Process",
-        "before": "Före",
-        "after": "Efter",
-        "volume": "Volym/vecka",
-        "saved": "Sparad tid/vecka"
-      },
-      "rows": [
-        {
-          "process": "Telefon → sajt/Blocket",
-          "before": "7.5 min",
-          "after": "~0",
-          "volume": "75 st",
-          "saved": "9.4 h"
-        },
-        {
-          "process": "PostNord fraktsedel",
-          "before": "5 min",
-          "after": "~0",
-          "volume": "34 st",
-          "saved": "2.8 h"
-        },
-        {
-          "process": "Orderhantering",
-          "before": "10 min",
-          "after": "2 min",
-          "volume": "34 st",
-          "saved": "4.5 h"
-        },
-        {
-          "process": "AI prisförslag-mail",
-          "before": "7.5 min",
-          "after": "~0",
-          "volume": "25 st",
-          "saved": "3.1 h"
-        },
-        {
-          "process": "Registrering (Excel → AT)",
-          "before": "1 min",
-          "after": "~0",
-          "volume": "75 st",
-          "saved": "1.3 h"
-        },
-        {
-          "process": "Scrive-avtal",
-          "before": "2 min",
-          "after": "~0",
-          "volume": "43 st",
-          "saved": "1.4 h"
-        },
-        {
-          "process": "Kundservice-mail",
-          "before": "2 min",
-          "after": "~0.5 min",
-          "volume": "75 st",
-          "saved": "1.9 h"
-        },
-        {
-          "process": "Excel-felsökning",
-          "before": "2.5 h",
-          "after": "0",
-          "volume": "0.5×/v",
-          "saved": "1.3 h"
-        }
-      ]
+      "title": "Resultat",
+      "stat1Label": "Besparing/år",
+      "stat2Label": "Sparad tid/år",
+      "stat3Label": "Automationer",
+      "stat2Suffix": " timmar",
+      "stat1Suffix": " kr"
     },
     "quote": {
-      "text": "Vi gick från att jaga Excel-fel till att fokusera på att växa. Automationen har inte bara sparat tid — den har eliminerat hela kategorier av problem.",
-      "author": "Filip Thai",
-      "role": "Grundare, Telestore Sverige AB"
+      "text": "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade.",
+      "author": "Brindar Akalp",
+      "role": "VD, Telestore"
     },
     "cta": {
       "calculate": "Beräkna din besparing",
       "methodology": "Se vår metodik"
+    },
+    "heroTitle": "Telestore",
+    "heroWords": [
+      "56 AUTOMATIONER",
+      "390 000 KR/ÅR",
+      "1 350 TIMMAR"
+    ],
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för Telestore — från manuell till fullt automatiserad process.",
+      "snapshot1Label": "Sparat per år",
+      "snapshot2Label": "Tid sparad",
+      "snapshot3Label": "Automationer",
+      "snapshot2Suffix": " timmar",
+      "donutTitle": "Fördelning av sparad tid",
+      "donutCenterLabel": "timmar/vecka",
+      "legend1": "Listning & publicering",
+      "legend2": "Order & frakt",
+      "legend3": "Kundservice & AI",
+      "legend4": "Admin & avtal",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per enhet)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Telefon → sajt/Blocket",
+      "row1Volume": "75 st/vecka",
+      "row2Name": "PostNord fraktsedel",
+      "row2Volume": "34 st/vecka",
+      "row3Name": "Orderhantering",
+      "row3Volume": "34 st/vecka",
+      "row4Name": "AI prisförslag-mail",
+      "row4Volume": "25 st/vecka",
+      "row5Name": "Registrering (Excel → AT)",
+      "row5Volume": "75 st/vecka",
+      "row6Name": "Scrive-avtal",
+      "row6Volume": "43 st/vecka",
+      "row7Name": "Kundservice-mail",
+      "row7Volume": "75 st/vecka",
+      "row8Name": "Excel-felsökning",
+      "row8Volume": "0.5×/vecka",
+      "totalLabel": "Totalt",
+      "manual": "manuellt"
     }
   },
   "mbflytt": {
     "meta": {
       "title": "MB Flytt — Kundcase | Eteya AI",
       "description": "Hur Eteya automatiserade MB Flytts offertprocess med 12 automationer och 95% snabbare hantering."
+    },
+    "heroTitle": "MB Flytt",
+    "heroWords": [
+      "Manuella offerter",
+      "2x fler offerter/dag",
+      "Noll papper"
+    ],
+    "challenge": {
+      "title": "Utmaningen",
+      "card1Title": "Tidskrävande offertprocess",
+      "card1Body": "Varje offert krävde telefonsamtal, hembesök och timmar av kalkylering. Kunden fick vänta länge på besked.",
+      "card2Title": "Förlorade kunder",
+      "card2Body": "Kunder valde snabbare konkurrenter som kunde lämna offerter direkt. MB Flytt förlorade affärer varje vecka.",
+      "card3Title": "Pappersarbete",
+      "card3Body": "Avtal och bokningsbekräftelser skickades per post eller fax. Mycket papper och risk för att dokument försvann.",
+      "card4Title": "Manuell kalkylering",
+      "card4Body": "Varje flytt behövde noggrann kalkylering baserat på volym, avstånd och tilläggstjänster. Det var svårt att vara konsekvent."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.",
+      "item1Title": "AI-offertgenerator",
+      "item1Body": "Kunder fyller i uppgifter online och AI:n beräknar pris baserat på volym, avstånd och tilläggstjänster på sekunder.",
+      "item2Title": "Automatisk kalkylering",
+      "item2Body": "Prissättning baseras på historisk data och realtidsfaktorer som bränslepris och tillgänglighet.",
+      "item3Title": "Digital signering",
+      "item3Body": "Kunder kan godkänna och signera offerter direkt i webbläsaren eller på mobilen. BankID-integration finns.",
+      "item4Title": "Automatisk bokning",
+      "item4Body": "När offerten är godkänd skapas bokningen automatiskt i kalendern och kunden får bekräftelse direkt."
+    },
+    "results": {
+      "title": "Resultat",
+      "stat1Label": "fler offerter/dag",
+      "stat1Suffix": "x",
+      "stat2Label": "offertid istället för 24h",
+      "stat2Suffix": " min",
+      "stat3Label": "högre konvertering",
+      "stat3Suffix": "%"
+    },
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för MB Flytt — från manuell till fullt automatiserad process.",
+      "snapshot1Label": "Offerter per dag",
+      "snapshot1Suffix": " offerter/dag",
+      "snapshot2Label": "Snabbare",
+      "snapshot3Label": "Automationer",
+      "donutTitle": "Fördelning av besparingar",
+      "donutCenterLabel": "automatiserat",
+      "legend1": "Offertflöde",
+      "legend2": "Avtalshantering",
+      "legend3": "Kalkylering",
+      "legend4": "Admin",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per enhet)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Offertgenerering",
+      "row1Volume": "dagligen",
+      "row2Name": "Kalkylering",
+      "row2Volume": "varje kund",
+      "row3Name": "Avtal",
+      "row3Volume": "varje bokning",
+      "row4Name": "Bokningsbekräftelse",
+      "row4Volume": "varje bokning",
+      "row1Saved": "2x fler offerter",
+      "row2Saved": "konsekventa priser",
+      "row3Saved": "noll papper",
+      "row4Saved": "automatisk",
+      "totalLabel": "Totalt",
+      "manual": "manuellt",
+      "snapshot1Value": "180 offerter/dag",
+      "snapshot2Value": "95% snabbare",
+      "snapshot3Value": "12"
+    },
+    "quote": {
+      "text": "Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först med offert.",
+      "author": "Marcus Bengtsson",
+      "role": "Grundare MB Flytt"
+    },
+    "hero": {
+      "title": "MB Flytt",
+      "subtitle": "95% snabbare offerthantering",
+      "tag": "Kundcase"
+    },
+    "about": {
+      "title": "Om företaget",
+      "industry": "Flytt & Logistik",
+      "employees": "5-10 anställda",
+      "platforms": "Webbplats, Telefon, E-post"
     }
   },
   "nordicrank": {
@@ -524,18 +893,266 @@
       "title": "Nordicrank — Kundcase | Eteya AI",
       "description": "Hur Eteya sparade Nordicrank 13.4 timmar/vecka med 18 automationer och 95% färre fel.",
       "ogImageAlt": "Nordicrank kundcase — 13.4 timmar sparade per vecka med AI-automation"
+    },
+    "snapshot": {
+      "timeSuffix": " h/vecka",
+      "errorSuffix": "%",
+      "automationsSuffix": ""
+    },
+    "heroTitle": "Nordicrank",
+    "heroWords": [
+      "Manuella beställningar",
+      "13.4 h/vecka sparad",
+      "95% färre fel"
+    ],
+    "challenge": {
+      "title": "Utmaningen",
+      "card1Title": "Manuella beställningar",
+      "card1Body": "Nordicrank hanterade beställningar manuellt från start till mål. Information flyttades mellan formulär, mail och interna listor i stället för att flöda automatiskt.",
+      "card2Title": "Excel-listor överallt",
+      "card2Body": "Länkar och ordrar hölls ihop i Excel-listor som uppdaterades manuellt. Det var felbenäget, tidskrävande och gjorde det svårt att veta vilken version som faktiskt gällde.",
+      "card3Title": "Onödiga fel",
+      "card3Body": "När status, leverans och uppföljning sköttes för hand uppstod missar, dubletter och tappade steg. Varje fel skapade mer administration och längre ledtider.",
+      "card4Title": "Svårt att skala",
+      "card4Body": "Varje ny kund innebar mer manuell koordinering. Utan automation blev tillväxt direkt kopplad till fler timmar i administration, inte mer leveranskapacitet."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "18 automatiserade flöden implementerade på 2 veckor. Kunder beställer, allt triggas automatiskt och Excel-listorna försvinner helt ur processen.",
+      "item1Title": "Orderautomatisering",
+      "item1Body": "När kunden beställer skickas all information automatiskt till rätt steg, utan manuell kopiering mellan verktyg och listor.",
+      "item2Title": "Länklogg-automation",
+      "item2Body": "Länkar och ordrar registreras och uppdateras automatiskt. Inga fler Excel-listor fram och tillbaka.",
+      "item3Title": "Uppföljning på autopilot",
+      "item3Body": "Varje order får automatiskt rätt status, ansvarig och uppföljning. Teamet får full överblick utan att jaga uppdateringar.",
+      "item4Title": "Smarta notifieringar",
+      "item4Body": "Leveranser, interna notifieringar och kunduppdateringar triggas automatiskt. Nordicrank kan ta fler beställningar utan mer administration."
+    },
+    "results": {
+      "title": "Resultat",
+      "stat1Label": "sparad tid/vecka",
+      "stat1Suffix": ".4 h/v",
+      "stat2Label": "färre fel",
+      "stat2Suffix": "%",
+      "stat3Label": "automationer"
+    },
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för Nordicrank — från manuell till fullt automatiserad process.",
+      "snapshot1Label": "Sparad tid",
+      "snapshot2Label": "Färre fel",
+      "snapshot3Label": "Automationer",
+      "donutTitle": "Fördelning av sparad tid",
+      "donutCenterLabel": "automatiserat",
+      "legend1": "Orderhantering",
+      "legend2": "Länklogg",
+      "legend3": "Uppföljning",
+      "legend4": "Notifieringar",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per enhet)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Orderregistrering",
+      "row1Volume": "45 st/v",
+      "row2Name": "Länklogg i Excel",
+      "row2Volume": "60 st/v",
+      "row3Name": "Orderuppföljning",
+      "row3Volume": "45 st/v",
+      "row4Name": "Interna notifieringar",
+      "row4Volume": "20 st/v",
+      "totalLabel": "Totalt",
+      "totalSuffix": "vecka",
+      "manual": "manuellt",
+      "row1LabelBefore": "manuellt",
+      "row2LabelBefore": "manuellt",
+      "row3LabelBefore": "manuellt",
+      "row4LabelBefore": "manuellt",
+      "row1Saved": "4.1 h/v",
+      "row2Saved": "4 h/v",
+      "row3Saved": "5.3 h/v",
+      "row4Saved": "1 h/v",
+      "totalValue": "13.4 h/vecka"
+    },
+    "quote": {
+      "text": "Vi trodde att det vi gjorde var normalt. Tills vi insåg att vi kunde automatisera nästan allt.",
+      "author": "Erik Lindqvist",
+      "role": "CTO Nordicrank"
     }
   },
   "sannegarden": {
     "meta": {
       "title": "Sannegården — Kundcase | Eteya AI",
       "description": "Hur Eteya hjälpte Sannegården till 0 missade samtal och 30+ extra beställningar per vecka."
+    },
+    "snapshot": {
+      "callsSuffix": "",
+      "ordersSuffix": " beställningar/vecka",
+      "rebookingSuffix": "%"
+    },
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för Sannegården — från manuell till fullt automatiserad process.",
+      "snapshot1Label": "Beställningar/vecka",
+      "snapshot2Label": "Ökad nöjdhet",
+      "snapshot3Label": "Missade samtal",
+      "donutTitle": "Fördelning av besparingar",
+      "donutCenterLabel": "automatiserat",
+      "legend1": "Beställningar",
+      "legend2": "Samtalshantering",
+      "legend3": "Kundnöjdhet",
+      "legend4": "Kökfokus",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per enhet)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Missade samtal",
+      "row1Volume": "varje kväll",
+      "row2Name": "Extra beställningar",
+      "row2Volume": "varje vecka",
+      "row3Name": "Kundnöjdhet",
+      "row3Volume": "hela passet",
+      "row4Name": "Kökfokus",
+      "row4Volume": "hela passet",
+      "row1Saved": "aldrig missat",
+      "row2Saved": "30+ order",
+      "row4Saved": "mer arbetsro",
+      "totalLabel": "Totalt",
+      "manual": "manuellt",
+      "snapshot1Value": "30+ beställningar/v",
+      "snapshot2Value": "23% ökad nöjdhet",
+      "snapshot3Value": "0 missade samtal"
+    },
+    "heroTitle": "Sannegården",
+    "heroWords": [
+      "Missade samtal",
+      "30+ beställningar/v",
+      "0 missade samtal"
+    ],
+    "challenge": {
+      "title": "Utmaningen",
+      "card1Title": "Missade samtal",
+      "card1Body": "Under rusningstid ringde kunder samtidigt som personalen stod mitt i service och matlagning. När ingen hann svara blev varje missat samtal en förlorad beställning.",
+      "card2Title": "Begränsad kapacitet",
+      "card2Body": "Fler inkommande samtal betydde mer stress, inte mer kapacitet. Telefonen blev en flaskhals som hindrade teamet från att fokusera på det viktigaste.",
+      "card3Title": "Stressig kvällsservice",
+      "card3Body": "Beställningar och frågor kom även utanför de mest bemannade timmarna. Utan någon som kunde svara konsekvent gick restaurangen miste om både service och intäkter.",
+      "card4Title": "Borttappade beställningar",
+      "card4Body": "Kunder ringde för att fråga om menyer, öppettider och alternativ. Det avbröt arbetet i köket och tog fokus från gästerna på plats."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "En AI-telefonist som tar emot beställningar dygnet runt, svarar på menyfrågor och bekräftar ordrar automatiskt via telefon.",
+      "item1Title": "AI-telefonist",
+      "item1Body": "AI-telefonisten svarar direkt när kunder ringer och guidar dem genom beställningen utan att personalen behöver lämna köket eller kassan.",
+      "item2Title": "Smart orderhantering",
+      "item2Body": "Varje beställning registreras och bekräftas automatiskt. Inga missade samtal eller borttappade ordrar.",
+      "item3Title": "Kundbekräftelser",
+      "item3Body": "Varje beställning bekräftas tydligt via telefon så att kunden vet att allt blivit rätt. Det minskar missförstånd och skapar trygghet i köpet.",
+      "item4Title": "Köksfokus",
+      "item4Body": "Sannegårdens kan ta emot fler samtal utan att anställa extra bara för telefonen. Lösningen skalar med trycket och ser till att inga samtal faller mellan stolarna."
+    },
+    "results": {
+      "title": "Resultat",
+      "stat1Label": "extra beställningar/v",
+      "stat1Suffix": "+",
+      "stat2Label": "ökad nöjdhet",
+      "stat2Suffix": "%",
+      "stat3Label": "missade samtal"
+    },
+    "quote": {
+      "text": "Kunderna märker inte att det är en AI. De får bara snabbare och bättre service.",
+      "author": "Ahmed Hassan",
+      "role": "Ägare Sannegården"
     }
   },
   "trainwithalbert": {
     "meta": {
       "title": "TrainWithAlbert — Kundcase | Eteya AI",
       "description": "Hur Eteya gav TrainWithAlbert 3x fler bokningar och 45% återbokning med 8 automationer."
+    },
+    "heroTitle": "TrainWithAlbert",
+    "heroWords": [
+      "Dubbelbokningar",
+      "3x fler bokningar",
+      "45% återbokning"
+    ],
+    "challenge": {
+      "title": "Utmaningen",
+      "card1Title": "Dubbelbokningar",
+      "card1Body": "Albert spenderade timmar varje vecka på att koordinera tider med klienter via mail och sms. Dubbelbokningar och missade tillfällen var vanligt.",
+      "card2Title": "Borta-kunder",
+      "card2Body": "Efter varje pass behövde klienter få uppföljning och nästa steg. Utan automatisering föll många bort eller bokade inte om.",
+      "card3Title": "Manuell schemaläggning",
+      "card3Body": "Att påminna om obetalda fakturor var obekvämt och tidskrävande. Det ledde till sämre kassaflöde och onödig administration.",
+      "card4Title": "Ojämn kassaflöde",
+      "card4Body": "Varje klient fick ett skräddarsytt program som skickades manuellt. Det tog tid från själva coachingen och var svårt att skala."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "Automatiserad klientresa från bokning till uppföljning. AI-driven schemaläggning, automatiska påminnelser och personliga träningsprogram.",
+      "item1Title": "AI-schemaläggning",
+      "item1Body": "Klienter bokar själva via en intelligent kalender som undviker dubbelbokningar och skickar automatiska bekräftelser.",
+      "item2Title": "Automatisk uppföljning",
+      "item2Body": "Efter varje pass får klienten automatisk uppföljning med nästa steg, vilket ökar återbokningen markant.",
+      "item3Title": "Betalningspåminnelser",
+      "item3Body": "Påminnelser om kommande pass, obetalda fakturor och uppföljning skickas automatiskt vid rätt tidpunkt.",
+      "item4Title": "AI-träningsprogram",
+      "item4Body": "AI genererar skräddarsydda träningsprogram baserat på klientens mål och framsteg, redo att skickas direkt."
+    },
+    "results": {
+      "title": "Resultat",
+      "stat1Label": "fler bokningar",
+      "stat1Suffix": "x",
+      "stat2Label": "återbokning",
+      "stat2Suffix": "%",
+      "stat3Label": "automationer"
+    },
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för TrainWithAlbert — från manuell till fullt automatiserad process.",
+      "snapshot1Label": "Fler bokningar",
+      "snapshot2Label": "Återbokning",
+      "snapshot3Label": "Automationer",
+      "donutTitle": "Fördelning av besparingar",
+      "donutCenterLabel": "automatiserat",
+      "legend1": "Schemaläggning",
+      "legend2": "Uppföljning",
+      "legend3": "Påminnelser",
+      "legend4": "Program",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per enhet)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Schemaläggning",
+      "row1Volume": "dagligen",
+      "row2Name": "Uppföljning",
+      "row2Volume": "varje pass",
+      "row3Name": "Betalningspåminnelser",
+      "row3Volume": "vid behov",
+      "row4Name": "Träningsprogram",
+      "row4Volume": "veckovis",
+      "row1Saved": "inga dubbelbokningar",
+      "row2Saved": "45% återbokning",
+      "row3Saved": "bättre kassaflöde",
+      "row4Saved": "AI-genererade",
+      "totalLabel": "Totalt",
+      "manual": "manuellt",
+      "snapshot1Value": "3x fler bokningar",
+      "snapshot2Value": "45% återbokning",
+      "snapshot3Value": "8"
+    },
+    "quote": {
+      "text": "Jag fokuserar på mina kunder nu, inte på admin. AI:n sköter resten.",
+      "author": "Albert Nilsson",
+      "role": "Grundare TrainWithAlbert"
+    },
+    "hero": {
+      "title": "TrainWithAlbert",
+      "subtitle": "3x fler bokningar + 45% återbokning",
+      "tag": "Kundcase"
+    },
+    "about": {
+      "title": "Om företaget",
+      "industry": "Fitness & Personlig Träning",
+      "employees": "1-5 anställda",
+      "platforms": "Webbplats, Instagram, WhatsApp"
     }
   },
   "about": {
@@ -543,22 +1160,9 @@
       "title": "Om Oss — Eteya AI",
       "description": "Vi är Eteya — AI-konsulter som automatiserar svenska företag med smarta lösningar och mätbara resultat."
     },
-    "ourStory": {
-      "quote": "Vi tror att AI ska jobba åt människor — inte tvärtom.",
-      "points": [
-        {
-          "title": "Grundat 2025",
-          "text": "Eteya föddes ur insikten att svenska företag behöver AI som levererar — inteexperiment."
-        },
-        {
-          "title": "Mätbara resultat",
-          "text": "Varje projekt mäts i timmar sparade, pengar besparade och fel eliminerade."
-        },
-        {
-          "title": "Svensk infrastruktur",
-          "text": "All data hanteras inom EU. Ingen skickas till tredje part utan er kontroll."
-        }
-      ]
+    "hero": {
+      "headline": "OM OSS",
+      "subheading": "Vi gör AI praktiskt — inte teoretiskt"
     },
     "socialProof": {
       "title": "",
@@ -591,24 +1195,6 @@
       ]
     }
   },
-  "why": {
-    "section_label": "",
-    "heading": "VI BYGGER AI SOM FAKTISKT ANVÄNDS",
-    "items": [
-      {
-        "title": "Från brief till live på 2 veckor",
-        "body": "Ingen förstudie på 3 månader. Vi identifierar rätt automation, bygger den och levererar något som fungerar — innan din konkurrent ens haft sitt kickoff-möte."
-      },
-      {
-        "title": "Du ser ROI i kronor, inte procent",
-        "body": "Varje lösning vi bygger har en tydlig före/efter-kalkyl. Du vet exakt vad du sparar innan vi börjar."
-      },
-      {
-        "title": "En partner, inte en leverantör",
-        "body": "Vi äger problemet tillsammans med dig. Svensk support, EU-data, och vi är tillgängliga när det händer saker — inte bara vid fakturering."
-      }
-    ]
-  },
   "team": {
     "label": "",
     "heading": "Människorna bakom Eteya",
@@ -637,6 +1223,287 @@
   },
   "methodologyHero": {
     "title": "AI-BESPARING",
-    "subtitle": "Så mycket kan du spara med AI-automation"
+    "subtitle": "Så mycket kan du spara med AI-automation",
+    "sourceText": "Baserat på 56 verifierade automationer inom e-handel (<10 anställda)",
+    "ctaLabel": "Beräkna din besparing"
+  },
+  "footerCta": {
+    "heading": "Redo att sätta AI i arbete?",
+    "buttonText": "Skriv till<br />oss",
+    "copyright": "© 2026 Eteya Consulting AB"
+  },
+  "socialProof": {
+    "readCase": "Läs hela caset"
+  },
+  "joinTheBest": {
+    "heading": "Trusted By"
+  },
+  "techStack": {
+    "headingLine1": [
+      "Our"
+    ],
+    "headingLine2": [
+      "Tech",
+      "Stack"
+    ],
+    "categories": {
+      "platforms": {
+        "title": "Plattformar"
+      },
+      "automation": {
+        "title": "Automation"
+      },
+      "development": {
+        "title": "Utveckling"
+      }
+    },
+    "text": "Vi väljer rätt verktyg för varje projekt — inte tvärtom."
+  },
+  "ourStory": {
+    "quote": "Vi tror att AI ska jobba åt människor — inte tvärtom.",
+    "points": [
+      {
+        "title": "Grundat 2025",
+        "text": "Eteya föddes ur insikten att svenska företag behöver AI som levererar — inteexperiment."
+      },
+      {
+        "title": "Mätbara resultat",
+        "text": "Varje projekt mäts i timmar sparade, pengar besparade och fel eliminerade."
+      },
+      {
+        "title": "Svensk infrastruktur",
+        "text": "All data hanteras inom EU. Ingen skickas till tredje part utan er kontroll."
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Integritetspolicy",
+    "schema": {
+      "name": "Integritetspolicy — GDPR & Personuppgifter | Eteya",
+      "description": "Eteya Consulting ABs integritetspolicy. Vi följer GDPR och behandlar dina personuppgifter säkert och transparent.",
+      "url": "https://eteya.ai/sv/villkor",
+      "inLanguage": "sv-SE"
+    },
+    "sections": [
+      {
+        "marker": "Personuppgiftsansvarig",
+        "heading": "Vem är personuppgiftsansvarig?",
+        "type": "text",
+        "content": "<strong>Eteya Consulting AB</strong> är personuppgiftsansvarig för behandlingen av dina personuppgifter."
+      },
+      {
+        "marker": "",
+        "heading": "",
+        "type": "text",
+        "content": "Vid frågor om integritet och personuppgifter, kontakta oss på: <a href=\"mailto:contact@eteya.ai\" class=\"link\">contact@eteya.ai</a>"
+      }
+    ]
+  },
+  "terms": {
+    "title": "Allmänna Villkor",
+    "schema": {
+      "name": "Allmänna Villkor — Eteya Consulting AB",
+      "description": "Allmänna villkor för Eteya Consulting ABs AI-automationstjänster. Läs om ångerrätt, reklamation, betalning och mer.",
+      "url": "https://eteya.ai/sv/villkor",
+      "inLanguage": "sv-SE"
+    },
+    "readMore": "Läs mer",
+    "sections": [
+      {
+        "marker": "Företagsinformation",
+        "heading": "Kontaktuppgifter",
+        "type": "list",
+        "items": [
+          {
+            "label": "Företag",
+            "value": "Eteya Consulting AB"
+          },
+          {
+            "label": "Organisationsnummer",
+            "value": "559552-7390"
+          },
+          {
+            "label": "Adress",
+            "value": "Solhagsvägen 26 a, 691 52 Karlskoga"
+          },
+          {
+            "label": "Telefon",
+            "value": "+46 8 123 456 78"
+          },
+          {
+            "label": "E-post",
+            "value": "Kontakt@eteya.ai"
+          }
+        ]
+      },
+      {
+        "marker": "Tjänster",
+        "heading": "Våra tjänster",
+        "type": "text",
+        "content": "Vi tillhandahåller AI-automationstjänster enligt överenskommelse. Tjänsterna levereras enligt specifikation och överenskommen tidplan."
+      },
+      {
+        "marker": "Betalning",
+        "heading": "Betalningsvillkor",
+        "type": "text",
+        "content": "Betalning sker enligt faktura med 14 dagars betalvillkor. Vid försenad betalning tillkommer ränta enligt räntelagen."
+      },
+      {
+        "marker": "Ångerrätt",
+        "heading": "14 dagars ångerrätt",
+        "type": "text",
+        "content": "Som konsument har du 14 dagars ångerrätt enligt distansavtalslagen. Ångerfristen räknas från avtalsingången. För att utöva ångerrätten, kontakta oss på contact@eteya.ai."
+      },
+      {
+        "marker": "Reklamation",
+        "heading": "3 års reklamation",
+        "type": "text",
+        "content": "Du har 3 års reklamationstid enligt konsumentköplagen. Reklamation görs genom att kontakta oss. De första 2 åren ligger bevisbördan hos oss."
+      },
+      {
+        "marker": "Ansvar",
+        "heading": "Ansvarsbegränsning",
+        "type": "text",
+        "content": "Vi ansvarar för tjänstens funktion enligt specifikation. Vårt totala ansvar är begränsat till vad du betalat för tjänsten. Vi ansvarar inte för indirekta skador eller följdskador."
+      },
+      {
+        "marker": "Immateriella rättigheter",
+        "heading": "IP-rättigheter",
+        "type": "text",
+        "content": "Alla rättigheter till leveranser och material tillhör Eteya Consulting AB om inte annat avtalats. Kunden får en icke-exklusiv licens att använda leveranser för sitt interna bruk."
+      },
+      {
+        "marker": "Force majeure",
+        "heading": "Hinder utanför vår kontroll",
+        "type": "text",
+        "content": "Vi ansvarar inte för dröjsmål eller underlåtenhet som beror på hinder utanför vår kontroll (t.ex. naturkatastrof, krig, strejk, myndighetsbeslut)."
+      },
+      {
+        "marker": "Uppsägning",
+        "heading": "Uppsägning",
+        "type": "text",
+        "content": "Avtal kan sägas upp med 30 dagars varsel. Vid uppsägning avslutas tjänsten och data raderas enligt gällande lagstiftning."
+      },
+      {
+        "marker": "Tvist",
+        "heading": "Tvistlösning",
+        "type": "multi-text",
+        "texts": [
+          "Vid tvist försöker vi först lösa den genom direkt förhandling.",
+          "Om förhandling inte leder till lösning kan du som konsument vända dig till Allmänna Reklamationsnämnden (ARN).",
+          "ARN prövar tvister mellan konsumenter och näringsidkare utan kostnad för konsumenten."
+        ],
+        "link": {
+          "url": "https://www.arn.se",
+          "urlText": "www.arn.se"
+        }
+      },
+      {
+        "marker": "Lagstöd",
+        "heading": "Tillämplig lagstiftning",
+        "type": "links",
+        "items": [
+          {
+            "name": "Konsumentköplagen (2022:266)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/konsumentkoplag-2022266_sfs-2022-266/",
+            "description": "Reglerar köp av tjänster mellan företag och konsumenter."
+          },
+          {
+            "name": "Distansavtalslagen (2005:59)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/lag-200559-om-distansavtal_sfs-2005-59/",
+            "description": "Reglerar distansavtal och avtal utanför affärslokaler."
+          },
+          {
+            "name": "Avtalslagen (1915:218)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/avtalslag-1915218-om-avtal_sfs-1915-218/",
+            "description": "Grundläggande lag om avtal och fullmakter."
+          },
+          {
+            "name": "E-handelslagen (2002:562)",
+            "url": "https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/lag-2002562-om-elektronisk-handel_sfs-2002-562/",
+            "description": "Reglerar elektronisk handel och informationssamhällets tjänster."
+          }
+        ]
+      }
+    ]
+  },
+  "whyEteya": {
+    "section_label": "",
+    "heading": "VI BYGGER AI SOM FAKTISKT ANVÄNDS",
+    "items": [
+      {
+        "title": "Från brief till live på 2 veckor",
+        "body": "Ingen förstudie på 3 månader. Vi identifierar rätt automation, bygger den och levererar något som fungerar — innan din konkurrent ens haft sitt kickoff-möte."
+      },
+      {
+        "title": "Du ser ROI i kronor, inte procent",
+        "body": "Varje lösning vi bygger har en tydlig före/efter-kalkyl. Du vet exakt vad du sparar innan vi börjar."
+      },
+      {
+        "title": "En partner, inte en leverantör",
+        "body": "Vi äger problemet tillsammans med dig. Svensk support, EU-data, och vi är tillgängliga när det händer saker — inte bara vid fakturering."
+      }
+    ]
+  },
+  "contactCard": {
+    "title": "Kontakta oss",
+    "services": [
+      {
+        "value": "ai-agent",
+        "label": "AI-agent / Assistent"
+      },
+      {
+        "value": "ai-automatisering",
+        "label": "AI-automatisering"
+      },
+      {
+        "value": "strategi",
+        "label": "Strategi & Rådgivning"
+      },
+      {
+        "value": "annat",
+        "label": "Annat"
+      }
+    ],
+    "form": {
+      "name": {
+        "label": "Namn",
+        "placeholder": "Ditt namn"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "din@email.com"
+      },
+      "website": {
+        "label": "Företagsnamn eller hemsida",
+        "placeholder": "https://dinhemsida.se"
+      },
+      "service": {
+        "label": "Vad behöver ni hjälp med?",
+        "placeholder": "Välj tjänst..."
+      }
+    },
+    "gdpr": "Jag godkänner att Eteya behandlar mina uppgifter enligt {link}",
+    "gdprLink": "/sv/integritetspolicy",
+    "gdprLinkText": "integritetspolicyn",
+    "progress": {
+      "step1": "Uppgifter",
+      "step2": "Boka tid"
+    },
+    "subtitleRoi": "Din ROI-prognos sparas automatiskt. Fyll i och boka en tid.",
+    "subtitleDefault": "Fyll i och boka en tid — vi återkommer med en analys av ert företag.",
+    "nextStep": "Välj tid",
+    "back": "Tillbaka",
+    "calendarTitle": "Välj en tid",
+    "trustCopy": "Vi svarar inom 24 timmar · Dina uppgifter är säkra",
+    "roiLabel": "Din ROI-prognos",
+    "roiPerYear": "/år",
+    "roi3YearForecast": "3-årsprognos",
+    "roiYear1": "År 1",
+    "roiYear2": "År 2",
+    "roiYear3": "År 3",
+    "contactEmail": "kontakt@eteya.ai",
+    "contactEmailLabel": "Email",
+    "close": "Stäng"
   }
 }

@@ -124,8 +124,6 @@ export default function MethodologyContent() {
     <div ref={containerRef} className={styles.page}>
       {/* HERO SECTION */}
       <MethodologyHeroClient
-        title={tHero('title')}
-        subtitle={tHero('subtitle')}
         locale={locale}
       />
 
@@ -136,9 +134,9 @@ export default function MethodologyContent() {
           {/* Vänster: Sticky titel */}
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>HUR VI RÄKNAR</h2>
+              <h2 className={styles.sectionTitle}>{t('sections.howWeCalculateHeading')}</h2>
               <p className={styles.metodikSubtext}>
-                Tre oberoende källor. Konservativa siffror. Allt verifierat.
+                {t('sections.howWeCalculateSubtext')}
               </p>
             </div>
           </div>
@@ -148,11 +146,9 @@ export default function MethodologyContent() {
             <ul className={styles.metodikList}>
               <li className={styles.metodikItem}>
                 <div className={styles.metodikItemContent}>
-                  <h3 className={styles.metodikItemTitle}>SCB Lönestatistik</h3>
+                  <h3 className={styles.metodikItemTitle}>{t('sections.scbTitle')}</h3>
                   <p className={styles.metodikItemBody}>
-                    Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). 
-                    Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån. 
-                    Kalkylatorns värde: 350 kr/h (konservativt).
+                    {t('sections.scbBody')}
                   </p>
                 </div>
                 <span className={styles.metodikItemNum}>01</span>
@@ -160,11 +156,9 @@ export default function MethodologyContent() {
               
               <li className={styles.metodikItem}>
                 <div className={styles.metodikItemContent}>
-                  <h3 className={styles.metodikItemTitle}>McKinsey Research</h3>
+                  <h3 className={styles.metodikItemTitle}>{t('sections.mckinseyTitle')}</h3>
                   <p className={styles.metodikItemBody}>
-                    "The Economic Potential of Generative AI" (2023). 
-                    Kundtjänst: 30–45% kostnadsreduktion. 
-                    Alla arbetsaktiviteter: 60–70% av tid (teoretiskt).
+                    {t('sections.mckinseyBody')}
                   </p>
                 </div>
                 <span className={styles.metodikItemNum}>02</span>
@@ -172,11 +166,9 @@ export default function MethodologyContent() {
               
               <li className={styles.metodikItem}>
                 <div className={styles.metodikItemContent}>
-                  <h3 className={styles.metodikItemTitle}>Verifierad Kunddata</h3>
+                  <h3 className={styles.metodikItemTitle}>{t('sections.verifiedTitle')}</h3>
                   <p className={styles.metodikItemBody}>
-                    56 aktiva automationer kartlagda hos Telestore Sverige AB. 
-                    Transaktionsvolymer hämtade direkt från Airtable. 
-                    Total verifierad besparing: ~390 000 kr/år.
+                    {t('sections.verifiedBody')}
                   </p>
                 </div>
                 <span className={styles.metodikItemNum}>03</span>
@@ -200,37 +192,37 @@ export default function MethodologyContent() {
       {/* TELESTORE BREAKDOWN — REN LISTA, INGA BOXAR */}
       <section className={styles.section} data-reveal>
         <div className={`${styles.inner} ${styles.innerTight}`}>
-          <h3 className={styles.subsectionTitle}>Så här räknade vi på Telestore</h3>
+          <h3 className={styles.subsectionTitle}>{t('telestoreBreakdown.heading')}</h3>
           <div className={styles.breakdownList}>
             <div className={styles.breakdownRow}>
-              <span>26 timmar/vecka (faktisk tidsbesparing)</span>
+              <span>{t('telestoreBreakdown.row1')}</span>
               <span className={styles.op}>×</span>
-              <span>52 veckor</span>
+              <span>{t('telestoreBreakdown.row2')}</span>
               <span className={styles.op}>×</span>
-              <span>350 kr/h</span>
+              <span>{t('telestoreBreakdown.row3')}</span>
             </div>
             <div className={styles.breakdownTotal}>
-              = 473 200 kr/år (teoretiskt max)
+              {t('telestoreBreakdown.totalMax')}
             </div>
             
             <div className={styles.breakdownRow}>
-              <span>× 0.65 (år 1 ramp-up)</span>
+              <span>{t('telestoreBreakdown.rampUp')}</span>
             </div>
             <div className={styles.breakdownTotal}>
-              = 307 580 kr/år (tidsbesparing, år 1)
+              {t('telestoreBreakdown.totalYear1')}
             </div>
             
             <div className={styles.breakdownRow}>
-              <span>+ 26 400 kr/år (eliminerade felkostnader)</span>
+              <span>{t('telestoreBreakdown.errorCosts')}</span>
             </div>
             <div className={styles.breakdownTotal}>
-              = ~334 000 kr/år (totalt, år 1)
+              {t('telestoreBreakdown.totalWithErrors')}
             </div>
             
             <div className={styles.breakdownNote}>
-              <strong>År 2+ (full effekt):</strong> 26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år
+              <strong>{t('telestoreBreakdown.year2PlusNote')}</strong> {t('telestoreBreakdown.year2PlusCalc')}
               <br />
-              Telestores faktiska resultat: <strong>~390 000 kr/år</strong> (konservativt räknat)
+              {t('telestoreBreakdown.actualResult')} <strong>{t('telestoreBreakdown.actualValue')}</strong> {t('telestoreBreakdown.actualNote')}
             </div>
           </div>
         </div>
@@ -239,7 +231,7 @@ export default function MethodologyContent() {
       {/* KONSERVATIVA ANTAGANDEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Varför AI-besparing alltid är högre i verkligheten</h2>
+          <h2 className={styles.sectionTitle}>{t('sections.conservativeHeading')}</h2>
           <div className={styles.conservativeGrid}>
             {conservativeItems.map((item, index) => {
               const { title, text } = splitFact(item)
@@ -258,7 +250,7 @@ export default function MethodologyContent() {
       {/* FOOTNOTES */}
       <section className={styles.section}>
         <div className={styles.inner}>
-          <h3 className={styles.subsectionTitle}>Källor</h3>
+          <h3 className={styles.subsectionTitle}>{t('sections.sourcesHeading')}</h3>
           <ol className={styles.footnoteList}>
             {sourceItems.map((source, index) => (
               <li key={index}>

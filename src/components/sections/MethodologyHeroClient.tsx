@@ -1,15 +1,15 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 
 interface MethodologyHeroClientProps {
-  title: string
-  subtitle: string
-  locale: string  // Locale för korrekt länk
+  locale: string
 }
 
-export default function MethodologyHeroClient({ title, subtitle, locale }: MethodologyHeroClientProps) {
+export default function MethodologyHeroClient({ locale }: MethodologyHeroClientProps) {
+  const t = useTranslations('methodologyHero')
   const heroRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
   const subtitleRef = useRef<HTMLDivElement>(null)
@@ -36,7 +36,8 @@ export default function MethodologyHeroClient({ title, subtitle, locale }: Metho
     )
   }, [])
 
-  const letters = title.split('')
+  const titleText = t.raw('title') as string
+  const letters = titleText.split('')
   // Optical kerning for AI-BESPARING
   const kerning: Record<number, string> = { 
     0: '-0.02em',  // A
@@ -148,14 +149,14 @@ export default function MethodologyHeroClient({ title, subtitle, locale }: Metho
         <div style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
-          fontSize: 'clamp(1.25rem, 3vw, 2rem)', /* Minska från 2.5rem-4rem för bättre hierarki */
+          fontSize: 'clamp(1.25rem, 3vw, 2rem)',
           color: '#f5f5f5',
           letterSpacing: '-0.02em',
-          marginTop: '1.5rem', /* Separation från rubrik */
+          marginTop: '1.5rem',
           marginBottom: '12px',
-          lineHeight: 1.3, /* Mer luft mellan rader */
+          lineHeight: 1.3,
         }}>
-          {subtitle}
+          {t.raw('subtitle')}
         </div>
         
         {/* Source Text */}
@@ -167,15 +168,15 @@ export default function MethodologyHeroClient({ title, subtitle, locale }: Metho
           lineHeight: 1.6,
           marginBottom: '32px',
         }}>
-          Baserat på 56 verifierade automationer inom e-handel (&lt;10 anställda)
+          {t('sourceText')}
         </p>
         
         {/* CTA Button */}
         <ButtonSwap
-          label="Beräkna din besparing"
+          label={t('ctaLabel')}
           variant="white"
           arrow
-          href={locale === 'sv' ? '/sv/#roi-calculator' : '/en/#roi-calculator'}
+          href={`/${locale}/#roi-calculator`}
           size="lg"
           onClick={(e: React.MouseEvent) => {
             e.preventDefault()

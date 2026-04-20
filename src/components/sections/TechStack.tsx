@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import styles from './TechStack.module.css'
 
 /* ── Tech data ─────────────────────────────────────── */
@@ -53,14 +54,11 @@ const CATEGORIES: TechCategory[] = [
   },
 ]
 
-/* ── Heading words for per-word animation ── */
-const HEADING_LINES: string[][] = [
-  ['Our'],
-  ['Tech', 'Stack'],
-]
+
 
 /* ── Component ─────────────────────────────────────── */
 export default function TechStack() {
+  const t = useTranslations('techStack')
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -94,35 +92,29 @@ export default function TechStack() {
         <div className={styles.grid}>
           {/* Heading — per-word animation */}
           <h2 className={`${styles.heading} ${styles.textAnimate}`}>
-            {HEADING_LINES.map((line, li) => (
-              <span key={li} className={styles.headingLine}>
-                {line.map((word, wi) => {
-                  const globalIndex = HEADING_LINES.slice(0, li).reduce((s, l) => s + l.length, 0) + wi
-                  return (
-                    <i
-                      key={word}
-                      className={styles.textAnimateWord}
-                      style={{ '--word-index': globalIndex } as React.CSSProperties}
-                    >
-                      {word}
-                    </i>
-                  )
-                })}
-                {li < HEADING_LINES.length - 1 && <br />}
-              </span>
+            {t.raw('headingLine1').map((word: string, i: number) => (
+              <i key={i} className={styles.textAnimateWord} style={{ '--word-index': i } as React.CSSProperties}>
+                {word}{' '}
+              </i>
+            ))}
+            <br />
+            {t.raw('headingLine2').map((word: string, i: number) => (
+              <i key={i} className={styles.textAnimateWord} style={{ '--word-index': t.raw('headingLine1').length + i } as React.CSSProperties}>
+                {word}{' '}
+              </i>
             ))}
           </h2>
 
           {/* Cards — staggered slide-up */}
           <div className={styles.cardWrap}>
-            {CATEGORIES.map((cat, ci) => (
+            {['platforms', 'automation', 'development'].map((catKey, ci) => (
               <div
-                key={cat.title}
+                key={catKey}
                 className={`${styles.card} ${styles.slideUp}`}
                 style={{ '--animate-index': ci } as React.CSSProperties}
               >
-                <div className={styles.capText}>{cat.title}</div>
-                {cat.items.map((item, ii) => (
+                <div className={styles.capText}>{t(`categories.${catKey}.title`)}</div>
+                {CATEGORIES[ci].items.map((item, ii) => (
                   <div key={item.name} className={styles.item}>
                     <Image
                       src={item.icon}
@@ -141,7 +133,7 @@ export default function TechStack() {
           {/* Text — slide-up with delay */}
           <div className={`${styles.content} ${styles.slideUp}`} style={{ '--animate-index': 3 } as React.CSSProperties}>
             <p className={styles.text}>
-              Vi väljer rätt verktyg för varje projekt — inte tvärtom.
+              {t('text')}
             </p>
           </div>
         </div>

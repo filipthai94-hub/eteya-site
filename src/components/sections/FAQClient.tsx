@@ -1,29 +1,21 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import sv from '@/i18n/messages/sv.json'
-import en from '@/i18n/messages/en.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type FAQMessageFile = {
-  faq: {
-    heading: string
-    items: Array<{
-      question: string
-      answer: string
-    }>
-  }
+type FAQItem = {
+  question: string
+  answer: string
 }
 
-const messages: Record<string, FAQMessageFile> = { sv, en }
-
 export default function FAQClient() {
-  const locale = useLocale()
-  const copy = (messages[locale] ?? messages.sv).faq
+  const t = useTranslations('faq')
+  const heading = t.raw('heading') as string
+  const items = t.raw('items') as FAQItem[]
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
   const itemRefs = useRef<Array<HTMLDivElement | null>>([])
@@ -33,7 +25,7 @@ export default function FAQClient() {
   const schema = useMemo(() => ({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: copy.items.map((item) => ({
+    mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.question,
       acceptedAnswer: {
@@ -41,7 +33,7 @@ export default function FAQClient() {
         text: item.answer,
       },
     })),
-  }), [copy.items])
+  }), [items])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -334,13 +326,13 @@ export default function FAQClient() {
       <div className="faq-container">
         <div className="faq-heading-col">
           <div className="faq-heading-sticky">
-            <h2 className="faq-heading" dangerouslySetInnerHTML={{ __html: copy.heading }} />
+            <h2 className="faq-heading" dangerouslySetInnerHTML={{ __html: heading }} />
           </div>
         </div>
 
         <div className="faq-content-col">
           <div className="faq-list">
-            {copy.items.map((item, index) => {
+            {items.map((item, index) => {
               const isOpen = openIndex === index
               const number = String(index + 1).padStart(2, '0')
 

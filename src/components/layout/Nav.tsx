@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
+import { Link, usePathname } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import HashLink from '@/components/ui/HashLink'
-import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { animate } from 'motion'
 
@@ -44,7 +44,8 @@ interface StaggerItem {
 
 export default function Nav() {
   const pathname = usePathname()
-  const homeHref = pathname?.startsWith('/sv') ? '/sv' : '/en'
+  const t = useTranslations('nav')
+  const homeHref = '/'
   const [menuOpen, setMenuOpen] = useState(false)
   const [time, setTime] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
@@ -325,7 +326,7 @@ export default function Nav() {
   }, [])
 
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText('kontakt@eteya.ai').then(() => {
+    navigator.clipboard.writeText(t('email')).then(() => {
       setCopied(true)
       setPopupOpen(false)
       setTimeout(() => setCopied(false), 2000)
@@ -333,7 +334,7 @@ export default function Nav() {
   }, [])
 
   const handleMail = useCallback(() => {
-    window.location.href = 'mailto:kontakt@eteya.ai'
+    window.location.href = `mailto:${t('email')}`
     setPopupOpen(false)
   }, [])
 
@@ -342,13 +343,11 @@ export default function Nav() {
     setPopupOpen(false)
   }, [])
 
-  const NAV_LINKS = [
-    { label: 'Hem', href: '/sv', badge: null },
-    { label: 'Om oss', href: '/sv/om-oss', badge: null },
-    { label: 'Tjänster', href: '/sv#services-section', badge: null },
-    { label: 'Våra case', href: '/sv#cases-section', badge: '[5]' },
-    { label: 'Kontakt', href: '/sv/kontakt', badge: null },
-  ]
+  const NAV_LINKS: { label: string; href: string; badge: string | null }[] = (t.raw('links') as { label: string; href: string; badge: string | null }[]).map((link) => ({
+    label: link.label,
+    href: link.href,
+    badge: link.badge ?? null,
+  }))
 
   const SOCIALS = [
     { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61573471850082', icon: 'M12 0C5.373 0 0 5.373 0 12c0 6.102 4.544 11.164 10.438 11.936V15.5H7.03v-3.5h3.408V9.65c0-3.368 2.002-5.224 5.062-5.224 1.468 0 3.002.262 3.002.262v3.308h-1.69c-1.666 0-2.188 1.034-2.188 2.096v2.414h3.718l-.595 3.5h-3.123V24c5.894-.772 10.438-5.834 10.438-11.936C24 5.373 18.627 0 12 0z' },
@@ -538,7 +537,7 @@ export default function Nav() {
         </div>
         <div className="en-col en-col--center" style={{ justifyContent: 'flex-start' }}>
           <div className="en-location">
-            <span className="en-location-city">Sweden (SE)</span>
+            <span className="en-location-city">{t('location')}</span>
             <span className="en-location-time">{time}</span>
           </div>
         </div>
@@ -554,8 +553,8 @@ export default function Nav() {
             }}
           >
             <div className="en-work-text">
-              <span>Våra case</span>
-              <span className="en-hover">Våra case</span>
+              <span>{t('ourCases')}</span>
+              <span className="en-hover">{t('ourCases')}</span>
             </div>
             <span className="en-work-count">[5]</span>
           </a>
@@ -590,14 +589,14 @@ export default function Nav() {
             <span className="en-overlay-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
             <span className="en-overlay-logo-c">©</span>
           </div>
-          <p className="en-overlay-tagline" ref={taglineRef}>AI consulting that actually delivers.</p>
+          <p className="en-overlay-tagline" ref={taglineRef}>{t('tagline')}</p>
         </div>
 
         {/* Right panel */}
         <div className="en-overlay-right">
           {/* Section 1: Menu */}
           <div className="en-menu-top">
-            <p className="en-menu-label" ref={menuLabelRef}>Meny</p>
+            <p className="en-menu-label" ref={menuLabelRef}>{t('menuLabel')}</p>
             <div className="en-menu-links">
               {NAV_LINKS.map((link, i) => (
                 <HashLink
@@ -622,7 +621,7 @@ export default function Nav() {
           {/* Section 2: Middle */}
           <div className="en-menu-middle">
             <div className="en-menu-talk" ref={talkRef}>
-              <p className="en-menu-label">Kontakta oss</p>
+              <p className="en-menu-label">{t('contactUs')}</p>
               <div className="en-menu-talk-content">
                 <div
                   className="en-menu-talk-link"
@@ -637,43 +636,43 @@ export default function Nav() {
                   >
                     <div className="en-popup-header">
                       <div className="en-popup-brand" style={{position:'relative'}}><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A<span style={{fontSize:'5px',position:'absolute',top:'1px',marginLeft:'1px'}}>©</span></div>
-                      <div className="en-popup-sub">Hör av dig</div>
+                      <div className="en-popup-sub">{t('popup.sub')}</div>
                     </div>
                     <div className="en-popup-actions">
                       <div className="en-popup-action" onClick={handleCopy}>
                         <svg viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M5 11H3.5A1.5 1.5 0 012 9.5v-6A1.5 1.5 0 013.5 2h6A1.5 1.5 0 0111 3.5V5"/></svg>
-                        Kopiera email
+                        {t('popup.copyEmail')}
                       </div>
                       <div className="en-popup-action" onClick={handleMail}>
                         <svg viewBox="0 0 16 16"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M1.5 5l6.5 4 6.5-4"/></svg>
-                        Öppna mailklient
+                        {t('popup.openMail')}
                       </div>
                       <div className="en-popup-action" onClick={handleBook}>
                         <svg viewBox="0 0 16 16"><rect x="2" y="2.5" width="12" height="11.5" rx="1.5"/><path d="M2 6h12M5.5 2.5V1M10.5 2.5V1"/></svg>
-                        Boka samtal
+                        {t('popup.bookCall')}
                       </div>
                     </div>
                   </div>
 
                   <div className="en-menu-talk-text-icon">
-                    <span className="en-menu-talk-email">kontakt@eteya.ai</span>
+                    <span className="en-menu-talk-email">{t('email')}</span>
                     <div className="en-menu-plus">
                       <div className="en-menu-plus-h" />
                       <div className="en-menu-plus-v" />
                     </div>
                   </div>
-                  <span className={`en-menu-copied${copied ? ' visible' : ''}`}>kopierad</span>
+                  <span className={`en-menu-copied${copied ? ' visible' : ''}`}>{t('popup.copied')}</span>
                 </div>
 
                 <div className="en-menu-location">
-                  <span className="en-menu-location-text">Sweden (SE)</span>
+                  <span className="en-menu-location-text">{t('location')}</span>
                   <span className="en-menu-location-text">{time}</span>
                 </div>
               </div>
             </div>
 
             <div className="en-menu-socials" ref={socialsRef}>
-              <p className="en-menu-label">Sociala medier</p>
+              <p className="en-menu-label">{t('socialMedia')}</p>
               <div className="en-social-icons">
                 {SOCIALS.map((s, i) => (
                   <a
@@ -698,8 +697,8 @@ export default function Nav() {
             <div className="en-footer-links">
               <div className="en-footer-link-wrap">
                 <div className="en-footer-text-flip">
-                  <a href="/sv/integritetspolicy">Integritetspolicy</a>
-                  <a href="/sv/integritetspolicy" className="en-hover">Integritetspolicy</a>
+                  <a href={t('footer.privacyHref')}>{t('footer.privacy')}</a>
+                  <a href={t('footer.privacyHref')} className="en-hover">{t('footer.privacy')}</a>
                 </div>
                 <div className="en-footer-arrow">
                   <svg viewBox="0 0 14 14"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" /></svg>
@@ -707,8 +706,8 @@ export default function Nav() {
               </div>
               <div className="en-footer-link-wrap">
                 <div className="en-footer-text-flip">
-                  <a href="/sv/villkor">Villkor</a>
-                  <a href="/sv/villkor" className="en-hover">Villkor</a>
+                  <a href={t('footer.termsHref')}>{t('footer.terms')}</a>
+                  <a href={t('footer.termsHref')} className="en-hover">{t('footer.terms')}</a>
                 </div>
                 <div className="en-footer-arrow">
                   <svg viewBox="0 0 14 14"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" /></svg>
@@ -716,7 +715,7 @@ export default function Nav() {
               </div>
             </div>
             <div className="en-footer-right">
-              <span className="en-footer-copyright">© 2026 Eteya</span>
+              <span className="en-footer-copyright">{t('footer.copyright')}</span>
             </div>
           </div>
         </div>

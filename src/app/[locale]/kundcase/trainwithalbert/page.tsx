@@ -1,8 +1,13 @@
 import { getTranslations } from 'next-intl/server'
+import { routing } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import TrainWithAlbertCaseStudy from '@/components/pages/TrainWithAlbertCaseStudy'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
 
 const BASE_URL = 'https://eteya.ai'
 

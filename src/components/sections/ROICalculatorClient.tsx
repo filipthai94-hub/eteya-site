@@ -2,21 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { useLocale } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useScrollLock } from '@/hooks/useScrollLock'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import ContactCard from '@/components/ui/contact-card'
 import type { ROIData } from '@/components/ui/contact-card'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import sv from '@/i18n/messages/sv.json'
-import en from '@/i18n/messages/en.json'
 import s from './ROICalculatorClient.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
-
-// ── i18n messages ─────────────────────────────────────────────────────────────
-const messages: Record<string, any> = { sv, en }
 
 // ── Konstanter (v4.0 — 2026-04-15) ───────────────────────────────────────────
 const HOURLY = 350
@@ -45,23 +40,8 @@ const PROC_COLORS: Record<string, string> = {
   kommunikation: '#2A3800',
 }
 
-const PROC_LABELS: Record<string, string> = {
-  kundtjanst:    'Kundtjänst',
-  fakturering:   'Fakturering & Admin',
-  leads:         'Leads & Försäljning',
-  rapportering:  'Rapportering & Ekonomi',
-  epost:         'E-post & Schemaläggning',
-  kommunikation: 'Intern kommunikation',
-}
-
-const PROC_RATE_LABELS: Record<string, string> = {
-  kundtjanst:    '45% automation',
-  fakturering:   '65% automation',
-  leads:         '60% automation',
-  rapportering:  '70% automation',
-  epost:         '50% automation',
-  kommunikation: '65% automation',
-}
+const PROC_LABELS: Record<string, string> = {}
+const PROC_RATE_LABELS: Record<string, string> = {}
 
 const DEFAULTS: Record<string, { on: boolean; hours: number }> = {
   kundtjanst:    { on: true,  hours: 8  },
@@ -195,9 +175,8 @@ function useDonutAnimation(donutRef: React.RefObject<HTMLDivElement | null>) {
 }
 
 // ── Bar Chart SVG ─────────────────────────────────────────────────────────────
-function BarChart({ y1, y2, y3 }: { y1: number; y2: number; y3: number }) {
+function BarChart({ y1, y2, y3, labels }: { y1: number; y2: number; y3: number; labels: string[] }) {
   const vals   = [y1, y2, y3]
-  const labels = ['År 1', 'År 2', 'År 3']
   const maxV   = Math.max(...vals, 1)
   const H = 110, pad = 8, bW = 64, gap = 20
   const sx = (280 - (3 * bW + 2 * gap)) / 2
@@ -288,7 +267,7 @@ export default function ROITestClient() {
 
   // ── i18n ────────────────────────────────────────────────────────────────────
   const locale = useLocale()
-  const copy = (messages[locale] ?? messages.sv).calculator
+  const t = useTranslations('calculator')
 
   // ── Beräkning v4.0 ─────────────────────────────────────────────────────────
   const totals = (() => {
@@ -448,10 +427,11 @@ export default function ROITestClient() {
 
         {/* ── Header ── */}
         <header className={s.header}>
-          <h1 className={s.h1} dangerouslySetInnerHTML={{ __html: copy.heading }} />
+          <h1 className={s.h1} dangerouslySetInnerHTML={{ __html: t('heading') }} />
           <p className={s.sub}>
-            {copy.subheading.split('spara med AI och automation')[0]}
-            <a href="/sv/ai-besparing" className={s.subLink}>spara med AI och automation</a>.
+            {t.rich('subheading', {
+              link: (chunks) => <a href="/sv/ai-besparing" className={s.subLink}>{chunks}</a>
+            })}
           </p>
         </header>
 
@@ -463,9 +443,9 @@ export default function ROITestClient() {
 
             {/* Processer */}
             <div className={s.card}>
-              <div className={s.cardTitle}>{copy.processLabel}</div>
+              <div className={s.cardTitle}>{t('processLabel')}</div>
               <p className={s.cardHint}>
-                {copy.processHint}
+                {t('processHint')}
               </p>
               <div className={s.procList}>
                 {(Object.keys(RATES) as ProcKey[]).map(key => {
@@ -484,14 +464,14 @@ export default function ROITestClient() {
                             </svg>
                           )}
                         </span>
-                        <span className={s.procName}>{PROC_LABELS[key]}</span>
-                        <span className={s.procRate}>{PROC_RATE_LABELS[key]}</span>
+                        <span className={s.procName}>{t(`processes.${key}.name`)}</span>
+                        <span className={s.procRate}>{t(`processes.${key}.rateLabel`)}</span>
                       </button>
                       {p.on && (
                         <div className={s.procSlider}>
                           <div className={s.sliderRow}>
                             <div className={s.sliderTop}>
-                              <label className={s.sliderLabel}>{copy.hoursLabel} — totalt i teamet</label>
+                              <label className={s.sliderLabel}>{t('hoursLabel')} — {t('hoursTeamSuffix')}</label>
                               <span className={s.sliderVal}>{p.hours}h</span>
                             </div>
                             <input
@@ -499,7 +479,7 @@ export default function ROITestClient() {
                               className={s.range}
                               onChange={e => setHours(key, +e.target.value)}
                             />
-                            <p className={s.sliderHint}>Räkna ihop alla som jobbar med den här processen</p>
+                            <p className={s.sliderHint}>{t('hoursHint')}</p>
                           </div>
                         </div>
                       )}
@@ -513,8 +493,8 @@ export default function ROITestClient() {
             <div className={s.card}>
               <div className={s.implRow}>
                 <div>
-                  <div className={s.cardTitle} style={{ marginBottom: 4 }}>Implementationskostnad</div>
-                  <p className={s.cardHint} style={{ marginBottom: 0 }}>Påverkar ROI% och payback-period</p>
+                  <div className={s.cardTitle} style={{ marginBottom: 4 }}>{t('impl.title')}</div>
+                  <p className={s.cardHint} style={{ marginBottom: 0 }}>{t('impl.hint')}</p>
                 </div>
                 <label className={s.switch}>
                   <input type="checkbox" checked={useImpl} onChange={e => setUseImpl(e.target.checked)} />
@@ -525,8 +505,8 @@ export default function ROITestClient() {
                 <div className={s.implSliderWrap}>
                   <div className={s.sliderRow}>
                     <div className={s.sliderTop}>
-                      <label className={s.sliderLabel}>Kostnad</label>
-                      <span className={s.sliderVal}>{fmt(implCost)} kr</span>
+                      <label className={s.sliderLabel}>{t('impl.costLabel')}</label>
+                      <span className={s.sliderVal}>{fmt(implCost)} {t('impl.unit')}</span>
                     </div>
                     <input
                       type="range" min={25_000} max={500_000} step={25_000} value={implCost}
@@ -534,7 +514,7 @@ export default function ROITestClient() {
                       onChange={e => setImplCost(+e.target.value)}
                     />
                   </div>
-                  <p className={s.hint}>Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026</p>
+                  <p className={s.hint}>{t('impl.rangeHint')}</p>
                 </div>
               )}
             </div>
@@ -549,27 +529,27 @@ export default function ROITestClient() {
                 <span className={s.snapshotValue}>
                   {totals.ok ? fmtK(totals.y1) : '– –'}
                 </span>
-                <span className={s.snapshotLabel}>Besparing år 1</span>
+                <span className={s.snapshotLabel}>{t('snapshot.savings')}</span>
               </div>
               <div className={s.snapshotDivider} />
               <div className={s.snapshotItem}>
                 <span className={s.snapshotValue}>
                   {totals.ok ? `${fmt(Math.round(totals.totalHrs * F1))} h` : '– –'}
                 </span>
-                <span className={s.snapshotLabel}>Timmar/år</span>
+                <span className={s.snapshotLabel}>{t('snapshot.hours')}</span>
               </div>
               <div className={s.snapshotDivider} />
               <div className={s.snapshotItem}>
                 <span className={s.snapshotValue}>
                   {totals.ok ? (totals.pb ? `${totals.pb} mån` : '< 1 mån') : '– –'}
                 </span>
-                <span className={s.snapshotLabel}>Payback</span>
+                <span className={s.snapshotLabel}>{t('snapshot.payback')}</span>
               </div>
             </div>
 
             {/* 2. Donut + Legend */}
             <div className={s.donutSection}>
-              <div className={s.sectionLabel}>Fördelning av besparing</div>
+              <div className={s.sectionLabel}>{t('results.distribution')}</div>
               {totals.ok ? (
                 <>
                   <DonutChart
@@ -588,45 +568,45 @@ export default function ROITestClient() {
                   </div>
                 </>
               ) : (
-                <div className={s.chartEmpty}>Aktivera processer för att se fördelningen</div>
+                <div className={s.chartEmpty}>{t('results.emptyDistribution')}</div>
               )}
             </div>
 
             {/* 3. Staplar År 1–3 */}
             <div ref={barsRef} className={s.barsSection}>
-              <div className={s.sectionLabel}>Projektion 3 år</div>
+              <div className={s.sectionLabel}>{t('results.projection')}</div>
               {totals.ok ? (
                 <>
-                  <BarChart y1={totals.y1} y2={totals.y2} y3={totals.y3} />
+                  <BarChart y1={totals.y1} y2={totals.y2} y3={totals.y3} labels={[t('results.year1'), t('results.year2'), t('results.year3')]} />
                   <p className={s.barsNote}>
-                    År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing.
+                    {t('results.projectionNote')}
                   </p>
                 </>
               ) : (
-                <div className={s.chartEmpty}>Aktivera processer för att se projektionen</div>
+                <div className={s.chartEmpty}>{t('results.emptyProjection')}</div>
               )}
             </div>
 
             {/* 4. Social proof — Kundresultat */}
             {totals.ok && (
               <div ref={socialProofRef} className={s.socialProof}>
-                <div className={s.socialProofValue}>390 000 kr/år</div>
-                <div className={s.socialProofText}>i snittbesparing för Telestore AB</div>
-                <div className={s.socialProofHint}>(Verifierad data)</div>
+                <div className={s.socialProofValue}>{t('socialProof.value')}</div>
+                <div className={s.socialProofText}>{t('socialProof.text')}</div>
+                <div className={s.socialProofHint}>{t('socialProof.hint')}</div>
               </div>
             )}
 
             {/* 5. Trust-rad */}
             <div className={s.trustRow}>
-              SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%
+              {t('trustRow')}
             </div>
 
             {/* 6. CTA */}
             <div ref={ctaRef} className={`${s.ctaArea} ${showMethodology ? s.ctaAreaOpen : ''}`}>
               <ButtonStripe onClick={handleOpenContact} fullWidth>
-                {copy.cta.primary}
+                {t('cta.primary')}
               </ButtonStripe>
-              <p className={s.ctaSub}>Gratis 30 min — inga förpliktelser</p>
+              <p className={s.ctaSub}>{t('cta.sub')}</p>
               <button
                 type="button"
                 className={s.methodologyToggle}
@@ -635,7 +615,7 @@ export default function ROITestClient() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                {showMethodology ? 'Dölj beräkningsmodell' : 'Visa beräkningsmodell'}
+                {showMethodology ? t('cta.methodologyHide') : t('cta.methodologyShow')}
               </button>
             </div>
 
@@ -647,17 +627,17 @@ export default function ROITestClient() {
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  BERÄKNINGSMODELL
+                  {t('methodology.label')}
                 </div>
                 <div className={s.methodologyFormula}>
-                  Timmar × Automation% × 52 veckor × 350 kr/h
+                  {t('methodology.formula')}
                 </div>
                 <div className={s.methodologyHint}>
-                  År 1: 65% potential · År 2: 85% · År 3: 100%
+                  {t('methodology.yearFactors')}
                 </div>
                 <div className={s.methodologyDivider} />
                 <div className={s.methodologySources}>
-                  Källor: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%
+                  {t('methodology.sources')}
                 </div>
               </div>
             )}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
@@ -27,7 +27,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 }
 
 export default function NordicrankCaseStudy() {
-  const locale = useLocale()
+  const t = useTranslations('nordicrank')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -60,9 +60,9 @@ export default function NordicrankCaseStudy() {
     if (!snapshotRef.current) return
     const ctx = gsap.context(() => {
       const counters = [
-        { el: counter1Ref.current, target: 134, prefix: '', suffix: locale === 'sv' ? ' h/vecka' : ' hrs/week', format: false },
-        { el: counter2Ref.current, target: 95, prefix: '', suffix: '%', format: false },
-        { el: counter3Ref.current, target: 18, prefix: '', suffix: '', format: false },
+        { el: counter1Ref.current, target: 134, prefix: '', suffix: t('snapshot.timeSuffix'), format: false },
+        { el: counter2Ref.current, target: 95, prefix: '', suffix: t('snapshot.errorSuffix'), format: false },
+        { el: counter3Ref.current, target: 18, prefix: '', suffix: t('snapshot.automationsSuffix'), format: false },
       ]
       counters.forEach(({ el, target, prefix, suffix, format }) => {
         if (!el) return
@@ -80,7 +80,7 @@ export default function NordicrankCaseStudy() {
       })
     }, snapshotRef)
     return () => ctx.revert()
-  }, [locale])
+  }, [t])
 
   /* Donut draw-in animation */
   useEffect(() => {
@@ -132,6 +132,22 @@ export default function NordicrankCaseStudy() {
     return () => ctx.revert()
   }, [])
 
+  const heroWords = [t('heroWords.0'), t('heroWords.1'), t('heroWords.2')]
+
+  const solutionItems = [
+    { title: t('solution.item1Title'), body: t('solution.item1Body') },
+    { title: t('solution.item2Title'), body: t('solution.item2Body') },
+    { title: t('solution.item3Title'), body: t('solution.item3Body') },
+    { title: t('solution.item4Title'), body: t('solution.item4Body') },
+  ]
+
+  const bulletRows = [
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '8%', labelBefore: t('savings.row1LabelBefore'), labelAfter: '8%', saved: t('savings.row1Saved') },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '100%', after: '2%', labelBefore: t('savings.row2LabelBefore'), labelAfter: '2%', saved: t('savings.row2Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '100%', after: '13%', labelBefore: t('savings.row3LabelBefore'), labelAfter: '13%', saved: t('savings.row3Saved') },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '100%', after: '2%', labelBefore: t('savings.row4LabelBefore'), labelAfter: '2%', saved: t('savings.row4Saved') },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -144,7 +160,7 @@ export default function NordicrankCaseStudy() {
               Nordicrank
             </motion.h1>
             <LayoutTextFlip
-              words={["Manuella beställningar", "13.4 h/vecka sparad", "95% färre fel"]}
+              words={heroWords}
               duration={2500}
             />
           </div>
@@ -154,27 +170,27 @@ export default function NordicrankCaseStudy() {
       {/* UTMANINGEN */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
           <div className={styles.sourcesGrid}>
             <article className={styles.sourceCard}>
               <Counter current={1} total={4} />
-              <h3>Manuella beställningar</h3>
-              <p>Nordicrank hanterade beställningar manuellt från start till mål. Information flyttades mellan formulär, mail och interna listor i stället för att flöda automatiskt.</p>
+              <h3>{t('challenge.card1Title')}</h3>
+              <p>{t('challenge.card1Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={2} total={4} />
-              <h3>Excel-listor överallt</h3>
-              <p>Länkar och ordrar hölls ihop i Excel-listor som uppdaterades manuellt. Det var felbenäget, tidskrävande och gjorde det svårt att veta vilken version som faktiskt gällde.</p>
+              <h3>{t('challenge.card2Title')}</h3>
+              <p>{t('challenge.card2Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={3} total={4} />
-              <h3>Onödiga fel</h3>
-              <p>När status, leverans och uppföljning sköttes för hand uppstod missar, dubletter och tappade steg. Varje fel skapade mer administration och längre ledtider.</p>
+              <h3>{t('challenge.card3Title')}</h3>
+              <p>{t('challenge.card3Body')}</p>
             </article>
             <article className={styles.sourceCard}>
               <Counter current={4} total={4} />
-              <h3>Svårt att skala</h3>
-              <p>Varje ny kund innebar mer manuell koordinering. Utan automation blev tillväxt direkt kopplad till fler timmar i administration, inte mer leveranskapacitet.</p>
+              <h3>{t('challenge.card4Title')}</h3>
+              <p>{t('challenge.card4Body')}</p>
             </article>
           </div>
         </div>
@@ -185,20 +201,13 @@ export default function NordicrankCaseStudy() {
         <div className={styles.metodikInner}>
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>Lösningen</h2>
-              <p className={styles.metodikSubtext}>
-                18 automatiserade flöden implementerade på 2 veckor. Kunder beställer, allt triggas automatiskt och Excel-listorna försvinner helt ur processen.
-              </p>
+              <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
+              <p className={styles.metodikSubtext}>{t('solution.body')}</p>
             </div>
           </div>
           <div className={styles.metodikRight}>
             <ul className={styles.metodikList}>
-              {[
-                { title: 'Orderautomatisering', body: 'När kunden beställer skickas all information automatiskt till rätt steg, utan manuell kopiering mellan verktyg och listor.' },
-                { title: 'Länklogg-automation', body: 'Länkar och ordrar registreras och uppdateras automatiskt. Inga fler Excel-listor fram och tillbaka.' },
-                { title: 'Uppföljning på autopilot', body: 'Varje order får automatiskt rätt status, ansvarig och uppföljning. Teamet får full överblick utan att jaga uppdateringar.' },
-                { title: 'Smarta notifieringar', body: 'Leveranser, interna notifieringar och kunduppdateringar triggas automatiskt. Nordicrank kan ta fler beställningar utan mer administration.' },
-              ].map((item, i) => (
+              {solutionItems.map((item, i) => (
                 <li key={i} className={styles.metodikItem}>
                   <div className={styles.metodikItemContent}>
                     <h3 className={styles.metodikItemTitle}>{item.title}</h3>
@@ -215,36 +224,36 @@ export default function NordicrankCaseStudy() {
       {/* RESULTAT */}
       <section className={styles.section} data-reveal>
         <div className={styles.statsTitleWrapper}>
-          <h2 className={styles.sectionTitle}>Resultat</h2>
+          <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 13, suffix: '.4 h/v', label: 'sparad tid/vecka' },
-          { value: 95, suffix: '%', label: 'färre fel' },
-          { value: 18, suffix: '', label: 'automationer' },
+          { value: 13, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 95, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 18, suffix: '', label: t('results.stat3Label') },
         ]} />
       </section>
 
       {/* BESPARINGAR */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
-          <p className={styles.savingsSubtitle}>{locale === 'sv' ? 'En detaljerad genomgång av alla automations vi implementerat för Nordicrank — från manuell till fullt automatiserad process.' : 'A detailed review of all automations we implemented for Nordicrank — from manual to fully automated processes.'}</p>
+          <h2 className={styles.sectionTitle}>{t('savings.title')}</h2>
+          <p className={styles.savingsSubtitle}>{t('savings.subtitle')}</p>
 
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
               <span className={styles.savingsSnapshotValue} ref={counter1Ref}>13.4 h/vecka</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Sparad tid' : 'Time saved'}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
               <span className={styles.savingsSnapshotValue} ref={counter2Ref}>95% färre fel</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Färre fel' : 'Fewer errors'}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
               <span className={styles.savingsSnapshotValue} ref={counter3Ref}>18</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Automationer' : 'Automations'}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
 
@@ -253,7 +262,7 @@ export default function NordicrankCaseStudy() {
 
             {/* Donut Chart */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
-              <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av sparad tid' : 'Distribution of saved time'}</div>
+              <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
@@ -264,30 +273,25 @@ export default function NordicrankCaseStudy() {
                 </svg>
                 <div className={styles.savingsDonutCenter}>
                   <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>72%</span>
-                  <span className={styles.savingsDonutCenterLabel}>{locale === 'sv' ? 'automatiserat' : 'automated'}</span>
+                  <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Orderhantering' : 'Order management'}</span><span className={styles.savingsLegendValue}>35%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Länklogg' : 'Link log'}</span><span className={styles.savingsLegendValue}>25%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Uppföljning' : 'Follow-up'}</span><span className={styles.savingsLegendValue}>20%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Notifieringar' : 'Notifications'}</span><span className={styles.savingsLegendValue}>10%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>35%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>25%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>20%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>10%</span></div>
               </div>
             </div>
 
             {/* Bullet Chart Table */}
             <div className={styles.savingsBulletTable} ref={bulletTableRef}>
               <div className={styles.savingsTableHeader}>
-                <span>{locale === 'sv' ? 'Process' : 'Process'}</span>
-                <span>{locale === 'sv' ? 'Tidsjämförelse (per enhet)' : 'Time comparison (per unit)'}</span>
-                <span>{locale === 'sv' ? 'Sparat/vecka' : 'Saved/week'}</span>
+                <span>{t('savings.tableProcess')}</span>
+                <span>{t('savings.tableComparison')}</span>
+                <span>{t('savings.tableSaved')}</span>
               </div>
-              {[
-                { name: locale === 'sv' ? 'Orderregistrering' : 'Order registration', volume: locale === 'sv' ? '45 st/v' : '45/wk', before: '100%', after: '8%', saved: '4.1 h/v' },
-                { name: locale === 'sv' ? 'Länklogg i Excel' : 'Link log in Excel', volume: locale === 'sv' ? '60 st/v' : '60/wk', before: '100%', after: '2%', saved: '4 h/v' },
-                { name: locale === 'sv' ? 'Orderuppföljning' : 'Order follow-up', volume: locale === 'sv' ? '45 st/v' : '45/wk', before: '100%', after: '13%', saved: '5.3 h/v' },
-                { name: locale === 'sv' ? 'Interna notifieringar' : 'Internal notifications', volume: locale === 'sv' ? '20 st/v' : '20/wk', before: '100%', after: '2%', saved: '1 h/v' },
-              ].map((row, i) => (
+              {bulletRows.map((row, i) => (
                 <div key={i} className={styles.savingsTableRow} data-bullet-row>
                   <div className={styles.savingsProcessInfo}>
                     <span className={styles.savingsProcessName}>{row.name}</span>
@@ -299,17 +303,17 @@ export default function NordicrankCaseStudy() {
                       <div className={styles.savingsBulletAfter} data-bullet-after style={{ width: row.after }} />
                     </div>
                     <div className={styles.savingsBulletLabels}>
-                      <span>{row.before === '100%' ? (locale === 'sv' ? 'manuellt' : 'manual') : row.before}</span>
-                      <span className={styles.savingsBulletLabelAfter}>{row.after}</span>
+                      <span>{row.labelBefore}</span>
+                      <span className={styles.savingsBulletLabelAfter}>{row.labelAfter}</span>
                     </div>
                   </div>
                   <div className={styles.savingsSavedValue}>{row.saved}</div>
                 </div>
               ))}
               <div className={styles.savingsTotalRow}>
-                <div className={styles.savingsTotalLabel}>{locale === 'sv' ? 'Totalt' : 'Total'}</div>
+                <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
-                <div className={styles.savingsTotalValue}>13.4 h/{locale === 'sv' ? 'vecka' : 'week'}</div>
+                <div className={styles.savingsTotalValue}>{t('savings.totalValue')}</div>
               </div>
             </div>
           </div>
@@ -322,17 +326,17 @@ export default function NordicrankCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/brindar-akalp.jpg"
-              alt="Erik Lindqvist"
+              alt={t('quote.author')}
               width={180}
               height={180}
               className={styles.quoteImage}
             />
           </div>
           <div className={styles.quoteContent}>
-            <blockquote className={styles.quoteText}>Vi trodde att det vi gjorde var normalt. Tills vi insåg att vi kunde automatisera nästan allt.</blockquote>
+            <blockquote className={styles.quoteText}>{t('quote.text')}</blockquote>
             <div className={styles.quoteAuthor}>
-              <span className={styles.quoteName}>Erik Lindqvist</span>
-              <span className={styles.quoteRole}>CTO Nordicrank</span>
+              <span className={styles.quoteName}>{t('quote.author')}</span>
+              <span className={styles.quoteRole}>{t('quote.role')}</span>
             </div>
           </div>
         </div>

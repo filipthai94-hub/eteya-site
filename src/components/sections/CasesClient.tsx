@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import { useLocale } from 'next-intl'
+import { usePathname } from '@/i18n/navigation'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
@@ -503,7 +503,8 @@ const CSS = `
 `
 
 export default function CasesClient() {
-  const locale = useLocale()
+  const pathname = usePathname()
+  const locale = pathname?.startsWith('/sv') ? 'sv' : 'en'
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll('#cases-section .case-card')) as HTMLElement[]
     const bindings: Array<{ title: HTMLElement; handler: () => void }> = []
@@ -736,7 +737,7 @@ export default function CasesClient() {
                     </div>
                   )}
                   <div className="case-cta">
-                    <ButtonSwap label="Läs hela caset" arrow href={locale === "sv" ? `/sv/kundcase/${c.slug}` : `/en/case-studies/${c.slug}`} size="lg" variant="white" />
+                    <ButtonSwap label="Läs hela caset" arrow href={`/kundcase/${c.slug}`} size="lg" variant="white" />
                   </div>
                 </div>
               </div>

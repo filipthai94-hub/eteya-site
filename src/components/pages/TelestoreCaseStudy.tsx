@@ -1,12 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Link from 'next/link'
 import Image from 'next/image'
-import ButtonSwap from '@/components/ui/ButtonSwap'
 import StatsClient from '@/components/sections/StatsClient'
 import BeamsBackground from '@/components/ui/BeamsBackground'
 import { LayoutTextFlip } from '@/components/ui/layout-text-flip'
@@ -15,7 +13,6 @@ import styles from './TelestoreCaseStudy.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* --- Counter decoration (samma som MethodologyContent) -- */
 function Counter({ current, total }: { current: number; total: number }) {
   return (
     <div className={styles.counter}>
@@ -29,10 +26,8 @@ function Counter({ current, total }: { current: number; total: number }) {
   )
 }
 
-/* --- Main -------------------------------------------- */
 export default function TelestoreCaseStudy() {
   const t = useTranslations('telestore')
-  const locale = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -42,9 +37,6 @@ export default function TelestoreCaseStudy() {
   const donutCenterRef = useRef<HTMLSpanElement>(null)
   const bulletTableRef = useRef<HTMLDivElement>(null)
 
-  const methodologyPath = locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'
-
-  /* GSAP scroll reveals — EXAKT samma som MethodologyContent */
   useEffect(() => {
     if (!containerRef.current) return
     const sections = containerRef.current.querySelectorAll('[data-reveal]')
@@ -63,13 +55,14 @@ export default function TelestoreCaseStudy() {
     return () => ScrollTrigger.getAll().forEach((st) => st.kill())
   }, [])
 
-  /* Counter animation for Snapshot Bar */
   useEffect(() => {
     if (!snapshotRef.current) return
+    const suffix2 = t('results.stat2Suffix')
+    const suffix1 = t('results.stat1Suffix')
     const ctx = gsap.context(() => {
       const counters = [
-        { el: counter1Ref.current, target: 390000, prefix: '', suffix: ' kr', format: true },
-        { el: counter2Ref.current, target: 1350, prefix: '', suffix: locale === 'sv' ? ' timmar' : ' hours', format: true },
+        { el: counter1Ref.current, target: 390000, prefix: '', suffix: suffix1, format: true },
+        { el: counter2Ref.current, target: 1350, prefix: '', suffix: suffix2, format: true },
         { el: counter3Ref.current, target: 56, prefix: '', suffix: '', format: false },
       ]
       counters.forEach(({ el, target, prefix, suffix, format }) => {
@@ -88,9 +81,8 @@ export default function TelestoreCaseStudy() {
       })
     }, snapshotRef)
     return () => ctx.revert()
-  }, [locale])
+  }, [t])
 
-  /* Donut draw-in animation */
   useEffect(() => {
     if (!donutRef.current) return
     const ctx = gsap.context(() => {
@@ -100,8 +92,6 @@ export default function TelestoreCaseStudy() {
         const dashArray = el.getAttribute('stroke-dasharray')
         const segLength = dashArray ? parseFloat(dashArray.split(' ')[0]) : 0
         const originalOffset = parseFloat(el.getAttribute('stroke-dashoffset') || '0')
-        // Start: helt dold (offset = segLength + originalOffset)
-        // Slut: korrekt position (offset = originalOffset)
         gsap.fromTo(el,
           { strokeDashoffset: segLength + originalOffset, opacity: 1 },
           {
@@ -125,7 +115,6 @@ export default function TelestoreCaseStudy() {
     return () => ctx.revert()
   }, [])
 
-  /* Bullet bar animation */
   useEffect(() => {
     if (!bulletTableRef.current) return
     const ctx = gsap.context(() => {
@@ -142,6 +131,26 @@ export default function TelestoreCaseStudy() {
     return () => ctx.revert()
   }, [])
 
+  const heroWords = [t('heroWords.0'), t('heroWords.1'), t('heroWords.2')]
+
+  const solutionItems = [
+    { title: t('solution.item1Title'), body: t('solution.item1Body') },
+    { title: t('solution.item2Title'), body: t('solution.item2Body') },
+    { title: t('solution.item3Title'), body: t('solution.item3Body') },
+    { title: t('solution.item4Title'), body: t('solution.item4Body') },
+  ]
+
+  const bulletRows = [
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '2%', labelBefore: '7.5 min', labelAfter: '~0 min', saved: '9.4 h' },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '100%', after: '2%', labelBefore: '5 min', labelAfter: '~0 min', saved: '2.8 h' },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '100%', after: '20%', labelBefore: '10 min', labelAfter: '2 min', saved: '4.5 h' },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '100%', after: '2%', labelBefore: '7.5 min', labelAfter: '~0 min', saved: '3.1 h' },
+    { name: t('savings.row5Name'), volume: t('savings.row5Volume'), before: '100%', after: '2%', labelBefore: '1 min', labelAfter: '~0 min', saved: '1.3 h' },
+    { name: t('savings.row6Name'), volume: t('savings.row6Volume'), before: '100%', after: '2%', labelBefore: '2 min', labelAfter: '~0 min', saved: '1.4 h' },
+    { name: t('savings.row7Name'), volume: t('savings.row7Volume'), before: '100%', after: '25%', labelBefore: '2 min', labelAfter: '~0.5 min', saved: '1.9 h' },
+    { name: t('savings.row8Name'), volume: t('savings.row8Volume'), before: '100%', after: '0%', labelBefore: '2.5 h', labelAfter: '0 h', saved: '1.3 h' },
+  ]
+
   return (
     <div ref={containerRef} className={styles.page}>
 
@@ -151,14 +160,10 @@ export default function TelestoreCaseStudy() {
         <div className={styles.heroGrid}>
           <div className={styles.heroContentWrapper}>
             <motion.h1 layoutId="hero-title" className={styles.heroTitle}>
-              Telestore
+              {t('heroTitle')}
             </motion.h1>
             <LayoutTextFlip
-              words={[
-                "56 AUTOMATIONER",
-                "390 000 KR/ÅR",
-                "1 350 TIMMAR"
-              ]}
+              words={heroWords}
               duration={2500}
             />
           </div>
@@ -168,38 +173,30 @@ export default function TelestoreCaseStudy() {
       {/* -- UTMANINGEN (01) — 4 kort ------------------------------------------- */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>Utmaningen</h2>
+          <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
           <div className={styles.sourcesGrid}>
             <article className={styles.sourceCard}>
               <Counter current={1} total={4} />
-              <h3>Manuell listning</h3>
-              <p>
-                75 telefoner varje vecka listades manuellt på telestore.se, Blocket och Tradera. Varje listning tog 7.5 minuter — tid som kunde använts till försäljning och kundservice.
-              </p>
+              <h3>{t('challenge.card1Title')}</h3>
+              <p>{t('challenge.card1Body')}</p>
             </article>
 
             <article className={styles.sourceCard}>
               <Counter current={2} total={4} />
-              <h3>Excel-kaos</h3>
-              <p>
-                2.5 timmar varje vecka bortkastad på felsökning i manuella listor. När något gick fel var 2–3 personer inblandade i koordinering, felsökning och återställning.
-              </p>
+              <h3>{t('challenge.card2Title')}</h3>
+              <p>{t('challenge.card2Body')}</p>
             </article>
 
             <article className={styles.sourceCard}>
               <Counter current={3} total={4} />
-              <h3>Missade försäljningar</h3>
-              <p>
-                Felpriser, uteblivna leveranser och borttappade kundärenden skapade direkta kostnader. Varje manuellt fel riskerade att förlora kunder och skada företagets rykte.
-              </p>
+              <h3>{t('challenge.card3Title')}</h3>
+              <p>{t('challenge.card3Body')}</p>
             </article>
 
             <article className={styles.sourceCard}>
               <Counter current={4} total={4} />
-              <h3>Ingen skalbarhet</h3>
-              <p>
-                Varje ny telefon krävde manuell hantering. Affären kunde inte växa utan att anställa mer personal. Automationsbehovet var akut för att bryta botten-effekten.
-              </p>
+              <h3>{t('challenge.card4Title')}</h3>
+              <p>{t('challenge.card4Body')}</p>
             </article>
           </div>
         </div>
@@ -210,24 +207,13 @@ export default function TelestoreCaseStudy() {
         <div className={styles.metodikInner}>
           <div className={styles.metodikLeft}>
             <div className={styles.metodikLeftSticky}>
-              <h2 className={styles.sectionTitle}>
-                {locale === 'sv' ? 'Lösningen' : 'The Solution'}
-              </h2>
-              <p className={styles.metodikSubtext}>
-                {locale === 'sv'
-                  ? '56 automationer implementerade på 3 veckor. Make, AI-agenter och scripts — alla testade mot riktig data.'
-                  : '56 automations implemented in 3 weeks. Make, AI agents and scripts — all tested against real data.'}
-              </p>
+              <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
+              <p className={styles.metodikSubtext}>{t('solution.body')}</p>
             </div>
           </div>
           <div className={styles.metodikRight}>
             <ul className={styles.metodikList}>
-              {[
-                { title: locale === 'sv' ? 'Listning & IMEI' : 'Listing & IMEI', body: locale === 'sv' ? '75 telefoner/vecka listades automatiskt på telestore.se, Blocket och Tradera med rätt pris, bilder och spec.' : '75 phones/week listed automatically with correct price, images and spec.' },
-                { title: locale === 'sv' ? 'Order & frakt' : 'Order & shipping', body: locale === 'sv' ? 'Varje order genererade automatiskt bekräftelse, fraktsedel och avtal. Inga manuella steg, inga glömda detaljer.' : 'Every order automatically generated confirmation, shipping label and agreement. No manual steps, no forgotten details.' },
-                { title: locale === 'sv' ? 'Kundservice & AI' : 'Customer service & AI', body: locale === 'sv' ? 'AI-agenter klassificerade och besvarade inkommande mail dygnet runt, under en sekund per ärende.' : 'AI agents classified and responded to incoming mail around the clock, under one second per case.' },
-                { title: locale === 'sv' ? 'Skalbarhet' : 'Scalability', body: locale === 'sv' ? 'Affären växer utan att teamet växer. Varje ny telefon hanteras automatiskt.' : 'The business grows without the team growing. Every new phone is handled automatically.' },
-              ].map((item, i) => (
+              {solutionItems.map((item, i) => (
                 <li key={i} className={styles.metodikItem}>
                   <div className={styles.metodikItemContent}>
                     <h3 className={styles.metodikItemTitle}>{item.title}</h3>
@@ -244,36 +230,36 @@ export default function TelestoreCaseStudy() {
       {/* -- RESULTAT (04) — Stats-sektion ----------------------------- */}
       <section className={styles.section} data-reveal>
         <div className={styles.statsTitleWrapper}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Resultat' : 'Results'}</h2>
+          <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 390000, suffix: ' kr', label: locale === 'sv' ? 'Besparing/år' : 'Savings/year' },
-          { value: 1350, suffix: locale === 'sv' ? ' timmar' : ' hours', label: locale === 'sv' ? 'Sparad tid/år' : 'Hours saved/year' },
-          { value: 56, suffix: '', label: locale === 'sv' ? 'Automationer' : 'Automations' },
+          { value: 390000, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 1350, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 56, suffix: '', label: t('results.stat3Label') },
         ]} />
       </section>
 
       {/* -- BESPARINGAR (05) ------------------------------------------------ */}
       <section className={styles.section} data-reveal>
         <div className={styles.inner}>
-          <h2 className={styles.sectionTitle}>{locale === 'sv' ? 'Besparingar' : 'Savings'}</h2>
-          <p className={styles.savingsSubtitle}>{locale === 'sv' ? 'En detaljerad genomgång av alla automations vi implementerat för Telestore — från manuell till fullt automatiserad process.' : 'A detailed review of all automations we implemented for Telestore — from manual to fully automated processes.'}</p>
+          <h2 className={styles.sectionTitle}>{t('savings.title')}</h2>
+          <p className={styles.savingsSubtitle}>{t('savings.subtitle')}</p>
 
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
               <span className={styles.savingsSnapshotValue} ref={counter1Ref}>390 000 kr</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Sparat per år' : 'Saved per year'}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>1 350 {locale === 'sv' ? 'timmar' : 'hours'}</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Tid sparad' : 'Time saved'}</span>
+              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>1 350 {t('savings.snapshot2Suffix')}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
               <span className={styles.savingsSnapshotValue} ref={counter3Ref}>56</span>
-              <span className={styles.savingsSnapshotLabel}>{locale === 'sv' ? 'Automationer' : 'Automations'}</span>
+              <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
 
@@ -282,7 +268,7 @@ export default function TelestoreCaseStudy() {
 
             {/* Donut Chart */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
-              <div className={styles.savingsDonutTitle}>{locale === 'sv' ? 'Fördelning av sparad tid' : 'Distribution of saved time'}</div>
+              <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
@@ -294,34 +280,25 @@ export default function TelestoreCaseStudy() {
                 </svg>
                 <div className={styles.savingsDonutCenter}>
                   <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>27.7</span>
-                  <span className={styles.savingsDonutCenterLabel}>{locale === 'sv' ? 'timmar/vecka' : 'hrs/week'}</span>
+                  <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Listning & publicering' : 'Listing & publishing'}</span><span className={styles.savingsLegendValue}>10.7 h</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Order & frakt' : 'Order & shipping'}</span><span className={styles.savingsLegendValue}>7.3 h</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Kundservice & AI' : 'Customer service & AI'}</span><span className={styles.savingsLegendValue}>5.0 h</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{locale === 'sv' ? 'Admin & avtal' : 'Admin & Agreements'}</span><span className={styles.savingsLegendValue}>2.7 h</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>10.7 h</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>7.3 h</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>5.0 h</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>2.7 h</span></div>
               </div>
             </div>
 
             {/* Bullet Chart Table */}
             <div className={styles.savingsBulletTable} ref={bulletTableRef}>
               <div className={styles.savingsTableHeader}>
-                <span>{locale === 'sv' ? 'Process' : 'Process'}</span>
-                <span>{locale === 'sv' ? 'Tidsjämförelse (per enhet)' : 'Time comparison (per unit)'}</span>
-                <span>{locale === 'sv' ? 'Sparat/vecka' : 'Saved/week'}</span>
+                <span>{t('savings.tableProcess')}</span>
+                <span>{t('savings.tableComparison')}</span>
+                <span>{t('savings.tableSaved')}</span>
               </div>
-              {[
-                { name: locale === 'sv' ? 'Telefon → sajt/Blocket' : 'Phone → site/Blocket', volume: locale === 'sv' ? '75 st/vecka' : '75/week', before: '100%', after: '2%', labelBefore: '7.5 min', labelAfter: '~0 min', saved: '9.4 h' },
-                { name: locale === 'sv' ? 'PostNord fraktsedel' : 'PostNord shipping label', volume: locale === 'sv' ? '34 st/vecka' : '34/week', before: '100%', after: '2%', labelBefore: '5 min', labelAfter: '~0 min', saved: '2.8 h' },
-                { name: locale === 'sv' ? 'Orderhantering' : 'Order handling', volume: locale === 'sv' ? '34 st/vecka' : '34/week', before: '100%', after: '20%', labelBefore: '10 min', labelAfter: '2 min', saved: '4.5 h' },
-                { name: locale === 'sv' ? 'AI prisförslag-mail' : 'AI price quote emails', volume: locale === 'sv' ? '25 st/vecka' : '25/week', before: '100%', after: '2%', labelBefore: '7.5 min', labelAfter: '~0 min', saved: '3.1 h' },
-                { name: locale === 'sv' ? 'Registrering (Excel → AT)' : 'Registration (Excel → AT)', volume: locale === 'sv' ? '75 st/vecka' : '75/week', before: '100%', after: '2%', labelBefore: '1 min', labelAfter: '~0 min', saved: '1.3 h' },
-                { name: locale === 'sv' ? 'Scrive-avtal' : 'Scrive agreement', volume: locale === 'sv' ? '43 st/vecka' : '43/week', before: '100%', after: '2%', labelBefore: '2 min', labelAfter: '~0 min', saved: '1.4 h' },
-                { name: locale === 'sv' ? 'Kundservice-mail' : 'Customer service emails', volume: locale === 'sv' ? '75 st/vecka' : '75/week', before: '100%', after: '25%', labelBefore: '2 min', labelAfter: '~0.5 min', saved: '1.9 h' },
-                { name: locale === 'sv' ? 'Excel-felsökning' : 'Excel troubleshooting', volume: locale === 'sv' ? '0.5×/vecka' : '0.5×/week', before: '100%', after: '0%', labelBefore: '2.5 h', labelAfter: '0 h', saved: '1.3 h' },
-              ].map((row, i) => (
+              {bulletRows.map((row, i) => (
                 <div key={i} className={styles.savingsTableRow} data-bullet-row>
                   <div className={styles.savingsProcessInfo}>
                     <span className={styles.savingsProcessName}>{row.name}</span>
@@ -341,7 +318,7 @@ export default function TelestoreCaseStudy() {
                 </div>
               ))}
               <div className={styles.savingsTotalRow}>
-                <div className={styles.savingsTotalLabel}>{locale === 'sv' ? 'Totalt' : 'Total'}</div>
+                <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
                 <div className={styles.savingsTotalValue}>27.7 h</div>
               </div>
@@ -356,7 +333,7 @@ export default function TelestoreCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/brindar-akalp.jpg"
-              alt="Brindar Akalp"
+              alt={t('quote.author')}
               width={180}
               height={180}
               className={styles.quoteImage}
@@ -364,14 +341,11 @@ export default function TelestoreCaseStudy() {
           </div>
           <div className={styles.quoteContent}>
             <blockquote className={styles.quoteText}>
-              {locale === 'sv'
-                ? "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade."
-                : "We used to spend hours every week on manual tasks like creating shipping labels and confirming emails. Now Eteya handles all of that automatically. It's made us faster and less stressed."
-              }
+              {t('quote.text')}
             </blockquote>
             <div className={styles.quoteAuthor}>
-              <span className={styles.quoteName}>Brindar Akalp</span>
-              <span className={styles.quoteRole}>{locale === 'sv' ? 'VD, Telestore' : 'CEO, Telestore'}</span>
+              <span className={styles.quoteName}>{t('quote.author')}</span>
+              <span className={styles.quoteRole}>{t('quote.role')}</span>
             </div>
           </div>
         </div>
