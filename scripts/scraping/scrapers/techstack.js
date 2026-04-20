@@ -6,6 +6,10 @@
  * Output: Array med tekniker [{ name, categories, confidence }]
  */
 
+// Override console.log to write to stderr so stdout stays clean for JSON output
+const _origLog = console.log
+console.log = (...args) => process.stderr.write(args.join(' ') + '\n')
+
 const puppeteer = require('puppeteer');
 
 /**

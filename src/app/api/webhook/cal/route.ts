@@ -110,8 +110,8 @@ async function runResearchAndGeneratePDF(data: {
       try {
         const { execSync } = await import('child_process')
         const techOutput = execSync(
-          `node -e "const {detectTechStack,getTechNames}=require('./scripts/scraping/scrapers/techstack');detectTechStack('${data.website}').then(r=>console.log(JSON.stringify(getTechNames(r))))"`,
-          { encoding: 'utf-8', timeout: 30000, cwd: process.cwd() }
+          `node scripts/scraping/detect-tech.js '${data.website}'`,
+          { encoding: 'utf-8', timeout: 30000, cwd: process.cwd(), stdio: ['pipe', 'pipe', 'pipe'] }
         )
         techStack = JSON.parse(techOutput.trim())
       } catch (err) {
