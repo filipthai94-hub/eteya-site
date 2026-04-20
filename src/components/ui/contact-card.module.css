@@ -624,6 +624,16 @@
   color-scheme: dark;
 }
 
+/* Hide Cal.com scrollbar - works in all browsers */
+.calEmbed ::-webkit-scrollbar {
+  display: none !important;
+}
+
+.calEmbed * {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+}
+
 /* ============================================
    RESPONSIVE: MOBILE (≤690px) — Bottom sheet
    ============================================ */
