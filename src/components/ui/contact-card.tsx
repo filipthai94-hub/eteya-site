@@ -258,10 +258,11 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 value={formData.service}
                 onChange={(e) => updateField('service', e.target.value)}
                 className={`${styles.input} ${styles.select}`}
+                style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}
               >
-                <option value="" disabled>Välj tjänst...</option>
+                <option value="" disabled style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>Välj tjänst...</option>
                 {services.map((s) => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
+                  <option key={s.value} value={s.value} style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>{s.label}</option>
                 ))}
               </select>
             </div>
