@@ -99,33 +99,38 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
 
   // Build Cal.com config with conditional metadata
   const calConfig = useMemo(() => {
-    const base: Record<string, string> = {
+    const config: Record<string, any> = {
       theme: "dark",
       brandColor: "#C8FF00",
-      "metadata[source]": roiData ? "roi-calculator" : "footer-cta",
+      hideEventTypeDetails: false,
+      layout: "month_view",
+      // Hide name/email fields since we already collect them
+      hideNameInput: !!formData.name,
+      hideEmailInput: !!formData.email,
     }
 
-    // Prefill name + email from form
-    if (formData.name) base.name = formData.name
-    if (formData.email) base.email = formData.email
-
-    // Form metadata
-    if (formData.website) base["metadata[website]"] = formData.website
-    if (formData.service) base["metadata[service]"] = formData.service
+    // Prefill using Cal.com's official format
+    if (formData.name) config.name = formData.name
+    if (formData.email) config.email = formData.email
+    
+    // Metadata
+    config["metadata[source]"] = roiData ? "roi-calculator" : "footer-cta"
+    if (formData.website) config["metadata[website]"] = formData.website
+    if (formData.service) config["metadata[service]"] = formData.service
 
     // ROI-specific metadata — only when roiData exists
     if (roiData) {
-      base["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
-      base["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
-      base["metadata[roi]"] = String(Math.round(roiData.roi))
-      if (roiData.payback) base["metadata[payback]"] = String(roiData.payback)
-      if (roiData.implCost) base["metadata[implCost]"] = String(Math.round(roiData.implCost))
-      if (roiData.hourlyRate) base["metadata[hourlyRate]"] = String(roiData.hourlyRate)
-      if (roiData.year1) base["metadata[year1]"] = String(Math.round(roiData.year1))
-      if (roiData.year2) base["metadata[year2]"] = String(Math.round(roiData.year2))
-      if (roiData.year3) base["metadata[year3]"] = String(Math.round(roiData.year3))
+      config["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
+      config["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
+      config["metadata[roi]"] = String(Math.round(roiData.roi))
+      if (roiData.payback) config["metadata[payback]"] = String(roiData.payback)
+      if (roiData.implCost) config["metadata[implCost]"] = String(Math.round(roiData.implCost))
+      if (roiData.hourlyRate) config["metadata[hourlyRate]"] = String(roiData.hourlyRate)
+      if (roiData.year1) config["metadata[year1]"] = String(Math.round(roiData.year1))
+      if (roiData.year2) config["metadata[year2]"] = String(Math.round(roiData.year2))
+      if (roiData.year3) config["metadata[year3]"] = String(Math.round(roiData.year3))
       if (roiData.processes?.length) {
-        base["metadata[roiProcesses]"] = JSON.stringify(
+        config["metadata[roiProcesses]"] = JSON.stringify(
           roiData.processes.map(p => ({
             k: p.key,
             l: p.label,
@@ -136,7 +141,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
       }
     }
 
-    return base
+    return config
   }, [roiData, formData.name, formData.email, formData.company, formData.service])
 
   return (
