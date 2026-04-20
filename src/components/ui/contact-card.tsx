@@ -50,7 +50,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    website: '',
     service: '',
   })
   const [gdprChecked, setGdprChecked] = useState(false)
@@ -110,7 +110,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     if (formData.email) base.email = formData.email
 
     // Form metadata
-    if (formData.company) base["metadata[company]"] = formData.company
+    if (formData.website) base["metadata[website]"] = formData.website
     if (formData.service) base["metadata[service]"] = formData.service
 
     // ROI-specific metadata — only when roiData exists
@@ -239,14 +239,14 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Företag *</label>
+              <label className={styles.label}>Företagsnamn eller hemsida *</label>
               <input
                 type="text"
                 required
-                placeholder="Företagsnamn"
+                placeholder="https://dinhemsida.se"
                 className={styles.input}
-                value={formData.company}
-                onChange={(e) => updateField('company', e.target.value)}
+                value={formData.website}
+                onChange={(e) => updateField('website', e.target.value)}
               />
             </div>
 
@@ -364,7 +364,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           </div>
           <div className={styles.calEmbed}>
             <Cal
-              calLink="filip-thai-8l9zgr/test"
+              calLink={process.env.NEXT_PUBLIC_CAL_LINK || "eteya/strategimote"}
               style={{ width: "100%", height: "100%", overflow: "scroll" }}
               config={calConfig}
             />

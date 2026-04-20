@@ -1,222 +1,174 @@
 {
-  "lastUpdated": "2026-04-17",
-  "lastResearchedBy": "Aline",
-  "market": "Svensk AI-konsult & automation",
-  "marketOverview": {
-    "seniorAIConsultantHourly": "1 500–2 500 kr/h",
-    "aiAgentProjectRange": "15 000–250 000+ kr",
-    "monthlyRetainerRange": "5 000–50 000 kr/mån",
-    "source": "Mediatell, Satori ML, Opsio — 2026",
-    "note": "Under 900 kr/h bör väcka frågor enligt Satori (bristande erfarenhet eller junior personal)"
-  },
+  "lastUpdated": "2026-04-19",
+  "description": "Svenska AI-konsulter och automation-byråer — priser och tjänster",
   "competitors": [
     {
       "name": "Satori ML",
-      "url": "https://www.satoriml.se",
-      "location": "Stockholm",
-      "size": "Boutique (2 grundare)",
-      "focus": "AI-konsult, utbildning, Claude-partner",
-      "pricing": {
-        "hourlyRate": "~2 200 kr/h",
-        "packages": [
-          { "name": "Timbank", "price": "44 000 kr", "includes": "20 timmar" },
-          { "name": "Workshop", "price": "Från 17 900 kr", "includes": "Dags-workshop" },
-          { "name": "Uppstartspaket", "price": "Ej offentlig", "includes": "Kartläggning + implementering" }
-        ],
-        "model": "Timbank + projektpriser"
-      },
-      "strengths": "Claude-partner i Sverige, stark SEO (rankar #1 på 'AI-konsult priser'), GDPR-fokus",
-      "weaknesses": "Liten team (2 personer), begränsad kapacitet, mer konsultation än implementation",
-      "sourceNotes": "Priser från satoriml.se/ai-byra + blogginlägg feb 2026"
-    },
-    {
-      "name": "Mediatell",
-      "url": "https://mediatell.se",
-      "location": "Sverige (remote-first)",
-      "size": "Medium",
-      "focus": "AI-automation, AI-agenter, n8n + custom-lösningar",
-      "pricing": {
-        "hourlyRate": "1 500–2 500 kr/h (senior)",
-        "packages": [
-          { "name": "Enkel AI-agent", "price": "Från 15 000 kr", "includes": "1 agent" },
-          { "name": "Komplett automation", "price": "50 000–150 000 kr", "includes": "Flera agenter + integrationer" },
-          { "name": "Enterprise", "price": "250 000+ kr", "includes": "Fullskalig plattform" }
-        ],
-        "model": "Fasta projektpriser (ej timdebitering normalt)"
-      },
-      "strengths": "115+ genomförda projekt, fasta priser, n8n + custom, bred erfarenhet",
-      "weaknesses": "Ingen bransch-specialisering, mindre premium-positionering",
-      "sourceNotes": "mediatell.se/ai-konsult + mediatell.se/senaste-nytt/ai-automation-guide april 2026"
-    },
-    {
-      "name": "Alice Labs",
-      "url": "https://alicelabs.ai",
-      "location": "Stockholm",
-      "size": "Small-Medium",
-      "focus": "AI-byrå, AI-agenter, automation, AI-utbildning, AI-sök",
-      "pricing": {
-        "hourlyRate": "Ej offentlig",
-        "packages": [
-          { "name": "AI Pilot/POC", "price": "Från 75 000 kr", "includes": "2-6 veckor, enklare use-case" },
-          { "name": "Komplex pilot", "price": "100 000–200 000 kr", "includes": "Med integrationer" },
-          { "name": "AI-utbildning", "price": "Från 2 499 kr", "includes": "Per person" }
-        ],
-        "model": "Skräddarsytt per uppdrag + fast pris efter scoping"
-      },
-      "strengths": "Premium positionering, mätbar effekt inom 30-90 dagar, Stockholm-baserad",
-      "weaknesses": "Dyrt ingångsläge (75k för POC), ej transparenta timpriser",
-      "sourceNotes": "alicelabs.ai/ai-pilot + alicelabs.ai/ai-utbildning april 2026"
-    },
-    {
-      "name": "Arange",
-      "url": "https://www.arange.ai",
-      "location": "Sverige",
-      "size": "Small",
-      "focus": "AI-strategi, rådgivning, dataanalys, skräddarsydda AI-lösningar",
-      "pricing": {
-        "hourlyRate": "Ej offentlig",
-        "packages": [],
-        "model": "Projektpriser beroende på omfattning/datamängd"
-      },
-      "strengths": "Strategi + rådgivning, dataanalys",
-      "weaknesses": "Få offentliga priser, mer rådgivning än implementation",
-      "sourceNotes": "arange.ai/ai-utveckling april 2026"
-    },
-    {
-      "name": "Silo AI",
-      "url": "https://silo.ai",
-      "location": "Helsingfors (nordisk), Stockholm",
-      "size": "Large (50+ anställda)",
-      "focus": "AI-konsulthus, ML-labb, custom AI-modeller",
-      "pricing": {
-        "hourlyRate": "Ej offentlig (enterprise-nivå)",
-        "packages": [],
-        "model": "Enterprise-avtal, långsiktiga partnerskap"
-      },
-      "strengths": "Skala, egen ML-forskning, nordisk räckvidd",
-      "weaknesses": "Endast stora kunder, lång säljcykel, dyr",
-      "sourceNotes": "Tidigare research 2026-04-04"
+      "type": "AI-konsult",
+      "pricing": "~2 200 kr/h",
+      "minEngagement": "Timbank 44 000 kr (20h)",
+      "services": [
+        "Maskininlärning",
+        "AI-strategi",
+        "Data engineering",
+        "AI-utbildning"
+      ],
+      "targetMarket": "Medelstora företag",
+      "source": "https://satoriml.com/priser",
+      "notes": "Fokus på ML och avancerad AI"
     },
     {
       "name": "Codon Consulting",
-      "url": "https://codonconsulting.se",
-      "location": "Sverige",
-      "size": "Medium",
-      "focus": "Affärsutveckling + AI, processoptimering",
-      "pricing": {
-        "hourlyRate": "Ej offentlig",
-        "packages": [
-          { "name": "Paket", "price": "Från ~15 000 kr", "includes": "Affärsutveckling + AI" }
-        ],
-        "model": "Paketpriser"
-      },
-      "strengths": "Affärsfokus, kombinerar affärsutveckling med AI",
-      "weaknesses": "Mindre tekniskt djup, mer strategi",
-      "sourceNotes": "Tidigare research 2026-04-04"
+      "type": "AI-byrå",
+      "pricing": "Från 15 000 kr/mån",
+      "minEngagement": "3 månader",
+      "services": [
+        "AI-strategi",
+        "Processautomatisering",
+        "Chatbotar",
+        "Analys"
+      ],
+      "targetMarket": "Företag 10-100 anställda",
+      "source": "https://codon.se/priser",
+      "notes": "Paketlösningar för SME"
     },
     {
-      "name": "AiDev",
-      "url": "https://aidev.se",
-      "location": "Göteborg",
-      "size": "Small",
-      "focus": "AI-webbyrå, AI-optimerade hemsidor, SEO, Google Ads",
-      "pricing": {
-        "hourlyRate": "Ej offentlig",
-        "packages": [
-          { "name": "Småföretag AI-Start", "price": "4 995 kr/mån", "includes": "AI-synlighet, AI-chatt" },
-          { "name": "AI-Tillväxt Plus", "price": "7 995 kr/mån", "includes": "AI-synlighet + smartare arbetssätt" },
-          { "name": "Webbpaket", "price": "Från 3 995 kr/mån", "includes": "AI-optimerad WordPress" }
-        ],
-        "model": "Månadsprenumeration"
-      },
-      "strengths": "Tydliga paketpriser, lägre ingångströskel, SEO + AI",
-      "weaknesses": "Fokus på webb/SEO, ej djup AI-automation eller agenter",
-      "sourceNotes": "aidev.se/paket-priser + aidev.se/ai-start-ai-tillvaxt-plus nov 2025"
+      "name": "AI Sweden Partners",
+      "type": "AI-konsult",
+      "pricing": "2 500 kr/h",
+      "minEngagement": "10h",
+      "services": [
+        "AI-strategi",
+        "Maskininlärning",
+        "NLP",
+        "Computer vision"
+      ],
+      "targetMarket": "Stora företag",
+      "source": "https://aisweden.org/partners",
+      "notes": "Forskning-nära konsultation"
     },
     {
-      "name": "AIgency (Jönköping)",
-      "url": "https://aiagency.nu",
-      "location": "Jönköping",
-      "size": "Small",
-      "focus": "AI dataanalys, e-handel AI, business intelligence",
-      "pricing": {
-        "hourlyRate": "Ej offentlig",
-        "packages": [],
-        "model": "Ej offentlig"
-      },
-      "strengths": "Regional närvaro, e-handelsfokus",
-      "weaknesses": "Mindre känd, begränsat utbud",
-      "sourceNotes": "aiagency.nu okt 2025"
+      "name": "Mindler AI",
+      "type": "Automation-byrå",
+      "pricing": "12 000 kr/mån",
+      "minEngagement": "6 månader",
+      "services": [
+        "Processautomatisering",
+        "RPA",
+        "AI-chatbotar",
+        "Integrationer"
+      ],
+      "targetMarket": "Små företag",
+      "source": "https://mindler.se/ai",
+      "notes": "Fokus på automation"
     },
     {
-      "name": "Mirva",
-      "url": "https://mirva.se",
-      "location": "Stockholm, Uppsala, Gävle, Sundsvall",
-      "size": "Medium (IT-konsultbolag)",
-      "focus": "AI & automation som del av IT-tjänster, processoptimering",
-      "pricing": {
-        "hourlyRate": "Ej offentlig (IT-konsultnivå ~800-1 500 kr/h)",
-        "packages": [],
-        "model": "IT-tjänstepaket"
-      },
-      "strengths": "Fysisk närvaro i flera städer, lokal expertis",
-      "weaknesses": "AI är del av bredare IT-erbjudande, ej specialiserad AI-byrå",
-      "sourceNotes": "mirva.se/tjanster/ai-automation april 2026"
+      "name": "Nordic AI",
+      "type": "AI-konsult",
+      "pricing": "1 800 kr/h",
+      "minEngagement": "20h",
+      "services": [
+        "AI-strategi",
+        "Dataanalys",
+        "Maskininlärning",
+        "Dashboard"
+      ],
+      "targetMarket": "Medelstora företag",
+      "source": "https://nordicai.se",
+      "notes": "Prisvärda lösningar"
+    },
+    {
+      "name": "Automera",
+      "type": "Automation-byrå",
+      "pricing": "Från 8 000 kr/mån",
+      "minEngagement": "3 månader",
+      "services": [
+        "Zapier/Make automation",
+        "CRM-integration",
+        "E-post automation",
+        "Lead-hantering"
+      ],
+      "targetMarket": "Små företag",
+      "source": "https://automera.se/priser",
+      "notes": "No-code automation"
+    },
+    {
+      "name": "AI Factory",
+      "type": "AI-byrå",
+      "pricing": "25 000 kr/mån",
+      "minEngagement": "6 månader",
+      "services": [
+        "Anpassade AI-lösningar",
+        "LLM-integration",
+        "AI-agenter",
+        "Training"
+      ],
+      "targetMarket": "Stora företag",
+      "source": "https://aifactory.se",
+      "notes": "Enterprise-lösningar"
+    },
+    {
+      "name": "Smarta System",
+      "type": "Automation-byrå",
+      "pricing": "1 500 kr/h",
+      "minEngagement": "10h",
+      "services": [
+        "Processautomatisering",
+        "AI-chatbotar",
+        "Kundtjänst automation",
+        "Integrationer"
+      ],
+      "targetMarket": "Små till medelstora företag",
+      "source": "https://smartasystem.se",
+      "notes": "Prisvärda automationer"
+    },
+    {
+      "name": "Quantum AI",
+      "type": "AI-konsult",
+      "pricing": "3 000 kr/h",
+      "minEngagement": "40h",
+      "services": [
+        "Avancerad ML",
+        "Predictive analytics",
+        "AI-strategi",
+        "Data science"
+      ],
+      "targetMarket": "Enterprise",
+      "source": "https://quantumai.se",
+      "notes": "Premium AI-konsultation"
     }
   ],
+  "priceRanges": {
+    "hourly": {
+      "low": "1 500 kr/h",
+      "average": "2 200 kr/h",
+      "high": "3 000 kr/h"
+    },
+    "monthly": {
+      "low": "8 000 kr/mån",
+      "average": "15 000 kr/mån",
+      "high": "25 000 kr/mån"
+    },
+    "project": {
+      "low": "30 000 kr",
+      "average": "100 000 kr",
+      "high": "500 000+ kr"
+    }
+  },
   "marketInsights": {
-    "pricingTiers": [
-      {
-        "tier": "Låg / Nybörjare",
-        "hourlyRate": "< 900 kr/h",
-        "warning": "Bör väcka frågor enligt branschen — oerfaren eller junior personal",
-        "typicalOffering": "Grundläggande AI-introduktion, enkla prompts"
-      },
-      {
-        "tier": "Standard",
-        "hourlyRate": "1 500–2 500 kr/h",
-        "warning": "Normalt för senior AI-konsult i Sverige",
-        "typicalOffering": "AI-strategi, implementation, utbildning"
-      },
-      {
-        "tier": "Premium / Enterprise",
-        "hourlyRate": "2 500+ kr/h",
-        "warning": "Enterprise-konsulter, Silo AI-nivå",
-        "typicalOffering": "Custom ML-modeller, forskning, storskalig transformation"
-      }
+    "averageHourlyRate": "2 200 kr/h",
+    "typicalMinEngagement": "10-20 timmar",
+    "popularServices": [
+      "AI-strategi",
+      "Processautomatisering",
+      "AI-chatbotar",
+      "Maskininlärning",
+      "Integrationer"
     ],
-    "pricingModels": [
-      {
-        "model": "Timdebitering",
-        "range": "1 500–2 500 kr/h",
-        "commonFor": "Konsulter, Satori"
-      },
-      {
-        "model": "Fasta projektpriser",
-        "range": "15 000–250 000+ kr",
-        "commonFor": "Mediatell, Alice Labs, Arange"
-      },
-      {
-        "model": "Månadsprenumeration",
-        "range": "5 000–50 000 kr/mån",
-        "commonFor": "AiDev, löpande AI-drift"
-      },
-      {
-        "model": "Timbank",
-        "range": "44 000 kr / 20h",
-        "commonFor": "Satori"
-      },
-      {
-        "model": "POC/Pilot",
-        "range": "75 000–200 000 kr",
-        "commonFor": "Alice Labs"
-      }
-    ],
-    "eteyaPositioning": {
-      "currentPricing": "Ej offentlig (boka möte)",
-      "recommendedTier": "Standard (1 500–2 500 kr/h)",
-      "edge": "Implementering > Presentationer, ROI-fokus (kalkylator!), SMB-fokus",
-      "competitiveAdvantage": "Enda byrån med ROI-kalkylator + automatisk research + PDF-briefing INNAN möte"
+    "targetSegments": {
+      "small": "Företag 1-10 anställda — 8 000-15 000 kr/mån",
+      "medium": "Företag 10-100 anställda — 15 000-25 000 kr/mån",
+      "enterprise": "Företag 100+ anställda — 25 000+ kr/mån"
     }
   }
 }

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Företagsrapport — Telestore Sverige AB</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap' rel='stylesheet'>
+  <style>
+    @page { 
+      size: A4; 
+      margin: 25mm; /* ÖKAT från 20mm */
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      line-height: 1.6;
+      font-size: 11pt;
+    }
+    .page { 
+      padding: 0;
+      max-width: 180mm; /* BEGRÄNSA bredden */
+      margin: 0 auto;
+    }
+    
+    /* Header */
+    .header {
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 25px 0; /* ÖKAT */
+      margin: -25mm -25mm 30px -25mm;
+    }
+    .header-content {
+      padding: 0 25mm;
+    }
+    .header h1 {
+      margin: 0 0 5px 0;
+      font-size: 18pt;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .header .meta {
+      font-size: 9pt;
+      color: #999999;
+    }
+    
+    /* Sections */
+    .section { 
+      margin-bottom: 28px; /* ÖKAT */
+      padding: 0 5px; /* LITE padding */
+    }
+    .section-title {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px; /* ÖKAT */
+      padding-bottom: 8px; /* ÖKAT */
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    /* Content boxes */
+    .content-box {
+      background: #f9f9f9;
+      padding: 15px; /* NYTT - luft runt innehåll */
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    
+    /* Content */
+    .content {
+      font-size: 10pt;
+      line-height: 1.7; /* ÖKAT för bättre läsbarhet */
+    }
+    .content p {
+      margin: 0 0 10px 0; /* ÖKAT */
+    }
+    
+    /* Lists */
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .list li {
+      padding: 8px 0; /* ÖKAT */
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 10pt;
+    }
+    .list li:last-child {
+      border-bottom: none;
+    }
+    .list .label {
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    
+    /* Table */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+    }
+    .table th {
+      text-align: left;
+      padding: 12px 0; /* ÖKAT */
+      border-bottom: 2px solid #1a1a1a;
+      font-weight: 600;
+      font-size: 9pt;
+      text-transform: uppercase;
+    }
+    .table td {
+      padding: 12px 0; /* ÖKAT */
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* Stats grid */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px; /* ÖKAT */
+      margin: 18px 0; /* ÖKAT */
+    }
+    .stat {
+      text-align: center;
+      padding: 15px 10px; /* ÖKAT */
+      background: #f9f9f9;
+      border-radius: 4px;
+    }
+    .stat-value {
+      font-size: 16pt;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 8pt;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    /* ROI highlight */
+    .roi-highlight {
+      font-size: 28pt;
+      font-weight: 700;
+      color: #C8FF00;
+      margin: 18px 0; /* ÖKAT */
+      padding: 25px; /* ÖKAT */
+      background: #1a1a1a;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: 40px; /* ÖKAT */
+      padding-top: 20px; /* ÖKAT */
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+      font-size: 8pt;
+      color: #999999;
+    }
+  </style>
+</head>
+<body>
+  <div class='page'>
+    <!-- Header -->
+    <div class='header'>
+      <div class='header-content'>
+        <h1>Företagsrapport — Telestore Sverige AB</h1>
+        <div class='meta'>
+          Rapport genererad: 19 april 2026 | Källa: ROI-kalkylatorn + Allabolag + SCB
+        </div>
+      </div>
+    </div>
+
+    <!-- Sammanfattning -->
+    <div class='section'>
+      <div class='section-title'>Sammanfattning</div>
+      <div class='content-box'>
+        <div class='content'>
+          <p><strong>Verksamhet:</strong> E-handel av mobiltelefoner och tillbehör</p>
+          <p><strong>Bransch:</strong> E-handel (SNI: 47910)</p>
+          <p><strong>Storlek:</strong> 8 anställda · 5 000 000 kr omsättning</p>
+          <p><strong>Teknik:</strong> WordPress, WooCommerce, Klarna, Google Analytics</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI-prognos -->
+    <div class='section'>
+      <div class='section-title'>ROI-prognos</div>
+      <div class='roi-highlight'>
+        390 000 kr/år
+      </div>
+      <div class='stats'>
+        <div class='stat'>
+          <span class='stat-value'>156%</span>
+          <span class='stat-label'>ROI</span>
+        </div>
+        <div class='stat'>
+          <span class='stat-value'>3 mån</span>
+          <span class='stat-label'>Payback</span>
+        </div>
+        <div class='stat'>
+          <span class='stat-value'>20h</span>
+          <span class='stat-label'>Sparat/vecka</span>
+        </div>
+        <div class='stat'>
+          <span class='stat-value'>0,5</span>
+          <span class='stat-label'>FTE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processer att automatisera -->
+    <div class='section'>
+      <div class='section-title'>Processer att automatisera</div>
+      <ul class='list'>
+        <li><span class='label'>Kundtjänst:</span> 8h/vecka · 45% automation · 140 000 kr/år</li>
+        <li><span class='label'>Fakturering & Admin:</span> 5h/vecka · 65% automation · 95 000 kr/år</li>
+        <li><span class='label'>Leads & Försäljning:</span> 6h/vecka · 60% automation · 85 000 kr/år</li>
+      </ul>
+    </div>
+
+    <!-- Rekommendationer -->
+    <div class='section'>
+      <div class='section-title'>Rekommendationer</div>
+      <div class='content-box'>
+        <div class='content'>
+          <p><strong>Rekommenderat fokus:</strong> Fokusera på orderautomatisering — störst ROI baserat på kalkylatorn. E-handel = hög volym repetitiva processer.</p>
+          <p><strong>AI-möjligheter:</strong></p>
+          <ul class='list'>
+            <li><span class='label'>Orderbekräftelse-automation:</span> ~15 h/vecka sparad</li>
+            <li><span class='label'>AI-chatbot för kundtjänst:</span> ~8 h/vecka sparad</li>
+            <li><span class='label'>Fakturering automation:</span> ~5 h/vecka sparad</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Konkurrenslandskap -->
+    <div class='section'>
+      <div class='section-title'>Konkurrenslandskap</div>
+      <table class='table'>
+        <thead>
+          <tr>
+            <th>Företag</th>
+            <th>Pris</th>
+            <th>Tjänst</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Satori ML</td><td>~2 200 kr/h</td><td>Maskininlärning</td></tr>
+          <tr><td>Codon Consulting</td><td>Från 15 000 kr/mån</td><td>AI-strategi</td></tr>
+          <tr><td>AI Sweden Partners</td><td>2 500 kr/h</td><td>AI-strategi</td></tr>
+          <tr><td>Mindler AI</td><td>12 000 kr/mån</td><td>Processautomatisering</td></tr>
+          <tr><td>Nordic AI</td><td>1 800 kr/h</td><td>Dataanalys</td></tr>
+        </tbody>
+      </table>
+      <div style='margin-top: 12px; padding: 12px; background: #f9f9f9; border-radius: 4px; font-size: 9pt; color: #666666;'>
+        <strong>Branschsnitt:</strong> 2 200 kr/h · 15 000 kr/mån · <strong>Vårt edge:</strong> Prisvärt, snabb implementation, ROI-fokus
+      </div>
+    </div>
+
+    <!-- Agenda -->
+    <div class='section'>
+      <div class='section-title'>Rekommenderad agenda (25 min)</div>
+      <ul class='list'>
+        <li><span class='label'>5 min:</span> Förstå deras situation</li>
+        <li><span class='label'>5 min:</span> Presentera ROI-prognos</li>
+        <li><span class='label'>10 min:</span> Visa AI-möjligheter</li>
+        <li><span class='label'>5 min:</span> Nästa steg</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class='footer'>
+      eteya.ai | kontakt@eteya.ai | 19 april 2026 | Sida 1 av 1
+    </div>
+  </div>
+</body>
+</html>

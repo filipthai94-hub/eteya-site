@@ -1,0 +1,103 @@
+{
+  "foretagsnamn": "Telestore Sverige AB",
+  "orgnr": "",
+  "adress": "",
+  "bransch": "Bransch [object Object]",
+  "sniKod": {
+    "code": "47401",
+    "description": "Detaljhandel med datorer, programvara, data- och tv-spel"
+  },
+  "antalAnstallda": 0,
+  "legalForm": "Övriga aktiebolag",
+  "verksamhet": "Verksamhetsbeskrivning saknas",
+  "techStack": [],
+  "kontakt": {
+    "email": "",
+    "telefon": ""
+  },
+  "scbStats": {
+    "genomsnittligLon": 45000,
+    "omsattningPerAnstalld": 600000
+  },
+  "roiPrognos": {
+    "besparingKr": 390000,
+    "roiProcent": 156,
+    "paybackManader": 3,
+    "sparatTimmar": 20,
+    "fte": 0.5
+  },
+  "processer": [
+    {
+      "namn": "Kundtjänst",
+      "timmar": 8,
+      "automation": 45,
+      "besparing": 140000
+    },
+    {
+      "namn": "Fakturering & Admin",
+      "timmar": 5,
+      "automation": 65,
+      "besparing": 95000
+    },
+    {
+      "namn": "Leads & Försäljning",
+      "timmar": 6,
+      "automation": 60,
+      "besparing": 85000
+    }
+  ],
+  "rekommendationer": {
+    "fokus": "Fokusera på orderautomatisering — störst ROI baserat på kalkylatorn. E-handel = hög volym repetitiva processer.",
+    "aiMojligheter": [
+      "Orderbekräftelse-automation: ~15 h/vecka sparad",
+      "AI-chatbot för kundtjänst: ~8 h/vecka sparad",
+      "Fakturering automation: ~5 h/vecka sparad"
+    ]
+  },
+  "konkurrens": [
+    {
+      "namn": "Satori ML",
+      "pris": "~2 200 kr/h",
+      "tjanst": "Maskininlärning"
+    },
+    {
+      "namn": "Codon Consulting",
+      "pris": "Från 15 000 kr/mån",
+      "tjanst": "AI-strategi"
+    },
+    {
+      "namn": "AI Sweden Partners",
+      "pris": "2 500 kr/h",
+      "tjanst": "AI-strategi"
+    },
+    {
+      "namn": "Mindler AI",
+      "pris": "12 000 kr/mån",
+      "tjanst": "Processautomatisering"
+    },
+    {
+      "namn": "Nordic AI",
+      "pris": "1 800 kr/h",
+      "tjanst": "Dataanalys"
+    }
+  ],
+  "agenda": [
+    {
+      "tid": "5 min",
+      "punkt": "Förstå deras situation"
+    },
+    {
+      "tid": "5 min",
+      "punkt": "Presentera ROI-prognos"
+    },
+    {
+      "tid": "10 min",
+      "punkt": "Visa AI-möjligheter"
+    },
+    {
+      "tid": "5 min",
+      "punkt": "Nästa steg"
+    }
+  ],
+  "genererad": "20 april 2026"
+}
