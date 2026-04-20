@@ -838,7 +838,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow-y: auto;
+  overflow: visible;
   padding: 24px;
   opacity: 0;
   transition: opacity 0.3s ease;

@@ -591,7 +591,7 @@ const hasPlayed = useRef(false)
           display: flex;
           align-items: flex-start;
           justify-content: center;
-          overflow-y: auto;
+          overflow: visible;
           padding: 24px;
           background: rgba(0, 0, 0, 0.75);
           backdrop-filter: blur(16px);
