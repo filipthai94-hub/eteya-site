@@ -376,14 +376,27 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get('x-cal-signature')
     const secret = process.env.CAL_WEBHOOK_SECRET
 
+    // Handle ping events (no signature required)
+    try {
+      const body = JSON.parse(rawBody)
+      if (body.event === 'PING' || body.triggerEvent === 'PING') {
+        console.log(' Ping received, responding with 200 OK')
+        return NextResponse.json({ ok: true, message: 'Ping received' })
+      }
+    } catch {
+      // Not JSON, continue with normal flow
+    }
+
     // Skip validation for test mode
     if (signature === 'test-skip-validation') {
       console.log('⚠️ Test mode: skipping signature validation')
     } else if (secret && signature) {
       if (!verifyCalSignature(rawBody, signature, secret)) {
+        console.error('❌ Invalid signature')
         return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
       }
     } else if (secret && !signature) {
+      console.error('❌ Missing signature')
       return NextResponse.json({ error: 'Missing signature' }, { status: 401 })
     }
     // If no CAL_WEBHOOK_SECRET, skip validation (dev-mode)
