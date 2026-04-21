@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
 import puppeteer from 'puppeteer-core'
 import chromium from '@sparticuz/chromium'
-import { generateHTML } from '../../../scripts/generate-briefing'
+import { generateHTML, type ResearchOutput, type ROIData, type BookingData } from '@/lib/generate-briefing-html'
 
 function verifyCalSignature(payload: string, signature: string, secret: string): boolean {
   const expected = createHmac('sha256', secret).update(payload).digest('hex')
@@ -110,11 +110,14 @@ async function sendEmailNotification(data: {
   }
 }
 
-async function uploadToSupabaseStorage(pdfBuffer: Buffer, filename: string): Promise<string> {
+async function uploadToSupabaseStorage(pdfData: Uint8Array | Buffer, filename: string): Promise<string> {
   const { ETEYA_SUPABASE_URL, ETEYA_SUPABASE_SERVICE_ROLE_KEY } = process.env
   if (!ETEYA_SUPABASE_URL || !ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase storage env vars missing')
   }
+
+  // Convert to Buffer for fetch body
+  const buffer = Buffer.from(pdfData)
 
   // Upload to Supabase Storage
   const uploadRes = await fetch(`${ETEYA_SUPABASE_URL}/storage/v1/object/briefings/${filename}`, {
@@ -124,7 +127,7 @@ async function uploadToSupabaseStorage(pdfBuffer: Buffer, filename: string): Pro
       Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
       'Content-Type': 'application/pdf',
     },
-    body: pdfBuffer,
+    body: buffer,
   })
 
   if (!uploadRes.ok) {
@@ -228,9 +231,8 @@ async function runResearchAndGeneratePDF(data: {
     
     const browser = await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
+      headless: true,
     })
 
     try {
@@ -310,6 +312,10 @@ async function runResearchAndGeneratePDF(data: {
       console.log('✅ PDF uploaded to Supabase:', pdfUrl)
       
       // Update lead record with PDF URL
+      if (!ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
+        throw new Error('ETEYA_SUPABASE_SERVICE_ROLE_KEY is undefined')
+      }
+      
       await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
         method: 'PATCH',
         headers: {
