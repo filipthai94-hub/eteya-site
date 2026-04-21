@@ -369,8 +369,17 @@ async function runResearchAndGeneratePDF(data: {
 }
 
 export async function POST(req: NextRequest) {
+  const startTime = Date.now()
+  console.log('\n=== WEBHOOK RECEIVED ===')
+  console.log('Timestamp:', new Date().toISOString())
+  console.log('Headers:', JSON.stringify({
+    'x-cal-signature': req.headers.get('x-cal-signature') ? '[PRESENT]' : '[MISSING]',
+    'content-type': req.headers.get('content-type'),
+  }, null, 2))
+  
   try {
     const rawBody = await req.text()
+    console.log('Raw body length:', rawBody.length)
 
     // Verify Cal.com webhook signature
     const signature = req.headers.get('x-cal-signature')
@@ -383,8 +392,9 @@ export async function POST(req: NextRequest) {
         console.log(' Ping received, responding with 200 OK')
         return NextResponse.json({ ok: true, message: 'Ping received' })
       }
+      console.log('Event type:', body.event || body.triggerEvent)
     } catch {
-      // Not JSON, continue with normal flow
+      console.log('Not JSON, continue with normal flow')
     }
 
     // Skip validation for test mode
@@ -395,11 +405,13 @@ export async function POST(req: NextRequest) {
         console.error('❌ Invalid signature')
         return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
       }
+      console.log('✅ Signature verified')
     } else if (secret && !signature) {
       console.error('❌ Missing signature')
       return NextResponse.json({ error: 'Missing signature' }, { status: 401 })
+    } else {
+      console.log('⚠️ No secret configured, skipping validation')
     }
-    // If no CAL_WEBHOOK_SECRET, skip validation (dev-mode)
 
     const body = JSON.parse(rawBody)
 
@@ -448,12 +460,29 @@ export async function POST(req: NextRequest) {
     }
 
     // Save to Supabase + notify Discord in parallel
-    await Promise.allSettled([
+    console.log('\n=== SAVING TO SUPABASE ===')
+    console.log('Lead data:', JSON.stringify({ name, email, company, service }, null, 2))
+    
+    const [saveResult, discordResult] = await Promise.allSettled([
       saveToSupabase(leadData),
       notifyDiscord({ name, company, service, bookingDate: formattedDate }),
     ])
+    
+    console.log('Supabase save result:', saveResult.status)
+    console.log('Discord notify result:', discordResult.status)
+    
+    if (saveResult.status === 'rejected') {
+      console.error('❌ Supabase save failed:', saveResult.reason)
+    }
+    if (discordResult.status === 'rejected') {
+      console.error('❌ Discord notify failed:', discordResult.reason)
+    }
 
     // Generate PDF (await to ensure completion before response)
+    console.log('\n=== GENERATING PDF ===')
+    console.log('Company:', company)
+    console.log('ROI data:', roiData ? 'PRESENT' : 'MISSING')
+    
     await runResearchAndGeneratePDF({
       name,
       email,
@@ -463,6 +492,9 @@ export async function POST(req: NextRequest) {
       roiData: leadData.roiData,
       bookingDate,
     })
+    
+    console.log('\n=== WEBHOOK COMPLETE ===')
+    console.log('Total execution time: ~', ((Date.now() - startTime) / 1000).toFixed(2), 's')
 
     return NextResponse.json({ ok: true })
   } catch (error) {
