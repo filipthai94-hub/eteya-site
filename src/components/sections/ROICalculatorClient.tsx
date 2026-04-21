@@ -40,9 +40,6 @@ const PROC_COLORS: Record<string, string> = {
   kommunikation: '#2A3800',
 }
 
-const PROC_LABELS: Record<string, string> = {}
-const PROC_RATE_LABELS: Record<string, string> = {}
-
 const DEFAULTS: Record<string, { on: boolean; hours: number }> = {
   kundtjanst:    { on: true,  hours: 8  },
   fakturering:   { on: true,  hours: 5  },
@@ -74,7 +71,7 @@ function DonutChart({
   centerValue,
   centerLabel,
 }: {
-  segments: { color: string; pct: number; label: string; value: string }[]
+  segments: { color: string; pct: number; key: string; value: string }[]
   centerValue: string
   centerLabel: string
 }) {
@@ -295,7 +292,7 @@ export default function ROITestClient() {
       .map(k => ({
         color: PROC_COLORS[k],
         pct:   perProc[k] / (totalSav || 1),
-        label: PROC_LABELS[k],
+        key:   k,
         value: fmtK(perProc[k] * F1),
       }))
 
@@ -351,7 +348,6 @@ export default function ROITestClient() {
       .filter(([key, p]) => p.on)
       .map(([key, p]) => ({
         key,
-        label: PROC_LABELS[key],
         hoursPerWeek: p.hours,
         automationRate: RATES[key],
         annualSavings: p.hours * RATES[key] * 52 * HOURLY,
@@ -561,7 +557,7 @@ export default function ROITestClient() {
                     {totals.donutSegs.map((seg, i) => (
                       <div key={i} className={s.legendItem}>
                         <span className={s.legendDot} style={{ background: seg.color }} />
-                        <span className={s.legendText}>{seg.label}</span>
+                        <span className={s.legendText}>{t(`processes.${seg.key}.name`)}</span>
                         <span className={s.legendValue}>{seg.value}</span>
                       </div>
                     ))}

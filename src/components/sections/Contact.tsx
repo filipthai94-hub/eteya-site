@@ -21,8 +21,16 @@ declare global {
 
 function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
   const { pending } = useFormStatus()
+  const [turnstileReady, setTurnstileReady] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.turnstile) {
+      setTurnstileReady(true)
+    }
+  }, [])
+
   return (
-    <ButtonStripe type="submit" disabled={pending || !window.turnstile} fullWidth>
+    <ButtonStripe type="submit" disabled={pending || !turnstileReady} fullWidth>
       {pending ? loadingLabel : label}
     </ButtonStripe>
   )

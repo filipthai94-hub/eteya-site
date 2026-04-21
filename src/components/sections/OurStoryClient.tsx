@@ -51,7 +51,7 @@ export default function OurStoryClient({
     <section
       ref={sectionRef}
       style={{
-        backgroundColor: '#0a0a0a',  // Samma som startsidan
+        backgroundColor: '#080808',  // Korrekt huvudbakgrund
         paddingTop: '6rem',
         paddingBottom: '6rem',
         position: 'relative',

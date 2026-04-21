@@ -19,7 +19,6 @@ export interface ROIData {
   year3?: number
   processes?: {
     key: string
-    label: string
     hoursPerWeek: number
     automationRate: number
     annualSavings: number
@@ -40,6 +39,7 @@ function fmtK(n: number) {
 
 export default function ContactCard({ onClose, roiData, showContactInfo = true }: ContactCardProps) {
   const t = useTranslations('contactCard')
+  const tCalc = useTranslations('calculator')
   const services = t.raw('services') as { value: string; label: string }[]
   const [step, setStep] = useState<1 | 2>(1)
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
@@ -147,7 +147,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
         config["metadata[roiProcesses]"] = JSON.stringify(
           roiData.processes.map(p => ({
             k: p.key,
-            l: p.label,
+            l: tCalc(`processes.${p.key}.name`),
             h: p.hoursPerWeek,
             r: p.automationRate,
           }))
@@ -349,7 +349,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 <div className={styles.roiProcesses}>
                   {roiData.processes.map((p) => (
                     <span key={p.key} className={styles.roiProcessTag}>
-                      {p.label}
+                      {tCalc(`processes.${p.key}.name`)}
                     </span>
                   ))}
                 </div>

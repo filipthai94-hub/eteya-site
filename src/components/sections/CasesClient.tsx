@@ -248,7 +248,7 @@ const CSS = `
     position: relative; overflow: hidden;
     border-radius: 12px; aspect-ratio: 16/10;
     border: 1px solid rgba(var(--rgb-white), 0.08);
-    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    background: #080808;
     display: flex; align-items: center; justify-content: center;
     padding: 2rem;
   }
@@ -305,7 +305,7 @@ const CSS = `
     opacity: 0;
     transform: translate3d(0, 0.65rem, 0) scale(1.03);
     transition: opacity 320ms ease;
-    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    background: #080808;
     --ts-pan-end: -260px;
     --ts-scale: 1.22;
     --ts-duration: 7.4s;

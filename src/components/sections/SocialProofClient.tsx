@@ -53,7 +53,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
     <section 
       ref={sectionRef} 
       style={{ 
-        backgroundColor: '#0a0a0a', 
+        backgroundColor: '#080808', 
         paddingTop: '6rem', 
         paddingBottom: '6rem'
       }}

@@ -58,7 +58,7 @@ export default function TeamClient({ label, heading, members }: {
     <section 
       ref={sectionRef} 
       style={{ 
-        backgroundColor: '#0a0a0a', 
+        backgroundColor: '#080808', 
         paddingTop: '8rem', 
         paddingBottom: '8rem'
       }}
