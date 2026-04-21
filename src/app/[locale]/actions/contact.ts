@@ -12,13 +12,28 @@ const schema = z.object({
 })
 
 export async function sendContactEmail(_prevState: unknown, formData: FormData) {
-  const result = schema.safeParse(Object.fromEntries(formData))
+  const rawData = Object.fromEntries(formData)
+  console.log(' Rådata från formulär:', rawData)
+  
+  const result = schema.safeParse(rawData)
   if (!result.success) {
     const fieldErrors = result.error.flatten().fieldErrors
+    console.log('❌ Valideringsfel:', fieldErrors)
+    
+    // Bygg detaljerat felmeddelande
+    const errors: string[] = []
+    if (fieldErrors.name) errors.push('Namn är ogiltigt')
+    if (fieldErrors.email) errors.push('Email är ogiltigt')
+    if (fieldErrors.message) errors.push('Meddelandet är för kort (minst 10 tecken)')
+    if (fieldErrors['cf-turnstile-response']) errors.push('Spam-skydd saknas eller är ogiltigt')
+    if (fieldErrors.website) errors.push('Website fältet får inte fyllas i')
+    
+    console.log('❌ Detaljerade fel:', errors)
+    
     if (fieldErrors['cf-turnstile-response']?.[0]) {
       return { error: 'Spam-skydd misslyckades. Försök igen.' }
     }
-    return { error: 'Ogiltiga uppgifter. Kontrollera formuläret.' }
+    return { error: `Ogiltiga uppgifter: ${errors.join(', ')}` }
   }
   if (result.data.website) return { success: true }
 
