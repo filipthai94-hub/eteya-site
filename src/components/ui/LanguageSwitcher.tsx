@@ -62,7 +62,7 @@ export default function LanguageSwitcher({ inMobileMenu = false }: { inMobileMen
         aria-label={`Current language: ${locale === 'sv' ? 'Svenska' : 'English'}`}
         aria-expanded={isOpen}
       >
-        <span className="en-lang-label">{locale === 'sv' ? 'SWEDEN' : 'SWEDEN'}</span>
+        <span className="en-lang-label">{locale === 'sv' ? 'Sweden' : 'Sweden'}</span>
         <span className="en-lang-paren">(</span>
         <span className="en-lang-code">{locale.toUpperCase()}</span>
         <span className={`en-lang-arrow${isOpen ? ' is-open' : ''}`}>▾</span>
