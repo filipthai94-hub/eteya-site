@@ -58,7 +58,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
         paddingBottom: '6rem'
       }}
     >
-      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
+      <div className="social-proof-container" style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 2rem' }}>
         {/* Header */}
         <div style={{ 
           textAlign: 'center', 
@@ -90,7 +90,7 @@ export default function SocialProofClient({ title, subtitle, customers }: {
         </div>
 
         {/* Customer Cards Grid */}
-        <div style={{
+        <div className="customer-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '2rem',
@@ -211,19 +211,29 @@ export default function SocialProofClient({ title, subtitle, customers }: {
 
       {/* Mobile responsive */}
       <style>{`
+        .social-proof-container {
+          padding: 0 2rem;
+        }
+        .customer-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 2rem;
+        }
         @media (max-width: 767px) {
           section[style*="background-color"] {
             padding-top: 4rem !important;
             padding-bottom: 4rem !important;
           }
-          section[style*="background-color"] > div {
+          .social-proof-container {
             padding: 0 1.5rem !important;
           }
-          section[style*="background-color"] > div > div:last-child {
+          .customer-grid {
             grid-template-columns: 1fr !important;
             gap: 1.5rem !important;
           }
-          section[style*="background-color"] [data-customer] {
+          .customer-grid [data-customer] {
+            width: 100% !important;
+            max-width: 100% !important;
             padding: 1.5rem !important;
           }
         }

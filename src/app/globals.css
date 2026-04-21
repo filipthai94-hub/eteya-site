@@ -12,6 +12,17 @@
   --font-display: 'Barlow Condensed', sans-serif;
   --nav-height: 60px;
   --nav-gap: 26px;
+  --vault-scale: 1;
+}
+
+@media (max-width: 1500px) {
+  :root { --vault-scale: 0.85; }
+}
+@media (max-width: 1300px) {
+  :root { --vault-scale: 0.70; }
+}
+@media (max-width: 1050px) {
+  :root { --vault-scale: 0.55; }
 }
 
 /* Force white links in privacy policy */

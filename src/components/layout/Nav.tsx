@@ -571,6 +571,18 @@ export default function Nav() {
           .en-menu-copied{font-size:24px;letter-spacing:-.96px;line-height:31.2px}
           .en-menu-footer a{font-size:11.6px;letter-spacing:-.232px}
           .en-menu-badge{font-size:11.6px;letter-spacing:-.348px}
+          .en-logo-text{font-size:22px;line-height:17.6px;letter-spacing:-0.66px}
+          .en-logo-c{font-size:5.5px}
+          .en-ham-btn{width:39.6px;height:13.2px}
+          .en-line-top{width:19.8px}
+          .en-line-mid{width:39.6px;top:5.5px}
+          .en-line-bot{width:19.8px;top:11px;left:19.8px}
+          .en-ham-btn:not(.is-open):hover .en-line-top{width:39.6px}
+          .en-ham-btn:not(.is-open):hover .en-line-bot{width:39.6px;left:0}
+          .en-ham-btn.is-open{width:26.4px;height:26.4px}
+          .en-ham-btn.is-open .en-line-top{width:26.4px;top:12.1px}
+          .en-ham-btn.is-open .en-line-mid{width:26.4px;top:12.1px}
+          .en-location-city,.en-location-time,.en-work-text span,.en-work-count{font-size:15.95px;line-height:23.925px}
           
           /* Mobile only: show lang under location */
           @media(max-width:809px){

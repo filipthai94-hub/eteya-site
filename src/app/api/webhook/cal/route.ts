@@ -438,13 +438,21 @@ export async function POST(req: NextRequest) {
     console.log('payload.title:', payload.title)
     console.log('payload.description:', payload.description)
 
-    // Extract data
-    const name = payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title ?? ''
-    const email = payload?.responses?.email ?? payload?.attendees?.[0]?.email ?? ''
-    const company = payload?.metadata?.company ?? payload?.responses?.company ?? ''
-    const website = payload?.metadata?.website ?? null
-    const service = payload?.title ?? ''
-    const description = payload?.description ?? payload?.responses?.notes ?? ''
+    // Helper to extract value from { label, value } objects
+    const extractValue = (field: any): string => {
+      if (!field) return ''
+      if (typeof field === 'string') return field
+      if (typeof field === 'object' && field.value) return String(field.value)
+      return ''
+    }
+
+    // Extract data (handle { label, value } format from Cal.com)
+    const name = extractValue(payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title)
+    const email = extractValue(payload?.responses?.email ?? payload?.attendees?.[0]?.email)
+    const company = extractValue(payload?.metadata?.company ?? payload?.responses?.company)
+    const website = extractValue(payload?.metadata?.website) || null
+    const service = extractValue(payload?.title)
+    const description = extractValue(payload?.description ?? payload?.responses?.notes)
     
     // Build roiData from separate metadata fields (sent from ContactCard)
     const roiData = payload?.metadata?.annualSavings ? {
