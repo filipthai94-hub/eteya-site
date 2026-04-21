@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
-import puppeteer from 'puppeteer-core'
-import chromium from '@sparticuz/chromium'
 import { generateHTML, type ResearchOutput, type ROIData, type BookingData } from '@/lib/generate-briefing-html'
 
 function verifyCalSignature(payload: string, signature: string, secret: string): boolean {
@@ -70,7 +68,7 @@ async function sendEmailNotification(data: {
   company: string
   service: string
   bookingDate: string
-  pdfUrl: string
+  htmlUrl: string
 }) {
   const { RESEND_API_KEY } = process.env
   if (!RESEND_API_KEY) {
@@ -94,15 +92,9 @@ async function sendEmailNotification(data: {
         <p><strong>Tjänst:</strong> ${data.service}</p>
         <p><strong>Bokad tid:</strong> ${data.bookingDate}</p>
         <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 20px 0;" />
-        <p><strong>📄 Sales Briefing PDF:</strong> <a href="${data.pdfUrl}">Ladda ner briefing</a></p>
+        <p><strong>📄 Sales Briefing:</strong> <a href="${data.htmlUrl}">Öppna briefing</a></p>
         <p style="color: #666; font-size: 12px; margin-top: 30px;">Automatiskt genererad briefing baserad på företagsdata från Apiverket och SCB.</p>
       `,
-      attachments: [
-        {
-          filename: `briefing-${data.company.replace(/[^a-z0-9]/gi, '-')}.pdf`,
-          path: data.pdfUrl,
-        },
-      ],
     })
     console.log('✅ Email notification sent to kontakt@eteya.ai')
   } catch (error) {
@@ -110,14 +102,11 @@ async function sendEmailNotification(data: {
   }
 }
 
-async function uploadToSupabaseStorage(pdfData: Uint8Array | Buffer, filename: string): Promise<string> {
+async function uploadHtmlToSupabase(htmlContent: string, filename: string): Promise<string> {
   const { ETEYA_SUPABASE_URL, ETEYA_SUPABASE_SERVICE_ROLE_KEY } = process.env
   if (!ETEYA_SUPABASE_URL || !ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase storage env vars missing')
   }
-
-  // Convert to Buffer for fetch body
-  const buffer = Buffer.from(pdfData)
 
   // Upload to Supabase Storage
   const uploadRes = await fetch(`${ETEYA_SUPABASE_URL}/storage/v1/object/briefings/${filename}`, {
@@ -125,9 +114,9 @@ async function uploadToSupabaseStorage(pdfData: Uint8Array | Buffer, filename: s
     headers: {
       apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
       Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'text/html; charset=utf-8',
     },
-    body: buffer,
+    body: htmlContent,
   })
 
   if (!uploadRes.ok) {
@@ -139,7 +128,7 @@ async function uploadToSupabaseStorage(pdfData: Uint8Array | Buffer, filename: s
   return `${ETEYA_SUPABASE_URL}/storage/v1/object/public/briefings/${filename}`
 }
 
-async function runResearchAndGeneratePDF(data: {
+async function runResearchAndGenerateHTML(data: {
   name: string
   email: string
   company: string
@@ -247,124 +236,100 @@ async function runResearchAndGeneratePDF(data: {
       }),
     }
 
-    // Step 3: Generate PDF using Puppeteer + @sparticuz/chromium
-    console.log(' Generating PDF with Puppeteer...')
+    // Step 3: Generate HTML (no Puppeteer needed!)
+    console.log(' Generating HTML briefing...')
     
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: true,
-    })
-
-    try {
-      const page = await browser.newPage()
-      
-      // Generate HTML
-      const html = generateHTML(
-        {
-          company: {
-            name: briefingData.foretagsnamn,
-            website: 'https://' + briefingData.orgnr,
-            description: briefingData.verksamhet,
-            industry: briefingData.bransch,
-            employees: briefingData.antalAnstallda,
-            revenue: briefingData.omsattning,
-            techStack: briefingData.techStack,
-          },
-          industry: {
-            sniCode: briefingData.sniKod,
-            averageRevenue: briefingData.scbStats?.omsattningPerAnstalld || 0,
-            employeeGrowth: 'N/A',
-          },
-          competitors: briefingData.konkurrens.map(k => ({
-            name: k.namn,
-            pricing: k.pris,
-            service: k.tjanst,
-            source: '',
-          })),
-          aiOpportunities: briefingData.rekommendationer.aiMojligheter.map((ai, i) => ({
-            title: ai,
-            description: ai,
-            estimatedSavings: '~10 h/vecka',
-            priority: i === 0 ? 'high' : i === 1 ? 'high' : 'medium' as 'high' | 'medium' | 'low',
-          })),
-          roiValidation: {
-            claimed: briefingData.roiPrognos.besparingKr,
-            realistic: briefingData.roiPrognos.besparingKr,
-            confidence: 'high' as 'high' | 'medium' | 'low',
-            notes: 'ROI-prognos baserad på kalkylatorn',
-          },
-          recommendedFocus: briefingData.rekommendationer.fokus,
+    const html = generateHTML(
+      {
+        company: {
+          name: briefingData.foretagsnamn,
+          website: 'https://' + briefingData.orgnr,
+          description: briefingData.verksamhet,
+          industry: briefingData.bransch,
+          employees: briefingData.antalAnstallda,
+          revenue: briefingData.omsattning,
+          techStack: briefingData.techStack,
         },
-        {
-          annualSavings: briefingData.roiPrognos.besparingKr,
-          totalHours: briefingData.roiPrognos.sparatTimmar,
-          fte: briefingData.roiPrognos.fte,
-          roi: briefingData.roiPrognos.roiProcent,
-          payback: briefingData.roiPrognos.paybackManader,
-          hourlyRate: 350,
-          year1: briefingData.roiPrognos.besparingKr,
-          year2: briefingData.roiPrognos.besparingKr * 2,
-          year3: briefingData.roiPrognos.besparingKr * 3,
+        industry: {
+          sniCode: briefingData.sniKod,
+          averageRevenue: briefingData.scbStats?.omsattningPerAnstalld || 0,
+          employeeGrowth: 'N/A',
         },
-        {
-          contactName: data.name,
-          contactEmail: data.email,
-          bookingTime: data.bookingDate,
-          service: data.service,
-        }
-      )
-      
-      await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 })
-      console.log('✅ HTML loaded in browser')
-      
-      // Generate PDF
-      const pdfBuffer = await page.pdf({
-        format: 'A4',
-        printBackground: true,
-        margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' },
-      })
-      
-      console.log('✅ PDF generated, size:', (pdfBuffer.length / 1024).toFixed(2), 'KB')
-      
-      // Step 4: Upload to Supabase Storage
-      const filename = `briefing-${company.orgnr}-${Date.now()}.pdf`
-      const pdfUrl = await uploadToSupabaseStorage(pdfBuffer, filename)
-      console.log('✅ PDF uploaded to Supabase:', pdfUrl)
-      
-      // Update lead record with PDF URL
-      if (!ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
-        throw new Error('ETEYA_SUPABASE_SERVICE_ROLE_KEY is undefined')
-      }
-      
-      await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
-        method: 'PATCH',
-        headers: {
-          apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
-          Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
+        competitors: briefingData.konkurrens.map(k => ({
+          name: k.namn,
+          pricing: k.pris,
+          service: k.tjanst,
+          source: '',
+        })),
+        aiOpportunities: briefingData.rekommendationer.aiMojligheter.map((ai, i) => ({
+          title: ai,
+          description: ai,
+          estimatedSavings: '~10 h/vecka',
+          priority: i === 0 ? 'high' : i === 1 ? 'high' : 'medium' as 'high' | 'medium' | 'low',
+        })),
+        roiValidation: {
+          claimed: briefingData.roiPrognos.besparingKr,
+          realistic: briefingData.roiPrognos.besparingKr,
+          confidence: 'high' as 'high' | 'medium' | 'low',
+          notes: 'ROI-prognos baserad på kalkylatorn',
         },
-        body: JSON.stringify({ briefing_pdf_url: pdfUrl }),
-      })
-      console.log('✅ Lead record updated with PDF URL')
-      
-      // Step 5: Send email notification with PDF attachment
-      await sendEmailNotification({
-        name: data.name,
-        email: data.email,
-        company: data.company,
+        recommendedFocus: briefingData.rekommendationer.fokus,
+      },
+      {
+        annualSavings: briefingData.roiPrognos.besparingKr,
+        totalHours: briefingData.roiPrognos.sparatTimmar,
+        fte: briefingData.roiPrognos.fte,
+        roi: briefingData.roiPrognos.roiProcent,
+        payback: briefingData.roiPrognos.paybackManader,
+        hourlyRate: 350,
+        year1: briefingData.roiPrognos.besparingKr,
+        year2: briefingData.roiPrognos.besparingKr * 2,
+        year3: briefingData.roiPrognos.besparingKr * 3,
+      },
+      {
+        contactName: data.name,
+        contactEmail: data.email,
+        bookingTime: data.bookingDate,
         service: data.service,
-        bookingDate: new Date(data.bookingDate).toLocaleDateString('sv-SE', { dateStyle: 'long' }),
-        pdfUrl,
-      })
-      
-    } finally {
-      await browser.close()
+      }
+    )
+    
+    console.log('✅ HTML generated, size:', (html.length / 1024).toFixed(2), 'KB')
+    
+    // Step 4: Upload HTML to Supabase Storage
+    const filename = `briefing-${company.orgnr}-${Date.now()}.html`
+    const htmlUrl = await uploadHtmlToSupabase(html, filename)
+    console.log('✅ HTML uploaded to Supabase:', htmlUrl)
+    
+    // Update lead record with HTML URL
+    if (!ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error('ETEYA_SUPABASE_SERVICE_ROLE_KEY is undefined')
     }
     
+    await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ briefing_html_url: htmlUrl }),
+    })
+    console.log('✅ Lead record updated with HTML URL')
+    
+    // Step 5: Send email notification with HTML link
+    await sendEmailNotification({
+      name: data.name,
+      email: data.email,
+      company: data.company,
+      service: data.service,
+      bookingDate: new Date(data.bookingDate).toLocaleDateString('sv-SE', { dateStyle: 'long' }),
+      htmlUrl,
+    })
+    
   } catch (error) {
-    console.error('Research/PDF pipeline error:', error)
+    console.error('Research/HTML pipeline error:', error)
   }
 }
 
@@ -502,12 +467,12 @@ export async function POST(req: NextRequest) {
       console.error('❌ Discord notify failed:', discordResult.reason)
     }
 
-    // Generate PDF (await to ensure completion before response)
-    console.log('\n=== GENERATING PDF ===')
+    // Generate HTML (await to ensure completion before response)
+    console.log('\n=== GENERATING HTML BRIEFING ===')
     console.log('Company:', company)
     console.log('ROI data:', roiData ? 'PRESENT' : 'MISSING')
     
-    await runResearchAndGeneratePDF({
+    await runResearchAndGenerateHTML({
       name,
       email,
       company,

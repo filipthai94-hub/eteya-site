@@ -83,6 +83,7 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     }
 
     function drawBeam(beam: Beam) {
+      if (!ctx) return
       ctx.save();
       ctx.translate(beam.x, beam.y);
       ctx.rotate((beam.angle * Math.PI) / 180);
@@ -107,7 +108,7 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     observer.observe(container);
 
     function animate() {
-      if (!isVisibleRef.current || prefersReducedMotion) {
+      if (!isVisibleRef.current || prefersReducedMotion || !ctx) {
         animationFrameRef.current = requestAnimationFrame(animate);
         return;
       }
