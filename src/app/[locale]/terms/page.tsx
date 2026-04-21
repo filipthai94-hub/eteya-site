@@ -12,9 +12,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'terms.meta' })
-
-  const svPath = '/sv/villkor'
-  const enPath = '/en/terms'
+  
+  const svPath = '/villkor'
+  const enPath = '/terms'
+  const currentPath = locale === 'sv' ? svPath : enPath
 
   return {
     title: t('title'),

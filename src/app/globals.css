@@ -14,6 +14,16 @@
   --nav-gap: 26px;
 }
 
+/* Force white links in privacy policy */
+.page a[href*="mailto"] {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.page a[href*="mailto"]:hover {
+  text-decoration: underline;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 .page-transition-overlay {

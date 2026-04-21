@@ -42,9 +42,9 @@
     },
     "footer": {
       "privacy": "Integritetspolicy",
-      "privacyHref": "/sv/integritetspolicy",
+      "privacyHref": "/integritetspolicy",
       "terms": "Villkor",
-      "termsHref": "/sv/villkor",
+      "termsHref": "/villkor",
       "copyright": "© 2026 Eteya"
     },
     "email": "kontakt@eteya.ai"
@@ -1367,12 +1367,7 @@
   },
   "privacy": {
     "title": "Integritetspolicy",
-    "schema": {
-      "name": "Integritetspolicy — GDPR & Personuppgifter | Eteya",
-      "description": "Eteya Consulting ABs integritetspolicy. Vi följer GDPR och behandlar dina personuppgifter säkert och transparent.",
-      "url": "https://eteya.ai/sv/villkor",
-      "inLanguage": "sv-SE"
-    },
+    "description": "Eteya Consulting ABs integritetspolicy. Vi följer GDPR och behandlar dina personuppgifter säkert och transparent.",
     "sections": [
       {
         "marker": "Personuppgiftsansvarig",
@@ -1384,11 +1379,115 @@
         "marker": "",
         "heading": "",
         "type": "text",
-        "content": "Vid frågor om integritet och personuppgifter, kontakta oss på: <a href=\"mailto:contact@eteya.ai\" class=\"link\">contact@eteya.ai</a>"
+        "content": "Vid frågor om integritet och personuppgifter, kontakta oss på: <strong>Kontakt@eteya.ai</strong>"
+      },
+      {
+        "marker": "Personuppgifter",
+        "heading": "Vilka personuppgifter samlar vi in?",
+        "type": "list",
+        "items": [
+          "<strong>Grundläggande information:</strong> namn, e-postadress",
+          "<strong>Teknisk information:</strong> IP-adress, webbläsartyp, operativsystem",
+          "<strong>Kommunikation:</strong> e-postkorrespondens, mötesanteckningar"
+        ]
+      },
+      {
+        "marker": "Rättslig grund",
+        "heading": "Varför behandlar vi dina personuppgifter?",
+        "type": "list",
+        "items": [
+          "<strong>För att tillhandahålla våra tjänster (GDPR Art. 6(1)(b)):</strong> Avtalsuppfyllelse: Vi behandlar uppgifter som krävs för att leverera våra tjänster till dig som kund eller leverantör.",
+          "<strong>För kundsupport (GDPR Art. 6(1)(b)):</strong> Avtalsuppfyllelse: Vi behandlar uppgifter för att ge dig support och svara på dina frågor.",
+          "<strong>För marknadsföring (GDPR Art. 6(1)(a)):</strong> Samtycke: Vi skickar nyhetsbrev och marknadsföring endast om du har gett oss ditt samtycke. Du kan när som helst återkalla ditt samtycke.",
+          "<strong>För affärsutveckling (GDPR Art. 6(1)(f)):</strong> Legitima intressen: Vi behandlar företagskontaktuppgifter för att marknadsföra våra tjänster till relevanta beslutsfattare. Vårt legitima intresse är att utveckla vår verksamhet. Vi gör en intresseavvägning där dina rättigheter väger tyngre om du invändar."
+        ]
+      },
+      {
+        "marker": "",
+        "heading": "",
+        "type": "text",
+        "content": "<strong>Rätt att återkalla samtycke:</strong> Om behandlingen baseras på ditt samtycke har du alltid rätt att återkalla det när som helst. Återkallelsen påverkar inte behandling som har skett innan återkallelsen."
+      },
+      {
+        "marker": "Lagringstid",
+        "heading": "Hur länge sparar vi dina uppgifter?",
+        "type": "list",
+        "items": [
+          "<strong>Kunddata:</strong> Avtalet löper + 3 år",
+          "<strong>Marknadsföring:</strong> Tills avregistrering eller 2 år",
+          "<strong>Teknisk data:</strong> 12 månader"
+        ]
+      },
+      {
+        "marker": "GDPR",
+        "heading": "Dina rättigheter enligt GDPR",
+        "type": "list",
+        "items": [
+          "Rätt till registerutdrag",
+          "Rätt till rättelse",
+          "Rätt till radering",
+          "Rätt till begränsning av behandling",
+          "Rätt till dataportabilitet",
+          "Rätt att invända mot behandling",
+          "Rätt att återkalla samtycke"
+        ]
+      },
+      {
+        "marker": "Tredje part",
+        "heading": "Delar vi dina uppgifter med tredje part?",
+        "type": "list",
+        "items": [
+          "<strong>Underleverantörer:</strong> Hosting, e-posttjänster, CRM-system",
+          "<strong>Myndigheter:</strong> Endast vid lagkrav",
+          "<strong>Internationella överföringar:</strong> Vissa av våra underleverantörer (t.ex. Google, Microsoft) kan behandla data utanför EU/EES, främst i USA. Vi skyddar dina uppgifter genom EU-kommissionens standardavtalsklausuler och ytterligare tekniska åtgärder. Kontakta oss för mer information."
+        ]
+      },
+      {
+        "marker": "Skydd",
+        "heading": "Säkerhet",
+        "type": "list",
+        "items": [
+          "Kryptering av data i transit och vid lagring",
+          "Tillgångskontroll och behörighetsstyrning",
+          "Regelbundna säkerhetsgranskningar"
+        ]
+      },
+      {
+        "marker": "Cookies",
+        "heading": "Cookies",
+        "type": "cookies",
+        "content": "För information om hur vi använder cookies, se vår <link>cookie-policy</link>.",
+        "linkHref": "/sv/cookie-policy",
+        "linkLabel": "cookie-policy"
+      },
+      {
+        "marker": "Klagomål",
+        "heading": "Klagomål",
+        "type": "complaint",
+        "content": "Om du har klagomål på vår behandling av personuppgifter kan du kontakta Integritetsskyddsmyndigheten (IMY):",
+        "linkHref": "https://www.imy.se",
+        "linkLabel": "www.imy.se"
+      },
+      {
+        "marker": "Uppdaterad",
+        "heading": "Ändringar",
+        "type": "text",
+        "content": "Senast uppdaterad: <strong>2026-04-11</strong>"
       }
-    ]
+    ],
+    "schema": {
+      "name": "Integritetspolicy — GDPR & Personuppgifter | Eteya",
+      "description": "Eteya Consulting ABs integritetspolicy. Vi följer GDPR och behandlar dina personuppgifter säkert och transparent.",
+      "url": "https://eteya.ai/sv/integritetspolicy",
+      "inLanguage": "sv-SE"
+    },
+    "readMore": "Läs mer"
   },
   "terms": {
+    "meta": {
+      "title": "Allmänna Villkor | Eteya",
+      "description": "Allmänna villkor för Eteya Consulting AB AI-automationstjänster. Läs om ångerrätt, reklamation, betalning och mer."
+    },
     "title": "Allmänna Villkor",
     "schema": {
       "name": "Allmänna Villkor — Eteya Consulting AB",
@@ -1441,7 +1540,7 @@
         "marker": "Ångerrätt",
         "heading": "14 dagars ångerrätt",
         "type": "text",
-        "content": "Som konsument har du 14 dagars ångerrätt enligt distansavtalslagen. Ångerfristen räknas från avtalsingången. För att utöva ångerrätten, kontakta oss på contact@eteya.ai."
+        "content": "Som konsument har du 14 dagars ångerrätt enligt distansavtalslagen. Ångerfristen räknas från avtalsingången. För att utöva ångerrätten, kontakta oss på Kontakt@eteya.ai."
       },
       {
         "marker": "Reklamation",

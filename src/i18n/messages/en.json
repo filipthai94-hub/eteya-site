@@ -42,9 +42,9 @@
     },
     "footer": {
       "privacy": "Privacy Policy",
-      "privacyHref": "/en/privacy",
+      "privacyHref": "/privacy-policy",
       "terms": "Terms",
-      "termsHref": "/en/terms",
+      "termsHref": "/terms",
       "copyright": "© 2026 Eteya"
     },
     "email": "kontakt@eteya.ai"
@@ -630,7 +630,7 @@
       "socialProof": "{count} companies have already received their analysis",
       "gdprCheckbox": "I approve that Eteya processes my data according to GDPR",
       "successMessage": "Thank you! We'll get back to you within 24h.",
-      "errorMessage": "Something went wrong. Please try again or email contact@eteya.ai"
+      "errorMessage": "Something went wrong. Please try again or email kontakt@eteya.ai"
     },
     "sources": {
       "title": "References",
@@ -1367,12 +1367,7 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "schema": {
-      "name": "Privacy Policy — GDPR & Personal Data | Eteya",
-      "description": "Eteya Consulting AB privacy policy. We comply with GDPR and handle your personal data securely and transparently.",
-      "url": "https://eteya.ai/en/terms",
-      "inLanguage": "en-US"
-    },
+    "description": "Eteya Consulting AB's privacy policy. We comply with GDPR and handle your personal data securely and transparently.",
     "sections": [
       {
         "marker": "Data Controller",
@@ -1384,11 +1379,115 @@
         "marker": "",
         "heading": "",
         "type": "text",
-        "content": "For questions about privacy and personal data, contact us at: <a href=\"mailto:contact@eteya.ai\" class=\"link\">contact@eteya.ai</a>"
+        "content": "For questions about privacy and personal data, contact us at: <strong>Kontakt@eteya.ai</strong>"
+      },
+      {
+        "marker": "Personal Data",
+        "heading": "What personal data do we collect?",
+        "type": "list",
+        "items": [
+          "<strong>Basic information:</strong> name, email address",
+          "<strong>Technical information:</strong> IP address, browser type, operating system",
+          "<strong>Communication:</strong> email correspondence, meeting notes"
+        ]
+      },
+      {
+        "marker": "Legal Basis",
+        "heading": "Why do we process your personal data?",
+        "type": "list",
+        "items": [
+          "<strong>To provide our services (GDPR Art. 6(1)(b)):</strong> Contractual necessity: We process data required to deliver our services to you as a customer or supplier.",
+          "<strong>For customer support (GDPR Art. 6(1)(b)):</strong> Contractual necessity: We process data to provide you with support and answer your questions.",
+          "<strong>For marketing (GDPR Art. 6(1)(a)):</strong> Consent: We send newsletters and marketing only if you have given us your consent. You can withdraw your consent at any time.",
+          "<strong>For business development (GDPR Art. 6(1)(f)):</strong> Legitimate interests: We process business contact information to market our services to relevant decision-makers. Our legitimate interest is to develop our business. We conduct a balancing test where your rights take precedence if you object."
+        ]
+      },
+      {
+        "marker": "",
+        "heading": "",
+        "type": "text",
+        "content": "<strong>Right to withdraw consent:</strong> If the processing is based on your consent, you always have the right to withdraw it at any time. Withdrawal does not affect processing that took place before the withdrawal."
+      },
+      {
+        "marker": "Retention Period",
+        "heading": "How long do we keep your data?",
+        "type": "list",
+        "items": [
+          "<strong>Customer data:</strong> Duration of contract + 3 years",
+          "<strong>Marketing:</strong> Until unsubscribed or 2 years",
+          "<strong>Technical data:</strong> 12 months"
+        ]
+      },
+      {
+        "marker": "GDPR",
+        "heading": "Your rights under GDPR",
+        "type": "list",
+        "items": [
+          "Right of access",
+          "Right to rectification",
+          "Right to erasure",
+          "Right to restriction of processing",
+          "Right to data portability",
+          "Right to object to processing",
+          "Right to withdraw consent"
+        ]
+      },
+      {
+        "marker": "Third Party",
+        "heading": "Do we share your data with third parties?",
+        "type": "list",
+        "items": [
+          "<strong>Subprocessors:</strong> Hosting, email services, CRM systems",
+          "<strong>Authorities:</strong> Only when required by law",
+          "<strong>International transfers:</strong> Some of our subprocessors (e.g., Google, Microsoft) may process data outside the EU/EEA, primarily in the USA. We protect your data through the EU Commission's Standard Contractual Clauses and additional technical measures. Contact us for more information."
+        ]
+      },
+      {
+        "marker": "Protection",
+        "heading": "Security",
+        "type": "list",
+        "items": [
+          "Encryption of data in transit and at rest",
+          "Access control and permission management",
+          "Regular security audits"
+        ]
+      },
+      {
+        "marker": "Cookies",
+        "heading": "Cookies",
+        "type": "cookies",
+        "content": "For information about how we use cookies, see our <link>cookie policy</link>.",
+        "linkHref": "/en/cookie-policy",
+        "linkLabel": "cookie policy"
+      },
+      {
+        "marker": "Complaints",
+        "heading": "Complaints",
+        "type": "complaint",
+        "content": "If you have complaints about our processing of personal data, you can contact the Swedish Authority for Privacy Protection (IMY):",
+        "linkHref": "https://www.imy.se",
+        "linkLabel": "www.imy.se"
+      },
+      {
+        "marker": "Updated",
+        "heading": "Changes",
+        "type": "text",
+        "content": "Last updated: <strong>2026-04-11</strong>"
       }
-    ]
+    ],
+    "schema": {
+      "name": "Privacy Policy — GDPR & Personal Data | Eteya",
+      "description": "Eteya Consulting AB's privacy policy. We comply with GDPR and handle your personal data securely and transparently.",
+      "url": "https://eteya.ai/en/privacy-policy",
+      "inLanguage": "en-US"
+    },
+    "readMore": "Read more"
   },
   "terms": {
+    "meta": {
+      "title": "Terms of Service | Eteya",
+      "description": "Terms of service for Eteya Consulting AB AI automation services. Read about withdrawal rights, complaints, payment and more."
+    },
     "title": "Terms of Service",
     "schema": {
       "name": "Terms of Service — Eteya Consulting AB",
@@ -1441,7 +1540,7 @@
         "marker": "Right of Withdrawal",
         "heading": "14-Day Right of Withdrawal",
         "type": "text",
-        "content": "As a consumer, you have a 14-day right of withdrawal according to the Distance Contracts Act. The withdrawal period is calculated from the conclusion of the agreement. To exercise your right of withdrawal, contact us at contact@eteya.ai."
+        "content": "As a consumer, you have a 14-day right of withdrawal according to the Distance Contracts Act. The withdrawal period is calculated from the conclusion of the agreement. To exercise your right of withdrawal, contact us at kontakt@eteya.ai."
       },
       {
         "marker": "Complaints",

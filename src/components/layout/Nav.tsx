@@ -2,7 +2,9 @@
 
 import { Link, usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 import HashLink from '@/components/ui/HashLink'
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { animate } from 'motion'
 
@@ -44,6 +46,7 @@ interface StaggerItem {
 
 export default function Nav() {
   const pathname = usePathname()
+  const locale = useLocale() // Hämtar 'sv' eller 'en'
   const t = useTranslations('nav')
   const homeHref = '/'
   const [menuOpen, setMenuOpen] = useState(false)
@@ -69,23 +72,37 @@ export default function Nav() {
   const logoRef = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
 
-  // Clock
+  // Clock — 24h for Swedish, 12h AM/PM for English
   useEffect(() => {
     const update = () => {
       const now = new Date()
-      setTime(
-        now.toLocaleString('en-US', {
-          timeZone: 'Europe/Stockholm',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true,
-        })
-      )
+      
+      if (locale === 'sv') {
+        // Svenska — 24-timmarsformat: 09:57
+        setTime(
+          now.toLocaleString('sv-SE', {
+            timeZone: 'Europe/Stockholm',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          })
+        )
+      } else {
+        // Engelska — 12-timmarsformat: 9:57 AM
+        setTime(
+          now.toLocaleString('en-US', {
+            timeZone: 'Europe/Stockholm',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          })
+        )
+      }
     }
     update()
     const id = setInterval(update, 60000)
     return () => clearInterval(id)
-  }, [])
+  }, [locale])
 
   // Deterministic nav contrast: dark text only while nav overlaps hero
   useEffect(() => {
@@ -478,17 +495,40 @@ export default function Nav() {
         .en-footer-right{display:flex;align-items:center;gap:32px}
         .en-footer-copyright{font-family:var(--font-body),sans-serif;font-size:12px;font-weight:400;letter-spacing:-.24px;line-height:14px;color:rgb(184,184,184);white-space:nowrap}
 
+        /* ═══ LANGUAGE SWITCHER ═══ */
+        .en-lang-desktop{position:relative;display:flex;align-items:center}
+        .en-lang-trigger{display:flex;align-items:center;gap:2px;background:none;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#fff;font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;white-space:nowrap;transition:background .2s ease}
+        .en-lang-trigger:hover{background:rgba(255,255,255,.08)}
+        .en-lang-label{font-weight:600}
+        .en-lang-paren{opacity:.6}
+        .en-lang-code{font-weight:600}
+        .en-lang-arrow{font-size:10px;opacity:.6;transition:transform .2s ease}
+        .en-lang-arrow.is-open{transform:rotate(180deg)}
+        .en-lang-dropdown{position:absolute;top:calc(100% + 6px);left:0;min-width:140px;background:rgb(12,12,12);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+        .en-lang-option{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;background:none;border:none;border-radius:5px;cursor:pointer;color:rgb(200,200,200);font-family:var(--font-body),sans-serif;font-size:13px;font-weight:500;letter-spacing:-.2px;text-align:left;transition:background .15s ease,color .15s ease}
+        .en-lang-option:hover{background:rgba(255,255,255,.08);color:#fff}
+        .en-lang-option.active{color:#fff;font-weight:600}
+        .en-location{display:flex;align-items:center;gap:8px}
+        .en-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184);white-space:nowrap}
+        .en-lang-mobile{display:flex;gap:8px;align-items:center}
+        .en-lang-mobile-btn{background:none;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:18px;line-height:1;transition:background .15s ease,border-color .15s ease,opacity .15s ease}
+        .en-lang-mobile-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3)}
+        .en-lang-mobile-btn.active{border-color:rgba(255,255,255,.4);opacity:1}
+        .en-lang-mobile-btn:not(.active){opacity:.45}
+
         /* ═══ NAV DARK MODE (over light backgrounds) ═══ */
         .en-topbar.nav-dark .en-logo-text,
         .en-topbar.nav-dark .en-logo-c,
-        .en-topbar.nav-dark .en-location-city,
         .en-topbar.nav-dark .en-work-text span{color:#000}
         .en-topbar.nav-dark .en-location-time,
         .en-topbar.nav-dark .en-work-count{color:rgba(0,0,0,.55)}
         .en-hamburger.nav-dark .en-line{background:#000}
+        .en-topbar.nav-dark .en-lang-trigger{color:#000}
+        .en-topbar.nav-dark .en-lang-trigger:hover{background:rgba(0,0,0,.05)}
+        .en-topbar.nav-dark .en-lang-arrow{opacity:.4}
 
         /* Smooth transition between dark/light */
-        .en-logo-text,.en-logo-c,.en-location-city,.en-location-time,.en-work-count{transition:color .3s ease}
+        .en-logo-text,.en-logo-c,.en-location-time,.en-work-count{transition:color .3s ease}
         .en-work-text span{transition:color .3s ease,transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
         .en-line{transition:background .3s ease,width .4s cubic-bezier(.25,1,.5,1),left .4s cubic-bezier(.25,1,.5,1)}
 
@@ -536,10 +576,8 @@ export default function Nav() {
           </Link>
         </div>
         <div className="en-col en-col--center" style={{ justifyContent: 'flex-start' }}>
-          <div className="en-location">
-            <span className="en-location-city">{t('location')}</span>
-            <span className="en-location-time">{time}</span>
-          </div>
+          <LanguageSwitcher />
+          <span className="en-location-time">{time}</span>
         </div>
         <div className="en-col en-col--right" style={{ justifyContent: 'flex-start' }}>
           <a
@@ -715,6 +753,7 @@ export default function Nav() {
               </div>
             </div>
             <div className="en-footer-right">
+              <LanguageSwitcher inMobileMenu />
               <span className="en-footer-copyright">{t('footer.copyright')}</span>
             </div>
           </div>

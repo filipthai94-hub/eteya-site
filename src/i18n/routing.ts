@@ -41,11 +41,11 @@ export const routing = defineRouting({
       sv: '/ai-besparing',
       en: '/ai-savings'
     },
-    '/integritetspolicy': {
+    '/privacy-policy': {
       sv: '/integritetspolicy',
       en: '/privacy-policy'
     },
-    '/villkor': {
+    '/terms': {
       sv: '/villkor',
       en: '/terms'
     }
