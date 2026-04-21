@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
+import { generateHTML } from '../../../scripts/generate-briefing'
 
 function verifyCalSignature(payload: string, signature: string, secret: string): boolean {
   const expected = createHmac('sha256', secret).update(payload).digest('hex')
@@ -107,6 +110,32 @@ async function sendEmailNotification(data: {
   }
 }
 
+async function uploadToSupabaseStorage(pdfBuffer: Buffer, filename: string): Promise<string> {
+  const { ETEYA_SUPABASE_URL, ETEYA_SUPABASE_SERVICE_ROLE_KEY } = process.env
+  if (!ETEYA_SUPABASE_URL || !ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('Supabase storage env vars missing')
+  }
+
+  // Upload to Supabase Storage
+  const uploadRes = await fetch(`${ETEYA_SUPABASE_URL}/storage/v1/object/briefings/${filename}`, {
+    method: 'POST',
+    headers: {
+      apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type': 'application/pdf',
+    },
+    body: pdfBuffer,
+  })
+
+  if (!uploadRes.ok) {
+    const errorText = await uploadRes.text()
+    throw new Error(`Supabase upload failed: ${uploadRes.status} ${errorText}`)
+  }
+
+  // Return public URL
+  return `${ETEYA_SUPABASE_URL}/storage/v1/object/public/briefings/${filename}`
+}
+
 async function runResearchAndGeneratePDF(data: {
   name: string
   email: string
@@ -150,22 +179,7 @@ async function runResearchAndGeneratePDF(data: {
     const company = scrapeData.company
     const industryStats = scrapeData.industryStats
 
-    // Step 2: Run tech stack detection (if website provided)
-    let techStack: string[] = []
-    if (data.website) {
-      try {
-        const { execSync } = await import('child_process')
-        const techOutput = execSync(
-          `node scripts/scraping/detect-tech.js '${data.website}'`,
-          { encoding: 'utf-8', timeout: 30000, cwd: process.cwd(), stdio: ['pipe', 'pipe', 'pipe'] }
-        )
-        techStack = JSON.parse(techOutput.trim())
-      } catch (err) {
-        console.warn('Tech stack detection failed:', err)
-      }
-    }
-
-    // Step 3: Build briefing data
+    // Step 2: Build briefing data (simplified - tech stack detection removed for Vercel compatibility)
     const briefingData = {
       foretagsnamn: company.name,
       orgnr: company.orgnr,
@@ -175,9 +189,9 @@ async function runResearchAndGeneratePDF(data: {
       bransch: company.sni_codes?.[0]?.description || 'Okänd bransch',
       sniKod: company.sni_codes?.[0]?.code || '',
       antalAnstallda: 0,
-      omsattning: 0, // Required by PDF template
+      omsattning: 0,
       verksamhet: 'Verksamhetsbeskrivning baserad på branschdata',
-      techStack,
+      techStack: [] as string[],
       kontakt: { email: data.email },
       scbStats: {
         genomsnittligLon: 45000,
@@ -209,39 +223,93 @@ async function runResearchAndGeneratePDF(data: {
       }),
     }
 
-    // Step 4: Generate PDF
-    const { execSync } = await import('child_process')
-    const fs = await import('fs/promises')
-    const briefingJsonPath = `/tmp/briefing-${company.orgnr}-${Date.now()}.json`
-    const pdfFilename = `briefing-${company.orgnr}-${Date.now()}.pdf`
-    const pdfPath = `/tmp/${pdfFilename}`
+    // Step 3: Generate PDF using Puppeteer + @sparticuz/chromium
+    console.log(' Generating PDF with Puppeteer...')
+    
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    })
 
-    // Write JSON file first
-    await fs.writeFile(briefingJsonPath, JSON.stringify(briefingData, null, 2), 'utf-8')
-
-    // Generate PDF from JSON file
-    execSync(
-      `node scripts/scraping/generator/pdf.js '${briefingJsonPath}' '${pdfPath}'`,
-      { encoding: 'utf-8', timeout: 60000, cwd: process.cwd() }
-    )
-
-    // Step 5: Upload PDF to Supabase Storage
-    if (ETEYA_SUPABASE_URL && ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
-      const fs = await import('fs/promises')
-      const pdfBuffer = await fs.readFile(pdfPath)
-
-      await fetch(`${ETEYA_SUPABASE_URL}/storage/v1/object/briefings/${pdfFilename}`, {
-        method: 'POST',
-        headers: {
-          apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
-          Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
-          'Content-Type': 'application/pdf',
+    try {
+      const page = await browser.newPage()
+      
+      // Generate HTML
+      const html = generateHTML(
+        {
+          company: {
+            name: briefingData.foretagsnamn,
+            website: 'https://' + briefingData.orgnr,
+            description: briefingData.verksamhet,
+            industry: briefingData.bransch,
+            employees: briefingData.antalAnstallda,
+            revenue: briefingData.omsattning,
+            techStack: briefingData.techStack,
+          },
+          industry: {
+            sniCode: briefingData.sniKod,
+            averageRevenue: briefingData.scbStats?.omsattningPerAnstalld || 0,
+            employeeGrowth: 'N/A',
+          },
+          competitors: briefingData.konkurrens.map(k => ({
+            name: k.namn,
+            pricing: k.pris,
+            service: k.tjanst,
+            source: '',
+          })),
+          aiOpportunities: briefingData.rekommendationer.aiMojligheter.map((ai, i) => ({
+            title: ai,
+            description: ai,
+            estimatedSavings: '~10 h/vecka',
+            priority: i === 0 ? 'high' : i === 1 ? 'high' : 'medium' as 'high' | 'medium' | 'low',
+          })),
+          roiValidation: {
+            claimed: briefingData.roiPrognos.besparingKr,
+            realistic: briefingData.roiPrognos.besparingKr,
+            confidence: 'high' as 'high' | 'medium' | 'low',
+            notes: 'ROI-prognos baserad på kalkylatorn',
+          },
+          recommendedFocus: briefingData.rekommendationer.fokus,
         },
-        body: pdfBuffer,
+        {
+          annualSavings: briefingData.roiPrognos.besparingKr,
+          totalHours: briefingData.roiPrognos.sparatTimmar,
+          fte: briefingData.roiPrognos.fte,
+          roi: briefingData.roiPrognos.roiProcent,
+          payback: briefingData.roiPrognos.paybackManader,
+          hourlyRate: 350,
+          year1: briefingData.roiPrognos.besparingKr,
+          year2: briefingData.roiPrognos.besparingKr * 2,
+          year3: briefingData.roiPrognos.besparingKr * 3,
+        },
+        {
+          contactName: data.name,
+          contactEmail: data.email,
+          bookingTime: data.bookingDate,
+          service: data.service,
+        }
+      )
+      
+      await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 })
+      console.log('✅ HTML loaded in browser')
+      
+      // Generate PDF
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' },
       })
-
+      
+      console.log('✅ PDF generated, size:', (pdfBuffer.length / 1024).toFixed(2), 'KB')
+      
+      // Step 4: Upload to Supabase Storage
+      const filename = `briefing-${company.orgnr}-${Date.now()}.pdf`
+      const pdfUrl = await uploadToSupabaseStorage(pdfBuffer, filename)
+      console.log('✅ PDF uploaded to Supabase:', pdfUrl)
+      
       // Update lead record with PDF URL
-      const pdfUrl = `${ETEYA_SUPABASE_URL}/storage/v1/object/public/briefings/${pdfFilename}`
       await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
         method: 'PATCH',
         headers: {
@@ -252,22 +320,22 @@ async function runResearchAndGeneratePDF(data: {
         },
         body: JSON.stringify({ briefing_pdf_url: pdfUrl }),
       })
-
-      console.log('✅ PDF uploaded:', pdfUrl)
-
-      // Send email notification with PDF attachment
+      console.log('✅ Lead record updated with PDF URL')
+      
+      // Step 5: Send email notification with PDF attachment
       await sendEmailNotification({
         name: data.name,
         email: data.email,
         company: data.company,
         service: data.service,
-        bookingDate: data.bookingDate,
+        bookingDate: new Date(data.bookingDate).toLocaleDateString('sv-SE', { dateStyle: 'long' }),
         pdfUrl,
       })
-
-      // Cleanup temp file
-      try { await fs.unlink(pdfPath) } catch {}
+      
+    } finally {
+      await browser.close()
     }
+    
   } catch (error) {
     console.error('Research/PDF pipeline error:', error)
   }

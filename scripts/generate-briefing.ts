@@ -75,7 +75,7 @@ interface BookingData {
 }
 
 // Generate HTML for PDF
-function generateHTML(research: ResearchOutput, roiData: ROIData, booking: BookingData): string {
+export function generateHTML(research: ResearchOutput, roiData: ROIData, booking: BookingData): string {
   const fmt = (n: number) => n.toLocaleString('sv-SE')
   const fmtCurrency = (n: number) => `${fmt(Math.round(n))} kr`
   

@@ -11,6 +11,7 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@gsap/react": "^2.1.2",
+    "@sparticuz/chromium": "^147.0.2",
     "axios": "^1.15.1",
     "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
@@ -23,7 +24,7 @@
     "next-intl": "^4.8.3",
     "next-transition-router": "^0.2.11",
     "pdfkit": "^0.18.0",
-    "puppeteer": "^24.41.0",
+    "puppeteer-core": "^24.42.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "resend": "^6.9.4",
