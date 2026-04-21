@@ -14,96 +14,16 @@ interface CaseData {
   results: string[]
   quote: string
   quoteAuthor: string
-  image: string
 }
 
-const CASES: CaseData[] = [
-  {
-    name: 'Telestore',
-    tag: 'E-handel',
-    metric: '40% snabbare orderhantering',
-    slug: 'telestore',
-    problem: 'Telestore hanterade hundratals kundärenden manuellt varje dag — returer, orderfrågor, statusuppdateringar. Teamet drunknade i repetitiva uppgifter.',
-    solution: 'Vi byggde en AI-agent som automatiskt hanterar kundtjänst, orderuppföljning och returer via mail och chatt. Integrerad med deras e-handelsplattform och ärendesystem.',
-    results: [
-      '40% snabbare orderhantering',
-      '15h/vecka frigjord från manuellt arbete',
-      '92% av ärenden lösta utan mänsklig inblandning',
-      'ROI inom 6 veckor',
-    ],
-    quote: 'Vi kunde äntligen fokusera på tillväxt istället för att jaga ärenden.',
-    quoteAuthor: 'Filip Thai, Grundare',
-    image: '/images/case-telestore.jpg',
-  },
-  {
-    name: 'NordicRank',
-    tag: 'Digital Marknadsföring',
-    metric: '50% mer organisk trafik',
-    slug: 'nordicrank',
-    problem: 'NordicRank behövde skala sin egen leverans — manuell rapportering och kampanjuppföljning tog tid från kundarbetet.',
-    solution: 'Automatiserad rapportering, AI-driven innehållsanalys och smarta kampanjrekommendationer baserade på realtidsdata.',
-    results: [
-      '50% mer organisk trafik för deras kunder',
-      'Rapporttid: från 4h till 20 minuter',
-      'AI-rekommendationer → 28% bättre ROAS',
-      'Skalat från 8 till 15 kunder utan ny personal',
-    ],
-    quote: 'Eteya automatiserade det tunga — vi kunde fokusera på strategi och kundrelationer.',
-    quoteAuthor: 'Josefin Nordström, Grundare',
-    image: '/images/case-nordicrank.jpg',
-  },
-  {
-    name: 'Sannegårdens Pizzeria',
-    tag: 'Restaurang',
-    metric: 'Aldrig en missad bokning',
-    slug: 'sannegarden',
-    problem: 'Göteborgs mest populära pizzeria missade telefonbeställningar under rusningstid. Personalen hann inte svara — och varje missat samtal var förlorad omsättning.',
-    solution: 'En AI-telefonist som tar emot beställningar dygnet runt, hanterar menyfrågor och bekräftar ordrar automatiskt via telefon.',
-    results: [
-      'Aldrig ett missat samtal under rusning',
-      '30+ extra beställningar per vecka',
-      'Personalen fokuserar på matlagning',
-      'Kundnöjdhet ökade med 23%',
-    ],
-    quote: 'AI-telefonisten blev som en extra anställd som aldrig tar paus.',
-    quoteAuthor: 'Omid Haddad, Ägare',
-    image: '/images/case-sannegarden.jpg',
-  },
-  {
-    name: 'TrainWithAlbert',
-    tag: 'Fitness & Coaching',
-    metric: '3x fler bokningar',
-    slug: 'trainwithalbert',
-    problem: 'Albert spenderade mer tid på admin än coaching — schemaläggning, uppföljning, och betalningspåminnelser tog timmar varje vecka.',
-    solution: 'Automatiserad klientresa från bokning till uppföljning. AI-driven schemaläggning, automatiska påminnelser och personliga träningsprogram.',
-    results: [
-      '3x fler bokningar per månad',
-      '8h/vecka sparad admin-tid',
-      'Automatisk uppföljning → 45% återbokning',
-      'Intäkterna ökade 60% på 3 månader',
-    ],
-    quote: 'Jag är coach igen, inte administratör. Det förändrade allt.',
-    quoteAuthor: 'Albert Wan, Grundare',
-    image: '/images/case-trainwithalbert.jpg',
-  },
-  {
-    name: 'MB Flytt',
-    tag: 'Flytt & Logistik',
-    metric: '2x fler offerter per dag',
-    slug: 'mbflytt',
-    problem: 'Offerter skapades manuellt — varje förfrågan krävde telefonsamtal, hembesök och timmar av kalkylering. De tappade kunder till snabbare konkurrenter.',
-    solution: 'AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.',
-    results: [
-      '2x fler offerter skickade per dag',
-      'Offertid: från 24h till 15 minuter',
-      '35% högre konvertering',
-      'Digitala avtal → noll pappersarbete',
-    ],
-    quote: 'Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först.',
-    quoteAuthor: 'Marcus Bengtsson, VD',
-    image: '/images/case-mbflytt.jpg',
-  },
-]
+interface CasesClientProps {
+  heading: string
+  cta: string
+  problemLabel: string
+  solutionLabel: string
+  resultsLabel: string
+  items: CaseData[]
+}
 
 const CASE_LOGOS: Record<string, string> = {
   telestore: '/images/logos/telestore-new.png',
@@ -502,7 +422,7 @@ const CSS = `
   }
 `
 
-export default function CasesClient() {
+export default function CasesClient({ heading, cta, problemLabel, solutionLabel, resultsLabel, items }: CasesClientProps) {
   const pathname = usePathname()
   const locale = pathname?.startsWith('/sv') ? 'sv' : 'en'
   useEffect(() => {
@@ -664,16 +584,16 @@ export default function CasesClient() {
     <section id="cases-section">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <h2 className="cases-heading">VÅRA CASE</h2>
+      <h2 className="cases-heading">{heading}</h2>
 
       <div className="cases-block">
-        {CASES.map((c, i) => (
+        {items.map((c, i) => (
           <div key={c.slug} className="case-card">
             <AccordionRowHeader
               prefix="case"
               title={c.name}
               indexDisplay={String(i + 1).padStart(2, '0')}
-              counterLineCount={CASES.length}
+              counterLineCount={items.length}
               activeLineIndex={i}
             />
             <div className="case-inner">
@@ -688,17 +608,17 @@ export default function CasesClient() {
                   <p className="case-metric">{c.metric}</p>
 
                   <div className="case-block">
-                    <span className="case-label">Problemet</span>
+                    <span className="case-label">{problemLabel}</span>
                     <p className="case-description">{c.problem}</p>
                   </div>
 
                   <div className="case-block">
-                    <span className="case-label">Lösningen</span>
+                    <span className="case-label">{solutionLabel}</span>
                     <p className="case-description">{c.solution}</p>
                   </div>
 
                   <div className="case-block">
-                    <span className="case-label">Resultat</span>
+                    <span className="case-label">{resultsLabel}</span>
                     <ul className="case-results">
                       {c.results.map((r, j) => (
                         <li key={j}>{r}</li>
@@ -737,7 +657,7 @@ export default function CasesClient() {
                     </div>
                   )}
                   <div className="case-cta">
-                    <ButtonSwap label="Läs hela caset" arrow href={`/kundcase/${c.slug}`} size="lg" variant="white" />
+                    <ButtonSwap label={cta} arrow href={`/${locale}/kundcase/${c.slug}`} size="lg" variant="white" />
                   </div>
                 </div>
               </div>

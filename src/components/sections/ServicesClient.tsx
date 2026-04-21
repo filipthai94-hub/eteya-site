@@ -326,7 +326,7 @@ export default function ServicesClient({ heading, cta, items }: {
       <div className="service-block">
 
         {items.map((item, idx) => {
-        const isActive = idx === 0
+        const isActive = false // Alla kort stängda som default — användaren öppnar själv
         return (
         <div className={`service-card${isActive ? ' is-active' : ''}`} key={item.number}>
           <AccordionRowHeader

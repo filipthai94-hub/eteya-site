@@ -1227,6 +1227,95 @@
     "sourceText": "Based on 56 verified automations in e-commerce (<10 employees)",
     "ctaLabel": "Calculate your savings"
   },
+  "cases": {
+    "heading": "OUR CASES",
+    "cta": "Read full case",
+    "problemLabel": "The Problem",
+    "solutionLabel": "The Solution",
+    "resultsLabel": "Results",
+    "items": [
+      {
+        "name": "Telestore",
+        "tag": "E-commerce",
+        "metric": "40% faster order handling",
+        "slug": "telestore",
+        "problem": "Telestore handled hundreds of customer cases manually every day — returns, order questions, status updates. The team was drowning in repetitive tasks.",
+        "solution": "We built an AI agent that automatically handles customer service, order tracking and returns via email and chat. Integrated with their e-commerce platform and case management system.",
+        "results": [
+          "40% faster order handling",
+          "15h/week freed from manual work",
+          "92% of cases resolved without human involvement",
+          "ROI within 6 weeks"
+        ],
+        "quote": "We could finally focus on growth instead of chasing cases.",
+        "quoteAuthor": "Filip Thai, Founder"
+      },
+      {
+        "name": "NordicRank",
+        "tag": "Digital Marketing",
+        "metric": "50% more organic traffic",
+        "slug": "nordicrank",
+        "problem": "NordicRank needed to scale their delivery — manual reporting and campaign tracking took time away from client work.",
+        "solution": "Automated reporting, AI-driven content analysis and smart campaign recommendations based on real-time data.",
+        "results": [
+          "50% more organic traffic for their clients",
+          "Report time: from 4h to 20 minutes",
+          "AI recommendations → 28% better ROAS",
+          "Scaled from 8 to 15 clients without new hires"
+        ],
+        "quote": "Eteya automated the heavy stuff — we could focus on strategy and client relationships.",
+        "quoteAuthor": "Josefin Nordström, Founder"
+      },
+      {
+        "name": "Sannegårdens Pizzeria",
+        "tag": "Restaurant",
+        "metric": "Never a missed booking",
+        "slug": "sannegarden",
+        "problem": "Gothenburg's most popular pizzeria missed phone orders during rush hours. Staff couldn't answer — and every missed call was lost revenue.",
+        "solution": "An AI receptionist that takes orders around the clock, handles menu questions and confirms orders automatically via phone.",
+        "results": [
+          "Never a missed call during rush hour",
+          "30+ extra orders per week",
+          "Staff focuses on cooking",
+          "Customer satisfaction increased by 23%"
+        ],
+        "quote": "The AI receptionist became like an extra employee who never takes a break.",
+        "quoteAuthor": "Omid Haddad, Owner"
+      },
+      {
+        "name": "TrainWithAlbert",
+        "tag": "Fitness & Coaching",
+        "metric": "3x more bookings",
+        "slug": "trainwithalbert",
+        "problem": "Albert spent more time on admin than coaching — scheduling, follow-ups and payment reminders took hours every week.",
+        "solution": "Automated client journey from booking to follow-up. AI-driven scheduling, automatic reminders and personalized training programs.",
+        "results": [
+          "3x more bookings per month",
+          "8h/week saved on admin",
+          "Automatic follow-up → 45% rebooking",
+          "Revenue increased 60% in 3 months"
+        ],
+        "quote": "I'm a coach again, not an administrator. That changed everything.",
+        "quoteAuthor": "Albert Wan, Founder"
+      },
+      {
+        "name": "MB Flytt",
+        "tag": "Moving & Logistics",
+        "metric": "2x more quotes per day",
+        "slug": "mbflytt",
+        "problem": "Quotes were created manually — every inquiry required phone calls, home visits and hours of calculation. They lost customers to faster competitors.",
+        "solution": "AI-driven quote generation based on customer details. Automatic calculation, digital signing and booking confirmation.",
+        "results": [
+          "2x more quotes sent per day",
+          "Quote time: from 24h to 15 minutes",
+          "35% higher conversion",
+          "Digital agreements → zero paperwork"
+        ],
+        "quote": "We used to lose jobs because we were too slow. Now we're always first.",
+        "quoteAuthor": "Marcus Bengtsson, CEO"
+      }
+    ]
+  },
   "footerCta": {
     "heading": "Ready to put AI to work?",
     "buttonText": "Write to<br />us",

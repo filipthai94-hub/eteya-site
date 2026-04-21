@@ -1227,6 +1227,95 @@
     "sourceText": "Baserat på 56 verifierade automationer inom e-handel (<10 anställda)",
     "ctaLabel": "Beräkna din besparing"
   },
+  "cases": {
+    "heading": "VÅRA CASE",
+    "cta": "Läs hela caset",
+    "problemLabel": "Problemet",
+    "solutionLabel": "Lösningen",
+    "resultsLabel": "Resultat",
+    "items": [
+      {
+        "name": "Telestore",
+        "tag": "E-handel",
+        "metric": "40% snabbare orderhantering",
+        "slug": "telestore",
+        "problem": "Telestore hanterade hundratals kundärenden manuellt varje dag — returer, orderfrågor, statusuppdateringar. Teamet drunknade i repetitiva uppgifter.",
+        "solution": "Vi byggde en AI-agent som automatiskt hanterar kundtjänst, orderuppföljning och returer via mail och chatt. Integrerad med deras e-handelsplattform och ärendesystem.",
+        "results": [
+          "40% snabbare orderhantering",
+          "15h/vecka frigjord från manuellt arbete",
+          "92% av ärenden lösta utan mänsklig inblandning",
+          "ROI inom 6 veckor"
+        ],
+        "quote": "Vi kunde äntligen fokusera på tillväxt istället för att jaga ärenden.",
+        "quoteAuthor": "Filip Thai, Grundare"
+      },
+      {
+        "name": "NordicRank",
+        "tag": "Digital Marknadsföring",
+        "metric": "50% mer organisk trafik",
+        "slug": "nordicrank",
+        "problem": "NordicRank behövde skala sin egen leverans — manuell rapportering och kampanjuppföljning tog tid från kundarbetet.",
+        "solution": "Automatiserad rapportering, AI-driven innehållsanalys och smarta kampanjrekommendationer baserade på realtidsdata.",
+        "results": [
+          "50% mer organisk trafik för deras kunder",
+          "Rapporttid: från 4h till 20 minuter",
+          "AI-rekommendationer → 28% bättre ROAS",
+          "Skalat från 8 till 15 kunder utan ny personal"
+        ],
+        "quote": "Eteya automatiserade det tunga — vi kunde fokusera på strategi och kundrelationer.",
+        "quoteAuthor": "Josefin Nordström, Grundare"
+      },
+      {
+        "name": "Sannegårdens Pizzeria",
+        "tag": "Restaurang",
+        "metric": "Aldrig en missad bokning",
+        "slug": "sannegarden",
+        "problem": "Göteborgs mest populära pizzeria missade telefonbeställningar under rusningstid. Personalen hann inte svara — och varje missat samtal var förlorad omsättning.",
+        "solution": "En AI-telefonist som tar emot beställningar dygnet runt, hanterar menyfrågor och bekräftar ordrar automatisk via telefon.",
+        "results": [
+          "Aldrig ett missat samtal under rusning",
+          "30+ extra beställningar per vecka",
+          "Personalen fokuserar på matlagning",
+          "Kundnöjdhet ökade med 23%"
+        ],
+        "quote": "AI-telefonisten blev som en extra anställd som aldrig tar paus.",
+        "quoteAuthor": "Omid Haddad, Ägare"
+      },
+      {
+        "name": "TrainWithAlbert",
+        "tag": "Fitness & Coaching",
+        "metric": "3x fler bokningar",
+        "slug": "trainwithalbert",
+        "problem": "Albert spenderade mer tid på admin än coaching — schemaläggning, uppföljning, och betalningspåminnelser tog timmar varje vecka.",
+        "solution": "Automatiserad klientresa från bokning till uppföljning. AI-driven schemaläggning, automatiska påminnelser och personliga träningsprogram.",
+        "results": [
+          "3x fler bokningar per månad",
+          "8h/vecka sparad admin-tid",
+          "Automatisk uppföljning → 45% återbokning",
+          "Intäkterna ökade 60% på 3 månader"
+        ],
+        "quote": "Jag är coach igen, inte administratör. Det förändrade allt.",
+        "quoteAuthor": "Albert Wan, Grundare"
+      },
+      {
+        "name": "MB Flytt",
+        "tag": "Flytt & Logistik",
+        "metric": "2x fler offerter per dag",
+        "slug": "mbflytt",
+        "problem": "Offerter skapades manuellt — varje förfrågan krävde telefonsamtal, hembesök och timmar av kalkylering. De tappade kunder till snabbare konkurrenter.",
+        "solution": "AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.",
+        "results": [
+          "2x fler offerter skickade per dag",
+          "Offertid: från 24h till 15 minuter",
+          "35% högre konvertering",
+          "Digitala avtal → noll pappersarbete"
+        ],
+        "quote": "Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först.",
+        "quoteAuthor": "Marcus Bengtsson, VD"
+      }
+    ]
+  },
   "footerCta": {
     "heading": "Redo att sätta AI i arbete?",
     "buttonText": "Skriv till<br />oss",
