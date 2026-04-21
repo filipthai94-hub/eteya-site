@@ -441,9 +441,9 @@ export default function Nav() {
         .en-divider{width:100%;height:1px;background:rgba(255,255,255,.1);flex-shrink:0}
 
         /* Section 2: Middle */
-        .en-menu-middle{padding:48px;display:flex;flex-direction:column;gap:64px;justify-content:center;flex:0 0 327px}
+        .en-menu-middle{padding:48px;display:flex;flex-direction:column;gap:32px;justify-content:center;flex:0 0 327px}
         .en-menu-talk{display:flex;flex-direction:column;gap:6px}
-        .en-menu-talk-content{display:flex;flex-direction:column;gap:24px}
+        .en-menu-talk-content{display:flex;flex-direction:column;gap:16px}
         .en-menu-talk-link{display:flex;flex-direction:column;gap:6px;height:46px;overflow:visible;cursor:default;position:relative}
         .en-menu-talk-text-icon{display:flex;align-items:center;gap:8px;height:39px}
         .en-menu-talk-email{font-family:var(--font-body),sans-serif;font-size:30px;font-weight:600;letter-spacing:-1.2px;line-height:39px;color:#fff;cursor:pointer;display:inline-block;position:relative}
@@ -468,11 +468,15 @@ export default function Nav() {
         .en-popup-action svg{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5}
 
         /* Location in menu */
-        .en-menu-location{display:flex;align-items:center;gap:4px}
-        .en-menu-location-text{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184)}
+        .en-menu-location-section{display:flex;flex-direction:column;gap:6px}
+        .en-menu-location-header{display:flex;align-items:center;gap:4px}
+        .en-menu-location-header .en-menu-label{margin:0}
+        .en-menu-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184)}
+        .en-menu-location-content{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+        .en-menu-location-lang{display:flex;justify-content:flex-start}
 
         /* Socials */
-        .en-menu-socials{display:flex;flex-direction:column;gap:18px}
+        .en-menu-socials{display:flex;flex-direction:column;gap:16px}
         .en-social-icons{display:flex;gap:12px}
         .en-social-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden}
         .en-social-icon svg{width:18px;height:18px;fill:currentColor;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
@@ -511,9 +515,12 @@ export default function Nav() {
         .en-location{display:flex;align-items:center;gap:8px}
         .en-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184);white-space:nowrap}
         .en-lang-mobile{display:flex;gap:8px;align-items:center}
-        .en-lang-mobile-btn{background:none;border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:18px;line-height:1;transition:background .15s ease,border-color .15s ease,opacity .15s ease}
-        .en-lang-mobile-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3)}
-        .en-lang-mobile-btn.active{border-color:rgba(255,255,255,.4);opacity:1}
+        .en-lang-mobile-btn{position:relative;background:none;border:none;padding:0;cursor:pointer;font-size:24px;line-height:1;transition:opacity .15s ease}
+        .flag-normal{display:block;font-size:24px;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
+        .flag-hover{display:block;font-size:24px;opacity:0;position:absolute;top:0;left:0;transform:perspective(1200px) translateY(100%);transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
+        .en-lang-mobile-btn:hover .flag-normal{transform:perspective(1200px) translateY(-100%);opacity:0}
+        .en-lang-mobile-btn:hover .flag-hover{transform:perspective(1200px) translateY(0);opacity:1}
+        .en-lang-mobile-btn.active{opacity:1}
         .en-lang-mobile-btn:not(.active){opacity:.45}
 
         /* ═══ NAV DARK MODE (over light backgrounds) ═══ */
@@ -564,6 +571,11 @@ export default function Nav() {
           .en-menu-copied{font-size:24px;letter-spacing:-.96px;line-height:31.2px}
           .en-menu-footer a{font-size:11.6px;letter-spacing:-.232px}
           .en-menu-badge{font-size:11.6px;letter-spacing:-.348px}
+          
+          /* Mobile only: show lang under location */
+          @media(max-width:809px){
+            .en-menu-location-lang{display:flex!important}
+          }
         }
       `}</style>
 
@@ -701,10 +713,17 @@ export default function Nav() {
                   </div>
                   <span className={`en-menu-copied${copied ? ' visible' : ''}`}>{t('popup.copied')}</span>
                 </div>
+              </div>
+            </div>
 
-                <div className="en-menu-location">
-                  <span className="en-menu-location-text">{t('location')}</span>
-                  <span className="en-menu-location-text">{time}</span>
+            <div className="en-menu-location-section">
+              <div className="en-menu-location-header">
+                <p className="en-menu-label">{t('location')}</p>
+                <span className="en-menu-location-time">{time}</span>
+              </div>
+              <div className="en-menu-location-content">
+                <div className="en-menu-location-lang">
+                  <LanguageSwitcher inMobileMenu />
                 </div>
               </div>
             </div>
@@ -753,7 +772,6 @@ export default function Nav() {
               </div>
             </div>
             <div className="en-footer-right">
-              <LanguageSwitcher inMobileMenu />
               <span className="en-footer-copyright">{t('footer.copyright')}</span>
             </div>
           </div>

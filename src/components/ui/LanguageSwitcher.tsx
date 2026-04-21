@@ -39,14 +39,16 @@ export default function LanguageSwitcher({ inMobileMenu = false }: { inMobileMen
           className={`en-lang-mobile-btn${locale === 'sv' ? ' active' : ''}`}
           aria-label="Svenska"
         >
-          🇸🇪
+          <span className="flag-normal">🇸🇪</span>
+          <span className="flag-hover">🇸🇪</span>
         </button>
         <button
           onClick={() => switchLocale('en')}
           className={`en-lang-mobile-btn${locale === 'en' ? ' active' : ''}`}
           aria-label="English"
         >
-          🇬🇧
+          <span className="flag-normal">🇬🇧</span>
+          <span className="flag-hover">🇬🇧</span>
         </button>
       </div>
     )
