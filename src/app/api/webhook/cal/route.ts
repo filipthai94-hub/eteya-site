@@ -38,7 +38,7 @@ async function saveToSupabase(data: {
       company: data.company || null,
       service: data.service || null,
       description: data.description || null,
-      roi_data: data.roiData ? JSON.parse(data.roiData) : null,
+      roi_data: data.roiData ? (typeof data.roiData === 'string' ? JSON.parse(data.roiData) : data.roiData) : null,
       booking_date: data.bookingDate,
       source: 'cal-webhook',
       gdpr_accepted: true,
@@ -202,7 +202,7 @@ async function runResearchAndGeneratePDF(data: {
         totalEnterprises: industryStats?.total_enterprises || null,
         sizeDistribution: industryStats?.size_distribution || null,
       },
-      roiPrognos: data.roiData ? JSON.parse(data.roiData) : {
+      roiPrognos: data.roiData ? (typeof data.roiData === 'string' ? JSON.parse(data.roiData) : data.roiData) : {
         besparingKr: 0, roiProcent: 0, paybackManader: 0, sparatTimmar: 0, fte: 0
       },
       rekommendationer: {
@@ -383,7 +383,20 @@ export async function POST(req: NextRequest) {
     const website = payload?.metadata?.website ?? null
     const service = payload?.title ?? ''
     const description = payload?.description ?? payload?.responses?.notes ?? ''
-    const roiData = payload?.metadata?.roiData ?? null
+    
+    // Build roiData from separate metadata fields (sent from ContactCard)
+    const roiData = payload?.metadata?.annualSavings ? {
+      annualSavings: Number(payload.metadata.annualSavings) || 0,
+      totalHours: Number(payload.metadata.totalHours) || 0,
+      roi: Number(payload.metadata.roi) || 0,
+      payback: payload.metadata.payback ? Number(payload.metadata.payback) : null,
+      implCost: payload.metadata.implCost ? Number(payload.metadata.implCost) : null,
+      hourlyRate: payload.metadata.hourlyRate ? Number(payload.metadata.hourlyRate) : 350,
+      year1: payload.metadata.year1 ? Number(payload.metadata.year1) : 0,
+      year2: payload.metadata.year2 ? Number(payload.metadata.year2) : 0,
+      year3: payload.metadata.year3 ? Number(payload.metadata.year3) : 0,
+    } : null
+    
     const bookingDate = payload?.startTime ?? payload?.start ?? new Date().toISOString()
 
     const formattedDate = new Date(bookingDate).toLocaleDateString('sv-SE', {
@@ -396,7 +409,7 @@ export async function POST(req: NextRequest) {
       company,
       service,
       description,
-      roiData: roiData ? (typeof roiData === 'string' ? roiData : JSON.stringify(roiData)) : null,
+      roiData: roiData ? JSON.stringify(roiData) : null,
       bookingDate: formattedDate,
     }
 
