@@ -61,7 +61,7 @@ export async function sendContactEmail(_prevState: unknown, formData: FormData) 
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
       from: 'noreply@eteya.ai',
-      to: 'filip@eteya.ai',
+      to: 'kontakt@eteya.ai',
       subject: `Ny förfrågan från ${result.data.name}`,
       html: `
         <p><strong>Namn:</strong> ${result.data.name}</p>
