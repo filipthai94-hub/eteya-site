@@ -19,18 +19,15 @@ declare global {
   }
 }
 
-function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel: string }) {
+function SubmitButton({ label, loadingLabel, turnstileToken }: { 
+  label: string
+  loadingLabel: string
+  turnstileToken: string
+}) {
   const { pending } = useFormStatus()
-  const [turnstileReady, setTurnstileReady] = useState(false)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.turnstile) {
-      setTurnstileReady(true)
-    }
-  }, [])
 
   return (
-    <ButtonStripe type="submit" disabled={pending || !turnstileReady} fullWidth>
+    <ButtonStripe type="submit" disabled={pending || !turnstileToken} fullWidth>
       {pending ? loadingLabel : label}
     </ButtonStripe>
   )
@@ -507,7 +504,7 @@ export default function Contact() {
 
               {/* Submit */}
               <div style={{ marginTop: '0' }}>
-                <SubmitButton label={t('submit')} loadingLabel={t('submit_loading')} />
+                <SubmitButton label={t('submit')} loadingLabel={t('submit_loading')} turnstileToken={turnstileToken} />
               </div>
 
               {state?.success && (
