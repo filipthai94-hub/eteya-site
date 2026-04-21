@@ -351,7 +351,6 @@ export default function ServicesClient({ heading, cta, items }: {
                   </li>
                 ))}
               </ul>
-              <div className="eteya-btn-wrap"><ButtonStripe href="#contact">{cta}</ButtonStripe></div>
             </div>
           </div>
         </div>

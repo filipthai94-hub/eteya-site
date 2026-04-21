@@ -113,10 +113,10 @@ export function VaultLock({
             const major = i % 10 === 0 && !cardinal;
             const r1 = 268;
             const r2 = cardinal ? 232 : major ? 244 : 256;
-            const x1 = 300 + Math.cos(a) * r1;
-            const y1 = 300 + Math.sin(a) * r1;
-            const x2 = 300 + Math.cos(a) * r2;
-            const y2 = 300 + Math.sin(a) * r2;
+            const x1 = Math.round((300 + Math.cos(a) * r1) * 100) / 100;
+            const y1 = Math.round((300 + Math.sin(a) * r1) * 100) / 100;
+            const x2 = Math.round((300 + Math.cos(a) * r2) * 100) / 100;
+            const y2 = Math.round((300 + Math.sin(a) * r2) * 100) / 100;
             const degAngle = ((a * 180 / Math.PI) + 90 + 360) % 360;
             const diff = Math.min(
               Math.abs(degAngle - scannerAngle),
@@ -140,8 +140,8 @@ export function VaultLock({
           })}
           {[45, 135, 225, 315].map(deg => {
             const a = (deg - 90) * Math.PI / 180;
-            const cx = 300 + Math.cos(a) * 250;
-            const cy = 300 + Math.sin(a) * 250;
+            const cx = Math.round((300 + Math.cos(a) * 250) * 100) / 100;
+            const cy = Math.round((300 + Math.sin(a) * 250) * 100) / 100;
             return (
               <g key={deg}>
                 <circle cx={cx} cy={cy} r="2.5" fill="rgba(0,0,0,0.7)" />
