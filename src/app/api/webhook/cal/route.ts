@@ -92,7 +92,16 @@ async function sendEmailNotification(data: {
         <p><strong>Tjänst:</strong> ${data.service}</p>
         <p><strong>Bokad tid:</strong> ${data.bookingDate}</p>
         <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 20px 0;" />
-        <p><strong>📄 Sales Briefing:</strong> <a href="${data.htmlUrl}">Öppna briefing</a></p>
+        <p><strong>📄 Sales Briefing:</strong></p>
+        <p><a href="${data.htmlUrl}" download style="display: inline-block; padding: 10px 20px; background-color: #0070f3; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">📥 Ladda ner briefing (.html)</a></p>
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 20px;">
+          <p style="margin: 0 0 10px 0; font-weight: bold;">💡 Så här öppnar du filen:</p>
+          <ol style="margin: 0; padding-left: 20px;">
+            <li>Ladda ner filen genom att klicka på knappen ovan</li>
+            <li>Dubbelklicka på den nedladdade filen (öppnas i din browser)</li>
+            <li>Se hela briefing med styling och design!</li>
+          </ol>
+        </div>
         <p style="color: #666; font-size: 12px; margin-top: 30px;">Automatiskt genererad briefing baserad på företagsdata från Apiverket och SCB.</p>
       `,
     })
