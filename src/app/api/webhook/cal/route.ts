@@ -453,18 +453,16 @@ export async function POST(req: NextRequest) {
       notifyDiscord({ name, company, service, bookingDate: formattedDate }),
     ])
 
-    // Trigger research + PDF generation (async, don't block response)
-    Promise.allSettled([
-      runResearchAndGeneratePDF({
-        name,
-        email,
-        company,
-        website: website || undefined,
-        service,
-        roiData: leadData.roiData,
-        bookingDate,
-      }),
-    ])
+    // Generate PDF (await to ensure completion before response)
+    await runResearchAndGeneratePDF({
+      name,
+      email,
+      company,
+      website: website || undefined,
+      service,
+      roiData: leadData.roiData,
+      bookingDate,
+    })
 
     return NextResponse.json({ ok: true })
   } catch (error) {
