@@ -49,7 +49,6 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     }
 
     const updateCanvasSize = () => {
-      if (!container) return
       const dpr = window.devicePixelRatio || 1;
       const rect = container.getBoundingClientRect();
       canvas.width = (rect.width + BLEED * 2) * dpr;
@@ -69,7 +68,7 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     window.addEventListener('resize', updateCanvasSize);
 
     function resetBeam(beam: Beam, index: number, totalBeams: number) {
-      if (!container) return
+      if (!container || !ctx) return;
       const column = index % 3;
       const totalWidth = container.clientWidth + 200;
       const spacing = totalWidth / 3;
@@ -83,7 +82,7 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     }
 
     function drawBeam(beam: Beam) {
-      if (!ctx) return
+      if (!ctx) return;
       ctx.save();
       ctx.translate(beam.x, beam.y);
       ctx.rotate((beam.angle * Math.PI) / 180);
@@ -108,7 +107,7 @@ export function VaultBeams({ intensity = 'strong', style }: VaultBeamsProps) {
     observer.observe(container);
 
     function animate() {
-      if (!isVisibleRef.current || prefersReducedMotion || !ctx) {
+      if (!ctx || !isVisibleRef.current || prefersReducedMotion) {
         animationFrameRef.current = requestAnimationFrame(animate);
         return;
       }

@@ -1,9 +1,16 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
-import { VaultDesktop } from '@/components/vault/VaultDesktop';
-import { VaultMobile } from '@/components/vault/VaultMobile';
+import dynamic from 'next/dynamic';
 
-// ─── SEO ───────────────────────────────────────────────────────────────────
+// Dynamic imports for Vault components
+const VaultDesktop = dynamic(
+  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop }))
+);
+const VaultMobile = dynamic(
+  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile }))
+);
+
+// ─── SEO ────────────────────────────────────────────────────────────────────
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -20,52 +27,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? 'Filip Thai är grundare och VD för Eteya Consulting AB. Kontakta Filip för AI-konsulting, mötesbokningar och mer.'
       : 'Filip Thai is founder and CEO of Eteya Consulting AB. Contact Filip for AI consulting, meeting bookings and more.',
     openGraph: {
-      title: isSv ? 'Filip Thai — Eteya Consulting' : 'Filip Thai — Eteya Consulting',
+      title: 'Filip Thai — Eteya Consulting',
       description: isSv ? 'Grundare & VD · AI Consulting' : 'CEO & Founder · AI Consulting',
       url,
       images: [{ url: '/images/team/filip.png', width: 1200, height: 630, alt: 'Filip Thai' }],
-      type: 'profile',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Filip Thai — Eteya Consulting',
       images: ['/images/team/filip.png'],
-    },
-    alternates: {
-      canonical: url,
-      languages: {
-        'sv': 'https://eteya.ai/sv/om-oss/filip',
-        'en': 'https://eteya.ai/en/about/filip',
-      },
     },
   };
 }
 
-// ─── JSON-LD ────────────────────────────────────────────────────────────────
+// ─── JSON-LD ─────────────────────────────────────────────────────────────────
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Filip Thai',
   jobTitle: 'Grundare & VD',
-  worksFor: {
-    '@type': 'Organization',
-    name: 'Eteya Consulting AB',
-    url: 'https://eteya.ai',
-  },
+  worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
   telephone: '+46739823962',
   email: 'kontakt@eteya.ai',
   url: 'https://eteya.ai/om-oss/filip',
   sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
   image: 'https://eteya.ai/images/team/filip.png',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Stockholm',
-    addressCountry: 'SE',
-  },
+  address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
 };
 
-// ─── PAGE ───────────────────────────────────────────────────────────────────
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function FilipPage() {
   return (
@@ -77,45 +67,94 @@ export default function FilipPage() {
       />
 
       {/*
-        NAVIGATION: lägg din <Nav /> här ovanför om du vill ha den
+        Lägg din <Nav /> här om du vill ha navigation:
         <Nav />
       */}
 
-      {/* Desktop: full viewport, stage centrerad */}
-      <div className="hidden md:flex items-center justify-center w-screen h-screen overflow-hidden relative"
-        style={{ background: 'radial-gradient(ellipse at 50% 38%, #181816 0%, #0a0a09 50%, #010101 100%)' }}>
+      {/* Responsiv CSS — ingen Tailwind-dependency */}
+      <style>{`
+        .vault-desktop-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+          background: radial-gradient(ellipse at 50% 38%, #181816 0%, #0a0a09 50%, #010101 100%);
+        }
+        .vault-stage {
+          position: relative;
+          width: 1440px;
+          height: 900px;
+          transform-origin: center;
+          transform: scale(var(--vault-scale, 1));
+          overflow: hidden;
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 1px 0 0 rgba(255,255,255,0.08),
+            inset 0 -1px 0 rgba(0,0,0,0.55),
+            inset -1px 0 0 rgba(0,0,0,0.28),
+            0 0 80px rgba(200,255,0,0.03),
+            0 8px 32px rgba(0,0,0,0.55),
+            0 40px 100px rgba(0,0,0,0.75);
+        }
+        .vault-stage::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -80%;
+          width: 55%; height: 100%;
+          background: linear-gradient(
+            97deg,
+            transparent 0%,
+            rgba(255,255,255,0.012) 35%,
+            rgba(255,255,255,0.032) 50%,
+            rgba(255,255,255,0.012) 65%,
+            transparent 100%
+          );
+          animation: stageSheen 12s cubic-bezier(0.45,0,0.55,1) infinite;
+          pointer-events: none;
+          z-index: 9999;
+        }
+        @keyframes stageSheen {
+          0%,  25%  { left: -80%; opacity: 0; }
+          30%        { opacity: 1; }
+          70%        { opacity: 1; }
+          75%, 100%  { left: 130%; opacity: 0; }
+        }
+        .vault-mobile-wrapper {
+          display: none;
+          width: 100vw;
+          height: 100vh;
+          height: 100dvh;
+        }
 
-        {/* Full-viewport beams bakom scenen — importeras inuti VaultDesktop */}
+        /* Stage scale breakpoints */
+        :root { --vault-scale: 1; }
+        @media (max-width: 1500px) { :root { --vault-scale: 0.85; } }
+        @media (max-width: 1300px) { :root { --vault-scale: 0.70; } }
+        @media (max-width: 1050px) { :root { --vault-scale: 0.55; } }
 
-        {/* 1440×900 machined glass stage */}
-        <div
-          className="relative overflow-hidden"
-          style={{
-            width: 1440, height: 900,
-            transformOrigin: 'center',
-            transform: 'scale(var(--vault-scale, 1))',
-            boxShadow: [
-              'inset 0 1px 0 rgba(255,255,255,0.18)',
-              'inset 1px 0 0 rgba(255,255,255,0.08)',
-              'inset 0 -1px 0 rgba(0,0,0,0.55)',
-              'inset -1px 0 0 rgba(0,0,0,0.28)',
-              '0 0 80px rgba(200,255,0,0.03)',
-              '0 8px 32px rgba(0,0,0,0.55)',
-              '0 40px 100px rgba(0,0,0,0.75)',
-            ].join(', '),
-          }}
-        >
+        /* Switch desktop↔mobile at 768px */
+        @media (max-width: 768px) {
+          .vault-desktop-wrapper { display: none; }
+          .vault-mobile-wrapper  { display: block; }
+        }
+      `}</style>
+
+      {/* DESKTOP */}
+      <div className="vault-desktop-wrapper">
+        <div className="vault-stage">
           <VaultDesktop />
         </div>
       </div>
 
-      {/* Mobile: full dynamic viewport height */}
-      <div className="md:hidden w-screen" style={{ height: '100dvh' }}>
+      {/* MOBILE */}
+      <div className="vault-mobile-wrapper">
         <VaultMobile />
       </div>
 
       {/*
-        FOOTER: lägg din <FooterCTAClient /> här undertill om du vill ha den
+        Lägg din <FooterCTAClient /> här om du vill ha footer:
         <FooterCTAClient />
       */}
     </>

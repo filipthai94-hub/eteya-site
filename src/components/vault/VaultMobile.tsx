@@ -203,7 +203,7 @@ export function VaultMobile() {
           <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 600, fontSize: 20 }}>Boka möte</span>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.36)' }}>30 min · via cal.com</span>
         </a>
-        <a href="/api/vcard/filip" download="Filip-Thai.vcf" className="vm-cta" style={{
+        <a href="/filip-thai.vcf" download="Filip-Thai.vcf" className="vm-cta" style={{
           flex: 1, display: 'flex', flexDirection: 'column', gap: 5,
           padding: '14px 16px 13px',
           background: 'transparent',

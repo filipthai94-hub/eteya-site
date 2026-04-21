@@ -78,7 +78,7 @@ export default async function Home({
         <ROICalculatorSection />
       </div>
       <JoinTheBest />
-      <Cases />
+      <Cases params={params} />
       <ProcessSection />
       <TechStack />
       <FAQSection />

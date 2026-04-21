@@ -17,6 +17,7 @@ interface CaseData {
 }
 
 interface CasesClientProps {
+  locale: string
   heading: string
   cta: string
   problemLabel: string
@@ -422,9 +423,7 @@ const CSS = `
   }
 `
 
-export default function CasesClient({ heading, cta, problemLabel, solutionLabel, resultsLabel, items }: CasesClientProps) {
-  const pathname = usePathname()
-  const locale = pathname?.startsWith('/sv') ? 'sv' : 'en'
+export default function CasesClient({ locale, heading, cta, problemLabel, solutionLabel, resultsLabel, items }: CasesClientProps) {
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll('#cases-section .case-card')) as HTMLElement[]
     const bindings: Array<{ title: HTMLElement; handler: () => void }> = []

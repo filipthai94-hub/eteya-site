@@ -133,8 +133,26 @@ async function uploadHtmlToSupabase(htmlContent: string, filename: string): Prom
     throw new Error(`Supabase upload failed: ${uploadRes.status} ${errorText}`)
   }
 
-  // Return public URL
-  return `${ETEYA_SUPABASE_URL}/storage/v1/object/public/briefings/${filename}`
+  // Return public URL with ?download parameter to force browser download
+  return `${ETEYA_SUPABASE_URL}/storage/v1/object/public/briefings/${filename}?download=${encodeURIComponent(filename)}`
+}
+
+// Load competitors from JSON file
+async function loadCompetitors() {
+  try {
+    const competitorsData = await import('@/data/competitors.json')
+    return competitorsData.default.competitors.slice(0, 5) // Return top 5 competitors
+  } catch (error) {
+    console.error('Failed to load competitors:', error)
+    // Fallback to hardcoded list
+    return [
+      { name: 'Satori ML', pricing: '~2 200 kr/h', service: 'Maskininlärning, AI-strategi' },
+      { name: 'Codon Consulting', pricing: 'Från 15 000 kr/mån', service: 'NLP, Chatbot, MLOps' },
+      { name: 'Aixia', pricing: '1 500-2 000 kr/h', service: 'AI-infrastruktur, strategi' },
+      { name: 'Abundly AI', pricing: '1 200-1 800 kr/h', service: 'Generativ AI, agenter' },
+      { name: 'Arange AI', pricing: '900-1 500 kr/h', service: 'AI-strategi → implementation' }
+    ]
+  }
 }
 
 async function runResearchAndGenerateHTML(data: {
@@ -153,7 +171,7 @@ async function runResearchAndGenerateHTML(data: {
   }
 
   try {
-    // Step 1: Call Apiverket API directly (no internal /api/scrape-lead call)
+    // Step 1: Call Apiverket API directly
     const { APIVERKET_API_KEY } = process.env
     
     // Search for company by name
@@ -163,7 +181,6 @@ async function runResearchAndGenerateHTML(data: {
     
     if (!searchRes.ok) {
       console.error('Apiverket search failed:', searchRes.status)
-      // Continue with mock data instead of failing
     }
     
     const searchResults = await searchRes.json().catch(() => null)
@@ -198,46 +215,56 @@ async function runResearchAndGenerateHTML(data: {
         postal_code: '000 00',
         city: 'Okänd ort',
         sni_codes: [{ code: '0000', description: 'Okänd bransch' }],
+        number_of_employees: 0,
+        revenue: 0,
+        board_members: [],
+        description: 'Verksamhetsbeskrivning saknas',
+      }
+    }
+    
+    // Step 2: Website analysis (if website provided)
+    let websiteAnalysis = null
+    if (data.website) {
+      try {
+        console.log('🔍 Analyserar hemsida:', data.website)
+        const { analyzeWebsite } = await import('@/lib/website-analyzer')
+        websiteAnalysis = await analyzeWebsite(data.website)
+      } catch (error) {
+        console.error('Website analysis failed:', error)
       }
     }
 
-    // Step 2: Build briefing data (simplified - tech stack detection removed for Vercel compatibility)
+    // Step 3: Build briefing data with ALL available fields
     const briefingData = {
       foretagsnamn: company.name,
       orgnr: company.orgnr,
       adress: company.address,
       postnr: company.postal_code,
       ort: company.city,
-      bransch: company.sni_codes?.[0]?.description || 'Okänd bransch',
+      bransch: websiteAnalysis?.industry || company.sni_codes?.[0]?.description || 'Okänd bransch',
       sniKod: company.sni_codes?.[0]?.code || '',
-      antalAnstallda: 0,
-      omsattning: 0,
-      verksamhet: 'Verksamhetsbeskrivning baserad på branschdata',
+      antalAnstallda: company.number_of_employees || 0,
+      omsattning: company.revenue || 0,
+      styrelse: company.board_members || [],
+      verksamhet: websiteAnalysis?.description || company.description || 'Verksamhetsbeskrivning baserad på branschdata',
       techStack: [] as string[],
       kontakt: { email: data.email },
       scbStats: {
         genomsnittligLon: 45000,
-        omsattningPerAnstalld: 600000,
+        omsattningPerAnstalld: industryStats?.average_revenue_per_employee || 600000,
         totalEnterprises: industryStats?.total_enterprises || null,
         sizeDistribution: industryStats?.size_distribution || null,
       },
       roiPrognos: data.roiData ? (typeof data.roiData === 'string' ? JSON.parse(data.roiData) : data.roiData) : {
         besparingKr: 0, roiProcent: 0, paybackManader: 0, sparatTimmar: 0, fte: 0
       },
+      // Use AI opportunities from website analysis OR fallback to generic
       rekommendationer: {
-        fokus: 'Fokusera på att förstå företagets behov och identifiera bästa AI-möjligheterna',
-        aiMojligheter: ['Orderbekräftelse-automation', 'AI-chatbot för kundtjänst', 'Fakturering automation']
+        fokus: websiteAnalysis?.aiOpportunities?.[0]?.description || 'Fokusera på att förstå företagets behov och identifiera bästa AI-möjligheterna',
+        aiMojligheter: websiteAnalysis?.aiOpportunities || ['Orderbekräftelse-automation', 'AI-chatbot för kundtjänst', 'Fakturering automation']
       },
-      processer: [
-        { namn: 'Kundtjänst', timmar: 8, automation: 45, besparing: 140000 },
-        { namn: 'Fakturering & Admin', timmar: 5, automation: 65, besparing: 95000 },
-        { namn: 'Leads & Försäljning', timmar: 6, automation: 60, besparing: 85000 }
-      ],
-      konkurrens: [
-        { namn: 'Satori ML', pris: '~2 200 kr/h', tjanst: 'Maskininlärning' },
-        { namn: 'Codon Consulting', pris: 'Från 15 000 kr/mån', tjanst: 'AI-strategi' },
-        { namn: 'AI Sweden Partners', pris: '2 500 kr/h', tjanst: 'AI-strategi' }
-      ],
+      // Load competitors from JSON file
+      konkurrens: await loadCompetitors(),
       genererad: new Date().toLocaleDateString('sv-SE', {
         year: 'numeric',
         month: 'long',
@@ -264,18 +291,20 @@ async function runResearchAndGenerateHTML(data: {
           averageRevenue: briefingData.scbStats?.omsattningPerAnstalld || 0,
           employeeGrowth: 'N/A',
         },
-        competitors: briefingData.konkurrens.map(k => ({
-          name: k.namn,
-          pricing: k.pris,
-          service: k.tjanst,
-          source: '',
+        competitors: briefingData.konkurrens.map((k: any) => ({
+          name: k.name,
+          pricing: k.pricing,
+          service: k.focus || k.service,
+          source: k.source || '',
         })),
-        aiOpportunities: briefingData.rekommendationer.aiMojligheter.map((ai, i) => ({
-          title: ai,
-          description: ai,
-          estimatedSavings: '~10 h/vecka',
-          priority: i === 0 ? 'high' : i === 1 ? 'high' : 'medium' as 'high' | 'medium' | 'low',
-        })),
+        aiOpportunities: Array.isArray(briefingData.rekommendationer.aiMojligheter)
+          ? briefingData.rekommendationer.aiMojligheter.map((ai: any, i: number) => ({
+              title: typeof ai === 'string' ? ai : ai.title,
+              description: typeof ai === 'string' ? ai : ai.description,
+              estimatedSavings: typeof ai === 'string' ? '~10 h/vecka' : (ai.estimatedSavings || '~10 h/vecka'),
+              priority: (typeof ai === 'string' ? (i === 0 ? 'high' : i === 1 ? 'high' : 'medium') : (ai.priority || 'medium')) as 'high' | 'medium' | 'low',
+            }))
+          : [],
         roiValidation: {
           claimed: briefingData.roiPrognos.besparingKr,
           realistic: briefingData.roiPrognos.besparingKr,

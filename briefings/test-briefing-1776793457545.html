@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Strategimöte — TestFöretaget AB (TEST)</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    body {
+      margin: 0; padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a; color: #ffffff; line-height: 1.6;
+    }
+    .page { padding: 40px; }
+    .header {
+      background: linear-gradient(135deg, #C8FF00 0%, #9FCC00 100%);
+      color: #0a0a0a; padding: 30px; margin: -40px -40px 30px -40px;
+    }
+    .header h1 { margin: 0 0 10px 0; font-size: 28px; font-weight: 700; }
+    .section { margin-bottom: 30px; }
+    .section-title {
+      font-size: 18px; font-weight: 600; color: #C8FF00;
+      margin-bottom: 15px; border-bottom: 1px solid rgba(200, 255, 0, 0.3);
+      padding-bottom: 8px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px; padding: 20px; margin-bottom: 15px;
+    }
+    .card h3 { margin: 0 0 10px 0; font-size: 16px; color: #C8FF00; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .stat {
+      background: rgba(200, 255, 0, 0.1);
+      border-left: 3px solid #C8FF00;
+      padding: 15px; border-radius: 4px;
+    }
+    .stat-value { font-size: 24px; font-weight: 700; color: #C8FF00; }
+    .stat-label { font-size: 12px; opacity: 0.7; margin-top: 5px; }
+    .roi-badge {
+      background: linear-gradient(135deg, rgba(200, 255, 0, 0.2) 0%, rgba(159, 204, 0, 0.2) 100%);
+      border: 2px solid #C8FF00; border-radius: 12px;
+      padding: 25px; text-align: center; margin: 20px 0;
+    }
+    .roi-badge .value { font-size: 42px; font-weight: 700; color: #C8FF00; }
+    .roi-badge .label { font-size: 14px; opacity: 0.8; margin-top: 8px; }
+    .opportunity {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid; padding: 15px; margin-bottom: 12px; border-radius: 4px;
+    }
+    .opportunity h4 { margin: 0 0 8px 0; font-size: 15px; }
+    .footer {
+      margin-top: 50px; padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center; font-size: 12px; opacity: 0.6;
+    }
+    .badge {
+      display: inline-block; padding: 4px 8px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px; border-bottom: 1px solid #C8FF00; color: #C8FF00; }
+    td { padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <h1>🎯 Strategimöte — Briefing (TEST)</h1>
+      <div class="subtitle">
+        tisdag 21 april 2026
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>📋 Mötesinformation</h3>
+        <div class="grid">
+          <div>
+            <strong>Företag:</strong> TestFöretaget AB<br>
+            <strong>Kontakt:</strong> Filip Thai (TEST)<br>
+            <strong>Email:</strong> filip@eteya.ai
+          </div>
+          <div>
+            <strong>Tjänst:</strong> AI-strategi och rådgivning<br>
+            <strong>Bransch:</strong> E-handel<br>
+            <strong>SNI:</strong> 47910
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="roi-badge">
+        <div class="value">420 000 kr/år</div>
+        <div class="label">Uppskattad besparing</div>
+      </div>
+      
+      <div class="card">
+        <h3>📊 3-årsprognos</h3>
+        <div class="grid">
+          <div class="stat">
+            <div class="stat-value">420 000 kr</div>
+            <div class="stat-label">År 1</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">840 000 kr</div>
+            <div class="stat-label">År 2</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">1 260 000 kr</div>
+            <div class="stat-label">År 3</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">168%</div>
+            <div class="stat-label">ROI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🏢 Företagsanalys</div>
+      <div class="card">
+        <div class="grid">
+          <div><strong>Verksamhet:</strong><br>E-handel och digitala tjänster</div>
+          <div><strong>Teknologier:</strong><br>Shopify, React, Node.js</div>
+          <div><strong>Anställda:</strong><br>12 st</div>
+          <div><strong>Omsättning:</strong><br>8 500 000 kr</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🤖 AI-möjligheter</div>
+      <div class="opportunity" style="border-color: #C8FF00">
+        <h4 style="color: #C8FF00">🤖 Kundtjänst-automation</h4>
+        <div>AI-chatbot som hanterar 60% av kundfrågor automatiskt</div>
+        <div class="savings">💰 ~12 h/vecka | Prioritet: <span class="badge" style="background: #C8FF00; color: #0a0a0a;">HIGH</span></div>
+      </div>
+      <div class="opportunity" style="border-color: #C8FF00">
+        <h4 style="color: #C8FF00">📧 Orderbekräftelser</h4>
+        <div>Automatisera orderbekräftelser och uppföljningar</div>
+        <div class="savings">💰 ~8 h/vecka | Prioritet: <span class="badge" style="background: #C8FF00; color: #0a0a0a;">HIGH</span></div>
+      </div>
+      <div class="opportunity" style="border-color: #FFD700">
+        <h4 style="color: #FFD700">📊 Rapportgenerering</h4>
+        <div>Automatisera vecko- och månadsrapporter</div>
+        <div class="savings">💰 ~4 h/vecka | Prioritet: <span class="badge" style="background: #FFD700; color: #0a0a0a;">MEDIUM</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">💰 Konkurrenspriser</div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Företag</th><th>Pris</th><th>Tjänst</th></tr></thead>
+          <tbody>
+            <tr><td>Satori ML</td><td>~2 200 kr/h</td><td>Maskininlärning</td></tr>
+            <tr><td>Codon Consulting</td><td>Från 15 000 kr/mån</td><td>AI-strategi</td></tr>
+            <tr><td>AI Sweden</td><td>2 500 kr/h</td><td>AI-rådgivning</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">✅ ROI-validering</div>
+      <div class="card">
+        <div class="grid">
+          <div><strong>Påstådd besparing:</strong><br>450 000 kr</div>
+          <div><strong>Realistisk besparing:</strong><br><span style="color: #C8FF00">420 000 kr</span></div>
+        </div>
+        <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 4px;">
+          <strong>Bedömning:</strong> <span class="badge" style="background: #C8FF00; color: #0a0a0a; margin-left: 8px;">HIGH CONFIDENCE</span>
+          <div style="margin-top: 8px; font-size: 13px;">ROI-prognos verkar realistisk baserat på branschdata och liknande kundcase</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎯 Rekommenderat fokus</div>
+      <div class="card">
+        Fokusera på kundtjänst-automation — störst och snabbast ROI baserat på nuvarande processer.
+      </div>
+    </div>
+
+    <div class="footer">
+      <strong>eteya.ai</strong> | kontakt@eteya.ai<br>
+      Genererad: 2026-04-21 17:44:17<br>
+      <em>Detta är en TEST-briefing</em>
+    </div>
+  </div>
+</body>
+</html>

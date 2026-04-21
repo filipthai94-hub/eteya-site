@@ -13,11 +13,17 @@ interface CaseData {
   quoteAuthor: string
 }
 
-export default async function Cases() {
+export default async function Cases({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
   const t = await getTranslations('cases')
   const items = t.raw('items') as CaseData[]
   return (
     <CasesClient
+      locale={locale}
       heading={t('heading')}
       cta={t('cta')}
       problemLabel={t('problemLabel')}
