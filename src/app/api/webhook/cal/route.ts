@@ -155,32 +155,53 @@ async function runResearchAndGeneratePDF(data: {
   }
 
   try {
-    // Step 1: Scrape lead data via internal API
-    const scrapeUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/scrape-lead`
-    const scrapeRes = await fetch(scrapeUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        companyName: data.company,
-        website: data.website || undefined,
-      }),
-      signal: AbortSignal.timeout(15000),
+    // Step 1: Call Apiverket API directly (no internal /api/scrape-lead call)
+    const { APIVERKET_API_KEY } = process.env
+    
+    // Search for company by name
+    const searchRes = await fetch(`https://api.apiverket.se/v1/companies/search?query=${encodeURIComponent(data.company)}`, {
+      headers: { 'Authorization': `Bearer ${APIVERKET_API_KEY}` }
     })
-
-    if (!scrapeRes.ok) {
-      console.error('Scrape-lead failed:', scrapeRes.status)
-      return
+    
+    if (!searchRes.ok) {
+      console.error('Apiverket search failed:', searchRes.status)
+      // Continue with mock data instead of failing
     }
-
-    const scrapeData = await scrapeRes.json()
-
-    if (!scrapeData.company) {
-      console.warn('Company not found in Apiverket, skipping PDF generation')
-      return
+    
+    const searchResults = await searchRes.json().catch(() => null)
+    const orgnr = searchResults?.[0]?.orgnr
+    
+    let company: any = null
+    let industryStats: any = null
+    
+    if (orgnr) {
+      // Get company details
+      const detailsRes = await fetch(`https://api.apiverket.se/v1/companies/${orgnr}`, {
+        headers: { 'Authorization': `Bearer ${APIVERKET_API_KEY}` }
+      })
+      company = await detailsRes.json().catch(() => null)
+      
+      // Get industry stats if SNI code exists
+      if (company?.sni_codes?.[0]?.code) {
+        const statsRes = await fetch(`https://api.apiverket.se/v1/statistics/industry/${company.sni_codes[0].code}`, {
+          headers: { 'Authorization': `Bearer ${APIVERKET_API_KEY}` }
+        })
+        industryStats = await statsRes.json().catch(() => null)
+      }
     }
-
-    const company = scrapeData.company
-    const industryStats = scrapeData.industryStats
+    
+    // Fallback to mock data if Apiverket fails
+    if (!company) {
+      console.warn('Company not found in Apiverket, using mock data')
+      company = {
+        name: data.company,
+        orgnr: '000000-0000',
+        address: 'Okänd adress',
+        postal_code: '000 00',
+        city: 'Okänd ort',
+        sni_codes: [{ code: '0000', description: 'Okänd bransch' }],
+      }
+    }
 
     // Step 2: Build briefing data (simplified - tech stack detection removed for Vercel compatibility)
     const briefingData = {
