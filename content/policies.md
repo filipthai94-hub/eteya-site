@@ -11,7 +11,7 @@
 
 ### 1. Vem är personuppgiftsansvarig?
 **Eteya Consulting AB** är personuppgiftsansvarig för behandlingen av dina personuppgifter.  
-**Kontakt:** contact@eteya.ai
+**Kontakt:** kontakt@eteya.ai
 
 ### 2. Vilka personuppgifter samlar vi in?
 - **Grundläggande uppgifter:** Namn, e-postadress, telefonnummer (när du kontaktar oss)
@@ -72,14 +72,14 @@ Du kan när som helst ändra dina cookie-inställningar i din webbläsare.
 
 ### Hur gör jag om jag har klagomål?
 Om du anser att vi inte hanterar dina personuppgifter korrekt kan du:
-1. Kontakta oss på contact@eteya.ai så utreder vi ärendet
+1. Kontakta oss på kontakt@eteya.ai så utreder vi ärendet
 2. Vända dig direkt till Integritetsskyddsmyndigheten (IMY) för klagomål
 
 ---
 
 ## CTA
 **Har du frågor om hur vi hanterar dina personuppgifter?**  
-Kontakta oss gärna på **contact@eteya.ai** — vi svarar inom 24 timmar.
+Kontakta oss gärna på **kontakt@eteya.ai** — vi svarar inom 24 timmar.
 
 ---
 
@@ -161,7 +161,7 @@ Svensk lag gäller för våra avtal. Tvister ska i första hand lösas genom fö
 
 ## CTA
 **Funderingar på våra villkor eller ett specifikt uppdrag?**  
-Kontakta oss på **contact@eteya.ai** så går vi igenom vad som gäller för ditt case.
+Kontakta oss på **kontakt@eteya.ai** så går vi igenom vad som gäller för ditt case.
 
 ---
 
@@ -169,7 +169,7 @@ Kontakta oss på **contact@eteya.ai** så går vi igenom vad som gäller för di
 - [Konsumentköplagen (2022:266)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/konsumentkoplag-2022266_sfs-2022-266)
 - [Distansavtalslagen (2005:59)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/distansavtalslag-200559_sfs-2005-59)
 - [Avtalslagen (1915:218)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/avtalslag-1915218-sfs-1915-218)
-- [Eteya Consulting AB](https://eteya.ai) — Kontakt: contact@eteya.ai
+- [Eteya Consulting AB](https://eteya.ai) — Kontakt: kontakt@eteya.ai
 
 ---
 
@@ -186,7 +186,7 @@ Kontakta oss på **contact@eteya.ai** så går vi igenom vad som gäller för di
 
 ### 1. Who is the data controller?
 **Eteya Consulting AB** is the data controller responsible for the processing of your personal data.  
-**Contact:** contact@eteya.ai
+**Contact:** kontakt@eteya.ai
 
 ### 2. What personal data do we collect?
 - **Basic information:** Name, email address, phone number (when you contact us)
@@ -247,14 +247,14 @@ You can change your cookie settings in your browser at any time.
 
 ### How do I file a complaint?
 If you believe we are not handling your personal data correctly:
-1. Contact us at contact@eteya.ai and we will investigate
+1. Contact us at kontakt@eteya.ai and we will investigate
 2. File a complaint directly with the Integritetsskyddsmyndigheten (IMY)
 
 ---
 
 ## CTA
 **Questions about how we handle your personal data?**  
-Contact us at **contact@eteya.ai** — we respond within 24 hours.
+Contact us at **kontakt@eteya.ai** — we respond within 24 hours.
 
 ---
 
@@ -336,7 +336,7 @@ Swedish law applies to our agreements. Disputes should first be resolved through
 
 ## CTA
 **Questions about our terms or a specific assignment?**  
-Contact us at **contact@eteya.ai** and we'll go through what applies to your case.
+Contact us at **kontakt@eteya.ai** and we'll go through what applies to your case.
 
 ---
 
@@ -344,4 +344,4 @@ Contact us at **contact@eteya.ai** and we'll go through what applies to your cas
 - [Swedish Consumer Sales Act (2022:266)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/konsumentkoplag-2022266_sfs-2022-266)
 - [Distance Contracts Act (2005:59)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/distansavtalslag-200559_sfs-2005-59)
 - [Swedish Contracts Act (1915:218)](https://www.riksdagen.se/sv/dokument-lagar/dokument/svensk-forfattningssamling/avtalslag-1915218-sfs-1915-218)
-- [Eteya Consulting AB](https://eteya.ai) — Contact: contact@eteya.ai
+- [Eteya Consulting AB](https://eteya.ai) — Contact: kontakt@eteya.ai
