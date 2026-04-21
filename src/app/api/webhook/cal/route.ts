@@ -382,8 +382,10 @@ export async function POST(req: NextRequest) {
     console.log('Raw body length:', rawBody.length)
 
     // Verify Cal.com webhook signature
-    const signature = req.headers.get('x-cal-signature')
+    const signature = req.headers.get('x-cal-signature-256') || req.headers.get('x-cal-signature')
     const secret = process.env.CAL_WEBHOOK_SECRET
+
+    console.log('Signature header:', signature ? '[PRESENT]' : '[MISSING]')
 
     // Handle ping events (no signature required)
     try {
