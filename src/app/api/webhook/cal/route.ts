@@ -417,12 +417,26 @@ export async function POST(req: NextRequest) {
 
     const body = JSON.parse(rawBody)
 
+    console.log('\n=== FULL PAYLOAD ===')
+    console.log('Event:', body.event || body.triggerEvent)
+    console.log('Body keys:', Object.keys(body).join(', '))
+    console.log('Full body:', JSON.stringify(body, null, 2).slice(0, 2000))
+
     // Only handle BOOKING_CREATED
     if (body.event !== 'BOOKING_CREATED' && body.triggerEvent !== 'BOOKING_CREATED') {
+      console.log('Event not handled, returning early')
       return NextResponse.json({ ok: true, message: 'Event not handled' })
     }
 
     const payload = body.payload ?? body
+    
+    console.log('\n=== PAYLOAD STRUCTURE ===')
+    console.log('Payload keys:', Object.keys(payload).join(', '))
+    console.log('payload.responses:', payload.responses ? 'EXISTS' : 'MISSING')
+    console.log('payload.attendees:', payload.attendees ? payload.attendees.length + ' items' : 'MISSING')
+    console.log('payload.metadata:', payload.metadata ? 'EXISTS' : 'MISSING')
+    console.log('payload.title:', payload.title)
+    console.log('payload.description:', payload.description)
 
     // Extract data
     const name = payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title ?? ''
