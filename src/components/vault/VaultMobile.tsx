@@ -175,6 +175,7 @@ export function VaultMobile({ person }: { person: PersonData }) {
               tick={tick}
               scannerAngle={scannerAngle}
               pulse={pulse}
+              image={person.image}
             />
           </div>
         </div>

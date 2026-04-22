@@ -7,10 +7,12 @@ interface VaultLockProps {
   tick: number;
   scannerAngle: number;
   pulse: number;
+  image?: string;
 }
 
 export function VaultLock({
   monogramVisible, unlocked, settled, tick, scannerAngle, pulse,
+  image = '/images/team/filip.png',
 }: VaultLockProps) {
   return (
     <div style={{ position: 'relative', width: 560, height: 560 }}>
@@ -164,7 +166,7 @@ export function VaultLock({
 
         {/* Portrait — SVG-native image with clipPath iris-fade */}
         <image
-          href="/images/team/filip.png"
+          href={image}
           x="100" y="100" width="400" height="400"
           preserveAspectRatio="xMidYMid slice"
           clipPath="url(#vl-photoClip)"

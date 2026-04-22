@@ -14,6 +14,7 @@ export interface PersonData {
   calUrl: string;
   vcfHref: string;
   vcfDownload: string;
+  image?: string;
 }
 
 const tileStyle: React.CSSProperties = {
@@ -141,6 +142,7 @@ export function VaultDesktop({ person }: { person: PersonData }) {
             tick={tick}
             scannerAngle={scannerAngle}
             pulse={pulse}
+            image={person.image}
           />
           <div style={{
             display: 'flex', gap: 20, marginTop: 28, width: 560,

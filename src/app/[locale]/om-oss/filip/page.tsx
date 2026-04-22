@@ -1,16 +1,9 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
-import dynamic from 'next/dynamic';
-import { VaultBeams } from '@/components/vault/VaultBeams';
+import { VaultClient } from '@/components/vault/VaultClient';
 import type { PersonData } from '@/components/vault/VaultDesktop';
 
-// Dynamic imports for Vault client components
-const VaultDesktop = dynamic(
-  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop }))
-);
-const VaultMobile = dynamic(
-  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile }))
-);
+
 
 const filipPerson: PersonData = {
   name: 'Filip Thai',
@@ -23,6 +16,7 @@ const filipPerson: PersonData = {
   calUrl: 'https://cal.com/filip',
   vcfHref: '/filip-thai.vcf',
   vcfDownload: 'Filip-Thai.vcf',
+  image: '/images/team/filip.png',
 };
 
 // ─── SEO ────────────────────────────────────────────────────────────────────
@@ -193,19 +187,8 @@ export default function FilipPage() {
         }
       `}</style>
 
-      {/* DESKTOP */}
-      <div className="vault-desktop-wrapper">
-        <VaultBeams intensity="strong" style={{ zIndex: 1 }} />
-        <div className="vault-stage">
-          <VaultDesktop person={filipPerson} />
-        </div>
-      </div>
-
-      {/* MOBILE */}
-      <div className="vault-mobile-wrapper">
-        <VaultBeams intensity="strong" style={{ zIndex: 1 }} />
-        <VaultMobile person={filipPerson} />
-      </div>
+      {/* DESKTOP & MOBILE */}
+      <VaultClient person={filipPerson} />
     </>
   );
 }
