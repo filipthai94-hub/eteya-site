@@ -559,7 +559,7 @@ export default function Nav() {
           .en-logo-c{font-size:7.8px}
           .en-ham-btn{width:56px;height:44px}
           .en-line-top{width:28px}
-          .en-line-mid{width:56px;top:17px}
+          .en-line-mid{width:56px;top:21px}
           .en-line-bot{width:28px;top:26px;left:28px}
           .en-ham-btn:not(.is-open):hover .en-line-top{width:56px}
           .en-ham-btn:not(.is-open):hover .en-line-bot{width:56px;left:0}
