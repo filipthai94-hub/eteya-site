@@ -27,9 +27,9 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',')
 
-/* ═══════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    Footer CTA — Pixel-perfect facitloop from chriskalafatis.com
-   ═══════════════════════════════════════════════════════════ */
+   ════════════════════════════════════════════════════════════ */
 
 function CircleBorder({ className = '' }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -598,34 +598,23 @@ const hasPlayed = useRef(false)
         .fcta-modal-overlay {
           position: fixed;
           inset: 0;
-          z-index: 1000;
+          z-index: 9999;
           display: flex;
           align-items: flex-start;
           justify-content: center;
-          overflow: visible;
+          overflow-y: auto;
           padding: 24px;
           background: rgba(0, 0, 0, 0.75);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
           overscroll-behavior: contain;
-          touch-action: none;
         }
         .fcta-modal-panel {
           position: relative;
           width: calc(100% - 32px);
-          max-width: 520px;
+          max-width: 680px;
+          max-height: calc(100dvh - 48px);
           margin: auto;
-        }
-        .fcta-modal-panel::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fcta-grain2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fcta-grain2)' opacity='1'/%3E%3C/svg%3E");
-          background-size: 200px 200px;
-          opacity: 0.35;
-          mix-blend-mode: soft-light;
-          pointer-events: none;
         }
         .fcta-modal-content {
           position: relative;
@@ -973,6 +962,7 @@ const hasPlayed = useRef(false)
           .fcta-modal-panel {
             width: 100%;
             max-width: 100%;
+            max-height: 100dvh;
             padding: 0;
             margin: auto;
           }

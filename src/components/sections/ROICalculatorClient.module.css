@@ -3,11 +3,11 @@
    DNA: matchar TelestoreCaseStudy + ROICalculatorClient
    Typsnitt: DM Sans (rubrik/siffror) + Barlow Condensed (labels)
    Färger: #080808 bg · #111111 kort · #C8FF00 lime · rgba(255,255,255,0.08) border
-   ══════════════════════════════════════════════════════════════ */
+   ═════════════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;500;600&display=swap');
 
-/* ── Root & Wrap ──────────────────────────────────────────────── */
+/* ── Root & Wrap ────────────────────────────────────────────────────────── */
 .root {
   background: #080808;
   min-height: 100vh;
@@ -21,7 +21,7 @@
   width: 100%;
 }
 
-/* ── Header ───────────────────────────────────────────────────── */
+/* ── Header ────────────────────────────────────────────────────────────────── */
 .header {
   margin-bottom: 64px;
 }
@@ -75,7 +75,7 @@
   font-size: 0.9rem;
 }
 
-/* ── Grid ─────────────────────────────────────────────────────── */
+/* ── Grid ──────────────────────────────────────────────────────────────────── */
 .grid {
   display: flex;
   flex-direction: column;
@@ -83,14 +83,14 @@
   align-items: start;
 }
 
-/* ── Inputs col ───────────────────────────────────────────────── */
+/* ── Inputs col ──────────────────────────────────────────────────────────── */
 .inputs {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* ── Card ─────────────────────────────────────────────────────── */
+/* ── Card ──────────────────────────────────────────────────────────────────── */
 .card {
   background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
   border-top: 1px solid rgba(255,255,255,0.12);
@@ -119,7 +119,7 @@
   line-height: 1.55;
 }
 
-/* ── Slider ───────────────────────────────────────────────────── */
+/* ── Slider ────────────────────────────────────────────────────────────────── */
 .sliderRow {
   margin-bottom: 16px;
 }
@@ -182,7 +182,7 @@
   border: none;
 }
 
-/* ── Process list ─────────────────────────────────────────────── */
+/* ── Process list ──────────────────────────────────────────────────────────── */
 .procList {
   display: flex;
   flex-direction: column;
@@ -263,7 +263,7 @@
   margin-top: 0;
 }
 
-/* ── Impl toggle ──────────────────────────────────────────────── */
+/* ── Impl toggle ───────────────────────────────────────────────────────────── */
 .implRow {
   display: flex;
   align-items: center;
@@ -332,7 +332,7 @@
 
 /* ══════════════════════════════════════════════════════════════
    HÖGER KOLUMN — Results (sticky)
-   ══════════════════════════════════════════════════════════════ */
+   ═════════════════════════════════════════════════════════════ */
 
 .results {
   position: static;
@@ -352,7 +352,7 @@
   margin-bottom: 20px;
 }
 
-/* ── 1. Snapshot Bar ──────────────────────────────────────────── */
+/* ── 1. Snapshot Bar ───────────────────────────────────────────────────────── */
 .snapshotBar {
   display: flex;
   justify-content: center;
@@ -404,7 +404,7 @@
   margin: 8px 0;
 }
 
-/* ── 2. Donut + Legend ────────────────────────────────────────── */
+/* ── 2. Donut + Legend ─────────────────────────────────────────────────────── */
 .donutSection {
   background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
   border-left: 1px solid rgba(255,255,255,0.08);
@@ -498,7 +498,7 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* ── 3. Staplar År 1–3 ────────────────────────────────────────── */
+/* ── 3. Staplar År 1–3 ──────────────────────────────────────────────────────── */
 .barsSection {
   background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
   border-left: 1px solid rgba(255,255,255,0.08);
@@ -535,7 +535,7 @@
   text-align: center;
 }
 
-/* ── 4. Social proof — Kundresultat ───────────────────────────── */
+/* ── 4. Social proof — Kundresultat ───────────────────────────────────────── */
 .socialProof {
   display: flex;
   flex-direction: column;
@@ -580,7 +580,7 @@
   letter-spacing: 0.08em;
 }
 
-/* ── 5. Trust-rad ─────────────────────────────────────────────── */
+/* ── 5. Trust-rad ────────────────────────────────────────────────────────────── */
 .trustRow {
   background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
   border-left: 1px solid rgba(255,255,255,0.08);
@@ -599,7 +599,7 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.25), 0 16px 32px rgba(0,0,0,0.35), 0 32px 64px rgba(0,0,0,0.4);
 }
 
-/* ── 6. CTA ───────────────────────────────────────────────────── */
+/* ── 6. CTA ─────────────────────────────────────────────────────────────────── */
 .ctaArea {
   background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
   border-left: 1px solid rgba(255,255,255,0.08);
@@ -661,7 +661,7 @@
   transform: scaleY(0.9);
 }
 
-/* ── 7. Metodologi ────────────────────────────────────────────── */
+/* ── 7. Metodologi ───────────────────────────────────────────────────────────── */
 .methodology {
   display: flex;
   flex-direction: column;
@@ -741,7 +741,7 @@
   line-height: 1.3;
 }
 
-/* ── Responsive ───────────────────────────────────────────────── */
+/* ── Responsive ────────────────────────────────────────────────────────────── */
 /* Mobile-first: base styles are for mobile (390px), then scale up */
 
 @media (min-width: 768px) {
@@ -828,7 +828,7 @@
   }
 }
 
-/* ── Modal Overlay & Panel ──────────────────────────────────────── */
+/* ── Modal Overlay & Panel ───────────────────────────────────────────────── */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -838,12 +838,11 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow: visible;
+  overflow-y: auto;
   padding: 24px;
   opacity: 0;
   transition: opacity 0.3s ease;
   overscroll-behavior: contain;
-  touch-action: none;
 }
 
 .modalOverlayOpen {
