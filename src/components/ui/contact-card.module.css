@@ -28,7 +28,6 @@
   position: relative;
   width: 100%;
   max-width: 640px;
-  min-height: 600px;
   font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
   background: #0d0d0d;
   border-radius: 24px;
@@ -654,6 +653,7 @@
 .calEmbed {
   width: 100%;
   flex: 1;
+  min-height: 520px;
   max-height: 650px;
   border-radius: 12px;
   color-scheme: dark;
@@ -762,7 +762,7 @@
     right: 0;
     z-index: 10;
     margin-top: 16px;
-    border-radius: 0;
+    border-radius: 12px;
     background: #C8FF00; /* solid bg so content doesn't bleed through */
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
   }

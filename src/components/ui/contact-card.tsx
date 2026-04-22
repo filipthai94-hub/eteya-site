@@ -86,7 +86,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
       const cal = await getCalApi()
       cal("ui", {
         styles: { branding: { brandColor: "#C8FF00" } },
-        hideEventTypeDetails: false,
+        hideEventTypeDetails: true,
         layout: "month_view",
         theme: "dark",
       })
