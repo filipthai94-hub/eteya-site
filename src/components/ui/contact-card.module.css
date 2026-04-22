@@ -531,55 +531,35 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
   padding: 3px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 0.1);
   border-radius: 4px;
   background: rgba(200, 255, 0, 0.03);
 }
 
 /* ============================================
-   ROI PILL (Step 2 — persistent savings reminder)
+   ROI SUMMARY LINE (Step 2)
    ============================================
-   Desktop: subtle rounded pill, centered, above calendar
-   Mobile: sticky-top full-width bar so it stays visible
-           while user scrolls through Cal.com calendar
+   Invisible-typography: matches the DNA of .progressLabel and
+   .sectionLabel elsewhere on the site. Barlow Condensed uppercase
+   letterspaced, muted white label, middot separator, white value
+   at weight 600. No border, no bg, no emoji, no chip.
+   Just data flowing inline with the rest of the page.
    ============================================ */
 
 .roiPill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
-  margin: 0 0 18px;
-  border-radius: 999px;
-  background: rgba(200, 255, 0, 0.04);
-  border: 1px solid rgba(200, 255, 0, 0.18);
-  align-self: center;
-  max-width: 100%;
-  position: relative;
-  z-index: 5;
-}
-
-.roiPillIcon {
-  font-size: 14px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.roiPillText {
+  display: block;
+  margin: 8px 0 24px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 12px;
   font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.75);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .roiPillValue {
-  color: #C8FF00;
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
 }
 
@@ -848,25 +828,10 @@
     box-shadow: none;
   }
 
-  /* ROI Pill — sticky at top of scroll container on mobile,
-     spans full width so backdrop-filter covers content scrolling under */
+  /* ROI summary line — slightly smaller on mobile */
   .roiPill {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    align-self: stretch;
-    margin: 0 -20px 16px;
-    padding: 10px 20px;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(200, 255, 0, 0.15);
-    background: rgba(13, 13, 13, 0.96);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .roiPillText {
     font-size: 11px;
+    margin: 4px 0 20px;
   }
 }
 
@@ -889,11 +854,6 @@
   .progress {
     padding: 12px 16px 0;
     padding-top: calc(12px + env(safe-area-inset-top, 0px));
-  }
-  /* Keep sticky pill edge-aligned on small mobile */
-  .roiPill {
-    margin: 0 -16px 14px;
-    padding: 9px 16px;
   }
 }
 
