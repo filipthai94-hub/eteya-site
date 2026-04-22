@@ -73,7 +73,7 @@ const personSchema = {
   url: 'https://eteya.ai/om-oss/agit',
   sameAs: ['https://www.linkedin.com/in/agit-akalp-15701b325/'],
   image: 'https://eteya.ai/images/team/agit.png',
-  address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
 };
 
 const profilePageSchema = {

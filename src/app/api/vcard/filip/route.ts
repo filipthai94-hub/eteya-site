@@ -21,7 +21,7 @@ EMAIL;TYPE=WORK:kontakt@eteya.ai
 URL:https://eteya.ai
 PHOTO;ENCODING=b;TYPE=PNG:${base64Photo}
 X-SOCIALPROFILE;type=linkedin:https://www.linkedin.com/in/filip-thai-10449a3b6/
-ADR;TYPE=WORK:;;Stockholm;;;SE
+ADR;TYPE=WORK:;;Karlskoga;;;SE
 END:VCARD`;
 
     // Return vCard with correct headers for download

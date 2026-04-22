@@ -73,7 +73,7 @@ const personSchema = {
   url: 'https://eteya.ai/om-oss/filip',
   sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
   image: 'https://eteya.ai/images/team/filip.png',
-  address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
 };
 
 const profilePageSchema = {
