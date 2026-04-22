@@ -794,100 +794,6 @@
       "manual": "manual"
     }
   },
-  "mbflytt": {
-    "meta": {
-      "title": "MB Flytt — Case Study | Eteya AI",
-      "description": "How Eteya automated MB Flytts quote process with 12 automations and 95% faster handling."
-    },
-    "hero": {
-      "title": "MB Flytt",
-      "subtitle": "95% faster quote handling",
-      "tag": "Case Study"
-    },
-    "about": {
-      "title": "About the company",
-      "industry": "Moving & Logistics",
-      "employees": "5-10 employees",
-      "platforms": "Website, Phone, Email"
-    },
-    "challenge": {
-      "title": "The Challenge",
-      "card1Title": "Time-consuming quote process",
-      "card1Body": "Every quote required phone calls, home visits and hours of calculation. The customer had to wait a long time for an answer.",
-      "card2Title": "Lost customers",
-      "card2Body": "Customers chose faster competitors who could provide quotes immediately. MB Flytt lost business every week.",
-      "card3Title": "Paperwork",
-      "card3Body": "Agreements and booking confirmations were sent by post or fax. Lots of paper and risk of documents getting lost.",
-      "card4Title": "Manual calculation",
-      "card4Body": "Every move needed careful calculation based on volume, distance and additional services. It was hard to be consistent."
-    },
-    "solution": {
-      "title": "The Solution",
-      "body": "AI-driven quote generation based on customer information. Automatic calculation, digital signing and booking confirmation.",
-      "item1Title": "AI quote generator",
-      "item1Body": "Customers fill in details online and the AI calculates the price based on volume, distance and additional services in seconds.",
-      "item2Title": "Automatic calculation",
-      "item2Body": "Pricing is based on historical data and real-time factors like fuel prices and availability.",
-      "item3Title": "Digital signing",
-      "item3Body": "Customers can approve and sign quotes directly in the browser or on mobile. BankID integration available.",
-      "item4Title": "Automatic booking",
-      "item4Body": "When the quote is approved, the booking is automatically created in the calendar and the customer gets confirmation immediately."
-    },
-    "results": {
-      "title": "Results",
-      "stat1Label": "more quotes/day",
-      "stat1Suffix": "x",
-      "stat2Label": "quote time instead of 24h",
-      "stat2Suffix": " min",
-      "stat3Label": "higher conversion",
-      "stat3Suffix": "%"
-    },
-    "quote": {
-      "text": "We used to lose jobs because we were too slow. Now we're always first with a quote.",
-      "author": "Marcus Bengtsson",
-      "role": "Founder, MB Flytt"
-    },
-    "heroTitle": "MB Flytt",
-    "heroWords": [
-      "Manual quotes",
-      "2x more quotes/day",
-      "Zero paper"
-    ],
-    "savings": {
-      "title": "Savings",
-      "subtitle": "A detailed review of all automations we implemented for MB Flytt — from manual to fully automated processes.",
-      "snapshot1Label": "Quotes per day",
-      "snapshot1Suffix": " quotes/day",
-      "snapshot2Label": "Faster",
-      "snapshot3Label": "Automations",
-      "donutTitle": "Distribution of savings",
-      "donutCenterLabel": "automated",
-      "legend1": "Quote flow",
-      "legend2": "Agreement handling",
-      "legend3": "Calculation",
-      "legend4": "Admin",
-      "tableProcess": "Process",
-      "tableComparison": "Time comparison (per unit)",
-      "tableSaved": "Saved/week",
-      "row1Name": "Quote generation",
-      "row1Volume": "daily",
-      "row2Name": "Calculation",
-      "row2Volume": "every customer",
-      "row3Name": "Agreements",
-      "row3Volume": "every booking",
-      "row4Name": "Booking confirmation",
-      "row4Volume": "every booking",
-      "row1Saved": "2x more quotes",
-      "row2Saved": "consistent pricing",
-      "row3Saved": "zero paper",
-      "row4Saved": "automatic",
-      "totalLabel": "Total",
-      "manual": "manual",
-      "snapshot1Value": "180 quotes/day",
-      "snapshot2Value": "95% faster",
-      "snapshot3Value": "12"
-    }
-  },
   "nordicrank": {
     "meta": {
       "title": "Nordicrank — Case Study | Eteya AI",
@@ -1305,20 +1211,21 @@
         "quoteImage": "/images/albert-elshani.jpg"
       },
       {
-        "name": "MB Flytt",
-        "tag": "Moving & Logistics",
-        "metric": "2x more quotes per day",
-        "slug": "mbflytt",
-        "problem": "Quotes were created manually — every inquiry required phone calls, home visits and hours of calculation. They lost customers to faster competitors.",
-        "solution": "AI-driven quote generation based on customer details. Automatic calculation, digital signing and booking confirmation.",
+        "name": "SKG Stockholm",
+        "tag": "Wholesale & Distribution",
+        "metric": "12h/week freed up",
+        "slug": "skg-stockholm",
+        "problem": "As CEO of a fast-growing 42-person wholesaler, Mirza drowned in emails, meetings and operational noise — with no time left for strategy and growth.",
+        "solution": "We built a personal AI assistant that handles his inbox, plans his calendar, preps meetings and tracks follow-ups — around the clock.",
         "results": [
-          "2x more quotes sent per day",
-          "Quote time: from 24h to 15 minutes",
-          "35% higher conversion",
-          "Digital agreements → zero paperwork"
+          "12h/week freed from admin",
+          "85% of incoming emails handled with no manual input",
+          "Never a missed follow-up",
+          "From reactive firefighter to strategic CEO"
         ],
-        "quote": "We used to lose jobs because we were too slow. Now we're always first.",
-        "quoteAuthor": "Marcus Bengtsson, CEO"
+        "quote": "Eteya's assistant hasn't replaced anyone — it has multiplied me. Now I have time to build the company, not just keep it afloat.",
+        "quoteAuthor": "Mirza Ekici, CEO, SKG Stockholm",
+        "quoteImage": "/images/mirza-ekici.jpg"
       }
     ]
   },
@@ -1699,5 +1606,100 @@
     "contactEmail": "kontakt@eteya.ai",
     "contactEmailLabel": "Email",
     "close": "Close"
+  },
+  "skgstockholm": {
+    "meta": {
+      "title": "SKG Stockholm — Case Study | Eteya AI",
+      "description": "How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin — letting him focus on building the company.",
+      "ogImageAlt": "SKG Stockholm — Personal AI assistant for CEO | Eteya AI"
+    },
+    "heroTitle": "SKG Stockholm",
+    "heroWords": [
+      "Overflowing inbox",
+      "AI assistant 24/7",
+      "Time for growth"
+    ],
+    "hero": {
+      "title": "SKG Stockholm",
+      "subtitle": "12 hours a week freed up — the CEO now has an AI chief of staff",
+      "tag": "Case Study"
+    },
+    "about": {
+      "title": "About the company",
+      "industry": "Wholesale & Distribution",
+      "employees": "42 employees",
+      "platforms": "Gmail, Google Calendar, Slack, Phone"
+    },
+    "challenge": {
+      "title": "The Challenge",
+      "card1Title": "Email overload",
+      "card1Body": "Mirza received 200+ emails a day from customers, suppliers, staff and the board. Important messages drowned in noise — and replies had to wait until late evenings.",
+      "card2Title": "Calendar chaos",
+      "card2Body": "Meetings stacked up with no breathing room. No prep time, no buffers — and travel between offices and customers made the days even more fragmented.",
+      "card3Title": "Lost follow-ups",
+      "card3Body": "Promises from phone calls, actions from meetings, small to-dos — all living only in his head. Things fell through the cracks and relationships suffered.",
+      "card4Title": "No time for strategy",
+      "card4Body": "As CEO of a growing wholesaler, Mirza needed to focus on acquisitions, hiring and long-term direction. But operational minutiae consumed the entire workday."
+    },
+    "solution": {
+      "title": "The Solution",
+      "body": "A personal AI assistant acting as chief of staff — reading, prioritizing, planning and following up. Always available, always updated, never tired.",
+      "item1Title": "AI email assistant",
+      "item1Body": "Reads every incoming email, categorizes by urgency and drafts responses in Mirza's own tone. Routine emails are answered automatically — important ones surfaced for his approval.",
+      "item2Title": "Proactive calendar",
+      "item2Body": "Books meetings, handles reschedules between participants, sends briefs before important meetings and blocks focus time automatically. Suggests when meetings should be moved to protect deep work.",
+      "item3Title": "Memory & follow-through",
+      "item3Body": "Logs what's said in calls and meetings, extracts action items and makes sure nothing slips through the cracks. Reminds Mirza when something needs a follow-up.",
+      "item4Title": "Daily CEO brief",
+      "item4Body": "Every morning a 2-minute brief: today's most important emails, the calendar, open follow-ups and where he should focus his energy. No more reactive starts."
+    },
+    "results": {
+      "title": "Results",
+      "stat1Label": "hours/week freed up",
+      "stat1Suffix": "h",
+      "stat2Label": "of emails handled automatically",
+      "stat2Suffix": "%",
+      "stat3Label": "more focus time for strategy",
+      "stat3Suffix": "x"
+    },
+    "savings": {
+      "title": "Savings",
+      "subtitle": "A detailed breakdown of Mirza's AI assistant — from overflowing inbox to full control over the day.",
+      "snapshot1Label": "Time freed",
+      "snapshot1Suffix": "h/week",
+      "snapshot2Label": "Faster",
+      "snapshot3Label": "Availability",
+      "donutTitle": "Distribution of time savings",
+      "donutCenterLabel": "automated",
+      "legend1": "Email handling",
+      "legend2": "Calendar",
+      "legend3": "Meeting prep",
+      "legend4": "Follow-ups",
+      "tableProcess": "Process",
+      "tableComparison": "Time comparison (per week)",
+      "tableSaved": "Saved/week",
+      "row1Name": "Email handling",
+      "row1Volume": "daily",
+      "row2Name": "Calendar & booking",
+      "row2Volume": "every meeting",
+      "row3Name": "Meeting prep & notes",
+      "row3Volume": "every key meeting",
+      "row4Name": "Follow-ups & reminders",
+      "row4Volume": "every day",
+      "row1Saved": "~8h",
+      "row2Saved": "~2h",
+      "row3Saved": "~1.5h",
+      "row4Saved": "zero missed",
+      "totalLabel": "Total",
+      "manual": "manual",
+      "snapshot1Value": "12h/week",
+      "snapshot2Value": "85%",
+      "snapshot3Value": "24/7"
+    },
+    "quote": {
+      "text": "Eteya's assistant hasn't replaced anyone — it has multiplied me. Now I have time to build the company, not just keep it afloat.",
+      "author": "Mirza Ekici",
+      "role": "CEO, SKG Stockholm"
+    }
   }
 }

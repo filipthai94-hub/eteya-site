@@ -32,7 +32,7 @@ const CASE_LOGOS: Record<string, string> = {
   telestore: '/images/logos/telestore-new.png',
   sannegarden: '/images/logos/sannegarden-new.svg',
   trainwithalbert: '/images/logos/trainwithalbert-new.png',
-  mbflytt: '/images/logos/mbflytt.png',
+  'skg-stockholm': '/images/logos/skg-stockholm.png',
   nordicrank: '/images/logos/nordicrank.svg',
 }
 
@@ -45,7 +45,7 @@ const CASE_LIVE_SHOTS: Record<string, string> = {
   nordicrank: '/images/cases/nordicrank-home-full.png',
   sannegarden: '/images/cases/sannegarden-home-full.png',
   trainwithalbert: '/images/cases/trainwithalbert-home-full.png',
-  mbflytt: '/images/cases/mbflytt-home-full.png',
+  'skg-stockholm': '/images/cases/skg-stockholm-home-full.png',
 }
 
 function hasLiveCaseMedia(slug: string) {
@@ -61,7 +61,7 @@ const CASE_FRAME_STYLE: Record<string, string> = {
   nordicrank: 'frame-luxury',
   sannegarden: 'frame-luxury',
   trainwithalbert: 'frame-luxury',
-  mbflytt: 'frame-luxury',
+  'skg-stockholm': 'frame-luxury',
 }
 
 function getCaseFrame(slug: string) {

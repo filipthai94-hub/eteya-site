@@ -9,6 +9,20 @@ const nextConfig = {
       { protocol: 'https' as const, hostname: 'images.unsplash.com' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/sv/kundcase/mbflytt',
+        destination: '/sv',
+        permanent: true,
+      },
+      {
+        source: '/en/case-studies/mbflytt',
+        destination: '/en',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {

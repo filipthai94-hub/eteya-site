@@ -16,7 +16,7 @@ export async function GET() {
 - [Telestore](https://eteya.ai/sv/kundcase/telestore): E-handel — automatiserad orderhantering
 - [Nordicrank](https://eteya.ai/sv/kundcase/nordicrank): SEO-tech — AI-driven rankningsoptimering
 - [Sannegården](https://eteya.ai/sv/kundcase/sannegarden): Restaurang — AI-beställningar
-- [MB Flytt](https://eteya.ai/sv/kundcase/mbflytt): Flyttfirma — automatiserad bokning
+- [SKG Stockholm](https://eteya.ai/sv/kundcase/skg-stockholm): Grossist & Distribution — personlig AI-assistent för VD
 - [TrainWithAlbert](https://eteya.ai/sv/kundcase/trainwithalbert): Fitness — AI-personal trainer
 
 ## Policyer

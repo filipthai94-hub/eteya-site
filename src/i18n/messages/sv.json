@@ -794,100 +794,6 @@
       "manual": "manuellt"
     }
   },
-  "mbflytt": {
-    "meta": {
-      "title": "MB Flytt — Kundcase | Eteya AI",
-      "description": "Hur Eteya automatiserade MB Flytts offertprocess med 12 automationer och 95% snabbare hantering."
-    },
-    "heroTitle": "MB Flytt",
-    "heroWords": [
-      "Manuella offerter",
-      "2x fler offerter/dag",
-      "Noll papper"
-    ],
-    "challenge": {
-      "title": "Utmaningen",
-      "card1Title": "Tidskrävande offertprocess",
-      "card1Body": "Varje offert krävde telefonsamtal, hembesök och timmar av kalkylering. Kunden fick vänta länge på besked.",
-      "card2Title": "Förlorade kunder",
-      "card2Body": "Kunder valde snabbare konkurrenter som kunde lämna offerter direkt. MB Flytt förlorade affärer varje vecka.",
-      "card3Title": "Pappersarbete",
-      "card3Body": "Avtal och bokningsbekräftelser skickades per post eller fax. Mycket papper och risk för att dokument försvann.",
-      "card4Title": "Manuell kalkylering",
-      "card4Body": "Varje flytt behövde noggrann kalkylering baserat på volym, avstånd och tilläggstjänster. Det var svårt att vara konsekvent."
-    },
-    "solution": {
-      "title": "Lösningen",
-      "body": "AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.",
-      "item1Title": "AI-offertgenerator",
-      "item1Body": "Kunder fyller i uppgifter online och AI:n beräknar pris baserat på volym, avstånd och tilläggstjänster på sekunder.",
-      "item2Title": "Automatisk kalkylering",
-      "item2Body": "Prissättning baseras på historisk data och realtidsfaktorer som bränslepris och tillgänglighet.",
-      "item3Title": "Digital signering",
-      "item3Body": "Kunder kan godkänna och signera offerter direkt i webbläsaren eller på mobilen. BankID-integration finns.",
-      "item4Title": "Automatisk bokning",
-      "item4Body": "När offerten är godkänd skapas bokningen automatiskt i kalendern och kunden får bekräftelse direkt."
-    },
-    "results": {
-      "title": "Resultat",
-      "stat1Label": "fler offerter/dag",
-      "stat1Suffix": "x",
-      "stat2Label": "offertid istället för 24h",
-      "stat2Suffix": " min",
-      "stat3Label": "högre konvertering",
-      "stat3Suffix": "%"
-    },
-    "savings": {
-      "title": "Besparingar",
-      "subtitle": "En detaljerad genomgång av alla automations vi implementerat för MB Flytt — från manuell till fullt automatiserad process.",
-      "snapshot1Label": "Offerter per dag",
-      "snapshot1Suffix": " offerter/dag",
-      "snapshot2Label": "Snabbare",
-      "snapshot3Label": "Automationer",
-      "donutTitle": "Fördelning av besparingar",
-      "donutCenterLabel": "automatiserat",
-      "legend1": "Offertflöde",
-      "legend2": "Avtalshantering",
-      "legend3": "Kalkylering",
-      "legend4": "Admin",
-      "tableProcess": "Process",
-      "tableComparison": "Tidsjämförelse (per enhet)",
-      "tableSaved": "Sparat/vecka",
-      "row1Name": "Offertgenerering",
-      "row1Volume": "dagligen",
-      "row2Name": "Kalkylering",
-      "row2Volume": "varje kund",
-      "row3Name": "Avtal",
-      "row3Volume": "varje bokning",
-      "row4Name": "Bokningsbekräftelse",
-      "row4Volume": "varje bokning",
-      "row1Saved": "2x fler offerter",
-      "row2Saved": "konsekventa priser",
-      "row3Saved": "noll papper",
-      "row4Saved": "automatisk",
-      "totalLabel": "Totalt",
-      "manual": "manuellt",
-      "snapshot1Value": "180 offerter/dag",
-      "snapshot2Value": "95% snabbare",
-      "snapshot3Value": "12"
-    },
-    "quote": {
-      "text": "Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först med offert.",
-      "author": "Marcus Bengtsson",
-      "role": "Grundare MB Flytt"
-    },
-    "hero": {
-      "title": "MB Flytt",
-      "subtitle": "95% snabbare offerthantering",
-      "tag": "Kundcase"
-    },
-    "about": {
-      "title": "Om företaget",
-      "industry": "Flytt & Logistik",
-      "employees": "5-10 anställda",
-      "platforms": "Webbplats, Telefon, E-post"
-    }
-  },
   "nordicrank": {
     "meta": {
       "title": "Nordicrank — Kundcase | Eteya AI",
@@ -1305,20 +1211,21 @@
         "quoteImage": "/images/albert-elshani.jpg"
       },
       {
-        "name": "MB Flytt",
-        "tag": "Flytt & Logistik",
-        "metric": "2x fler offerter per dag",
-        "slug": "mbflytt",
-        "problem": "Offerter skapades manuellt — varje förfrågan krävde telefonsamtal, hembesök och timmar av kalkylering. De tappade kunder till snabbare konkurrenter.",
-        "solution": "AI-driven offertgenerering baserad på kundens uppgifter. Automatisk kalkylering, digital signering och bokningsbekräftelse.",
+        "name": "SKG Stockholm",
+        "tag": "Grossist & Distribution",
+        "metric": "12h/vecka befriade",
+        "slug": "skg-stockholm",
+        "problem": "Som VD för en snabbväxande grossist med 42 anställda drunknade Mirza i mail, möten och operativa småsaker — ingen tid kvar för strategi och tillväxt.",
+        "solution": "Vi byggde en personlig AI-assistent som hanterar inkorgen, planerar kalendern, förbereder möten och bevakar uppföljningar — dygnet runt.",
         "results": [
-          "2x fler offerter skickade per dag",
-          "Offertid: från 24h till 15 minuter",
-          "35% högre konvertering",
-          "Digitala avtal → noll pappersarbete"
+          "12h/vecka befriade från admin",
+          "85% av inkommande mail hanterade utan manuell input",
+          "Aldrig en missad uppföljning",
+          "Från reaktiv brandsläckare till strategisk VD"
         ],
-        "quote": "Förut förlorade vi jobb för att vi var för långsamma. Nu är vi alltid först.",
-        "quoteAuthor": "Marcus Bengtsson, VD"
+        "quote": "Eteya:s assistent har inte ersatt någon, den har multiplicerat mig. Nu hinner jag bygga bolaget, inte bara hålla det flytande.",
+        "quoteAuthor": "Mirza Ekici, VD, SKG Stockholm",
+        "quoteImage": "/images/mirza-ekici.jpg"
       }
     ]
   },
@@ -1699,5 +1606,100 @@
     "contactEmail": "kontakt@eteya.ai",
     "contactEmailLabel": "Email",
     "close": "Stäng"
+  },
+  "skgstockholm": {
+    "meta": {
+      "title": "SKG Stockholm — Kundcase | Eteya AI",
+      "description": "Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin — och låter honom fokusera på att bygga bolaget.",
+      "ogImageAlt": "SKG Stockholm — Personlig AI-assistent för VD | Eteya AI"
+    },
+    "heroTitle": "SKG Stockholm",
+    "heroWords": [
+      "Överfull inkorg",
+      "AI-assistent 24/7",
+      "Tid för tillväxt"
+    ],
+    "hero": {
+      "title": "SKG Stockholm",
+      "subtitle": "12 timmar i veckan befriade — VD:n har nu en AI-stabschef",
+      "tag": "Kundcase"
+    },
+    "about": {
+      "title": "Om företaget",
+      "industry": "Grossist & Distribution",
+      "employees": "42 anställda",
+      "platforms": "Gmail, Google Kalender, Slack, Telefon"
+    },
+    "challenge": {
+      "title": "Utmaningen",
+      "card1Title": "Mail-drunkning",
+      "card1Body": "Mirza tog emot 200+ mail om dagen från kunder, leverantörer, personal och styrelse. Viktigt drunknade i brus — och svar fick vänta tills sent på kvällen.",
+      "card2Title": "Kalenderkaos",
+      "card2Body": "Möten staplades på varandra utan framförhållning. Ingen tid för förberedelse, ingen buffert mellan möten — och förflyttningar mellan kontor och kunder gjorde dagen ännu hackigare.",
+      "card3Title": "Uppföljningar tappades",
+      "card3Body": "Löften i telefonsamtal, actions i möten, småsaker som skulle ordnas — allt fanns bara i huvudet. Saker föll mellan stolarna och relationer fick lida.",
+      "card4Title": "Ingen tid för strategi",
+      "card4Body": "Som VD för en grossist i tillväxt behövde Mirza fokusera på förvärv, rekrytering och långsiktig riktning. Men operativa småsaker åt upp hela arbetsdagen."
+    },
+    "solution": {
+      "title": "Lösningen",
+      "body": "En personlig AI-assistent som agerar stabschef — läser, prioriterar, planerar och följer upp. Alltid tillgänglig, alltid uppdaterad, aldrig trött.",
+      "item1Title": "AI Mail-assistent",
+      "item1Body": "Läser varje inkommande mail, kategoriserar efter brådska och skriver förslag till svar i Mirzas egen ton. Rutin-mail besvaras automatiskt — viktiga lyfts fram för hans godkännande.",
+      "item2Title": "Proaktiv kalender",
+      "item2Body": "Bokar möten, hanterar omboknar mellan deltagare, skickar briefs inför viktiga möten och blockerar fokustid automatiskt. Föreslår när möten borde flyttas för att skydda djuparbete.",
+      "item3Title": "Minne & uppföljning",
+      "item3Body": "Loggar vad som sägs i samtal och möten, extraherar action items och bevakar att inget faller mellan stolarna. Påminner Mirza när något ska följas upp.",
+      "item4Title": "Daglig VD-brief",
+      "item4Body": "Varje morgon levereras en 2-minuters brief: dagens viktigaste mail, kalendern, öppna uppföljningar och var han bör lägga sin energi. Slut på reaktiv start på dagen."
+    },
+    "results": {
+      "title": "Resultat",
+      "stat1Label": "timmar/vecka befriade",
+      "stat1Suffix": "h",
+      "stat2Label": "av mail hanterade automatiskt",
+      "stat2Suffix": "%",
+      "stat3Label": "mer fokustid för strategi",
+      "stat3Suffix": "x"
+    },
+    "savings": {
+      "title": "Besparingar",
+      "subtitle": "En detaljerad genomgång av Mirzas AI-assistent — från överfull inkorg till full kontroll över dagen.",
+      "snapshot1Label": "Tid befriad",
+      "snapshot1Suffix": "h/vecka",
+      "snapshot2Label": "Snabbare",
+      "snapshot3Label": "Tillgänglighet",
+      "donutTitle": "Fördelning av tidsbesparing",
+      "donutCenterLabel": "automatiserat",
+      "legend1": "Mail-hantering",
+      "legend2": "Kalender",
+      "legend3": "Mötesprep",
+      "legend4": "Uppföljningar",
+      "tableProcess": "Process",
+      "tableComparison": "Tidsjämförelse (per vecka)",
+      "tableSaved": "Sparat/vecka",
+      "row1Name": "Mail-hantering",
+      "row1Volume": "dagligen",
+      "row2Name": "Kalender & bokningar",
+      "row2Volume": "varje möte",
+      "row3Name": "Mötesprep & anteckningar",
+      "row3Volume": "varje viktigt möte",
+      "row4Name": "Uppföljningar & påminnelser",
+      "row4Volume": "varje dag",
+      "row1Saved": "~8h",
+      "row2Saved": "~2h",
+      "row3Saved": "~1,5h",
+      "row4Saved": "inga missar",
+      "totalLabel": "Totalt",
+      "manual": "manuellt",
+      "snapshot1Value": "12h/vecka",
+      "snapshot2Value": "85%",
+      "snapshot3Value": "24/7"
+    },
+    "quote": {
+      "text": "Eteya:s assistent har inte ersatt någon, den har multiplicerat mig. Nu hinner jag bygga bolaget, inte bara hålla det flytande.",
+      "author": "Mirza Ekici",
+      "role": "VD, SKG Stockholm"
+    }
   }
 }

@@ -101,7 +101,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/sv/kundcase/mbflytt`,
+      url: `${baseUrl}/sv/kundcase/skg-stockholm`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/case-studies/skg-stockholm`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
