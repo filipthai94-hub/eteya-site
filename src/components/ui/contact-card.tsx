@@ -386,6 +386,14 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </svg>
             {t('back')}
           </button>
+
+          {/* ROI label — editorial typography, no decoration */}
+          {roiData && (
+            <div className={styles.roiPill}>
+              {t('roiLabel')} · <span className={styles.roiPillValue}>{fmtK(roiData.annualSavings)}{t('roiPerYear')}</span>
+            </div>
+          )}
+
           <div className={styles.calHeader}>
             <div className={styles.calTitle}>{t('calendarTitle')}</div>
           </div>

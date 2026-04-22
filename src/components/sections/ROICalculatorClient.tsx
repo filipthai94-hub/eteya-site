@@ -49,6 +49,16 @@ const DEFAULTS: Record<string, { on: boolean; hours: number }> = {
   kommunikation: { on: false, hours: 5  },
 }
 
+// ── Focus trap selector (matchar FooterCTAClient) ───────────────────────────
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'textarea:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fmt(n: number) {
   return Math.round(n).toLocaleString('sv-SE')
@@ -319,18 +329,78 @@ export default function ROITestClient() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalMounted, setIsModalMounted] = useState(false)
 
+  // Focus-trap refs — se useEffect nedan för beteendet
+  const modalPanelRef = useRef<HTMLDivElement>(null)
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
+
   // Lock body scroll when modal is mounted
   useScrollLock({ lockTarget: 'body', autoLock: isModalMounted })
 
   const openModal = useCallback(() => {
+    // Remember what was focused before opening, so we can restore on close
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
     setIsModalMounted(true)
     requestAnimationFrame(() => setIsModalOpen(true))
   }, [])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
-    setTimeout(() => setIsModalMounted(false), 300)
+    setTimeout(() => {
+      setIsModalMounted(false)
+      // Restore focus to the element that opened the modal (CTA button)
+      restoreFocusRef.current?.focus()
+    }, 300)
   }, [])
+
+  // ── Focus trap + initial focus (a11y) ──────────────────────────────────────
+  // Matchar FooterCTAClient-mönstret: keyboard-användare kan inte Tab:a ut
+  // ur modalen, och första fokuserbara element får fokus vid öppning.
+  useEffect(() => {
+    if (!isModalMounted) return
+
+    const panel = modalPanelRef.current
+
+    // Flytta initial fokus till första fokuserbara elementet (typ name-input)
+    // Kort delay så ContactCard hinner mountas + portalen hinner rendras.
+    const focusTimer = window.setTimeout(() => {
+      if (!panel) return
+      const focusable = panel.querySelectorAll<HTMLElement>(focusableSelector)
+      if (focusable.length > 0) {
+        focusable[0].focus()
+      }
+    }, 180)
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!modalPanelRef.current || event.key !== 'Tab') return
+
+      const focusable = Array.from(
+        modalPanelRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+      ).filter(
+        (element) => !element.hasAttribute('disabled') && element.tabIndex !== -1,
+      )
+
+      if (!focusable.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      const active = document.activeElement as HTMLElement | null
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.clearTimeout(focusTimer)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isModalMounted])
 
   // Build ROI data for ContactCard
   const roiData: ROIData | null = totals.ok ? {
@@ -648,7 +718,10 @@ export default function ROITestClient() {
           className={`${s.modalOverlay} ${isModalOpen ? s.modalOverlayOpen : ''}`}
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
-          <div className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}>
+          <div
+            ref={modalPanelRef}
+            className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}
+          >
             <ContactCard onClose={closeModal} roiData={roiData} showContactInfo={false} />
           </div>
         </div>,

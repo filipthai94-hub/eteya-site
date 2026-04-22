@@ -13,11 +13,6 @@ gsap.registerPlugin(ScrollTrigger)
 
 
 
-
-
-
-
-
 const focusableSelector = [
   'a[href]',
   'button:not([disabled])',
@@ -595,14 +590,22 @@ const hasPlayed = useRef(false)
           100% { transform: translateY(0); opacity: 1; }
         }
 
+        /* ══════════════════════════════════════════════
+           DESKTOP MODAL OVERLAY
+           - align-items: safe center → vertically centers short content,
+             safely falls back to top-align if content is taller than viewport
+             (prevents cut-off in all browsers ≥2023)
+           - overflow: hidden → single scroll container lives inside
+             ContactCard (.root), no nested-scroll conflicts
+           ══════════════════════════════════════════════ */
         .fcta-modal-overlay {
           position: fixed;
           inset: 0;
           z-index: 9999;
           display: flex;
-          align-items: flex-start;
+          align-items: safe center;
           justify-content: center;
-          overflow-y: auto;
+          overflow: hidden;
           padding: 24px;
           background: rgba(0, 0, 0, 0.75);
           backdrop-filter: blur(16px);
@@ -619,275 +622,6 @@ const hasPlayed = useRef(false)
         .fcta-modal-content {
           position: relative;
           z-index: 1;
-        }
-        .fcta-modal-close {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          width: 40px;
-          height: 40px;
-          border: 0;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 50%;
-          padding: 0;
-          cursor: pointer;
-          transition: background 0.25s ease;
-          z-index: 2;
-        }
-        .fcta-modal-close:hover {
-          background: rgba(255, 255, 255, 0.12);
-        }
-        .fcta-modal-close::before,
-        .fcta-modal-close::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 14px;
-          height: 1.5px;
-          background: rgba(255, 255, 255, 0.5);
-          transition: background 0.25s ease;
-        }
-        .fcta-modal-close::before { transform: translate(-50%, -50%) rotate(45deg); }
-        .fcta-modal-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
-        .fcta-modal-close:hover::before,
-        .fcta-modal-close:hover::after { background: rgba(255, 255, 255, 0.9); }
-        .fcta-modal-title {
-          margin: 0 0 40px;
-          padding-right: 40px; /* space for close button */
-          font-family: var(--font-display, 'Barlow Condensed', sans-serif);
-          font-size: 26px;
-          font-weight: 500;
-          line-height: 1.1;
-          letter-spacing: -0.02em;
-          text-transform: uppercase;
-          color: #fff;
-        }
-        .fcta-modal-fields {
-          display: flex;
-          flex-direction: column;
-          gap: 28px;
-        }
-        .fcta-modal-field {
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          z-index: 1;
-        }
-        /* Dropdown field needs higher z-index than sibling fields so menu overlaps them */
-        .fcta-modal-field--dropdown {
-          z-index: 50;
-        }
-        .fcta-modal-input,
-        .fcta-modal-textarea,
-        .fcta-modal-select {
-          width: 100%;
-          border: 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-          background: transparent;
-          border-radius: 0;
-          padding: 14px 0;
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 16px;
-          line-height: 1.5;
-          color: #fff;
-          transition: border-color 0.3s ease, opacity 0.3s ease;
-          resize: vertical;
-          outline: none;
-        }
-        .fcta-modal-input::placeholder,
-        .fcta-modal-textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
-        .fcta-modal-input:focus,
-        .fcta-modal-textarea:focus,
-        .fcta-modal-select:focus { border-bottom-color: rgba(255, 255, 255, 0.6); }
-        /* Override Chrome/Safari autofill blue background on dark theme */
-        .fcta-modal-input:-webkit-autofill,
-        .fcta-modal-input:-webkit-autofill:hover,
-        .fcta-modal-input:-webkit-autofill:focus,
-        .fcta-modal-textarea:-webkit-autofill,
-        .fcta-modal-textarea:-webkit-autofill:hover,
-        .fcta-modal-textarea:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset !important;
-          box-shadow: 0 0 0 1000px #0d0d0d inset !important;
-          -webkit-text-fill-color: #fff !important;
-          transition: background-color 5000s ease-in-out 0s;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .fcta-modal-select {
-          appearance: none;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.55)' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: right center;
-          padding-right: 28px;
-        }
-        .fcta-modal-select option {
-          color: #111;
-        }
-        /* Custom dropdown replacement — z-index 50 to sit above sibling fields */
-        .fcta-modal-dropdown {
-          position: relative;
-          z-index: 50;
-        }
-        .fcta-modal-dropdown-trigger {
-          width: 100%;
-          border: 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-          background: transparent;
-          border-radius: 0;
-          padding: 14px 28px 14px 0;
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 16px;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.35);
-          text-align: left;
-          cursor: pointer;
-          transition: border-color 0.3s ease;
-          outline: none;
-          position: relative;
-        }
-        .fcta-modal-dropdown-trigger.has-value {
-          color: #fff;
-        }
-        .fcta-modal-dropdown-trigger:focus,
-        .fcta-modal-dropdown-trigger[aria-expanded='true'] {
-          border-bottom-color: rgba(255, 255, 255, 0.6);
-        }
-        .fcta-modal-dropdown-trigger[aria-invalid='true'] {
-          border-bottom-color: rgba(255, 100, 100, 0.8);
-        }
-        /* Chevron */
-        .fcta-modal-dropdown-chevron {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%) rotate(0deg);
-          transition: transform 0.25s ease;
-          pointer-events: none;
-        }
-        .fcta-modal-dropdown-trigger[aria-expanded='true'] .fcta-modal-dropdown-chevron {
-          transform: translateY(-50%) rotate(180deg);
-        }
-        /* Dropdown menu */
-        .fcta-modal-dropdown-menu {
-          position: absolute;
-          top: calc(100% + 4px);
-          left: 0;
-          right: 0;
-          background: #1c1c1c;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
-          padding: 6px;
-          z-index: 100;
-          opacity: 0;
-          transform: translateY(-4px);
-          pointer-events: none;
-          transition: opacity 0.2s ease, transform 0.2s ease;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-          isolation: isolate;
-        }
-        .fcta-modal-dropdown-menu.open {
-          opacity: 1;
-          transform: translateY(0);
-          pointer-events: auto;
-        }
-        .fcta-modal-dropdown-option {
-          display: block;
-          width: 100%;
-          padding: 12px 14px;
-          border: 0;
-          background: transparent;
-          border-radius: 8px;
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 15px;
-          line-height: 1.4;
-          color: rgba(255, 255, 255, 0.85);
-          text-align: left;
-          cursor: pointer;
-          transition: background 0.15s ease, color 0.15s ease;
-        }
-        .fcta-modal-dropdown-option:hover,
-        .fcta-modal-dropdown-option:focus {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
-          outline: none;
-        }
-        .fcta-modal-dropdown-option.selected {
-          color: #fff;
-        }
-        .fcta-modal-input[aria-invalid='true'],
-        .fcta-modal-textarea[aria-invalid='true'],
-        .fcta-modal-select[aria-invalid='true'] {
-          border-bottom-color: rgba(255, 100, 100, 0.8);
-        }
-        .fcta-modal-error {
-          margin-top: 4px;
-          color: rgba(255, 100, 100, 0.8);
-          font-size: 13px;
-          line-height: 1.4;
-        }
-        .fcta-modal-submit {
-          width: 100%;
-          height: 48px;
-          margin-top: 32px;
-          border-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          background: rgba(255, 255, 255, 0.08);
-          color: #fff;
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 14px;
-          font-weight: 500;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background 0.3s ease, opacity 0.3s ease;
-        }
-        .fcta-modal-submit:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.15);
-        }
-        .fcta-modal-submit:disabled {
-          cursor: wait;
-          opacity: 0.7;
-        }
-        .fcta-modal-server-error {
-          margin-top: 12px;
-          color: rgba(255, 100, 100, 0.8);
-          font-size: 13px;
-          line-height: 1.4;
-        }
-        .fcta-modal-success {
-          min-height: 220px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          gap: 16px;
-          padding: 20px 0 8px;
-        }
-        .fcta-modal-success-check {
-          width: 56px;
-          height: 56px;
-          border-radius: 999px;
-          border: 1px solid rgba(255, 255, 255, 0.16);
-          background: rgba(255, 255, 255, 0.08);
-          display: grid;
-          place-items: center;
-          animation: fcta-modal-check-in 0.35s ease-out both;
-        }
-        .fcta-modal-success-check svg {
-          width: 20px;
-          height: 20px;
-        }
-        .fcta-modal-success-text {
-          margin: 0;
-          font-family: var(--font-body, 'Geist', sans-serif);
-          font-size: 16px;
-          line-height: 1.6;
-          color: rgba(255, 255, 255, 0.88);
-        }
-        @keyframes fcta-modal-check-in {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
         }
 
         @media (max-width: 999px) {
@@ -955,16 +689,31 @@ const hasPlayed = useRef(false)
           .fcta-footer-button { width: 44px; height: 44px; }
           .fcta-footer-icon { width: 16px; height: 16px; }
           .fcta-border-glow::before { width: 60px; }
+
+          /* ══════════════════════════════════════════════
+             MOBILE MODAL — TRUE FULL-SCREEN (2024-2025 best practice)
+             - Single scroll container: .root (inside ContactCard) scrolls
+             - Overlay does NOT scroll → eliminates nested-scroll conflicts on iOS
+             - No backdrop-filter: costs performance on 3x DPR, zero visual value
+               when modal fills viewport
+             - Panel fills 100dvh exactly (min-height 100svh as anti-shift fallback)
+             ══════════════════════════════════════════════ */
           .fcta-modal-overlay {
             padding: 0;
-            align-items: flex-start;
+            align-items: stretch;
+            overflow: hidden;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: rgba(0, 0, 0, 0.92);
           }
           .fcta-modal-panel {
             width: 100%;
             max-width: 100%;
+            height: 100dvh;
+            min-height: 100svh;
             max-height: 100dvh;
             padding: 0;
-            margin: auto;
+            margin: 0;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -974,8 +723,7 @@ const hasPlayed = useRef(false)
           }
           .fcta-char-inner,
           .fcta-footer-bar,
-          .fcta-footer-reveal,
-          .fcta-modal-success-check {
+          .fcta-footer-reveal {
             transform: none !important;
             opacity: 1 !important;
             animation: none !important;
