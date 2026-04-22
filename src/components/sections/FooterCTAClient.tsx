@@ -955,16 +955,31 @@ const hasPlayed = useRef(false)
           .fcta-footer-button { width: 44px; height: 44px; }
           .fcta-footer-icon { width: 16px; height: 16px; }
           .fcta-border-glow::before { width: 60px; }
+
+          /* ══════════════════════════════════════════════
+             MOBILE MODAL — TRUE FULL-SCREEN (2024-2025 best practice)
+             - Single scroll container: .root (inside ContactCard) scrolls
+             - Overlay does NOT scroll → eliminates nested-scroll conflicts on iOS
+             - No backdrop-filter: costs performance on 3x DPR, zero visual value
+               when modal fills viewport
+             - Panel fills 100dvh exactly (min-height 100svh as anti-shift fallback)
+             ══════════════════════════════════════════════ */
           .fcta-modal-overlay {
             padding: 0;
-            align-items: flex-start;
+            align-items: stretch;
+            overflow: hidden;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: rgba(0, 0, 0, 0.92);
           }
           .fcta-modal-panel {
             width: 100%;
             max-width: 100%;
+            height: 100dvh;
+            min-height: 100svh;
             max-height: 100dvh;
             padding: 0;
-            margin: auto;
+            margin: 0;
           }
         }
         @media (prefers-reduced-motion: reduce) {
