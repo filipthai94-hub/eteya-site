@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Agit Akalp
+N:Akalp;Agit;;;
+ORG:Eteya Consulting AB
+TITLE:Medgrundare
+TEL;TYPE=CELL:+46723000075
+EMAIL;TYPE=WORK:kontakt@eteya.ai
+URL:https://eteya.ai
+X-SOCIALPROFILE;type=linkedin:https://www.linkedin.com/in/agit-akalp-15701b325/
+ADR;TYPE=WORK:;;Stockholm;;;SE
+END:VCARD
