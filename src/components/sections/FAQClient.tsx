@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { createFaqSchema } from '@/lib/seo/createFaqSchema'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,18 +23,7 @@ export default function FAQClient() {
   const contentRefs = useRef<Array<HTMLDivElement | null>>([])
   const iconRefs = useRef<Array<HTMLSpanElement | null>>([])
 
-  const schema = useMemo(() => ({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: items.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  }), [items])
+  const schema = useMemo(() => createFaqSchema(items), [items])
 
   useEffect(() => {
     const section = sectionRef.current

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import Image from 'next/image'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
@@ -339,7 +340,7 @@ export default function ServicesClient({ heading, cta, items }: {
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <img src={`/images/service-${item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'}.png`} loading="lazy" alt={item.title} width={1524} height={964} />
+                <Image src={`/images/service-${item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'}.png`} loading="lazy" alt={item.title} width={1524} height={964} />
               </a>
               <span className="svc-content-title">{item.title}</span>
               <p className="service-desc">{item.description}</p>

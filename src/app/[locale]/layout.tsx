@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing'
 import MotionProvider from '@/components/animations/MotionProvider'
 import ScrollReset from '@/components/ui/ScrollReset'
 import TransitionProvider from '@/components/animations/TransitionProvider'
+import LangSetter from '@/components/LangSetter'
 import type { Metadata } from 'next'
 
 const BASE_URL = 'https://eteya.ai'
@@ -78,6 +79,7 @@ export default async function LocaleLayout({
   const messages = await getMessages()
   return (
     <NextIntlClientProvider messages={messages}>
+      <LangSetter locale={locale} />
       <TransitionProvider>
         <div className="page-transition-overlay" aria-hidden="true" />
         <MotionProvider>

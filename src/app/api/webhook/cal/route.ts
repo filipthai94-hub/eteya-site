@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
 import { generateHTML, type ResearchOutput, type ROIData, type BookingData } from '@/lib/generate-briefing-html'
+import { generateProHTML } from '@/lib/generate-pro-briefing-html'
 
 function verifyCalSignature(payload: string, signature: string, secret: string): boolean {
   const expected = createHmac('sha256', secret).update(payload).digest('hex')
@@ -57,7 +58,7 @@ async function notifyDiscord(data: {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      content: `🟢 Ny lead: **${data.name}** — ${data.company} | ${data.service} | Bokat: ${data.bookingDate}`,
+      content: `🟢 Ny lead: **${data.name}** - ${data.company} | ${data.service} | Bokat: ${data.bookingDate}`,
     }),
   })
 }
@@ -83,7 +84,7 @@ async function sendEmailNotification(data: {
     await resend.emails.send({
       from: 'Eteya <noreply@eteya.ai>',
       to: ['kontakt@eteya.ai'],
-      subject: `🟢 Ny bokning: ${data.name} — ${data.company}`,
+      subject: `🟢 Ny bokning: ${data.name} - ${data.company}`,
       html: `
         <h2>Ny mötesbokning via Cal.com</h2>
         <p><strong>Namn:</strong> ${data.name}</p>
@@ -173,29 +174,29 @@ async function runResearchAndGenerateHTML(data: {
   try {
     // Step 1: Call Apiverket API directly
     const { APIVERKET_API_KEY } = process.env
-    
+
     // Search for company by name
     const searchRes = await fetch(`https://api.apiverket.se/v1/companies/search?query=${encodeURIComponent(data.company)}`, {
       headers: { 'Authorization': `Bearer ${APIVERKET_API_KEY}` }
     })
-    
+
     if (!searchRes.ok) {
       console.error('Apiverket search failed:', searchRes.status)
     }
-    
+
     const searchResults = await searchRes.json().catch(() => null)
     const orgnr = searchResults?.[0]?.orgnr
-    
+
     let company: any = null
     let industryStats: any = null
-    
+
     if (orgnr) {
       // Get company details
       const detailsRes = await fetch(`https://api.apiverket.se/v1/companies/${orgnr}`, {
         headers: { 'Authorization': `Bearer ${APIVERKET_API_KEY}` }
       })
       company = await detailsRes.json().catch(() => null)
-      
+
       // Get industry stats if SNI code exists
       if (company?.sni_codes?.[0]?.code) {
         const statsRes = await fetch(`https://api.apiverket.se/v1/statistics/industry/${company.sni_codes[0].code}`, {
@@ -204,7 +205,7 @@ async function runResearchAndGenerateHTML(data: {
         industryStats = await statsRes.json().catch(() => null)
       }
     }
-    
+
     // Fallback to mock data if Apiverket fails
     if (!company) {
       console.warn('Company not found in Apiverket, using mock data')
@@ -221,7 +222,7 @@ async function runResearchAndGenerateHTML(data: {
         description: 'Verksamhetsbeskrivning saknas',
       }
     }
-    
+
     // Step 2: Website analysis (if website provided)
     let websiteAnalysis = null
     if (data.website) {
@@ -274,8 +275,8 @@ async function runResearchAndGenerateHTML(data: {
 
     // Step 3: Generate HTML (no Puppeteer needed!)
     console.log(' Generating HTML briefing...')
-    
-    const html = generateHTML(
+
+    const html = generateProHTML(
       {
         company: {
           name: briefingData.foretagsnamn,
@@ -331,19 +332,19 @@ async function runResearchAndGenerateHTML(data: {
         service: data.service,
       }
     )
-    
+
     console.log('✅ HTML generated, size:', (html.length / 1024).toFixed(2), 'KB')
-    
+
     // Step 4: Upload HTML to Supabase Storage
     const filename = `briefing-${company.orgnr}-${Date.now()}.html`
     const htmlUrl = await uploadHtmlToSupabase(html, filename)
     console.log('✅ HTML uploaded to Supabase:', htmlUrl)
-    
+
     // Update lead record with HTML URL
     if (!ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
       throw new Error('ETEYA_SUPABASE_SERVICE_ROLE_KEY is undefined')
     }
-    
+
     await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
       method: 'PATCH',
       headers: {
@@ -355,7 +356,7 @@ async function runResearchAndGenerateHTML(data: {
       body: JSON.stringify({ briefing_html_url: htmlUrl }),
     })
     console.log('✅ Lead record updated with HTML URL')
-    
+
     // Step 5: Send email notification with HTML link
     await sendEmailNotification({
       name: data.name,
@@ -365,7 +366,7 @@ async function runResearchAndGenerateHTML(data: {
       bookingDate: new Date(data.bookingDate).toLocaleDateString('sv-SE', { dateStyle: 'long' }),
       htmlUrl,
     })
-    
+
   } catch (error) {
     console.error('Research/HTML pipeline error:', error)
   }
@@ -379,7 +380,7 @@ export async function POST(req: NextRequest) {
     'x-cal-signature': req.headers.get('x-cal-signature') ? '[PRESENT]' : '[MISSING]',
     'content-type': req.headers.get('content-type'),
   }, null, 2))
-  
+
   try {
     const rawBody = await req.text()
     console.log('Raw body length:', rawBody.length)
@@ -432,7 +433,7 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = body.payload ?? body
-    
+
     console.log('\n=== PAYLOAD STRUCTURE ===')
     console.log('Payload keys:', Object.keys(payload).join(', '))
     console.log('payload.responses:', payload.responses ? 'EXISTS' : 'MISSING')
@@ -449,14 +450,35 @@ export async function POST(req: NextRequest) {
       return ''
     }
 
+    // Helper to detect if a string looks like a website (contains .)
+    const isWebsite = (str: string): boolean => {
+      return str.includes('.') && !str.startsWith('http://') && !str.startsWith('https://')
+    }
+
     // Extract data (handle { label, value } format from Cal.com)
     const name = extractValue(payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title)
     const email = extractValue(payload?.responses?.email ?? payload?.attendees?.[0]?.email)
-    const company = extractValue(payload?.metadata?.company ?? payload?.responses?.company)
-    const website = extractValue(payload?.metadata?.website) || null
+    let company = extractValue(payload?.metadata?.company ?? payload?.responses?.company)
+    let website = extractValue(payload?.metadata?.website) || null
     const service = extractValue(payload?.title)
     const description = extractValue(payload?.description ?? payload?.responses?.notes)
-    
+
+    // SMART PARSING: If company field is empty but website is filled (or vice versa), use whichever is available
+    if (!company && website) {
+      // User provided website but not company name
+      // Extract company name from website (e.g., "telestore.se" -> "Telestore")
+      company = website.replace(/^www\./, '').split('.')[0]
+      // Capitalize first letter
+      company = company.charAt(0).toUpperCase() + company.slice(1)
+      console.log('🔍 Extracted company name from website:', company)
+    } else if (company && !website && isWebsite(company)) {
+      // User put website in company field
+      website = company
+      company = company.replace(/^www\./, '').split('.')[0]
+      company = company.charAt(0).toUpperCase() + company.slice(1)
+      console.log('🔍 Detected website in company field, extracted:', company)
+    }
+
     // Build roiData from separate metadata fields (sent from ContactCard)
     const roiData = payload?.metadata?.annualSavings ? {
       annualSavings: Number(payload.metadata.annualSavings) || 0,
@@ -469,7 +491,7 @@ export async function POST(req: NextRequest) {
       year2: payload.metadata.year2 ? Number(payload.metadata.year2) : 0,
       year3: payload.metadata.year3 ? Number(payload.metadata.year3) : 0,
     } : null
-    
+
     const bookingDate = payload?.startTime ?? payload?.start ?? new Date().toISOString()
 
     const formattedDate = new Date(bookingDate).toLocaleDateString('sv-SE', {
@@ -489,15 +511,15 @@ export async function POST(req: NextRequest) {
     // Save to Supabase + notify Discord in parallel
     console.log('\n=== SAVING TO SUPABASE ===')
     console.log('Lead data:', JSON.stringify({ name, email, company, service }, null, 2))
-    
+
     const [saveResult, discordResult] = await Promise.allSettled([
       saveToSupabase(leadData),
       notifyDiscord({ name, company, service, bookingDate: formattedDate }),
     ])
-    
+
     console.log('Supabase save result:', saveResult.status)
     console.log('Discord notify result:', discordResult.status)
-    
+
     if (saveResult.status === 'rejected') {
       console.error('❌ Supabase save failed:', saveResult.reason)
     }
@@ -509,7 +531,7 @@ export async function POST(req: NextRequest) {
     console.log('\n=== GENERATING HTML BRIEFING ===')
     console.log('Company:', company)
     console.log('ROI data:', roiData ? 'PRESENT' : 'MISSING')
-    
+
     await runResearchAndGenerateHTML({
       name,
       email,
@@ -519,7 +541,7 @@ export async function POST(req: NextRequest) {
       roiData: leadData.roiData,
       bookingDate,
     })
-    
+
     console.log('\n=== WEBHOOK COMPLETE ===')
     console.log('Total execution time: ~', ((Date.now() - startTime) / 1000).toFixed(2), 's')
 

@@ -1,5 +1,4 @@
 import { Barlow, Barlow_Condensed, Geist, Inter } from 'next/font/google'
-import type { Metadata } from 'next'
 import './globals.css'
 
 const display = Barlow_Condensed({
@@ -30,26 +29,9 @@ const body = Geist({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://eteya.ai'),
-  title: 'Eteya — AI som driver ditt företag',
-  description: 'Vi bygger AI agents, process automation och custom AI-lösningar för svenska och internationella företag.',
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/favicon-512x512.png', sizes: '512x512', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180' },
-    ],
-  },
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sv" className={`${display.variable} ${displayWide.variable} ${nums.variable} ${body.variable}`}>
+    <html className={`${display.variable} ${displayWide.variable} ${nums.variable} ${body.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

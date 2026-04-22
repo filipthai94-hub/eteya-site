@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { createSpeakableSchema } from '@/lib/seo/createSpeakableSchema'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -228,7 +229,7 @@ export default function HeroClient({
 
       {/* Centered content */}
       <div className="hero-content">
-        <div ref={roleRef} className="hero-role">
+        <div ref={roleRef} className="hero-role hero-headline">
           {role}
         </div>
         <div ref={nameRef}>
@@ -244,8 +245,15 @@ export default function HeroClient({
 
       {/* Bottom subheadline */}
       <div ref={bottomRef} className="hero-bottom">
-        <p className="hero-subheadline">{subheadline}</p>
+        <p className="hero-subheadline hero-summary">{subheadline}</p>
       </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(createSpeakableSchema({ cssSelector: ['.hero-headline', '.hero-summary'] })),
+        }}
+      />
     </section>
   )
 }

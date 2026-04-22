@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from 'react'
+import Image from 'next/image'
 import { usePathname } from '@/i18n/navigation'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
@@ -634,16 +635,15 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                   {hasLiveCaseMedia(c.slug) ? (
                     <div className={`case-media case-media--telestore ${getCaseFrame(c.slug)}`} data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
                       <div className="ts-brand">
-                        <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" decoding="async" fetchPriority="high" width={200} height={60} />
+                        <Image src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" width={200} height={60} />
                       </div>
                       <div className="ts-live">
                         <div className="ts-track">
-                          <img
+                          <Image
                             className="ts-shot"
                             src={getLiveCaseShot(c.slug)}
                             alt={`${c.name} startsida`}
                             loading="eager"
-                            decoding="async"
                             width={1200}
                             height={800}
                           />
@@ -652,7 +652,7 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                     </div>
                   ) : (
                     <div className="case-media">
-                      <img src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" width={200} height={60} />
+                      <Image src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" width={200} height={60} />
                     </div>
                   )}
                   <div className="case-cta">

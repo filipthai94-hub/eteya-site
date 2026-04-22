@@ -46,6 +46,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    company: '',
     website: '',
     service: '',
   })
@@ -129,6 +130,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     
     // Metadata
     config["metadata[source]"] = roiData ? "roi-calculator" : "footer-cta"
+    if (formData.company) config["metadata[company]"] = formData.company
     if (formData.website) config["metadata[website]"] = formData.website
     if (formData.service) config["metadata[service]"] = formData.service
 
@@ -270,6 +272,17 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 className={styles.input}
                 value={formData.website}
                 onChange={(e) => updateField('website', e.target.value)}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label}>{t('form.company.label')}</label>
+              <input
+                type="text"
+                placeholder={t('form.company.placeholder')}
+                className={styles.input}
+                value={formData.company}
+                onChange={(e) => updateField('company', e.target.value)}
               />
             </div>
 

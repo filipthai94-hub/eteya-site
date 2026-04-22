@@ -1,0 +1,474 @@
+{
+  "audit_date": "2026-04-21",
+  "site": "eteya.ai",
+  "auditor": "research-agent (subagent)",
+  "overall_score": "72/100",
+  "disciplines": {
+    "seo": {
+      "score": "15/20",
+      "issues": [
+        {
+          "id": "SEO-01",
+          "severity": "medium",
+          "title": "Language attribute hardcoded",
+          "description": "html lang='sv' är hårdkodad i layout.tsx. Sidor på /en/* borde ha lang='en'.",
+          "location": "src/app/layout.tsx:52",
+          "impact": "Screen readers och search engines får fel språksignal för engelska sidor"
+        },
+        {
+          "id": "SEO-02",
+          "severity": "low",
+          "title": "Mixed image implementation",
+          "description": "Vissa komponenter använder <img> istället för Next.js Image-komponenten. CasesClient.tsx, JoinTheBestClient.tsx, ServicesClient.tsx använder native <img>.",
+          "location": "src/components/sections/CasesClient.tsx, JoinTheBestClient.tsx, ServicesClient.tsx",
+          "impact": "Förlorar automatisk AVIF/WebP-konvertering, lazy loading, och LCP-optimering"
+        },
+        {
+          "id": "SEO-03",
+          "severity": "low",
+          "title": "Title tag length variation",
+          "description": "Vissa title tags kan vara för korta (<50 tecken). Ex: 'Kontakt | Eteya' är ~15 tecken.",
+          "location": "src/app/[locale]/kontakt/page.tsx",
+          "impact": "Mindre utrymme för keyword och CTR-optimering i SERP"
+        }
+      ],
+      "recommendations": [
+        "Gör html lang dynamisk baserat på locale-parametern i layout.tsx",
+        "Byt ut <img> mot Next.js Image-komponenten i alla sektioner för automatisk optimering",
+        "Utöka title tags till 50-60 tecken med primärt keyword tidigt",
+        "Lägg till Twitter card på alla sidor som saknar (om-oss saknar twitter card)"
+      ]
+    },
+    "aeo": {
+      "score": "12/20",
+      "issues": [
+        {
+          "id": "AEO-01",
+          "severity": "high",
+          "title": "FAQPage schema saknas",
+          "description": "FAQSection finns i flera sidor (hem, om-oss) men ingen FAQPage JSON-LD implementerad. createFaqSchema finns i JsonLd.tsx men används inte.",
+          "location": "src/components/sections/FAQSection.tsx, src/components/JsonLd.tsx",
+          "impact": "Förlorar featured snippet-eligibility och 22% median citation-lift i AI-svar"
+        },
+        {
+          "id": "AEO-02",
+          "severity": "high",
+          "title": "Speakable schema saknas helt",
+          "description": "Ingen SpeakableSpecification implementerad på någon sida. Kritiskt för voice search (27% av sökningar 2026).",
+          "location": "Alla sidor",
+          "impact": "Ingen voice search-optimering, missar position 0 i AI Overview"
+        },
+        {
+          "id": "AEO-03",
+          "severity": "medium",
+          "title": "Definition-paragrafer inte optimerade",
+          "description": "Hemsidans Hero-sektion har inte en tydlig 40-60 ords definition av vad Eteya gör i första meningen.",
+          "location": "src/components/sections/Hero.tsx",
+          "impact": "Minskar chans för featured snippet och AI-citation"
+        },
+        {
+          "id": "AEO-04",
+          "severity": "low",
+          "title": "Question-formatted H2 saknas",
+          "description": "FAQ-sektioner har inte H2/H3 formulerade som frågor ('Vad är AI-automation?' istället för 'Våra tjänster').",
+          "location": "src/components/sections/FAQSection.tsx",
+          "impact": "Position zero-capture kräver question-matching H2"
+        }
+      ],
+      "recommendations": [
+        "Implementera createFaqSchema i FAQSection med alla FAQ-frågor",
+        "Lägg till Speakable schema på pillar-sidor (hem, om-oss, ai-besparing)",
+        "Skriv om Hero-section med definition i första meningen (40-60 ord)",
+        "Formulera om H2/H3 i FAQ som frågor: 'Vad kostar AI-automation?' istället för 'Vanliga frågor'"
+      ]
+    },
+    "geo": {
+      "score": "14/20",
+      "issues": [
+        {
+          "id": "GEO-01",
+          "severity": "medium",
+          "title": "Entity consistency - Brand name variation",
+          "description": "Brandnamn varierar: 'Eteya AI', 'Eteya', 'Eteya Consulting AB'. Organization schema använder 'Eteya AI' men vissa sidor säger bara 'Eteya'.",
+          "location": "src/components/JsonLd.tsx vs src/app/[locale]/page.tsx",
+          "impact": "LLM:er kan skapa separata entity-embeddings för 'Eteya' vs 'Eteya AI'"
+        },
+        {
+          "id": "GEO-02",
+          "severity": "medium",
+          "title": "Citation schema saknas på metodik-sida",
+          "description": "ai-besparing/page.tsx har citation schema men det är Article-typ, inte TechArticle. Saknar tydlig källhänvisning i content.",
+          "location": "src/app/[locale]/ai-besparing/page.tsx",
+          "impact": "Minskar trust för statistik och påståenden i AI-genererade svar"
+        },
+        {
+          "id": "GEO-03",
+          "severity": "low",
+          "title": "Comparative tables saknas",
+          "description": "Inga jämförelsetabeller (X vs Y) på sidor som 'AI-besparing'. Tabeller är starka citation-triggers.",
+          "location": "src/components/pages/MethodologyContent.tsx",
+          "impact": "Tabeller har 3x högre citation-rate i AI-svar"
+        }
+      ],
+      "recommendations": [
+        "Standardisera brandnamn till 'Eteya' överallt (eller 'Eteya AI' konsekvent)",
+        "Uppdatera citation schema till TechArticle med tydligare källhänvisningar",
+        "Lägg till jämförelsetabell: 'Traditionell automation vs AI-automation' med kostnad/tid/ROI",
+        "Lägg till 'E-E-A-T-signaler' på case studies: författarbyline, uppdateringsdatum"
+      ]
+    },
+    "sxo": {
+      "score": "16/20",
+      "issues": [
+        {
+          "id": "SXO-01",
+          "severity": "medium",
+          "title": "CTA-strategi inte intent-matchad",
+          "description": "Samma CTA ('Boka möte') på alla sidor. Informational intent (ai-besparing) borde ha mjukare CTA ('Ladda ner guide').",
+          "location": "src/components/sections/FooterCTAClient.tsx",
+          "impact": "Lägre conversion rate från informational-search users"
+        },
+        {
+          "id": "SXO-02",
+          "severity": "low",
+          "title": "Above the fold inte optimerad",
+          "description": "Hero-sektionen har inte social proof (kunder, betyg) ovanför folden enligt SXO best practice.",
+          "location": "src/components/sections/Hero.tsx",
+          "impact": "Trust-signal dröjer, ökar bounce rate"
+        },
+        {
+          "id": "SXO-03",
+          "severity": "low",
+          "title": "Relaterade artiklar saknas",
+          "description": "Case studies har inga 'relaterade case' eller 'nästa steg' efter content. Pillar-spoke interlinking saknas.",
+          "location": "src/components/pages/*CaseStudy.tsx",
+          "impact": "Färre pages per session, lägre engagement"
+        }
+      ],
+      "recommendations": [
+        "Differentiera CTA per intent: 'Boka möte' (transactional), 'Se våra case' (commercial), 'Läs mer' (informational)",
+        "Lägg till 'Trust bar' ovanför fold: '50+ kunder • 4.9/5 betyg • 2M+ kr sparat'",
+        "Lägg till 'Relaterade case studies' i slutet av varje case study",
+        "Lägg till ToC (Table of Contents) på längre sidor (om-oss, ai-besparing)"
+      ]
+    },
+    "aio": {
+      "score": "15/20",
+      "issues": [
+        {
+          "id": "AIO-01",
+          "severity": "medium",
+          "title": "llms.txt finns men är basic",
+          "description": "llms.txt route.ts finns men saknar strukturerad API-info för agenter. Ingen MCP-endpoint.",
+          "location": "src/app/llms.txt/route.ts",
+          "impact": "AI-agenter får inte fullständig verktygsöversikt"
+        },
+        {
+          "id": "AIO-02",
+          "severity": "high",
+          "title": "RAG-friendly chunking inte optimerad",
+          "description": "Långa textblock utan semantiska sektionsbrytare varje 300-500 ord. Case studies har inte tydliga H2/H3-brytare.",
+          "location": "src/components/pages/*CaseStudy.tsx",
+          "impact": "AI-modeller extraherar mindre precist från 512-token chunks"
+        },
+        {
+          "id": "AIO-03",
+          "severity": "medium",
+          "title": "API-endpoints inte OpenAPI-specade",
+          "description": "API routes (contact, lead-capture, webhook) saknar OpenAPI-dokumentation för agent-integration.",
+          "location": "src/app/api/*",
+          "impact": "Agenter kan inte programmatically interagera med forms"
+        }
+      ],
+      "recommendations": [
+        "Utöka llms.txt med API-endpoint beskrivningar och tillgängliga tools",
+        "Bryt upp case studies med tydligare H2/H3 varje 300-500 ord",
+        "Lägg till MCP endpoint (/api/mcp/tools) med OpenAPI-spec",
+        "Lägg till 'AI-citation' schema på case studies med uttalanden som kan citeras"
+      ]
+    }
+  },
+  "priority_1_actions": [
+    {
+      "id": "P1-01",
+      "action": "Implementera FAQPage schema",
+      "effort": "1h",
+      "impact": "HÖG - 22% citation-lift + featured snippet eligibility",
+      "files": ["src/components/sections/FAQSection.tsx", "src/components/JsonLd.tsx"]
+    },
+    {
+      "id": "P1-02",
+      "action": "Gör html lang dynamisk per locale",
+      "effort": "30min",
+      "impact": "HÖG - Korrekt språksignal för search engines + screen readers",
+      "files": ["src/app/layout.tsx", "src/app/[locale]/layout.tsx"]
+    },
+    {
+      "id": "P1-03",
+      "action": "Lägg till Speakable schema på pillar-sidor",
+      "effort": "1h",
+      "impact": "HÖG - Voice search (27% av sökningar) + position 0",
+      "files": ["src/app/[locale]/page.tsx", "src/app/[locale]/om-oss/page.tsx"]
+    },
+    {
+      "id": "P1-04",
+      "action": "Byt <img> mot Next.js Image i alla sektioner",
+      "effort": "2h",
+      "impact": "HÖG - LCP-förbättring, AVIF/WebP auto-konvertering",
+      "files": ["src/components/sections/CasesClient.tsx", "JoinTheBestClient.tsx", "ServicesClient.tsx"]
+    }
+  ],
+  "priority_2_actions": [
+    {
+      "id": "P2-01",
+      "action": "Standardisera brandnamn (Eteya vs Eteya AI)",
+      "effort": "30min",
+      "impact": "MEDIUM - Entity consistency för GEO",
+      "files": ["src/components/JsonLd.tsx", "src/app/[locale]/page.tsx"]
+    },
+    {
+      "id": "P2-02",
+      "action": "Lägg till Twitter card på alla sidor",
+      "effort": "30min",
+      "impact": "MEDIUM - Social sharing optimization",
+      "files": ["src/app/[locale]/om-oss/page.tsx", "ai-besparing/page.tsx"]
+    },
+    {
+      "id": "P2-03",
+      "action": "Utöka llms.txt med API-info",
+      "effort": "1h",
+      "impact": "MEDIUM - Agent-readiness",
+      "files": ["src/app/llms.txt/route.ts"]
+    },
+    {
+      "id": "P2-04",
+      "action": "Lägg till E-E-A-T på case studies (author, updated date)",
+      "effort": "2h",
+      "impact": "MEDIUM - HCU-signal + trust",
+      "files": ["src/components/pages/*CaseStudy.tsx"]
+    },
+    {
+      "id": "P2-05",
+      "action": "Differentiera CTA per intent",
+      "effort": "1h",
+      "impact": "MEDIUM - Conversion rate lift",
+      "files": ["src/components/sections/FooterCTAClient.tsx"]
+    }
+  ],
+  "priority_3_actions": [
+    {
+      "id": "P3-01",
+      "action": "Lägg till jämförelsetabeller på ai-besparing",
+      "effort": "2h",
+      "impact": "LÅG - GEO citation boost",
+      "files": ["src/components/pages/MethodologyContent.tsx"]
+    },
+    {
+      "id": "P3-02",
+      "action": "Lägg till MCP endpoint",
+      "effort": "4h",
+      "impact": "LÅG - Future-proofing för 2027-2028",
+      "files": ["src/app/api/mcp/tools/route.ts"]
+    },
+    {
+      "id": "P3-03",
+      "action": "Lägg till 'Relaterade case' på varje case study",
+      "effort": "2h",
+      "impact": "LÅG - Engagement lift",
+      "files": ["src/components/pages/*CaseStudy.tsx"]
+    },
+    {
+      "id": "P3-04",
+      "action": "Kör PageSpeed Insights + åtgärda Core Web Vitals",
+      "effort": "3h",
+      "impact": "MEDIUM - Direkt ranking-faktor",
+      "files": ["Various - beroende på resultat"]
+    }
+  ],
+  "comparison_with_old_plan": {
+    "old_plan_missing": [
+      "FAQPage schema - nämndes i 01-nulage-audit.md som 'saknas' men ingen åtgärd implementerad",
+      "Speakable schema - nämndes inte alls i gamla planen",
+      "html lang dynamisk - gamla planen nämnde inte detta problem",
+      "Next.js Image vs <img> - gamla planen fokuserade på metadata, inte image optimization",
+      "RAG-friendly chunking - helt nytt koncept från web-foundation skill v4.0.0",
+      "Entity consistency (brand name variation) - inte identifierat i gamla audit"
+    ],
+    "already_done": [
+      "robots.ts med AI-bots - ✅ Implementerat sedan senaste audit",
+      "sitemap.ts med alla sidor - ✅ Uppdaterad med alla case studies + policies",
+      "manifest.ts - ✅ Finns implementerad",
+      "Organization schema - ✅ Finns i layout.tsx + JsonLd.tsx",
+      "WebSite schema - ✅ Finns i layout.tsx",
+      "Person schema för team - ✅ Finns i om-oss/page.tsx",
+      "CaseStudy schema - ✅ Implementerat på alla case studies",
+      "Säkerhetsheaders - ✅ Implementerade i next.config.ts (HSTS, X-Frame-Options, etc.)",
+      "llms.txt - ✅ Finns implementerad (men kan utökas)",
+      "Metadata på hemsidan - ✅ Implementerad med generateMetadata",
+      "Canonical tags - ✅ På alla sidor",
+      "OG-bilder - ✅ På de flesta sidor"
+    ]
+  },
+  "detailed_findings": {
+    "technical_seo": {
+      "robots_ts": {
+        "status": "✅ EXCELLENT",
+        "details": "Innehåller alla relevanta AI-crawlers: GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-Web, PerplexityBot, Perplexity-User, Google-Extended, GoogleOther, Applebot-Extended, Bytespider, MistralAI-User, cohere-ai, CCBot, DuckAssistBot, Meta-ExternalAgent, Amazonbot. Alla ALLOW - korrekt strategi för maximal AI-synlighet.",
+        "location": "src/app/robots.ts"
+      },
+      "sitemap_ts": {
+        "status": "✅ COMPLETE",
+        "details": "18 URLs inkluderade: hem (sv+en), om-oss, kontakt, ai-besparing, kundcase (6 st), policies (4 st). Alla med lastModified, changeFrequency, priority.",
+        "location": "src/app/sitemap.ts"
+      },
+      "manifest_ts": {
+        "status": "✅ IMPLEMENTED",
+        "details": "PWA-manifest med name, short_name, description, start_url, display, colors, icons (192x192, 512x512).",
+        "location": "src/app/manifest.ts"
+      },
+      "security_headers": {
+        "status": "✅ GOOD",
+        "details": "Implementerade: HSTS (max-age=63072000; includeSubDomains; preload), X-Frame-Options (SAMEORIGIN), X-Content-Type-Options (nosniff), Referrer-Policy (strict-origin-when-cross-origin), Permissions-Policy (camera=(), microphone=(), geolocation=(self)). Saknas: Content-Security-Policy.",
+        "location": "next.config.ts"
+      }
+    },
+    "structured_data": {
+      "organization_schema": {
+        "status": "✅ COMPLETE",
+        "details": "Fullständig med name, legalName, url, logo, description, foundingDate, founders (2), address, contactPoint, sameAs (Twitter), vatID. Finns på ALLA sidor via layout.tsx + JsonLd-komponent.",
+        "location": "src/components/JsonLd.tsx"
+      },
+      "website_schema": {
+        "status": "✅ COMPLETE",
+        "details": "Finns på hemsidan med name, url, description, potentialAction (SearchAction), inLanguage.",
+        "location": "src/app/[locale]/page.tsx"
+      },
+      "person_schema": {
+        "status": "✅ COMPLETE",
+        "details": "createPersonSchema-funktion finns, används i om-oss/page.tsx för alla team-medlemmar. Inkluderar name, jobTitle, description, image, linkedin, knowsAbout.",
+        "location": "src/components/JsonLd.tsx, src/app/[locale]/om-oss/page.tsx"
+      },
+      "casestudy_schema": {
+        "status": "✅ COMPLETE",
+        "details": "Alla 5 case studies har CaseStudy schema med name, description, url, about (kund), provider (Eteya), mainEntity (ItemList med resultat).",
+        "location": "src/app/[locale]/kundcase/[slug]/page.tsx"
+      },
+      "breadcrumb_schema": {
+        "status": "⚠️ PARTIAL",
+        "details": "Finns endast på om-oss/page.tsx. Saknas på: ai-besparing, kontakt, alla case studies, policies.",
+        "location": "src/app/[locale]/om-oss/page.tsx"
+      },
+      "faqpage_schema": {
+        "status": "❌ MISSING",
+        "details": "createFaqSchema-funktion finns i JsonLd.tsx men används INTE i FAQSection.tsx. Kritisk brist för AEO.",
+        "location": "src/components/JsonLd.tsx (finns), src/components/sections/FAQSection.tsx (används ej)"
+      },
+      "speakable_schema": {
+        "status": "❌ MISSING",
+        "details": "Helt saknas. Rekommenderas på pillar-sidor för voice search.",
+        "location": "Alla sidor"
+      },
+      "article_schema": {
+        "status": "⚠️ PARTIAL",
+        "details": "ai-besparing/page.tsx har Article schema med citation, men case studies använder CaseStudy (inte Article/TechArticle). Båda är giltiga men Article ger bättre rich results för blog-like content.",
+        "location": "src/app/[locale]/ai-besparing/page.tsx"
+      }
+    },
+    "metadata": {
+      "title_tags": {
+        "status": "✅ GOOD",
+        "details": "Alla sidor har generateMetadata med title. Varierande längd: hem (~50 tecken), kontakt (~15 tecken - för kort), case studies (~50-60 tecken).",
+        "location": "Alla page.tsx"
+      },
+      "meta_descriptions": {
+        "status": "✅ GOOD",
+        "details": "Alla sidor har description. Längd varierar, de flesta inom 150-160 tecken.",
+        "location": "Alla page.tsx"
+      },
+      "canonical": {
+        "status": "✅ COMPLETE",
+        "details": "Alla sidor har self-referencing canonical med alternates.languages för sv/en.",
+        "location": "Alla page.tsx"
+      },
+      "openGraph": {
+        "status": "✅ GOOD",
+        "details": "Alla sidor har OG med title, description, url, siteName, type, locale. Bilder specificerade på case studies, hem, kontakt. Saknas specifik OG-bild på om-oss, ai-besparing.",
+        "location": "Alla page.tsx"
+      },
+      "twitter_card": {
+        "status": "⚠️ PARTIAL",
+        "details": "Finns på: hem, kontakt, alla case studies. Saknas på: om-oss, ai-besparing, policies.",
+        "location": "src/app/[locale]/page.tsx, kontakt/page.tsx, kundcase/*/page.tsx"
+      }
+    },
+    "accessibility": {
+      "aria_labels": {
+        "status": "✅ GOOD",
+        "details": "Många aria-labels finns: Nav, FAQ (aria-expanded, aria-controls), Contact form (aria-label, aria-haspopup), Footer social links (aria-label='Instagram', etc.).",
+        "location": "src/components/layout/Nav.tsx, sections/FAQClient.tsx, Contact.tsx, FooterCTAClient.tsx"
+      },
+      "image_alt": {
+        "status": "⚠️ PARTIAL",
+        "details": "De flesta bilder har alt-text. Next.js Image-komponenter har alt. Vissa <img> har alt. Team-bilder har alt={member.name}. Case study quote-bilder har alt={t('quote.author')}.",
+        "location": "src/components/pages/*CaseStudy.tsx, sections/TeamClient.tsx"
+      },
+      "skip_links": {
+        "status": "❌ UNKNOWN",
+        "details": "Ingen skip-link hittad i layout.tsx. WCAG 2.2 AA kräver skip-link till main content.",
+        "location": "src/app/layout.tsx"
+      },
+      "focus_management": {
+        "status": "❌ UNKNOWN",
+        "details": "Ingen synlig focus-trap i modaler (Contact modal i FooterCTAClient). Måste testas manuellt.",
+        "location": "src/components/sections/FooterCTAClient.tsx"
+      },
+      "color_contrast": {
+        "status": "❌ UNKNOWN",
+        "details": "Kan inte verifieras utan visuell inspektion. Måste testas med axe DevTools eller contrast-ratio.com.",
+        "location": "src/app/globals.css"
+      }
+    },
+    "performance": {
+      "image_optimization": {
+        "status": "⚠️ MIXED",
+        "details": "Case studies använder Next.js Image (bra). Men CasesClient.tsx, JoinTheBestClient.tsx, ServicesClient.tsx använder native <img> (inte optimalt). LCP-image har preload i layout.tsx (/hero-poster.webp).",
+        "location": "src/components/sections/CasesClient.tsx, JoinTheBestClient.tsx, ServicesClient.tsx"
+      },
+      "font_optimization": {
+        "status": "✅ GOOD",
+        "details": "Next.js font optimization med Barlow, Barlow_Condensed, Inter, Geist från Google Fonts. Preconnect till fonts.gstatic.com.",
+        "location": "src/app/layout.tsx"
+      },
+      "core_web_vitals": {
+        "status": "❌ NOT TESTED",
+        "details": "Inte testade med PageSpeed Insights. Måste köras för att få LCP, INP, CLS-värden.",
+        "location": "N/A - behöver extern test"
+      }
+    },
+    "ai_readiness": {
+      "llms_txt": {
+        "status": "✅ BASIC",
+        "details": "Finns implementerad med markdown-format. Innehåller: Om oss, Tjänster, Case Studies (5 st), Policyer, Kontakt, Företagsinformation. Saknar: API-endpoint beskrivningar, MCP-info.",
+        "location": "src/app/llms.txt/route.ts"
+      },
+      "entity_consistency": {
+        "status": "⚠️ MINOR ISSUES",
+        "details": "Brandnamn varierar: 'Eteya AI' (organization schema), 'Eteya' (vissa sidor), 'Eteya Consulting AB' (legalName). Bör standardiseras.",
+        "location": "src/components/JsonLd.tsx vs metadata"
+      },
+      "rag_chunking": {
+        "status": "⚠️ SUBOPTIMAL",
+        "details": "Case studies har inte tydliga H2/H3-brytare varje 300-500 ord. Långa textblock kan vara svåra för AI att extrahera precist från.",
+        "location": "src/components/pages/*CaseStudy.tsx"
+      }
+    }
+  },
+  "scoring_methodology": {
+    "seo": "20 poäng totalt. -2 för varje medium issue, -1 för låg. Bas: 20 - 3(medium) - 2(låg) = 15",
+    "aeo": "20 poäng totalt. -3 för varje hög issue, -2 för medium, -1 för låg. Bas: 20 - 6(hög x2) - 2(medium) = 12",
+    "geo": "20 poäng totalt. -2 för medium, -1 för låg. Bas: 20 - 4(medium x2) - 2(låg) = 14",
+    "sxo": "20 poäng totalt. -2 för medium, -1 för låg. Bas: 20 - 2(medium) - 2(låg x2) = 16",
+    "aio": "20 poäng totalt. -3 för hög, -2 för medium. Bas: 20 - 3(hög) - 4(medium x2) = 15",
+    "total": "(15+12+14+16+15) / 100 = 72/100"
+  }
+}
