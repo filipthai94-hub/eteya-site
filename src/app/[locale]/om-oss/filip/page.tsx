@@ -181,7 +181,7 @@ export default function FilipPage() {
 
       {/* DESKTOP */}
       <div className="vault-desktop-wrapper">
-        <VaultBeams intensity="strong" />
+        <VaultBeams intensity="strong" style={{ zIndex: 1 }} />
         <div className="vault-stage">
           <VaultDesktop />
         </div>
@@ -189,7 +189,7 @@ export default function FilipPage() {
 
       {/* MOBILE */}
       <div className="vault-mobile-wrapper">
-        <VaultBeams intensity="strong" />
+        <VaultBeams intensity="strong" style={{ zIndex: 1 }} />
         <VaultMobile />
       </div>
     </>
