@@ -15,6 +15,7 @@ interface CaseData {
   results: string[]
   quote: string
   quoteAuthor: string
+  quoteImage?: string
 }
 
 interface CasesClientProps {
@@ -230,6 +231,21 @@ const CSS = `
   }
 
   /* Quote */
+  #cases-section .case-quote-inner {
+    display: flex;
+    align-items: center;
+  }
+  #cases-section .quoteImageWrap {
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+  #cases-section .quoteImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
   #cases-section .case-quote {
     border-left: 1px solid rgba(var(--rgb-white), 0.2);
     padding-left: 1rem; margin: 0.25rem 0 0;
@@ -241,6 +257,12 @@ const CSS = `
   #cases-section .case-quote cite {
     font-size: var(--text-sm); font-style: normal;
     color: rgba(var(--rgb-white), 0.5);
+  }
+  #cases-section .quote-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
   }
 
   /* Right col: branded media
@@ -421,6 +443,10 @@ const CSS = `
     #cases-section .case-results li { font-size: 1rem; }
     #cases-section .case-right { display: contents; }
     #cases-section .case-cta { justify-content: flex-start; }
+    #cases-section .case-quote-inner { flex-direction: column; align-items: flex-start; }
+    #cases-section .quoteImageWrap { margin-right: 0; margin-bottom: 0; }
+    #cases-section .quoteImage { width: 50px; height: 50px; }
+    #cases-section .quote-footer { margin-top: 12px; }
   }
 `
 
@@ -627,8 +653,25 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                   </div>
 
                   <blockquote className="case-quote">
-                    <p>&ldquo;{c.quote}&rdquo;</p>
-                    <cite>— {c.quoteAuthor}</cite>
+                    <div className="case-quote-inner">
+                      <div className="quote-content">
+                        <p>&ldquo;{c.quote}&rdquo;</p>
+                        <div className="quote-footer">
+                          {c.quoteImage && (
+                            <div className="quoteImageWrap">
+                              <img
+                                src={c.quoteImage}
+                                alt={c.quoteAuthor}
+                                className="quoteImage"
+                                width={80}
+                                height={80}
+                              />
+                            </div>
+                          )}
+                          <cite>— {c.quoteAuthor}</cite>
+                        </div>
+                      </div>
+                    </div>
                   </blockquote>
                 </div>
                 <div className="case-right">

@@ -973,9 +973,9 @@
       "totalValue": "13.4 h/vecka"
     },
     "quote": {
-      "text": "Vi trodde att det vi gjorde var normalt. Tills vi insåg att vi kunde automatisera nästan allt.",
-      "author": "Erik Lindqvist",
-      "role": "CTO Nordicrank"
+      "text": "Vi sparade 20 timmar i veckan på rapportering. Nu fokuserar vi på att skala kundernas verksamheter istället.",
+      "author": "Matyas Dios",
+      "role": "Grundare & VD, NordicRank"
     }
   },
   "sannegarden": {
@@ -1058,9 +1058,9 @@
       "stat3Label": "missade samtal"
     },
     "quote": {
-      "text": "Kunderna märker inte att det är en AI. De får bara snabbare och bättre service.",
-      "author": "Ahmed Hassan",
-      "role": "Ägare Sannegården"
+      "text": "AI:n sköter telefonerna när det är rush. Det har gjort att vi inte missar några beställningar längre, även när vi är upptagna i köket.",
+      "author": "Kerem Celik",
+      "role": "VD, Pizzeria Sannegården"
     }
   },
   "trainwithalbert": {
@@ -1139,9 +1139,9 @@
       "snapshot3Value": "8"
     },
     "quote": {
-      "text": "Jag fokuserar på mina kunder nu, inte på admin. AI:n sköter resten.",
-      "author": "Albert Nilsson",
-      "role": "Grundare TrainWithAlbert"
+      "text": "Från att svara på samma frågor hela dagarna till att automatisera 90% av supporten. Det har gett mig tid att fokusera på att hjälpa folk nå sina mål.",
+      "author": "Albert Elshani",
+      "role": "Grundare & VD, TrainWithAlbert"
     },
     "hero": {
       "title": "TrainWithAlbert",
@@ -1188,7 +1188,9 @@
           "name": "Sannegården",
           "bigNumber": "0",
           "bigNumberLabel": "Missade samtal",
-          "quote": "Aldrig mer ett missat samtal under rusningstid.",
+          "quote": "AI:n sköter telefonerna när det är rush. Det har gjort att vi inte missar några beställningar längre, även när vi är upptagna i köket.",
+          "quoteAuthor": "Kerem Celik, VD, Pizzeria Sannegården",
+          "quoteImage": "/images/kerem-celik.jpg",
           "caseStudyUrl": "/sv/kundcase/sannegarden",
           "logo": "/images/logos/sannegarden-new.svg"
         }
@@ -1248,7 +1250,8 @@
           "ROI inom 6 veckor"
         ],
         "quote": "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade.",
-        "quoteAuthor": "Brindar Akalp, VD, Telestore"
+        "quoteAuthor": "Brindar Akalp, VD, Telestore",
+        "quoteImage": "/images/brindar-akalp.jpg"
       },
       {
         "name": "NordicRank",
@@ -1263,8 +1266,9 @@
           "AI-rekommendationer → 28% bättre ROAS",
           "Skalat från 8 till 15 kunder utan ny personal"
         ],
-        "quote": "Eteya automatiserade det tunga — vi kunde fokusera på strategi och kundrelationer.",
-        "quoteAuthor": "Josefin Nordström, Grundare"
+        "quote": "Vi sparade 20 timmar i veckan på rapportering. Nu fokuserar vi på att skala kundernas verksamheter istället.",
+        "quoteAuthor": "Matyas Dios, Grundare & VD, NordicRank",
+        "quoteImage": "/images/matyas-dios.jpg"
       },
       {
         "name": "Sannegårdens Pizzeria",
@@ -1279,8 +1283,9 @@
           "Personalen fokuserar på matlagning",
           "Kundnöjdhet ökade med 23%"
         ],
-        "quote": "AI-telefonisten blev som en extra anställd som aldrig tar paus.",
-        "quoteAuthor": "Omid Haddad, Ägare"
+        "quote": "AI:n sköter telefonerna när det är rush. Det har gjort att vi inte missar några beställningar längre, även när vi är upptagna i köket.",
+        "quoteAuthor": "Kerem Celik, VD, Pizzeria Sannegården",
+        "quoteImage": "/images/kerem-celik.jpg"
       },
       {
         "name": "TrainWithAlbert",
@@ -1295,8 +1300,9 @@
           "Automatisk uppföljning → 45% återbokning",
           "Intäkterna ökade 60% på 3 månader"
         ],
-        "quote": "Jag är coach igen, inte administratör. Det förändrade allt.",
-        "quoteAuthor": "Albert Wan, Grundare"
+        "quote": "Från att svara på samma frågor hela dagarna till att automatisera 90% av supporten. Det har gett mig tid att fokusera på att hjälpa folk nå sina mål.",
+        "quoteAuthor": "Albert Elshani, Grundare & VD, TrainWithAlbert",
+        "quoteImage": "/images/albert-elshani.jpg"
       },
       {
         "name": "MB Flytt",

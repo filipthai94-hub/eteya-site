@@ -322,7 +322,7 @@ export default function SannegardenCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/brindar-akalp.jpg"
+              src="/images/kerem-celik.jpg"
               alt={t('quote.author')}
               width={180}
               height={180}

@@ -973,9 +973,9 @@
       "totalValue": "13.4 h/week"
     },
     "quote": {
-      "text": "We thought what we were doing was normal. Until we realized we could automate almost everything.",
-      "author": "Erik Lindqvist",
-      "role": "CTO Nordicrank"
+      "text": "We saved 20 hours per week on reporting. Now we focus on scaling our clients' businesses instead.",
+      "author": "Matyas Dios",
+      "role": "Founder & CEO, NordicRank"
     }
   },
   "sannegarden": {
@@ -1058,9 +1058,9 @@
       "stat3Label": "missed calls"
     },
     "quote": {
-      "text": "Customers don't notice it's an AI. They just get faster and better service.",
-      "author": "Ahmed Hassan",
-      "role": "Owner, Sannegården"
+      "text": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
+      "author": "Kerem Celik",
+      "role": "CEO, Pizzeria Sannegården"
     }
   },
   "trainwithalbert": {
@@ -1111,9 +1111,9 @@
       "stat3Label": "automations"
     },
     "quote": {
-      "text": "I focus on my clients now, not admin. The AI handles the rest.",
-      "author": "Albert Nilsson",
-      "role": "Founder, TrainWithAlbert"
+      "text": "From answering the same questions all day to automating 90% of support. It has given me time to focus on helping people reach their goals.",
+      "author": "Albert Elshani",
+      "role": "Founder & CEO, TrainWithAlbert"
     },
     "heroTitle": "TrainWithAlbert",
     "heroWords": [
@@ -1188,7 +1188,9 @@
           "name": "Sannegården",
           "bigNumber": "0",
           "bigNumberLabel": "Missed calls",
-          "quote": "Never a missed call during rush hour again.",
+          "quote": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
+          "quoteAuthor": "Kerem Celik, CEO, Pizzeria Sannegården",
+          "quoteImage": "/images/kerem-celik.jpg",
           "caseStudyUrl": "/sv/kundcase/sannegarden",
           "logo": "/images/logos/sannegarden-new.svg"
         }
@@ -1248,7 +1250,8 @@
           "ROI within 6 weeks"
         ],
         "quote": "We used to spend hours every week on manual tasks like writing shipping labels and confirming emails. Now Eteya handles all of that automatically. It has made us faster and less stressed.",
-        "quoteAuthor": "Brindar Akalp, CEO, Telestore"
+        "quoteAuthor": "Brindar Akalp, CEO, Telestore",
+        "quoteImage": "/images/brindar-akalp.jpg"
       },
       {
         "name": "NordicRank",
@@ -1263,8 +1266,9 @@
           "AI recommendations → 28% better ROAS",
           "Scaled from 8 to 15 clients without new hires"
         ],
-        "quote": "Eteya automated the heavy stuff — we could focus on strategy and client relationships.",
-        "quoteAuthor": "Josefin Nordström, Founder"
+        "quote": "We saved 20 hours per week on reporting. Now we focus on scaling our clients' businesses instead.",
+        "quoteAuthor": "Matyas Dios, Founder & CEO, NordicRank",
+        "quoteImage": "/images/matyas-dios.jpg"
       },
       {
         "name": "Sannegårdens Pizzeria",
@@ -1279,8 +1283,9 @@
           "Staff focuses on cooking",
           "Customer satisfaction increased by 23%"
         ],
-        "quote": "The AI receptionist became like an extra employee who never takes a break.",
-        "quoteAuthor": "Omid Haddad, Owner"
+        "quote": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
+        "quoteAuthor": "Kerem Celik, CEO, Pizzeria Sannegården",
+        "quoteImage": "/images/kerem-celik.jpg"
       },
       {
         "name": "TrainWithAlbert",
@@ -1295,8 +1300,9 @@
           "Automatic follow-up → 45% rebooking",
           "Revenue increased 60% in 3 months"
         ],
-        "quote": "I'm a coach again, not an administrator. That changed everything.",
-        "quoteAuthor": "Albert Wan, Founder"
+        "quote": "From answering the same questions all day to automating 90% of support. It has given me time to focus on helping people reach their goals.",
+        "quoteAuthor": "Albert Elshani, Founder & CEO, TrainWithAlbert",
+        "quoteImage": "/images/albert-elshani.jpg"
       },
       {
         "name": "MB Flytt",
