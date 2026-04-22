@@ -24,6 +24,12 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  // Require internal API key
+  const apiKey = request.headers.get('x-api-key')
+  if (!apiKey || apiKey !== process.env.INTERNAL_API_KEY) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
     if (isRateLimited(ip)) {

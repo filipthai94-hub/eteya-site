@@ -1,5 +1,23 @@
 'use server'
 import { z } from 'zod'
+import { headers } from 'next/headers'
+
+// In-memory rate limiting for contact form
+const contactRateLimitMap = new Map<string, { count: number; resetTime: number }>()
+
+function checkContactRateLimit(ip: string, maxRequests: number = 3, windowMs: number = 300000): boolean {
+  const now = Date.now()
+  const record = contactRateLimitMap.get(ip)
+  if (!record || now > record.resetTime) {
+    contactRateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    return true
+  }
+  if (record.count >= maxRequests) {
+    return false
+  }
+  record.count++
+  return true
+}
 
 const schema = z.object({
   name: z.string().min(2).max(100),
@@ -12,6 +30,13 @@ const schema = z.object({
 })
 
 export async function sendContactEmail(_prevState: unknown, formData: FormData) {
+  // Rate limit by IP
+  const forwarded = (await headers()).get('x-forwarded-for')
+  const ip = forwarded?.split(',')[0]?.trim() || 'unknown'
+  if (!checkContactRateLimit(ip, 3, 300000)) {
+    return { error: 'För många förfrågningar. Försök igen om en stund.' }
+  }
+
   const rawData = Object.fromEntries(formData)
   console.log(' Rådata från formulär:', rawData)
   

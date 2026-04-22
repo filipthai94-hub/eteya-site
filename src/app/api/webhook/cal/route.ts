@@ -1,5 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
+
+// In-memory rate limiting (resets on cold start, acceptable for webhook)
+const webhookRateLimitMap = new Map<string, { count: number; resetTime: number }>()
+
+function checkWebhookRateLimit(ip: string, maxRequests: number = 5, windowMs: number = 60000): boolean {
+  const now = Date.now()
+  const record = webhookRateLimitMap.get(ip)
+  if (!record || now > record.resetTime) {
+    webhookRateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    return true
+  }
+  if (record.count >= maxRequests) {
+    return false
+  }
+  record.count++
+  return true
+}
 import { generateHTML, type ResearchOutput, type ROIData, type BookingData } from '@/lib/generate-briefing-html'
 import { generateProHTML } from '@/lib/generate-pro-briefing-html'
 
@@ -373,6 +390,12 @@ async function runResearchAndGenerateHTML(data: {
 }
 
 export async function POST(req: NextRequest) {
+  // Rate limit by IP
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  if (!checkWebhookRateLimit(ip, 5, 60000)) {
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  }
+
   const startTime = Date.now()
   console.log('\n=== WEBHOOK RECEIVED ===')
   console.log('Timestamp:', new Date().toISOString())

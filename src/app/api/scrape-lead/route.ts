@@ -82,6 +82,12 @@ async function getIndustryStats(sniCode: string): Promise<IndustryStats | null> 
 }
 
 export async function POST(req: NextRequest) {
+  // Require internal API key
+  const apiKey = req.headers.get('x-api-key')
+  if (!apiKey || apiKey !== process.env.INTERNAL_API_KEY) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const body = await req.json()
     const { companyName, website, orgnr } = body
@@ -140,6 +146,12 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  // Require internal API key
+  const apiKey = req.headers.get('x-api-key')
+  if (!apiKey || apiKey !== process.env.INTERNAL_API_KEY) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { searchParams } = new URL(req.url)
   const companyName = searchParams.get('q')
   const orgnr = searchParams.get('orgnr')
