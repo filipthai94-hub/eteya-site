@@ -386,6 +386,17 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </svg>
             {t('back')}
           </button>
+
+          {/* ROI pill — only when roiData exists. Desktop: static. Mobile: sticky-top. */}
+          {roiData && (
+            <div className={styles.roiPill}>
+              <span className={styles.roiPillIcon} aria-hidden="true">💰</span>
+              <span className={styles.roiPillText}>
+                {t('roiLabel')}: <span className={styles.roiPillValue}>{fmtK(roiData.annualSavings)}{t('roiPerYear')}</span>
+              </span>
+            </div>
+          )}
+
           <div className={styles.calHeader}>
             <div className={styles.calTitle}>{t('calendarTitle')}</div>
           </div>
