@@ -32,7 +32,7 @@ const CASE_LOGOS: Record<string, string> = {
   telestore: '/images/logos/telestore-new.png',
   sannegarden: '/images/logos/sannegarden-new.svg',
   trainwithalbert: '/images/logos/trainwithalbert-new.png',
-  'skg-stockholm': '/images/logos/skg-stockholm.png',
+  'skg-stockholm': '/images/logos/skg-stockholm.svg',
   nordicrank: '/images/logos/nordicrank.svg',
 }
 

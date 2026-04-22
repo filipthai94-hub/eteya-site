@@ -17,7 +17,7 @@ const ROW1_LOGOS: LogoItem[] = [
 ]
 
 const ROW2_LOGOS: LogoItem[] = [
-  { id: 'skg-stockholm', src: '/images/logos/skg-stockholm.png', alt: 'SKG Stockholm logo' },
+  { id: 'skg-stockholm', src: '/images/logos/skg-stockholm.svg', alt: 'SKG Stockholm logo' },
   { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank logo' },
 ]
 
