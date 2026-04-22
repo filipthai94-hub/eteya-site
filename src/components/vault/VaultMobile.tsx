@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { VaultBeams } from './VaultBeams';
 import { VaultLock } from './VaultLock';
 
 const BEZEL_SIZE = 280;
@@ -86,8 +85,6 @@ export function VaultMobile() {
         background: 'radial-gradient(ellipse at 50% 35%, transparent 20%, rgba(0,0,0,0.5) 100%)',
         pointerEvents: 'none', zIndex: 2,
       }} />
-      {/* Beams */}
-      <VaultBeams intensity="strong" />
 
       {/* Scrollable body */}
       <div className="vm-scroll" style={{

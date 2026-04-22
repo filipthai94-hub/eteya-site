@@ -47,7 +47,7 @@ export function VaultLock({
         }
       `}</style>
 
-      <svg viewBox="0 0 600 600" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
         <defs>
           <radialGradient id="vl-bezelMetal" cx="50%" cy="30%" r="70%">
             <stop offset="0%"   stopColor="#3e3e3b" />
@@ -90,6 +90,27 @@ export function VaultLock({
             <stop offset="50%"  stopColor="rgba(240,255,180,0.7)" />
             <stop offset="100%" stopColor="rgba(200,255,0,0)" />
           </linearGradient>
+
+          {/* Photo clip-path — iris-fade reveal via animated radius */}
+          <clipPath id="vl-photoClip">
+            <circle cx="300" cy="300" r={unlocked ? 200 : 0}
+              style={{ transition: 'all 1.4s cubic-bezier(0.22, 1, 0.36, 1)' }}
+            />
+          </clipPath>
+
+          {/* Photo top-to-bottom tone overlay */}
+          <linearGradient id="vl-photoTone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stopColor="#b4c8dc" stopOpacity="0.06" />
+            <stop offset="40%"  stopColor="#000000" stopOpacity="0" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.35" />
+          </linearGradient>
+
+          {/* Photo inner vignette (darker edges) */}
+          <radialGradient id="vl-photoVignette" cx="50%" cy="50%" r="50%">
+            <stop offset="55%"  stopColor="#000000" stopOpacity="0" />
+            <stop offset="85%"  stopColor="#000000" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.75" />
+          </radialGradient>
         </defs>
 
         {/* Drop shadow */}
@@ -155,38 +176,31 @@ export function VaultLock({
         <circle cx="300" cy="300" r="217" fill="#030303" />
         <circle cx="300" cy="300" r="215" fill="url(#vl-lensGlass)" />
 
-        {/* Portrait — iris-fade reveal */}
-        <foreignObject x="100" y="100" width="400" height="400"
-          clipPath={`circle(${unlocked ? 200 : 0}px at 200px 200px)`}
-          style={{ transition: 'clip-path 1.4s cubic-bezier(0.22, 1, 0.36, 1)' }}>
-          <div style={{
-            width: '100%', height: '100%', borderRadius: '50%',
-            overflow: 'hidden', position: 'relative',
-            opacity: unlocked ? 1 : 0,
-            transition: 'opacity 0.8s ease 0.3s',
-          }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/team/filip.png"
-              alt="Filip Thai"
-              style={{
-                width: '100%', height: '100%',
-                objectFit: 'cover', objectPosition: 'center 20%',
-                filter: 'contrast(1.08) saturate(0.95) brightness(0.96)',
-              }}
-            />
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg, rgba(180,200,220,0.06) 0%, transparent 40%, rgba(0,0,0,0.35) 100%)',
-              mixBlendMode: 'overlay', pointerEvents: 'none',
-            }} />
-            <div style={{
-              position: 'absolute', inset: 0, borderRadius: '50%',
-              boxShadow: 'inset 0 0 50px rgba(0,0,0,0.75), inset 0 0 90px rgba(0,0,0,0.4)',
-              pointerEvents: 'none',
-            }} />
-          </div>
-        </foreignObject>
+        {/* Portrait — SVG-native image + clipPath (iOS Safari bulletproof) */}
+        <g style={{
+          opacity: unlocked ? 1 : 0,
+          transition: 'opacity 0.8s ease 0.3s',
+        }}>
+          {/* Photo */}
+          <image
+            href="/images/team/filip.png"
+            x="100" y="100" width="400" height="400"
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#vl-photoClip)"
+            style={{ filter: 'contrast(1.08) saturate(0.95) brightness(0.96)' }}
+          />
+          {/* Top-to-bottom tone overlay (soft top light, dark bottom) */}
+          <rect x="100" y="100" width="400" height="400"
+            fill="url(#vl-photoTone)"
+            clipPath="url(#vl-photoClip)"
+            style={{ mixBlendMode: 'overlay' }}
+          />
+          {/* Inner vignette (darker edges) */}
+          <rect x="100" y="100" width="400" height="400"
+            fill="url(#vl-photoVignette)"
+            clipPath="url(#vl-photoClip)"
+          />
+        </g>
 
         {/* Lime rim glow */}
         <circle cx="300" cy="300" r="215" fill="none"

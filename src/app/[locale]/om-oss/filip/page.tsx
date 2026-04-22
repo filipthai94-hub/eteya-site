@@ -1,13 +1,16 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
+import { VaultBeams } from '@/components/vault/VaultBeams';
 
-// Dynamic imports for Vault components
+// ssr: false — prevents hydration mismatch (date timezone + Math.cos/sin drift)
 const VaultDesktop = dynamic(
-  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop }))
+  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop })),
+  { ssr: false }
 );
 const VaultMobile = dynamic(
-  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile }))
+  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile })),
+  { ssr: false }
 );
 
 // ─── SEO ────────────────────────────────────────────────────────────────────
@@ -115,6 +118,7 @@ export default function FilipPage() {
           height: 100vh;
           overflow: hidden;
           background: radial-gradient(ellipse at 50% 38%, #181816 0%, #0a0a09 50%, #010101 100%);
+          position: relative;
         }
         .vault-stage {
           position: relative;
@@ -131,6 +135,7 @@ export default function FilipPage() {
             0 0 80px rgba(200,255,0,0.03),
             0 8px 32px rgba(0,0,0,0.55),
             0 40px 100px rgba(0,0,0,0.75);
+          z-index: 2;
         }
         .vault-stage::after {
           content: '';
@@ -160,6 +165,7 @@ export default function FilipPage() {
           width: 100vw;
           height: 100vh;
           height: 100dvh;
+          position: relative;
         }
 
         /* Stage scale breakpoints */
@@ -177,6 +183,7 @@ export default function FilipPage() {
 
       {/* DESKTOP */}
       <div className="vault-desktop-wrapper">
+        <VaultBeams intensity="strong" />
         <div className="vault-stage">
           <VaultDesktop />
         </div>
@@ -184,6 +191,7 @@ export default function FilipPage() {
 
       {/* MOBILE */}
       <div className="vault-mobile-wrapper">
+        <VaultBeams intensity="strong" />
         <VaultMobile />
       </div>
     </>
