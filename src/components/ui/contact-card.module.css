@@ -425,7 +425,7 @@
 }
 
 /* ============================================
-   ROI BADGE
+   ROI BADGE (Step 1)
    ============================================ */
 
 .roiBadge {
@@ -537,6 +537,53 @@
 }
 
 /* ============================================
+   ROI PILL (Step 2 — persistent savings reminder)
+   ============================================
+   Desktop: subtle rounded pill, centered, above calendar
+   Mobile: sticky-top full-width bar so it stays visible
+           while user scrolls through Cal.com calendar
+   ============================================ */
+
+.roiPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0 0 18px;
+  border-radius: 999px;
+  background: rgba(200, 255, 0, 0.04);
+  border: 1px solid rgba(200, 255, 0, 0.18);
+  align-self: center;
+  max-width: 100%;
+  position: relative;
+  z-index: 5;
+}
+
+.roiPillIcon {
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.roiPillText {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roiPillValue {
+  color: #C8FF00;
+  font-weight: 600;
+}
+
+/* ============================================
    CTA BUTTON
    ============================================ */
 
@@ -616,6 +663,7 @@
   margin-bottom: 16px;
   transition: color 0.15s ease-out;
   min-height: 44px;
+  align-self: flex-start;
 }
 
 .backButton:hover {
@@ -799,6 +847,27 @@
     margin-top: 24px;
     box-shadow: none;
   }
+
+  /* ROI Pill — sticky at top of scroll container on mobile,
+     spans full width so backdrop-filter covers content scrolling under */
+  .roiPill {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    align-self: stretch;
+    margin: 0 -20px 16px;
+    padding: 10px 20px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(200, 255, 0, 0.15);
+    background: rgba(13, 13, 13, 0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .roiPillText {
+    font-size: 11px;
+  }
 }
 
 /* ============================================
@@ -820,6 +889,11 @@
   .progress {
     padding: 12px 16px 0;
     padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  }
+  /* Keep sticky pill edge-aligned on small mobile */
+  .roiPill {
+    margin: 0 -16px 14px;
+    padding: 9px 16px;
   }
 }
 
