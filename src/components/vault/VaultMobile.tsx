@@ -66,7 +66,8 @@ export function VaultMobile() {
       function step(now: number) {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        el.scrollTop = startY + distance * easeInOutCubic(progress);
+        // el is guaranteed non-null here (checked above, const ref captured in closure)
+        el!.scrollTop = startY + distance * easeInOutCubic(progress);
         if (progress < 1) raf = requestAnimationFrame(step);
       }
       raf = requestAnimationFrame(step);
