@@ -539,8 +539,8 @@
     },
     "trustStack": {
       "quote": "Eteya eliminerade {amount} kr/år i felkostnader — helt automatiserat. Kalkylatorn visar bara tidsbesparing, så siffran är ännu högre i verkligheten.",
-      "author": "Filip Thai",
-      "role": "Grundare, Telestore Sverige AB",
+      "author": "Brindar Akalp",
+      "role": "VD, Telestore Sverige AB",
       "trustpilot": "{rating} på Trustpilot",
       "logos": [
         "Telestore",
@@ -1200,7 +1200,7 @@
     "heading": "Människorna bakom Eteya",
     "members": [
       {
-        "name": "Filip Thai",
+        "name": "Brindar Akalp",
         "role": "Grundare och CEO",
         "bio": "Startade Eteya för att bevisa att AI faktiskt levererar, inte bara låter bra på möten.",
         "image": "/images/team/filip.png",
@@ -1247,8 +1247,8 @@
           "92% av ärenden lösta utan mänsklig inblandning",
           "ROI inom 6 veckor"
         ],
-        "quote": "Vi kunde äntligen fokusera på tillväxt istället för att jaga ärenden.",
-        "quoteAuthor": "Filip Thai, Grundare"
+        "quote": "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade.",
+        "quoteAuthor": "Brindar Akalp, VD, Telestore"
       },
       {
         "name": "NordicRank",
