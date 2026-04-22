@@ -13,7 +13,7 @@ const filipPerson: PersonData = {
   website: 'eteya.ai',
   linkedinName: 'Filip Thai',
   linkedinUrl: 'https://www.linkedin.com/in/filip-thai-10449a3b6/',
-  calUrl: 'https://cal.com/filip',
+  calUrl: 'https://cal.com/eteya-ai/strategimote',
   vcfHref: '/filip-thai.vcf',
   vcfDownload: 'Filip-Thai.vcf',
   image: '/images/team/filip.png',

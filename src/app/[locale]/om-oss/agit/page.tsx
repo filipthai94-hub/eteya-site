@@ -13,7 +13,7 @@ const agitPerson: PersonData = {
   website: 'eteya.ai',
   linkedinName: 'Agit Akalp',
   linkedinUrl: 'https://www.linkedin.com/in/agit-akalp-15701b325/',
-  calUrl: 'https://cal.com/agit',
+  calUrl: 'https://cal.com/eteya-ai/strategimote',
   vcfHref: '/agit-akalp.vcf',
   vcfDownload: 'Agit-Akalp.vcf',
   image: '/images/team/agit.png',
