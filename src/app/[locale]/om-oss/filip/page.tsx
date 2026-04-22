@@ -3,14 +3,12 @@ import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import { VaultBeams } from '@/components/vault/VaultBeams';
 
-// ssr: false — prevents hydration mismatch (date timezone + Math.cos/sin drift)
+// Dynamic imports for Vault client components
 const VaultDesktop = dynamic(
-  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop })),
-  { ssr: false }
+  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop }))
 );
 const VaultMobile = dynamic(
-  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile })),
-  { ssr: false }
+  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile }))
 );
 
 // ─── SEO ────────────────────────────────────────────────────────────────────
