@@ -883,6 +883,11 @@
       "text": "We saved 20 hours per week on reporting. Now we focus on scaling our clients' businesses instead.",
       "author": "Matyas Dios",
       "role": "Founder & CEO, NordicRank"
+    },
+    "hero": {
+      "title": "NordicRank",
+      "subtitle": "50% more organic traffic + 18 automations",
+      "tag": "Case Study"
     }
   },
   "sannegarden": {
@@ -968,6 +973,11 @@
       "text": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
       "author": "Kerem Celik",
       "role": "CEO, Pizzeria Sannegården"
+    },
+    "hero": {
+      "title": "Sannegården Pizzeria",
+      "subtitle": "Never a missed call during peak hours",
+      "tag": "Case Study"
     }
   },
   "trainwithalbert": {
