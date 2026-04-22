@@ -115,22 +115,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s ease-out;
+  transition: background 0.15s ease-out, color 0.15s ease-out;
   padding: 0;
+  color: rgba(255, 255, 255, 0.5); /* currentColor fallback for iOS Safari */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .closeButton:hover {
   background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .closeButton svg {
   width: 16px;
   height: 16px;
-  stroke: rgba(255, 255, 255, 0.5);
-}
-
-.closeButton:hover svg {
-  stroke: rgba(255, 255, 255, 0.9);
+  stroke: currentColor;
 }
 
 .closeButton:focus-visible {
@@ -369,9 +370,12 @@
   min-height: 52px;
 }
 
-/* Select (native) */
+/* Select (native) — transparent bg so only underline shows (matches other inputs) */
 .select {
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 14 8' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.4)' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right center;
@@ -380,8 +384,8 @@
 }
 
 .select option {
-  color: #111;
-  background: #1a1a1a;
+  color: #fff;
+  background: #0f0f0f;
 }
 
 /* ============================================
@@ -704,8 +708,9 @@
     padding: 16px 20px 24px;
   }
 
+  /* Stack name + email on mobile — more readable, less cramped */
   .formRow {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 14px;
   }
 

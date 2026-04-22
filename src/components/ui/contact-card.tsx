@@ -175,8 +175,8 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           aria-label={t('close')}
         >
           <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" />
-            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       )}
@@ -280,7 +280,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 value={formData.service}
                 onChange={(e) => updateField('service', e.target.value)}
                 className={`${styles.input} ${styles.select}`}
-                style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}
+                style={{ color: '#ffffff' }}
               >
                 <option value="" disabled style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>{t('form.service.placeholder')}</option>
                 {services.map((s) => (
