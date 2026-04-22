@@ -3,12 +3,18 @@
 import { useState, useEffect } from 'react';
 import { VaultLock } from './VaultLock';
 
-const CONTACTS = [
-  { n: '01', k: 'TELEFON',  v: '+46 73 982 39 62', href: 'tel:+46739823962', target: undefined, rel: undefined },
-  { n: '02', k: 'E-POST',   v: 'kontakt@eteya.ai', href: 'mailto:kontakt@eteya.ai', target: undefined, rel: undefined },
-  { n: '03', k: 'WEBB',     v: 'eteya.ai',          href: 'https://eteya.ai', target: '_blank', rel: 'noopener' },
-  { n: '04', k: 'LINKEDIN', v: 'Filip Thai',        href: 'https://www.linkedin.com/in/filip-thai-10449a3b6/', target: '_blank', rel: 'nofollow noopener' },
-];
+export interface PersonData {
+  name: string;
+  role: string;
+  phone: string;
+  email: string;
+  website: string;
+  linkedinName: string;
+  linkedinUrl: string;
+  calUrl: string;
+  vcfHref: string;
+  vcfDownload: string;
+}
 
 const tileStyle: React.CSSProperties = {
   position: 'relative',
@@ -34,9 +40,18 @@ const contactStyle: React.CSSProperties = {
   willChange: 'transform',
 };
 
-export function VaultDesktop() {
+export function VaultDesktop({ person }: { person: PersonData }) {
   const [phase, setPhase] = useState(0);
   const [tick, setTick] = useState(0);
+
+  const nameParts = person.name.split(' ');
+
+  const CONTACTS = [
+    { n: '01', k: 'TELEFON',  v: person.phone, href: `tel:${person.phone.replace(/\s/g, '')}`, target: undefined as string | undefined, rel: undefined as string | undefined },
+    { n: '02', k: 'E-POST',   v: person.email, href: `mailto:${person.email}`, target: undefined as string | undefined, rel: undefined as string | undefined },
+    { n: '03', k: 'WEBB',     v: person.website, href: `https://${person.website}`, target: '_blank' as string | undefined, rel: 'noopener' as string | undefined },
+    { n: '04', k: 'LINKEDIN', v: person.linkedinName, href: person.linkedinUrl, target: '_blank' as string | undefined, rel: 'nofollow noopener' as string | undefined },
+  ];
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 900);
@@ -110,10 +125,10 @@ export function VaultDesktop() {
             N° 001 — AUTH 14:32
           </div>
           <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 120, lineHeight: 0.9, letterSpacing: '-0.04em', margin: 0, textTransform: 'uppercase' }}>
-            Filip<br />Thai
+            {nameParts[0]}<br />{nameParts.slice(1).join(' ')}
           </h1>
           <div style={{ marginTop: 6, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>
-            Grundare & VD · Eteya Consulting
+            {person.role} · Eteya Consulting
           </div>
         </div>
 
@@ -133,11 +148,11 @@ export function VaultDesktop() {
             transform: settled ? 'translateY(0)' : 'translateY(14px)',
             transition: 'opacity 0.9s cubic-bezier(0.16,1,0.3,1) 1.7s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 1.7s',
           }}>
-            <a href="https://cal.com/filip" className="cta-tile" style={tileStyle}>
+            <a href={person.calUrl} className="cta-tile" style={tileStyle}>
               <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 600, fontSize: 28 }}>Boka möte</span>
               <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.38)' }}>30 min · via cal.com</span>
             </a>
-            <a href="/filip-thai.vcf" download="Filip-Thai.vcf" className="cta-tile" style={tileStyle}>
+            <a href={person.vcfHref} download={person.vcfDownload} className="cta-tile" style={tileStyle}>
               <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 600, fontSize: 28 }}>Spara kontakt</span>
               <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.38)' }}>.vcf · till telefon</span>
             </a>

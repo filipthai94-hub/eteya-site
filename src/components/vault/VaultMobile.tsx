@@ -2,26 +2,27 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { VaultLock } from './VaultLock';
+import type { PersonData } from './VaultDesktop';
 
 const BEZEL_SIZE = 280;
 const LOCK_SIZE = 560;
 const SCALE = BEZEL_SIZE / LOCK_SIZE;
 
-const CONTACTS = [
-  { n: '01', k: 'TELEFON',  v: '+46 73 982 39 62', href: 'tel:+46739823962', target: undefined, rel: undefined },
-  { n: '02', k: 'E-POST',   v: 'kontakt@eteya.ai', href: 'mailto:kontakt@eteya.ai', target: undefined, rel: undefined },
-  { n: '03', k: 'WEBB',     v: 'eteya.ai',          href: 'https://eteya.ai', target: '_blank', rel: 'noopener' },
-  { n: '04', k: 'LINKEDIN', v: 'Filip Thai',        href: 'https://www.linkedin.com/in/filip-thai-10449a3b6/', target: '_blank', rel: 'nofollow noopener' },
-];
-
 function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-export function VaultMobile() {
+export function VaultMobile({ person }: { person: PersonData }) {
   const [phase, setPhase] = useState(0);
   const [tick, setTick] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const CONTACTS = [
+    { n: '01', k: 'TELEFON',  v: person.phone, href: `tel:${person.phone.replace(/\s/g, '')}`, target: undefined as string | undefined, rel: undefined as string | undefined },
+    { n: '02', k: 'E-POST',   v: person.email, href: `mailto:${person.email}`, target: undefined as string | undefined, rel: undefined as string | undefined },
+    { n: '03', k: 'WEBB',     v: person.website, href: `https://${person.website}`, target: '_blank' as string | undefined, rel: 'noopener' as string | undefined },
+    { n: '04', k: 'LINKEDIN', v: person.linkedinName, href: person.linkedinUrl, target: '_blank' as string | undefined, rel: 'nofollow noopener' as string | undefined },
+  ];
 
   // Phase sequence
   useEffect(() => {
@@ -213,10 +214,10 @@ export function VaultMobile() {
             N° 001 — AUTH 14:32
           </div>
           <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 56, lineHeight: 0.88, letterSpacing: '-0.04em', margin: 0, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-            Filip Thai
+            {person.name}
           </h1>
           <div style={{ marginTop: 7, fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.58)' }}>
-            Grundare & VD · Eteya Consulting
+            {person.role} · Eteya Consulting
           </div>
         </div>
 
@@ -256,7 +257,7 @@ export function VaultMobile() {
         background: 'linear-gradient(to top, rgba(1,1,1,0.95) 0%, rgba(10,10,9,0.7) 100%)',
         ...fadeIn('0.6s'),
       }}>
-        <a href="https://cal.com/filip" className="vm-cta" style={{
+        <a href={person.calUrl} className="vm-cta" style={{
           flex: 1, display: 'flex', flexDirection: 'column', gap: 5,
           padding: '14px 16px 13px',
           background: 'transparent',
@@ -267,7 +268,7 @@ export function VaultMobile() {
           <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 600, fontSize: 20 }}>Boka möte</span>
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.36)' }}>30 min · via cal.com</span>
         </a>
-        <a href="/filip-thai.vcf" download="Filip-Thai.vcf" className="vm-cta" style={{
+        <a href={person.vcfHref} download={person.vcfDownload} className="vm-cta" style={{
           flex: 1, display: 'flex', flexDirection: 'column', gap: 5,
           padding: '14px 16px 13px',
           background: 'transparent',
