@@ -86,23 +86,19 @@ export function VaultMobile() {
         pointerEvents: 'none', zIndex: 2,
       }} />
 
-      {/* Scrollable body */}
-      <div className="vm-scroll" style={{
-        flex: 1, minHeight: 0,
-        overflowY: 'auto', overflowX: 'hidden',
+      {/* ─── FIXED HERO: Status HUD + Bezel ─────────────────────────────── */}
+      <div style={{
+        flexShrink: 0,
         position: 'relative', zIndex: 5,
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-      } as React.CSSProperties}>
-
-        {/* Status HUD — centered above bezel */}
+        paddingBottom: 16,
+      }}>
+        {/* Status HUD */}
         <div style={{
           display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 7,
           paddingTop: 'max(18px, env(safe-area-inset-top))',
           paddingBottom: 12,
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase',
-          flexShrink: 0,
         }}>
           <span style={{
             width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
@@ -120,7 +116,7 @@ export function VaultMobile() {
         <div style={{
           width: BEZEL_SIZE, height: BEZEL_SIZE,
           margin: '0 auto',
-          position: 'relative', overflow: 'hidden', flexShrink: 0,
+          position: 'relative', overflow: 'hidden',
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0,
@@ -140,8 +136,25 @@ export function VaultMobile() {
           </div>
         </div>
 
+        {/* Hero bottom fade — blends into scroll area */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: 32,
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(10,10,9,0.6) 100%)',
+          pointerEvents: 'none',
+        }} />
+      </div>
+
+      {/* ─── SCROLLABLE MIDDLE: Identity + Contacts ──────────────────────── */}
+      <div className="vm-scroll" style={{
+        flex: 1, minHeight: 0,
+        overflowY: 'auto', overflowX: 'hidden',
+        position: 'relative', zIndex: 5,
+        WebkitOverflowScrolling: 'touch',
+        scrollbarWidth: 'none',
+      } as React.CSSProperties}>
+
         {/* Identity */}
-        <div style={{ padding: '28px 24px 0', textAlign: 'center', ...fadeIn('1.4s') }}>
+        <div style={{ padding: '20px 24px 0', textAlign: 'center', ...fadeIn('1.4s') }}>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.28em', color: 'rgba(255,255,255,0.42)', marginBottom: 5 }}>
             N° 001 — AUTH 14:32
           </div>
@@ -177,7 +190,7 @@ export function VaultMobile() {
         <div style={{ height: 8 }} />
       </div>
 
-      {/* Sticky CTAs */}
+      {/* ─── STICKY CTAs ─────────────────────────────────────────────────── */}
       <div style={{
         flexShrink: 0, zIndex: 10, position: 'relative',
         display: 'flex', gap: 10,
