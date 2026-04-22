@@ -322,7 +322,7 @@
       },
       "company": {
         "label": "Företag",
-        "placeholder": "Företagsnamn"
+        "placeholder": "Acme AB"
       },
       "service": {
         "label": "Vad behöver ni hjälp med?",
@@ -1656,15 +1656,15 @@
     "form": {
       "name": {
         "label": "Namn",
-        "placeholder": "Ditt namn"
+        "placeholder": "Anna Svensson"
       },
       "email": {
         "label": "Email",
-        "placeholder": "din@email.com"
+        "placeholder": "anna@foretaget.se"
       },
       "website": {
-        "label": "Företagsnamn eller hemsida",
-        "placeholder": "https://dinhemsida.se"
+        "label": "Företag eller hemsida",
+        "placeholder": "Acme AB eller acme.se"
       },
       "service": {
         "label": "Vad behöver ni hjälp med?",

@@ -481,25 +481,29 @@ export async function POST(req: NextRequest) {
     // Extract data (handle { label, value } format from Cal.com)
     const name = extractValue(payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title)
     const email = extractValue(payload?.responses?.email ?? payload?.attendees?.[0]?.email)
-    let company = extractValue(payload?.metadata?.company ?? payload?.responses?.company)
-    let website = extractValue(payload?.metadata?.website) || null
+    const websiteInput = extractValue(payload?.metadata?.website)
     const service = extractValue(payload?.title)
     const description = extractValue(payload?.description ?? payload?.responses?.notes)
 
-    // SMART PARSING: If company field is empty but website is filled (or vice versa), use whichever is available
-    if (!company && website) {
-      // User provided website but not company name
-      // Extract company name from website (e.g., "telestore.se" -> "Telestore")
-      company = website.replace(/^www\./, '').split('.')[0]
-      // Capitalize first letter
-      company = company.charAt(0).toUpperCase() + company.slice(1)
-      console.log('🔍 Extracted company name from website:', company)
-    } else if (company && !website && isWebsite(company)) {
-      // User put website in company field
-      website = company
-      company = company.replace(/^www\./, '').split('.')[0]
-      company = company.charAt(0).toUpperCase() + company.slice(1)
-      console.log('🔍 Detected website in company field, extracted:', company)
+    // SMART PARSING: Extract company name from website input
+    // User can enter: "telestore.se" OR "Telestore Sverige AB" OR both
+    let company = ''
+    let website = ''
+
+    if (websiteInput) {
+      if (isWebsite(websiteInput)) {
+        // User entered a website (e.g., "telestore.se")
+        website = websiteInput
+        // Extract company name from domain
+        company = websiteInput.replace(/^www\./, '').split('.')[0]
+        company = company.charAt(0).toUpperCase() + company.slice(1)
+        console.log('🔍 Extracted company from website:', company, 'from', website)
+      } else {
+        // User entered a company name (e.g., "Telestore Sverige AB")
+        company = websiteInput
+        website = ''
+        console.log('🔍 Using company name directly:', company)
+      }
     }
 
     // Build roiData from separate metadata fields (sent from ContactCard)

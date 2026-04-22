@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sanitizeString, sanitizeEmail, isValidExternalUrl } from '@/lib/security'
 
 const APIVERKET_API_KEY = process.env.APIVERKET_API_KEY
 const APIVERKET_BASE_URL = 'https://apiverket.se/v1'
@@ -90,7 +91,14 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { companyName, website, orgnr } = body
+    const companyName = body.companyName ? sanitizeString(body.companyName) : undefined
+    const orgnr = body.orgnr ? sanitizeString(body.orgnr) : undefined
+    const website = body.website ? sanitizeString(body.website) : undefined
+
+    // Validate website URL if provided
+    if (website && !isValidExternalUrl(website)) {
+      return NextResponse.json({ error: 'Invalid website URL' }, { status: 400 })
+    }
 
     if (!companyName && !orgnr) {
       return NextResponse.json({ error: 'companyName or orgnr required' }, { status: 400 })
