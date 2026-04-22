@@ -685,8 +685,9 @@
       "description": "Se hur svenska företag sparar tid och pengar med AI-automation. Verifierade resultat med riktig data."
     },
     "hero": {
+      "eyebrow": "Verifierade resultat",
       "title": "Kundcase",
-      "subtitle": "Verifierade resultat från riktiga företag"
+      "subtitle": "Så har svenska företag använt Eteya för att automatisera det som förut åt upp dagen — och bygga skalbart utan att anställa fler."
     },
     "telestore": {
       "industry": "E-handel",

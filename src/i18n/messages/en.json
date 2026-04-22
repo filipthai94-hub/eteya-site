@@ -685,8 +685,9 @@
       "description": "See how Swedish companies save time and money with AI automation. Verified results with real data."
     },
     "hero": {
+      "eyebrow": "Verified results",
       "title": "Case Studies",
-      "subtitle": "Verified results from real companies"
+      "subtitle": "How Swedish companies used Eteya to automate the grind — and scale without hiring more people."
     },
     "telestore": {
       "industry": "E-commerce",
