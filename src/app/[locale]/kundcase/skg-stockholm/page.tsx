@@ -119,7 +119,12 @@ const getOrganizationSchema = () => ({
   'logo': 'https://eteya.ai/logo.png',
 })
 
-export default function SKGStockholmPage() {
+export default async function SKGStockholmPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
   return (
     <>
       <Nav />
@@ -127,13 +132,13 @@ export default function SKGStockholmPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema('sv'))
+            __html: JSON.stringify(getCaseStudySchema(locale))
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getBreadcrumbSchema('sv'))
+            __html: JSON.stringify(getBreadcrumbSchema(locale))
           }}
         />
         <script

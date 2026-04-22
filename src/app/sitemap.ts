@@ -95,7 +95,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/en/case-studies/nordicrank`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/sv/kundcase/sannegarden`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en/case-studies/sannegarden`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -114,6 +126,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/sv/kundcase/trainwithalbert`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/case-studies/trainwithalbert`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
