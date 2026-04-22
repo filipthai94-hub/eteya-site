@@ -8,11 +8,15 @@ interface VaultLockProps {
   scannerAngle: number;
   pulse: number;
   image?: string;
+  engraving?: string;
+  initials?: string;
 }
 
 export function VaultLock({
   monogramVisible, unlocked, settled, tick, scannerAngle, pulse,
   image = '/images/team/filip.png',
+  engraving = 'FILIP THAI',
+  initials = 'F.T.',
 }: VaultLockProps) {
   return (
     <div style={{ position: 'relative', width: 560, height: 560 }}>
@@ -244,7 +248,7 @@ export function VaultLock({
             <textPath href="#vl-engraveTop" startOffset="50%" textAnchor="middle">ETEYA</textPath>
           </text>
           <text fontFamily="'JetBrains Mono', monospace" fontSize="10" letterSpacing="4" fill="rgba(255,255,255,0.55)">
-            <textPath href="#vl-engraveBottom" startOffset="50%" textAnchor="middle">N° 001 · FILIP THAI</textPath>
+            <textPath href="#vl-engraveBottom" startOffset="50%" textAnchor="middle">N° 001 · {engraving}</textPath>
           </text>
           <line x1="290" y1="300" x2="310" y2="300" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
           <circle cx="486" cy="300" r="1.4" fill="rgba(255,255,255,0.4)" />
@@ -271,7 +275,7 @@ export function VaultLock({
             fontFamily="JetBrains Mono, monospace"
             fontSize="9" letterSpacing="2.4"
             fill="rgba(200,255,0,0.7)">
-            ET-001 · F.T.
+            ET-001 · {initials}
           </text>
         </g>
       </svg>

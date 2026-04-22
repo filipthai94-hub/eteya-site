@@ -17,6 +17,8 @@ const agitPerson: PersonData = {
   vcfHref: '/agit-akalp.vcf',
   vcfDownload: 'Agit-Akalp.vcf',
   image: '/images/team/agit.png',
+  engraving: 'AGIT AKALP',
+  initials: 'A.A.',
 };
 
 // ─── SEO ────────────────────────────────────────────────────────────────────

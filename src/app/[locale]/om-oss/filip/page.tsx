@@ -17,6 +17,8 @@ const filipPerson: PersonData = {
   vcfHref: '/filip-thai.vcf',
   vcfDownload: 'Filip-Thai.vcf',
   image: '/images/team/filip.png',
+  engraving: 'FILIP THAI',
+  initials: 'F.T.',
 };
 
 // ─── SEO ────────────────────────────────────────────────────────────────────
