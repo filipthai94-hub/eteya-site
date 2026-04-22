@@ -2,12 +2,14 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
 
-// Dynamic imports for Vault components
+// ssr: false — prevents hydration mismatch (date timezone + Math.cos/sin drift)
 const VaultDesktop = dynamic(
-  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop }))
+  () => import('@/components/vault/VaultDesktop').then(m => ({ default: m.VaultDesktop })),
+  { ssr: false }
 );
 const VaultMobile = dynamic(
-  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile }))
+  () => import('@/components/vault/VaultMobile').then(m => ({ default: m.VaultMobile })),
+  { ssr: false }
 );
 
 // ─── SEO ────────────────────────────────────────────────────────────────────
@@ -105,11 +107,6 @@ export default function FilipPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(filipBreadcrumbSchema) }}
       />
 
-      {/*
-        Lägg din <Nav /> här om du vill ha navigation:
-        <Nav />
-      */}
-
       {/* Responsiv CSS — ingen Tailwind-dependency */}
       <style>{`
         .vault-desktop-wrapper {
@@ -191,11 +188,6 @@ export default function FilipPage() {
       <div className="vault-mobile-wrapper">
         <VaultMobile />
       </div>
-
-      {/*
-        Lägg din <FooterCTAClient /> här om du vill ha footer:
-        <FooterCTAClient />
-      */}
     </>
   );
 }
