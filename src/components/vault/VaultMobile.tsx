@@ -14,12 +14,16 @@ const CONTACTS = [
   { n: '04', k: 'LINKEDIN', v: 'Filip Thai',        href: 'https://www.linkedin.com/in/filip-thai-10449a3b6/', target: '_blank', rel: 'nofollow noopener' },
 ];
 
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
 export function VaultMobile() {
   const [phase, setPhase] = useState(0);
   const [tick, setTick] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Faster phase sequence
+  // Phase sequence
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 500);
     const t2 = setTimeout(() => setPhase(2), 800);
@@ -41,19 +45,40 @@ export function VaultMobile() {
   const scannerAngle = (tick * 0.025) % 360;
   const pulse = 0.5 + 0.5 * Math.sin(tick * 0.0016);
 
-  // Auto-scroll to bottom 600ms after settled (= ~2000ms total)
+  // Custom slow scroll — starts at 2500ms (1400 settled + 1100 delay)
+  // easeInOutCubic over 1200ms: starts slow, glides, eases out
   useEffect(() => {
     if (!settled) return;
+    let raf: number;
+
     const timer = setTimeout(() => {
-      scrollRef.current?.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }, 600);
-    return () => clearTimeout(timer);
+      const el = scrollRef.current;
+      if (!el) return;
+
+      const startY = el.scrollTop;
+      const targetY = el.scrollHeight - el.clientHeight;
+      const distance = targetY - startY;
+      if (distance <= 0) return;
+
+      const duration = 1200;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        el.scrollTop = startY + distance * easeInOutCubic(progress);
+        if (progress < 1) raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+    }, 1100);
+
+    return () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(raf);
+    };
   }, [settled]);
 
-  // Faster fade-in delays
+  // Fade-in delays
   const fadeIn = (delay: string): React.CSSProperties => ({
     opacity: settled ? 1 : 0,
     transform: settled ? 'translateY(0)' : 'translateY(10px)',
