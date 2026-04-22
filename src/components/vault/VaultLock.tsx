@@ -47,7 +47,7 @@ export function VaultLock({
         }
       `}</style>
 
-      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
+      <svg viewBox="0 0 600 600" style={{ width: '100%', height: '100%', display: 'block', overflow: 'visible' }}>
         <defs>
           <radialGradient id="vl-bezelMetal" cx="50%" cy="30%" r="70%">
             <stop offset="0%"   stopColor="#3e3e3b" />
@@ -90,27 +90,13 @@ export function VaultLock({
             <stop offset="50%"  stopColor="rgba(240,255,180,0.7)" />
             <stop offset="100%" stopColor="rgba(200,255,0,0)" />
           </linearGradient>
-
-          {/* Photo clip-path — iris-fade reveal via animated radius */}
           <clipPath id="vl-photoClip">
-            <circle cx="300" cy="300" r={unlocked ? 200 : 0}
-              style={{ transition: 'all 1.4s cubic-bezier(0.22, 1, 0.36, 1)' }}
+            <circle
+              cx="300" cy="300"
+              r={unlocked ? 200 : 0}
+              style={{ transition: 'r 1.4s cubic-bezier(0.22, 1, 0.36, 1)' }}
             />
           </clipPath>
-
-          {/* Photo top-to-bottom tone overlay */}
-          <linearGradient id="vl-photoTone" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stopColor="#b4c8dc" stopOpacity="0.06" />
-            <stop offset="40%"  stopColor="#000000" stopOpacity="0" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0.35" />
-          </linearGradient>
-
-          {/* Photo inner vignette (darker edges) */}
-          <radialGradient id="vl-photoVignette" cx="50%" cy="50%" r="50%">
-            <stop offset="55%"  stopColor="#000000" stopOpacity="0" />
-            <stop offset="85%"  stopColor="#000000" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0.75" />
-          </radialGradient>
         </defs>
 
         {/* Drop shadow */}
@@ -134,10 +120,10 @@ export function VaultLock({
             const major = i % 10 === 0 && !cardinal;
             const r1 = 268;
             const r2 = cardinal ? 232 : major ? 244 : 256;
-            const x1 = Math.round((300 + Math.cos(a) * r1) * 100) / 100;
-            const y1 = Math.round((300 + Math.sin(a) * r1) * 100) / 100;
-            const x2 = Math.round((300 + Math.cos(a) * r2) * 100) / 100;
-            const y2 = Math.round((300 + Math.sin(a) * r2) * 100) / 100;
+            const x1 = 300 + Math.cos(a) * r1;
+            const y1 = 300 + Math.sin(a) * r1;
+            const x2 = 300 + Math.cos(a) * r2;
+            const y2 = 300 + Math.sin(a) * r2;
             const degAngle = ((a * 180 / Math.PI) + 90 + 360) % 360;
             const diff = Math.min(
               Math.abs(degAngle - scannerAngle),
@@ -161,8 +147,8 @@ export function VaultLock({
           })}
           {[45, 135, 225, 315].map(deg => {
             const a = (deg - 90) * Math.PI / 180;
-            const cx = Math.round((300 + Math.cos(a) * 250) * 100) / 100;
-            const cy = Math.round((300 + Math.sin(a) * 250) * 100) / 100;
+            const cx = 300 + Math.cos(a) * 250;
+            const cy = 300 + Math.sin(a) * 250;
             return (
               <g key={deg}>
                 <circle cx={cx} cy={cy} r="2.5" fill="rgba(0,0,0,0.7)" />
@@ -176,35 +162,42 @@ export function VaultLock({
         <circle cx="300" cy="300" r="217" fill="#030303" />
         <circle cx="300" cy="300" r="215" fill="url(#vl-lensGlass)" />
 
-        {/* Portrait — SVG-native image + clipPath (iOS Safari bulletproof) */}
-        <g style={{
-          opacity: unlocked ? 1 : 0,
-          transition: 'opacity 0.8s ease 0.3s',
-        }}>
-          {/* Photo */}
-          <image
-            href="/images/team/filip.png"
-            x="100" y="100" width="400" height="400"
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="url(#vl-photoClip)"
-            style={{ filter: 'contrast(1.08) saturate(0.95) brightness(0.96)' }}
-          />
-          {/* Top-to-bottom tone overlay (soft top light, dark bottom) */}
-          <rect x="100" y="100" width="400" height="400"
-            fill="url(#vl-photoTone)"
-            clipPath="url(#vl-photoClip)"
-            style={{ mixBlendMode: 'overlay' }}
-          />
-          {/* Inner vignette (darker edges) */}
-          <rect x="100" y="100" width="400" height="400"
-            fill="url(#vl-photoVignette)"
-            clipPath="url(#vl-photoClip)"
-          />
-        </g>
+        {/* Portrait — SVG-native image with clipPath iris-fade */}
+        <image
+          href="/images/team/filip.png"
+          x="100" y="100" width="400" height="400"
+          preserveAspectRatio="xMidYMid slice"
+          clipPath="url(#vl-photoClip)"
+          style={{
+            filter: 'contrast(1.08) saturate(0.95) brightness(0.96)',
+            transition: 'opacity 0.8s ease 0.3s',
+            opacity: unlocked ? 1 : 0,
+          }}
+        />
+        {/* Tone overlay — clipped to same circle */}
+        <rect
+          x="100" y="100" width="400" height="400"
+          clipPath="url(#vl-photoClip)"
+          fill="url(#vl-photoTone)"
+          style={{ mixBlendMode: 'overlay', pointerEvents: 'none' }}
+        />
+        {/* Vignette — clipped to same circle */}
+        <circle
+          cx="300" cy="300" r="200"
+          clipPath="url(#vl-photoClip)"
+          fill="url(#vl-photoVignette)"
+          style={{ pointerEvents: 'none' }}
+        />
 
-        {/* Lime rim glow */}
+        {/* ─── Lime glow ring — ambient outer layer ─── */}
+        <circle cx="300" cy="300" r="218" fill="none"
+          stroke={`rgba(200,255,0,${unlocked ? 0.04 + pulse * 0.03 : 0})`}
+          strokeWidth="20"
+          style={{ filter: 'blur(14px)', transition: 'stroke 0.8s ease' }}
+        />
+        {/* ─── Lime glow ring — tight inner ring ─── */}
         <circle cx="300" cy="300" r="215" fill="none"
-          stroke={`rgba(200,255,0,${unlocked ? 0.12 + pulse * 0.08 : 0})`}
+          stroke={`rgba(200,255,0,${unlocked ? 0.15 + pulse * 0.1 : 0})`}
           strokeWidth="2"
           style={{ filter: 'blur(3px)', transition: 'stroke 0.6s ease' }}
         />
