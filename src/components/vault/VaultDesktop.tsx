@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { VaultBeams } from './VaultBeams';
 import { VaultLock } from './VaultLock';
 
 const CONTACTS = [
@@ -91,8 +90,6 @@ export function VaultDesktop() {
         backgroundImage: 'repeating-radial-gradient(circle at 30% 30%, rgba(255,255,255,0.014) 0, transparent 2px), repeating-linear-gradient(90deg, transparent 0, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 3px)',
         mixBlendMode: 'overlay', pointerEvents: 'none', zIndex: 3,
       }} />
-      {/* Beams */}
-      <VaultBeams intensity="strong" />
 
       {/* Main — 3-column grid */}
       <main style={{

@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { VaultBeams } from './VaultBeams';
+import { useState, useEffect, useRef } from 'react';
 import { VaultLock } from './VaultLock';
 
 const BEZEL_SIZE = 280;
@@ -15,17 +14,24 @@ const CONTACTS = [
   { n: '04', k: 'LINKEDIN', v: 'Filip Thai',        href: 'https://www.linkedin.com/in/filip-thai-10449a3b6/', target: '_blank', rel: 'nofollow noopener' },
 ];
 
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
 export function VaultMobile() {
   const [phase, setPhase] = useState(0);
   const [tick, setTick] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Phase sequence
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 900);
-    const t2 = setTimeout(() => setPhase(2), 1300);
-    const t3 = setTimeout(() => setPhase(3), 2600);
+    const t1 = setTimeout(() => setPhase(1), 500);
+    const t2 = setTimeout(() => setPhase(2), 800);
+    const t3 = setTimeout(() => setPhase(3), 1400);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
+  // RAF tick for scanner + pulse
   useEffect(() => {
     let raf: number;
     const loop = (t: number) => { setTick(t); raf = requestAnimationFrame(loop); };
@@ -39,10 +45,45 @@ export function VaultMobile() {
   const scannerAngle = (tick * 0.025) % 360;
   const pulse = 0.5 + 0.5 * Math.sin(tick * 0.0016);
 
+  // Custom slow scroll — starts at 2500ms (1400 settled + 1100 delay)
+  // easeInOutCubic over 1200ms: starts slow, glides, eases out
+  useEffect(() => {
+    if (!settled) return;
+    let raf: number;
+
+    const timer = setTimeout(() => {
+      const el = scrollRef.current;
+      if (!el) return;
+
+      const startY = el.scrollTop;
+      const targetY = el.scrollHeight - el.clientHeight;
+      const distance = targetY - startY;
+      if (distance <= 0) return;
+
+      const duration = 1200;
+      const startTime = performance.now();
+
+      function step(now: number) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // el is guaranteed non-null here (checked above, const ref captured in closure)
+        el!.scrollTop = startY + distance * easeInOutCubic(progress);
+        if (progress < 1) raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+    }, 1100);
+
+    return () => {
+      clearTimeout(timer);
+      cancelAnimationFrame(raf);
+    };
+  }, [settled]);
+
+  // Fade-in delays
   const fadeIn = (delay: string): React.CSSProperties => ({
     opacity: settled ? 1 : 0,
     transform: settled ? 'translateY(0)' : 'translateY(10px)',
-    transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}`,
+    transition: `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}`,
   });
 
   const today = new Date().toLocaleDateString('sv-SE', {
@@ -86,26 +127,20 @@ export function VaultMobile() {
         background: 'radial-gradient(ellipse at 50% 35%, transparent 20%, rgba(0,0,0,0.5) 100%)',
         pointerEvents: 'none', zIndex: 2,
       }} />
-      {/* Beams */}
-      <VaultBeams intensity="strong" />
 
-      {/* Scrollable body */}
-      <div className="vm-scroll" style={{
-        flex: 1, minHeight: 0,
-        overflowY: 'auto', overflowX: 'hidden',
+      {/* ─── FIXED HERO: Status HUD + Bezel ─────────────────────────────── */}
+      <div style={{
+        flexShrink: 0,
         position: 'relative', zIndex: 5,
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-      } as React.CSSProperties}>
-
-        {/* Status HUD — centered above bezel */}
+        paddingBottom: 8,
+      }}>
+        {/* Status HUD */}
         <div style={{
           display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 7,
           paddingTop: 'max(18px, env(safe-area-inset-top))',
           paddingBottom: 12,
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase',
-          flexShrink: 0,
         }}>
           <span style={{
             width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
@@ -123,7 +158,7 @@ export function VaultMobile() {
         <div style={{
           width: BEZEL_SIZE, height: BEZEL_SIZE,
           margin: '0 auto',
-          position: 'relative', overflow: 'hidden', flexShrink: 0,
+          position: 'relative', overflow: 'hidden',
         }}>
           <div style={{
             position: 'absolute', top: 0, left: 0,
@@ -143,8 +178,37 @@ export function VaultMobile() {
           </div>
         </div>
 
+        {/* Ground shadow — sits directly under bezel */}
+        <div style={{
+          width: 200, height: 24, margin: '0 auto',
+          background: 'radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 45%, transparent 72%)',
+          pointerEvents: 'none',
+          position: 'relative', zIndex: 4,
+        }} />
+
+        {/* Hero separator — lime-tinted glow line */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: '8%', right: '8%',
+          height: 1,
+          background: 'linear-gradient(90deg, transparent 0%, rgba(200,255,0,0.1) 25%, rgba(200,255,0,0.3) 50%, rgba(200,255,0,0.1) 75%, transparent 100%)',
+          boxShadow: '0 0 10px 3px rgba(200,255,0,0.07)',
+        }} />
+      </div>
+
+      {/* ─── SCROLLABLE MIDDLE: Identity + Contacts ──────────────────────── */}
+      <div
+        ref={scrollRef}
+        className="vm-scroll"
+        style={{
+          flex: 1, minHeight: 0,
+          overflowY: 'auto', overflowX: 'hidden',
+          position: 'relative', zIndex: 5,
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+        } as React.CSSProperties}
+      >
         {/* Identity */}
-        <div style={{ padding: '28px 24px 0', textAlign: 'center', ...fadeIn('1.4s') }}>
+        <div style={{ padding: '20px 24px 0', textAlign: 'center', ...fadeIn('0.2s') }}>
           <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 9, letterSpacing: '0.28em', color: 'rgba(255,255,255,0.42)', marginBottom: 5 }}>
             N° 001 — AUTH 14:32
           </div>
@@ -157,7 +221,7 @@ export function VaultMobile() {
         </div>
 
         {/* Contacts */}
-        <div style={{ marginTop: 28, borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 4, ...fadeIn('1.7s') }}>
+        <div style={{ marginTop: 28, borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 4, ...fadeIn('0.4s') }}>
           {CONTACTS.map(c => (
             <a key={c.n} href={c.href} target={c.target} rel={c.rel}
               className="vm-contact"
@@ -180,7 +244,7 @@ export function VaultMobile() {
         <div style={{ height: 8 }} />
       </div>
 
-      {/* Sticky CTAs */}
+      {/* ─── STICKY CTAs ─────────────────────────────────────────────────── */}
       <div style={{
         flexShrink: 0, zIndex: 10, position: 'relative',
         display: 'flex', gap: 10,
@@ -190,7 +254,7 @@ export function VaultMobile() {
         paddingRight: 'max(14px, env(safe-area-inset-right))',
         borderTop: '1px solid rgba(255,255,255,0.07)',
         background: 'linear-gradient(to top, rgba(1,1,1,0.95) 0%, rgba(10,10,9,0.7) 100%)',
-        ...fadeIn('2s'),
+        ...fadeIn('0.6s'),
       }}>
         <a href="https://cal.com/filip" className="vm-cta" style={{
           flex: 1, display: 'flex', flexDirection: 'column', gap: 5,
