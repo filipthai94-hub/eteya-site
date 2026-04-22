@@ -396,17 +396,17 @@ export default function Nav() {
 
         /* ═══ HAMBURGER ═══ */
         .en-hamburger{position:fixed;top:0;left:0;right:0;z-index:1000;height:60px;padding:18px 72px;display:flex;align-items:center;justify-content:flex-end;pointer-events:none}
-        .en-ham-btn{pointer-events:auto;cursor:pointer;background:none;border:none;width:36px;height:12px;position:relative;padding:0}
+        .en-ham-btn{pointer-events:auto;cursor:pointer;background:none;border:none;width:44px;height:44px;position:relative;padding:0;display:flex;align-items:center;justify-content:center}
         .en-ham-btn .en-line{position:absolute;height:2px;background:#fff;border-radius:0;transition:width .4s cubic-bezier(.25,1,.5,1),left .4s cubic-bezier(.25,1,.5,1)}
-        .en-line-top{width:18px;top:0;left:0}
-        .en-line-mid{width:36px;top:5px;left:0}
-        .en-line-bot{width:18px;top:10px;left:18px}
+        .en-line-top{width:18px;top:16px;left:0}
+        .en-line-mid{width:36px;top:21px;left:0}
+        .en-line-bot{width:18px;top:26px;left:18px}
         .en-ham-btn:not(.is-open):hover .en-line-top{width:36px}
         .en-ham-btn:not(.is-open):hover .en-line-bot{width:36px;left:0}
-        .en-ham-btn.is-open{width:24px;height:24px}
+        .en-ham-btn.is-open{width:44px;height:44px}
         .en-ham-btn.is-open .en-line{transition:none}
-        .en-ham-btn.is-open .en-line-top{width:24px;top:11px;left:0;transform:rotate(45deg)}
-        .en-ham-btn.is-open .en-line-mid{width:24px;top:11px;left:0;transform:rotate(-45deg)}
+        .en-ham-btn.is-open .en-line-top{width:24px;top:16px;left:0;transform:rotate(45deg)}
+        .en-ham-btn.is-open .en-line-mid{width:24px;top:16px;left:0;transform:rotate(-45deg)}
         .en-ham-btn.is-open .en-line-bot{opacity:0;width:0}
 
         /* ═══ BLUR BG ═══ */
@@ -478,7 +478,7 @@ export default function Nav() {
         /* Socials */
         .en-menu-socials{display:flex;flex-direction:column;gap:16px}
         .en-social-icons{display:flex;gap:12px}
-        .en-social-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden}
+        .en-social-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden;border-radius:6px}
         .en-social-icon svg{width:18px;height:18px;fill:currentColor;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
         .en-social-icon .icon-normal{position:absolute;top:0;left:0;transform:translateY(0);opacity:1;display:block}
         .en-social-icon .icon-hover{position:absolute;top:0;left:0;transform:translateY(100%);opacity:0;display:block}
@@ -499,6 +499,20 @@ export default function Nav() {
         .en-footer-right{display:flex;align-items:center;gap:32px}
         .en-footer-copyright{font-family:var(--font-body),sans-serif;font-size:12px;font-weight:400;letter-spacing:-.24px;line-height:14px;color:rgb(184,184,184);white-space:nowrap}
 
+        /* Focus-visible outlines */
+        .en-logo:focus-visible,
+        .en-ham-btn:focus-visible,
+        .en-menu-link:focus-visible,
+        .en-social-icon:focus-visible,
+        .en-menu-talk-email:focus-visible,
+        .en-work:focus-visible,
+        .en-footer-text-flip a:focus-visible,
+        .en-lang-trigger:focus-visible,
+        .en-lang-option:focus-visible,
+        .en-popup-action:focus-visible,
+        .en-menu-footer a:focus-visible,
+        .en-lang-mobile-btn:focus-visible{outline:2px solid #C8FF00;outline-offset:2px;border-radius:4px}
+
         /* ═══ LANGUAGE SWITCHER ═══ */
         .en-lang-desktop{position:relative;display:flex;align-items:center}
         .en-lang-trigger{display:flex;align-items:center;gap:2px;background:none;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;color:#fff;font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;white-space:nowrap;transition:background .2s ease}
@@ -515,7 +529,7 @@ export default function Nav() {
         .en-location{display:flex;align-items:center;gap:8px}
         .en-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184);white-space:nowrap}
         .en-lang-mobile{display:flex;gap:8px;align-items:center}
-        .en-lang-mobile-btn{position:relative;background:none;border:none;padding:0;cursor:pointer;font-size:24px;line-height:1;transition:opacity .15s ease}
+        .en-lang-mobile-btn{position:relative;background:none;border:none;padding:8px;cursor:pointer;font-size:24px;line-height:1;transition:opacity .15s ease;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
         .flag-normal{display:block;font-size:24px;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
         .flag-hover{display:block;font-size:24px;opacity:0;position:absolute;top:0;left:0;transform:perspective(1200px) translateY(100%);transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
         .en-lang-mobile-btn:hover .flag-normal{transform:perspective(1200px) translateY(-100%);opacity:0}
@@ -543,13 +557,13 @@ export default function Nav() {
         @media(min-width:810px){
           .en-logo-text{font-size:31.25px;line-height:25px;letter-spacing:-.94px}
           .en-logo-c{font-size:7.8px}
-          .en-ham-btn{width:56px;height:19px}
+          .en-ham-btn{width:56px;height:44px}
           .en-line-top{width:28px}
-          .en-line-mid{width:56px;top:8px}
-          .en-line-bot{width:28px;top:16px;left:28px}
+          .en-line-mid{width:56px;top:17px}
+          .en-line-bot{width:28px;top:26px;left:28px}
           .en-ham-btn:not(.is-open):hover .en-line-top{width:56px}
           .en-ham-btn:not(.is-open):hover .en-line-bot{width:56px;left:0}
-          .en-ham-btn.is-open{width:37px;height:37px}
+          .en-ham-btn.is-open{width:44px;height:44px}
           .en-ham-btn.is-open .en-line-top{width:37px;top:17px}
           .en-ham-btn.is-open .en-line-mid{width:37px;top:17px}
         }
@@ -573,15 +587,15 @@ export default function Nav() {
           .en-menu-badge{font-size:11.6px;letter-spacing:-.348px}
           .en-logo-text{font-size:22px;line-height:17.6px;letter-spacing:-0.66px}
           .en-logo-c{font-size:5.5px}
-          .en-ham-btn{width:39.6px;height:13.2px}
-          .en-line-top{width:19.8px}
-          .en-line-mid{width:39.6px;top:5.5px}
-          .en-line-bot{width:19.8px;top:11px;left:19.8px}
+          .en-ham-btn{width:44px;height:44px}
+          .en-line-top{width:19.8px;top:16px}
+          .en-line-mid{width:39.6px;top:21px}
+          .en-line-bot{width:19.8px;top:26px;left:19.8px}
           .en-ham-btn:not(.is-open):hover .en-line-top{width:39.6px}
           .en-ham-btn:not(.is-open):hover .en-line-bot{width:39.6px;left:0}
-          .en-ham-btn.is-open{width:26.4px;height:26.4px}
-          .en-ham-btn.is-open .en-line-top{width:26.4px;top:12.1px}
-          .en-ham-btn.is-open .en-line-mid{width:26.4px;top:12.1px}
+          .en-ham-btn.is-open{width:44px;height:44px}
+          .en-ham-btn.is-open .en-line-top{width:26.4px;top:16px}
+          .en-ham-btn.is-open .en-line-mid{width:26.4px;top:16px}
           .en-location-city,.en-location-time,.en-work-text span,.en-work-count{font-size:15.95px;line-height:23.925px}
           
           /* Mobile only: show lang under location */
@@ -592,7 +606,7 @@ export default function Nav() {
       `}</style>
 
       {/* ═══ TOP BAR ═══ */}
-      <nav ref={topbarRef} className={`en-topbar${navDark && !menuOpen ? ' nav-dark' : ''}`}>
+      <nav ref={topbarRef} className={`en-topbar${navDark && !menuOpen ? ' nav-dark' : ''}`} aria-label="Main navigation">
         <div className="en-col en-col--left">
           <Link href={homeHref} className="en-logo" aria-label="Eteya home">
             <span className="en-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
@@ -607,6 +621,7 @@ export default function Nav() {
           <a
             href="#cases-section"
             className="en-work"
+            aria-label={t('ourCases')}
             onClick={(e) => {
               e.preventDefault()
               const el = document.getElementById('cases-section')

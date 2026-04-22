@@ -67,6 +67,7 @@ const getCaseStudySchema = (locale: string) => ({
     ? 'MB Flytt ökade antalet offerter med 2x och minskade offertiden från 24h till 15 minuter med AI-driven automation.'
     : 'MB Flytt increased quotes by 2x and reduced quote time from 24h to 15 minutes with AI-driven automation.',
   'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/mbflytt' : '/en/case-studies/mbflytt'}`,
+  'datePublished': '2025-01-01',
   'about': {
     '@type': 'Organization',
     'name': 'MB Flytt',
@@ -77,26 +78,44 @@ const getCaseStudySchema = (locale: string) => ({
     'url': 'https://eteya.ai',
     'logo': 'https://eteya.ai/logo.png',
   },
-  'mainEntity': {
-    '@type': 'ItemList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': locale === 'sv' ? '2x fler offerter/dag' : '2x more quotes/day',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': locale === 'sv' ? '15 min istället för 24h' : '15 minutes instead of 24h',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': locale === 'sv' ? '35% högre konvertering' : '35% higher conversion',
-      },
-    ],
-  },
+  'citation': [
+    locale === 'sv' ? '2x fler offerter per dag' : '2x more quotes per day',
+    locale === 'sv' ? '15 min istället för 24h offertid' : '15 minutes instead of 24h quote time',
+    locale === 'sv' ? '35% högre konvertering' : '35% higher conversion',
+  ],
+})
+
+const getBreadcrumbSchema = (locale: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': locale === 'sv' ? 'Hem' : 'Home',
+      'item': 'https://eteya.ai',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
+    },
+    {
+      '@type': 'ListItem',
+      'position': 3,
+      'name': 'MB Flytt',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/mbflytt' : '/en/case-studies/mbflytt'}`,
+    },
+  ],
+})
+
+const getOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Eteya Consulting AB',
+  'url': 'https://eteya.ai',
+  'logo': 'https://eteya.ai/logo.png',
 })
 
 export default function MBFlyttPage() {
@@ -108,6 +127,18 @@ export default function MBFlyttPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
             __html: JSON.stringify(getCaseStudySchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getOrganizationSchema()) 
           }}
         />
         <MBFlyttCaseStudy />

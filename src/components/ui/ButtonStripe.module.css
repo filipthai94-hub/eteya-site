@@ -29,8 +29,8 @@
 }
 
 /* ── Sizes ── */
-.sm { padding: 8px 16px; font-size: 12px; }
-.lg { padding: 16px 36px; font-size: 17px; }
+.sm { padding: 8px 16px; font-size: 12px; min-height: 48px; }
+.lg { padding: 16px 36px; font-size: 17px; min-height: 48px; }
 
 /* ── Variants ── */
 .secondary { border-color: #444444; color: #9B9B9B; }

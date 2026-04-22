@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { JsonLd, organizationSchema } from '@/components/JsonLd'
+import { JsonLd, organizationSchema, createBreadcrumbSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import Contact from '@/components/sections/Contact'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
@@ -55,6 +55,30 @@ export default async function KontaktPage({
   return (
     <>
       <JsonLd data={organizationSchema} />
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: 'Kontakt Eteya AI',
+        description: locale === 'sv' ? 'Kontakta Eteya för AI-konsulting och automation. Boka ett kostnadsfritt strategisamtal idag.' : 'Contact Eteya for AI consulting and automation. Book a free strategy call today.',
+        url: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}`,
+        mainEntity: {
+          '@type': 'Organization',
+          name: 'Eteya AI',
+          telephone: '+46739823962',
+          email: 'kontakt@eteya.ai',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Solhagsvägen 26A',
+            addressLocality: 'Karlskoga',
+            postalCode: '691 52',
+            addressCountry: 'SE',
+          },
+        },
+      }} />
+      <JsonLd data={createBreadcrumbSchema([
+        { position: 1, name: locale === 'sv' ? 'Hem' : 'Home', item: `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}` },
+        { position: 2, name: locale === 'sv' ? 'Kontakt' : 'Contact', item: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}` },
+      ])} />
       <Nav />
       <main className="page-content">
         <Contact />

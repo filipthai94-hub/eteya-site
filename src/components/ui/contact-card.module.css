@@ -104,8 +104,10 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 36px;
-  height: 36px;
+  width: 48px; /* WCAG 2.5.8 touch target */
+  height: 48px; /* WCAG 2.5.8 touch target */
+  min-width: 48px;
+  min-height: 48px;
   border: 0;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 50%;
@@ -130,6 +132,12 @@
 
 .closeButton:hover svg {
   stroke: rgba(255, 255, 255, 0.9);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid #C8FF00;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* ============================================
@@ -559,6 +567,11 @@
   filter: brightness(0.95);
 }
 
+.ctaButton:focus-visible {
+  outline: 2px solid #0d0d0d;
+  outline-offset: 2px;
+}
+
 .ctaButtonDisabled {
   background: rgba(255, 255, 255, 0.06) !important;
   color: rgba(255, 255, 255, 0.2) !important;
@@ -596,13 +609,20 @@
   font-family: 'Geist', 'Geist Fallback', -apple-system, sans-serif;
   font-size: 13px;
   cursor: pointer;
-  padding: 0;
+  padding: 8px 0;
   margin-bottom: 16px;
   transition: color 0.15s ease-out;
+  min-height: 44px;
 }
 
 .backButton:hover {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.backButton:focus-visible {
+  outline: 2px solid #C8FF00;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* ============================================

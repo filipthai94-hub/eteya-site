@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         en: `${BASE_URL}${enPath}`,
       },
     },
+    robots: { index: true, follow: true },
     openGraph: {
       title: `${t('title')} | Eteya`,
       description: t('description'),
@@ -39,9 +40,36 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default function PrivacyPolicyPage() {
+function PrivacyPolicyJsonLd({ locale }: { locale: string }) {
+  const isSv = locale === 'sv'
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: isSv ? 'Integritetspolicy' : 'Privacy Policy',
+    description: isSv
+      ? 'Läs hur Eteya AI hanterar dina personuppgifter. GDPR-kompatibel behandling av data.'
+      : 'Read how Eteya AI handles your personal data. GDPR-compliant data processing.',
+    url: `${BASE_URL}${isSv ? '/integritetspolicy' : '/privacy-policy'}`,
+    dateModified: '2026-04-22',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Eteya AI',
+      logo: `${BASE_URL}/logo.png`,
+    },
+  }
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
+}
+
+export default async function PrivacyPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   return (
     <>
+      <PrivacyPolicyJsonLd locale={locale} />
       <Nav />
       <main className="page-content">
         <PrivacyPolicyContent />

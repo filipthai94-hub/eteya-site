@@ -67,6 +67,7 @@ const getCaseStudySchema = (locale: string) => ({
     ? 'Hur Eteya hjälpte Sannegårdens Pizzeria ta emot beställningar dygnet runt, eliminera missade samtal och öka kundnöjdheten med 23 procent.'
     : 'How Eteya helped Sannegårdens Pizzeria take orders 24/7, eliminate missed calls, and increase customer satisfaction by 23 percent.',
   'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/sannegarden' : '/en/case-studies/sannegarden'}`,
+  'datePublished': '2025-01-01',
   'about': {
     '@type': 'Organization',
     'name': 'Sannegårdens Pizzeria',
@@ -77,26 +78,44 @@ const getCaseStudySchema = (locale: string) => ({
     'url': 'https://eteya.ai',
     'logo': 'https://eteya.ai/logo.png',
   },
-  'mainEntity': {
-    '@type': 'ItemList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': locale === 'sv' ? 'Aldrig ett missat samtal under rusning' : 'Never a missed call during peak hours',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': locale === 'sv' ? '30+ extra beställningar per vecka' : '30+ extra orders per week',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': locale === 'sv' ? '23 procent högre kundnöjdhet' : '23 percent higher customer satisfaction',
-      },
-    ],
-  },
+  'citation': [
+    locale === 'sv' ? 'Aldrig ett missat samtal under rusning' : 'Never a missed call during peak hours',
+    locale === 'sv' ? '30+ extra beställningar per vecka' : '30+ extra orders per week',
+    locale === 'sv' ? '23 procent högre kundnöjdhet' : '23 percent higher customer satisfaction',
+  ],
+})
+
+const getBreadcrumbSchema = (locale: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': locale === 'sv' ? 'Hem' : 'Home',
+      'item': 'https://eteya.ai',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
+    },
+    {
+      '@type': 'ListItem',
+      'position': 3,
+      'name': 'Sannegårdens Pizzeria',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/sannegarden' : '/en/case-studies/sannegarden'}`,
+    },
+  ],
+})
+
+const getOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Eteya Consulting AB',
+  'url': 'https://eteya.ai',
+  'logo': 'https://eteya.ai/logo.png',
 })
 
 export default function SannegardenPage() {
@@ -108,6 +127,18 @@ export default function SannegardenPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
             __html: JSON.stringify(getCaseStudySchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getOrganizationSchema()) 
           }}
         />
         <SannegardenCaseStudy />

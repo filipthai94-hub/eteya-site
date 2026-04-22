@@ -612,6 +612,10 @@ export default function Contact() {
           fill: #080808;
           stroke: #080808;
         }
+        .contact-social-link:focus-visible {
+          outline: 2px solid #C8FF00;
+          outline-offset: 2px;
+        }
         .contact-social-svg {
           transition: color 0.3s;
           color: #ffffff;

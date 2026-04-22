@@ -67,6 +67,7 @@ const getCaseStudySchema = (locale: string) => ({
     ? 'Hur Eteya hjälpte Nordicrank automatisera order- och länkhatering, eliminera manuella Excel-listor och spara 180 000 kr per år.'
     : 'How Eteya helped Nordicrank automate order and link handling, eliminate manual Excel sheets, and save 180,000 SEK per year.',
   'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`,
+  'datePublished': '2025-01-01',
   'about': {
     '@type': 'Organization',
     'name': 'Nordicrank',
@@ -77,26 +78,44 @@ const getCaseStudySchema = (locale: string) => ({
     'url': 'https://eteya.ai',
     'logo': 'https://eteya.ai/logo.png',
   },
-  'mainEntity': {
-    '@type': 'ItemList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': locale === 'sv' ? '180 000 kr årlig besparing' : '180,000 SEK annual savings',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': locale === 'sv' ? '780 timmar sparad tid per år' : '780 hours saved per year',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': locale === 'sv' ? '18 automatiserade flöden' : '18 automated flows',
-      },
-    ],
-  },
+  'citation': [
+    locale === 'sv' ? '180 000 kr årlig besparing' : '180,000 SEK annual savings',
+    locale === 'sv' ? '780 timmar sparad tid per år' : '780 hours saved per year',
+    locale === 'sv' ? '18 automatiserade flöden' : '18 automated flows',
+  ],
+})
+
+const getBreadcrumbSchema = (locale: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': locale === 'sv' ? 'Hem' : 'Home',
+      'item': 'https://eteya.ai',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
+    },
+    {
+      '@type': 'ListItem',
+      'position': 3,
+      'name': 'Nordicrank',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`,
+    },
+  ],
+})
+
+const getOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Eteya Consulting AB',
+  'url': 'https://eteya.ai',
+  'logo': 'https://eteya.ai/logo.png',
 })
 
 export default function NordicrankPage() {
@@ -108,6 +127,18 @@ export default function NordicrankPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
             __html: JSON.stringify(getCaseStudySchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getOrganizationSchema()) 
           }}
         />
         <NordicrankCaseStudy />

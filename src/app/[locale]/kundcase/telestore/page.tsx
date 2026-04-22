@@ -68,6 +68,7 @@ const getCaseStudySchema = (locale: string) => ({
     ? 'Hur Eteya hjälpte Telestore Sverige AB automatisera 56 processer och spara 390 000 kr per år genom AI-agenter och processautomation.'
     : 'How Eteya helped Telestore Sverige AB automate 56 processes and save 390 000 SEK per year through AI agents and process automation.',
   'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`,
+  'datePublished': '2025-01-01',
   'about': {
     '@type': 'Organization',
     'name': 'Telestore Sverige AB',
@@ -79,26 +80,44 @@ const getCaseStudySchema = (locale: string) => ({
     'url': 'https://eteya.ai',
     'logo': 'https://eteya.ai/logo.png',
   },
-  'mainEntity': {
-    '@type': 'ItemList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': locale === 'sv' ? '390 000 kr årlig besparing' : '390 000 SEK annual savings',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': locale === 'sv' ? '1 350 timmar sparad tid per år' : '1 350 hours saved per year',
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': locale === 'sv' ? '56 implementerade automationer' : '56 implemented automations',
-      },
-    ],
-  },
+  'citation': [
+    locale === 'sv' ? '390 000 kr årlig besparing' : '390 000 SEK annual savings',
+    locale === 'sv' ? '1 350 timmar sparad tid per år' : '1 350 hours saved per year',
+    locale === 'sv' ? '56 implementerade automationer' : '56 implemented automations',
+  ],
+})
+
+const getBreadcrumbSchema = (locale: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  'itemListElement': [
+    {
+      '@type': 'ListItem',
+      'position': 1,
+      'name': locale === 'sv' ? 'Hem' : 'Home',
+      'item': 'https://eteya.ai',
+    },
+    {
+      '@type': 'ListItem',
+      'position': 2,
+      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
+    },
+    {
+      '@type': 'ListItem',
+      'position': 3,
+      'name': 'Telestore',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`,
+    },
+  ],
+})
+
+const getOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'Eteya Consulting AB',
+  'url': 'https://eteya.ai',
+  'logo': 'https://eteya.ai/logo.png',
 })
 
 export default function TelestorePage() {
@@ -110,6 +129,18 @@ export default function TelestorePage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
             __html: JSON.stringify(getCaseStudySchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(getOrganizationSchema()) 
           }}
         />
         <TelestoreCaseStudy />

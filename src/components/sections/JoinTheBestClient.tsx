@@ -11,14 +11,14 @@ type LogoItem = {
 }
 
 const ROW1_LOGOS: LogoItem[] = [
-  { id: 'telestore', src: '/images/logos/telestore-new.png', alt: 'Telestore' },
-  { id: 'sannegarden', src: '/images/logos/sannegarden-new.svg', alt: 'Sannegårdens Pizzeria' },
-  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png', alt: 'TrainWithAlbert' },
+  { id: 'telestore', src: '/images/logos/telestore-new.png', alt: 'Telestore logo' },
+  { id: 'sannegarden', src: '/images/logos/sannegarden-new.svg', alt: 'Sannegårdens Pizzeria logo' },
+  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png', alt: 'TrainWithAlbert logo' },
 ]
 
 const ROW2_LOGOS: LogoItem[] = [
-  { id: 'mbflytt', src: '/images/logos/mbflytt.png', alt: 'MB Flytt' },
-  { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank' },
+  { id: 'mbflytt', src: '/images/logos/mbflytt.png', alt: 'MB Flytt logo' },
+  { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank logo' },
 ]
 
 const CSS = `

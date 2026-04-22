@@ -8,6 +8,7 @@
   display: inline-flex;
   align-items: center;
   height: 48px;
+  min-width: 48px; /* WCAG 2.5.8 touch target */
   overflow: hidden;
   border: none;
   color: #C8FF00;
@@ -22,8 +23,8 @@
 }
 
 /* ── Sizes ── */
-.sm { height: 36px; }
-.lg { height: 56px; }
+.sm { height: 36px; min-height: 48px; }
+.lg { height: 56px; min-height: 48px; }
 
 /* ── Variants ── */
 .btn.white { color: #F5F5F5; }

@@ -26,6 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: isSv
       ? 'Filip Thai är grundare och VD för Eteya Consulting AB. Kontakta Filip för AI-konsulting, mötesbokningar och mer.'
       : 'Filip Thai is founder and CEO of Eteya Consulting AB. Contact Filip for AI consulting, meeting bookings and more.',
+    alternates: {
+      canonical: url,
+      languages: {
+        sv: 'https://eteya.ai/sv/om-oss/filip',
+        en: 'https://eteya.ai/en/about/filip',
+        'x-default': 'https://eteya.ai/sv/om-oss/filip',
+      },
+    },
     openGraph: {
       title: 'Filip Thai — Eteya Consulting',
       description: isSv ? 'Grundare & VD · AI Consulting' : 'CEO & Founder · AI Consulting',
@@ -34,6 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
+      title: isSv ? 'Filip Thai — Grundare & VD | Eteya Consulting' : 'Filip Thai — CEO & Founder | Eteya Consulting',
+      description: isSv ? 'Filip Thai är grundare och VD för Eteya Consulting AB.' : 'Filip Thai is founder and CEO of Eteya Consulting AB.',
       images: ['/images/team/filip.png'],
     },
   };
@@ -55,6 +65,25 @@ const personSchema = {
   address: { '@type': 'PostalAddress', addressLocality: 'Stockholm', addressCountry: 'SE' },
 };
 
+const profilePageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: 'Filip Thai — Eteya Consulting',
+  description: 'Filip Thai är grundare och VD för Eteya Consulting AB. AI-konsult med expertis inom automation och affärsstrategi.',
+  url: 'https://eteya.ai/om-oss/filip',
+  mainEntity: personSchema,
+};
+
+const filipBreadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Hem', item: 'https://eteya.ai/sv' },
+    { '@type': 'ListItem', position: 2, name: 'Om Oss', item: 'https://eteya.ai/sv/om-oss' },
+    { '@type': 'ListItem', position: 3, name: 'Filip Thai', item: 'https://eteya.ai/sv/om-oss/filip' },
+  ],
+};
+
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function FilipPage() {
@@ -64,6 +93,16 @@ export default function FilipPage() {
         id="person-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <Script
+        id="profile-page-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(filipBreadcrumbSchema) }}
       />
 
       {/*
