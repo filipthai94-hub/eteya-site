@@ -468,7 +468,7 @@
     },
     "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%",
     "implCostLabel": "Implementationskostnad",
-    "implCostHint": "Påverkar ROI% och payback-period",
+    "implCostHint": "Hur stor är din startkostnad?",
     "costLabel": "Kostnad",
     "implHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
     "hoursHint": "Räkna ihop alla som jobbar med den här processen",
@@ -486,7 +486,7 @@
     "empty": "Välj minst en process ovan för att se din besparing",
     "impl": {
       "title": "Implementationskostnad",
-      "hint": "Påverkar ROI% och payback-period",
+      "hint": "Skriv in din implementations kostnad. Kalkylen omvandlar detta till payoff-tid: antalet månader tills du tjänat in hela investeringen. Svaret dyker upp i resultatet som \"Payback\"",
       "costLabel": "Kostnad",
       "rangeHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
       "unit": "kr"

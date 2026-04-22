@@ -468,7 +468,7 @@
     },
     "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirical) · 350 SEK/h · ±15%",
     "implCostLabel": "Implementation cost",
-    "implCostHint": "Affects ROI% and payback period",
+    "implCostHint": "What is your startup cost?",
     "costLabel": "Cost",
     "implHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
     "hoursHint": "Add up everyone who works on this process",
@@ -486,7 +486,7 @@
     "empty": "Select at least one process above to see your savings",
     "impl": {
       "title": "Implementation cost",
-      "hint": "Affects ROI% and payback period",
+      "hint": "Enter your implementation cost. The calculator converts this to payoff time: the number of months until you've earned back the entire investment. The answer appears in the results as \"Payback\"",
       "costLabel": "Cost",
       "rangeHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
       "unit": "SEK"
