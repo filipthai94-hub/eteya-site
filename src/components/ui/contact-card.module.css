@@ -539,11 +539,14 @@
 /* ============================================
    ROI SUMMARY LINE (Step 2)
    ============================================
-   Invisible-typography: matches the DNA of .progressLabel and
-   .sectionLabel elsewhere on the site. Barlow Condensed uppercase
-   letterspaced, muted white label, middot separator, white value
-   at weight 600. No border, no bg, no emoji, no chip.
-   Just data flowing inline with the rest of the page.
+   Hierarchy-within-the-line (Alt B):
+   Label = invisible typography (12px Barlow Condensed uppercase,
+   muted white, 0.14em tracked) matching .progressLabel DNA.
+   Value = prominent data point (16px weight 600, 0.08em tighter
+   tracking — numbers read better with less letter-spacing).
+   Same pattern as the Step 1 ROI badge: label whispers, value
+   speaks. Eye lands on the savings figure in ~200ms before the
+   calendar, without needing borders, pills, or emoji.
    ============================================ */
 
 .roiPill {
@@ -561,6 +564,8 @@
 .roiPillValue {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.08em;
 }
 
 /* ============================================
@@ -828,10 +833,13 @@
     box-shadow: none;
   }
 
-  /* ROI summary line — slightly smaller on mobile */
+  /* ROI summary line — compact label, value still dominant */
   .roiPill {
     font-size: 11px;
     margin: 4px 0 20px;
+  }
+  .roiPillValue {
+    font-size: 14px;
   }
 }
 
