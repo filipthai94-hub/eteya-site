@@ -40,7 +40,7 @@ export default function Button({
       const isExternal = href.startsWith('http') || href.startsWith('//')
       if (isExternal) {
         return (
-          <a href={href} className={cls} style={style} target="_blank" rel="noopener noreferrer">
+          <a href={href} className={cls} style={style} target="_blank" rel="noopener noreferrer nofollow">
             {children}
           </a>
         )
@@ -75,7 +75,7 @@ export default function Button({
     const isExternal = href.startsWith('http') || href.startsWith('//')
     if (isExternal) {
       return (
-        <a href={href} className={outerCls} style={style} target="_blank" rel="noopener noreferrer">
+        <a href={href} className={outerCls} style={style} target="_blank" rel="noopener noreferrer nofollow">
           {content}
         </a>
       )

@@ -76,7 +76,7 @@ export default function ButtonSwap({
   if (href) {
     const isExternal = href.startsWith('http') || href.startsWith('//')
     if (isExternal) {
-      return <a href={href} onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>} className={cls} style={mergedStyle} target="_blank" rel="noopener noreferrer">{content}</a>
+      return <a href={href} onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>} className={cls} style={mergedStyle} target="_blank" rel="noopener noreferrer nofollow">{content}</a>
     }
     return <Link href={href} onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>} className={cls} style={mergedStyle}>{content}</Link>
   }

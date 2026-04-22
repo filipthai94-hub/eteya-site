@@ -53,7 +53,7 @@ export default function ButtonStripe({
   if (href) {
     const isExternal = href.startsWith('http') || href.startsWith('//')
     if (isExternal) {
-      return <a href={href} className={cls} style={style} target="_blank" rel="noopener noreferrer">{content}</a>
+      return <a href={href} className={cls} style={style} target="_blank" rel="noopener noreferrer nofollow">{content}</a>
     }
     return <Link href={href} className={cls} style={style}>{content}</Link>
   }

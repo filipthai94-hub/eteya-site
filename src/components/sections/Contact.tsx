@@ -358,19 +358,19 @@ export default function Contact() {
               {/* Row 1: Name + Email */}
               <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                 <div style={{ marginTop: '0' }}>
-                  <label style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                  <label htmlFor="contact-name" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
                     {t('fields.name.label')}
                   </label>
-                  <input type="text" name="name" required placeholder={t('fields.name.placeholder')}
+                  <input type="text" id="contact-name" name="name" required placeholder={t('fields.name.placeholder')}
                     style={{ ...inputStyle }}
                     onFocus={e => (e.target.style.borderBottomColor = '#C8FF00')}
                     onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)')} />
                 </div>
                 <div style={{ marginTop: '0' }}>
-                  <label style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                  <label htmlFor="contact-email" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
                     {t('fields.email.label')}
                   </label>
-                  <input type="email" name="email" required placeholder={t('fields.email.placeholder')}
+                  <input type="email" id="contact-email" name="email" required placeholder={t('fields.email.placeholder')}
                     style={{ ...inputStyle }}
                     onFocus={e => (e.target.style.borderBottomColor = '#C8FF00')}
                     onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)')} />
@@ -379,10 +379,10 @@ export default function Contact() {
 
               {/* Company */}
               <div style={{ marginTop: '0' }}>
-                <label style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                <label htmlFor="contact-company" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
                   {t('fields.company.label')}
                 </label>
-                <input type="text" name="company" placeholder={t('fields.company.placeholder')}
+                <input type="text" id="contact-company" name="company" placeholder={t('fields.company.placeholder')}
                   style={{ ...inputStyle }}
                   onFocus={e => (e.target.style.borderBottomColor = '#C8FF00')}
                   onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)')} />
@@ -390,7 +390,7 @@ export default function Contact() {
 
               {/* Service dropdown — custom */}
               <div style={{ marginTop: '0', position: 'relative' }} ref={serviceRef}>
-                <label style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                <label htmlFor="contact-service" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
                   {t('fields.service.label')}
                 </label>
                 {/* Hidden input for form submission */}
@@ -490,10 +490,10 @@ export default function Contact() {
 
               {/* Message textarea */}
               <div style={{ marginTop: '0' }}>
-                <label style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                <label htmlFor="contact-message" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
                   {t('fields.message.label')}
                 </label>
-                <textarea name="message" required rows={5} placeholder={t('fields.message.placeholder')}
+                <textarea id="contact-message" name="message" required rows={5} placeholder={t('fields.message.placeholder')}
                   style={{ ...inputStyle, resize: 'none' as const, minHeight: '120px' }}
                   onFocus={e => (e.target.style.borderBottomColor = '#C8FF00')}
                   onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)')} />

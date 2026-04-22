@@ -763,7 +763,7 @@ export default function Nav() {
                     key={s.label}
                     href={s.href}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     className="en-social-icon"
                     aria-label={s.label}
                     ref={el => { socialIconRefs.current[i] = el }}

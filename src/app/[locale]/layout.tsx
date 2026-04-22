@@ -80,11 +80,14 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <LangSetter locale={locale} />
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:text-black focus:px-4 focus:py-2">
+        Hoppa till huvudinnehåll
+      </a>
       <TransitionProvider>
         <div className="page-transition-overlay" aria-hidden="true" />
         <MotionProvider>
           <ScrollReset />
-          {children}
+          <main id="main-content">{children}</main>
         </MotionProvider>
       </TransitionProvider>
     </NextIntlClientProvider>
