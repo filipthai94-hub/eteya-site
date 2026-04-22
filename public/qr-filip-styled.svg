@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+    <defs>
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#111111;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#080808;stop-opacity:1" />
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="cardShadow">
+        <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="rgba(200,255,0,0.15)" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="600" height="800" fill="#080808"/>
+    
+    <!-- Card -->
+    <rect x="50" y="50" width="500" height="700" rx="24" ry="24" 
+          fill="url(#bgGrad)" 
+          stroke="rgba(200,255,0,0.2)" 
+          stroke-width="2"
+          filter="url(#cardShadow)" />
+    
+    <!-- Corner accents -->
+    <path d="M 50 100 L 50 74 L 76 74" fill="none" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" filter="url(#glow)" />
+    <path d="M 550 100 L 550 74 L 524 74" fill="none" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" filter="url(#glow)" />
+    <path d="M 50 700 L 50 726 L 76 726" fill="none" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" filter="url(#glow)" />
+    <path d="M 550 700 L 550 726 L 524 726" fill="none" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" filter="url(#glow)" />
+    
+    <!-- Top text -->
+    <text x="300" y="140" 
+          font-family="'JetBrains Mono', monospace" 
+          font-size="12" 
+          letter-spacing="0.3em"
+          fill="rgba(255,255,255,0.4)"
+          text-anchor="middle">N° 001 — AUTH 14:32</text>
+    
+    <text x="300" y="190" 
+          font-family="'Barlow Condensed', sans-serif" 
+          font-size="48" 
+          font-weight="700"
+          letter-spacing="0.05em"
+          fill="#F5F5F5"
+          text-anchor="middle">FILIP THAI</text>
+    
+    <text x="300" y="230" 
+          font-family="'JetBrains Mono', monospace" 
+          font-size="11" 
+          letter-spacing="0.2em"
+          fill="rgba(255,255,255,0.35)"
+          text-anchor="middle">GRUNDARE & VD · ETEYA CONSULTING</text>
+    
+    <!-- QR Code Container -->
+    <rect x="150" y="280" width="300" height="300" rx="16" ry="16" 
+          fill="rgba(255,255,255,0.02)" 
+          stroke="rgba(255,255,255,0.08)" 
+          stroke-width="1" />
+    
+    <!-- QR Code -->
+    <g transform="translate(175, 305) scale(1.2)">
+      <path d="" fill="#C8FF00" filter="url(#glow)" />
+    </g>
+    
+    <!-- Center logo in QR -->
+    <circle cx="300" cy="430" r="35" fill="#080808" stroke="rgba(200,255,0,0.3)" stroke-width="2" />
+    <text x="300" y="438" 
+          font-family="'Barlow Condensed', sans-serif" 
+          font-size="20" 
+          font-weight="700"
+          fill="#C8FF00"
+          text-anchor="middle">E</text>
+    
+    <!-- Bottom text -->
+    <text x="300" y="640" 
+          font-family="'Barlow Condensed', sans-serif" 
+          font-size="18" 
+          font-weight="600"
+          letter-spacing="0.1em"
+          fill="#C8FF00"
+          text-anchor="middle">SCANNA FÖR ATT SPARA KONTAKT</text>
+    
+    <text x="300" y="680" 
+          font-family="'JetBrains Mono', monospace" 
+          font-size="9" 
+          letter-spacing="0.15em"
+          fill="rgba(255,255,255,0.25)"
+          text-anchor="middle">WWW.ETEYA.AI/SV/OM-OSS/FILIP</text>
+    
+    <!-- Bottom line -->
+    <line x1="200" y1="730" x2="400" y2="730" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    
+    <text x="300" y="760" 
+          font-family="'JetBrains Mono', monospace" 
+          font-size="8" 
+          letter-spacing="0.2em"
+          fill="rgba(255,255,255,0.2)"
+          text-anchor="middle">STOCKHOLM / SE · © 2026 ETEYA CONSULTING AB</text>
+  </svg>
