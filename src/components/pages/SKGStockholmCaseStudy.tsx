@@ -26,8 +26,8 @@ function Counter({ current, total }: { current: number; total: number }) {
   )
 }
 
-export default function MBFlyttCaseStudy() {
-  const t = useTranslations('mbflytt')
+export default function SKGStockholmCaseStudy() {
+  const t = useTranslations('skgstockholm')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -57,12 +57,12 @@ export default function MBFlyttCaseStudy() {
 
   useEffect(() => {
     if (!snapshotRef.current) return
-    const quoteSuffix = t('savings.snapshot1Suffix')
+    const counter1Suffix = t('savings.snapshot1Suffix')
     const ctx = gsap.context(() => {
       const counters = [
-        { el: counter1Ref.current, target: 180, prefix: '', suffix: quoteSuffix, format: false },
-        { el: counter2Ref.current, target: 95, prefix: '', suffix: '%', format: false },
-        { el: counter3Ref.current, target: 12, prefix: '', suffix: '', format: false },
+        { el: counter1Ref.current, target: 12, prefix: '', suffix: counter1Suffix, format: false },
+        { el: counter2Ref.current, target: 85, prefix: '', suffix: '%', format: false },
+        { el: counter3Ref.current, target: 24, prefix: '', suffix: '/7', format: false },
       ]
       counters.forEach(({ el, target, prefix, suffix, format }) => {
         if (!el) return
@@ -141,9 +141,9 @@ export default function MBFlyttCaseStudy() {
 
   const bulletRows = [
     { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '15%', saved: t('savings.row1Saved') },
-    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '80%', after: '10%', saved: t('savings.row2Saved') },
-    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '70%', after: '5%', saved: t('savings.row3Saved') },
-    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '60%', after: '3%', saved: t('savings.row4Saved') },
+    { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '70%', after: '15%', saved: t('savings.row2Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '60%', after: '10%', saved: t('savings.row3Saved') },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '50%', after: '5%', saved: t('savings.row4Saved') },
   ]
 
   return (
@@ -225,9 +225,9 @@ export default function MBFlyttCaseStudy() {
           <h2 className={styles.sectionTitle}>{t('results.title')}</h2>
         </div>
         <StatsClient heading="" items={[
-          { value: 2, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
-          { value: 15, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
-          { value: 35, suffix: t('results.stat3Suffix'), label: t('results.stat3Label') },
+          { value: 12, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
+          { value: 85, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 3, suffix: t('results.stat3Suffix'), label: t('results.stat3Label') },
         ]} />
       </section>
 
@@ -264,25 +264,25 @@ export default function MBFlyttCaseStudy() {
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#C8FF00" strokeDasharray="175.9 327.1" strokeDashoffset="0" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#8BCC00" strokeDasharray="125.7 377.3" strokeDashoffset="-175.9" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#5A8A00" strokeDasharray="100.5 402.5" strokeDashoffset="-301.6" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#3D5E00" strokeDasharray="50.3 452.7" strokeDashoffset="-402.1" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#C8FF00" strokeDasharray="226.2 276.4" strokeDashoffset="0" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#8BCC00" strokeDasharray="100.5 402.1" strokeDashoffset="-226.2" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#5A8A00" strokeDasharray="100.5 402.1" strokeDashoffset="-326.7" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#3D5E00" strokeDasharray="75.4 427.2" strokeDashoffset="-427.2" />
                 </svg>
                 <div className={styles.savingsDonutCenter}>
-                  <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>68%</span>
+                  <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>85%</span>
                   <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>35%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>45%</span></div>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>25%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>20%</span></div>
                 <div className={styles.savingsLegendItem}>
                   <span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>20%</span></div>
                 <div className={styles.savingsLegendItem}>
-                  <span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>10%</span></div>
+                  <span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>15%</span></div>
               </div>
             </div>
 
@@ -315,7 +315,7 @@ export default function MBFlyttCaseStudy() {
               <div className={styles.savingsTotalRow}>
                 <div className={styles.savingsTotalLabel}>{t('savings.totalLabel')}</div>
                 <div></div>
-                <div className={styles.savingsTotalValue}>68%</div>
+                <div className={styles.savingsTotalValue}>85%</div>
               </div>
             </div>
           </div>
@@ -327,7 +327,7 @@ export default function MBFlyttCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/marcus-bengtsson.jpg"
+              src="/images/mirza-ekici.jpg"
               alt={t('quote.author')}
               width={180}
               height={180}

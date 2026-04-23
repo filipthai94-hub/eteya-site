@@ -1,0 +1,63 @@
+{
+  "id": "skg-stockholm",
+  "slug": "skg-stockholm",
+  "order": 5,
+  "category": "wholesale",
+  "title": {
+    "sv": "SKG Stockholm",
+    "en": "SKG Stockholm"
+  },
+  "subtitle": {
+    "sv": "Grossist & Distribution",
+    "en": "Wholesale & Distribution"
+  },
+  "heroStats": {
+    "sv": [
+      { "value": "12h", "label": "Befriade/vecka" },
+      { "value": "85%", "label": "Mail automatiserat" },
+      { "value": "3x", "label": "Mer fokustid" }
+    ],
+    "en": [
+      { "value": "12h", "label": "Freed/week" },
+      { "value": "85%", "label": "Email automated" },
+      { "value": "3x", "label": "More focus time" }
+    ]
+  },
+  "challenge": {
+    "sv": "Som VD för en snabbväxande grossist med 42 anställda drunknade Mirza i mail, möten och operativa småsaker — ingen tid kvar för strategi och tillväxt.",
+    "en": "As CEO of a fast-growing 42-person wholesaler, Mirza drowned in emails, meetings and operational noise — with no time left for strategy and growth."
+  },
+  "solution": {
+    "sv": "Vi byggde en personlig AI-assistent som hanterar inkorgen, planerar kalendern, förbereder möten och bevakar uppföljningar — dygnet runt.",
+    "en": "We built a personal AI assistant that handles his inbox, plans his calendar, preps meetings and tracks follow-ups — around the clock."
+  },
+  "results": [
+    {
+      "sv": "12h/vecka befriade från admin",
+      "en": "12h/week freed from admin"
+    },
+    {
+      "sv": "85% av inkommande mail hanterade utan manuell input",
+      "en": "85% of incoming emails handled with no manual input"
+    },
+    {
+      "sv": "Aldrig en missad uppföljning",
+      "en": "Never a missed follow-up"
+    },
+    {
+      "sv": "Från reaktiv brandsläckare till strategisk VD",
+      "en": "From reactive firefighter to strategic CEO"
+    }
+  ],
+  "quote": {
+    "sv": "Eteya:s assistent har inte ersatt någon, den har multiplicerat mig. Nu hinner jag bygga bolaget, inte bara hålla det flytande.",
+    "en": "Eteya's assistant hasn't replaced anyone — it has multiplied me. Now I have time to build the company, not just keep it afloat.",
+    "author": "Mirza Ekici",
+    "role": {
+      "sv": "VD, SKG Stockholm",
+      "en": "CEO, SKG Stockholm"
+    }
+  },
+  "logo": "/images/logos/skg-stockholm.svg",
+  "image": "/images/cases/skg-stockholm-home-full.png"
+}

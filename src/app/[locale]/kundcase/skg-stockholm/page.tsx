@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
-import MBFlyttCaseStudy from '@/components/pages/MBFlyttCaseStudy'
+import SKGStockholmCaseStudy from '@/components/pages/SKGStockholmCaseStudy'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 
 export function generateStaticParams() {
@@ -17,12 +17,12 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'mbflytt.meta' })
-  
-  const svPath = '/sv/kundcase/mbflytt'
-  const enPath = '/en/case-studies/mbflytt'
+  const t = await getTranslations({ locale, namespace: 'skgstockholm.meta' })
+
+  const svPath = '/sv/kundcase/skg-stockholm'
+  const enPath = '/en/case-studies/skg-stockholm'
   const currentPath = locale === 'sv' ? svPath : enPath
-  
+
   return {
     title: t('title'),
     description: t('description'),
@@ -41,18 +41,11 @@ export async function generateMetadata({
       siteName: 'Eteya',
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
-      images: [{
-        url: '/images/og-mbflytt-case.jpg',
-        width: 1200,
-        height: 630,
-        alt: t('ogImageAlt'),
-      }],
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: ['/images/og-mbflytt-case.jpg'],
     },
   }
 }
@@ -60,17 +53,18 @@ export async function generateMetadata({
 const getCaseStudySchema = (locale: string) => ({
   '@context': 'https://schema.org',
   '@type': 'CaseStudy',
-  'name': locale === 'sv' 
-    ? 'MB Flytt - AI-driven offertgenerering' 
-    : 'MB Flytt - AI-driven quote generation',
+  'name': locale === 'sv'
+    ? 'SKG Stockholm - Personlig AI-assistent för VD'
+    : 'SKG Stockholm - Personal AI assistant for CEO',
   'description': locale === 'sv'
-    ? 'MB Flytt ökade antalet offerter med 2x och minskade offertiden från 24h till 15 minuter med AI-driven automation.'
-    : 'MB Flytt increased quotes by 2x and reduced quote time from 24h to 15 minutes with AI-driven automation.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/mbflytt' : '/en/case-studies/mbflytt'}`,
+    ? 'Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin och hanterar 85% av mail automatiskt.'
+    : 'How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin and handles 85% of emails automatically.',
+  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/skg-stockholm' : '/en/case-studies/skg-stockholm'}`,
   'datePublished': '2025-01-01',
   'about': {
     '@type': 'Organization',
-    'name': 'MB Flytt',
+    'name': 'SKG Stockholm AB',
+    'url': 'https://skg.se',
   },
   'provider': {
     '@type': 'Organization',
@@ -79,9 +73,9 @@ const getCaseStudySchema = (locale: string) => ({
     'logo': 'https://eteya.ai/logo.png',
   },
   'citation': [
-    locale === 'sv' ? '2x fler offerter per dag' : '2x more quotes per day',
-    locale === 'sv' ? '15 min istället för 24h offertid' : '15 minutes instead of 24h quote time',
-    locale === 'sv' ? '35% högre konvertering' : '35% higher conversion',
+    locale === 'sv' ? '12 timmar/vecka befriade från admin' : '12 hours/week freed from admin',
+    locale === 'sv' ? '85% av mail hanterade automatiskt' : '85% of emails handled automatically',
+    locale === 'sv' ? '3x mer fokustid för strategi' : '3x more focus time for strategy',
   ],
 })
 
@@ -104,8 +98,8 @@ const getBreadcrumbSchema = (locale: string) => ({
     {
       '@type': 'ListItem',
       'position': 3,
-      'name': 'MB Flytt',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/mbflytt' : '/en/case-studies/mbflytt'}`,
+      'name': 'SKG Stockholm',
+      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/skg-stockholm' : '/en/case-studies/skg-stockholm'}`,
     },
   ],
 })
@@ -118,30 +112,35 @@ const getOrganizationSchema = () => ({
   'logo': 'https://eteya.ai/logo.png',
 })
 
-export default function MBFlyttPage() {
+export default async function SKGStockholmPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
   return (
     <>
       <Nav />
       <main className="page-content">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getCaseStudySchema('sv')) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getCaseStudySchema(locale))
           }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getBreadcrumbSchema(locale))
           }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getOrganizationSchema()) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationSchema())
           }}
         />
-        <MBFlyttCaseStudy />
+        <SKGStockholmCaseStudy />
         <FooterCTAClient />
       </main>
     </>

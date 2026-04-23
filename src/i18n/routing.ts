@@ -17,9 +17,9 @@ export const routing = defineRouting({
       sv: '/kundcase',
       en: '/case-studies'
     },
-    '/kundcase/mbflytt': {
-      sv: '/kundcase/mbflytt',
-      en: '/case-studies/mbflytt'
+    '/kundcase/skg-stockholm': {
+      sv: '/kundcase/skg-stockholm',
+      en: '/case-studies/skg-stockholm'
     },
     '/kundcase/nordicrank': {
       sv: '/kundcase/nordicrank',

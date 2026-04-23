@@ -37,9 +37,9 @@ export async function GET() {
 - AI-telefonist för beställningar
 - Resultat: 24/7 bemanning utan extra kostnad
 
-**MB Flytt (Flyttfirma):**
-- Automatiserad bokning och offertgenerering
-- Resultat: 90% färre administrativa timmar
+**SKG Stockholm (Storköksgrossist):**
+- Personlig AI-assistent för VD:n — mail, kalender, uppföljningar
+- Resultat: 12 timmar/vecka befriade, 85% av mail hanterade automatiskt
 
 **TrainWithAlbert (Fitness):**
 - AI-personal trainer och medlemskommunikation

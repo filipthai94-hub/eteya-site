@@ -5,7 +5,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 
 type LogoItem = {
-  id: 'telestore' | 'sannegarden' | 'trainwithalbert' | 'mbflytt' | 'nordicrank'
+  id: 'telestore' | 'sannegarden' | 'trainwithalbert' | 'skg-stockholm' | 'nordicrank'
   src: string
   alt: string
 }
@@ -17,7 +17,7 @@ const ROW1_LOGOS: LogoItem[] = [
 ]
 
 const ROW2_LOGOS: LogoItem[] = [
-  { id: 'mbflytt', src: '/images/logos/mbflytt.png', alt: 'MB Flytt logo' },
+  { id: 'skg-stockholm', src: '/images/logos/skg-stockholm.svg', alt: 'SKG Stockholm logo' },
   { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank logo' },
 ]
 
@@ -110,7 +110,7 @@ const CSS = `
   .join-item--telestore .join-logo { width: 88%; max-height: 34%; }
   .join-item--sannegarden .join-logo { width: 68%; max-height: 40%; }
   .join-item--trainwithalbert .join-logo { width: 62%; max-height: 38%; }
-  .join-item--mbflytt .join-logo { width: 75%; max-height: 34%; }
+  .join-item--skg-stockholm .join-logo { width: 75%; max-height: 34%; }
   .join-item--nordicrank .join-logo { width: 86%; max-height: 34%; }
 
   @media (hover: hover) and (pointer: fine) {
@@ -128,7 +128,7 @@ const CSS = `
     .join-item--telestore .join-logo { width: 100px; max-height: 34px; }
     .join-item--sannegarden .join-logo { width: 78px; max-height: 40px; }
     .join-item--trainwithalbert .join-logo { width: 72px; max-height: 38px; }
-    .join-item--mbflytt .join-logo { width: 86px; max-height: 34px; }
+    .join-item--skg-stockholm .join-logo { width: 86px; max-height: 34px; }
     .join-item--nordicrank .join-logo { width: 98px; max-height: 34px; }
   }
 

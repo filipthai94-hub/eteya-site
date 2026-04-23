@@ -41,18 +41,11 @@ export async function generateMetadata({
       siteName: 'Eteya',
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
-      images: [{
-        url: '/images/og-trainwithalbert-case.jpg',
-        width: 1200,
-        height: 630,
-        alt: t('ogImageAlt'),
-      }],
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: ['/images/og-trainwithalbert-case.jpg'],
     },
   }
 }
@@ -118,27 +111,32 @@ const getOrganizationSchema = () => ({
   'logo': 'https://eteya.ai/logo.png',
 })
 
-export default function TrainWithAlbertPage() {
+export default async function TrainWithAlbertPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
   return (
     <>
       <Nav />
       <main className="page-content">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getCaseStudySchema('sv')) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getCaseStudySchema(locale))
           }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getBreadcrumbSchema('sv')) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getBreadcrumbSchema(locale))
           }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(getOrganizationSchema()) 
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationSchema())
           }}
         />
         <TrainWithAlbertCaseStudy />
