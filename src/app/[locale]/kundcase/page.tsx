@@ -60,7 +60,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': BASE_URL,
+      'item': `${BASE_URL}/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -69,6 +69,32 @@ const getBreadcrumbSchema = (locale: string) => ({
       'item': `${BASE_URL}${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
     },
   ],
+})
+
+// All 5 case studies listed here so Google sees this hub as a
+// structured listing (enables sitelinks + AI Overview coverage).
+const CASE_STUDIES: ReadonlyArray<{ slug: string; sv: string; en: string }> = [
+  { slug: 'telestore', sv: 'Telestore', en: 'Telestore' },
+  { slug: 'nordicrank', sv: 'Nordicrank', en: 'Nordicrank' },
+  { slug: 'sannegarden', sv: 'Sannegårdens Pizzeria', en: 'Sannegården Pizzeria' },
+  { slug: 'skg-stockholm', sv: 'SKG Stockholm', en: 'SKG Stockholm' },
+  { slug: 'trainwithalbert', sv: 'TrainWithAlbert', en: 'TrainWithAlbert' },
+]
+
+const getItemListSchema = (locale: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  'name': locale === 'sv' ? 'Eteya Kundcase' : 'Eteya Case Studies',
+  'description': locale === 'sv'
+    ? 'Verifierade kundcase från svenska företag som implementerat AI-automation med Eteya.'
+    : 'Verified case studies from Swedish companies that implemented AI automation with Eteya.',
+  'numberOfItems': CASE_STUDIES.length,
+  'itemListElement': CASE_STUDIES.map((cs, i) => ({
+    '@type': 'ListItem',
+    'position': i + 1,
+    'name': locale === 'sv' ? cs.sv : cs.en,
+    'url': `${BASE_URL}/${locale === 'sv' ? 'sv/kundcase' : 'en/case-studies'}/${cs.slug}`,
+  })),
 })
 
 export default async function CaseStudiesPage({
@@ -80,7 +106,7 @@ export default async function CaseStudiesPage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -93,10 +119,16 @@ export default async function CaseStudiesPage({
             __html: JSON.stringify(getBreadcrumbSchema(locale))
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getItemListSchema(locale))
+          }}
+        />
         <CaseStudiesHubHero />
         <Cases params={params} />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }
