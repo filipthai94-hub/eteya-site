@@ -15,20 +15,23 @@ import ScrollOnLoad from '@/components/ScrollOnLoad'
 
 const BASE_URL = 'https://eteya.ai'
 
+// SEO-optimized lengths (title 50-60, description 150-160) per Google SERP
+// truncation thresholds. Each line tuned to include primary keyword phrases
+// used by Swedish B2B buyers searching AI consulting services.
 const META: Record<'sv' | 'en', {
   title: string
   description: string
   ogDescription: string
 }> = {
   sv: {
-    title: 'Eteya AI — AI som driver ditt företag',
-    description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-automation som faktiskt levererar resultat — inte bara låter bra på möten. Se våra case studies.',
-    ogDescription: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-automation som faktiskt levererar resultat.',
+    title: 'Eteya AI — AI-automation & AI Agents för svenska företag',
+    description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-agenter, process-automation och custom AI-lösningar som faktiskt levererar resultat. Se våra case studies.',
+    ogDescription: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-agenter och process-automation som levererar resultat.',
   },
   en: {
-    title: 'Eteya AI — AI that powers your business',
-    description: 'Less manual work. More growth. We build AI automation that delivers real results — not just impressive demo calls. See our case studies.',
-    ogDescription: 'Less manual work. More growth. We build AI automation that delivers real results.',
+    title: 'Eteya AI — AI Automation & AI Agents for Modern Business',
+    description: 'Less manual work. More growth. We build AI agents, process automation and custom AI solutions that actually deliver results. See our case studies.',
+    ogDescription: 'Less manual work. More growth. We build AI agents and process automation that deliver results.',
   },
 }
 
