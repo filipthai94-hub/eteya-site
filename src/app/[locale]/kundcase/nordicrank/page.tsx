@@ -50,33 +50,45 @@ export async function generateMetadata({
   }
 }
 
-const getCaseStudySchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CaseStudy',
-  'name': locale === 'sv' 
-    ? 'Nordicrank — 180 000 kr/år i besparing med automation' 
-    : 'Nordicrank — 180,000 SEK/year savings with automation',
-  'description': locale === 'sv'
-    ? 'Hur Eteya hjälpte Nordicrank automatisera order- och länkhatering, eliminera manuella Excel-listor och spara 180 000 kr per år.'
-    : 'How Eteya helped Nordicrank automate order and link handling, eliminate manual Excel sheets, and save 180,000 SEK per year.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`,
-  'datePublished': '2025-01-01',
-  'about': {
-    '@type': 'Organization',
-    'name': 'Nordicrank',
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': 'Eteya Consulting AB',
-    'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/favicon-512x512.png',
-  },
-  'citation': [
-    locale === 'sv' ? '180 000 kr årlig besparing' : '180,000 SEK annual savings',
-    locale === 'sv' ? '780 timmar sparad tid per år' : '780 hours saved per year',
-    locale === 'sv' ? '18 automatiserade flöden' : '18 automated flows',
-  ],
-})
+// Article structured data (Google-validated — CaseStudy is pending/unsupported)
+const getArticleSchema = (locale: string) => {
+  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': locale === 'sv'
+      ? 'Nordicrank — 180 000 kr/år i besparing med automation'
+      : 'Nordicrank — 180,000 SEK/year savings with automation',
+    'description': locale === 'sv'
+      ? 'Hur Eteya hjälpte Nordicrank automatisera order- och länkhatering, eliminera manuella Excel-listor och spara 180 000 kr per år.'
+      : 'How Eteya helped Nordicrank automate order and link handling, eliminate manual Excel sheets, and save 180,000 SEK per year.',
+    'url': url,
+    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
+    'datePublished': '2025-01-01',
+    'dateModified': '2026-04-23',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'url': 'https://eteya.ai',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://eteya.ai/favicon-512x512.png',
+      },
+    },
+    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+    'keywords': locale === 'sv'
+      ? 'AI-automation, processautomation, kundcase, Nordicrank, SEO'
+      : 'AI automation, process automation, case study, Nordicrank, SEO',
+    'mentions': {
+      '@type': 'Organization',
+      'name': 'Nordicrank',
+    },
+  }
+}
 
 const getBreadcrumbSchema = (locale: string) => ({
   '@context': 'https://schema.org',
@@ -86,7 +98,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': 'https://eteya.ai',
+      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -114,11 +126,11 @@ export default async function NordicrankPage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema(locale))
+            __html: JSON.stringify(getArticleSchema(locale))
           }}
         />
         <script
@@ -129,7 +141,7 @@ export default async function NordicrankPage({
         />
         <NordicrankCaseStudy />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }

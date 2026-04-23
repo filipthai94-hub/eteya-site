@@ -50,33 +50,45 @@ export async function generateMetadata({
   }
 }
 
-const getCaseStudySchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CaseStudy',
-  'name': locale === 'sv' 
-    ? 'TrainWithAlbert — coach igen, inte administratör' 
-    : 'TrainWithAlbert — coach again, not an administrator',
-  'description': locale === 'sv'
-    ? 'Hur Albert Wan automatiserade sin coachingverksamhet, sparat 8h/vecka och ökat intäkterna med 60% på 3 månader.'
-    : 'How Albert Wan automated his coaching business, saved 8h/week and increased revenue by 60% in 3 months.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/trainwithalbert' : '/en/case-studies/trainwithalbert'}`,
-  'datePublished': '2025-01-01',
-  'about': {
-    '@type': 'Organization',
-    'name': 'TrainWithAlbert',
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': 'Eteya Consulting AB',
-    'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/favicon-512x512.png',
-  },
-  'citation': [
-    locale === 'sv' ? '8h/vecka sparad admin-tid' : '8h/week saved admin time',
-    locale === 'sv' ? '3x fler bokningar/månad' : '3x more bookings/month',
-    locale === 'sv' ? '60% intäktsökning på 3 månader' : '60% revenue increase in 3 months',
-  ],
-})
+// Article structured data (Google-validated — CaseStudy is pending/unsupported)
+const getArticleSchema = (locale: string) => {
+  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/trainwithalbert' : '/en/case-studies/trainwithalbert'}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': locale === 'sv'
+      ? 'TrainWithAlbert — coach igen, inte administratör'
+      : 'TrainWithAlbert — coach again, not an administrator',
+    'description': locale === 'sv'
+      ? 'Hur Albert Wan automatiserade sin coachingverksamhet, sparat 8h/vecka och ökat intäkterna med 60% på 3 månader.'
+      : 'How Albert Wan automated his coaching business, saved 8h/week and increased revenue by 60% in 3 months.',
+    'url': url,
+    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
+    'datePublished': '2025-01-01',
+    'dateModified': '2026-04-23',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'url': 'https://eteya.ai',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://eteya.ai/favicon-512x512.png',
+      },
+    },
+    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+    'keywords': locale === 'sv'
+      ? 'AI-automation, kundcase, TrainWithAlbert, coaching, bokningssystem'
+      : 'AI automation, case study, TrainWithAlbert, coaching, booking system',
+    'mentions': {
+      '@type': 'Organization',
+      'name': 'TrainWithAlbert',
+    },
+  }
+}
 
 const getBreadcrumbSchema = (locale: string) => ({
   '@context': 'https://schema.org',
@@ -86,7 +98,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': 'https://eteya.ai',
+      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -114,11 +126,11 @@ export default async function TrainWithAlbertPage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema(locale))
+            __html: JSON.stringify(getArticleSchema(locale))
           }}
         />
         <script
@@ -129,7 +141,7 @@ export default async function TrainWithAlbertPage({
         />
         <TrainWithAlbertCaseStudy />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }

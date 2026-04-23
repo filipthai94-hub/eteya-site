@@ -50,35 +50,46 @@ export async function generateMetadata({
   }
 }
 
-// CaseStudy structured data for SEO
-const getCaseStudySchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CaseStudy',
-  'name': locale === 'sv' 
-    ? 'Telestore — 390 000 kr/år i besparing med AI' 
-    : 'Telestore — 390 000 SEK/year savings with AI',
-  'description': locale === 'sv'
-    ? 'Hur Eteya hjälpte Telestore Sverige AB automatisera 56 processer och spara 390 000 kr per år genom AI-agenter och processautomation.'
-    : 'How Eteya helped Telestore Sverige AB automate 56 processes and save 390 000 SEK per year through AI agents and process automation.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`,
-  'datePublished': '2025-01-01',
-  'about': {
-    '@type': 'Organization',
-    'name': 'Telestore Sverige AB',
-    'url': 'https://telestore.se',
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': 'Eteya Consulting AB',
-    'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/favicon-512x512.png',
-  },
-  'citation': [
-    locale === 'sv' ? '390 000 kr årlig besparing' : '390 000 SEK annual savings',
-    locale === 'sv' ? '1 350 timmar sparad tid per år' : '1 350 hours saved per year',
-    locale === 'sv' ? '56 implementerade automationer' : '56 implemented automations',
-  ],
-})
+// Article structured data (Google-validated — CaseStudy is pending/unsupported)
+const getArticleSchema = (locale: string) => {
+  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': locale === 'sv'
+      ? 'Telestore — 390 000 kr/år i besparing med AI'
+      : 'Telestore — 390 000 SEK/year savings with AI',
+    'description': locale === 'sv'
+      ? 'Hur Eteya hjälpte Telestore Sverige AB automatisera 56 processer och spara 390 000 kr per år genom AI-agenter och processautomation.'
+      : 'How Eteya helped Telestore Sverige AB automate 56 processes and save 390 000 SEK per year through AI agents and process automation.',
+    'url': url,
+    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
+    'datePublished': '2025-01-01',
+    'dateModified': '2026-04-23',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'url': 'https://eteya.ai',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://eteya.ai/favicon-512x512.png',
+      },
+    },
+    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+    'keywords': locale === 'sv'
+      ? 'AI-automation, AI-agenter, processautomation, kundcase, Telestore'
+      : 'AI automation, AI agents, process automation, case study, Telestore',
+    'mentions': {
+      '@type': 'Organization',
+      'name': 'Telestore Sverige AB',
+      'url': 'https://telestore.se',
+    },
+  }
+}
 
 const getBreadcrumbSchema = (locale: string) => ({
   '@context': 'https://schema.org',
@@ -88,7 +99,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': 'https://eteya.ai',
+      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -116,11 +127,11 @@ export default async function TelestorePage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema(locale))
+            __html: JSON.stringify(getArticleSchema(locale))
           }}
         />
         <script
@@ -131,7 +142,7 @@ export default async function TelestorePage({
         />
         <TelestoreCaseStudy />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }

@@ -50,33 +50,45 @@ export async function generateMetadata({
   }
 }
 
-const getCaseStudySchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CaseStudy',
-  'name': locale === 'sv' 
-    ? 'Sannegårdens Pizzeria — aldrig ett missat samtal under rusning' 
-    : 'Sannegårdens Pizzeria — never a missed call during peak hours',
-  'description': locale === 'sv'
-    ? 'Hur Eteya hjälpte Sannegårdens Pizzeria ta emot beställningar dygnet runt, eliminera missade samtal och öka kundnöjdheten med 23 procent.'
-    : 'How Eteya helped Sannegårdens Pizzeria take orders 24/7, eliminate missed calls, and increase customer satisfaction by 23 percent.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/sannegarden' : '/en/case-studies/sannegarden'}`,
-  'datePublished': '2025-01-01',
-  'about': {
-    '@type': 'Organization',
-    'name': 'Sannegårdens Pizzeria',
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': 'Eteya Consulting AB',
-    'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/favicon-512x512.png',
-  },
-  'citation': [
-    locale === 'sv' ? 'Aldrig ett missat samtal under rusning' : 'Never a missed call during peak hours',
-    locale === 'sv' ? '30+ extra beställningar per vecka' : '30+ extra orders per week',
-    locale === 'sv' ? '23 procent högre kundnöjdhet' : '23 percent higher customer satisfaction',
-  ],
-})
+// Article structured data (Google-validated — CaseStudy is pending/unsupported)
+const getArticleSchema = (locale: string) => {
+  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/sannegarden' : '/en/case-studies/sannegarden'}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': locale === 'sv'
+      ? 'Sannegårdens Pizzeria — aldrig ett missat samtal under rusning'
+      : 'Sannegårdens Pizzeria — never a missed call during peak hours',
+    'description': locale === 'sv'
+      ? 'Hur Eteya hjälpte Sannegårdens Pizzeria ta emot beställningar dygnet runt, eliminera missade samtal och öka kundnöjdheten med 23 procent.'
+      : 'How Eteya helped Sannegårdens Pizzeria take orders 24/7, eliminate missed calls, and increase customer satisfaction by 23 percent.',
+    'url': url,
+    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
+    'datePublished': '2025-01-01',
+    'dateModified': '2026-04-23',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'url': 'https://eteya.ai',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://eteya.ai/favicon-512x512.png',
+      },
+    },
+    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+    'keywords': locale === 'sv'
+      ? 'AI-telefonist, AI-agent, kundcase, Sannegården, restaurang'
+      : 'AI phone agent, AI agent, case study, Sannegården, restaurant',
+    'mentions': {
+      '@type': 'Organization',
+      'name': 'Sannegårdens Pizzeria',
+    },
+  }
+}
 
 const getBreadcrumbSchema = (locale: string) => ({
   '@context': 'https://schema.org',
@@ -86,7 +98,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': 'https://eteya.ai',
+      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -114,11 +126,11 @@ export default async function SannegardenPage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema(locale))
+            __html: JSON.stringify(getArticleSchema(locale))
           }}
         />
         <script
@@ -129,7 +141,7 @@ export default async function SannegardenPage({
         />
         <SannegardenCaseStudy />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }

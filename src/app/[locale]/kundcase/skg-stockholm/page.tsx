@@ -50,34 +50,46 @@ export async function generateMetadata({
   }
 }
 
-const getCaseStudySchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CaseStudy',
-  'name': locale === 'sv'
-    ? 'SKG Stockholm - Personlig AI-assistent för VD'
-    : 'SKG Stockholm - Personal AI assistant for CEO',
-  'description': locale === 'sv'
-    ? 'Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin och hanterar 85% av mail automatiskt.'
-    : 'How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin and handles 85% of emails automatically.',
-  'url': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/skg-stockholm' : '/en/case-studies/skg-stockholm'}`,
-  'datePublished': '2025-01-01',
-  'about': {
-    '@type': 'Organization',
-    'name': 'SKG Stockholm AB',
-    'url': 'https://skg.se',
-  },
-  'provider': {
-    '@type': 'Organization',
-    'name': 'Eteya Consulting AB',
-    'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/favicon-512x512.png',
-  },
-  'citation': [
-    locale === 'sv' ? '12 timmar/vecka befriade från admin' : '12 hours/week freed from admin',
-    locale === 'sv' ? '85% av mail hanterade automatiskt' : '85% of emails handled automatically',
-    locale === 'sv' ? '3x mer fokustid för strategi' : '3x more focus time for strategy',
-  ],
-})
+// Article structured data (Google-validated — CaseStudy is pending/unsupported)
+const getArticleSchema = (locale: string) => {
+  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/skg-stockholm' : '/en/case-studies/skg-stockholm'}`
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': locale === 'sv'
+      ? 'SKG Stockholm — Personlig AI-assistent för VD'
+      : 'SKG Stockholm — Personal AI assistant for CEO',
+    'description': locale === 'sv'
+      ? 'Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin och hanterar 85% av mail automatiskt.'
+      : 'How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin and handles 85% of emails automatically.',
+    'url': url,
+    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
+    'datePublished': '2025-01-01',
+    'dateModified': '2026-04-23',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'url': 'https://eteya.ai',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Eteya Consulting AB',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://eteya.ai/favicon-512x512.png',
+      },
+    },
+    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
+    'keywords': locale === 'sv'
+      ? 'AI-assistent, AI-agent, kundcase, SKG Stockholm, VD-automation'
+      : 'AI assistant, AI agent, case study, SKG Stockholm, CEO automation',
+    'mentions': {
+      '@type': 'Organization',
+      'name': 'SKG Stockholm AB',
+      'url': 'https://skg.se',
+    },
+  }
+}
 
 const getBreadcrumbSchema = (locale: string) => ({
   '@context': 'https://schema.org',
@@ -87,7 +99,7 @@ const getBreadcrumbSchema = (locale: string) => ({
       '@type': 'ListItem',
       'position': 1,
       'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': 'https://eteya.ai',
+      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
     },
     {
       '@type': 'ListItem',
@@ -115,11 +127,11 @@ export default async function SKGStockholmPage({
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCaseStudySchema(locale))
+            __html: JSON.stringify(getArticleSchema(locale))
           }}
         />
         <script
@@ -130,7 +142,7 @@ export default async function SKGStockholmPage({
         />
         <SKGStockholmCaseStudy />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }
