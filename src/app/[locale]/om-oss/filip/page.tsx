@@ -108,10 +108,21 @@ function getSchemas(locale: string) {
 
 export default async function FilipPage({ params }: Props) {
   const { locale } = await params;
+  const isSv = locale === 'sv';
   const { personSchema, profilePageSchema, breadcrumbSchema } = getSchemas(locale);
 
   return (
     <>
+      {/* Visually-hidden H1 for SEO + screen readers. The Vault UI
+          styles the name elsewhere but has no semantic heading — this
+          ensures Google and assistive tech can identify the page's
+          primary topic (the person named). */}
+      <h1 className="sr-only">
+        {isSv
+          ? 'Filip Thai — Grundare & VD | Eteya Consulting'
+          : 'Filip Thai — CEO & Founder | Eteya Consulting'}
+      </h1>
+
       {/* Plain <script> tags so JSON-LD is in the initial SSR HTML
           and readable by Googlebot + AI crawlers. Next.js <Script>
           defers and injects client-side, making the schemas invisible
