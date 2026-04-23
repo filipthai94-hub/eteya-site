@@ -53,7 +53,10 @@ export default function Nav() {
   const [time, setTime] = useState('')
   const [popupOpen, setPopupOpen] = useState(false)
   const [copied, setCopied] = useState(false)
-  const [navDark, setNavDark] = useState(true) // true = dark text (over light bg)
+  // Note: previously had a `navDark` state that switched nav text to black
+  // when overlapping the (formerly green) hero. Hero is now dark, and every
+  // section below it is also dark, so nav stays white everywhere. The
+  // `.nav-dark` CSS is kept intact in case a future light section is added.
 
   const overlayRef = useRef<HTMLDivElement>(null)
   const blurRef = useRef<HTMLDivElement>(null)
@@ -104,43 +107,9 @@ export default function Nav() {
     return () => clearInterval(id)
   }, [locale])
 
-  // Deterministic nav contrast: dark text only while nav overlaps hero
-  useEffect(() => {
-    const hero = document.getElementById('hero')
-    if (!hero) {
-      setNavDark(false)
-      return
-    }
-
-    let raf = 0
-    const updateNavContrast = () => {
-      const topbarEl = topbarRef.current
-      if (!topbarEl) return
-      const heroRect = hero.getBoundingClientRect()
-      const navRect = topbarEl.getBoundingClientRect()
-      const navProbeY = navRect.top + navRect.height / 2
-      const isOverHero = heroRect.top <= navProbeY && heroRect.bottom > navProbeY
-      // Hero has light/green video → dark text over hero, light text elsewhere
-      setNavDark(isOverHero)
-    }
-
-    const onChange = () => {
-      if (raf) cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(updateNavContrast)
-    }
-
-    updateNavContrast()
-    window.addEventListener('scroll', onChange, { passive: true })
-    window.addEventListener('resize', onChange)
-    window.addEventListener('orientationchange', onChange)
-
-    return () => {
-      if (raf) cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onChange)
-      window.removeEventListener('resize', onChange)
-      window.removeEventListener('orientationchange', onChange)
-    }
-  }, [])
+  // (Removed) Scroll-position nav-contrast detector — hero is no longer
+  // light, so the nav doesn't need to swap between black/white. Keeping a
+  // small comment here so it's obvious where the old logic lived.
 
   // Bulletproof scroll lock: position:fixed on body preserves scroll pos
   const scrollPosRef = useRef(0)
@@ -603,7 +572,7 @@ export default function Nav() {
       `}</style>
 
       {/* ═══ TOP BAR ═══ */}
-      <nav ref={topbarRef} className={`en-topbar${navDark && !menuOpen ? ' nav-dark' : ''}`} aria-label="Main navigation">
+      <nav ref={topbarRef} className="en-topbar" aria-label="Main navigation">
         <div className="en-col en-col--left">
           <Link href={homeHref} className="en-logo" aria-label="Eteya home">
             <span className="en-logo-text"><span style={{marginRight:'0.04em'}}>E</span><span style={{marginRight:'0.02em'}}>T</span><span style={{marginRight:'0.02em'}}>E</span><span style={{marginRight:'-0.06em'}}>Y</span>A</span>
@@ -636,7 +605,7 @@ export default function Nav() {
       </nav>
 
       {/* ═══ HAMBURGER ═══ */}
-      <div className={`en-hamburger${navDark && !menuOpen ? ' nav-dark' : ''}`}>
+      <div className="en-hamburger">
         <button
           className={`en-ham-btn${menuOpen ? ' is-open' : ''}`}
           onClick={toggleMenu}

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { createSpeakableSchema } from '@/lib/seo/createSpeakableSchema'
+import ShaderHeroBackground from './ShaderHeroBackground'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -16,22 +17,21 @@ export default function HeroClient({
   const roleRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const videoWrapRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const bgRef = useRef<HTMLDivElement>(null)
 
   // Intro animation
   useEffect(() => {
     const letters = nameRef.current?.querySelectorAll('[data-letter]')
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
 
-    tl.fromTo(videoWrapRef.current,
-      { opacity: 0, scale: 1.05 },
-      { opacity: 1, scale: 1, duration: 1.4 },
+    tl.fromTo(bgRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 1.8 },
     )
     tl.fromTo(roleRef.current,
       { y: 16, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 },
-      '-=1.0'
+      '-=1.3'
     )
     if (letters && letters.length > 0) {
       tl.fromTo(letters,
@@ -47,51 +47,6 @@ export default function HeroClient({
     )
   }, [])
 
-  // Robust autoplay/loop for mobile browsers (iOS/Android)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    // Respect prefers-reduced-motion
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (motionQuery.matches) {
-      video.pause()
-      return
-    }
-
-    const tryPlay = () => {
-      video.muted = true
-      video.defaultMuted = true
-      video.playsInline = true
-      video.setAttribute('muted', '')
-      video.setAttribute('playsinline', '')
-      video.setAttribute('webkit-playsinline', '')
-
-      const p = video.play()
-      if (p && typeof p.catch === 'function') p.catch(() => {})
-    }
-
-    const onCanPlay = () => tryPlay()
-    const onVisibility = () => {
-      if (!document.hidden) tryPlay()
-    }
-
-    tryPlay()
-    video.addEventListener('canplay', onCanPlay)
-    document.addEventListener('visibilitychange', onVisibility)
-    window.addEventListener('touchstart', tryPlay, { passive: true, once: true })
-
-    const resumeCheck = window.setInterval(() => {
-      if (!document.hidden && video.paused) tryPlay()
-    }, 2000)
-
-    return () => {
-      video.removeEventListener('canplay', onCanPlay)
-      document.removeEventListener('visibilitychange', onVisibility)
-      window.clearInterval(resumeCheck)
-    }
-  }, [])
-
   const letters = headline.split('')
   // Optical kerning: E(+0.04) T(+0.02) E(+0.02) Y(-0.06) A
   const kerning: Record<number, string> = { 0: '0.04em', 1: '0.02em', 2: '0.02em', 3: '-0.06em' }
@@ -101,37 +56,53 @@ export default function HeroClient({
       position: 'relative',
       height: '100vh',
       minHeight: '600px',
-      backgroundColor: '#0a0a0a',
+      backgroundColor: '#080808',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
+      // Tell the browser nothing paints outside this box. Lets the
+      // compositor skip the hero when scrolling over already-rendered
+      // content below it → smoother scroll.
+      contain: 'paint',
     }}>
       <style>{`
-        /* Fullscreen video background */
-        .hero-video-wrap {
+        /* ── Shader background layer ── */
+        .hero-bg {
           position: absolute;
           inset: 0;
           z-index: 1;
-          overflow: hidden;
           opacity: 0;
         }
-        .hero-video-wrap video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
+
+        /* Subtle vignette for text contrast */
+        .hero-vignette {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(8, 8, 8, 0) 0%,
+            rgba(8, 8, 8, 0.15) 45%,
+            rgba(8, 8, 8, 0.55) 100%
+          );
         }
 
-        /* No overlay needed — video is light/green, text is dark */
-        .hero-overlay {
-          display: none;
+        /* Film-grain overlay for cinematic depth (Tier 1 A) */
+        .hero-grain {
+          position: absolute;
+          inset: 0;
+          z-index: 3;
+          pointer-events: none;
+          opacity: 0.05;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+          background-size: 256px 256px;
         }
 
-
-
-        /* Centered text content */
+        /* ── Text content ── */
         .hero-content {
           position: relative;
           z-index: 10;
@@ -147,23 +118,33 @@ export default function HeroClient({
           font-weight: 500;
           font-size: clamp(0.7rem, 1vw, 0.85rem);
           text-transform: uppercase;
-          letter-spacing: 0.18em;
-          color: rgba(0, 0, 0, 0.55);
+          letter-spacing: 0.22em;
+          color: #ffffff;
           margin-bottom: 0.75rem;
           opacity: 0;
+          /* Light 2-layer shadow for plasma-shader background —
+             just enough to ride the lime atmospheric swings. */
+          text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.75),
+            0 0 18px rgba(0, 0, 0, 0.50);
         }
 
         .hero-eteya {
           font-family: var(--font-display);
           font-weight: 800;
           font-size: clamp(5rem, 12vw, 14rem);
-          color: #000;
+          color: #ffffff;
           text-transform: uppercase;
           line-height: 0.85;
           letter-spacing: -0.04em;
           white-space: nowrap;
           display: flex;
           justify-content: center;
+          /* Only atmospheric halo — no tight drop-shadow. On huge text
+             a 2-4px y-shadow blurs back into the glyphs and greys the
+             bottom edge of each letter ("dirty text" look). Pure radial
+             halo stays outside the glyph, keeps text crisp white. */
+          text-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
         }
 
         .hero-bottom {
@@ -184,48 +165,36 @@ export default function HeroClient({
           font-size: clamp(1.1rem, 1.8vw, 1.6rem);
           text-transform: uppercase;
           letter-spacing: 0.04em;
-          color: rgba(0, 0, 0, 0.75);
+          color: rgba(255, 255, 255, 0.80);
           max-width: 36rem;
           line-height: 1.2;
           text-align: center;
+          /* Crispness + atmospheric halo */
+          text-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.55),
+            0 0 20px rgba(0, 0, 0, 0.40);
         }
 
-        /* Desktop: slight zoom to crop Veo watermark from corners */
-        @media (min-width: 768px) {
-          .hero-video-wrap video {
-            transform: scale(1.04);
-          }
-        }
-
-        /* Mobile responsive video source swap via JS */
         @media (max-width: 767px) {
-          .hero-eteya {
-            font-size: 22vw !important;
-          }
-          .hero-bottom {
-            padding: 1.5rem 1.5rem 2.5rem;
-          }
+          .hero-eteya { font-size: 22vw !important; }
+          .hero-bottom { padding: 1.5rem 1.5rem 2.5rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-bg { opacity: 1 !important; }
         }
       `}</style>
 
-      {/* Fullscreen video background */}
-      <div ref={videoWrapRef} className="hero-video-wrap">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster="/hero-poster.webp"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        >
-          <source src="/hero-desktop.mp4" type="video/mp4" />
-        </video>
+      {/* WebGL aurora shader background */}
+      <div ref={bgRef} className="hero-bg">
+        <ShaderHeroBackground />
       </div>
 
-      {/* Overlay for text readability */}
-      <div className="hero-overlay" />
+      {/* Vignette for text readability */}
+      <div className="hero-vignette" />
+
+      {/* Film-grain overlay for cinematic depth */}
+      <div className="hero-grain" aria-hidden="true" />
 
       {/* Centered content */}
       <div className="hero-content">
