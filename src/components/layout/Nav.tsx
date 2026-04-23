@@ -468,7 +468,7 @@ export default function Nav() {
         .en-popup-action svg{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5}
 
         /* Location in menu */
-        .en-menu-location-section{display:flex;flex-direction:column;gap:12px}
+        .en-menu-location-section{display:flex;flex-direction:column;gap:6px}
         .en-menu-location-header{display:flex;align-items:center;gap:4px}
         .en-menu-location-header .en-menu-label{margin:0}
         .en-menu-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184)}
@@ -476,7 +476,7 @@ export default function Nav() {
         .en-menu-location-lang{display:flex;justify-content:flex-start}
 
         /* Socials */
-        .en-menu-socials{display:flex;flex-direction:column;gap:16px}
+        .en-menu-socials{display:flex;flex-direction:column;gap:6px}
         .en-social-icons{display:flex;gap:12px}
         .en-social-icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden}
         .en-social-icon svg{width:20px;height:20px;fill:currentColor;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1);display:block}
