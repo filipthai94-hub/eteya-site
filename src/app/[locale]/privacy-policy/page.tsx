@@ -9,10 +9,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'privacy' })
   
-  const svPath = '/integritetspolicy'
-  const enPath = '/privacy-policy'
+  // Locale prefix is always present (see routing.ts localePrefix: 'always').
+  // The Swedish path segment is '/integritetspolicy', English is '/privacy-policy'.
+  const svPath = '/sv/integritetspolicy'
+  const enPath = '/en/privacy-policy'
   const currentPath = locale === 'sv' ? svPath : enPath
-  
+
   return {
     title: `${t('title')} | Eteya`,
     description: t('description'),
@@ -21,9 +23,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       languages: {
         sv: `${BASE_URL}${svPath}`,
         en: `${BASE_URL}${enPath}`,
+        'x-default': `${BASE_URL}${svPath}`,
       },
     },
-    robots: { index: true, follow: true },
     openGraph: {
       title: `${t('title')} | Eteya`,
       description: t('description'),
@@ -49,12 +51,15 @@ function PrivacyPolicyJsonLd({ locale }: { locale: string }) {
     description: isSv
       ? 'Läs hur Eteya AI hanterar dina personuppgifter. GDPR-kompatibel behandling av data.'
       : 'Read how Eteya AI handles your personal data. GDPR-compliant data processing.',
-    url: `${BASE_URL}${isSv ? '/integritetspolicy' : '/privacy-policy'}`,
+    url: `${BASE_URL}${isSv ? '/sv/integritetspolicy' : '/en/privacy-policy'}`,
     dateModified: '2026-04-22',
     publisher: {
       '@type': 'Organization',
       name: 'Eteya AI',
-      logo: `${BASE_URL}/favicon-512x512.png`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/favicon-512x512.png`,
+      },
     },
   }
   return (
@@ -71,9 +76,9 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
     <>
       <PrivacyPolicyJsonLd locale={locale} />
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <PrivacyPolicyContent />
-      </main>
+      </div>
     </>
   )
 }

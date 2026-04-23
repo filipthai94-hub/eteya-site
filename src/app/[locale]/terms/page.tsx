@@ -13,26 +13,27 @@ export async function generateMetadata({
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'terms.meta' })
   
-  const svPath = '/villkor'
-  const enPath = '/terms'
+  // Locale prefix is always present (see routing.ts localePrefix: 'always').
+  // The Swedish path segment is '/villkor', English is '/terms'.
+  const svPath = '/sv/villkor'
+  const enPath = '/en/terms'
   const currentPath = locale === 'sv' ? svPath : enPath
 
   return {
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `${BASE_URL}${locale === 'sv' ? svPath : enPath}`,
+      canonical: `${BASE_URL}${currentPath}`,
       languages: {
         sv: `${BASE_URL}${svPath}`,
         en: `${BASE_URL}${enPath}`,
         'x-default': `${BASE_URL}${svPath}`,
       },
     },
-    robots: { index: true, follow: true },
     openGraph: {
       title: t('title'),
       description: t('description'),
-      url: `${BASE_URL}${locale === 'sv' ? svPath : enPath}`,
+      url: `${BASE_URL}${currentPath}`,
       siteName: 'Eteya',
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
@@ -49,12 +50,15 @@ function TermsJsonLd({ locale }: { locale: string }) {
     description: isSv
       ? 'Eteya AI:s villkor för användning av tjänsten.'
       : 'Eteya AI terms of service for using the platform.',
-    url: `${BASE_URL}${isSv ? '/villkor' : '/terms'}`,
+    url: `${BASE_URL}${isSv ? '/sv/villkor' : '/en/terms'}`,
     dateModified: '2026-04-22',
     publisher: {
       '@type': 'Organization',
       name: 'Eteya AI',
-      logo: `${BASE_URL}/favicon-512x512.png`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/favicon-512x512.png`,
+      },
     },
   }
   return (
@@ -71,9 +75,9 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
     <>
       <TermsJsonLd locale={locale} />
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <PolicyContent type="terms" />
-      </main>
+      </div>
     </>
   )
 }

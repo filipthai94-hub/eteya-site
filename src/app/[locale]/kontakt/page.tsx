@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { JsonLd, organizationSchema, createBreadcrumbSchema } from '@/components/JsonLd'
+import { JsonLd, createBreadcrumbSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import Contact from '@/components/sections/Contact'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
@@ -52,9 +52,9 @@ export default async function KontaktPage({
 }) {
   const { locale } = await params
 
+  // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
   return (
     <>
-      <JsonLd data={organizationSchema} />
       <JsonLd data={{
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
@@ -80,10 +80,10 @@ export default async function KontaktPage({
         { position: 2, name: locale === 'sv' ? 'Kontakt' : 'Contact', item: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}` },
       ])} />
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <Contact />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }
