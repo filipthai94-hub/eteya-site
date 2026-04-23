@@ -192,7 +192,7 @@ export default function FAQClient() {
         .faq-number {
           flex: 0 0 auto;
           min-width: 48px;
-          margin-right: 28px;
+          margin-right: 16px;
           font-family: var(--font-nums), sans-serif;
           font-size: 18px;
           color: rgba(255,255,255,0.3);
