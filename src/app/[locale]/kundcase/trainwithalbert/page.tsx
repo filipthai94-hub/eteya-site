@@ -69,7 +69,7 @@ const getCaseStudySchema = (locale: string) => ({
     '@type': 'Organization',
     'name': 'Eteya Consulting AB',
     'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/logo.png',
+    'logo': 'https://eteya.ai/favicon-512x512.png',
   },
   'citation': [
     locale === 'sv' ? '8h/vecka sparad admin-tid' : '8h/week saved admin time',
@@ -103,13 +103,7 @@ const getBreadcrumbSchema = (locale: string) => ({
   ],
 })
 
-const getOrganizationSchema = () => ({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  'name': 'Eteya Consulting AB',
-  'url': 'https://eteya.ai',
-  'logo': 'https://eteya.ai/logo.png',
-})
+// Organization schema provided globally by root layout (see src/components/JsonLd.tsx)
 
 export default async function TrainWithAlbertPage({
   params,
@@ -131,12 +125,6 @@ export default async function TrainWithAlbertPage({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationSchema())
           }}
         />
         <TrainWithAlbertCaseStudy />

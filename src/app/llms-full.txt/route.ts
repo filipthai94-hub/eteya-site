@@ -90,9 +90,13 @@ Grundare av Telestore. Efter över 10 år som entreprenör vet han vad som funka
 
 **E-post:** kontakt@eteya.ai
 
-**LinkedIn:** https://www.linkedin.com/company/eteya
+**LinkedIn:** https://www.linkedin.com/company/eteya-consulting-ab/
 
-**Twitter:** https://twitter.com/eteya
+**Instagram:** https://www.instagram.com/eteyaconsultingab/
+
+**Facebook:** https://www.facebook.com/profile.php?id=61573471850082
+
+**X:** https://x.com/EteyaAI
 
 ---
 

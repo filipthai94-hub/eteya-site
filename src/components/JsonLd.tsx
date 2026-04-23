@@ -24,21 +24,14 @@ export const organizationSchema = {
   name: 'Eteya AI',
   legalName: 'Eteya Consulting AB',
   url: 'https://eteya.ai',
-  logo: 'https://eteya.ai/logo.png',
+  logo: 'https://eteya.ai/favicon-512x512.png',
   description: 'AI-konsulter som bygger automationer som faktiskt levererar resultat. Vi startade bolaget för att bevisa att AI inte bara låter bra på möten.',
   foundingDate: '2024-11',
-  founders: [
-    {
-      '@type': 'Person',
-      name: 'Filip Thai',
-      jobTitle: 'CEO & Founder',
-    },
-    {
-      '@type': 'Person',
-      name: 'Agit Akalp',
-      jobTitle: 'Co-founder',
-    },
-  ],
+  founder: {
+    '@type': 'Person',
+    name: 'Filip Thai',
+    jobTitle: 'CEO & Founder',
+  },
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Solhagsvägen 26A',
@@ -50,11 +43,13 @@ export const organizationSchema = {
     '@type': 'ContactPoint',
     contactType: 'customer service',
     email: 'kontakt@eteya.ai',
-    telephone: '', // Placeholder tills företagsabonnemang finns
     areaServed: 'SE',
     availableLanguage: ['Swedish', 'English'],
   },
   sameAs: [
+    'https://www.linkedin.com/company/eteya-consulting-ab/',
+    'https://www.instagram.com/eteyaconsultingab/',
+    'https://www.facebook.com/profile.php?id=61573471850082',
     'https://x.com/EteyaAI',
   ],
   vatID: 'SE559552739001',
@@ -168,7 +163,7 @@ export function createArticleSchema(article: {
       name: 'Eteya AI',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://eteya.ai/logo.png',
+        url: 'https://eteya.ai/favicon-512x512.png',
       },
     },
     url: article.url,

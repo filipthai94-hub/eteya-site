@@ -69,7 +69,7 @@ const getCaseStudySchema = (locale: string) => ({
     '@type': 'Organization',
     'name': 'Eteya Consulting AB',
     'url': 'https://eteya.ai',
-    'logo': 'https://eteya.ai/logo.png',
+    'logo': 'https://eteya.ai/favicon-512x512.png',
   },
   'citation': [
     locale === 'sv' ? '180 000 kr årlig besparing' : '180,000 SEK annual savings',
@@ -103,13 +103,7 @@ const getBreadcrumbSchema = (locale: string) => ({
   ],
 })
 
-const getOrganizationSchema = () => ({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  'name': 'Eteya Consulting AB',
-  'url': 'https://eteya.ai',
-  'logo': 'https://eteya.ai/logo.png',
-})
+// Organization schema provided globally by root layout (see src/components/JsonLd.tsx)
 
 export default async function NordicrankPage({
   params,
@@ -131,12 +125,6 @@ export default async function NordicrankPage({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationSchema())
           }}
         />
         <NordicrankCaseStudy />

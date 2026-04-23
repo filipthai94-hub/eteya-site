@@ -25,15 +25,17 @@ export async function GET() {
 
 ## Kontakt
 - **E-post:** kontakt@eteya.ai
-- **LinkedIn:** https://www.linkedin.com/company/eteya
-- **Twitter:** https://twitter.com/eteya
+- **LinkedIn:** https://www.linkedin.com/company/eteya-consulting-ab/
+- **Instagram:** https://www.instagram.com/eteyaconsultingab/
+- **Facebook:** https://www.facebook.com/profile.php?id=61573471850082
+- **X:** https://x.com/EteyaAI
 
 ## Företagsinformation
 - **Bolagsnamn:** Eteya Consulting AB
-- **Organisationsnummer:** [Hitta på bolagsverket.se]
+- **Organisationsnummer:** SE559552739001
 - **Adress:** Solhagsvägen 26A, 691 52 Karlskoga, Sverige
 - **Grundat:** November 2024
-- **Grundare:** Filip Thai (CEO), Agit Akalp (Co-founder)
+- **Grundare:** Filip Thai (CEO & Founder)
 `
 
   return new NextResponse(content, {

@@ -54,7 +54,7 @@ function TermsJsonLd({ locale }: { locale: string }) {
     publisher: {
       '@type': 'Organization',
       name: 'Eteya AI',
-      logo: `${BASE_URL}/logo.png`,
+      logo: `${BASE_URL}/favicon-512x512.png`,
     },
   }
   return (
