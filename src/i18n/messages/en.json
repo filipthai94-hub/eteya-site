@@ -47,7 +47,8 @@
       "termsHref": "/terms",
       "copyright": "© 2026 Eteya"
     },
-    "email": "kontakt@eteya.ai"
+    "email": "kontakt@eteya.ai",
+    "language": "Language"
   },
   "hero": {
     "role": "AI that drives your business",

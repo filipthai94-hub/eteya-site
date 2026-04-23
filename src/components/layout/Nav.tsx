@@ -472,17 +472,19 @@ export default function Nav() {
         .en-menu-location-header{display:flex;align-items:center;gap:4px}
         .en-menu-location-header .en-menu-label{margin:0}
         .en-menu-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184)}
-        .en-menu-location-content{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+
+        /* Language section */
+        .en-menu-language-section{display:flex;flex-direction:column;gap:12px}
         .en-menu-location-lang{display:flex;justify-content:flex-start}
 
         /* Socials */
         .en-menu-socials{display:flex;flex-direction:column;gap:16px}
         .en-social-icons{display:flex;gap:12px}
-        .en-social-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden;border-radius:6px}
-        .en-social-icon svg{width:18px;height:18px;fill:currentColor;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
-        .en-social-icon .icon-normal{position:absolute;top:0;left:0;transform:translateY(0);opacity:1;display:block}
-        .en-social-icon .icon-hover{position:absolute;top:0;left:0;transform:translateY(100%);opacity:0;display:block}
-        .en-social-icon:hover .icon-normal{transform:translateY(-100%);opacity:0}
+        .en-social-icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;color:rgb(222,222,222);text-decoration:none;position:relative;overflow:hidden}
+        .en-social-icon svg{width:20px;height:20px;fill:currentColor;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1);display:block}
+        .en-social-icon .icon-normal{position:absolute;top:50%;left:50%;margin-top:-10px;margin-left:-10px;transform:translateY(0);opacity:1}
+        .en-social-icon .icon-hover{position:absolute;top:50%;left:50%;margin-top:-10px;margin-left:-10px;transform:translateY(200%);opacity:0}
+        .en-social-icon:hover .icon-normal{transform:translateY(-200%);opacity:0}
         .en-social-icon:hover .icon-hover{transform:translateY(0);opacity:1}
 
         /* Section 3: Footer */
@@ -528,14 +530,16 @@ export default function Nav() {
         .en-lang-option.active{color:#fff;font-weight:600}
         .en-location{display:flex;align-items:center;gap:8px}
         .en-location-time{font-family:var(--font-body),sans-serif;font-size:14.5px;font-weight:600;letter-spacing:-.435px;line-height:21.75px;color:rgb(184,184,184);white-space:nowrap}
-        .en-lang-mobile{display:flex;gap:8px;align-items:center}
-        .en-lang-mobile-btn{position:relative;background:none;border:none;padding:8px;cursor:pointer;font-size:24px;line-height:1;transition:opacity .15s ease;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
-        .flag-normal{display:block;font-size:24px;transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
-        .flag-hover{display:block;font-size:24px;opacity:0;position:absolute;top:0;left:0;transform:perspective(1200px) translateY(100%);transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
-        .en-lang-mobile-btn:hover .flag-normal{transform:perspective(1200px) translateY(-100%);opacity:0}
-        .en-lang-mobile-btn:hover .flag-hover{transform:perspective(1200px) translateY(0);opacity:1}
+        .en-lang-mobile{display:flex;gap:12px;align-items:center}
+        .en-lang-mobile-btn{position:relative;background:none;border:none;padding:0;cursor:pointer;line-height:1;transition:opacity .25s ease;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden}
+        .flag-svg{width:24px;height:16px;border-radius:2px;overflow:hidden;display:block;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08)}
+        .flag-normal{transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1);transform:translateY(0);opacity:1}
+        .flag-hover{position:absolute;top:50%;left:50%;margin-top:-8px;margin-left:-12px;opacity:0;transform:translateY(200%);transition:transform .4s cubic-bezier(.25,1,.5,1),opacity .1s cubic-bezier(.25,1,.5,1)}
+        .en-lang-mobile-btn:hover .flag-normal{transform:translateY(-200%);opacity:0}
+        .en-lang-mobile-btn:hover .flag-hover{transform:translateY(0);opacity:1}
         .en-lang-mobile-btn.active{opacity:1}
         .en-lang-mobile-btn:not(.active){opacity:.45}
+        .en-lang-mobile-btn:not(.active):hover{opacity:1}
 
         /* ═══ NAV DARK MODE (over light backgrounds) ═══ */
         .en-topbar.nav-dark .en-logo-text,
@@ -597,11 +601,6 @@ export default function Nav() {
           .en-ham-btn.is-open .en-line-top{width:26.4px;top:16px}
           .en-ham-btn.is-open .en-line-mid{width:26.4px;top:16px}
           .en-location-city,.en-location-time,.en-work-text span,.en-work-count{font-size:15.95px;line-height:23.925px}
-          
-          /* Mobile only: show lang under location */
-          @media(max-width:809px){
-            .en-menu-location-lang{display:flex!important}
-          }
         }
       `}</style>
 
@@ -748,10 +747,12 @@ export default function Nav() {
                 <p className="en-menu-label">{t('location')}</p>
                 <span className="en-menu-location-time">{time}</span>
               </div>
-              <div className="en-menu-location-content">
-                <div className="en-menu-location-lang">
-                  <LanguageSwitcher inMobileMenu />
-                </div>
+            </div>
+
+            <div className="en-menu-language-section">
+              <p className="en-menu-label">{t('language')}</p>
+              <div className="en-menu-location-lang">
+                <LanguageSwitcher inMobileMenu />
               </div>
             </div>
 
