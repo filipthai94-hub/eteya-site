@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import { VaultClient } from '@/components/vault/VaultClient';
 import type { PersonData } from '@/components/vault/VaultDesktop';
 
-
-
 const agitPerson: PersonData = {
   name: 'Agit Akalp',
-  role: 'Medgrundare',
+  role: 'Partner',
   phone: '+46 72 300 00 75',
   email: 'kontakt@eteya.ai',
   website: 'eteya.ai',
@@ -32,11 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: isSv
-      ? 'Agit Akalp — Medgrundare | Eteya Consulting'
-      : 'Agit Akalp — Co-founder | Eteya Consulting',
+      ? 'Agit Akalp — Partner | Eteya Consulting'
+      : 'Agit Akalp — Partner | Eteya Consulting',
     description: isSv
-      ? 'Agit Akalp är medgrundare av Eteya Consulting AB. Kontakta Agit för AI-konsulting, mötesbokningar och mer.'
-      : 'Agit Akalp is co-founder of Eteya Consulting AB. Contact Agit for AI consulting, meeting bookings and more.',
+      ? 'Agit Akalp är partner på Eteya Consulting AB. AI-konsult med expertis inom AI-automation, AI-agenter och affärsutveckling. Boka strategimöte här.'
+      : 'Agit Akalp is partner at Eteya Consulting AB. AI consultant with expertise in AI automation, AI agents and business development. Book a strategy call here.',
     alternates: {
       canonical: url,
       languages: {
@@ -47,14 +44,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     openGraph: {
       title: 'Agit Akalp — Eteya Consulting',
-      description: isSv ? 'Medgrundare · AI Consulting' : 'Co-founder · AI Consulting',
+      description: isSv ? 'Partner · AI Consulting' : 'Partner · AI Consulting',
       url,
       images: [{ url: '/images/team/agit.png', width: 1200, height: 630, alt: 'Agit Akalp' }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: isSv ? 'Agit Akalp — Medgrundare | Eteya Consulting' : 'Agit Akalp — Co-founder | Eteya Consulting',
-      description: isSv ? 'Agit Akalp är medgrundare av Eteya Consulting AB.' : 'Agit Akalp is co-founder of Eteya Consulting AB.',
+      title: 'Agit Akalp — Partner | Eteya Consulting',
+      description: isSv ? 'Agit Akalp är partner på Eteya Consulting AB.' : 'Agit Akalp is partner at Eteya Consulting AB.',
       images: ['/images/team/agit.png'],
     },
   };
@@ -62,58 +59,74 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // ─── JSON-LD ─────────────────────────────────────────────────────────────────
 
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Agit Akalp',
-  jobTitle: 'Medgrundare',
-  worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
-  telephone: '+46723000075',
-  email: 'kontakt@eteya.ai',
-  url: 'https://eteya.ai/om-oss/agit',
-  sameAs: ['https://www.linkedin.com/in/agit-akalp-15701b325/'],
-  image: 'https://eteya.ai/images/team/agit.png',
-  address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
-};
+function getSchemas(locale: string) {
+  const isSv = locale === 'sv';
+  const pagePath = isSv ? '/sv/om-oss/agit' : '/en/about/agit';
+  const url = `https://eteya.ai${pagePath}`;
+  const rootPath = isSv ? '/sv' : '/en';
+  const aboutPath = isSv ? '/sv/om-oss' : '/en/about';
 
-const profilePageSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfilePage',
-  name: 'Agit Akalp — Eteya Consulting',
-  description: 'Agit Akalp är medgrundare av Eteya Consulting AB. Grundare av Telestore med över 10 års entreprenörserfarenhet.',
-  url: 'https://eteya.ai/om-oss/agit',
-  mainEntity: personSchema,
-};
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Agit Akalp',
+    jobTitle: 'Partner',
+    worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
+    telephone: '+46723000075',
+    email: 'kontakt@eteya.ai',
+    url,
+    sameAs: ['https://www.linkedin.com/in/agit-akalp-15701b325/'],
+    image: 'https://eteya.ai/images/team/agit.png',
+    address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
+  };
 
-const agitBreadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Hem', item: 'https://eteya.ai/sv' },
-    { '@type': 'ListItem', position: 2, name: 'Om Oss', item: 'https://eteya.ai/sv/om-oss' },
-    { '@type': 'ListItem', position: 3, name: 'Agit Akalp', item: 'https://eteya.ai/sv/om-oss/agit' },
-  ],
-};
+  const profilePageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: 'Agit Akalp — Eteya Consulting',
+    description: isSv
+      ? 'Agit Akalp är partner på Eteya Consulting AB. AI-konsult med expertis inom automation och affärsutveckling.'
+      : 'Agit Akalp is partner at Eteya Consulting AB. AI consultant with expertise in automation and business development.',
+    url,
+    mainEntity: personSchema,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: isSv ? 'Hem' : 'Home', item: `https://eteya.ai${rootPath}` },
+      { '@type': 'ListItem', position: 2, name: isSv ? 'Om Oss' : 'About', item: `https://eteya.ai${aboutPath}` },
+      { '@type': 'ListItem', position: 3, name: 'Agit Akalp', item: url },
+    ],
+  };
+
+  return { personSchema, profilePageSchema, breadcrumbSchema };
+}
 
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 
-export default function AgitPage() {
+export default async function AgitPage({ params }: Props) {
+  const { locale } = await params;
+  const { personSchema, profilePageSchema, breadcrumbSchema } = getSchemas(locale);
+
   return (
     <>
-      <Script
-        id="person-schema"
+      {/* Plain <script> tags so JSON-LD is in the initial SSR HTML
+          and readable by Googlebot + AI crawlers. Next.js <Script>
+          defers and injects client-side, making the schemas invisible
+          to crawlers reading the initial HTML. */}
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <Script
-        id="profile-page-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
       />
-      <Script
-        id="breadcrumb-schema"
+      <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(agitBreadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Responsiv CSS — ingen Tailwind-dependency */}

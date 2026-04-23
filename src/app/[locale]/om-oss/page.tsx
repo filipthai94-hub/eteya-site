@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { JsonLd, organizationSchema, createPersonSchema, createBreadcrumbSchema } from '@/components/JsonLd'
+import { JsonLd, createPersonSchema, createBreadcrumbSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import AboutHeroClient from '@/components/sections/AboutHeroClient'
 import WhyEteyaOmOssWrapper from '@/components/sections/WhyEteyaOmOssWrapper'
@@ -66,9 +66,10 @@ export default async function AboutPage({
     })
   )
 
+  // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
+  // The <main> element is provided by the locale layout (#main-content).
   return (
     <>
-      <JsonLd data={organizationSchema} />
       {personSchemas.map((schema, i) => <JsonLd key={i} data={schema} />)}
       <JsonLd data={{
         '@context': 'https://schema.org',
@@ -76,21 +77,20 @@ export default async function AboutPage({
         name: locale === 'sv' ? 'Om Oss | Eteya AI' : 'About | Eteya AI',
         description: locale === 'sv' ? 'Lär känna teamet bakom Eteya AI — AI-konsulter som bygger automationer som levererar resultat.' : 'Meet the team behind Eteya AI — AI consultants building automations that deliver results.',
         url: `https://eteya.ai/${locale === 'sv' ? 'sv/om-oss' : 'en/about'}`,
-        mainEntity: organizationSchema,
       }} />
       <JsonLd data={createBreadcrumbSchema([
         { position: 1, name: locale === 'sv' ? 'Hem' : 'Home', item: `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}` },
         { position: 2, name: locale === 'sv' ? 'Om Oss' : 'About', item: `https://eteya.ai/${locale === 'sv' ? 'sv/om-oss' : 'en/about'}` },
       ])} />
       <Nav />
-      <main className="page-content">
+      <div className="page-content">
         <AboutHeroClient />
         <WhyEteyaOmOssWrapper />
         <SocialProof />
         <Team />
         <FAQSection />
         <FooterCTAClient />
-      </main>
+      </div>
     </>
   )
 }

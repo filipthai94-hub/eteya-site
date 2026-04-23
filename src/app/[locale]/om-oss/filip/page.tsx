@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 import { VaultClient } from '@/components/vault/VaultClient';
 import type { PersonData } from '@/components/vault/VaultDesktop';
-
-
 
 const filipPerson: PersonData = {
   name: 'Filip Thai',
@@ -35,8 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? 'Filip Thai — Grundare & VD | Eteya Consulting'
       : 'Filip Thai — CEO & Founder | Eteya Consulting',
     description: isSv
-      ? 'Filip Thai är grundare och VD för Eteya Consulting AB. Kontakta Filip för AI-konsulting, mötesbokningar och mer.'
-      : 'Filip Thai is founder and CEO of Eteya Consulting AB. Contact Filip for AI consulting, meeting bookings and more.',
+      ? 'Filip Thai är grundare och VD för Eteya Consulting AB. AI-konsult med expertis inom AI-automation, AI-agenter och affärsstrategi. Boka strategimöte här.'
+      : 'Filip Thai is founder and CEO of Eteya Consulting AB. AI consultant with expertise in AI automation, AI agents and business strategy. Book a strategy call here.',
     alternates: {
       canonical: url,
       languages: {
@@ -62,58 +59,74 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // ─── JSON-LD ─────────────────────────────────────────────────────────────────
 
-const personSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Filip Thai',
-  jobTitle: 'Grundare & VD',
-  worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
-  telephone: '+46739823962',
-  email: 'kontakt@eteya.ai',
-  url: 'https://eteya.ai/om-oss/filip',
-  sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
-  image: 'https://eteya.ai/images/team/filip.png',
-  address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
-};
+function getSchemas(locale: string) {
+  const isSv = locale === 'sv';
+  const pagePath = isSv ? '/sv/om-oss/filip' : '/en/about/filip';
+  const url = `https://eteya.ai${pagePath}`;
+  const rootPath = isSv ? '/sv' : '/en';
+  const aboutPath = isSv ? '/sv/om-oss' : '/en/about';
 
-const profilePageSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfilePage',
-  name: 'Filip Thai — Eteya Consulting',
-  description: 'Filip Thai är grundare och VD för Eteya Consulting AB. AI-konsult med expertis inom automation och affärsstrategi.',
-  url: 'https://eteya.ai/om-oss/filip',
-  mainEntity: personSchema,
-};
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Filip Thai',
+    jobTitle: isSv ? 'Grundare & VD' : 'CEO & Founder',
+    worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
+    telephone: '+46739823962',
+    email: 'kontakt@eteya.ai',
+    url,
+    sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
+    image: 'https://eteya.ai/images/team/filip.png',
+    address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
+  };
 
-const filipBreadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Hem', item: 'https://eteya.ai/sv' },
-    { '@type': 'ListItem', position: 2, name: 'Om Oss', item: 'https://eteya.ai/sv/om-oss' },
-    { '@type': 'ListItem', position: 3, name: 'Filip Thai', item: 'https://eteya.ai/sv/om-oss/filip' },
-  ],
-};
+  const profilePageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: 'Filip Thai — Eteya Consulting',
+    description: isSv
+      ? 'Filip Thai är grundare och VD för Eteya Consulting AB. AI-konsult med expertis inom automation och affärsstrategi.'
+      : 'Filip Thai is founder and CEO of Eteya Consulting AB. AI consultant with expertise in automation and business strategy.',
+    url,
+    mainEntity: personSchema,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: isSv ? 'Hem' : 'Home', item: `https://eteya.ai${rootPath}` },
+      { '@type': 'ListItem', position: 2, name: isSv ? 'Om Oss' : 'About', item: `https://eteya.ai${aboutPath}` },
+      { '@type': 'ListItem', position: 3, name: 'Filip Thai', item: url },
+    ],
+  };
+
+  return { personSchema, profilePageSchema, breadcrumbSchema };
+}
 
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 
-export default function FilipPage() {
+export default async function FilipPage({ params }: Props) {
+  const { locale } = await params;
+  const { personSchema, profilePageSchema, breadcrumbSchema } = getSchemas(locale);
+
   return (
     <>
-      <Script
-        id="person-schema"
+      {/* Plain <script> tags so JSON-LD is in the initial SSR HTML
+          and readable by Googlebot + AI crawlers. Next.js <Script>
+          defers and injects client-side, making the schemas invisible
+          to crawlers reading the initial HTML. */}
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <Script
-        id="profile-page-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
       />
-      <Script
-        id="breadcrumb-schema"
+      <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(filipBreadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Responsiv CSS — ingen Tailwind-dependency */}
