@@ -169,8 +169,13 @@ export function VaultLock({
         <circle cx="300" cy="300" r="215" fill="url(#vl-lensGlass)" />
 
         {/* Portrait — SVG-native image with clipPath iris-fade */}
+        {/* role/aria-label so screen readers + Google Image Search see
+            the portrait. Without these, the image is invisible to a11y
+            tools since it's rendered via SVG <image> (not <img>). */}
         <image
           href={image}
+          role="img"
+          aria-label={engraving}
           x="100" y="100" width="400" height="400"
           preserveAspectRatio="xMidYMid slice"
           clipPath="url(#vl-photoClip)"

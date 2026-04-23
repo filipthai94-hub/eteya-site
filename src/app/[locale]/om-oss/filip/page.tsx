@@ -123,6 +123,22 @@ export default async function FilipPage({ params }: Props) {
           : 'Filip Thai — CEO & Founder | Eteya Consulting'}
       </h1>
 
+      {/* Visually-hidden portrait for Google Image Search + screen
+          readers. The Vault component renders the photo client-side
+          only (ssr: false), so without this tag the image is invisible
+          to SSR crawlers. This duplicate is a sr-only <img> that
+          serves no visual purpose but gives Googlebot alt-text to
+          index in Image Search. */}
+      <img
+        src="/images/team/filip.png"
+        alt={isSv
+          ? 'Porträtt av Filip Thai, Grundare och VD på Eteya Consulting'
+          : 'Portrait of Filip Thai, CEO and Founder at Eteya Consulting'}
+        width={600}
+        height={600}
+        className="sr-only"
+      />
+
       {/* Plain <script> tags so JSON-LD is in the initial SSR HTML
           and readable by Googlebot + AI crawlers. Next.js <Script>
           defers and injects client-side, making the schemas invisible
