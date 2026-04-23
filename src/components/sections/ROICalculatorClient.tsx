@@ -488,7 +488,7 @@ export default function ROITestClient() {
   }, [totals.ok, totals.y1, totals.totalHrs, totals.pb, F1])
 
   return (
-    <main className={s.root}>
+    <section className={s.root}>
       <div className={s.wrap}>
 
         {/* ── Header ── */}
@@ -727,6 +727,6 @@ export default function ROITestClient() {
         </div>,
         document.body
       )}
-    </main>
+    </section>
   )
 }

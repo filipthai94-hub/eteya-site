@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { JsonLd, organizationSchema, webSiteSchema } from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import Hero from '@/components/sections/Hero'
 import MarqueeSection from '@/components/sections/Marquee'
@@ -61,30 +60,27 @@ export default async function Home({
 }: {
   params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
-
+  // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
+  // The <main> element is provided by the locale layout ("#main-content").
   return (
     <>
-      <JsonLd data={organizationSchema} />
-      <JsonLd data={webSiteSchema} />
-    <Nav />
-    <main className="page-content">
-      <Hero />
-      <MarqueeSection />
-      <Services />
-      <Stats />
-      <ScrollOnLoad />
-      <div id="roi-calculator">
-        <ROICalculatorSection />
+      <Nav />
+      <div className="page-content">
+        <Hero />
+        <MarqueeSection />
+        <Services />
+        <Stats />
+        <div id="roi-calculator">
+          <ROICalculatorSection />
+        </div>
+        <JoinTheBest />
+        <Cases params={params} />
+        <ProcessSection />
+        <TechStack />
+        <FAQSection />
+        <FooterCTAClient />
       </div>
-      <JoinTheBest />
-      <Cases params={params} />
-      <ProcessSection />
-      <TechStack />
-      <FAQSection />
-      <FooterCTAClient />
-    </main>
-    <ScrollOnLoad />
+      <ScrollOnLoad />
     </>
   )
 }
