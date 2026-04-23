@@ -54,8 +54,6 @@ export default function HeroClient({
   return (
     <section ref={heroRef} id="hero" style={{
       position: 'relative',
-      height: '100vh',
-      minHeight: '600px',
       backgroundColor: '#080808',
       display: 'flex',
       flexDirection: 'column',
@@ -68,6 +66,18 @@ export default function HeroClient({
       contain: 'paint',
     }}>
       <style>{`
+        /* ── Hero height: small viewport height with safe fallback ── */
+        /* 100vh on iOS Safari measures the LARGEST viewport (when URL
+           bar is hidden), so hero overflows and the top gets clipped
+           behind the status bar / Dynamic Island on load. 100svh is
+           the "small viewport height" — always fits the visible area,
+           no matter what browser chrome is showing. Older browsers
+           that don't understand svh fall back to the 100vh rule. */
+        #hero {
+          min-height: 600px;
+          height: 100vh;       /* fallback: pre-Safari 15.4, pre-Chrome 108 */
+          height: 100svh;      /* modern iOS 15.4+ / Chrome 108+ / Firefox 101+ */
+        }
         /* ── Shader background layer ── */
         .hero-bg {
           position: absolute;

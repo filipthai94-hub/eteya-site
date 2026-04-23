@@ -8,7 +8,16 @@ import MotionProvider from '@/components/animations/MotionProvider'
 import ScrollReset from '@/components/ui/ScrollReset'
 import TransitionProvider from '@/components/animations/TransitionProvider'
 import '../globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+// viewportFit: 'cover' lets content flow into the iPhone safe-area
+// (Dynamic Island, notch). Required for iOS 26+ Safari so hero
+// heights calculated with 100svh sit correctly below the status bar.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 // ── Fonts ──
 const display = Barlow_Condensed({
