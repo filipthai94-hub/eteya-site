@@ -9,6 +9,14 @@ export const routing = defineRouting({
       sv: '/om-oss',
       en: '/about'
     },
+    '/om-oss/filip': {
+      sv: '/om-oss/filip',
+      en: '/about/filip'
+    },
+    '/om-oss/agit': {
+      sv: '/om-oss/agit',
+      en: '/about/agit'
+    },
     '/kontakt': {
       sv: '/kontakt',
       en: '/contact'
