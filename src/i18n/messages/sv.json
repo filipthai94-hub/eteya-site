@@ -349,7 +349,8 @@
     "submit": "Skicka förfrågan",
     "submit_loading": "Skickar...",
     "success": "Tack! Vi hör av oss inom 1 vardag.",
-    "error": "Något gick fel. Försök igen eller maila oss på kontakt@eteya.ai"
+    "error": "Något gick fel. Försök igen eller maila oss på kontakt@eteya.ai",
+    "socialMediaHeading": "Följ oss på sociala medier"
   },
   "footer": {
     "tagline": "AI som driver ditt företag.",

@@ -349,7 +349,8 @@
     "submit": "Send request",
     "submit_loading": "Sending...",
     "success": "Thank you! We'll be in touch within 1 business day.",
-    "error": "Something went wrong. Please try again or email us at kontakt@eteya.ai"
+    "error": "Something went wrong. Please try again or email us at kontakt@eteya.ai",
+    "socialMediaHeading": "Follow us on social media"
   },
   "footer": {
     "tagline": "AI that runs your business.",
