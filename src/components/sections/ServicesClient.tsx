@@ -1,6 +1,5 @@
 'use client'
 import { useEffect } from 'react'
-import Image from 'next/image'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
 
@@ -155,7 +154,8 @@ const CSS = `
   #services-section .service-desc     { grid-column: 1; grid-row: 1; }
   #services-section .service-list     { grid-column: 1; grid-row: 2; }
   #services-section .eteya-btn        { grid-column: 1; grid-row: 3; }
-  #services-section .service-media img {
+  #services-section .service-media img,
+  #services-section .service-media video {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -340,7 +340,32 @@ export default function ServicesClient({ heading, cta, items }: {
           <div className="service-inner">
             <div className="service-content">
               <a className="service-media" href="#contact">
-                <Image src={`/images/service-${item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'}.png`} loading="lazy" alt={item.title} width={1524} height={964} />
+                {(() => {
+                  const slug = item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'
+                  return (
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      poster={`/images/service-${slug}-poster.webp`}
+                      aria-label={item.title}
+                      width={1920}
+                      height={1200}
+                    >
+                      <source
+                        media="(max-width: 768px)"
+                        src={`/videos/service-${slug}-mobile.mp4`}
+                        type="video/mp4"
+                      />
+                      <source
+                        src={`/videos/service-${slug}.mp4`}
+                        type="video/mp4"
+                      />
+                    </video>
+                  )
+                })()}
               </a>
               <span className="svc-content-title">{item.title}</span>
               <p className="service-desc">{item.description}</p>
