@@ -435,7 +435,13 @@ const CSS = `
       padding: 20px 16px 24px !important;
       gap: 20px;
     }
-    #cases-section .case-media { grid-row: 1; padding: 1.5rem; }
+    #cases-section .case-media {
+      grid-row: 1;
+      padding: 1.5rem;
+      width: auto !important;
+      margin-left: -32px !important;
+      margin-right: -32px !important;
+    }
     #cases-section .case-media > img,
     #cases-section .ts-brand > img { max-width: 64%; max-height: 52%; }
     #cases-section .case-media--telestore { padding: 0; }
