@@ -249,6 +249,13 @@ const CSS = `
     #services-section .service-media {
       grid-column: 1 !important;
       grid-row: 1 !important;
+      /* Break out of .service-content (16px) and eat most of .service-inner
+         padding (32px), leaving 16px of breathing room to the screen edge.
+         -32px on each side gets us from a 294px container to 358px (out of
+         390px iPhone viewport) = 16px from each screen edge. Text blocks
+         keep their padding for readable line-length. */
+      margin-left: -32px !important;
+      margin-right: -32px !important;
     }
     #services-section .svc-content-title {
       display: block !important;
