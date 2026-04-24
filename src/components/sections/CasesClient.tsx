@@ -110,6 +110,11 @@ const CSS = `
     align-content: start;
     transition: grid-template-rows var(--cubic-1);
     border-bottom: 0.0625rem solid rgba(var(--rgb-white), 0.1);
+    /* Scroll-target: matchar globals.css-mönstret för #services-section/#cases-section.
+       Lenis scrollTo() läser scroll-margin-top (rad 748 i lenis.mjs) och backar
+       scroll-positionen med detta värde. Tillsammans med html { scroll-padding-top: 80px }
+       och offset: navH + 15 i click-handlern landar kortets topp strax under nav-headern. */
+    scroll-margin-top: 80px;
   }
   #cases-section .case-card:first-child {
     border-top: 0.0625rem solid rgba(var(--rgb-white), 0.1);
@@ -576,6 +581,19 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
           const media = card.querySelector('.case-media--telestore') as HTMLElement | null
           if (media?.classList.contains('is-ready')) {
             startTelestoreSequence(media)
+          }
+
+          // Scrolla kortets topp strax under nav-headern — endast när kortet ÖPPNAS.
+          // Samma Lenis-mönster som ServicesClient / Nav.tsx / ScrollOnLoad / ScrollReset,
+          // så scroll-authority förblir Lenis (ingen native-scroll-konflikt).
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          const navH = (document.querySelector('.en-topbar') as HTMLElement | null)?.offsetHeight ?? 80
+          if (window.__lenis) {
+            window.__lenis.scrollTo(card, {
+              offset: navH + 15,
+              duration: reduce ? 0 : 1.2,
+              immediate: reduce,
+            })
           }
         }
 

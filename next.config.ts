@@ -11,6 +11,12 @@ const nextConfig: NextConfig = {
     // fallback for ancient browsers. AVIF first (~50% smaller than
     // JPEG), WebP second (~25-35% smaller), original as last resort.
     formats: ['image/avif', 'image/webp'],
+    // Cacha optimerade bilder i 31 dagar (2 678 400 sekunder) på CDN-edgen.
+    // Default är 60 sekunder, vilket får Vercel att re-optimera varje bild
+    // varje minut → onödig kostnad + långsam första visning för nya besökare.
+    // Våra bilder är versionshashade via /public, så lång TTL är säker —
+    // en ny bild får nytt filnamn och undviker stale-cache helt.
+    minimumCacheTTL: 2678400,
     remotePatterns: [
       { protocol: 'https' as const, hostname: 'images.unsplash.com' },
     ],
