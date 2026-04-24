@@ -249,6 +249,11 @@ const CSS = `
     #services-section .service-media {
       grid-column: 1 !important;
       grid-row: 1 !important;
+      /* Override desktop's width: 100% so negative margins can expand
+         the element's rendered width (not just shift it horizontally).
+         Without width: auto, width stays locked and the video just
+         slides to the left instead of getting wider. */
+      width: auto !important;
       /* Break out of .service-content (16px) and eat most of .service-inner
          padding (32px), leaving 16px of breathing room to the screen edge.
          -32px on each side gets us from a 294px container to 358px (out of
