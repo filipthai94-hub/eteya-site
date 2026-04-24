@@ -63,7 +63,7 @@ export async function generateMetadata({
       description: m.ogDescription,
       url: `${BASE_URL}${currentPath}`,
       siteName: 'Eteya',
-      images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'Eteya AI' }],
+      images: [{ url: `/images/og/og-home-${locale}.jpg`, width: 1200, height: 630, alt: 'Eteya AI' }],
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
       type: 'website',
     },
@@ -71,7 +71,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: m.title,
       description: m.ogDescription,
-      images: ['/images/og-image.jpg'],
+      images: [`/images/og/og-home-${locale}.jpg`],
     },
   }
 }

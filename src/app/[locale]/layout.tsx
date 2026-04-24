@@ -79,6 +79,7 @@ export async function generateMetadata({
   const m = META[locale] ?? META.sv
 
   return {
+    metadataBase: new URL(BASE_URL),
     title: m.title,
     description: m.description,
     alternates: {

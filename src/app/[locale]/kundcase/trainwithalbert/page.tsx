@@ -41,11 +41,13 @@ export async function generateMetadata({
       siteName: 'Eteya',
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
+      images: [{ url: `/images/og/og-trainwithalbert-${locale}.jpg`, width: 1200, height: 630, alt: t('title') }],
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
+      images: [`/images/og/og-trainwithalbert-${locale}.jpg`],
     },
   }
 }
