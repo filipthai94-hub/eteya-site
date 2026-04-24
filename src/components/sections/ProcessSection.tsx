@@ -13,9 +13,9 @@ interface Block {
 }
 
 const BG_IMAGES = [
-  '/images/process/eteya-brain.png',
-  '/images/process/eteya-arm.png',
-  '/images/process/eteya-figure.png',
+  '/images/process/eteya-brain.webp',
+  '/images/process/eteya-arm.webp',
+  '/images/process/eteya-figure.webp',
 ]
 
 export default async function ProcessSection() {

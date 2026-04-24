@@ -41,11 +41,11 @@ function getCaseLogo(slug: string) {
 }
 
 const CASE_LIVE_SHOTS: Record<string, string> = {
-  telestore: '/images/cases/telestore-home-full.png',
-  nordicrank: '/images/cases/nordicrank-home-full.png',
-  sannegarden: '/images/cases/sannegarden-home-full.png',
-  trainwithalbert: '/images/cases/trainwithalbert-home-full.png',
-  'skg-stockholm': '/images/cases/skg-stockholm-home-full.png',
+  telestore: '/images/cases/telestore-home-full.webp',
+  nordicrank: '/images/cases/nordicrank-home-full.webp',
+  sannegarden: '/images/cases/sannegarden-home-full.webp',
+  trainwithalbert: '/images/cases/trainwithalbert-home-full.webp',
+  'skg-stockholm': '/images/cases/skg-stockholm-home-full.webp',
 }
 
 function hasLiveCaseMedia(slug: string) {

@@ -13,7 +13,7 @@ const filipPerson: PersonData = {
   calUrl: 'https://cal.com/eteya-ai/strategimote',
   vcfHref: '/filip-thai.vcf',
   vcfDownload: 'Filip-Thai.vcf',
-  image: '/images/team/filip.png',
+  image: '/images/team/filip.webp',
   engraving: 'FILIP THAI',
   initials: 'F.T.',
 };
@@ -46,13 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: 'Filip Thai — Eteya Consulting',
       description: isSv ? 'Grundare & VD · AI Consulting' : 'CEO & Founder · AI Consulting',
       url,
-      images: [{ url: '/images/team/filip.png', width: 1200, height: 630, alt: 'Filip Thai' }],
+      images: [{ url: '/images/team/filip.webp', width: 1200, height: 630, alt: 'Filip Thai' }],
     },
     twitter: {
       card: 'summary_large_image',
       title: isSv ? 'Filip Thai — Grundare & VD | Eteya Consulting' : 'Filip Thai — CEO & Founder | Eteya Consulting',
       description: isSv ? 'Filip Thai är grundare och VD för Eteya Consulting AB.' : 'Filip Thai is founder and CEO of Eteya Consulting AB.',
-      images: ['/images/team/filip.png'],
+      images: ['/images/team/filip.webp'],
     },
   };
 }
@@ -76,7 +76,7 @@ function getSchemas(locale: string) {
     email: 'kontakt@eteya.ai',
     url,
     sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
-    image: 'https://eteya.ai/images/team/filip.png',
+    image: 'https://eteya.ai/images/team/filip.webp',
     address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
   };
 
@@ -130,7 +130,7 @@ export default async function FilipPage({ params }: Props) {
           serves no visual purpose but gives Googlebot alt-text to
           index in Image Search. */}
       <img
-        src="/images/team/filip.png"
+        src="/images/team/filip.webp"
         alt={isSv
           ? 'Porträtt av Filip Thai, Grundare och VD på Eteya Consulting'
           : 'Portrait of Filip Thai, CEO and Founder at Eteya Consulting'}

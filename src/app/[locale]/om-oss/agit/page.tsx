@@ -13,7 +13,7 @@ const agitPerson: PersonData = {
   calUrl: 'https://cal.com/eteya-ai/strategimote',
   vcfHref: '/agit-akalp.vcf',
   vcfDownload: 'Agit-Akalp.vcf',
-  image: '/images/team/agit.png',
+  image: '/images/team/agit.webp',
   engraving: 'AGIT AKALP',
   initials: 'A.A.',
 };
@@ -46,13 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: 'Agit Akalp — Eteya Consulting',
       description: isSv ? 'Partner · AI Consulting' : 'Partner · AI Consulting',
       url,
-      images: [{ url: '/images/team/agit.png', width: 1200, height: 630, alt: 'Agit Akalp' }],
+      images: [{ url: '/images/team/agit.webp', width: 1200, height: 630, alt: 'Agit Akalp' }],
     },
     twitter: {
       card: 'summary_large_image',
       title: 'Agit Akalp — Partner | Eteya Consulting',
       description: isSv ? 'Agit Akalp är partner på Eteya Consulting AB.' : 'Agit Akalp is partner at Eteya Consulting AB.',
-      images: ['/images/team/agit.png'],
+      images: ['/images/team/agit.webp'],
     },
   };
 }
@@ -76,7 +76,7 @@ function getSchemas(locale: string) {
     email: 'kontakt@eteya.ai',
     url,
     sameAs: ['https://www.linkedin.com/in/agit-akalp-15701b325/'],
-    image: 'https://eteya.ai/images/team/agit.png',
+    image: 'https://eteya.ai/images/team/agit.webp',
     address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
   };
 
@@ -125,7 +125,7 @@ export default async function AgitPage({ params }: Props) {
           serves no visual purpose but gives Googlebot alt-text to
           index in Image Search. */}
       <img
-        src="/images/team/agit.png"
+        src="/images/team/agit.webp"
         alt={locale === 'sv'
           ? 'Porträtt av Agit Akalp, Partner på Eteya Consulting'
           : 'Portrait of Agit Akalp, Partner at Eteya Consulting'}

@@ -1,10 +1,16 @@
 import createNextIntlPlugin from 'next-intl/plugin'
+import type { NextConfig } from 'next'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   allowedDevOrigins: ['filip.tail607c86.ts.net', '100.84.47.62'],
   images: {
+    // Serve AVIF + WebP automatically to supporting browsers when
+    // images are loaded via next/image. PNG stays on disk as source +
+    // fallback for ancient browsers. AVIF first (~50% smaller than
+    // JPEG), WebP second (~25-35% smaller), original as last resort.
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https' as const, hostname: 'images.unsplash.com' },
     ],

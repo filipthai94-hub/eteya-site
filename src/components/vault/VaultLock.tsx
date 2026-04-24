@@ -14,7 +14,7 @@ interface VaultLockProps {
 
 export function VaultLock({
   monogramVisible, unlocked, settled, tick, scannerAngle, pulse,
-  image = '/images/team/filip.png',
+  image = '/images/team/filip.webp',
   engraving = 'FILIP THAI',
   initials = 'F.T.',
 }: VaultLockProps) {
