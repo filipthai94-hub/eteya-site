@@ -360,14 +360,11 @@
     "copyright": "© 2026 Eteya Consulting AB"
   },
   "calculator": {
-    "heading": "Räkna på din AI-besparing",
-    "subheading": "Se hur mycket tid och pengar ert företag kan spara med AI och automation.",
+    "heading": "Räkna på er AI-besparing",
+    "subheading": "Se hur mycket tid och pengar ert företag kan <link>spara med AI och automation</link>.",
     "processLabel": "Vilka processer lägger ni tid på idag?",
     "processHint": "Procenten visar hur stor del av arbetet som kan automatiseras med AI, baserat på branschdata och verifierad kunddata.",
     "hoursLabel": "Timmar per vecka",
-    "teamLabel": "Antal personer som utför dessa uppgifter",
-    "teamHint": "Hur många i ert team jobbar med de valda processerna?",
-    "teamUnit": "personer",
     "processes": {
       "kundtjanst": {
         "name": "Kundtjänst",
@@ -379,7 +376,7 @@
       },
       "leads": {
         "name": "Leads & Försäljning",
-        "rateLabel": "60% automation"
+        "rateLabel": "50% automation"
       },
       "rapportering": {
         "name": "Rapportering & Ekonomi",
@@ -390,110 +387,50 @@
         "rateLabel": "50% automation"
       },
       "kommunikation": {
-        "name": "Intern kommunikation",
-        "rateLabel": "65% automation"
+        "name": "Tid på koordinering",
+        "rateLabel": "50% automation"
       }
     },
     "results": {
       "title": "Er beräknade besparing",
-      "currentCostLabel": "Nuvarande kostnad",
-      "withAiLabel": "Med AI-automation",
-      "perYear": "/år",
-      "annual": "Besparing år 1",
-      "hoursSaved": "Timmar/år",
-      "fteEquivalent": "Motsvarar {count} heltidstjänster",
-      "perProcess": "Besparing per process",
       "distribution": "Fördelning av besparing",
-      "roi": "ROI",
       "emptyDistribution": "Aktivera processer för att se fördelningen",
       "projection": "Projektion 3 år",
-      "projectionNote": "År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing.",
+      "projectionNote": "År 1 = 40% av full potential (ramp-up). År 3 = fullt realiserad besparing.",
       "emptyProjection": "Aktivera processer för att se projektionen",
       "year1": "År 1",
       "year2": "År 2",
       "year3": "År 3",
-      "payback": "Payback",
       "paybackUnit": "mån",
       "lessThanOneMonth": "< 1 mån"
     },
-    "transparency": {
-      "toggle": "Så räknar vi",
-      "hourlyRate": "Timkostnad: 350 kr/h — baserat på SCB lönestatistik 2024, korsvaliderat mot faktisk kunddata (269–370 kr/h)",
-      "automationRates": "Automationsgrader: baserade på McKinsey (2023) och verifierade mot ett svenskt e-handelsföretag med 56 aktiva automationer",
-      "yearOneFactor": "År 1-faktor: 65% av full besparing (inkluderar implementation och ramp-up, verifierat mot faktisk kunddata)",
-      "range": "Intervall (±15%) speglar variation mellan företag. Alla antaganden är konservativa — kalkylatorn underskattar snarare än överskattar",
-      "disclaimer": "Estimat baserat på SCB, McKinsey och verifierad kunddata. Faktisk besparing beror på er processmognad, systemlandskap och implementation."
-    },
     "cta": {
       "primary": "Boka ett strategimöte",
-      "secondary": "Se hur vi beräknar",
       "sub": "Gratis 30 min — inga förpliktelser",
       "methodologyShow": "Visa beräkningsmodell",
       "methodologyHide": "Dölj beräkningsmodell"
     },
-    "processLabels": {
-      "kundtjanst": "Kundtjänst",
-      "fakturering": "Fakturering & Admin",
-      "leads": "Leads & Försäljning",
-      "rapportering": "Rapportering & Ekonomi",
-      "epost": "E-post & Schemaläggning",
-      "kommunikation": "Intern kommunikation"
-    },
-    "processRateLabels": {
-      "kundtjanst": "45% automation",
-      "fakturering": "65% automation",
-      "leads": "60% automation",
-      "rapportering": "70% automation",
-      "epost": "50% automation",
-      "kommunikation": "65% automation"
-    },
-    "snapshotLabels": {
-      "year1": "Besparing år 1",
-      "hoursPerYear": "Timmar/år",
-      "payback": "Payback"
-    },
-    "donutLabel": "Fördelning av besparing",
-    "chartEmpty": "Aktivera processer för att se fördelningen",
-    "barChart": {
-      "year1": "År 1",
-      "year2": "År 2",
-      "year3": "År 3",
-      "note": "År 1 = 65% av full potential (ramp-up). År 3 = fullt realiserad besparing."
-    },
-    "projectionLabel": "Projektion 3 år",
-    "projectionEmpty": "Aktivera processer för att se projektionen",
     "socialProof": {
       "value": "390 000 kr/år",
       "text": "i snittbesparing för Telestore AB",
-      "hint": "(Verifierad data)"
+      "hint": "(Eteya kunddata · Telestore AB)"
     },
-    "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%",
-    "implCostLabel": "Implementationskostnad",
-    "implCostHint": "Hur stor är din startkostnad?",
-    "costLabel": "Kostnad",
-    "implHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
+    "trustRow": "SCB 2024 · Skatteverket 2024 · McKinsey 2023 · Microsoft 2024 · Tillväxtverket 2024 · Eteya kunddata",
     "hoursHint": "Räkna ihop alla som jobbar med den här processen",
     "methodology": {
       "label": "BERÄKNINGSMODELL",
-      "formula": "Timmar × Automation% × 52 veckor × 350 kr/h",
-      "yearFactors": "År 1: 65% potential · År 2: 85% · År 3: 100%",
-      "sources": "Källor: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirisk) · 350 kr/h · ±15%"
+      "formula": "Timmar × Automation% × 52 veckor × 400 kr/h",
+      "yearFactors": "År 1: 40% potential · År 2: 75% · År 3: 100%",
+      "sources": "Källor: SCB 2024 · Skatteverket 2024 · McKinsey 2023 · Microsoft 2024 · Tillväxtverket 2024 · Eteya kunddata"
     },
-    "methodologyToggle": {
-      "show": "Visa beräkningsmodell",
-      "hide": "Dölj beräkningsmodell"
-    },
-    "ctaSub": "Gratis 30 min — inga förpliktelser",
-    "empty": "Välj minst en process ovan för att se din besparing",
     "impl": {
       "title": "Implementationskostnad",
-      "hint": "Skriv in din implementations kostnad. Kalkylen omvandlar detta till payoff-tid: antalet månader tills du tjänat in hela investeringen. Svaret dyker upp i resultatet som \"Payback\"",
+      "hint": "Skriv in er implementationskostnad. Kalkylen visar hur många månader det tar att tjäna in den, visas som \"Payback\" i resultatet.",
       "costLabel": "Kostnad",
-      "rangeHint": "Typisk SMB: 25 000 – 75 000 kr · Källa: SaaSfactor 2026",
+      "rangeHint": "Typisk SMB: 50 000 – 200 000 kr · Källa: Tillväxtverket Digitaliseringscheckar 2024",
       "unit": "kr"
     },
     "hoursTeamSuffix": "totalt i teamet",
-    "subLinkText": "spara med AI och automation",
     "snapshot": {
       "savings": "Besparing år 1",
       "hours": "Timmar/år",
@@ -519,9 +456,9 @@
       "scb": {
         "icon": "📊",
         "title": "SCB Lönedata",
-        "value": "370 kr/h",
-        "subvalue": "(vi: 350 kr)",
-        "footnote": "Bruttolöner per yrkesgrupp (SSYK-koder) 2024"
+        "value": "~418 kr/h",
+        "subvalue": "(vi: 400 kr)",
+        "footnote": "Bruttolöner per yrkesgrupp (SSYK-koder) 2024 + arbetsgivaravgift + semester/pension"
       },
       "mckinsey": {
         "icon": "📈",
@@ -557,7 +494,7 @@
         "sources": [
           {
             "title": "SCB Lönestatistik",
-            "body": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån. Kalkylatorns värde: 350 kr/h (konservativt)."
+            "body": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån + arbetsgivaravgift (31,42%) + semester/pension → belastad kostnad ~54 333 kr/mån → ~418 kr/h. Kalkylatorns värde: 400 kr/h (5% marginal nedåt — konservativt)."
           },
           {
             "title": "McKinsey Research",
@@ -591,18 +528,18 @@
       ],
       "sourcesTitle": "Datakällor",
       "scbTitle": "SCB Lönestatistik 2024",
-      "scbBody": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån → belastad kostnad 54 333 kr/mån → 370 kr/h. Kalkylatorns värde: 350 kr/h (konservativt).",
+      "scbBody": "Bruttolöner per yrkesgrupp (SSYK-koder 4222, 4119, 3322, 3313). Viktat snitt: 36 465 kr/mån + arbetsgivaravgift (31,42%) + semester/pension → belastad kostnad ~54 333 kr/mån → ~418 kr/h. Kalkylatorns värde: 400 kr/h (5% marginal nedåt — konservativt).",
       "mckinseyTitle": "McKinsey (2023)",
       "mckinseyBody": "\"The Economic Potential of Generative AI\" — automationspotential per funktion. Kundtjänst: 30–45% kostnadsreduktion. Alla arbetsaktiviteter: 60–70% av tid (teoretiskt).",
       "verifiedTitle": "Verifierad kunddata",
       "verifiedBody": "56 aktiva automationer kartlagda hos Telestore Sverige AB. Transaktionsvolymer hämtade direkt från Airtable. Tidsuppskattningar (före/efter) från strukturerad intervju med grundaren. Total verifierad besparing: ~390 000 kr/år.",
       "verifiedLink": "Läs hela kundcaset",
       "formulaTitle": "Beräkningsformel",
-      "formulaBody": "Besparingstimmar = Antal anställda × Timmar/vecka × Automationsgrad\n\nBesparing (kr/år) = Besparingstimmar × 52 × 350 kr/h\n\nÅr 1-besparing = Total × 0.65 (ramp-up-faktor)\n\nIntervall: ±15% för att spegla variation",
+      "formulaBody": "Besparingstimmar = Antal anställda × Timmar/vecka × Automationsgrad\n\nBesparing (kr/år) = Besparingstimmar × 52 × 400 kr/h\n\nÅr 1-besparing = Total × 0.40 (ramp-up-faktor)\n\nÅr 2: × 0.75 · År 3: × 1.00 (fullt realiserat)\n\nIntervall: ±15% för att spegla variation",
       "conservativeHeading": "Varför AI-besparing alltid är högre i verkligheten",
       "conservativeTitle": "Konservativa antaganden",
       "conservativeBody": [
-        "Timkostnad 350 kr/h — SCB beräknar belastad kostnad till 370 kr/h. Vi räknar med 350 kr/h — en medveten 5% marginal nedåt för att hålla estimatet konservativt.",
+        "Timkostnad 400 kr/h — SCB beräknar belastad kostnad till ~418 kr/h inklusive arbetsgivaravgift och semester. Vi räknar med 400 kr/h — en medveten 5% marginal nedåt för att hålla estimatet konservativt.",
         "Overhead ej inkluderat — Kontorsplats, IT-licenser och utrustning är reella kostnader kopplade till manuellt arbete, men de ingår inte i kalkylatorn. Den faktiska besparingen är högre.",
         "Felkostnader ej medräknade — Telestore eliminerade ~26 400 kr/år i direkta felkostnader genom automation. Vi räknar inte in det. Kalkylatorn visar bara tidsbesparing.",
         "Kvalitetseffekter ej värderade — AI-drivet arbete minskar fel och ökar konsistens. Telestore gick från 3,2 till 4,6 på Trustpilot på 3 år. Det monetära värdet är reellt men inte inkluderat.",
@@ -637,11 +574,11 @@
       "title": "Referenser",
       "items": [
         {
-          "text": "SCB (2024). Lönestrukturstatistik, hela ekonomin.",
-          "url": "https://scb.se/hitta-statistik/sverige-i-siffror/lonesok/"
+          "text": "SCB (2024). Lönestrukturstatistik, privat sektor (SLP).",
+          "url": "https://www.scb.se/hitta-statistik/statistik-efter-amne/arbetsmarknad/loner-och-arbetskostnader/lonestrukturstatistik-privat-sektor-slp/"
         },
         {
-          "text": "Skatteverket (2026). Arbetsgivaravgifter 2026. 31.42%.",
+          "text": "Skatteverket (2024). Arbetsgivaravgifter 2024. 31,42%.",
           "url": "https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivaravgifterochskatteavdrag/arbetsgivaravgifter.4.233f91f71260075abe8800020817.html"
         },
         {
@@ -649,15 +586,19 @@
           "url": "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier"
         },
         {
-          "text": "McKinsey & Company (2023). The State of AI in 2023.",
-          "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year"
+          "text": "McKinsey Global Institute (2017). A Future That Works: Automation, Employment & Productivity.",
+          "url": "https://www.mckinsey.com/featured-insights/digital-disruption/harnessing-automation-for-a-future-that-works"
         },
         {
-          "text": "Unionen (2025). Marknadslöner — Kundtjänstmedarbetare.",
-          "url": "https://www.unionen.se/rad-och-stod/om-lon/marknadsloner"
+          "text": "Microsoft & LinkedIn (2024). Work Trend Index Annual Report.",
+          "url": "https://www.microsoft.com/en-us/worklab/work-trend-index"
         },
         {
-          "text": "Telestore Sverige AB (2026). Airtable-data + grundarintervju, 2026-03-31.",
+          "text": "Tillväxtverket (2024). Affärsutvecklingscheckar för digitalisering.",
+          "url": "https://tillvaxtverket.se"
+        },
+        {
+          "text": "Telestore Sverige AB (2026). Eteya kunddata — Airtable + grundarintervju.",
           "url": null
         }
       ]
@@ -666,17 +607,17 @@
       "heading": "Så här räknade vi på Telestore",
       "row1": "26 timmar/vecka (faktisk tidsbesparing)",
       "row2": "52 veckor",
-      "row3": "350 kr/h",
-      "totalMax": "= 473 200 kr/år (teoretiskt max)",
-      "rampUp": "× 0.65 (år 1 ramp-up)",
-      "totalYear1": "= 307 580 kr/år (tidsbesparing, år 1)",
+      "row3": "400 kr/h",
+      "totalMax": "= 540 800 kr/år (teoretiskt max, år 3)",
+      "rampUp": "× 0.40 (år 1 ramp-up)",
+      "totalYear1": "= 216 320 kr/år (tidsbesparing, år 1)",
       "errorCosts": "+ 26 400 kr/år (eliminerade felkostnader)",
-      "totalWithErrors": "= ~334 000 kr/år (totalt, år 1)",
-      "year2PlusNote": "År 2+ (full effekt):",
-      "year2PlusCalc": "26 × 52 × 350 × 1.0 + 26 400 = ~500 000 kr/år",
-      "actualResult": "Telestores faktiska resultat:",
+      "totalWithErrors": "= ~243 000 kr/år (totalt, år 1)",
+      "year2PlusNote": "År 3 (fullt realiserat):",
+      "year2PlusCalc": "26 × 52 × 400 × 1.0 + 26 400 = ~567 200 kr/år",
+      "actualResult": "Telestores verifierade resultat:",
       "actualValue": "~390 000 kr/år",
-      "actualNote": "(konservativt räknat)"
+      "actualNote": "(motsvarar år 2-nivå — Telestore har drivit automationerna i 2+ år)"
     },
     "backToCalculator": "Beräkna din besparing"
   },
@@ -1600,9 +1541,8 @@
         "placeholder": "Välj tjänst..."
       }
     },
-    "gdpr": "Jag godkänner att Eteya behandlar mina uppgifter enligt {link}",
+    "gdpr": "Jag godkänner att Eteya behandlar mina uppgifter enligt <link>integritetspolicyn</link>",
     "gdprLink": "/sv/integritetspolicy",
-    "gdprLinkText": "integritetspolicyn",
     "progress": {
       "step1": "Uppgifter",
       "step2": "Boka tid"

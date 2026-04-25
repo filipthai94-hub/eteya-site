@@ -303,7 +303,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 {t.rich('gdpr', {
                   link: (chunks) => (
                     <a href={t('gdprLink')} className={styles.gdprLink}>
-                      {t('gdprLinkText')}
+                      {chunks}
                     </a>
                   )
                 })}

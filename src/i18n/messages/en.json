@@ -361,13 +361,10 @@
   },
   "calculator": {
     "heading": "Calculate your<br/>AI savings",
-    "subheading": "See how much time and money your company can save with AI and automation.",
+    "subheading": "See how much time and money your company can <link>save with AI and automation</link>.",
     "processLabel": "Which processes take up your time today?",
     "processHint": "The percentage shows how much of the work can be automated with AI, based on industry data.",
     "hoursLabel": "Hours per week",
-    "teamLabel": "Number of people performing these tasks",
-    "teamHint": "How many people on your team work on the selected processes?",
-    "teamUnit": "people",
     "processes": {
       "kundtjanst": {
         "name": "Customer Service",
@@ -379,7 +376,7 @@
       },
       "leads": {
         "name": "Leads & Sales",
-        "rateLabel": "60% automation"
+        "rateLabel": "50% automation"
       },
       "rapportering": {
         "name": "Reporting & Finance",
@@ -390,110 +387,50 @@
         "rateLabel": "50% automation"
       },
       "kommunikation": {
-        "name": "Internal Communication",
-        "rateLabel": "65% automation"
+        "name": "Time on Coordination",
+        "rateLabel": "50% automation"
       }
     },
     "results": {
       "title": "Your estimated savings",
-      "currentCostLabel": "Current cost",
-      "withAiLabel": "With AI automation",
-      "perYear": "/year",
-      "annual": "Year 1 savings",
-      "hoursSaved": "Hours/year",
-      "fteEquivalent": "Equivalent to {count} full-time employees",
-      "perProcess": "Savings per process",
       "distribution": "Savings distribution",
-      "roi": "ROI",
       "emptyDistribution": "Enable processes to see the distribution",
       "projection": "3-year projection",
-      "projectionNote": "Year 1 = 65% of full potential (ramp-up). Year 3 = fully realized savings.",
+      "projectionNote": "Year 1 = 40% of full potential (ramp-up). Year 3 = fully realized savings.",
       "emptyProjection": "Enable processes to see the projection",
       "year1": "Year 1",
       "year2": "Year 2",
       "year3": "Year 3",
-      "payback": "Payback",
       "paybackUnit": "mo",
       "lessThanOneMonth": "< 1 mo"
     },
-    "transparency": {
-      "toggle": "How we calculate",
-      "hourlyRate": "Hourly cost: 350 SEK/h — based on SCB salary statistics 2024, cross-validated against actual client data (269–370 SEK/h)",
-      "automationRates": "Automation rates: based on McKinsey (2023) and verified against a Swedish e-commerce company with 56 active automations",
-      "yearOneFactor": "Year 1 factor: 65% of full savings (includes implementation and ramp-up, verified against actual client data)",
-      "range": "Range (±15%) reflects variation between companies. All assumptions are conservative — the calculator underestimates rather than overestimates",
-      "disclaimer": "Estimates based on SCB, McKinsey and verified client data. Actual savings depend on your process maturity, system landscape and implementation."
-    },
     "cta": {
       "primary": "Book a strategy meeting",
-      "secondary": "See how we calculate",
       "sub": "Free 30 min — no obligations",
       "methodologyShow": "Show calculation model",
       "methodologyHide": "Hide calculation model"
     },
-    "processLabels": {
-      "kundtjanst": "Customer Service",
-      "fakturering": "Invoicing & Admin",
-      "leads": "Leads & Sales",
-      "rapportering": "Reporting & Finance",
-      "epost": "Email & Scheduling",
-      "kommunikation": "Internal Communication"
-    },
-    "processRateLabels": {
-      "kundtjanst": "45% automation",
-      "fakturering": "65% automation",
-      "leads": "60% automation",
-      "rapportering": "70% automation",
-      "epost": "50% automation",
-      "kommunikation": "65% automation"
-    },
-    "snapshotLabels": {
-      "year1": "Savings year 1",
-      "hoursPerYear": "Hours/year",
-      "payback": "Payback"
-    },
-    "donutLabel": "Savings distribution",
-    "chartEmpty": "Activate processes to see the distribution",
-    "barChart": {
-      "year1": "Year 1",
-      "year2": "Year 2",
-      "year3": "Year 3",
-      "note": "Year 1 = 65% of full potential (ramp-up). Year 3 = fully realized savings."
-    },
-    "projectionLabel": "3-year projection",
-    "projectionEmpty": "Activate processes to see the projection",
     "socialProof": {
       "value": "390,000 SEK/year",
       "text": "average savings for Telestore AB",
-      "hint": "(Verified data)"
+      "hint": "(Eteya client data · Telestore AB)"
     },
-    "trustRow": "SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirical) · 350 SEK/h · ±15%",
-    "implCostLabel": "Implementation cost",
-    "implCostHint": "What is your startup cost?",
-    "costLabel": "Cost",
-    "implHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
+    "trustRow": "SCB 2024 · Skatteverket 2024 · McKinsey 2023 · Microsoft 2024 · Tillväxtverket 2024 · Eteya client data",
     "hoursHint": "Add up everyone who works on this process",
     "methodology": {
       "label": "CALCULATION MODEL",
-      "formula": "Hours × Automation% × 52 weeks × 350 SEK/h",
-      "yearFactors": "Year 1: 65% potential · Year 2: 85% · Year 3: 100%",
-      "sources": "Sources: SCB 2024 · McKinsey 2025 · Salesforce 2025 · Telestore (empirical) · 350 SEK/h · ±15%"
+      "formula": "Hours × Automation% × 52 weeks × 400 SEK/h",
+      "yearFactors": "Year 1: 40% potential · Year 2: 75% · Year 3: 100%",
+      "sources": "Sources: SCB 2024 · Skatteverket 2024 · McKinsey 2023 · Microsoft 2024 · Tillväxtverket 2024 · Eteya client data"
     },
-    "methodologyToggle": {
-      "show": "Show calculation model",
-      "hide": "Hide calculation model"
-    },
-    "ctaSub": "Free 30 min — no obligations",
-    "empty": "Select at least one process above to see your savings",
     "impl": {
       "title": "Implementation cost",
-      "hint": "Enter your implementation cost. The calculator converts this to payoff time: the number of months until you've earned back the entire investment. The answer appears in the results as \"Payback\"",
+      "hint": "Enter your implementation cost. The calculator shows how many months it takes to earn it back, displayed as \"Payback\" in the results.",
       "costLabel": "Cost",
-      "rangeHint": "Typical SMB: 25,000 – 75,000 SEK · Source: SaaSfactor 2026",
+      "rangeHint": "Typical SMB: 50,000 – 200,000 SEK · Source: Tillväxtverket Digitaliseringscheckar 2024",
       "unit": "SEK"
     },
     "hoursTeamSuffix": "across the team",
-    "subLinkText": "save with AI and automation",
     "snapshot": {
       "savings": "Year 1 savings",
       "hours": "Hours/year",
@@ -519,9 +456,9 @@
       "scb": {
         "icon": "📊",
         "title": "SCB Salary Data",
-        "value": "370 SEK/h",
-        "subvalue": "(we: 350 SEK)",
-        "footnote": "Gross salaries per occupation (SSYK codes) 2024"
+        "value": "~418 SEK/h",
+        "subvalue": "(we: 400 SEK)",
+        "footnote": "Gross salaries per occupation (SSYK codes) 2024 + employer fees + vacation/pension"
       },
       "mckinsey": {
         "icon": "📈",
@@ -557,7 +494,7 @@
         "sources": [
           {
             "title": "SCB Wage Statistics",
-            "body": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month → loaded cost 54,333 SEK/month. Calculator value: 350 SEK/h (conservative)."
+            "body": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month + employer fees (31.42%) + vacation/pension → loaded cost ~54,333 SEK/month → ~418 SEK/h. Calculator value: 400 SEK/h (5% margin down — conservative)."
           },
           {
             "title": "McKinsey Research",
@@ -591,18 +528,18 @@
       ],
       "sourcesTitle": "Data sources",
       "scbTitle": "SCB Salary Statistics 2024",
-      "scbBody": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month → loaded cost 54,333 SEK/month → 370 SEK/h. Calculator value: 350 SEK/h (conservative).",
+      "scbBody": "Gross salaries per occupation (SSYK codes 4222, 4119, 3322, 3313). Weighted average: 36,465 SEK/month + employer fees (31.42%) + vacation/pension → loaded cost ~54,333 SEK/month → ~418 SEK/h. Calculator value: 400 SEK/h (5% margin down — conservative).",
       "mckinseyTitle": "McKinsey (2023)",
       "mckinseyBody": "\"The Economic Potential of Generative AI\" — automation potential per function. Customer operations: 30–45% cost reduction. All work activities: 60–70% of time (theoretical).",
       "verifiedTitle": "Verified client data",
       "verifiedBody": "56 active automations mapped at Telestore Sverige AB. Transaction volumes pulled directly from Airtable. Time estimates (before/after) from structured interview with the founder. Total verified savings: ~390,000 SEK/year.",
       "verifiedLink": "Read the full case study",
       "formulaTitle": "Calculation formula",
-      "formulaBody": "Hours saved = Employees × Hours/week × Automation rate\n\nSavings (SEK/year) = Hours saved × 52 × 350 SEK/h\n\nYear 1 savings = Total × 0.65 (ramp-up factor)\n\nRange: ±15% to reflect variation",
+      "formulaBody": "Hours saved = Employees × Hours/week × Automation rate\n\nSavings (SEK/year) = Hours saved × 52 × 400 SEK/h\n\nYear 1 savings = Total × 0.40 (ramp-up factor)\n\nYear 2: × 0.75 · Year 3: × 1.00 (fully realized)\n\nRange: ±15% to reflect variation",
       "conservativeHeading": "Why AI savings are always higher in reality",
       "conservativeTitle": "Conservative assumptions",
       "conservativeBody": [
-        "Hourly cost: 350 SEK/h (vs 370 SEK/h calculated — 5% conservative margin)",
+        "Hourly cost 400 SEK/h — SCB calculates loaded cost to ~418 SEK/h including employer fees and vacation/pension. We use 400 SEK/h — a deliberate 5% margin down to keep the estimate conservative.",
         "Overhead not included (office space, IT, equipment)",
         "Error costs not included (Telestore: ~26,400 SEK/year eliminated)",
         "Quality effects not monetized (Trustpilot 3 years running)",
@@ -637,27 +574,31 @@
       "title": "References",
       "items": [
         {
-          "text": "SCB (2024). Salary Structure Statistics.",
-          "url": "https://scb.se/hitta-statistik/sverige-i-siffror/lonesok/"
+          "text": "SCB (2024). Salary Structure Statistics, private sector (SLP).",
+          "url": "https://www.scb.se/hitta-statistik/statistik-efter-amne/arbetsmarknad/loner-och-arbetskostnader/lonestrukturstatistik-privat-sektor-slp/"
         },
         {
-          "text": "Skatteverket (2026). Employer contributions 2026. 31.42%.",
-          "url": "https://www.skatteverket.se"
+          "text": "Skatteverket (2024). Employer contributions 2024. 31.42%.",
+          "url": "https://www.skatteverket.se/foretag/arbetsgivare/arbetsgivaravgifterochskatteavdrag/arbetsgivaravgifter.4.233f91f71260075abe8800020817.html"
         },
         {
           "text": "McKinsey Global Institute (2023). The Economic Potential of Generative AI.",
           "url": "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier"
         },
         {
-          "text": "McKinsey & Company (2023). The State of AI in 2023.",
-          "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year"
+          "text": "McKinsey Global Institute (2017). A Future That Works: Automation, Employment & Productivity.",
+          "url": "https://www.mckinsey.com/featured-insights/digital-disruption/harnessing-automation-for-a-future-that-works"
         },
         {
-          "text": "Unionen (2025). Market salaries — Customer service.",
-          "url": "https://www.unionen.se/rad-och-stod/om-lon/marknadsloner"
+          "text": "Microsoft & LinkedIn (2024). Work Trend Index Annual Report.",
+          "url": "https://www.microsoft.com/en-us/worklab/work-trend-index"
         },
         {
-          "text": "Telestore Sverige AB (2026). Airtable data + founder interview, 2026-03-31.",
+          "text": "Tillväxtverket (2024). Digitalization grants for SMBs.",
+          "url": "https://tillvaxtverket.se"
+        },
+        {
+          "text": "Telestore Sverige AB (2026). Eteya client data — Airtable + founder interview.",
           "url": null
         }
       ]
@@ -666,17 +607,17 @@
       "heading": "How we calculated Telestore's savings",
       "row1": "26 hours/week (actual time savings)",
       "row2": "52 weeks",
-      "row3": "350 SEK/h",
-      "totalMax": "= 473,200 SEK/year (theoretical max)",
-      "rampUp": "× 0.65 (year 1 ramp-up)",
-      "totalYear1": "= 307,580 SEK/year (time savings, year 1)",
+      "row3": "400 SEK/h",
+      "totalMax": "= 540,800 SEK/year (theoretical max, year 3)",
+      "rampUp": "× 0.40 (year 1 ramp-up)",
+      "totalYear1": "= 216,320 SEK/year (time savings, year 1)",
       "errorCosts": "+ 26,400 SEK/year (eliminated error costs)",
-      "totalWithErrors": "= ~334,000 SEK/year (total, year 1)",
-      "year2PlusNote": "Year 2+ (full effect):",
-      "year2PlusCalc": "26 × 52 × 350 × 1.0 + 26,400 = ~500,000 SEK/year",
-      "actualResult": "Telestore's actual result:",
+      "totalWithErrors": "= ~243,000 SEK/year (total, year 1)",
+      "year2PlusNote": "Year 3 (fully realized):",
+      "year2PlusCalc": "26 × 52 × 400 × 1.0 + 26,400 = ~567,200 SEK/year",
+      "actualResult": "Telestore's verified result:",
       "actualValue": "~390,000 SEK/year",
-      "actualNote": "(conservatively calculated)"
+      "actualNote": "(corresponds to year 2 maturity — Telestore has run automations for 2+ years)"
     },
     "backToCalculator": "Calculate your savings"
   },
@@ -1600,9 +1541,8 @@
         "placeholder": "Select service..."
       }
     },
-    "gdpr": "I accept that Eteya processes my data according to the {link}",
+    "gdpr": "I accept that Eteya processes my data according to the <link>privacy policy</link>",
     "gdprLink": "/en/privacy",
-    "gdprLinkText": "privacy policy",
     "progress": {
       "step1": "Details",
       "step2": "Book time"

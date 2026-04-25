@@ -11,9 +11,9 @@ const RADIUS = 100
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 const circles = [
-  { value: '350 kr/h', label: 'SCB lönestatistik', fill: 0.75, tooltip: '350 kr/h baserat på SCB lönestatistik 2024' },
+  { value: '400 kr/h', label: 'SCB lönestatistik', fill: 0.75, tooltip: '400 kr/h baserat på SCB lönestatistik 2024 + arbetsgivaravgift + semester/pension' },
   { value: '52 v', label: 'Helårsbasis', fill: 0.85, tooltip: '52 veckor = helårsbasis (4 veckor semester ej avdragna)' },
-  { value: '0.65', label: 'Ramp-up år 1', fill: 0.65, tooltip: '65% av teoretisk besparing realiseras år 1 (implementation + ramp-up)' },
+  { value: '0.40', label: 'Ramp-up år 1', fill: 0.40, tooltip: '40% av teoretisk besparing realiseras år 1 (implementation + ramp-up). Forrester TEI / Deloitte RPA Survey benchmark' },
 ]
 
 export default function FormulaCircles() {
@@ -127,9 +127,9 @@ export default function FormulaCircles() {
         <span className={styles.formulaOp}>×</span>
         <span className={styles.formulaVar}>Timmar/vecka</span>
         <span className={styles.formulaOp}>×</span>
-        <span className={styles.formulaConst}>350 kr/h</span>
+        <span className={styles.formulaConst}>400 kr/h</span>
         <span className={styles.formulaOp}>×</span>
-        <span className={styles.formulaConst}>0.65</span>
+        <span className={styles.formulaConst}>0.40</span>
         <span className={styles.formulaOp}>=</span>
         <span className={styles.formulaResult}>Din besparing</span>
       </div>
@@ -146,7 +146,7 @@ export default function FormulaCircles() {
           <span className={styles.cardCompany}>Telestore Sverige AB</span>
           <span className={styles.cardMeta}>3 anställda · verifierat resultat ✓</span>
           <span className={styles.cardNote}>
-            Grundformeln ger 284 000 kr/år — Telestore kör fler automationer
+            Grundformeln ger ~200 000 kr/år år 1 — Telestore är på år 2-nivå
           </span>
         </div>
       </div>

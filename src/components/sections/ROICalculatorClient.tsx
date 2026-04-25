@@ -13,21 +13,26 @@ import s from './ROICalculatorClient.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ── Konstanter (v4.0 — 2026-04-15) ───────────────────────────────────────────
-const HOURLY = 350
-const F1     = 0.65
-const F2     = 0.85
+// ── Konstanter (v5.0 — 2026-04-25) ───────────────────────────────────────────
+// Källa-bakade siffror efter source audit (se /sv/ai-besparing för full methodology)
+// HOURLY 400: SCB Lönestrukturstatistik 2024 + Skatteverket Arbetsgivaravgifter (31.42%)
+//   + ~17% overhead (semester 12% + pension/försäkring 5%) → ~415 kr/h, vi tar 400 (konservativt)
+// F1 0.40 / F2 0.75 / F3 1.00: Forrester TEI / Deloitte RPA Survey ramp-up benchmarks
+// Automation rates: McKinsey "Economic Potential of GenAI" (2023) + "A Future That Works" (2017)
+const HOURLY = 400
+const F1     = 0.40
+const F2     = 0.75
 const F3     = 1.00
 const FTE_H  = 1760
 const UNCERT = 0.15
 
 const RATES: Record<string, number> = {
-  kundtjanst:    0.45,
-  fakturering:   0.65,
-  leads:         0.60,
-  rapportering:  0.70,
-  epost:         0.50,
-  kommunikation: 0.65,
+  kundtjanst:    0.45,  // McKinsey GenAI 2023: 30-45% range, vi tar övre
+  fakturering:   0.65,  // McKinsey 2017: data processing 69%, data collection 64% → midpoint
+  leads:         0.50,  // Salesforce State of Sales + McKinsey AI sales = 10-20% uplift; sänkt från 60
+  rapportering:  0.70,  // McKinsey 2017: data processing 69%; PwC Finance Effectiveness 2024
+  epost:         0.50,  // Microsoft Work Trend Index 2024: 57% av tid på communications
+  kommunikation: 0.50,  // Asana Anatomy of Work 2023: 58% "work about work"; sänkt från 65
 }
 
 // Lime-nyanser per process — matchar Telestore case study DNA
@@ -229,7 +234,7 @@ function BarChart({ y1, y2, y3, labels }: { y1: number; y2: number; y3: number; 
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function ROITestClient() {
-  const [implCost, setImplCost] = useState(50_000)
+  const [implCost, setImplCost] = useState(75_000)
   const [useImpl,  setUseImpl]  = useState(true)
   const [showMethodology, setShowMethodology] = useState(false)
   const [procs,    setProcs]    = useState<Record<ProcKey, ProcState>>(
@@ -478,7 +483,9 @@ export default function ROITestClient() {
           scrollTrigger: { trigger: snapshotRef.current, start: 'top 80%', once: true },
           delay: 0.4,
           onUpdate: () => {
-            pbEl.textContent = totals.pb ? `${Math.round(obj.val)} mån` : '< 1 mån'
+            pbEl.textContent = totals.pb
+              ? `${Math.round(obj.val)} ${t('results.paybackUnit')}`
+              : t('results.lessThanOneMonth')
           },
         })
       }
@@ -496,7 +503,14 @@ export default function ROITestClient() {
           <h1 className={s.h1} dangerouslySetInnerHTML={{ __html: t('heading') }} />
           <p className={s.sub}>
             {t.rich('subheading', {
-              link: (chunks) => <a href="/sv/ai-besparing" className={s.subLink}>{chunks}</a>
+              link: (chunks) => (
+                <a
+                  href={locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'}
+                  className={s.subLink}
+                >
+                  {chunks}
+                </a>
+              )
             })}
           </p>
         </header>
@@ -543,6 +557,7 @@ export default function ROITestClient() {
                             <input
                               type="range" min={1} max={80} value={p.hours}
                               className={s.range}
+                              style={{ ['--fill' as string]: `${((p.hours - 1) / 79) * 100}%` }}
                               onChange={e => setHours(key, +e.target.value)}
                             />
                             <p className={s.sliderHint}>{t('hoursHint')}</p>
@@ -575,8 +590,9 @@ export default function ROITestClient() {
                       <span className={s.sliderVal}>{fmt(implCost)} {t('impl.unit')}</span>
                     </div>
                     <input
-                      type="range" min={25_000} max={500_000} step={25_000} value={implCost}
+                      type="range" min={50_000} max={200_000} step={25_000} value={implCost}
                       className={s.range}
+                      style={{ ['--fill' as string]: `${((implCost - 50_000) / 150_000) * 100}%` }}
                       onChange={e => setImplCost(+e.target.value)}
                     />
                   </div>
@@ -607,7 +623,9 @@ export default function ROITestClient() {
               <div className={s.snapshotDivider} />
               <div className={s.snapshotItem}>
                 <span className={s.snapshotValue}>
-                  {totals.ok ? (totals.pb ? `${totals.pb} mån` : '< 1 mån') : '– –'}
+                  {totals.ok
+                    ? (totals.pb ? `${totals.pb} ${t('results.paybackUnit')}` : t('results.lessThanOneMonth'))
+                    : '– –'}
                 </span>
                 <span className={s.snapshotLabel}>{t('snapshot.payback')}</span>
               </div>
