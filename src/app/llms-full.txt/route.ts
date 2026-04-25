@@ -29,9 +29,9 @@ export async function GET() {
 - Automatiserad orderhantering, kundkommunikation och lagerflöden
 - Resultat: 85% mindre manuellt arbete
 
-**Nordicrank (SEO-tech):**
-- AI-driven rankningsoptimering
-- Resultat: 3x snabbare content-produktion
+**Nordicrank (Operations & Automation):**
+- 18 automatiserade flöden ersatte manuella Excel-listor: orderintag, status-tracking, QA, fakturor och rapporter
+- Resultat: 13.4 timmar/vecka tillbaka, ~99% färre felinmatningar
 
 **Sannegården (Restaurang):**
 - AI-telefonist för beställningar

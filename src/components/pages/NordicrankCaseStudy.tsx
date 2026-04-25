@@ -59,12 +59,13 @@ export default function NordicrankCaseStudy() {
   useEffect(() => {
     if (!snapshotRef.current) return
     const ctx = gsap.context(() => {
+      // decimals: how many decimal places to display (0 = integer)
       const counters = [
-        { el: counter1Ref.current, target: 134, prefix: '', suffix: t('snapshot.timeSuffix'), format: false },
-        { el: counter2Ref.current, target: 95, prefix: '', suffix: t('snapshot.errorSuffix'), format: false },
-        { el: counter3Ref.current, target: 18, prefix: '', suffix: t('snapshot.automationsSuffix'), format: false },
+        { el: counter1Ref.current, target: 13.4, prefix: '', suffix: t('snapshot.timeSuffix'), format: false, decimals: 1 },
+        { el: counter2Ref.current, target: 99, prefix: '', suffix: t('snapshot.errorSuffix'), format: false, decimals: 0 },
+        { el: counter3Ref.current, target: 18, prefix: '', suffix: t('snapshot.automationsSuffix'), format: false, decimals: 0 },
       ]
-      counters.forEach(({ el, target, prefix, suffix, format }) => {
+      counters.forEach(({ el, target, prefix, suffix, format, decimals }) => {
         if (!el) return
         const obj = { val: 0 }
         gsap.to(obj, {
@@ -73,7 +74,14 @@ export default function NordicrankCaseStudy() {
           ease: 'power2.out',
           scrollTrigger: { trigger: snapshotRef.current!, start: 'top 80%', once: true },
           onUpdate: () => {
-            const v = format ? Math.round(obj.val).toLocaleString('sv-SE') : Math.round(obj.val).toString()
+            let v: string
+            if (format) {
+              v = Math.round(obj.val).toLocaleString('sv-SE')
+            } else if (decimals > 0) {
+              v = obj.val.toFixed(decimals)
+            } else {
+              v = Math.round(obj.val).toString()
+            }
             el.textContent = prefix + v + suffix
           },
         })
@@ -141,11 +149,13 @@ export default function NordicrankCaseStudy() {
     { title: t('solution.item4Title'), body: t('solution.item4Body') },
   ]
 
+  // before/after % = how much manual work remains (visual indicator only).
+  // ~99% färre felinmatningar i snitt → 1-10% manuellt kvar per process.
   const bulletRows = [
-    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '8%', labelBefore: t('savings.row1LabelBefore'), labelAfter: '8%', saved: t('savings.row1Saved') },
+    { name: t('savings.row1Name'), volume: t('savings.row1Volume'), before: '100%', after: '5%', labelBefore: t('savings.row1LabelBefore'), labelAfter: '5%', saved: t('savings.row1Saved') },
     { name: t('savings.row2Name'), volume: t('savings.row2Volume'), before: '100%', after: '2%', labelBefore: t('savings.row2LabelBefore'), labelAfter: '2%', saved: t('savings.row2Saved') },
-    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '100%', after: '13%', labelBefore: t('savings.row3LabelBefore'), labelAfter: '13%', saved: t('savings.row3Saved') },
-    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '100%', after: '2%', labelBefore: t('savings.row4LabelBefore'), labelAfter: '2%', saved: t('savings.row4Saved') },
+    { name: t('savings.row3Name'), volume: t('savings.row3Volume'), before: '100%', after: '10%', labelBefore: t('savings.row3LabelBefore'), labelAfter: '10%', saved: t('savings.row3Saved') },
+    { name: t('savings.row4Name'), volume: t('savings.row4Volume'), before: '100%', after: '1%', labelBefore: t('savings.row4LabelBefore'), labelAfter: '1%', saved: t('savings.row4Saved') },
   ]
 
   return (
@@ -228,7 +238,7 @@ export default function NordicrankCaseStudy() {
         </div>
         <StatsClient heading="" items={[
           { value: 13, suffix: t('results.stat1Suffix'), label: t('results.stat1Label') },
-          { value: 95, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
+          { value: 99, suffix: t('results.stat2Suffix'), label: t('results.stat2Label') },
           { value: 18, suffix: '', label: t('results.stat3Label') },
         ]} />
       </section>
@@ -242,17 +252,17 @@ export default function NordicrankCaseStudy() {
           {/* Snapshot Bar */}
           <div className={styles.savingsSnapshotBar} ref={snapshotRef} data-reveal>
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>13.4 h/vecka</span>
+              <span className={styles.savingsSnapshotValue} ref={counter1Ref}>{t('savings.snapshot1Value')}</span>
               <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot1Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>95% färre fel</span>
+              <span className={styles.savingsSnapshotValue} ref={counter2Ref}>{t('savings.snapshot2Value')}</span>
               <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot2Label')}</span>
             </div>
             <div className={styles.savingsSnapshotDivider} />
             <div className={styles.savingsSnapshotItem}>
-              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>18</span>
+              <span className={styles.savingsSnapshotValue} ref={counter3Ref}>{t('savings.snapshot3Value')}</span>
               <span className={styles.savingsSnapshotLabel}>{t('savings.snapshot3Label')}</span>
             </div>
           </div>
@@ -260,26 +270,29 @@ export default function NordicrankCaseStudy() {
           {/* Two-column: Donut + Bullet Chart */}
           <div className={styles.savingsLayout} data-reveal>
 
-            {/* Donut Chart */}
+            {/* Donut Chart — segments sum to 100% (full circle), matching savings table breakdown:
+                Orderintag → CRM 30% (4h/v), Excel→dashboard 26% (3.5h/v),
+                Status & QA 34% (4.5h/v), Fakturor & rapporter 10% (1.4h/v).
+                Circumference = 2πr = 2π·80 ≈ 502.65 */}
             <div className={styles.savingsDonutSection} ref={donutRef}>
               <div className={styles.savingsDonutTitle}>{t('savings.donutTitle')}</div>
               <div className={styles.savingsDonutWrap}>
                 <svg className={styles.savingsDonutSvg} viewBox="0 0 200 200">
                   <circle className={styles.savingsDonutTrack} cx="100" cy="100" r="80" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#C8FF00" strokeDasharray="175.9 327.1" strokeDashoffset="0" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#8BCC00" strokeDasharray="125.7 377.3" strokeDashoffset="-175.9" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#5A8A00" strokeDasharray="100.5 402.5" strokeDashoffset="-301.6" />
-                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#3D5E00" strokeDasharray="50.3 452.7" strokeDashoffset="-402.1" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#C8FF00" strokeDasharray="150.8 351.85" strokeDashoffset="0" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#8BCC00" strokeDasharray="130.7 371.95" strokeDashoffset="-150.8" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#5A8A00" strokeDasharray="170.9 331.75" strokeDashoffset="-281.5" />
+                  <circle data-donut-segment className={styles.savingsDonutSegment} cx="100" cy="100" r="80" stroke="#3D5E00" strokeDasharray="50.3 452.35" strokeDashoffset="-452.4" />
                 </svg>
                 <div className={styles.savingsDonutCenter}>
-                  <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>72%</span>
+                  <span className={styles.savingsDonutCenterValue} ref={donutCenterRef}>{t('savings.donutCenterValue')}</span>
                   <span className={styles.savingsDonutCenterLabel}>{t('savings.donutCenterLabel')}</span>
                 </div>
               </div>
               <div className={styles.savingsLegend}>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>35%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>25%</span></div>
-                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>20%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#C8FF00' }} /><span className={styles.savingsLegendText}>{t('savings.legend1')}</span><span className={styles.savingsLegendValue}>30%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#8BCC00' }} /><span className={styles.savingsLegendText}>{t('savings.legend2')}</span><span className={styles.savingsLegendValue}>26%</span></div>
+                <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#5A8A00' }} /><span className={styles.savingsLegendText}>{t('savings.legend3')}</span><span className={styles.savingsLegendValue}>34%</span></div>
                 <div className={styles.savingsLegendItem}><span className={styles.savingsLegendDot} style={{ background: '#3D5E00' }} /><span className={styles.savingsLegendText}>{t('savings.legend4')}</span><span className={styles.savingsLegendValue}>10%</span></div>
               </div>
             </div>

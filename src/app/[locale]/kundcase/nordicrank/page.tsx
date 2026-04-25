@@ -59,11 +59,11 @@ const getArticleSchema = (locale: string) => {
     '@context': 'https://schema.org',
     '@type': 'Article',
     'headline': locale === 'sv'
-      ? 'Nordicrank — 180 000 kr/år i besparing med automation'
-      : 'Nordicrank — 180,000 SEK/year savings with automation',
+      ? 'Nordicrank — 13.4 timmar tillbaka i veckan med 18 automationer'
+      : 'Nordicrank — 13.4 hours back per week with 18 automations',
     'description': locale === 'sv'
-      ? 'Hur Eteya hjälpte Nordicrank automatisera order- och länkhatering, eliminera manuella Excel-listor och spara 180 000 kr per år.'
-      : 'How Eteya helped Nordicrank automate order and link handling, eliminate manual Excel sheets, and save 180,000 SEK per year.',
+      ? 'Hur Eteya ersatte Nordicranks manuella Excel-arbete med 18 automatiserade flöden — orderintag, status-tracking, QA, fakturor och rapporter. 13.4 timmar/vecka tillbaka.'
+      : 'How Eteya replaced Nordicrank’s manual Excel work with 18 automated flows — order intake, status tracking, QA, invoices and reports. 13.4 hours/week back.',
     'url': url,
     'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
     'datePublished': '2025-01-01',
@@ -83,8 +83,8 @@ const getArticleSchema = (locale: string) => {
     },
     'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
     'keywords': locale === 'sv'
-      ? 'AI-automation, processautomation, kundcase, Nordicrank, SEO'
-      : 'AI automation, process automation, case study, Nordicrank, SEO',
+      ? 'AI-automation, processautomation, Excel-automation, orderhantering, kundcase, Nordicrank'
+      : 'AI automation, process automation, Excel automation, order management, case study, Nordicrank',
     'mentions': {
       '@type': 'Organization',
       'name': 'Nordicrank',
