@@ -578,6 +578,25 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
 
       const handler = () => {
         const isActive = card.classList.contains('is-active')
+
+        // MÄT INNAN class-toggle: hur mycket höjd försvinner ovanför nya kortet?
+        // Endast relevant om ett annat kort är öppet OCH ligger ovanför det vi öppnar.
+        // Lenis låser target vid t=0 (verifierat i node_modules/lenis/dist/lenis.mjs
+        // rad 110-120 + 787), så om vi inte kompenserar för kollapsande grannkort
+        // scrollar Lenis mot en stale position → overshoot/undershoot.
+        let lostHeight = 0
+        let previouslyOpen: Element | null = null
+        if (!isActive) {
+          previouslyOpen = Array.from(cards).find((c) => c !== card && c.classList.contains('is-active')) ?? null
+          if (previouslyOpen) {
+            const inner = previouslyOpen.querySelector('.case-inner') as HTMLElement | null
+            const openRect = previouslyOpen.getBoundingClientRect()
+            const newRect = card.getBoundingClientRect()
+            // Bara kompensera om kollapsande kortet är OVANFÖR det nya (annars påverkar det inte nya kortets position)
+            if (inner && openRect.top < newRect.top) lostHeight = inner.offsetHeight
+          }
+        }
+
         cards.forEach((c) => c.classList.remove('is-active'))
         const medias = document.querySelectorAll('#cases-section .case-media--telestore') as NodeListOf<HTMLElement>
         medias.forEach(clearTelestoreSequence)
@@ -590,16 +609,43 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
           }
 
           // Scrolla kortets topp strax under nav-headern — endast när kortet ÖPPNAS.
-          // Samma Lenis-mönster som ServicesClient / Nav.tsx / ScrollOnLoad / ScrollReset,
-          // så scroll-authority förblir Lenis (ingen native-scroll-konflikt).
+          // Hybrid A+B: pass 1 pre-kompenserar med lostHeight (instant feedback),
+          // pass 2 re-targetas på transitionend för att absorbera residual drift.
+          // Samma Lenis-mönster som ServicesClient / Nav.tsx / ScrollOnLoad / ScrollReset.
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
           const navH = (document.querySelector('.en-topbar') as HTMLElement | null)?.offsetHeight ?? 80
-          if (window.__lenis) {
-            window.__lenis.scrollTo(card, {
-              offset: navH + 15,
+          const lenis = window.__lenis
+          if (lenis) {
+            // Pass 1: scrolla NU, pre-kompenserat. offset är linjär del av Lenis target,
+            // så att subtrahera lostHeight från offset == subtrahera från target.
+            lenis.scrollTo(card, {
+              offset: navH - 15 - lostHeight,
               duration: reduce ? 0 : 1.2,
               immediate: reduce,
             })
+
+            // Pass 2: efter kollaps-transitionens slut, re-targeta till exakt position.
+            // Kort duration (0.25s) håller rörelsen kontinuerlig.
+            // Lenis scrollTo mid-animation = cancel-and-replace från nuvarande animatedScroll
+            // (verifierat i lenis.mjs rad 110-120), så detta är säkert.
+            if (!reduce && lostHeight > 0) {
+              let corrected = false
+              const correct = () => {
+                if (corrected) return
+                corrected = true
+                lenis.scrollTo(card, { offset: navH - 15, duration: 0.25 })
+              }
+              const watchTarget = previouslyOpen ?? card
+              const onCollapseEnd = (e: Event) => {
+                const te = e as TransitionEvent
+                if (te.propertyName !== 'grid-template-rows') return
+                watchTarget.removeEventListener('transitionend', onCollapseEnd)
+                correct()
+              }
+              watchTarget.addEventListener('transitionend', onCollapseEnd)
+              // Fallback om transitionend missas (Safari/Firefox edge-cases)
+              window.setTimeout(correct, 650)
+            }
           }
         }
 
