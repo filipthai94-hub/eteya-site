@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useMemo, useEffect, useCallback } from "react"
-import { XIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import Cal, { getCalApi } from "@calcom/embed-react"
 import styles from "./contact-card.module.css"
@@ -31,6 +30,30 @@ interface ContactCardProps {
   showContactInfo?: boolean
 }
 
+interface BookingSnapshot {
+  name: string
+  email: string
+  website: string
+  service: string
+  gdprAccepted: true
+  gdprAcceptedAt: string
+  source: string
+  roiFingerprint: string
+  roiMetadata: Record<string, string>
+}
+
+interface BookingContext {
+  name: string
+  email: string
+  website: string
+  service: string
+  gdprAccepted: boolean
+  gdprAcceptedAt: string | null
+  source: string
+  roiFingerprint: string
+  roiMetadata: Record<string, string>
+}
+
 function fmtK(n: number) {
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace('.', ',') + ' mkr'
   if (n >= 1_000) return Math.round(n / 1_000) + ' tkr'
@@ -50,13 +73,95 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
     service: '',
   })
   const [gdprChecked, setGdprChecked] = useState(false)
+  const [gdprAcceptedAt, setGdprAcceptedAt] = useState<string | null>(null)
+  const [bookingSnapshot, setBookingSnapshot] = useState<BookingSnapshot | null>(null)
 
   const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  // Form validation — step 1 is valid when name + email + GDPR are filled
-  const isStep1Valid = formData.name.trim().length > 0 && formData.email.trim().length > 0 && gdprChecked
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+
+  // Form validation — all required fields + GDPR must be valid before booking
+  const isStep1Valid =
+    formData.name.trim().length > 0 &&
+    isEmailValid &&
+    formData.website.trim().length > 0 &&
+    formData.service.trim().length > 0 &&
+    gdprChecked
+
+  const roiFingerprint = useMemo(() => {
+    if (!roiData) return 'no-roi'
+
+    return JSON.stringify({
+      annualSavings: Math.round(roiData.annualSavings),
+      totalHours: Math.round(roiData.totalHours),
+      fte: roiData.fte,
+      roi: Math.round(roiData.roi),
+      payback: roiData.payback,
+      implCost: roiData.implCost != null ? Math.round(roiData.implCost) : null,
+      hourlyRate: roiData.hourlyRate ?? null,
+      year1: roiData.year1 != null ? Math.round(roiData.year1) : null,
+      year2: roiData.year2 != null ? Math.round(roiData.year2) : null,
+      year3: roiData.year3 != null ? Math.round(roiData.year3) : null,
+      processes: roiData.processes?.map(p => ({
+        key: p.key,
+        hoursPerWeek: p.hoursPerWeek,
+        automationRate: p.automationRate,
+        annualSavings: Math.round(p.annualSavings),
+      })) ?? [],
+    })
+  }, [roiData])
+
+  const roiMetadata = useMemo(() => {
+    const metadata: Record<string, string> = {}
+
+    if (!roiData) return metadata
+
+    metadata["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
+    metadata["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
+    metadata["metadata[roi]"] = String(Math.round(roiData.roi))
+    if (roiData.payback) metadata["metadata[payback]"] = String(roiData.payback)
+    if (roiData.implCost) metadata["metadata[implCost]"] = String(Math.round(roiData.implCost))
+    if (roiData.hourlyRate) metadata["metadata[hourlyRate]"] = String(roiData.hourlyRate)
+    if (roiData.year1) metadata["metadata[year1]"] = String(Math.round(roiData.year1))
+    if (roiData.year2) metadata["metadata[year2]"] = String(Math.round(roiData.year2))
+    if (roiData.year3) metadata["metadata[year3]"] = String(Math.round(roiData.year3))
+    if (roiData.processes?.length) {
+      metadata["metadata[roiProcesses]"] = JSON.stringify(
+        roiData.processes.map(p => ({
+          k: p.key,
+          l: tCalc(`processes.${p.key}.name`),
+          h: p.hoursPerWeek,
+          r: p.automationRate,
+        }))
+      )
+    }
+
+    return metadata
+  }, [roiData, tCalc])
+
+  const liveBookingContext = useMemo<BookingContext>(() => ({
+    name: formData.name.trim(),
+    email: formData.email.trim(),
+    website: formData.website.trim(),
+    service: formData.service,
+    gdprAccepted: gdprChecked,
+    gdprAcceptedAt,
+    source: roiData ? 'roi-calculator' : 'footer-cta',
+    roiFingerprint,
+    roiMetadata,
+  }), [
+    formData.name,
+    formData.email,
+    formData.website,
+    formData.service,
+    gdprChecked,
+    gdprAcceptedAt,
+    roiData,
+    roiFingerprint,
+    roiMetadata,
+  ])
 
   // Esc key closes modal
   useEffect(() => {
@@ -70,9 +175,33 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
   // Navigate to step 2
   const goToStep2 = useCallback(() => {
     if (!isStep1Valid) return
+
+    const acceptedAt = gdprAcceptedAt || new Date().toISOString()
+    setGdprAcceptedAt(acceptedAt)
+    setBookingSnapshot({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      website: formData.website.trim(),
+      service: formData.service,
+      gdprAccepted: true,
+      gdprAcceptedAt: acceptedAt,
+      source: roiData ? 'roi-calculator' : 'footer-cta',
+      roiFingerprint,
+      roiMetadata: { ...roiMetadata },
+    })
     setDirection('forward')
     setStep(2)
-  }, [isStep1Valid])
+  }, [
+    isStep1Valid,
+    gdprAcceptedAt,
+    formData.name,
+    formData.email,
+    formData.website,
+    formData.service,
+    roiData,
+    roiFingerprint,
+    roiMetadata,
+  ])
 
   // Navigate back to step 1
   const goToStep1 = useCallback(() => {
@@ -121,45 +250,39 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
 
   // Build Cal.com config object for prefill
   const calConfig = useMemo(() => {
-    const config: Record<string, any> = {}
+    const config: Record<string, string> = {}
+    const bookingContext = bookingSnapshot ?? liveBookingContext
     
     // Prefill name and email
-    if (formData.name) config.name = formData.name
-    if (formData.email) config.email = formData.email
+    if (bookingContext.name) config.name = bookingContext.name
+    if (bookingContext.email) config.email = bookingContext.email
     
     // Metadata
-    config["metadata[source]"] = roiData ? "roi-calculator" : "footer-cta"
-    if (formData.website) config["metadata[website]"] = formData.website
-    if (formData.service) config["metadata[service]"] = formData.service
-
-    // ROI-specific metadata
-    if (roiData) {
-      config["metadata[annualSavings]"] = String(Math.round(roiData.annualSavings))
-      config["metadata[totalHours]"] = String(Math.round(roiData.totalHours))
-      config["metadata[roi]"] = String(Math.round(roiData.roi))
-      if (roiData.payback) config["metadata[payback]"] = String(roiData.payback)
-      if (roiData.implCost) config["metadata[implCost]"] = String(Math.round(roiData.implCost))
-      if (roiData.hourlyRate) config["metadata[hourlyRate]"] = String(roiData.hourlyRate)
-      if (roiData.year1) config["metadata[year1]"] = String(Math.round(roiData.year1))
-      if (roiData.year2) config["metadata[year2]"] = String(Math.round(roiData.year2))
-      if (roiData.year3) config["metadata[year3]"] = String(Math.round(roiData.year3))
-      if (roiData.processes?.length) {
-        config["metadata[roiProcesses]"] = JSON.stringify(
-          roiData.processes.map(p => ({
-            k: p.key,
-            l: tCalc(`processes.${p.key}.name`),
-            h: p.hoursPerWeek,
-            r: p.automationRate,
-          }))
-        )
-      }
+    config["metadata[source]"] = bookingContext.source
+    if (bookingContext.website) config["metadata[website]"] = bookingContext.website
+    if (bookingContext.service) config["metadata[service]"] = bookingContext.service
+    if (bookingContext.gdprAccepted && bookingContext.gdprAcceptedAt) {
+      config["metadata[gdprAccepted]"] = "true"
+      config["metadata[gdprAcceptedAt]"] = bookingContext.gdprAcceptedAt
     }
 
-    console.log('🔵 Cal.com config:', config)
-    console.log('🔵 formData:', formData)
+    // ROI-specific metadata
+    Object.assign(config, bookingContext.roiMetadata)
 
     return config
-  }, [roiData, formData.name, formData.email, formData.website, formData.service])
+  }, [bookingSnapshot, liveBookingContext])
+
+  const calKey = useMemo(() => {
+    const bookingContext = bookingSnapshot ?? liveBookingContext
+    return [
+      bookingContext.name,
+      bookingContext.email,
+      bookingContext.website,
+      bookingContext.service,
+      bookingContext.gdprAcceptedAt ?? '',
+      bookingContext.roiFingerprint,
+    ].join('|')
+  }, [bookingSnapshot, liveBookingContext])
 
   return (
     <div className={`${styles.root} main`}>
@@ -274,12 +397,13 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>{t('form.service.label')}</label>
+              <label className={styles.label}>{t('form.service.label')} *</label>
               <select
                 name="service"
                 value={formData.service}
                 onChange={(e) => updateField('service', e.target.value)}
                 className={`${styles.input} ${styles.select}`}
+                required
                 style={{ color: '#ffffff' }}
               >
                 <option value="" disabled style={{ color: '#ffffff', backgroundColor: '#0f0f0f' }}>{t('form.service.placeholder')}</option>
@@ -295,7 +419,11 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
                 type="checkbox"
                 id="gdpr"
                 checked={gdprChecked}
-                onChange={(e) => setGdprChecked(e.target.checked)}
+                onChange={(e) => {
+                  const checked = e.target.checked
+                  setGdprChecked(checked)
+                  setGdprAcceptedAt(checked ? new Date().toISOString() : null)
+                }}
                 className={styles.gdprCheckbox}
                 required
               />
@@ -399,7 +527,7 @@ export default function ContactCard({ onClose, roiData, showContactInfo = true }
           </div>
           <div className={styles.calEmbed}>
             <Cal
-              key={`${formData.name}-${formData.email}`}
+              key={calKey}
               calLink={process.env.NEXT_PUBLIC_CAL_LINK || "eteya/strategimote"}
               style={{ width: "100%", height: "100%" }}
               config={calConfig}

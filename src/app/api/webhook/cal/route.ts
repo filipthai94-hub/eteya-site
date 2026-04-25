@@ -1,5 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createHmac } from 'crypto'
+import { after, NextRequest, NextResponse } from 'next/server'
+import { createHmac, timingSafeEqual } from 'crypto'
+
+export const maxDuration = 60
 
 // In-memory rate limiting (resets on cold start, acceptable for webhook)
 const webhookRateLimitMap = new Map<string, { count: number; resetTime: number }>()
@@ -17,12 +19,84 @@ function checkWebhookRateLimit(ip: string, maxRequests: number = 5, windowMs: nu
   record.count++
   return true
 }
-import { generateHTML, type ResearchOutput, type ROIData, type BookingData } from '@/lib/generate-briefing-html'
 import { generateProHTML } from '@/lib/generate-pro-briefing-html'
+
+
+type ApiCompany = {
+  name?: string
+  orgnr?: string
+  address?: string
+  postal_code?: string
+  city?: string
+  sni_codes?: { code?: string; description?: string }[]
+  number_of_employees?: number
+  revenue?: number
+  board_members?: unknown[]
+  description?: string
+}
+
+type IndustryStats = {
+  average_revenue_per_employee?: number
+  total_enterprises?: number | null
+  size_distribution?: unknown
+}
+
+type Competitor = {
+  name?: string
+  pricing?: string
+  service?: string
+  focus?: string
+  source?: string
+}
+
+type BriefingAIOpportunity = {
+  title?: string
+  description?: string
+  estimatedSavings?: string
+  priority?: 'high' | 'medium' | 'low'
+}
 
 function verifyCalSignature(payload: string, signature: string, secret: string): boolean {
   const expected = createHmac('sha256', secret).update(payload).digest('hex')
-  return expected === signature
+  const provided = signature.replace(/^sha256=/, '')
+
+  if (!/^[a-f0-9]+$/i.test(provided)) return false
+
+  const expectedBuffer = Buffer.from(expected, 'hex')
+  const providedBuffer = Buffer.from(provided, 'hex')
+
+  if (expectedBuffer.length !== providedBuffer.length) return false
+  return timingSafeEqual(expectedBuffer, providedBuffer)
+}
+
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@')
+  if (!local || !domain) return '[invalid-email]'
+  return `${local.slice(0, 2)}***@${domain}`
+}
+
+function normalizeWebsite(input: string): string {
+  const value = input.trim().replace(/\/+$/, '')
+  if (!value) return ''
+  return /^https?:\/\//i.test(value) ? value : `https://${value}`
+}
+
+function looksLikeWebsite(input: string): boolean {
+  const value = input.trim()
+  if (!value) return false
+  if (/^https?:\/\//i.test(value)) return true
+  return /^(www\.)?[a-z0-9-]+(\.[a-z0-9-]+)+(\/.*)?$/i.test(value)
+}
+
+function companyFromWebsite(input: string): string {
+  try {
+    const hostname = new URL(normalizeWebsite(input)).hostname.replace(/^www\./i, '')
+    const baseName = hostname.split('.')[0] || hostname
+    return baseName.charAt(0).toUpperCase() + baseName.slice(1)
+  } catch {
+    const cleaned = input.trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0].split('.')[0]
+    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1)
+  }
 }
 
 async function saveToSupabase(data: {
@@ -33,33 +107,52 @@ async function saveToSupabase(data: {
   description: string
   roiData: string | null
   bookingDate: string
-}) {
+  gdprAccepted: boolean
+}): Promise<string | null> {
   const { ETEYA_SUPABASE_URL, ETEYA_SUPABASE_SERVICE_ROLE_KEY } = process.env
   if (!ETEYA_SUPABASE_URL || !ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
     console.warn('Supabase env vars missing, skipping save')
-    return
+    return null
   }
 
-  await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads`, {
-    method: 'POST',
-    headers: {
-      apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
-    },
-    body: JSON.stringify({
-      name: data.name,
-      email: data.email,
-      company: data.company || null,
-      service: data.service || null,
-      description: data.description || null,
-      roi_data: data.roiData ? (typeof data.roiData === 'string' ? JSON.parse(data.roiData) : data.roiData) : null,
-      booking_date: data.bookingDate,
-      source: 'cal-webhook',
-      gdpr_accepted: true,
-    }),
-  })
+  try {
+    const res = await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads`, {
+      method: 'POST',
+      headers: {
+        apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${ETEYA_SUPABASE_SERVICE_ROLE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation',
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        company: data.company || null,
+        service: data.service || null,
+        description: data.description || null,
+        roi_data: data.roiData ? (typeof data.roiData === 'string' ? JSON.parse(data.roiData) : data.roiData) : null,
+        booking_date: data.bookingDate,
+        source: 'cal-webhook',
+        gdpr_accepted: data.gdprAccepted,
+      }),
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text().catch(() => '[unreadable response]')
+      console.error('❌ Supabase save failed:', res.status, errorText)
+      return null
+    }
+
+    const rows = await res.json().catch(() => null)
+    const leadId = Array.isArray(rows) && typeof rows[0]?.id === 'string' ? rows[0].id : null
+    if (!leadId) {
+      console.warn('Supabase save succeeded but no lead id was returned')
+    }
+    return leadId
+  } catch (error) {
+    console.error('❌ Supabase save exception:', error)
+    return null
+  }
 }
 
 async function notifyDiscord(data: {
@@ -174,6 +267,7 @@ async function loadCompetitors() {
 }
 
 async function runResearchAndGenerateHTML(data: {
+  leadId?: string | null
   name: string
   email: string
   company: string
@@ -204,8 +298,8 @@ async function runResearchAndGenerateHTML(data: {
     const searchResults = await searchRes.json().catch(() => null)
     const orgnr = searchResults?.[0]?.orgnr
 
-    let company: any = null
-    let industryStats: any = null
+    let company: ApiCompany | null = null
+    let industryStats: IndustryStats | null = null
 
     if (orgnr) {
       // Get company details
@@ -296,7 +390,7 @@ async function runResearchAndGenerateHTML(data: {
     const html = generateProHTML(
       {
         company: {
-          name: briefingData.foretagsnamn,
+          name: briefingData.foretagsnamn || data.company || 'Okänt företag',
           website: 'https://' + briefingData.orgnr,
           description: briefingData.verksamhet,
           industry: briefingData.bransch,
@@ -309,16 +403,16 @@ async function runResearchAndGenerateHTML(data: {
           averageRevenue: briefingData.scbStats?.omsattningPerAnstalld || 0,
           employeeGrowth: 'N/A',
         },
-        competitors: briefingData.konkurrens.map((k: any) => ({
-          name: k.name,
-          pricing: k.pricing,
-          service: k.focus || k.service,
+        competitors: briefingData.konkurrens.map((k: Competitor) => ({
+          name: k.name || 'Okänd konkurrent',
+          pricing: k.pricing || 'Okänt pris',
+          service: k.focus || k.service || 'Okänd tjänst',
           source: k.source || '',
         })),
         aiOpportunities: Array.isArray(briefingData.rekommendationer.aiMojligheter)
-          ? briefingData.rekommendationer.aiMojligheter.map((ai: any, i: number) => ({
-              title: typeof ai === 'string' ? ai : ai.title,
-              description: typeof ai === 'string' ? ai : ai.description,
+          ? briefingData.rekommendationer.aiMojligheter.map((ai: string | BriefingAIOpportunity, i: number) => ({
+              title: typeof ai === 'string' ? ai : (ai.title || 'AI-möjlighet'),
+              description: typeof ai === 'string' ? ai : (ai.description || 'Identifiera relevant AI-möjlighet'),
               estimatedSavings: typeof ai === 'string' ? '~10 h/vecka' : (ai.estimatedSavings || '~10 h/vecka'),
               priority: (typeof ai === 'string' ? (i === 0 ? 'high' : i === 1 ? 'high' : 'medium') : (ai.priority || 'medium')) as 'high' | 'medium' | 'low',
             }))
@@ -358,11 +452,14 @@ async function runResearchAndGenerateHTML(data: {
     console.log('✅ HTML uploaded to Supabase:', htmlUrl)
 
     // Update lead record with HTML URL
-    if (!ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
-      throw new Error('ETEYA_SUPABASE_SERVICE_ROLE_KEY is undefined')
+    if (!ETEYA_SUPABASE_URL || !ETEYA_SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error('Supabase env vars missing for briefing URL update')
     }
 
-    await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?company=eq.${encodeURIComponent(data.company)}`, {
+    const patchFilter = data.leadId
+      ? `id=eq.${encodeURIComponent(data.leadId)}`
+      : `company=eq.${encodeURIComponent(data.company)}`
+    const patchRes = await fetch(`${ETEYA_SUPABASE_URL}/rest/v1/eteya_leads?${patchFilter}`, {
       method: 'PATCH',
       headers: {
         apikey: ETEYA_SUPABASE_SERVICE_ROLE_KEY,
@@ -372,7 +469,18 @@ async function runResearchAndGenerateHTML(data: {
       },
       body: JSON.stringify({ briefing_html_url: htmlUrl }),
     })
-    console.log('✅ Lead record updated with HTML URL')
+
+    if (!patchRes.ok) {
+      const errorText = await patchRes.text().catch(() => '[unreadable response]')
+      console.error('❌ Failed to update lead with HTML URL:', {
+        status: patchRes.status,
+        leadId: data.leadId || '[missing]',
+        fallback: data.leadId ? 'none' : 'company',
+        error: errorText,
+      })
+    } else {
+      console.log('✅ Lead record updated with HTML URL:', data.leadId ? 'by lead id' : 'by company fallback')
+    }
 
     // Step 5: Send email notification with HTML link
     await sendEmailNotification({
@@ -426,9 +534,10 @@ export async function POST(req: NextRequest) {
       console.log('Not JSON, continue with normal flow')
     }
 
-    // Skip validation for test mode
-    if (signature === 'test-skip-validation') {
-      console.log('⚠️ Test mode: skipping signature validation')
+    const isNonProductionTestBypass = signature === 'test-skip-validation' && process.env.NODE_ENV !== 'production'
+
+    if (isNonProductionTestBypass) {
+      console.log('⚠️ Non-production test mode: skipping signature validation')
     } else if (secret && signature) {
       if (!verifyCalSignature(rawBody, signature, secret)) {
         console.error('❌ Invalid signature')
@@ -444,79 +553,82 @@ export async function POST(req: NextRequest) {
 
     const body = JSON.parse(rawBody)
 
-    console.log('\n=== FULL PAYLOAD ===')
-    console.log('Event:', body.event || body.triggerEvent)
+    const eventType = body.event || body.triggerEvent
+    const bookingId = body.payload?.bookingId || body.payload?.id || body.payload?.uid || body.uid || 'unknown'
+
+    console.log('Webhook event:', eventType, 'bookingId:', bookingId)
     console.log('Body keys:', Object.keys(body).join(', '))
-    console.log('Full body:', JSON.stringify(body, null, 2).slice(0, 2000))
 
     // Only handle BOOKING_CREATED
-    if (body.event !== 'BOOKING_CREATED' && body.triggerEvent !== 'BOOKING_CREATED') {
-      console.log('Event not handled, returning early')
+    if (eventType !== 'BOOKING_CREATED') {
+      console.log('Event not handled, returning early:', eventType)
       return NextResponse.json({ ok: true, message: 'Event not handled' })
     }
 
     const payload = body.payload ?? body
+    const metadata = payload?.metadata ?? {}
 
-    console.log('\n=== PAYLOAD STRUCTURE ===')
-    console.log('Payload keys:', Object.keys(payload).join(', '))
-    console.log('payload.responses:', payload.responses ? 'EXISTS' : 'MISSING')
-    console.log('payload.attendees:', payload.attendees ? payload.attendees.length + ' items' : 'MISSING')
-    console.log('payload.metadata:', payload.metadata ? 'EXISTS' : 'MISSING')
-    console.log('payload.title:', payload.title)
-    console.log('payload.description:', payload.description)
+    console.log('Payload summary:', JSON.stringify({
+      bookingId: payload?.bookingId || payload?.id || payload?.uid || bookingId,
+      hasResponses: Boolean(payload.responses),
+      attendeeCount: payload.attendees?.length ?? 0,
+      hasMetadata: Boolean(payload.metadata),
+      eventTitle: payload.eventTitle || payload.title || '[missing]',
+    }))
 
     // Helper to extract value from { label, value } objects
-    const extractValue = (field: any): string => {
+    const extractValue = (field: unknown): string => {
       if (!field) return ''
-      if (typeof field === 'string') return field
-      if (typeof field === 'object' && field.value) return String(field.value)
+      if (typeof field === 'string') return field.trim()
+      if (typeof field === 'object' && field !== null && 'value' in field) return String(field.value).trim()
       return ''
-    }
-
-    // Helper to detect if a string looks like a website (contains .)
-    const isWebsite = (str: string): boolean => {
-      return str.includes('.') && !str.startsWith('http://') && !str.startsWith('https://')
     }
 
     // Extract data (handle { label, value } format from Cal.com)
     const name = extractValue(payload?.responses?.name ?? payload?.attendees?.[0]?.name ?? payload?.title)
     const email = extractValue(payload?.responses?.email ?? payload?.attendees?.[0]?.email)
-    const websiteInput = extractValue(payload?.metadata?.website)
-    const service = extractValue(payload?.title)
+    const websiteInput = extractValue(metadata.website)
+    const service = extractValue(metadata.service ?? payload?.eventTitle ?? payload?.title)
     const description = extractValue(payload?.description ?? payload?.responses?.notes)
+    const gdprAccepted = metadata.gdprAccepted === 'true' || metadata.gdprAccepted === true || Boolean(metadata.gdprAcceptedAt)
 
     // SMART PARSING: Extract company name from website input
-    // User can enter: "telestore.se" OR "Telestore Sverige AB" OR both
+    // User can enter: "telestore.se", "www.telestore.se", "https://telestore.se", or "Telestore Sverige AB".
     let company = ''
     let website = ''
 
     if (websiteInput) {
-      if (isWebsite(websiteInput)) {
-        // User entered a website (e.g., "telestore.se")
-        website = websiteInput
-        // Extract company name from domain
-        company = websiteInput.replace(/^www\./, '').split('.')[0]
-        company = company.charAt(0).toUpperCase() + company.slice(1)
-        console.log('🔍 Extracted company from website:', company, 'from', website)
+      if (looksLikeWebsite(websiteInput)) {
+        website = normalizeWebsite(websiteInput)
+        company = companyFromWebsite(websiteInput)
       } else {
-        // User entered a company name (e.g., "Telestore Sverige AB")
-        company = websiteInput
-        website = ''
-        console.log('🔍 Using company name directly:', company)
+        company = websiteInput.trim()
       }
     }
 
-    // Build roiData from separate metadata fields (sent from ContactCard)
-    const roiData = payload?.metadata?.annualSavings ? {
-      annualSavings: Number(payload.metadata.annualSavings) || 0,
-      totalHours: Number(payload.metadata.totalHours) || 0,
-      roi: Number(payload.metadata.roi) || 0,
-      payback: payload.metadata.payback ? Number(payload.metadata.payback) : null,
-      implCost: payload.metadata.implCost ? Number(payload.metadata.implCost) : null,
-      hourlyRate: payload.metadata.hourlyRate ? Number(payload.metadata.hourlyRate) : 400,
-      year1: payload.metadata.year1 ? Number(payload.metadata.year1) : 0,
-      year2: payload.metadata.year2 ? Number(payload.metadata.year2) : 0,
-      year3: payload.metadata.year3 ? Number(payload.metadata.year3) : 0,
+    const toNumber = (value: unknown, fallback = 0) => {
+      const numberValue = Number(value)
+      return Number.isFinite(numberValue) ? numberValue : fallback
+    }
+
+    // Build roiData from separate metadata fields (sent from ContactCard), keeping originals
+    // and adding briefing-format aliases expected downstream.
+    const roiData = metadata.annualSavings ? {
+      annualSavings: toNumber(metadata.annualSavings),
+      totalHours: toNumber(metadata.totalHours),
+      roi: toNumber(metadata.roi),
+      payback: metadata.payback ? toNumber(metadata.payback) : null,
+      implCost: metadata.implCost ? toNumber(metadata.implCost) : null,
+      hourlyRate: metadata.hourlyRate ? toNumber(metadata.hourlyRate, 400) : 400,
+      year1: metadata.year1 ? toNumber(metadata.year1) : 0,
+      year2: metadata.year2 ? toNumber(metadata.year2) : 0,
+      year3: metadata.year3 ? toNumber(metadata.year3) : 0,
+      roiProcesses: metadata.roiProcesses || null,
+      besparingKr: toNumber(metadata.annualSavings),
+      sparatTimmar: toNumber(metadata.totalHours),
+      roiProcent: toNumber(metadata.roi),
+      paybackManader: metadata.payback ? toNumber(metadata.payback) : 0,
+      fte: toNumber(metadata.fte),
     } : null
 
     const bookingDate = payload?.startTime ?? payload?.start ?? new Date().toISOString()
@@ -533,11 +645,18 @@ export async function POST(req: NextRequest) {
       description,
       roiData: roiData ? JSON.stringify(roiData) : null,
       bookingDate: formattedDate,
+      gdprAccepted,
     }
 
-    // Save to Supabase + notify Discord in parallel
-    console.log('\n=== SAVING TO SUPABASE ===')
-    console.log('Lead data:', JSON.stringify({ name, email, company, service }, null, 2))
+    // Save to Supabase + notify Discord in parallel before returning.
+    console.log('Saving lead:', JSON.stringify({
+      bookingId: payload?.bookingId || payload?.id || payload?.uid || bookingId,
+      email: email ? maskEmail(email) : '[missing]',
+      company: company || '[missing]',
+      service: service || '[missing]',
+      hasRoiData: Boolean(roiData),
+      gdprAccepted,
+    }))
 
     const [saveResult, discordResult] = await Promise.allSettled([
       saveToSupabase(leadData),
@@ -547,6 +666,8 @@ export async function POST(req: NextRequest) {
     console.log('Supabase save result:', saveResult.status)
     console.log('Discord notify result:', discordResult.status)
 
+    const leadId = saveResult.status === 'fulfilled' ? saveResult.value : null
+
     if (saveResult.status === 'rejected') {
       console.error('❌ Supabase save failed:', saveResult.reason)
     }
@@ -554,19 +675,27 @@ export async function POST(req: NextRequest) {
       console.error('❌ Discord notify failed:', discordResult.reason)
     }
 
-    // Generate HTML (await to ensure completion before response)
-    console.log('\n=== GENERATING HTML BRIEFING ===')
-    console.log('Company:', company)
-    console.log('ROI data:', roiData ? 'PRESENT' : 'MISSING')
-
-    await runResearchAndGenerateHTML({
-      name,
-      email,
-      company,
-      website: website || undefined,
-      service,
-      roiData: leadData.roiData,
-      bookingDate,
+    // Generate research/HTML after the response using Next.js after(), so Vercel keeps it within route maxDuration.
+    after(async () => {
+      try {
+        await runResearchAndGenerateHTML({
+          leadId,
+          name,
+          email,
+          company,
+          website: website || undefined,
+          service,
+          roiData: leadData.roiData,
+          bookingDate,
+        })
+      } catch (error) {
+        console.error('Async research/HTML pipeline failed:', {
+          bookingId: payload?.bookingId || payload?.id || payload?.uid || bookingId,
+          leadId: leadId || '[missing]',
+          email: email ? maskEmail(email) : '[missing]',
+          error,
+        })
+      }
     })
 
     console.log('\n=== WEBHOOK COMPLETE ===')

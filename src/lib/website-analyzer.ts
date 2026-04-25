@@ -180,12 +180,19 @@ const INDUSTRY_KEYWORDS: Record<string, string[]> = {
   'Utbildning': ['utbildning', 'kurs', 'lärande', 'skola', 'certifikat']
 }
 
+function normalizeWebsiteUrl(url: string): string {
+  const normalized = url.trim().replace(/\/+$/, '')
+  if (!normalized) return normalized
+  return /^https?:\/\//i.test(normalized) ? normalized : `https://${normalized}`
+}
+
 export async function analyzeWebsite(url: string): Promise<WebsiteAnalysis> {
-  console.log(`\n🔍 Analyserar ${url}...`)
+  const normalizedUrl = normalizeWebsiteUrl(url)
+  console.log(`\n🔍 Analyserar ${normalizedUrl}...`)
   
   try {
     // Fetch website HTML
-    const response = await fetch(url, {
+    const response = await fetch(normalizedUrl, {
       signal: AbortSignal.timeout(10000), // 10s timeout
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; Eteya Lead Research Bot/1.0)'
@@ -268,7 +275,7 @@ export async function analyzeWebsite(url: string): Promise<WebsiteAnalysis> {
     }
     
     const result: WebsiteAnalysis = {
-      url,
+      url: normalizedUrl,
       title,
       description,
       industry,
@@ -285,11 +292,11 @@ export async function analyzeWebsite(url: string): Promise<WebsiteAnalysis> {
     return result
     
   } catch (error) {
-    console.error(`❌ Fel vid analys av ${url}:`, error)
+    console.error(`❌ Fel vid analys av ${normalizedUrl}:`, error)
     
     // Return fallback
     return {
-      url,
+      url: normalizedUrl,
       title: 'Kunde inte läsa hemsidan',
       description: 'Website scraping misslyckades. Bokaren bör kolla hemsidan manuellt.',
       industry: 'Okänd',

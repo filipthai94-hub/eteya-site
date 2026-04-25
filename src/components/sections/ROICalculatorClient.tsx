@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslations, useLocale } from 'next-intl'
 import { useScrollLock } from '@/hooks/useScrollLock'
-import ButtonStripe from '@/components/ui/ButtonStripe'
+import buttonStripeStyles from '@/components/ui/ButtonStripe.module.css'
 import ContactCard from '@/components/ui/contact-card'
 import type { ROIData } from '@/components/ui/contact-card'
 import { gsap } from 'gsap'
@@ -250,6 +250,7 @@ export default function ROITestClient() {
   const socialProofRef = useRef<HTMLDivElement>(null)
   const methodologyRef = useRef<HTMLDivElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
+  const contactCtaRef = useRef<HTMLButtonElement>(null)
 
   // GSAP Scroll Reveal — samma som Telestore Case Study
   useEffect(() => {
@@ -338,19 +339,21 @@ export default function ROITestClient() {
   const modalPanelRef = useRef<HTMLDivElement>(null)
   const restoreFocusRef = useRef<HTMLElement | null>(null)
 
-  // Lock body scroll when modal is mounted
-  useScrollLock({ lockTarget: 'body', autoLock: isModalMounted })
+  // Lock body scroll when modal is mounted/open
+  useScrollLock({ lockTarget: 'body', autoLock: isModalMounted || isModalOpen })
 
   const openModal = useCallback(() => {
     // Remember what was focused before opening, so we can restore on close
     restoreFocusRef.current = document.activeElement as HTMLElement | null
+    // Set both states synchronously so the portal mounts deterministically.
+    // Avoid requestAnimationFrame here; Playwright/click automation can miss the delayed open.
     setIsModalMounted(true)
-    requestAnimationFrame(() => setIsModalOpen(true))
+    setIsModalOpen(true)
   }, [])
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
-    setTimeout(() => {
+    window.setTimeout(() => {
       setIsModalMounted(false)
       // Restore focus to the element that opened the modal (CTA button)
       restoreFocusRef.current?.focus()
@@ -432,6 +435,20 @@ export default function ROITestClient() {
   const handleOpenContact = () => {
     openModal()
   }
+
+  // Native click listener as a deterministic fallback for automation and DOM .click().
+  useEffect(() => {
+    const cta = contactCtaRef.current
+    if (!cta) return
+
+    const handleClick = (event: MouseEvent) => {
+      event.preventDefault()
+      openModal()
+    }
+
+    cta.addEventListener('click', handleClick)
+    return () => cta.removeEventListener('click', handleClick)
+  }, [openModal])
 
   // Counter animation för Snapshot Bar — samma som Telestore
   useEffect(() => {
@@ -687,9 +704,21 @@ export default function ROITestClient() {
 
             {/* 6. CTA */}
             <div ref={ctaRef} className={`${s.ctaArea} ${showMethodology ? s.ctaAreaOpen : ''}`}>
-              <ButtonStripe onClick={handleOpenContact} fullWidth>
-                {t('cta.primary')}
-              </ButtonStripe>
+              <button
+                ref={contactCtaRef}
+                type="button"
+                className={`${buttonStripeStyles.btn} ${buttonStripeStyles.fullWidth}`}
+                onClick={handleOpenContact}
+                aria-haspopup="dialog"
+                aria-expanded={isModalOpen}
+                aria-controls="roi-contact-modal"
+              >
+                <span className={`${buttonStripeStyles.stripe} ${buttonStripeStyles.s1}`} />
+                <span className={`${buttonStripeStyles.stripe} ${buttonStripeStyles.s2}`} />
+                <span className={`${buttonStripeStyles.stripe} ${buttonStripeStyles.s3}`} />
+                <span className={`${buttonStripeStyles.stripe} ${buttonStripeStyles.s4}`} />
+                <span className={buttonStripeStyles.text}>{t('cta.primary')}</span>
+              </button>
               <p className={s.ctaSub}>{t('cta.sub')}</p>
               <button
                 type="button"
@@ -737,6 +766,7 @@ export default function ROITestClient() {
           onClick={(e) => e.target === e.currentTarget && closeModal()}
         >
           <div
+            id="roi-contact-modal"
             ref={modalPanelRef}
             className={`${s.modalPanel} ${isModalOpen ? s.modalPanelOpen : ''}`}
           >
