@@ -327,7 +327,7 @@ export default function SKGStockholmCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/mirza-ekici.jpg"
+              src="/images/mirza-ekici.webp"
               alt={t('quote.author')}
               width={180}
               height={180}

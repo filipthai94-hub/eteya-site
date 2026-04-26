@@ -173,7 +173,7 @@ git push origin main
 
 **Citat:**
 - Brindar Akalp, VD Telestore
-- Bild: `brindar-akalp.jpg`
+- Bild: `brindar-akalp.webp`
 
 ---
 

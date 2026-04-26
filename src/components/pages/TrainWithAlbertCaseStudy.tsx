@@ -338,7 +338,7 @@ export default function TrainWithAlbertCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/albert-elshani.jpg"
+              src="/images/albert-elshani.webp"
               alt={t('quote.author')}
               width={180}
               height={180}

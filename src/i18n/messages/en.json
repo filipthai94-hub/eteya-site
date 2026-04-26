@@ -1073,7 +1073,7 @@
           "bigNumberLabel": "Missed calls",
           "quote": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
           "quoteAuthor": "Kerem Celik, CEO, Pizzeria Sannegården",
-          "quoteImage": "/images/kerem-celik.jpg",
+          "quoteImage": "/images/kerem-celik.webp",
           "caseStudyUrl": "/sv/kundcase/sannegarden",
           "logo": "/images/logos/sannegarden-new.svg"
         }
@@ -1134,7 +1134,7 @@
         ],
         "quote": "We used to spend hours every week on manual tasks like writing shipping labels and confirming emails. Now Eteya handles all of that automatically. It has made us faster and less stressed.",
         "quoteAuthor": "Brindar Akalp, CEO, Telestore",
-        "quoteImage": "/images/brindar-akalp.jpg"
+        "quoteImage": "/images/brindar-akalp.webp"
       },
       {
         "name": "NordicRank",
@@ -1151,7 +1151,7 @@
         ],
         "quote": "We were stuck in Excel. Eteya built a system that eats our orders for us — we got back time we didn't even know we were losing.",
         "quoteAuthor": "Matyas Dios, Founder & CEO, NordicRank",
-        "quoteImage": "/images/matyas-dios.jpg"
+        "quoteImage": "/images/matyas-dios.webp"
       },
       {
         "name": "Sannegårdens Pizzeria",
@@ -1168,7 +1168,7 @@
         ],
         "quote": "The AI handles phone calls during rush hour. It has made sure we don't miss any orders anymore, even when we're busy in the kitchen.",
         "quoteAuthor": "Kerem Celik, CEO, Pizzeria Sannegården",
-        "quoteImage": "/images/kerem-celik.jpg"
+        "quoteImage": "/images/kerem-celik.webp"
       },
       {
         "name": "TrainWithAlbert",
@@ -1185,7 +1185,7 @@
         ],
         "quote": "From answering the same questions all day to automating 90% of support. It has given me time to focus on helping people reach their goals.",
         "quoteAuthor": "Albert Elshani, Founder & CEO, TrainWithAlbert",
-        "quoteImage": "/images/albert-elshani.jpg"
+        "quoteImage": "/images/albert-elshani.webp"
       },
       {
         "name": "SKG Stockholm",
@@ -1202,7 +1202,7 @@
         ],
         "quote": "Eteya's assistant hasn't replaced anyone — it has multiplied me. Now I have time to focus on growth, not just operations.",
         "quoteAuthor": "Mirza Ekici, CEO, SKG Stockholm",
-        "quoteImage": "/images/mirza-ekici.jpg"
+        "quoteImage": "/images/mirza-ekici.webp"
       }
     ]
   },

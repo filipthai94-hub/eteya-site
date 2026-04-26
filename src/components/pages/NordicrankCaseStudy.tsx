@@ -338,7 +338,7 @@ export default function NordicrankCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/matyas-dios.jpg"
+              src="/images/matyas-dios.webp"
               alt={t('quote.author')}
               width={180}
               height={180}

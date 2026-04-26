@@ -1073,7 +1073,7 @@
           "bigNumberLabel": "Missade samtal",
           "quote": "AI:n sköter telefonerna när det är rush. Det har gjort att vi inte missar några beställningar längre, även när vi är upptagna i köket.",
           "quoteAuthor": "Kerem Celik, VD, Pizzeria Sannegården",
-          "quoteImage": "/images/kerem-celik.jpg",
+          "quoteImage": "/images/kerem-celik.webp",
           "caseStudyUrl": "/sv/kundcase/sannegarden",
           "logo": "/images/logos/sannegarden-new.svg"
         }
@@ -1134,7 +1134,7 @@
         ],
         "quote": "Vi brukade lägga timmar varje vecka på manuella uppgifter som att skriva fraktsedlar och bekräfta mail. Nu sköter Eteya allt det automatiskt. Det har gjort oss snabbare och mindre stressade.",
         "quoteAuthor": "Brindar Akalp, VD, Telestore",
-        "quoteImage": "/images/brindar-akalp.jpg"
+        "quoteImage": "/images/brindar-akalp.webp"
       },
       {
         "name": "NordicRank",
@@ -1151,7 +1151,7 @@
         ],
         "quote": "Vi var fast i Excel. Eteya byggde ett system som äter våra ordrar för oss — vi har fått tillbaka tid vi inte ens visste vi förlorade.",
         "quoteAuthor": "Matyas Dios, Grundare & VD, NordicRank",
-        "quoteImage": "/images/matyas-dios.jpg"
+        "quoteImage": "/images/matyas-dios.webp"
       },
       {
         "name": "Sannegårdens Pizzeria",
@@ -1168,7 +1168,7 @@
         ],
         "quote": "AI:n sköter telefonerna när det är rush. Det har gjort att vi inte missar några beställningar längre, även när vi är upptagna i köket.",
         "quoteAuthor": "Kerem Celik, VD, Pizzeria Sannegården",
-        "quoteImage": "/images/kerem-celik.jpg"
+        "quoteImage": "/images/kerem-celik.webp"
       },
       {
         "name": "TrainWithAlbert",
@@ -1185,7 +1185,7 @@
         ],
         "quote": "Från att svara på samma frågor hela dagarna till att automatisera 90% av supporten. Det har gett mig tid att fokusera på att hjälpa folk nå sina mål.",
         "quoteAuthor": "Albert Elshani, Grundare & VD, TrainWithAlbert",
-        "quoteImage": "/images/albert-elshani.jpg"
+        "quoteImage": "/images/albert-elshani.webp"
       },
       {
         "name": "SKG Stockholm",
@@ -1202,7 +1202,7 @@
         ],
         "quote": "Eteya:s assistent har inte ersatt någon, den har multiplicerat mig. Nu hinner jag fokusera på tillväxt, inte bara drift.",
         "quoteAuthor": "Mirza Ekici, VD, SKG Stockholm",
-        "quoteImage": "/images/mirza-ekici.jpg"
+        "quoteImage": "/images/mirza-ekici.webp"
       }
     ]
   },

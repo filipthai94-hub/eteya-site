@@ -332,7 +332,7 @@ export default function TelestoreCaseStudy() {
         <div className={styles.quoteInner}>
           <div className={styles.quoteImageWrap}>
             <Image
-              src="/images/brindar-akalp.jpg"
+              src="/images/brindar-akalp.webp"
               alt={t('quote.author')}
               width={180}
               height={180}
