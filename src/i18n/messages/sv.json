@@ -311,6 +311,10 @@
     "hero_subheading": "Vi svarar inom 1 vardag",
     "heading": "Hör av dig.",
     "subheading": "Fyll i formuläret så återkommer vi inom 1 vardag.",
+    "meta": {
+      "title": "Boka strategimöte med Eteya | AI-konsulter Sverige",
+      "description": "Boka kostnadsfritt 30 min strategimöte med Eteya — svenska AI-konsulter som bygger AI-agenter och processautomation för små och medelstora företag."
+    },
     "fields": {
       "name": {
         "label": "Namn",
@@ -639,7 +643,7 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — Kundcase | Eteya AI",
+      "title": "Telestore — Kundcase | Eteya",
       "description": "Hur Eteya automatiserade Telestores arbetsflöden med 56 automationer och sparade 390 000 kr/år.",
       "ogImageAlt": "Telestore kundcase — 390 000 kr/år i besparing med 56 automationer"
     },
@@ -739,7 +743,7 @@
   },
   "nordicrank": {
     "meta": {
-      "title": "Nordicrank — Kundcase | Eteya AI",
+      "title": "Nordicrank — Kundcase | Eteya",
       "description": "Hur Eteya ersatte Nordicranks manuella Excel-arbete med 18 automatiserade flöden — orderintag, status-tracking och fakturering. 13.4 timmar/vecka tillbaka.",
       "ogImageAlt": "Nordicrank kundcase — 13.4 timmar tillbaka per vecka med automation"
     },
@@ -838,7 +842,7 @@
   },
   "sannegarden": {
     "meta": {
-      "title": "Sannegården — Kundcase | Eteya AI",
+      "title": "Sannegården — Kundcase | Eteya",
       "description": "Hur Eteya hjälpte Sannegården till 0 missade samtal och 30+ extra beställningar per vecka."
     },
     "snapshot": {
@@ -928,7 +932,7 @@
   },
   "trainwithalbert": {
     "meta": {
-      "title": "TrainWithAlbert — Kundcase | Eteya AI",
+      "title": "TrainWithAlbert — Kundcase | Eteya",
       "description": "Hur Eteya gav TrainWithAlbert 3x fler bokningar och 45% återbokning med 8 automationer."
     },
     "heroTitle": "TrainWithAlbert",
@@ -1020,7 +1024,7 @@
   },
   "about": {
     "meta": {
-      "title": "Om Oss — Eteya AI",
+      "title": "Om Oss — Eteya",
       "description": "Vi är Eteya — AI-konsulter som automatiserar svenska företag med smarta lösningar och mätbara resultat."
     },
     "hero": {
@@ -1565,9 +1569,9 @@
   },
   "skgstockholm": {
     "meta": {
-      "title": "SKG Stockholm — Kundcase | Eteya AI",
+      "title": "SKG Stockholm — Kundcase | Eteya",
       "description": "Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin — och låter honom fokusera på att bygga bolaget.",
-      "ogImageAlt": "SKG Stockholm — Personlig AI-assistent för VD | Eteya AI"
+      "ogImageAlt": "SKG Stockholm — Personlig AI-assistent för VD | Eteya"
     },
     "heroTitle": "SKG Stockholm",
     "heroWords": [

@@ -46,6 +46,69 @@ export async function generateMetadata({
   }
 }
 
+// HowTo schema — step-by-step methodology for AI Overview / Perplexity citation
+const getHowToSchema = (locale: string) => {
+  const isSv = locale === 'sv'
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: isSv
+      ? 'Så här räknar Eteya AI-besparing'
+      : 'How Eteya calculates AI savings',
+    description: isSv
+      ? 'Transparent 5-stegs metodik för att beräkna verklig AI-besparing baserad på SCB-lönestatistik, McKinsey automationsdata och Forrester ramp-up-benchmark.'
+      : 'Transparent 5-step methodology to calculate real AI savings, based on SCB wage statistics, McKinsey automation data and Forrester ramp-up benchmarks.',
+    totalTime: 'PT10M',
+    estimatedCost: {
+      '@type': 'MonetaryAmount',
+      currency: 'SEK',
+      value: '0',
+    },
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: isSv ? 'Identifiera processer' : 'Identify processes',
+        text: isSv
+          ? 'Lista vilka manuella processer ni har idag — kundtjänst, fakturering, leads, rapportering, e-post, intern koordinering. Markera de som är repetitiva och regelbaserade.'
+          : 'List your current manual processes — customer service, invoicing, leads, reporting, email, internal coordination. Mark the ones that are repetitive and rule-based.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: isSv ? 'Mät tidsåtgång per vecka' : 'Measure hours per week',
+        text: isSv
+          ? 'Räkna hur många timmar per vecka teamet spenderar på varje process. Inkludera alla anställda som rör processen, inte bara en person.'
+          : 'Count how many hours per week your team spends on each process. Include everyone touching the process, not just one person.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: isSv ? 'Tillämpa automationsgrad' : 'Apply automation rate',
+        text: isSv
+          ? 'Multiplicera med branschmässig automationsgrad: kundtjänst 45%, fakturering 65%, rapportering 70%, e-post 50%. Källa: McKinsey Economic Potential of Generative AI (2023).'
+          : 'Multiply by industry-standard automation rate: customer service 45%, invoicing 65%, reporting 70%, email 50%. Source: McKinsey Economic Potential of Generative AI (2023).',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: isSv ? 'Beräkna årlig besparing' : 'Calculate annual savings',
+        text: isSv
+          ? 'Timmar/vecka × automationsgrad × 52 veckor × 400 kr/h = teoretisk maxbesparing per år. Timkostnaden 400 kr/h baseras på SCB Lönestrukturstatistik 2024 + Skatteverket arbetsgivaravgift 31,42%.'
+          : 'Hours/week × automation rate × 52 weeks × 400 SEK/h = theoretical max savings per year. The 400 SEK/h hourly cost is based on SCB Wage Statistics 2024 + Skatteverket employer fee 31.42%.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 5,
+        name: isSv ? 'Applicera ramp-up-faktor' : 'Apply ramp-up factor',
+        text: isSv
+          ? 'År 1: 40% av maxbesparing (implementation + inkörning). År 2: 75%. År 3: 100% (full effekt). Konservativ Forrester TEI / Deloitte RPA Survey-benchmark — vi rundar nedåt, aldrig uppåt.'
+          : 'Year 1: 40% of max savings (implementation + ramp-up). Year 2: 75%. Year 3: 100% (full effect). Conservative Forrester TEI / Deloitte RPA Survey benchmark — we round down, never up.',
+      },
+    ],
+  }
+}
+
 const getArticleSchema = (locale: string) => {
   const url = `${BASE_URL}${locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'}`
   return {
@@ -120,6 +183,10 @@ export default async function MethodologyPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(getArticleSchema(locale)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getHowToSchema(locale)) }}
       />
       <Nav />
       <div className="page-content">

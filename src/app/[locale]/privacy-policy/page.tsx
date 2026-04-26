@@ -49,13 +49,13 @@ function PrivacyPolicyJsonLd({ locale }: { locale: string }) {
     '@type': 'WebPage',
     name: isSv ? 'Integritetspolicy' : 'Privacy Policy',
     description: isSv
-      ? 'Läs hur Eteya AI hanterar dina personuppgifter. GDPR-kompatibel behandling av data.'
-      : 'Read how Eteya AI handles your personal data. GDPR-compliant data processing.',
+      ? 'Läs hur Eteya hanterar dina personuppgifter. GDPR-kompatibel behandling av data.'
+      : 'Read how Eteya handles your personal data. GDPR-compliant data processing.',
     url: `${BASE_URL}${isSv ? '/sv/integritetspolicy' : '/en/privacy-policy'}`,
     dateModified: '2026-04-22',
     publisher: {
       '@type': 'Organization',
-      name: 'Eteya AI',
+      name: 'Eteya',
       logo: {
         '@type': 'ImageObject',
         url: `${BASE_URL}/favicon-512x512.png`,

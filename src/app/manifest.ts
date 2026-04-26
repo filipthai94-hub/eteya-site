@@ -4,7 +4,7 @@ type IconPurpose = 'any' | 'maskable' | 'monochrome'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Eteya AI — AI som driver ditt företag',
+    name: 'Eteya — AI som driver ditt företag',
     short_name: 'Eteya',
     description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-automation som faktiskt levererar resultat.',
     start_url: '/',

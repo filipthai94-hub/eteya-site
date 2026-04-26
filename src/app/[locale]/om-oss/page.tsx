@@ -81,8 +81,8 @@ export default async function AboutPage({
       <JsonLd data={{
         '@context': 'https://schema.org',
         '@type': 'AboutPage',
-        name: locale === 'sv' ? 'Om Oss | Eteya AI' : 'About | Eteya AI',
-        description: locale === 'sv' ? 'Lär känna teamet bakom Eteya AI — AI-konsulter som bygger automationer som levererar resultat.' : 'Meet the team behind Eteya AI — AI consultants building automations that deliver results.',
+        name: locale === 'sv' ? 'Om Oss | Eteya' : 'About | Eteya',
+        description: locale === 'sv' ? 'Lär känna teamet bakom Eteya — AI-konsulter som bygger automationer som levererar resultat.' : 'Meet the team behind Eteya — AI consultants building automations that deliver results.',
         url: `https://eteya.ai/${locale === 'sv' ? 'sv/om-oss' : 'en/about'}`,
       }} />
       <JsonLd data={createBreadcrumbSchema([

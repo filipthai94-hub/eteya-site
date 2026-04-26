@@ -343,7 +343,7 @@ export default function FAQClient() {
                     onClick={() => setOpenIndex((current) => (current === index ? null : index))}
                   >
                     <span className="faq-number">{number}</span>
-                    <span className="faq-question">{item.question}</span>
+                    <h3 className="faq-question">{item.question}</h3>
                     <span
                       className="faq-icon"
                       aria-hidden="true"

@@ -51,7 +51,7 @@ export async function generateMetadata({
 const getCollectionSchema = (locale: string) => ({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  'name': locale === 'sv' ? 'Kundcase — Eteya AI' : 'Case Studies — Eteya AI',
+  'name': locale === 'sv' ? 'Kundcase — Eteya' : 'Case Studies — Eteya',
   'description': locale === 'sv'
     ? 'Verifierade kundcase från svenska företag som sparat tid och pengar med AI-automation.'
     : 'Verified case studies from Swedish companies that saved time and money with AI automation.',

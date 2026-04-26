@@ -21,7 +21,7 @@ export function JsonLd({ data }: { data: object }) {
 export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Eteya AI',
+  name: 'Eteya',
   legalName: 'Eteya Consulting AB',
   url: 'https://eteya.ai',
   logo: 'https://eteya.ai/favicon-512x512.png',
@@ -76,7 +76,7 @@ export const organizationSchema = {
 export const webSiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Eteya AI',
+  name: 'Eteya',
   url: 'https://eteya.ai',
   description: 'Eteya — svensk AI-konsultbyrå som bygger AI-agenter för små och medelstora företag.',
   potentialAction: {
@@ -175,7 +175,7 @@ export function createArticleSchema(article: {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Eteya AI',
+      name: 'Eteya',
       logo: {
         '@type': 'ImageObject',
         url: 'https://eteya.ai/favicon-512x512.png',

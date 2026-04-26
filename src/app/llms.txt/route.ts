@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const content = `# Eteya AI
+  const content = `# Eteya
 
 > Eteya är AI-konsulter som bygger automationer som faktiskt levererar resultat. Vi startade bolaget i november 2024 för att bevisa att AI inte bara låter bra på möten.
 

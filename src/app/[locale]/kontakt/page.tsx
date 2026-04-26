@@ -19,8 +19,8 @@ export async function generateMetadata({
   const enPath = '/en/contact'
 
   return {
-    title: t('section_label') + ' | Eteya',
-    description: t('subheading'),
+    title: t('meta.title'),
+    description: t('meta.description'),
     alternates: {
       canonical: `${BASE_URL}${locale === 'sv' ? svPath : enPath}`,
       languages: {
@@ -30,18 +30,18 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: t('section_label') + ' | Eteya',
-      description: t('subheading'),
+      title: t('meta.title'),
+      description: t('meta.description'),
       url: `${BASE_URL}${locale === 'sv' ? svPath : enPath}`,
       siteName: 'Eteya',
       type: 'website',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
-      images: [{ url: `/images/og/og-kontakt-${locale}.jpg`, width: 1200, height: 630, alt: t('section_label') + ' | Eteya' }],
+      images: [{ url: `/images/og/og-kontakt-${locale}.jpg`, width: 1200, height: 630, alt: t('meta.title') }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: t('section_label') + ' | Eteya',
-      description: t('subheading'),
+      title: t('meta.title'),
+      description: t('meta.description'),
       images: [`/images/og/og-kontakt-${locale}.jpg`],
     },
   }
@@ -60,12 +60,12 @@ export default async function KontaktPage({
       <JsonLd data={{
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
-        name: 'Kontakt Eteya AI',
+        name: 'Kontakt Eteya',
         description: locale === 'sv' ? 'Kontakta Eteya för AI-konsulting och automation. Boka ett kostnadsfritt strategisamtal idag.' : 'Contact Eteya for AI consulting and automation. Book a free strategy call today.',
         url: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}`,
         mainEntity: {
           '@type': 'Organization',
-          name: 'Eteya AI',
+          name: 'Eteya',
           telephone: '+46739823962',
           email: 'kontakt@eteya.ai',
           address: {

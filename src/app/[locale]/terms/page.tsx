@@ -48,13 +48,13 @@ function TermsJsonLd({ locale }: { locale: string }) {
     '@type': 'WebPage',
     name: isSv ? 'Villkor' : 'Terms of Service',
     description: isSv
-      ? 'Eteya AI:s villkor för användning av tjänsten.'
-      : 'Eteya AI terms of service for using the platform.',
+      ? 'Eteya:s villkor för användning av tjänsten.'
+      : 'Eteya terms of service for using the platform.',
     url: `${BASE_URL}${isSv ? '/sv/villkor' : '/en/terms'}`,
     dateModified: '2026-04-22',
     publisher: {
       '@type': 'Organization',
-      name: 'Eteya AI',
+      name: 'Eteya',
       logo: {
         '@type': 'ImageObject',
         url: `${BASE_URL}/favicon-512x512.png`,

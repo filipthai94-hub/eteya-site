@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const content = `# Eteya AI — Fullständig Innehåll
+  const content = `# Eteya — Fullständig Innehåll
 
 ## Hemsida
 
-**Titel:** Eteya AI — AI som driver ditt företag
+**Titel:** Eteya — AI som driver ditt företag
 
 **Tagline:** Mindre manuellt. Mer tillväxt.
 

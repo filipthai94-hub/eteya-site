@@ -311,6 +311,10 @@
     "hero_subheading": "We respond within 1 business day",
     "heading": "Get in touch.",
     "subheading": "Fill in the form and we'll get back to you within 1 business day.",
+    "meta": {
+      "title": "Book a strategy meeting with Eteya | AI consultants Sweden",
+      "description": "Book a free 30 min strategy meeting with Eteya — Swedish AI consultants building AI agents and process automation for small and medium-sized businesses."
+    },
     "fields": {
       "name": {
         "label": "Name",
@@ -639,7 +643,7 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — Case Study | Eteya AI",
+      "title": "Telestore — Case Study | Eteya",
       "description": "How Eteya automated Telestores workflows with 56 automations, saving 390,000 SEK/year.",
       "ogImageAlt": "Telestore case study — 390,000 SEK/year savings with 56 automations"
     },
@@ -739,7 +743,7 @@
   },
   "nordicrank": {
     "meta": {
-      "title": "Nordicrank — Case Study | Eteya AI",
+      "title": "Nordicrank — Case Study | Eteya",
       "description": "How Eteya replaced Nordicrank's manual Excel work with 18 automated flows — order intake, status tracking and invoicing. 13.4 hours/week back.",
       "ogImageAlt": "Nordicrank case study — 13.4 hours back per week with automation"
     },
@@ -838,7 +842,7 @@
   },
   "sannegarden": {
     "meta": {
-      "title": "Sannegården — Case Study | Eteya AI",
+      "title": "Sannegården — Case Study | Eteya",
       "description": "How Eteya helped Sannegården achieve 0 missed calls and 30+ extra orders per week."
     },
     "snapshot": {
@@ -928,7 +932,7 @@
   },
   "trainwithalbert": {
     "meta": {
-      "title": "TrainWithAlbert — Case Study | Eteya AI",
+      "title": "TrainWithAlbert — Case Study | Eteya",
       "description": "How Eteya gave TrainWithAlbert 3x more bookings and 45% rebooking with 8 automations."
     },
     "hero": {
@@ -1020,7 +1024,7 @@
   },
   "about": {
     "meta": {
-      "title": "About Us — Eteya AI",
+      "title": "About Us — Eteya",
       "description": "We are Eteya — AI consultants automating Swedish businesses with smart solutions and measurable results."
     },
     "hero": {
@@ -1565,9 +1569,9 @@
   },
   "skgstockholm": {
     "meta": {
-      "title": "SKG Stockholm — Case Study | Eteya AI",
+      "title": "SKG Stockholm — Case Study | Eteya",
       "description": "How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin — letting him focus on building the company.",
-      "ogImageAlt": "SKG Stockholm — Personal AI assistant for CEO | Eteya AI"
+      "ogImageAlt": "SKG Stockholm — Personal AI assistant for CEO | Eteya"
     },
     "heroTitle": "SKG Stockholm",
     "heroWords": [
