@@ -460,7 +460,7 @@
   "methodology": {
     "meta": {
       "title": "AI-besparing — Så beräknar vi din ROI | Eteya",
-      "description": "Transparent metodik bakom Eteyas ROI-kalkylator. Baserat på SCB, McKinsey och verifierad kunddata från ett svenskt e-handelsföretag."
+      "description": "Transparent metodik bakom Eteyas ROI-kalkylator. Beräkningar baserat på SCB, McKinsey och verifierad kunddata från ett svenskt e-handelsföretag."
     },
     "hero": {
       "title": "Så beräknar vi din AI-besparing",
@@ -644,7 +644,7 @@
   "caseStudies": {
     "meta": {
       "title": "Kundcase — 5 verifierade AI-automation-projekt | Eteya",
-      "description": "Se hur svenska företag sparar tid och pengar med AI-automation, AI-agenter och processautomation. 5 verifierade kundcase med konkret ROI och tidsbesparing."
+      "description": "5 verifierade kundcase: så sparar svenska företag tid och pengar med AI-automation och AI-agenter från Eteya — konkreta ROI-siffror och tidsbesparingar."
     },
     "hero": {
       "eyebrow": "Verifierade resultat",
@@ -659,8 +659,8 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — Kundcase | Eteya",
-      "description": "Hur Eteya automatiserade Telestores arbetsflöden med 56 automationer och sparade 390 000 kr/år.",
+      "title": "Telestore — 56 automationer sparar 390 000 kr/år | Eteya",
+      "description": "Eteya byggde 56 AI-automationer åt Telestore som sparar 390 000 kr/år — returer, leverans och support automatiserade. Levererat på 3 veckor.",
       "ogImageAlt": "Telestore kundcase — 390 000 kr/år i besparing med 56 automationer"
     },
     "hero": {
@@ -759,8 +759,8 @@
   },
   "nordicrank": {
     "meta": {
-      "title": "Nordicrank — Kundcase | Eteya",
-      "description": "Hur Eteya ersatte Nordicranks manuella Excel-arbete med 18 automatiserade flöden — orderintag, status-tracking och fakturering. 13.4 timmar/vecka tillbaka.",
+      "title": "NordicRank — 18 AI-automationer sparar 13.4h/vecka | Eteya",
+      "description": "Eteya ersatte NordicRanks manuella Excel-arbete med 18 AI-automationer — 13.4 timmar/vecka tillbaka, orderintag, status-tracking och fakturering.",
       "ogImageAlt": "Nordicrank kundcase — 13.4 timmar tillbaka per vecka med automation"
     },
     "snapshot": {
@@ -858,8 +858,8 @@
   },
   "sannegarden": {
     "meta": {
-      "title": "Sannegården — Kundcase | Eteya",
-      "description": "Hur Eteya hjälpte Sannegården till 0 missade samtal och 30+ extra beställningar per vecka."
+      "title": "Sannegårdens Pizzeria — AI-telefonist | Kundcase Eteya",
+      "description": "Sannegården missade samtal under rusning. Eteya byggde en AI-telefonist som tar beställningar dygnet runt — 0 missade samtal, 30+ extra ordrar/vecka."
     },
     "snapshot": {
       "callsSuffix": "",
@@ -948,8 +948,8 @@
   },
   "trainwithalbert": {
     "meta": {
-      "title": "TrainWithAlbert — Kundcase | Eteya",
-      "description": "Hur Eteya gav TrainWithAlbert 3x fler bokningar och 45% återbokning med 8 automationer."
+      "title": "TrainWithAlbert — 45% återbokning + 3x bokningar | Eteya",
+      "description": "Eteya byggde 8 AI-automationer åt TrainWithAlbert — 3x fler bokningar, 45% återbokning, AI-schemaläggning och automatisk uppföljning av klientresan."
     },
     "heroTitle": "TrainWithAlbert",
     "heroWords": [
@@ -1040,8 +1040,8 @@
   },
   "about": {
     "meta": {
-      "title": "Om Oss — Eteya",
-      "description": "Vi är Eteya — AI-konsulter som automatiserar svenska företag med smarta lösningar och mätbara resultat."
+      "title": "Om oss — AI-konsulter & AI-byrå för svenska SMB | Eteya",
+      "description": "Möt teamet bakom Eteya — svenska AI-konsulter som bygger AI-agenter och process-automation åt SMB. Mätbar ROI, leverans på veckor, transparent metodik."
     },
     "hero": {
       "headline": "OM OSS",
@@ -1591,8 +1591,8 @@
   },
   "skgstockholm": {
     "meta": {
-      "title": "SKG Stockholm — Kundcase | Eteya",
-      "description": "Hur Eteya byggde en personlig AI-assistent åt VD:n Mirza Ekici som befriar 12 timmar i veckan från admin — och låter honom fokusera på att bygga bolaget.",
+      "title": "SKG Stockholm — AI-assistent för VD sparar 12h/vecka | Eteya",
+      "description": "Eteya byggde en personlig AI-assistent åt SKG Stockholms VD som sparar 12 timmar/vecka från admin — han kan nu fokusera på att bygga bolaget istället.",
       "ogImageAlt": "SKG Stockholm — Personlig AI-assistent för VD | Eteya"
     },
     "heroTitle": "SKG Stockholm",
@@ -1688,7 +1688,7 @@
     "caseShot": {
       "telestore": "Telestore startsida — e-handel automatiserad med 56 AI-agenter av Eteya",
       "sannegarden": "Sannegårdens Pizzeria startsida — AI-telefonist för restaurang av Eteya",
-      "trainwithalbert": "TrainWithAlbert startsida — kundtjänst automatiserad till 90% med AI-agent från Eteya",
+      "trainwithalbert": "TrainWithAlbert startsida — 45% återbokning och 3x bokningar med AI från Eteya",
       "skgStockholm": "SKG Stockholm — personlig AI-assistent för VD byggd av Eteya",
       "nordicrank": "NordicRank startsida — 13 timmar/vecka sparat med AI-automation från Eteya"
     },

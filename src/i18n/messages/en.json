@@ -460,7 +460,7 @@
   "methodology": {
     "meta": {
       "title": "AI Savings — How We Calculate Your ROI | Eteya",
-      "description": "Transparent methodology behind Eteya's ROI calculator. Based on SCB, McKinsey and verified client data from a Swedish e-commerce company."
+      "description": "Transparent methodology behind Eteya's ROI calculator. Calculations based on SCB, McKinsey and verified client data from a Swedish e-commerce company."
     },
     "hero": {
       "title": "How we calculate your AI savings",
@@ -659,8 +659,8 @@
   },
   "telestore": {
     "meta": {
-      "title": "Telestore — Case Study | Eteya",
-      "description": "How Eteya automated Telestores workflows with 56 automations, saving 390,000 SEK/year.",
+      "title": "Telestore — 56 automations save 390,000 SEK/year | Eteya",
+      "description": "Eteya built 56 AI automations for Telestore that save 390,000 SEK/year — returns, delivery and support automated. Delivered in 3 weeks.",
       "ogImageAlt": "Telestore case study — 390,000 SEK/year savings with 56 automations"
     },
     "hero": {
@@ -759,8 +759,8 @@
   },
   "nordicrank": {
     "meta": {
-      "title": "Nordicrank — Case Study | Eteya",
-      "description": "How Eteya replaced Nordicrank's manual Excel work with 18 automated flows — order intake, status tracking and invoicing. 13.4 hours/week back.",
+      "title": "NordicRank — 18 automations save 13.4h/week | Eteya",
+      "description": "Eteya replaced NordicRank's manual Excel work with 18 AI automations — 13.4 hours/week back, order intake, status tracking and invoicing.",
       "ogImageAlt": "Nordicrank case study — 13.4 hours back per week with automation"
     },
     "snapshot": {
@@ -858,8 +858,8 @@
   },
   "sannegarden": {
     "meta": {
-      "title": "Sannegården — Case Study | Eteya",
-      "description": "How Eteya helped Sannegården achieve 0 missed calls and 30+ extra orders per week."
+      "title": "Sannegården Pizzeria — AI Receptionist | Eteya Case Study",
+      "description": "Sannegården Pizzeria missed calls during peak. Eteya built an AI receptionist taking orders 24/7 — 0 missed calls, 30+ extra orders/week."
     },
     "snapshot": {
       "callsSuffix": "",
@@ -948,8 +948,8 @@
   },
   "trainwithalbert": {
     "meta": {
-      "title": "TrainWithAlbert — Case Study | Eteya",
-      "description": "How Eteya gave TrainWithAlbert 3x more bookings and 45% rebooking with 8 automations."
+      "title": "TrainWithAlbert — 45% rebooking + 3x bookings | Eteya",
+      "description": "Eteya built 8 AI automations for TrainWithAlbert — 3x more bookings, 45% rebooking, AI scheduling and automatic client journey follow-up."
     },
     "hero": {
       "title": "TrainWithAlbert",
@@ -1040,8 +1040,8 @@
   },
   "about": {
     "meta": {
-      "title": "About Us — Eteya",
-      "description": "We are Eteya — AI consultants automating Swedish businesses with smart solutions and measurable results."
+      "title": "About Eteya — Swedish AI consultants for SMB | AI Agency",
+      "description": "Meet the team behind Eteya — Swedish AI consultants building AI agents and process automation for SMB. Measurable ROI, fast delivery, transparency."
     },
     "hero": {
       "headline": "ABOUT US",
@@ -1591,8 +1591,8 @@
   },
   "skgstockholm": {
     "meta": {
-      "title": "SKG Stockholm — Case Study | Eteya",
-      "description": "How Eteya built a personal AI assistant for CEO Mirza Ekici that frees up 12 hours a week from admin — letting him focus on building the company.",
+      "title": "SKG Stockholm — AI Assistant for CEO saves 12h/week | Eteya",
+      "description": "Eteya built a personal AI assistant for SKG Stockholm's CEO that saves 12 hours/week from admin — letting him focus on building the company instead.",
       "ogImageAlt": "SKG Stockholm — Personal AI assistant for CEO | Eteya"
     },
     "heroTitle": "SKG Stockholm",
@@ -1688,7 +1688,7 @@
     "caseShot": {
       "telestore": "Telestore homepage — e-commerce automated with 56 AI agents by Eteya",
       "sannegarden": "Sannegårdens Pizzeria homepage — AI receptionist for restaurants by Eteya",
-      "trainwithalbert": "TrainWithAlbert homepage — customer service automated 90% with AI agent by Eteya",
+      "trainwithalbert": "TrainWithAlbert homepage — 45% rebooking and 3x bookings with AI by Eteya",
       "skgStockholm": "SKG Stockholm — personal AI assistant for executives by Eteya",
       "nordicrank": "NordicRank homepage — 13 hours/week saved with AI automation by Eteya"
     },

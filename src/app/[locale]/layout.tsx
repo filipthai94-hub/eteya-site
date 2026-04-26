@@ -66,14 +66,14 @@ const BASE_URL = 'https://eteya.ai'
 
 const META: Record<string, { title: string; description: string }> = {
   sv: {
-    title: 'Eteya — AI som driver ditt företag',
+    title: 'Eteya — AI-byrå för AI-agenter och process-automation',
     description:
-      'Vi bygger AI agents, process automation och custom AI-lösningar för svenska och internationella företag.',
+      'Eteya bygger AI-agenter, process-automation och custom AI-lösningar åt svenska SMB. Leverans på veckor, mätbar besparing, transparent metodik.',
   },
   en: {
-    title: 'Eteya — AI that powers your business',
+    title: 'Eteya — AI agency for AI agents and process automation',
     description:
-      'We build AI agents, process automation and custom AI solutions for Swedish and international businesses.',
+      'Eteya builds AI agents, process automation and custom AI solutions for businesses. Delivered in weeks, measurable savings, transparent methodology.',
   },
 }
 
