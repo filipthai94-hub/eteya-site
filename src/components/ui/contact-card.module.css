@@ -40,22 +40,28 @@
   flex-direction: column;
 }
 
-/* Desktop - hide scrollbar when not needed */
-@media (min-width: 769px) {
-  .root::-webkit-scrollbar {
-    display: none; /* Hide scrollbar on desktop */
-  }
-  .root {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
-  }
+/* Subtil scrollbar — synlig på alla viewports.
+   Bug-fix: tidigare gömdes scrollbaren på desktop (>=769px), vilket
+   ledde till att användare på små laptops (< 800px höjd) inte såg
+   "Välj tid"-knappen som hamnade utanför modal-viewporten. Med scrollbar
+   synlig får användaren tydlig visuell indikation att de kan scrolla. */
+.root::-webkit-scrollbar { width: 6px; }
+.root::-webkit-scrollbar-track { background: transparent; }
+.root::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.root::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+.root {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent; /* Firefox: thumb track */
 }
 
-/* Mobile - keep scrollbar (working perfectly) */
+/* Mobile — något smalare för pekskärmsstandard */
 @media (max-width: 768px) {
   .root::-webkit-scrollbar { width: 4px; }
-  .root::-webkit-scrollbar-track { background: transparent; }
-  .root::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 }
 
 /* Grain texture */
