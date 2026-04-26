@@ -25,12 +25,27 @@ export const organizationSchema = {
   legalName: 'Eteya Consulting AB',
   url: 'https://eteya.ai',
   logo: 'https://eteya.ai/favicon-512x512.png',
-  description: 'AI-konsulter som bygger automationer som faktiskt levererar resultat. Vi startade bolaget för att bevisa att AI inte bara låter bra på möten.',
+  // Description matches visible Hero text (research: schema must echo visible HTML)
+  description: 'Eteya bygger AI-agenter och processautomation för svenska små och medelstora företag. Leverans på veckor, mätbar besparing. Grundat 2024 i Karlskoga.',
   foundingDate: '2024-11',
   founder: {
     '@type': 'Person',
     name: 'Filip Thai',
     jobTitle: 'CEO & Founder',
+  },
+  // Areas of expertise — strong E-E-A-T signal for AI search engines
+  knowsAbout: [
+    'AI-automation',
+    'AI-agenter',
+    'Processautomation',
+    'AI-implementation för SMB',
+    'Custom AI-lösningar',
+    'E-handel automation',
+    'Kundtjänst-automation',
+  ],
+  areaServed: {
+    '@type': 'Country',
+    name: 'Sweden',
   },
   address: {
     '@type': 'PostalAddress',
@@ -63,7 +78,7 @@ export const webSiteSchema = {
   '@type': 'WebSite',
   name: 'Eteya AI',
   url: 'https://eteya.ai',
-  description: 'AI-automation som driver ditt företag — mindre manuellt, mer tillväxt',
+  description: 'Eteya — svensk AI-konsultbyrå som bygger AI-agenter för små och medelstora företag.',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://eteya.ai/sok?q={search_term_string}',
