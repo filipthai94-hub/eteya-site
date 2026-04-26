@@ -1683,5 +1683,44 @@
       "author": "Mirza Ekici",
       "role": "CEO, SKG Stockholm"
     }
+  },
+  "imageAlt": {
+    "caseShot": {
+      "telestore": "Telestore homepage — e-commerce automated with 56 AI agents by Eteya",
+      "sannegarden": "Sannegårdens Pizzeria homepage — AI receptionist for restaurants by Eteya",
+      "trainwithalbert": "TrainWithAlbert homepage — customer service automated 90% with AI agent by Eteya",
+      "skgStockholm": "SKG Stockholm — personal AI assistant for executives by Eteya",
+      "nordicrank": "NordicRank homepage — 13 hours/week saved with AI automation by Eteya"
+    },
+    "caseLogo": {
+      "telestore": "Telestore — e-commerce client of Eteya",
+      "sannegarden": "Sannegårdens Pizzeria — restaurant client of Eteya",
+      "trainwithalbert": "TrainWithAlbert — customer service AI by Eteya",
+      "skgStockholm": "SKG Stockholm — executive assistant by Eteya",
+      "nordicrank": "NordicRank — automation client of Eteya"
+    },
+    "team": {
+      "albert": "Albert Elshani, founder TrainWithAlbert who automated customer service with Eteya",
+      "brindar": "Brindar Akalp, Telestore — automated e-commerce with Eteya's AI agents",
+      "kerem": "Kerem Çelik, Sannegårdens Pizzeria — AI receptionist by Eteya",
+      "matyas": "Matyas Dios, NordicRank — saves 13 hours/week with Eteya's automation",
+      "mirza": "Mirza Ekici, SKG Stockholm — personal AI assistant by Eteya"
+    },
+    "service": {
+      "aiAgents": "AI agent that handles customer service 24/7 — Eteya",
+      "automation": "Process automation that saves hours every day — Eteya",
+      "aiProducts": "Custom AI product for modern businesses — Eteya"
+    },
+    "process": {
+      "brain": "Eteya AI process — analysis",
+      "arm": "Eteya AI process — implementation",
+      "figure": "Eteya AI process — delivery"
+    },
+    "techCategory": {
+      "platforms": "integration for web and e-commerce by Eteya",
+      "automation": "automation integration for AI agents by Eteya",
+      "development": "integration for AI development by Eteya"
+    },
+    "ogHome": "Eteya — AI agency building AI agents and automation for businesses"
   }
 }

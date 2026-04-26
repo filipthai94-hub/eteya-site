@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import type { StaticImageData } from 'next/image'
+import { useTranslations } from 'next-intl'
 import { usePathname } from '@/i18n/navigation'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
@@ -470,7 +471,26 @@ const CSS = `
   }
 `
 
+// Map case slug to its imageAlt i18n key (camelCase since 'skg-stockholm' isn't a valid identifier)
+const SLUG_TO_ALT_KEY: Record<string, string> = {
+  telestore: 'telestore',
+  sannegarden: 'sannegarden',
+  trainwithalbert: 'trainwithalbert',
+  'skg-stockholm': 'skgStockholm',
+  nordicrank: 'nordicrank',
+}
+
+// Map case slug to team-portrait i18n key (varje slug har en kund som syns i quote-bilden)
+const SLUG_TO_TEAM_KEY: Record<string, string> = {
+  telestore: 'brindar',
+  sannegarden: 'kerem',
+  trainwithalbert: 'albert',
+  'skg-stockholm': 'mirza',
+  nordicrank: 'matyas',
+}
+
 export default function CasesClient({ locale, heading, cta, problemLabel, solutionLabel, resultsLabel, items }: CasesClientProps) {
+  const tAlt = useTranslations('imageAlt')
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll('#cases-section .case-card')) as HTMLElement[]
     const bindings: Array<{ title: HTMLElement; handler: () => void }> = []
@@ -740,7 +760,7 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                             <div className="quoteImageWrap">
                               <img
                                 src={c.quoteImage}
-                                alt={c.quoteAuthor}
+                                alt={tAlt(`team.${SLUG_TO_TEAM_KEY[c.slug] ?? 'albert'}`)}
                                 className="quoteImage"
                                 width={80}
                                 height={80}
@@ -757,14 +777,14 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                   {hasLiveCaseMedia(c.slug) ? (
                     <div className={`case-media case-media--telestore ${getCaseFrame(c.slug)}`} data-case-slug={c.slug} aria-label={`${c.name} live preview`}>
                       <div className="ts-brand">
-                        <Image src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="eager" width={200} height={60} />
+                        <Image src={getCaseLogo(c.slug)} alt={tAlt(`caseLogo.${SLUG_TO_ALT_KEY[c.slug] ?? 'telestore'}`)} loading="eager" width={200} height={60} />
                       </div>
                       <div className="ts-live">
                         <div className="ts-track">
                           <Image
                             className="ts-shot"
                             src={getLiveCaseShot(c.slug)}
-                            alt={`${c.name} startsida`}
+                            alt={tAlt(`caseShot.${SLUG_TO_ALT_KEY[c.slug] ?? 'telestore'}`)}
                             loading="eager"
                             width={1200}
                             height={800}
@@ -776,7 +796,7 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                     </div>
                   ) : (
                     <div className="case-media">
-                      <Image src={getCaseLogo(c.slug)} alt={`${c.name} logo`} loading="lazy" width={200} height={60} />
+                      <Image src={getCaseLogo(c.slug)} alt={tAlt(`caseLogo.${SLUG_TO_ALT_KEY[c.slug] ?? 'telestore'}`)} loading="lazy" width={200} height={60} />
                     </div>
                   )}
                   <div className="case-cta">

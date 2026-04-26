@@ -28,6 +28,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 
 export default function SKGStockholmCaseStudy() {
   const t = useTranslations('skgstockholm')
+  const tAlt = useTranslations('imageAlt.team')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -328,7 +329,7 @@ export default function SKGStockholmCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/mirza-ekici.webp"
-              alt={t('quote.author')}
+              alt={tAlt('mirza')}
               width={180}
               height={180}
               className={styles.quoteImage}

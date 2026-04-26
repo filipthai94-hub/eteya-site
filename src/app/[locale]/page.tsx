@@ -22,16 +22,19 @@ const META: Record<'sv' | 'en', {
   title: string
   description: string
   ogDescription: string
+  ogAlt: string
 }> = {
   sv: {
     title: 'Eteya — AI-automation & AI Agents för svenska företag',
     description: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-agenter, process-automation och custom AI-lösningar som faktiskt levererar resultat. Se våra case studies.',
     ogDescription: 'Mindre manuellt. Mer tillväxt. Vi bygger AI-agenter och process-automation som levererar resultat.',
+    ogAlt: 'Eteya — AI-byrå som bygger AI-agenter och automation för svenska företag',
   },
   en: {
     title: 'Eteya — AI Automation & AI Agents for Modern Business',
     description: 'Less manual work. More growth. We build AI agents, process automation and custom AI solutions that actually deliver results. See our case studies.',
     ogDescription: 'Less manual work. More growth. We build AI agents and process automation that deliver results.',
+    ogAlt: 'Eteya — AI agency building AI agents and automation for businesses',
   },
 }
 
@@ -63,7 +66,7 @@ export async function generateMetadata({
       description: m.ogDescription,
       url: `${BASE_URL}${currentPath}`,
       siteName: 'Eteya',
-      images: [{ url: `/images/og/og-home-${locale}.jpg`, width: 1200, height: 630, alt: 'Eteya' }],
+      images: [{ url: `/images/og/og-home-${locale}.jpg`, width: 1200, height: 630, alt: m.ogAlt }],
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
       type: 'website',
     },

@@ -28,6 +28,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 
 export default function NordicrankCaseStudy() {
   const t = useTranslations('nordicrank')
+  const tAlt = useTranslations('imageAlt.team')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -339,7 +340,7 @@ export default function NordicrankCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/matyas-dios.webp"
-              alt={t('quote.author')}
+              alt={tAlt('matyas')}
               width={180}
               height={180}
               className={styles.quoteImage}

@@ -1,7 +1,15 @@
 'use client'
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import ButtonStripe from '@/components/ui/ButtonStripe'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
+
+// Map service slug → imageAlt.service key (camelCase)
+const SERVICE_SLUG_TO_ALT_KEY: Record<string, string> = {
+  'ai-agents': 'aiAgents',
+  'automation': 'automation',
+  'ai-products': 'aiProducts',
+}
 
 const CSS = `
   #services-section {
@@ -303,6 +311,7 @@ export default function ServicesClient({ heading, cta, items }: {
   cta: string
   items: Array<{ number: string; title: string; description: string; detail: string; features: string[] }>
 }) {
+  const tAlt = useTranslations('imageAlt.service')
   useEffect(() => {
     const cards = document.querySelectorAll('#services-section .service-card')
 
@@ -426,7 +435,7 @@ export default function ServicesClient({ heading, cta, items }: {
                       playsInline
                       preload="metadata"
                       poster={`/images/service-${slug}-poster.webp`}
-                      aria-label={item.title}
+                      aria-label={tAlt(SERVICE_SLUG_TO_ALT_KEY[slug] ?? 'aiAgents')}
                       width={1920}
                       height={1200}
                     >

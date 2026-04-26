@@ -28,6 +28,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 
 export default function TelestoreCaseStudy() {
   const t = useTranslations('telestore')
+  const tAlt = useTranslations('imageAlt.team')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -333,7 +334,7 @@ export default function TelestoreCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/brindar-akalp.webp"
-              alt={t('quote.author')}
+              alt={tAlt('brindar')}
               width={180}
               height={180}
               className={styles.quoteImage}

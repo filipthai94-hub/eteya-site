@@ -249,6 +249,7 @@ interface Block {
   label: string
   scramble: string
   bgImage: string
+  bgAlt: string
   heading: string
   body: string
   list: { label: string; num: string }[]
@@ -499,6 +500,8 @@ export default function ProcessSectionClient({ heading, blocks }: {
               className="process-bg"
               ref={el => { bgRefs.current[i] = el }}
               style={{ backgroundImage: `url('${block.bgImage}')` }}
+              role="img"
+              aria-label={block.bgAlt}
             />
             <div className="process-overlay" />
             <div className="process-text-overlay">

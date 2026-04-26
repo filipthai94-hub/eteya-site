@@ -28,6 +28,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 
 export default function TrainWithAlbertCaseStudy() {
   const t = useTranslations('trainwithalbert')
+  const tAlt = useTranslations('imageAlt.team')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -339,7 +340,7 @@ export default function TrainWithAlbertCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/albert-elshani.webp"
-              alt={t('quote.author')}
+              alt={tAlt('albert')}
               width={180}
               height={180}
               className={styles.quoteImage}

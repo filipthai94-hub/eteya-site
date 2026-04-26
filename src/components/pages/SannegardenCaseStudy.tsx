@@ -28,6 +28,7 @@ function Counter({ current, total }: { current: number; total: number }) {
 
 export default function SannegardenCaseStudy() {
   const t = useTranslations('sannegarden')
+  const tAlt = useTranslations('imageAlt.team')
   const containerRef = useRef<HTMLDivElement>(null)
   const snapshotRef = useRef<HTMLDivElement>(null)
   const counter1Ref = useRef<HTMLSpanElement>(null)
@@ -323,7 +324,7 @@ export default function SannegardenCaseStudy() {
           <div className={styles.quoteImageWrap}>
             <Image
               src="/images/kerem-celik.webp"
-              alt={t('quote.author')}
+              alt={tAlt('kerem')}
               width={180}
               height={180}
               className={styles.quoteImage}

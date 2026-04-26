@@ -56,9 +56,13 @@ const CATEGORIES: TechCategory[] = [
 
 
 
+// Map kategori-index → imageAlt.techCategory key (samma ordning som CATEGORIES + cardWrap-loop)
+const CATEGORY_ALT_KEYS = ['platforms', 'automation', 'development'] as const
+
 /* ── Component ─────────────────────────────────────── */
 export default function TechStack() {
   const t = useTranslations('techStack')
+  const tAlt = useTranslations('imageAlt.techCategory')
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -118,7 +122,7 @@ export default function TechStack() {
                   <div key={item.name} className={styles.item}>
                     <Image
                       src={item.icon}
-                      alt={item.name}
+                      alt={`${item.name} ${tAlt(CATEGORY_ALT_KEYS[ci])}`}
                       width={28}
                       height={28}
                       className={styles.icon}

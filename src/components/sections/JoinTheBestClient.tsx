@@ -10,16 +10,26 @@ type LogoItem = {
   alt: string
 }
 
-const ROW1_LOGOS: LogoItem[] = [
-  { id: 'telestore', src: '/images/logos/telestore-new.png', alt: 'Telestore logo' },
-  { id: 'sannegarden', src: '/images/logos/sannegarden-new.svg', alt: 'Sannegårdens Pizzeria logo' },
-  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png', alt: 'TrainWithAlbert logo' },
+// Logo metadata utan alt — alt fylls in dynamiskt med översättning i komponenten
+const ROW1_LOGO_META: Omit<LogoItem, 'alt'>[] = [
+  { id: 'telestore', src: '/images/logos/telestore-new.png' },
+  { id: 'sannegarden', src: '/images/logos/sannegarden-new.svg' },
+  { id: 'trainwithalbert', src: '/images/logos/trainwithalbert-new.png' },
 ]
 
-const ROW2_LOGOS: LogoItem[] = [
-  { id: 'skg-stockholm', src: '/images/logos/skg-stockholm.svg', alt: 'SKG Stockholm logo' },
-  { id: 'nordicrank', src: '/images/logos/nordicrank.svg', alt: 'NordicRank logo' },
+const ROW2_LOGO_META: Omit<LogoItem, 'alt'>[] = [
+  { id: 'skg-stockholm', src: '/images/logos/skg-stockholm.svg' },
+  { id: 'nordicrank', src: '/images/logos/nordicrank.svg' },
 ]
+
+// Map LogoItem id → imageAlt key (camelCase för i18n-key-säkerhet)
+const LOGO_ID_TO_ALT_KEY: Record<LogoItem['id'], string> = {
+  telestore: 'telestore',
+  sannegarden: 'sannegarden',
+  trainwithalbert: 'trainwithalbert',
+  'skg-stockholm': 'skgStockholm',
+  nordicrank: 'nordicrank',
+}
 
 const CSS = `
   /* ═══ JOIN THE BEST SECTION ═══ */
@@ -303,6 +313,18 @@ function MarqueeLine({ logos, direction, speed = 0.5, repeats = 4 }: MarqueeLine
 
 export default function JoinTheBestClient() {
   const t = useTranslations('joinTheBest')
+  const tAlt = useTranslations('imageAlt.caseLogo')
+
+  // Bygg arrays med översatt alt-text per logo
+  const row1Logos: LogoItem[] = ROW1_LOGO_META.map((logo) => ({
+    ...logo,
+    alt: tAlt(LOGO_ID_TO_ALT_KEY[logo.id]),
+  }))
+  const row2Logos: LogoItem[] = ROW2_LOGO_META.map((logo) => ({
+    ...logo,
+    alt: tAlt(LOGO_ID_TO_ALT_KEY[logo.id]),
+  }))
+
   return (
     <section className="join-section">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
@@ -312,8 +334,8 @@ export default function JoinTheBestClient() {
       </div>
 
       <div className="join-marquee-wrap">
-        <MarqueeLine logos={ROW1_LOGOS} direction="left" speed={0.5} repeats={6} />
-        <MarqueeLine logos={ROW2_LOGOS} direction="right" speed={0.5} repeats={8} />
+        <MarqueeLine logos={row1Logos} direction="left" speed={0.5} repeats={6} />
+        <MarqueeLine logos={row2Logos} direction="right" speed={0.5} repeats={8} />
       </div>
     </section>
   )

@@ -1683,5 +1683,44 @@
       "author": "Mirza Ekici",
       "role": "VD, SKG Stockholm"
     }
+  },
+  "imageAlt": {
+    "caseShot": {
+      "telestore": "Telestore startsida — e-handel automatiserad med 56 AI-agenter av Eteya",
+      "sannegarden": "Sannegårdens Pizzeria startsida — AI-telefonist för restaurang av Eteya",
+      "trainwithalbert": "TrainWithAlbert startsida — kundtjänst automatiserad till 90% med AI-agent från Eteya",
+      "skgStockholm": "SKG Stockholm — personlig AI-assistent för VD byggd av Eteya",
+      "nordicrank": "NordicRank startsida — 13 timmar/vecka sparat med AI-automation från Eteya"
+    },
+    "caseLogo": {
+      "telestore": "Telestore — e-handelskund hos Eteya",
+      "sannegarden": "Sannegårdens Pizzeria — restaurangkund hos Eteya",
+      "trainwithalbert": "TrainWithAlbert — kundtjänst-AI från Eteya",
+      "skgStockholm": "SKG Stockholm — VD-assistent byggd av Eteya",
+      "nordicrank": "NordicRank — automation-kund hos Eteya"
+    },
+    "team": {
+      "albert": "Albert Elshani, grundare TrainWithAlbert som automatiserade kundtjänsten med Eteya",
+      "brindar": "Brindar Akalp, Telestore — automatiserad e-handel med Eteyas AI-agenter",
+      "kerem": "Kerem Çelik, Sannegårdens Pizzeria — AI-telefonist från Eteya",
+      "matyas": "Matyas Dios, NordicRank — sparar 13 timmar/vecka med Eteyas automation",
+      "mirza": "Mirza Ekici, SKG Stockholm — personlig AI-assistent från Eteya"
+    },
+    "service": {
+      "aiAgents": "AI-agent som hanterar kundtjänst dygnet runt — Eteya",
+      "automation": "Processautomation som sparar timmar varje dag — Eteya",
+      "aiProducts": "Skräddarsydd AI-produkt för svenska företag — Eteya"
+    },
+    "process": {
+      "brain": "Eteya AI-process — analys",
+      "arm": "Eteya AI-process — implementation",
+      "figure": "Eteya AI-process — leverans"
+    },
+    "techCategory": {
+      "platforms": "integration för webb och e-handel hos Eteya",
+      "automation": "automation-integration för AI-agenter hos Eteya",
+      "development": "integration för AI-utveckling hos Eteya"
+    },
+    "ogHome": "Eteya — AI-byrå som bygger AI-agenter och automation för svenska företag"
   }
 }
