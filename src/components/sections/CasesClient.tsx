@@ -1,9 +1,18 @@
 'use client'
 import { useEffect } from 'react'
 import Image from 'next/image'
+import type { StaticImageData } from 'next/image'
 import { usePathname } from '@/i18n/navigation'
 import ButtonSwap from '@/components/ui/ButtonSwap'
 import AccordionRowHeader from '@/components/ui/AccordionRowHeader'
+
+// Static imports — Next.js content-hashar och serverar från /_next/static/media/
+// med immutable cache automatiskt. Ger också blurDataURL för fade-in vid laddning.
+import telestoreShot from '../../../public/images/cases/telestore-home-full.webp'
+import nordicrankShot from '../../../public/images/cases/nordicrank-home-full.webp'
+import sannegardenShot from '../../../public/images/cases/sannegarden-home-full.webp'
+import trainwithalbertShot from '../../../public/images/cases/trainwithalbert-home-full.webp'
+import skgStockholmShot from '../../../public/images/cases/skg-stockholm-home-full.webp'
 
 interface CaseData {
   name: string
@@ -40,19 +49,19 @@ function getCaseLogo(slug: string) {
   return CASE_LOGOS[slug] ?? '/images/logos/telestore-new.png'
 }
 
-const CASE_LIVE_SHOTS: Record<string, string> = {
-  telestore: '/images/cases/telestore-home-full.webp',
-  nordicrank: '/images/cases/nordicrank-home-full.webp',
-  sannegarden: '/images/cases/sannegarden-home-full.webp',
-  trainwithalbert: '/images/cases/trainwithalbert-home-full.webp',
-  'skg-stockholm': '/images/cases/skg-stockholm-home-full.webp',
+const CASE_LIVE_SHOTS: Record<string, StaticImageData> = {
+  telestore: telestoreShot,
+  nordicrank: nordicrankShot,
+  sannegarden: sannegardenShot,
+  trainwithalbert: trainwithalbertShot,
+  'skg-stockholm': skgStockholmShot,
 }
 
 function hasLiveCaseMedia(slug: string) {
   return Boolean(CASE_LIVE_SHOTS[slug])
 }
 
-function getLiveCaseShot(slug: string) {
+function getLiveCaseShot(slug: string): StaticImageData {
   return CASE_LIVE_SHOTS[slug] ?? CASE_LIVE_SHOTS.telestore
 }
 
@@ -759,6 +768,8 @@ export default function CasesClient({ locale, heading, cta, problemLabel, soluti
                             loading="eager"
                             width={1200}
                             height={800}
+                            sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 600px"
+                            placeholder="blur"
                           />
                         </div>
                       </div>

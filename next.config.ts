@@ -33,10 +33,64 @@ const nextConfig: NextConfig = {
         destination: '/en',
         permanent: true,
       },
+      // Browsers/crawlers begär ibland legacy icon-paths som inte finns på disk.
+      // Tidigare returnerades 500 (Pingdom-errors) — nu 308 redirect till
+      // existerande filer i /public/.
+      {
+        source: '/apple-touch-icon-precomposed.png',
+        destination: '/apple-touch-icon.png',
+        permanent: true,
+      },
+      {
+        source: '/icon-192.png',
+        destination: '/favicon-192x192.png',
+        permanent: true,
+      },
+      {
+        source: '/icon-512.png',
+        destination: '/favicon-512x512.png',
+        permanent: true,
+      },
+      {
+        source: '/android-chrome-192x192.png',
+        destination: '/favicon-192x192.png',
+        permanent: true,
+      },
+      {
+        source: '/manifest.json',
+        destination: '/site.webmanifest',
+        permanent: true,
+      },
     ]
   },
   async headers() {
     return [
+      // ── Cache-Control för static assets i /public/images/* ──
+      // Vercel default är `max-age=0, must-revalidate` (CDN cachar, browser inte).
+      // Override till 1 års immutable cache så återbesökare inte revaliderar bilder.
+      // Säkert eftersom: (1) bilder ändras sällan, (2) vid uppdateringar byter vi
+      // filnamn (versionering), (3) Next.js Image-optimerade URLs cachas separat.
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Samma för /public/fonts/* om några ligger där (säkerhetsnet — next/font
+      // self-hostar redan i /_next/static/media/* med immutable cache automatiskt)
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // ── Säkerhets-headers för alla URLs ──
       {
         source: '/:path*',
         headers: [

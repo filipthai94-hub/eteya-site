@@ -142,7 +142,7 @@ function MarqueeContent({ logos }: { logos: LogoItem[] }) {
     <div className="join-marquee-content" style={{ display: 'flex', gap: 0, height: '100%', alignItems: 'center' }}>
       {logos.map((logo, i) => (
         <div key={`${logo.id}-${i}`} className={`join-item join-item--${logo.id}`}>
-          <Image className="join-logo" src={logo.src} alt={logo.alt} loading="lazy" width={200} height={60} />
+          <Image className="join-logo" src={logo.src} alt={logo.alt} loading="lazy" width={200} height={60} sizes="200px" />
         </div>
       ))}
     </div>
