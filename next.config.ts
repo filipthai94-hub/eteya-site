@@ -90,6 +90,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Videos i /public/videos/* — samma logik som images: filnamn ändras
+      // vid uppdateringar (versionshashade), så lång immutable TTL är säker.
+      // Annars hamnar de i Vercel-default `max-age=0, must-revalidate` →
+      // browser revaliderar varje uppspelning för återbesökare.
+      {
+        source: '/videos/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       // ── Säkerhets-headers för alla URLs ──
       {
         source: '/:path*',
