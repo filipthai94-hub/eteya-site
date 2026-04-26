@@ -100,25 +100,8 @@ export default function PrivacyPolicyContent() {
 
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* Schema Markup - WebPage */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            name: schema.name,
-            description: schema.description,
-            url: schema.url,
-            inLanguage: schema.inLanguage,
-            publisher: {
-              '@type': 'Organization',
-              name: 'Eteya',
-              url: 'https://eteya.ai',
-            },
-          }),
-        }}
-      />
+      {/* WebPage + BreadcrumbList schema rendereras nu i parent
+          (privacy-policy/page.tsx) som @graph med @id-länkning. */}
 
       {/* HERO */}
       <section className={styles.section} data-reveal>

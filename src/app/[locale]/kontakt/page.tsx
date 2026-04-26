@@ -1,6 +1,11 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { JsonLd, createBreadcrumbSchema } from '@/components/JsonLd'
+import {
+  JsonLd,
+  buildGraph,
+  createBreadcrumbSchema,
+  createContactPageSchema,
+} from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import Contact from '@/components/sections/Contact'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
@@ -53,34 +58,28 @@ export default async function KontaktPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'contact' })
 
-  // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
+  const path = locale === 'sv' ? '/sv/kontakt' : '/en/contact'
+  const homePath = `/${locale}`
+  const inLanguage = locale === 'sv' ? 'sv-SE' : 'en-US'
+
+  // ContactPage refererar till Organization (med contactPoint redan fyllt) via @id.
+  const contactPageSchema = createContactPageSchema({
+    path,
+    name: t('meta.title'),
+    description: t('meta.description'),
+    inLanguage,
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Kontakt' : 'Contact', path },
+  ])
+
   return (
     <>
-      <JsonLd data={{
-        '@context': 'https://schema.org',
-        '@type': 'ContactPage',
-        name: 'Kontakt Eteya',
-        description: locale === 'sv' ? 'Kontakta Eteya för AI-konsulting och automation. Boka ett kostnadsfritt strategisamtal idag.' : 'Contact Eteya for AI consulting and automation. Book a free strategy call today.',
-        url: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}`,
-        mainEntity: {
-          '@type': 'Organization',
-          name: 'Eteya',
-          telephone: '+46739823962',
-          email: 'kontakt@eteya.ai',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'Solhagsvägen 26A',
-            addressLocality: 'Karlskoga',
-            postalCode: '691 52',
-            addressCountry: 'SE',
-          },
-        },
-      }} />
-      <JsonLd data={createBreadcrumbSchema([
-        { position: 1, name: locale === 'sv' ? 'Hem' : 'Home', item: `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}` },
-        { position: 2, name: locale === 'sv' ? 'Kontakt' : 'Contact', item: `https://eteya.ai/${locale}/${locale === 'sv' ? 'kontakt' : 'contact'}` },
-      ])} />
+      <JsonLd data={buildGraph([contactPageSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
         <Contact />

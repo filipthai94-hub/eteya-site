@@ -1,6 +1,13 @@
 import { Metadata } from 'next';
 import { VaultClient } from '@/components/vault/VaultClient';
 import type { PersonData } from '@/components/vault/VaultDesktop';
+import {
+  JsonLd,
+  buildGraph,
+  createBreadcrumbSchema,
+  createProfilePageSchema,
+  ORG_ID,
+} from '@/components/JsonLd';
 
 const filipPerson: PersonData = {
   name: 'Filip Thai',
@@ -62,44 +69,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function getSchemas(locale: string) {
   const isSv = locale === 'sv';
   const pagePath = isSv ? '/sv/om-oss/filip' : '/en/about/filip';
-  const url = `https://eteya.ai${pagePath}`;
-  const rootPath = isSv ? '/sv' : '/en';
+  const personId = `https://eteya.ai${pagePath}#person`;
+  const homePath = isSv ? '/sv' : '/en';
   const aboutPath = isSv ? '/sv/om-oss' : '/en/about';
 
+  // Person-schema med rich fields (telephone, email, address) — utökar
+  // factory-baseline med Filip-specifika data. @id-länkar till Organization.
   const personSchema = {
-    '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': personId,
     name: 'Filip Thai',
     jobTitle: isSv ? 'Grundare & VD' : 'CEO & Founder',
-    worksFor: { '@type': 'Organization', name: 'Eteya Consulting AB', url: 'https://eteya.ai' },
+    worksFor: { '@id': ORG_ID },
     telephone: '+46739823962',
     email: 'kontakt@eteya.ai',
-    url,
+    url: `https://eteya.ai${pagePath}`,
     sameAs: ['https://www.linkedin.com/in/filip-thai-10449a3b6/'],
     image: 'https://eteya.ai/images/team/filip.webp',
     address: { '@type': 'PostalAddress', addressLocality: 'Karlskoga', addressCountry: 'SE' },
+    knowsAbout: ['AI-automation', 'AI-agenter', 'Affärsstrategi', 'Process-automation'],
   };
 
-  const profilePageSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfilePage',
+  const profilePageSchema = createProfilePageSchema({
+    path: pagePath,
     name: 'Filip Thai — Eteya Consulting',
     description: isSv
       ? 'Filip Thai är grundare och VD för Eteya Consulting AB. AI-konsult med expertis inom automation och affärsstrategi.'
       : 'Filip Thai is founder and CEO of Eteya Consulting AB. AI consultant with expertise in automation and business strategy.',
-    url,
-    mainEntity: personSchema,
-  };
+    inLanguage: isSv ? 'sv-SE' : 'en-US',
+    mainEntityId: personId,
+  });
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: isSv ? 'Hem' : 'Home', item: `https://eteya.ai${rootPath}` },
-      { '@type': 'ListItem', position: 2, name: isSv ? 'Om Oss' : 'About', item: `https://eteya.ai${aboutPath}` },
-      { '@type': 'ListItem', position: 3, name: 'Filip Thai', item: url },
-    ],
-  };
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: isSv ? 'Hem' : 'Home', path: homePath },
+    { name: isSv ? 'Om Oss' : 'About', path: aboutPath },
+    { name: 'Filip Thai', path: pagePath },
+  ]);
 
   return { personSchema, profilePageSchema, breadcrumbSchema };
 }
@@ -139,22 +144,9 @@ export default async function FilipPage({ params }: Props) {
         className="sr-only"
       />
 
-      {/* Plain <script> tags so JSON-LD is in the initial SSR HTML
-          and readable by Googlebot + AI crawlers. Next.js <Script>
-          defers and injects client-side, making the schemas invisible
-          to crawlers reading the initial HTML. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      {/* @graph med ProfilePage + Person + Breadcrumb. Person.@id används av
+          AboutPage på /om-oss för att länka till denna profil. */}
+      <JsonLd data={buildGraph([profilePageSchema, personSchema, breadcrumbSchema])} />
 
       {/* Responsiv CSS — ingen Tailwind-dependency */}
       <style>{`

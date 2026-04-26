@@ -42,25 +42,8 @@ export default function PolicyContent({ type }: { type: PolicyType }) {
 
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* Schema Markup - WebPage */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            name: schema?.name ?? title,
-            description: schema?.description ?? '',
-            url: schema?.url ?? '',
-            inLanguage: schema?.inLanguage ?? 'sv-SE',
-            publisher: {
-              '@type': 'Organization',
-              name: 'Eteya',
-              url: 'https://eteya.ai',
-            },
-          }),
-        }}
-      />
+      {/* WebPage + BreadcrumbList schema rendereras nu i parent (terms/page.tsx)
+          som @graph med @id-länkning. */}
 
       {/* HERO */}
       <section className={styles.section} data-reveal>

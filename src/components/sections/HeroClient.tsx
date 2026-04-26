@@ -2,7 +2,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { createSpeakableSchema } from '@/lib/seo/createSpeakableSchema'
 import ShaderHeroBackground from './ShaderHeroBackground'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -227,12 +226,8 @@ export default function HeroClient({
         <p className="hero-subheadline hero-summary">{subheadline}</p>
       </div>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(createSpeakableSchema({ cssSelector: ['.hero-headline', '.hero-summary'] })),
-        }}
-      />
+      {/* Speakable-schema för voice search är nu en del av WebPage-schema
+          som rendereras i hem-sidans @graph (src/app/[locale]/page.tsx). */}
     </section>
   )
 }

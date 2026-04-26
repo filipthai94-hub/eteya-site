@@ -2,6 +2,12 @@ import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import PolicyContent from '@/components/pages/PolicyContent'
+import {
+  JsonLd,
+  buildGraph,
+  createBreadcrumbSchema,
+  createWebPageSchema,
+} from '@/components/JsonLd'
 
 const BASE_URL = 'https://eteya.ai'
 
@@ -41,39 +47,27 @@ export async function generateMetadata({
   }
 }
 
-function TermsJsonLd({ locale }: { locale: string }) {
-  const isSv = locale === 'sv'
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: isSv ? 'Villkor' : 'Terms of Service',
-    description: isSv
-      ? 'Eteya:s villkor för användning av tjänsten.'
-      : 'Eteya terms of service for using the platform.',
-    url: `${BASE_URL}${isSv ? '/sv/villkor' : '/en/terms'}`,
-    dateModified: '2026-04-22',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Eteya',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${BASE_URL}/favicon-512x512.png`,
-      },
-    },
-  }
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  )
-}
-
 export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+  const isSv = locale === 'sv'
+
+  const path = isSv ? '/sv/villkor' : '/en/terms'
+  const homePath = `/${locale}`
+  const inLanguage = isSv ? 'sv-SE' : 'en-US'
+  const name = isSv ? 'Villkor' : 'Terms of Service'
+  const description = isSv
+    ? 'Eteya:s villkor för användning av tjänsten.'
+    : 'Eteya terms of service for using the platform.'
+
+  const webPageSchema = createWebPageSchema({ path, name, description, inLanguage })
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: isSv ? 'Hem' : 'Home', path: homePath },
+    { name, path },
+  ])
+
   return (
     <>
-      <TermsJsonLd locale={locale} />
+      <JsonLd data={buildGraph([webPageSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
         <PolicyContent type="terms" />

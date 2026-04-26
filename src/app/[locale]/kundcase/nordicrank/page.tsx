@@ -4,12 +4,21 @@ import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import NordicrankCaseStudy from '@/components/pages/NordicrankCaseStudy'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+import {
+  JsonLd,
+  buildGraph,
+  createArticleSchema,
+  createBreadcrumbSchema,
+} from '@/components/JsonLd'
+
+const BASE_URL = 'https://eteya.ai'
+
+const PUBLISHED_DATE = '2025-04-20'
+const MODIFIED_DATE = '2026-04-26'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
-
-const BASE_URL = 'https://eteya.ai'
 
 export async function generateMetadata({
   params,
@@ -18,11 +27,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'nordicrank.meta' })
-  
+
   const svPath = '/sv/kundcase/nordicrank'
   const enPath = '/en/case-studies/nordicrank'
   const currentPath = locale === 'sv' ? svPath : enPath
-  
+
   return {
     title: t('title'),
     description: t('description'),
@@ -52,95 +61,45 @@ export async function generateMetadata({
   }
 }
 
-// Article structured data (Google-validated — CaseStudy is pending/unsupported)
-const getArticleSchema = (locale: string) => {
-  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    'headline': locale === 'sv'
-      ? 'Nordicrank — 13.4 timmar tillbaka i veckan med 18 automationer'
-      : 'Nordicrank — 13.4 hours back per week with 18 automations',
-    'description': locale === 'sv'
-      ? 'Hur Eteya ersatte Nordicranks manuella Excel-arbete med 18 automatiserade flöden — orderintag, status-tracking, QA, fakturor och rapporter. 13.4 timmar/vecka tillbaka.'
-      : 'How Eteya replaced Nordicrank’s manual Excel work with 18 automated flows — order intake, status tracking, QA, invoices and reports. 13.4 hours/week back.',
-    'url': url,
-    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
-    'datePublished': '2025-01-01',
-    'dateModified': '2026-04-23',
-    'author': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'url': 'https://eteya.ai',
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'logo': {
-        '@type': 'ImageObject',
-        'url': 'https://eteya.ai/favicon-512x512.png',
-      },
-    },
-    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-    'keywords': locale === 'sv'
-      ? 'AI-automation, processautomation, Excel-automation, orderhantering, kundcase, Nordicrank'
-      : 'AI automation, process automation, Excel automation, order management, case study, Nordicrank',
-    'mentions': {
-      '@type': 'Organization',
-      'name': 'Nordicrank',
-    },
-  }
-}
-
-const getBreadcrumbSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  'itemListElement': [
-    {
-      '@type': 'ListItem',
-      'position': 1,
-      'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 2,
-      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 3,
-      'name': 'Nordicrank',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'}`,
-    },
-  ],
-})
-
-// Organization schema provided globally by root layout (see src/components/JsonLd.tsx)
-
 export default async function NordicrankPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'nordicrank.meta' })
+
+  const path = locale === 'sv' ? '/sv/kundcase/nordicrank' : '/en/case-studies/nordicrank'
+  const kundcasePath = locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'
+  const homePath = `/${locale}`
+
+  const articleSchema = createArticleSchema({
+    path,
+    headline: t('title'),
+    description: t('description'),
+    image: [
+      `${BASE_URL}/images/cases/nordicrank-home-full.webp`,
+      `${BASE_URL}/images/og/og-nordicrank-${locale}.jpg`,
+    ],
+    datePublished: PUBLISHED_DATE,
+    dateModified: MODIFIED_DATE,
+    inLanguage: locale === 'sv' ? 'sv-SE' : 'en-US',
+    about: locale === 'sv'
+      ? ['Process-automation', 'Orderhantering', 'Fakturering', 'AI-agenter', 'Excel-automatisering']
+      : ['Process automation', 'Order management', 'Invoicing', 'AI agents', 'Excel automation'],
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Kundcase' : 'Case Studies', path: kundcasePath },
+    { name: 'NordicRank', path },
+  ])
+
   return (
     <>
+      <JsonLd data={buildGraph([articleSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getArticleSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
         <NordicrankCaseStudy />
         <FooterCTAClient />
       </div>

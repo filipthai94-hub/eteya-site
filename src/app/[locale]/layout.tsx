@@ -6,7 +6,7 @@ import { Barlow, Barlow_Condensed, Geist, Inter, JetBrains_Mono } from 'next/fon
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import { JsonLd, organizationSchema, webSiteSchema } from '@/components/JsonLd'
+import { JsonLd, organizationSchema, webSiteSchema, buildGraph } from '@/components/JsonLd'
 import MotionProvider from '@/components/animations/MotionProvider'
 import ScrollReset from '@/components/ui/ScrollReset'
 import TransitionProvider from '@/components/animations/TransitionProvider'
@@ -148,8 +148,9 @@ export default async function LocaleLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
           rel="stylesheet"
         />
-        <JsonLd data={organizationSchema} />
-        <JsonLd data={webSiteSchema} />
+        {/* Site-wide entity graph: Organization + WebSite. Andra sidor lägger
+            till sidspecifika scheman i sin egen @graph (separat <script>). */}
+        <JsonLd data={buildGraph([organizationSchema, webSiteSchema])} />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className="bg-et-bg text-et-primary font-body antialiased">

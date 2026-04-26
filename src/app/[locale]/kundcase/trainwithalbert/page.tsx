@@ -4,12 +4,21 @@ import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import TrainWithAlbertCaseStudy from '@/components/pages/TrainWithAlbertCaseStudy'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+import {
+  JsonLd,
+  buildGraph,
+  createArticleSchema,
+  createBreadcrumbSchema,
+} from '@/components/JsonLd'
+
+const BASE_URL = 'https://eteya.ai'
+
+const PUBLISHED_DATE = '2025-05-15'
+const MODIFIED_DATE = '2026-04-26'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
-
-const BASE_URL = 'https://eteya.ai'
 
 export async function generateMetadata({
   params,
@@ -18,11 +27,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'trainwithalbert.meta' })
-  
+
   const svPath = '/sv/kundcase/trainwithalbert'
   const enPath = '/en/case-studies/trainwithalbert'
   const currentPath = locale === 'sv' ? svPath : enPath
-  
+
   return {
     title: t('title'),
     description: t('description'),
@@ -41,7 +50,7 @@ export async function generateMetadata({
       siteName: 'Eteya',
       type: 'article',
       locale: locale === 'sv' ? 'sv_SE' : 'en_US',
-      images: [{ url: `/images/og/og-trainwithalbert-${locale}.jpg`, width: 1200, height: 630, alt: t('title') }],
+      images: [{ url: `/images/og/og-trainwithalbert-${locale}.jpg`, width: 1200, height: 630, alt: t('ogImageAlt') }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -52,95 +61,45 @@ export async function generateMetadata({
   }
 }
 
-// Article structured data (Google-validated — CaseStudy is pending/unsupported)
-const getArticleSchema = (locale: string) => {
-  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/trainwithalbert' : '/en/case-studies/trainwithalbert'}`
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    'headline': locale === 'sv'
-      ? 'TrainWithAlbert — coach igen, inte administratör'
-      : 'TrainWithAlbert — coach again, not an administrator',
-    'description': locale === 'sv'
-      ? 'Hur Albert Wan automatiserade sin coachingverksamhet, sparat 8h/vecka och ökat intäkterna med 60% på 3 månader.'
-      : 'How Albert Wan automated his coaching business, saved 8h/week and increased revenue by 60% in 3 months.',
-    'url': url,
-    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
-    'datePublished': '2025-01-01',
-    'dateModified': '2026-04-23',
-    'author': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'url': 'https://eteya.ai',
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'logo': {
-        '@type': 'ImageObject',
-        'url': 'https://eteya.ai/favicon-512x512.png',
-      },
-    },
-    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-    'keywords': locale === 'sv'
-      ? 'AI-automation, kundcase, TrainWithAlbert, coaching, bokningssystem'
-      : 'AI automation, case study, TrainWithAlbert, coaching, booking system',
-    'mentions': {
-      '@type': 'Organization',
-      'name': 'TrainWithAlbert',
-    },
-  }
-}
-
-const getBreadcrumbSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  'itemListElement': [
-    {
-      '@type': 'ListItem',
-      'position': 1,
-      'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 2,
-      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 3,
-      'name': 'TrainWithAlbert',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/trainwithalbert' : '/en/case-studies/trainwithalbert'}`,
-    },
-  ],
-})
-
-// Organization schema provided globally by root layout (see src/components/JsonLd.tsx)
-
 export default async function TrainWithAlbertPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'trainwithalbert.meta' })
+
+  const path = locale === 'sv' ? '/sv/kundcase/trainwithalbert' : '/en/case-studies/trainwithalbert'
+  const kundcasePath = locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'
+  const homePath = `/${locale}`
+
+  const articleSchema = createArticleSchema({
+    path,
+    headline: t('title'),
+    description: t('description'),
+    image: [
+      `${BASE_URL}/images/cases/trainwithalbert-home-full.webp`,
+      `${BASE_URL}/images/og/og-trainwithalbert-${locale}.jpg`,
+    ],
+    datePublished: PUBLISHED_DATE,
+    dateModified: MODIFIED_DATE,
+    inLanguage: locale === 'sv' ? 'sv-SE' : 'en-US',
+    about: locale === 'sv'
+      ? ['AI-schemaläggning', 'Kundtjänst-automation', 'Klientresa', 'AI-agenter', 'Bokningssystem']
+      : ['AI scheduling', 'Customer service automation', 'Client journey', 'AI agents', 'Booking systems'],
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Kundcase' : 'Case Studies', path: kundcasePath },
+    { name: 'TrainWithAlbert', path },
+  ])
+
   return (
     <>
+      <JsonLd data={buildGraph([articleSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getArticleSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
         <TrainWithAlbertCaseStudy />
         <FooterCTAClient />
       </div>

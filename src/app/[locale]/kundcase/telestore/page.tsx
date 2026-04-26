@@ -4,8 +4,18 @@ import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import TelestoreCaseStudy from '@/components/pages/TelestoreCaseStudy'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+import {
+  JsonLd,
+  buildGraph,
+  createArticleSchema,
+  createBreadcrumbSchema,
+} from '@/components/JsonLd'
 
 const BASE_URL = 'https://eteya.ai'
+
+// Article publication dates (case work levererat ~2025-Q1, last reviewed 2026-04)
+const PUBLISHED_DATE = '2025-01-15'
+const MODIFIED_DATE = '2026-04-26'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -18,11 +28,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'telestore.meta' })
-  
+
   const svPath = '/sv/kundcase/telestore'
   const enPath = '/en/case-studies/telestore'
   const currentPath = locale === 'sv' ? svPath : enPath
-  
+
   return {
     title: t('title'),
     description: t('description'),
@@ -52,96 +62,46 @@ export async function generateMetadata({
   }
 }
 
-// Article structured data (Google-validated — CaseStudy is pending/unsupported)
-const getArticleSchema = (locale: string) => {
-  const url = `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    'headline': locale === 'sv'
-      ? 'Telestore — 390 000 kr/år i besparing med AI'
-      : 'Telestore — 390 000 SEK/year savings with AI',
-    'description': locale === 'sv'
-      ? 'Hur Eteya hjälpte Telestore Sverige AB automatisera 56 processer och spara 390 000 kr per år genom AI-agenter och processautomation.'
-      : 'How Eteya helped Telestore Sverige AB automate 56 processes and save 390 000 SEK per year through AI agents and process automation.',
-    'url': url,
-    'mainEntityOfPage': { '@type': 'WebPage', '@id': url },
-    'datePublished': '2025-01-01',
-    'dateModified': '2026-04-23',
-    'author': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'url': 'https://eteya.ai',
-    },
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'Eteya Consulting AB',
-      'logo': {
-        '@type': 'ImageObject',
-        'url': 'https://eteya.ai/favicon-512x512.png',
-      },
-    },
-    'articleSection': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-    'keywords': locale === 'sv'
-      ? 'AI-automation, AI-agenter, processautomation, kundcase, Telestore'
-      : 'AI automation, AI agents, process automation, case study, Telestore',
-    'mentions': {
-      '@type': 'Organization',
-      'name': 'Telestore Sverige AB',
-      'url': 'https://telestore.se',
-    },
-  }
-}
-
-const getBreadcrumbSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  'itemListElement': [
-    {
-      '@type': 'ListItem',
-      'position': 1,
-      'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 2,
-      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 3,
-      'name': 'Telestore',
-      'item': `https://eteya.ai${locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'}`,
-    },
-  ],
-})
-
-// Organization schema provided globally by root layout (see src/components/JsonLd.tsx)
-
 export default async function TelestorePage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'telestore.meta' })
+
+  const path = locale === 'sv' ? '/sv/kundcase/telestore' : '/en/case-studies/telestore'
+  const kundcasePath = locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'
+  const homePath = `/${locale}`
+
+  // Article-schema — länkar publisher/author till Organization via @id (definierat i layout)
+  const articleSchema = createArticleSchema({
+    path,
+    headline: t('title'),
+    description: t('description'),
+    image: [
+      `${BASE_URL}/images/cases/telestore-home-full.webp`,
+      `${BASE_URL}/images/og/og-telestore-${locale}.jpg`,
+    ],
+    datePublished: PUBLISHED_DATE,
+    dateModified: MODIFIED_DATE,
+    inLanguage: locale === 'sv' ? 'sv-SE' : 'en-US',
+    about: locale === 'sv'
+      ? ['AI-agenter', 'E-handel automation', 'Processautomation', 'Kundtjänst-automation']
+      : ['AI agents', 'E-commerce automation', 'Process automation', 'Customer service automation'],
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Kundcase' : 'Case Studies', path: kundcasePath },
+    { name: 'Telestore', path },
+  ])
+
   return (
     <>
+      <JsonLd data={buildGraph([articleSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getArticleSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
         <TelestoreCaseStudy />
         <FooterCTAClient />
       </div>

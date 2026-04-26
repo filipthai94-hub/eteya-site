@@ -3,6 +3,12 @@ import type { Metadata } from 'next'
 import Nav from '@/components/layout/Nav'
 import MethodologyContent from '@/components/pages/MethodologyContent'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
+import {
+  JsonLd,
+  buildGraph,
+  createBreadcrumbSchema,
+  ORG_ID,
+} from '@/components/JsonLd'
 
 const BASE_URL = 'https://eteya.ai'
 
@@ -49,9 +55,10 @@ export async function generateMetadata({
 // HowTo schema — step-by-step methodology for AI Overview / Perplexity citation
 const getHowToSchema = (locale: string) => {
   const isSv = locale === 'sv'
+  const path = isSv ? '/sv/ai-besparing' : '/en/ai-savings'
   return {
-    '@context': 'https://schema.org',
     '@type': 'HowTo',
+    '@id': `${BASE_URL}${path}#howto`,
     name: isSv
       ? 'Så här räknar Eteya AI-besparing'
       : 'How Eteya calculates AI savings',
@@ -110,10 +117,11 @@ const getHowToSchema = (locale: string) => {
 }
 
 const getArticleSchema = (locale: string) => {
-  const url = `${BASE_URL}${locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'}`
+  const path = locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'
+  const url = `${BASE_URL}${path}`
   return {
-    '@context': 'https://schema.org',
     '@type': 'Article',
+    '@id': `${url}#article`,
     headline: locale === 'sv'
       ? 'AI-besparing kalkylator — Hur vi räknar'
       : 'AI Savings Calculator — How we calculate',
@@ -121,23 +129,11 @@ const getArticleSchema = (locale: string) => {
       ? 'Transparent metodik för beräkning av AI-besparing baserad på SCB lönestatistik och verifierad kunddata.'
       : 'Transparent methodology for calculating AI savings based on SCB wage statistics and verified client data.',
     url,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    mainEntityOfPage: { '@id': `${url}#webpage` },
     datePublished: '2025-01-01',
-    dateModified: '2026-04-23',
-    author: {
-      '@type': 'Organization',
-      name: 'Eteya Consulting AB',
-      url: 'https://eteya.ai',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Eteya Consulting AB',
-      url: 'https://eteya.ai',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://eteya.ai/favicon-512x512.png',
-      },
-    },
+    dateModified: '2026-04-26',
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
     articleSection: locale === 'sv' ? 'Metodik' : 'Methodology',
     keywords: locale === 'sv'
       ? 'AI-besparing, ROI-kalkylator, AI-ROI, SCB lönestatistik, automation'
@@ -178,16 +174,21 @@ export default async function MethodologyPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const path = locale === 'sv' ? '/sv/ai-besparing' : '/en/ai-savings'
+  const homePath = `/${locale}`
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'AI-besparing' : 'AI Savings', path },
+  ])
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getArticleSchema(locale)) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(getHowToSchema(locale)) }}
-      />
+      <JsonLd data={buildGraph([
+        getArticleSchema(locale),
+        getHowToSchema(locale),
+        breadcrumbSchema,
+      ])} />
       <Nav />
       <div className="page-content">
         <MethodologyContent />

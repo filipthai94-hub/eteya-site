@@ -4,8 +4,24 @@ import Nav from '@/components/layout/Nav'
 import Cases from '@/components/sections/Cases'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import CaseStudiesHubHero from '@/components/pages/CaseStudiesHubHero'
+import {
+  JsonLd,
+  buildGraph,
+  createCollectionPageSchema,
+  createBreadcrumbSchema,
+} from '@/components/JsonLd'
 
 const BASE_URL = 'https://eteya.ai'
+
+// All 5 case studies listed here so Google sees this hub as a
+// structured listing (enables sitelinks + AI Overview coverage).
+const CASE_STUDIES: ReadonlyArray<{ slug: string; sv: string; en: string }> = [
+  { slug: 'telestore', sv: 'Telestore', en: 'Telestore' },
+  { slug: 'nordicrank', sv: 'Nordicrank', en: 'Nordicrank' },
+  { slug: 'sannegarden', sv: 'Sannegårdens Pizzeria', en: 'Sannegården Pizzeria' },
+  { slug: 'skg-stockholm', sv: 'SKG Stockholm', en: 'SKG Stockholm' },
+  { slug: 'trainwithalbert', sv: 'TrainWithAlbert', en: 'TrainWithAlbert' },
+]
 
 export async function generateMetadata({
   params,
@@ -48,90 +64,39 @@ export async function generateMetadata({
   }
 }
 
-const getCollectionSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  'name': locale === 'sv' ? 'Kundcase — Eteya' : 'Case Studies — Eteya',
-  'description': locale === 'sv'
-    ? 'Verifierade kundcase från svenska företag som sparat tid och pengar med AI-automation.'
-    : 'Verified case studies from Swedish companies that saved time and money with AI automation.',
-  'url': `${BASE_URL}${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
-  'inLanguage': locale === 'sv' ? 'sv-SE' : 'en-US',
-})
-
-const getBreadcrumbSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  'itemListElement': [
-    {
-      '@type': 'ListItem',
-      'position': 1,
-      'name': locale === 'sv' ? 'Hem' : 'Home',
-      'item': `${BASE_URL}/${locale === 'sv' ? 'sv' : 'en'}`,
-    },
-    {
-      '@type': 'ListItem',
-      'position': 2,
-      'name': locale === 'sv' ? 'Kundcase' : 'Case Studies',
-      'item': `${BASE_URL}${locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'}`,
-    },
-  ],
-})
-
-// All 5 case studies listed here so Google sees this hub as a
-// structured listing (enables sitelinks + AI Overview coverage).
-const CASE_STUDIES: ReadonlyArray<{ slug: string; sv: string; en: string }> = [
-  { slug: 'telestore', sv: 'Telestore', en: 'Telestore' },
-  { slug: 'nordicrank', sv: 'Nordicrank', en: 'Nordicrank' },
-  { slug: 'sannegarden', sv: 'Sannegårdens Pizzeria', en: 'Sannegården Pizzeria' },
-  { slug: 'skg-stockholm', sv: 'SKG Stockholm', en: 'SKG Stockholm' },
-  { slug: 'trainwithalbert', sv: 'TrainWithAlbert', en: 'TrainWithAlbert' },
-]
-
-const getItemListSchema = (locale: string) => ({
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  'name': locale === 'sv' ? 'Eteya Kundcase' : 'Eteya Case Studies',
-  'description': locale === 'sv'
-    ? 'Verifierade kundcase från svenska företag som implementerat AI-automation med Eteya.'
-    : 'Verified case studies from Swedish companies that implemented AI automation with Eteya.',
-  'numberOfItems': CASE_STUDIES.length,
-  'itemListElement': CASE_STUDIES.map((cs, i) => ({
-    '@type': 'ListItem',
-    'position': i + 1,
-    'name': locale === 'sv' ? cs.sv : cs.en,
-    'url': `${BASE_URL}/${locale === 'sv' ? 'sv/kundcase' : 'en/case-studies'}/${cs.slug}`,
-  })),
-})
-
 export default async function CaseStudiesPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'caseStudies.meta' })
+
+  const path = locale === 'sv' ? '/sv/kundcase' : '/en/case-studies'
+  const homePath = `/${locale}`
+
+  // CollectionPage med inbäddad ItemList — pekar på alla 5 case-Article via @id
+  const collectionSchema = createCollectionPageSchema({
+    path,
+    name: t('title'),
+    description: t('description'),
+    inLanguage: locale === 'sv' ? 'sv-SE' : 'en-US',
+    items: CASE_STUDIES.map((cs) => ({
+      path: `${path}/${cs.slug}`,
+      name: locale === 'sv' ? cs.sv : cs.en,
+    })),
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Kundcase' : 'Case Studies', path },
+  ])
+
   return (
     <>
+      <JsonLd data={buildGraph([collectionSchema, breadcrumbSchema])} />
       <Nav />
       <div className="page-content">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getCollectionSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getBreadcrumbSchema(locale))
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getItemListSchema(locale))
-          }}
-        />
         <CaseStudiesHubHero />
         <Cases params={params} />
         <FooterCTAClient />

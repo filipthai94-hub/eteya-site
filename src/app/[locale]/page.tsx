@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import Nav from '@/components/layout/Nav'
 import Hero from '@/components/sections/Hero'
 import MarqueeSection from '@/components/sections/Marquee'
@@ -12,6 +13,12 @@ import ROICalculatorSection from '@/components/sections/ROICalculatorSection'
 import TechStack from '@/components/sections/TechStack'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import ScrollOnLoad from '@/components/ScrollOnLoad'
+import {
+  JsonLd,
+  buildGraph,
+  createWebPageSchema,
+  createServiceSchema,
+} from '@/components/JsonLd'
 
 const BASE_URL = 'https://eteya.ai'
 
@@ -84,10 +91,45 @@ export default async function Home({
 }: {
   params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
+  const tServices = await getTranslations({ locale, namespace: 'services' })
+  const m = META[(locale as 'sv' | 'en')] ?? META.sv
+
+  const path = `/${locale}`
+  const inLanguage = locale === 'sv' ? 'sv-SE' : 'en-US'
+
+  // WebPage schema för hem-sidan med voice-search speakable selectors
+  // (Organization + WebSite finns redan i root layout)
+  const webPageSchema = createWebPageSchema({
+    path,
+    name: m.title,
+    description: m.description,
+    inLanguage,
+    speakableSelectors: ['.hero-headline', '.hero-summary'],
+  })
+
+  // 3 services som schema (services.items i i18n innehåller title + description)
+  const serviceItems = tServices.raw('items') as Array<{ title: string; description: string }>
+  const serviceSlugs = ['ai-agents', 'automation', 'ai-products']
+  const serviceTypes = locale === 'sv'
+    ? ['AI agent development', 'Process automation', 'Custom AI products']
+    : ['AI agent development', 'Process automation', 'Custom AI products']
+
+  const serviceSchemas = serviceItems.map((item, i) =>
+    createServiceSchema({
+      slug: serviceSlugs[i] ?? 'service',
+      name: item.title,
+      description: item.description,
+      serviceType: serviceTypes[i] ?? 'AI services',
+      localePath: path,
+    }),
+  )
+
   // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
-  // The <main> element is provided by the locale layout ("#main-content").
+  // Här lägger vi till sidspecifika scheman (WebPage + 3 Services).
   return (
     <>
+      <JsonLd data={buildGraph([webPageSchema, ...serviceSchemas])} />
       <Nav />
       <div className="page-content">
         <Hero />

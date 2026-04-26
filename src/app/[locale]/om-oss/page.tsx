@@ -1,6 +1,12 @@
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
-import { JsonLd, createPersonSchema, createBreadcrumbSchema } from '@/components/JsonLd'
+import {
+  JsonLd,
+  buildGraph,
+  createPersonSchema,
+  createBreadcrumbSchema,
+  createAboutPageSchema,
+} from '@/components/JsonLd'
 import Nav from '@/components/layout/Nav'
 import AboutHeroClient from '@/components/sections/AboutHeroClient'
 import WhyEteyaOmOssWrapper from '@/components/sections/WhyEteyaOmOssWrapper'
@@ -53,16 +59,29 @@ export async function generateMetadata({
 
 
 
+// Map team member-namn → profilsökväg (för korrekt @id-länkning till ProfilePage)
+function getProfilePathForMember(name: string, locale: string): string | undefined {
+  const aboutPath = locale === 'sv' ? '/sv/om-oss' : '/en/about'
+  if (name.includes('Filip')) return `${aboutPath}/filip`
+  if (name.includes('Agit')) return `${aboutPath}/agit`
+  return undefined
+}
+
 export default async function AboutPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const tMeta = await getTranslations({ locale, namespace: 'about.meta' })
   const t = await getTranslations({ locale, namespace: 'team' })
   const members = t.raw('members') as Array<{ name: string; role: string; bio: string; image?: string; social?: { linkedin?: string } }>
 
-  // Create Person schemas for team members
+  const path = locale === 'sv' ? '/sv/om-oss' : '/en/about'
+  const homePath = `/${locale}`
+  const inLanguage = locale === 'sv' ? 'sv-SE' : 'en-US'
+
+  // Person-schemas med @id-länkning till team-member profilsidor (om de finns)
   const personSchemas = members.map(member =>
     createPersonSchema({
       name: member.name,
@@ -70,25 +89,32 @@ export default async function AboutPage({
       bio: member.bio,
       image: member.image,
       linkedin: member.social?.linkedin,
+      profilePath: getProfilePathForMember(member.name, locale),
     })
   )
 
-  // Organization + WebSite JSON-LD are rendered once by [locale]/layout.tsx.
-  // The <main> element is provided by the locale layout (#main-content).
+  // AboutPage refererar till team-medlemmar via mentions (med @id där det finns)
+  const personMentions = members
+    .map(m => getProfilePathForMember(m.name, locale))
+    .filter((p): p is string => Boolean(p))
+    .map(p => ({ '@id': `https://eteya.ai${p}#person` }))
+
+  const aboutPageSchema = createAboutPageSchema({
+    path,
+    name: tMeta('title'),
+    description: tMeta('description'),
+    inLanguage,
+    mentions: personMentions.length > 0 ? personMentions : undefined,
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: locale === 'sv' ? 'Hem' : 'Home', path: homePath },
+    { name: locale === 'sv' ? 'Om Oss' : 'About', path },
+  ])
+
   return (
     <>
-      {personSchemas.map((schema, i) => <JsonLd key={i} data={schema} />)}
-      <JsonLd data={{
-        '@context': 'https://schema.org',
-        '@type': 'AboutPage',
-        name: locale === 'sv' ? 'Om Oss | Eteya' : 'About | Eteya',
-        description: locale === 'sv' ? 'Lär känna teamet bakom Eteya — AI-konsulter som bygger automationer som levererar resultat.' : 'Meet the team behind Eteya — AI consultants building automations that deliver results.',
-        url: `https://eteya.ai/${locale === 'sv' ? 'sv/om-oss' : 'en/about'}`,
-      }} />
-      <JsonLd data={createBreadcrumbSchema([
-        { position: 1, name: locale === 'sv' ? 'Hem' : 'Home', item: `https://eteya.ai/${locale === 'sv' ? 'sv' : 'en'}` },
-        { position: 2, name: locale === 'sv' ? 'Om Oss' : 'About', item: `https://eteya.ai/${locale === 'sv' ? 'sv/om-oss' : 'en/about'}` },
-      ])} />
+      <JsonLd data={buildGraph([aboutPageSchema, breadcrumbSchema, ...personSchemas])} />
       <Nav />
       <div className="page-content">
         <AboutHeroClient />
