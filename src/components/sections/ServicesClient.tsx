@@ -312,6 +312,64 @@ export default function ServicesClient({ heading, cta, items }: {
   items: Array<{ number: string; title: string; description: string; detail: string; features: string[] }>
 }) {
   const tAlt = useTranslations('imageAlt.service')
+
+  // Lazy-load videos via IntersectionObserver — Google's officiella pattern
+  // (web.dev/articles/lazy-loading-video). Videos har data-src på source-taggen
+  // istället för src; observer byter över när services-section scrollas i view.
+  // Sparar ~800KB initial mobil pageload, fixar LCP-poäng.
+  //
+  // Vi observerar #services-section istället för enskilda videos eftersom de
+  // ligger inuti collapsed accordion-kort (kan ha 0 height när stängda) och
+  // IntersectionObserver inte fires på element utan bounding box.
+  useEffect(() => {
+    let loaded = false
+    const loadAllVideos = () => {
+      if (loaded) return
+      loaded = true
+      document.querySelectorAll<HTMLVideoElement>('video.lazy-video').forEach((video) => {
+        video.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((src) => {
+          if (src.dataset.src) {
+            src.src = src.dataset.src
+            src.removeAttribute('data-src')
+          }
+        })
+        video.load()
+        video.play().catch(() => {/* autoplay-policy block är OK, poster visas */})
+      })
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      loadAllVideos()
+      return
+    }
+
+    const section = document.getElementById('services-section')
+    if (!section) return
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          loadAllVideos()
+          sectionObserver.disconnect()
+        }
+      },
+      { rootMargin: '300px' }, // Förladda 300px innan section kommer i view
+    )
+
+    sectionObserver.observe(section)
+
+    // Fallback för bots/crawlers/hidden tabs där IntersectionObserver inte
+    // fires (per spec pausad i visibility=hidden documents). Säkerhetsnät:
+    // ladda alla videos efter första user-scroll om observer inte triggat.
+    const onScroll = () => loadAllVideos()
+    window.addEventListener('scroll', onScroll, { once: true, passive: true })
+
+    return () => {
+      sectionObserver.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
   useEffect(() => {
     const cards = document.querySelectorAll('#services-section .service-card')
 
@@ -428,12 +486,16 @@ export default function ServicesClient({ heading, cta, items }: {
                 {(() => {
                   const slug = item.number === '01' ? 'ai-agents' : item.number === '02' ? 'automation' : 'ai-products'
                   return (
+                    /* Lazy-load: source tags använder data-src istället för src.
+                       En IntersectionObserver i useEffect (nedan) byter data-src
+                       → src + kallar .load()+.play() när videon scrollas in i view.
+                       Sparar ~800KB mobil first-paint. Ref: web.dev/articles/lazy-loading-video */
                     <video
-                      autoPlay
+                      className="lazy-video"
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="none"
                       poster={`/images/service-${slug}-poster.webp`}
                       aria-label={tAlt(SERVICE_SLUG_TO_ALT_KEY[slug] ?? 'aiAgents')}
                       width={1920}
@@ -441,11 +503,11 @@ export default function ServicesClient({ heading, cta, items }: {
                     >
                       <source
                         media="(max-width: 768px)"
-                        src={`/videos/service-${slug}-mobile.mp4`}
+                        data-src={`/videos/service-${slug}-mobile.mp4`}
                         type="video/mp4"
                       />
                       <source
-                        src={`/videos/service-${slug}.mp4`}
+                        data-src={`/videos/service-${slug}.mp4`}
                         type="video/mp4"
                       />
                     </video>
