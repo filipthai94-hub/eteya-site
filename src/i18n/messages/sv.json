@@ -1,4 +1,20 @@
 {
+  "cookieBanner": {
+    "title": "Vi använder cookies",
+    "description": "Vi använder nödvändiga cookies för att webbplatsen ska fungera. Med ditt samtycke använder vi även cookies för analys och marknadsföring.",
+    "readMore": "Läs mer i integritetspolicyn",
+    "necessary": "Nödvändiga.",
+    "necessaryDesc": "Krävs för att webbplatsen ska fungera. Kan inte stängas av.",
+    "analytics": "Analys.",
+    "analyticsDesc": "Hjälper oss förstå hur webbplatsen används (Google Analytics).",
+    "marketing": "Marknadsföring.",
+    "marketingDesc": "Används för att visa relevant innehåll och annonser.",
+    "customize": "Anpassa",
+    "saveChoices": "Spara val",
+    "rejectAll": "Avvisa alla",
+    "acceptAll": "Godkänn alla",
+    "manageCookies": "Hantera cookies"
+  },
   "nav": {
     "logo": "ETEYA",
     "cta": "Kontakt",
@@ -1328,11 +1344,17 @@
       },
       {
         "marker": "Cookies",
-        "heading": "Cookies",
-        "type": "cookies",
-        "content": "För information om hur vi använder cookies, se vår <link>cookie-policy</link>.",
-        "linkHref": "/sv/cookie-policy",
-        "linkLabel": "cookie-policy"
+        "heading": "Cookies och spårning",
+        "type": "list",
+        "items": [
+          "<strong>Nödvändiga cookies</strong> — krävs för att webbplatsen ska fungera (samtyckesregistrering, språkval). Kan inte stängas av.",
+          "<strong>Analys</strong> — vi använder Google Analytics 4 (GA4) för att förstå hur besökare använder webbplatsen. GA4 använder cookies som lagras upp till 14 månader. IP-adresser anonymiseras innan lagring. Data behandlas av Google LLC i USA under EU–US Data Privacy Framework.",
+          "<strong>Vercel Web Analytics</strong> — anonym, hash-baserad besökarräkning utan cookies. Ingen information lagras på din enhet, och hashen tas bort efter 24 timmar. Kräver inte samtycke enligt LEK 6 kap. 18 § men nämns här för transparens. Rättslig grund: berättigat intresse (artikel 6.1.f GDPR).",
+          "<strong>Marknadsföring</strong> — för närvarande inaktiverat. Om vi i framtiden aktiverar remarketing kommer detta att kräva ditt samtycke och redovisas tydligt här.",
+          "<strong>Google Consent Mode v2</strong> — webbplatsen respekterar ditt val i cookie-bannern. Om du nekar samtycke skickas endast anonyma signaler utan cookies eller identifierare.",
+          "<strong>Återkalla samtycke</strong> — du kan när som helst ändra eller återkalla ditt samtycke genom att klicka på \"Hantera cookies\" i sidfoten.",
+          "<strong>Tillsynsmyndighet</strong> — du har rätt att lämna in klagomål till Integritetsskyddsmyndigheten (IMY), tidigare Datainspektionen. Webbplats: <a href=\"https://imy.se\" target=\"_blank\" rel=\"noopener noreferrer\">imy.se</a>"
+        ]
       },
       {
         "marker": "Klagomål",

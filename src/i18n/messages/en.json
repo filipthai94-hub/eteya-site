@@ -1,4 +1,20 @@
 {
+  "cookieBanner": {
+    "title": "We use cookies",
+    "description": "We use necessary cookies to make our site work. With your consent, we also use analytics and marketing cookies.",
+    "readMore": "Read our privacy policy",
+    "necessary": "Necessary.",
+    "necessaryDesc": "Required for the site to function. Cannot be turned off.",
+    "analytics": "Analytics.",
+    "analyticsDesc": "Helps us understand how the site is used (Google Analytics).",
+    "marketing": "Marketing.",
+    "marketingDesc": "Used to show relevant content and ads.",
+    "customize": "Customize",
+    "saveChoices": "Save choices",
+    "rejectAll": "Reject all",
+    "acceptAll": "Accept all",
+    "manageCookies": "Manage cookies"
+  },
   "nav": {
     "logo": "ETEYA",
     "cta": "Contact",
@@ -1328,11 +1344,17 @@
       },
       {
         "marker": "Cookies",
-        "heading": "Cookies",
-        "type": "cookies",
-        "content": "For information about how we use cookies, see our <link>cookie policy</link>.",
-        "linkHref": "/en/cookie-policy",
-        "linkLabel": "cookie policy"
+        "heading": "Cookies and tracking",
+        "type": "list",
+        "items": [
+          "<strong>Necessary cookies</strong> — required for the site to function (consent record, language preference). Cannot be disabled.",
+          "<strong>Analytics</strong> — we use Google Analytics 4 (GA4) to understand how visitors use the site. GA4 uses cookies stored for up to 14 months. IP addresses are anonymized before storage. Data is processed by Google LLC in the US under the EU–US Data Privacy Framework.",
+          "<strong>Vercel Web Analytics</strong> — anonymous, hash-based visitor counting without cookies. No information is stored on your device, and the hash is discarded after 24 hours. Does not require consent under EU ePrivacy law but is disclosed here for transparency. Legal basis: legitimate interest (Art. 6(1)(f) GDPR).",
+          "<strong>Marketing</strong> — currently disabled. If we later enable remarketing, it will require your consent and be disclosed here.",
+          "<strong>Google Consent Mode v2</strong> — the site respects your choice in the cookie banner. If you decline, only anonymous signals are sent — no cookies or identifiers.",
+          "<strong>Withdraw consent</strong> — you can change or withdraw your consent at any time by clicking \"Manage cookies\" in the footer.",
+          "<strong>Supervisory authority</strong> — you may file a complaint with the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten, IMY — formerly Datainspektionen). Website: <a href=\"https://imy.se\" target=\"_blank\" rel=\"noopener noreferrer\">imy.se</a>"
+        ]
       },
       {
         "marker": "Complaints",

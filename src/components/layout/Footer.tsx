@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { C } from '@/lib/colors'
+import { ManageCookiesLink } from '@/components/cookie-banner/ManageCookiesLink'
 
 export default async function Footer() {
   const t = await getTranslations('footer')
@@ -19,7 +20,10 @@ export default async function Footer() {
           <p>{t('company')}</p>
           <p>{t('org_nr')}</p>
           <p>{t('address')}</p>
-          <p style={{ marginTop: '1rem', fontSize: '0.6875rem' }}>{t('copyright')}</p>
+          <p style={{ marginTop: '0.75rem', fontSize: '0.6875rem' }}>
+            <ManageCookiesLink />
+          </p>
+          <p style={{ marginTop: '0.5rem', fontSize: '0.6875rem' }}>{t('copyright')}</p>
         </div>
       </div>
     </footer>

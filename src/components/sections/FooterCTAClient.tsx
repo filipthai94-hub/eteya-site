@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useScrollLock } from '@/hooks/useScrollLock'
 import ContactCard from '../ui/contact-card'
+import { ManageCookiesLink } from '@/components/cookie-banner/ManageCookiesLink'
 import type { ChangeEvent, FormEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
@@ -794,6 +795,8 @@ const hasPlayed = useRef(false)
             <div className="fcta-footer-left">
               <span ref={footerSenRef} className="fcta-footer-left-text fcta-footer-reveal">
                 {t('copyright')}
+                <span style={{ margin: '0 0.5em', opacity: 0.4 }}>·</span>
+                <ManageCookiesLink />
               </span>
             </div>
             <nav className="fcta-footer-links" aria-label="Social media links">

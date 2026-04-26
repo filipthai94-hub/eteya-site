@@ -3,12 +3,19 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Barlow, Barlow_Condensed, Geist, Inter, JetBrains_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { JsonLd, organizationSchema, webSiteSchema } from '@/components/JsonLd'
 import MotionProvider from '@/components/animations/MotionProvider'
 import ScrollReset from '@/components/ui/ScrollReset'
 import TransitionProvider from '@/components/animations/TransitionProvider'
+import { ConsentDefault } from '@/components/analytics/ConsentDefault'
+import { CookieBanner } from '@/components/cookie-banner/CookieBanner'
 import '../globals.css'
 import type { Metadata, Viewport } from 'next'
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 // viewportFit: 'cover' lets content flow into the iPhone safe-area
 // (Dynamic Island, notch). Required for iOS 26+ Safari so hero
@@ -133,6 +140,8 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Consent Mode v2 default state — MUST run before GA4 loads */}
+        <ConsentDefault />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -158,7 +167,12 @@ export default async function LocaleLayout({
               <main id="main-content">{children}</main>
             </MotionProvider>
           </TransitionProvider>
+          <CookieBanner />
         </NextIntlClientProvider>
+        {/* Analytics — Vercel is cookieless (no consent needed); GA4 respects Consent Mode v2 */}
+        <Analytics />
+        <SpeedInsights />
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
       </body>
     </html>
   )
