@@ -38,6 +38,10 @@
         "badge": "[5]"
       },
       {
+        "label": "Blog",
+        "href": "/en/blog"
+      },
+      {
         "label": "Contact",
         "href": "/en/contact"
       }
@@ -1722,5 +1726,66 @@
       "development": "integration for AI development by Eteya"
     },
     "ogHome": "Eteya — AI agency building AI agents and automation for businesses"
+  },
+  "blog": {
+    "meta": {
+      "listingTitle": "Eteya Blog — AI insights, automation & case studies",
+      "listingDescription": "Practical guides on AI agents, automation and process automation for modern businesses. Written by Eteya's AI consultants from real implementations."
+    },
+    "listing": {
+      "kicker": "Eteya Blog",
+      "heading": "Insights on AI agents and automation",
+      "subheading": "Practical guides, case studies and thoughts on AI implementation for SMBs. Written by us who actually build the solutions.",
+      "breadcrumb": "Blog",
+      "featuredLabel": "Featured",
+      "moreLabel": "More articles",
+      "allLabel": "All articles",
+      "tagsLabel": "Browse by topic",
+      "emptyTitle": "Articles coming soon",
+      "emptyBody": "We're preparing our first wave of insights on AI agents, automation and concrete implementations from our client projects. Back soon."
+    },
+    "article": {
+      "publishedOn": "Published",
+      "modifiedOn": "Updated",
+      "by": "By",
+      "readingTime": "min read",
+      "tagsLabel": "Topics",
+      "shareLabel": "Share article",
+      "shareLinkedIn": "Share on LinkedIn",
+      "shareX": "Share on X",
+      "shareCopy": "Copy link",
+      "shareCopied": "Link copied!",
+      "tocLabel": "Contents",
+      "authorBioHeading": "About the author",
+      "relatedHeading": "Related articles",
+      "ctaHeading": "Build your own AI agent",
+      "ctaBody": "Book a free 30-minute strategy call. We'll look at your business and show concretely what AI can automate.",
+      "ctaButton": "Book strategy call",
+      "newsletterHeading": "Get more insights in your inbox",
+      "newsletterBody": "We send 1-2 new articles per month on AI automation for businesses. No spam, unsubscribe anytime.",
+      "newsletterPlaceholder": "your@email.com",
+      "newsletterButton": "Subscribe",
+      "newsletterSuccess": "Thanks! You're subscribed.",
+      "newsletterError": "Something went wrong — please try again later.",
+      "newsletterGdpr": "By subscribing you accept our privacy policy."
+    },
+    "tag": {
+      "metaTitle": "Articles about {tag} — Eteya Blog",
+      "metaDescription": "All our articles about {tag}. Practical guides and case studies from Eteya.",
+      "heading": "Articles about: {tag}",
+      "subheading": "{count} articles in this category",
+      "subheadingOne": "1 article in this category",
+      "breadcrumb": "Tag",
+      "noResults": "No articles with this tag yet."
+    },
+    "author": {
+      "metaTitle": "Articles by {name} — Eteya Blog",
+      "metaDescription": "All articles written by {name} on Eteya Blog.",
+      "heading": "Articles by {name}",
+      "subheading": "{count} published articles",
+      "subheadingOne": "1 published article",
+      "breadcrumb": "Author",
+      "noArticles": "No published articles yet."
+    }
   }
 }

@@ -1,0 +1,125 @@
+---
+title: "AI receptionist for restaurants — how it works in practice"
+description: "How an AI receptionist answers 100% of calls at a pizzeria, takes orders 24/7 and eliminates missed orders during rush hour. Verified experience from the Sannegården Pizzeria implementation."
+publishedDate: "2026-04-27"
+modifiedDate: "2026-04-27"
+author: "filip"
+tags: ["AI receptionist", "Restaurant automation", "Customer service automation", "AI agents"]
+heroImage: "/images/blog/ai-telefonist-hero.webp"
+heroImageAlt: "Restaurant phone ringing during dinner rush — typical situation where an AI receptionist takes calls automatically"
+featured: true
+relatedSlug: "ai-telefonist-restaurang"
+---
+
+Every Friday night between 18:00 and 20:30, the phone at a typical pizzeria rings 40-60 times. Staff stand behind the counter with a pizza peel in one hand, trying to grab the receiver with the other. The result?
+
+**Missed calls. Lost orders. Frustrated customers.**
+
+For Sannegården Pizzeria in Gothenburg, that was reality — until we built them an AI receptionist. This article walks through **exactly** how an AI receptionist works, what it can (and cannot) do, and what's required to implement one in your restaurant.
+
+## What is an AI receptionist?
+
+An AI receptionist is an automated voice assistant that answers incoming calls, understands what the caller wants, and handles the request — without human involvement for routine matters.
+
+For restaurant use, that means concretely:
+
+- Takes orders (with menu questions, allergies, delivery address)
+- Manages table bookings
+- Answers opening-hours and menu questions
+- Sends confirmations via SMS
+- Escalates to a real person when needed
+
+Technically: the AI uses **speech-to-text** to understand voice, a **language model** (like GPT-4 or Claude) to interpret intent, and **text-to-speech** to respond with a natural voice. The whole conversation happens in real-time with 1-2 second latency.
+
+## What did it solve for Sannegården Pizzeria?
+
+Before the AI receptionist:
+- 30-40% missed calls during rush
+- Staff distracted from cooking to answer the phone
+- Orders lost when two customers called simultaneously
+
+After implementation:
+- **0 missed calls** — the AI always answers
+- **30+ extra orders per week** from calls previously lost
+- Staff focuses on cooking, not the phone
+
+For the full case study with exact numbers, [read our Sannegården client case](/en/case-studies/sannegarden).
+
+## What can an AI receptionist do (and not do)?
+
+### ✅ What it handles well
+
+**Structured tasks** with a clear flow:
+- Orders with standard menu items
+- Table bookings (date, time, party size)
+- Hours and contact questions
+- Standardized FAQs ("do you have gluten-free?", "can I cancel?")
+
+**Volume** — can take 50+ simultaneous calls without quality drop.
+
+**Consistent tone** — never says wrong price, never forgets the allergy question, always confirms delivery address.
+
+### ❌ What it shouldn't handle
+
+**Complex complaints** — if the customer is angry or has a specific situation, escalate directly to a human.
+
+**Crisis situations** — e.g. food poisoning, allergic reaction. The AI should detect keywords and transfer immediately.
+
+**Negotiations** — discounts, special arrangements. That's still human work.
+
+## What's required to implement?
+
+We typically split it into 3 phases:
+
+### Phase 1: Preparation (1-2 weeks)
+
+- Define **scope** — which calls should the AI handle?
+- Compile the **menu** in structured form (prices, ingredients, variants)
+- List **business rules** (hours, delivery area, payment methods)
+- Decide on **voice** (female/male, accent, tone)
+
+### Phase 2: Build + training (2-3 weeks)
+
+- We build the AI with your specific data
+- **Test calls** — we simulate common and edge-case scenarios
+- Iteration: listen to test calls, adjust responses, test again
+- Integration with your **POS system** (Square, Lightspeed, etc.) so orders are created automatically
+
+### Phase 3: Launch + fine-tuning (1-2 weeks)
+
+- **Soft launch** — AI takes 30% of calls, you hear the rest
+- **A/B testing** — compare AI vs staff responses for quality
+- **Escalation flow** — when AI doesn't know, it transfers to you
+- **Live mode** — AI handles 100% of routine calls
+
+**Total time-to-live:** 4-7 weeks from start to production.
+
+## The cost — is it worth it?
+
+We don't disclose specific client pricing in this article, but the ROI math is simple:
+
+**Sannegården Pizzeria:** 30 extra orders/week × 280 SEK average × 50 weeks = **420,000 SEK/year** in new revenue that previously disappeared via missed calls.
+
+For a restaurant with 50+ calls/day, an AI receptionist is **typically self-funding** within 2-4 months.
+
+[Calculate your potential ROI with our calculator](/en/ai-savings).
+
+## Common objections — and answers
+
+**"My customers will hate talking to a robot."**
+
+Modern AI no longer sounds robotic. Sannegården customers often don't notice they're talking to an AI. Plus: they appreciate always getting an answer versus leaving voicemail or being put on hold.
+
+**"What if the AI says the wrong thing?"**
+
+Good question. We build in **confidence thresholds** — if the AI is uncertain (e.g. doesn't hear clearly or the customer asks something unusual), it transfers directly to you. Plus: all calls are recorded (with customer consent) so you can audit quality.
+
+**"Do we need to switch our POS system?"**
+
+No. The AI integrates with existing systems via APIs. We have experience with Square, Lightspeed, Caspeco, and custom integrations to legacy systems.
+
+## Next steps
+
+If you run a restaurant, café or similar business and are considering an AI receptionist, [book a free 30-minute strategy call](/en/contact). We'll look at your specific situation and concretely show whether it's worth it for you.
+
+Or read more about [Sannegården's implementation in detail](/en/case-studies/sannegarden) to see exactly how it works in practice.

@@ -1,9 +1,27 @@
 import createNextIntlPlugin from 'next-intl/plugin'
+import createMDX from '@next/mdx'
 import type { NextConfig } from 'next'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
+const withMDX = createMDX({
+  // Plugin-konfiguration via strängar (Turbopack-kompatibelt — JS-funktioner
+  // kan inte passas till Rust-baserad bundler).
+  options: {
+    remarkPlugins: [
+      'remark-frontmatter',  // strippa YAML-frontmatter från content
+      'remark-gfm',           // GitHub Flavored Markdown (tables, strikethrough)
+    ],
+    rehypePlugins: [
+      'rehype-slug',  // ID på H2/H3 → enables anchor links + TOC
+      ['rehype-autolink-headings', { behavior: 'wrap' }],  // klickbara headings
+    ],
+  },
+})
+
 const nextConfig: NextConfig = {
+  // Tillåt .md/.mdx som sid-filer i App Router
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   allowedDevOrigins: ['filip.tail607c86.ts.net', '100.84.47.62'],
   images: {
     // Serve AVIF + WebP automatically to supporting browsers when
@@ -141,4 +159,6 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withNextIntl(nextConfig)
+// Kedja MDX → next-intl → nextConfig. MDX yttre wrapper hanterar pageExtensions
+// + .mdx-loader, next-intl hanterar i18n-routing.
+export default withMDX(withNextIntl(nextConfig))
