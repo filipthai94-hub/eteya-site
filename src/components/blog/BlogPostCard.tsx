@@ -1,5 +1,7 @@
 /**
- * BlogPostCard — magazine-style card med dedikerade .blog-card* CSS-klasser.
+ * BlogPostCard — ChainGPT-stil simplified card.
+ * Order: Image → Date → Title → Author photo + name.
+ * Inga tags, inga descriptions på själva korten.
  */
 
 import Image from 'next/image'
@@ -7,7 +9,6 @@ import { Link } from '@/i18n/navigation'
 import type { BlogPostSummary } from '@/lib/blog/types'
 import {
   formatBlogDate,
-  formatReadingTime,
   getAuthorName,
   getAuthorImage,
 } from '@/lib/blog/format'
@@ -38,7 +39,7 @@ export default function BlogPostCard({
           sizes={
             isFeatured
               ? '(max-width: 768px) 100vw, 90vw'
-              : '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              : '(max-width: 768px) 100vw, 50vw'
           }
           className="blog-card-image"
           priority={isFeatured}
@@ -46,16 +47,12 @@ export default function BlogPostCard({
       </Link>
 
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        {post.tags.length > 0 && (
-          <div className="blog-card-tags">
-            {post.tags.slice(0, 2).map((tag) => (
-              <span key={tag} className="blog-card-tag">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* Date — först (ChainGPT-stil) */}
+        <time dateTime={post.publishedDate} className="blog-card-date">
+          {formatBlogDate(post.publishedDate, post.language)}
+        </time>
 
+        {/* Title — clean, no description below */}
         <h3 className="blog-card-title">
           <Link
             href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
@@ -65,24 +62,17 @@ export default function BlogPostCard({
           </Link>
         </h3>
 
-        <p className="blog-card-desc">{post.description}</p>
-
+        {/* Author — photo + name only */}
         <div className="blog-card-meta">
           <Image
             src={getAuthorImage(post.author)}
             alt={getAuthorName(post.author)}
-            width={isFeatured ? 36 : 28}
-            height={isFeatured ? 36 : 28}
+            width={isFeatured ? 32 : 28}
+            height={isFeatured ? 32 : 28}
             className="blog-card-meta-photo"
           />
           <div className="blog-card-meta-info">
             <strong>{getAuthorName(post.author)}</strong>
-            <span className="blog-card-meta-sep" aria-hidden="true">·</span>
-            <time dateTime={post.publishedDate}>
-              {formatBlogDate(post.publishedDate, post.language)}
-            </time>
-            <span className="blog-card-meta-sep" aria-hidden="true">·</span>
-            <span>{formatReadingTime(post.readingTime, post.language)}</span>
           </div>
         </div>
       </div>

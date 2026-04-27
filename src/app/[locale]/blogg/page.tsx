@@ -110,7 +110,6 @@ export default async function BlogListingPage({
       <div className="page-content">
         <main className="blog-page">
           <BlogListingHero
-            kicker={t('listing.kicker')}
             title={t('listing.heading')}
             description={t('listing.subheading')}
           />
@@ -128,22 +127,15 @@ export default async function BlogListingPage({
             </div>
           ) : (
             <div className="blog-content-wrap">
+              {/* ChainGPT-stil: featured post utan label, direkt + grid under */}
               {featuredPost && (
                 <section className="blog-featured-section" aria-label={t('listing.featuredLabel')}>
-                  <span className="blog-section-label">{t('listing.featuredLabel')}</span>
                   <BlogPostCard post={featuredPost} variant="featured" />
                 </section>
               )}
 
               {otherPosts.length > 0 && (
                 <section aria-label={t('listing.allLabel')}>
-                  {featuredPost && (
-                    <div className="blog-grid-section-header">
-                      <h2 className="blog-grid-section-title">
-                        {t('listing.moreLabel')}
-                      </h2>
-                    </div>
-                  )}
                   <div className="blog-grid">
                     {otherPosts.map((post) => (
                       <BlogPostCard key={post.slug} post={post} />
