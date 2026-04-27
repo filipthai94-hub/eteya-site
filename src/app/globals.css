@@ -1289,10 +1289,10 @@ html.lenis, html.lenis body {
    tryck/foto. Slank 1px-stroke, lätt utskjutande från bilden för
    att kännas som markörer (inte dekorationer på bildens kant).
 
-   Hover-belöning: markörerna "öppnar upp" — de glider utåt diagonalt
-   och växer marginellt i storlek, allt i samma vita färg. Effekten
-   påminner om hur en kameras fokus-bracket lägger sig fast runt sitt
-   motiv. Lugn, premium, ingen färg-flash. */
+   Hover-belöning: markörerna glider utåt diagonalt — pure GPU
+   transform-animation (translate3d), aldrig layout-recalc, så det
+   blir silky smooth även på slö hårdvara. Samma vita färg, ingen
+   färg-flash. */
 .blog-bracket-frame {
   position: relative;
 }
@@ -1305,13 +1305,12 @@ html.lenis, html.lenis body {
   pointer-events: none;
   z-index: 2;
   border-color: rgba(255, 255, 255, 0.28);
-  transition:
-    top 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    right 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    bottom 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Bara transform animeras — det går på compositor-tråden, undviker
+     paint/layout-thrash som top/left/width/height annars skulle trigga. */
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  /* translate3d(0,0,0) tvingar fram en GPU-layer från start så att
+     första hover-framen inte hackar när browsern allokerar layern. */
+  transform: translate3d(0, 0, 0);
 }
 .blog-bracket-frame::before {
   top: -5px;
@@ -1341,39 +1340,28 @@ html.lenis, html.lenis body {
   }
 }
 
-/* HOVER: markörerna öppnar upp utåt (samma vita färg) */
+/* HOVER: glider utåt diagonalt via translate3d — GPU-accelererat,
+   ingen layout-recalc, smooth på alla devices. */
 .blog-bracket-frame:hover::before,
 a.blog-bracket-frame:hover::before,
 .blog-card-rect:hover .blog-bracket-frame::before {
-  top: -10px;
-  left: -10px;
-  width: 16px;
-  height: 16px;
+  transform: translate3d(-6px, -6px, 0);
 }
 .blog-bracket-frame:hover::after,
 a.blog-bracket-frame:hover::after,
 .blog-card-rect:hover .blog-bracket-frame::after {
-  bottom: -10px;
-  right: -10px;
-  width: 16px;
-  height: 16px;
+  transform: translate3d(6px, 6px, 0);
 }
 @media (min-width: 768px) {
   .blog-bracket-frame:hover::before,
   a.blog-bracket-frame:hover::before,
   .blog-card-rect:hover .blog-bracket-frame::before {
-    top: -12px;
-    left: -12px;
-    width: 20px;
-    height: 20px;
+    transform: translate3d(-8px, -8px, 0);
   }
   .blog-bracket-frame:hover::after,
   a.blog-bracket-frame:hover::after,
   .blog-card-rect:hover .blog-bracket-frame::after {
-    bottom: -12px;
-    right: -12px;
-    width: 20px;
-    height: 20px;
+    transform: translate3d(8px, 8px, 0);
   }
 }
 
