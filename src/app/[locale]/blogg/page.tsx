@@ -121,12 +121,8 @@ export default async function BlogListingPage({
             </div>
           ) : (
             <>
-              {/* HERO SECTION — magazine intro med eyebrow + title + tagline + stats */}
-              <BlogHero
-                locale={blogLocale}
-                articleCount={allPosts.length}
-                latestUpdate={allPosts[0]?.publishedDate}
-              />
+              {/* HERO SECTION — minimal editorial intro: title + tagline */}
+              <BlogHero locale={blogLocale} />
 
               {/* FEATURED HERO — ChainGPT-stil med side-label "LATEST" + corner-brackets */}
               {featuredPost && <BlogFeaturedHero post={featuredPost} />}

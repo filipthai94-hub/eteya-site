@@ -1633,87 +1633,55 @@ a:hover > .blog-hero-chaingpt-image img {
   .blog-grid-rect { gap: 4rem 3rem; }
 }
 
-/* ── BLOG HERO SECTION (magazine-style intro) ─────────────────────── */
+/* ── BLOG HERO SECTION (minimal editorial intro) ──────────────────── */
+/* Konsekvent med övriga sub-page heros: använder sajtens standard-
+   fonter (Barlow Condensed för h1, Geist för tagline) i editorial
+   storlekar — ingen side-label, ingen eyebrow, inga stats. */
 .blog-hero-section {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-.blog-hero-section .blog-section-with-label {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+
+.blog-hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 @media (min-width: 768px) {
-  .blog-hero-section .blog-section-with-label {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+  .blog-hero-inner {
+    padding: 6rem 3rem 4.5rem;
+    gap: 1.75rem;
   }
 }
 @media (min-width: 1024px) {
-  .blog-hero-section .blog-section-with-label {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+  .blog-hero-inner {
+    padding: 7rem 3rem 5rem;
+    gap: 2rem;
   }
 }
 
-.blog-hero-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  max-width: 60ch;
-}
-@media (min-width: 768px) {
-  .blog-hero-content { gap: 2.5rem; }
-}
-
-.blog-hero-eyebrow {
-  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.4);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.blog-hero-eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 24px;
-  height: 1px;
-  background: #C8FF00;
-}
-
+/* H1: Barlow Condensed — exakt samma typografi-system som home-hero
+   och About/Methodology, men i editorial storlek (40-80px) eftersom
+   blog-listing är en innehållssida, inte en marketing-landing. */
 .blog-hero-h1 {
   font-family: var(--font-display), 'Barlow Condensed', sans-serif;
   font-weight: 500;
   letter-spacing: -0.025em;
   color: #fff;
-  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
   line-height: 1.02;
   margin: 0;
+  max-width: 18ch;
 }
 
+/* Tagline: Geist body — matchar all body-text på sajten. */
 .blog-hero-tagline {
   font-family: var(--font-body), 'Geist', sans-serif;
   font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.65);
   margin: 0;
-  max-width: 50ch;
-}
-
-.blog-hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.5);
-}
-.blog-hero-stats-divider {
-  color: rgba(255, 255, 255, 0.2);
-}
-.blog-hero-stats-accent {
-  color: #C8FF00;
+  max-width: 52ch;
 }
