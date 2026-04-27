@@ -1,15 +1,14 @@
 /**
- * BlogFeaturedHero — Linear/Anthropic-stil split-hero för featured post.
+ * BlogFeaturedHero — ChainGPT-stil asymmetric hero med corner-brackets.
  *
  * Layout:
- *   Desktop (>=1024px): [image 1.4fr | text 1fr] horizontal split
- *   Tablet/Mobile: stackat (image över text)
+ *   Side-label "LATEST" | Text-content | Image med corner-brackets
  *
- * Detta ersätter traditional hero header — featured post BLIR den
- * visuella heron. Editorial magazine-feel matchar Linear's blog och
- * Anthropic's news-section.
- *
- * Använder dedikerade .blog-featured-* CSS-klasser från globals.css.
+ * Eteya DNA-anpassningar:
+ *   - Mono meta-text (date, byline) i JetBrains Mono
+ *   - Yellow corner-brackets på image (signature)
+ *   - Title bibehåller Barlow Wide för Eteya-feel
+ *   - Subtle blueprint-grid syns i bakgrunden via .blog-page
  */
 
 import Image from 'next/image'
@@ -21,42 +20,39 @@ interface BlogFeaturedHeroProps {
   post: BlogPostSummary
 }
 
-/**
- * BlogFeaturedHero — Linear/NYT-style editorial split-hero.
- * Neutral palette (yellow reserveras för signature-accents på andra ställen),
- * underline-on-hover (NYT-typography-detail), ingen redundant "Läs artikel"-CTA
- * (hela cardet är klickbar via image + title links).
- */
+/** Format datum till "APRIL 27, 2026" mono-style */
+function formatMonoDate(iso: string, locale: 'sv' | 'en'): string {
+  const date = new Date(iso)
+  if (locale === 'sv') {
+    // Svenska: "27 APRIL, 2026"
+    const months = ['JANUARI', 'FEBRUARI', 'MARS', 'APRIL', 'MAJ', 'JUNI', 'JULI', 'AUGUSTI', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DECEMBER']
+    return `${date.getDate()} ${months[date.getMonth()]}, ${date.getFullYear()}`
+  }
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase()
+}
+
 export default function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) {
-  const primaryTag = post.tags[0]
+  const sectionLabel = post.language === 'sv' ? 'SENASTE' : 'LATEST'
+  const byPrefix = post.language === 'sv' ? 'AV' : 'BY'
+  // formatBlogDate fortfarande för screen-reader/datetime; mono visar formatMonoDate
+  void formatBlogDate
 
   return (
-    <section className="blog-featured-hero" aria-label="Featured article">
-      <div className="blog-featured-grid">
-        {/* IMAGE — dominerar visuellt (1.6fr), drama via proportion */}
-        <Link
-          href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
-          locale={post.language}
-          className="blog-featured-image-link"
-          aria-label={post.title}
-        >
-          <Image
-            src={post.heroImage}
-            alt={post.heroImageAlt}
-            fill
-            sizes="(max-width: 1024px) 100vw, 60vw"
-            className="blog-featured-image"
-            priority
-          />
-        </Link>
+    <section className="blog-section-with-label" aria-label="Featured article">
+      {/* Side-label (vänster på desktop) */}
+      <div className="blog-section-label-col">
+        <span className="blog-side-label">{sectionLabel}</span>
+      </div>
 
-        {/* TEXT — vertical-centered mot image, editorial restraint */}
-        <div className="blog-featured-text">
-          {primaryTag && (
-            <span className="blog-featured-tag">{primaryTag}</span>
-          )}
+      {/* Hero-content: text + image grid */}
+      <div className="blog-hero-chaingpt">
+        {/* Text-sida (vänster på desktop) */}
+        <div className="blog-hero-chaingpt-text">
+          <span className="blog-mono-meta blog-mono-meta-bullet">
+            {formatMonoDate(post.publishedDate, post.language)}
+          </span>
 
-          <h2 className="blog-featured-title">
+          <h2 className="blog-hero-chaingpt-title">
             <Link
               href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
               locale={post.language}
@@ -65,32 +61,39 @@ export default function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) {
             </Link>
           </h2>
 
-          <p className="blog-featured-desc">{post.description}</p>
-
-          <hr className="blog-featured-divider" />
-
-          <div className="blog-featured-byline">
+          <div className="blog-hero-chaingpt-byline">
             <Image
               src={getAuthorImage(post.author)}
               alt={getAuthorName(post.author)}
-              width={36}
-              height={36}
-              className="blog-featured-byline-photo"
+              width={32}
+              height={32}
+              className="blog-hero-chaingpt-byline-photo"
             />
-            <div className="blog-featured-byline-info">
-              <span className="blog-featured-byline-name">
-                {getAuthorName(post.author)}
-              </span>
-              <span aria-hidden="true" className="blog-featured-byline-sep">·</span>
-              <time
-                dateTime={post.publishedDate}
-                className="blog-featured-byline-date"
-              >
-                {formatBlogDate(post.publishedDate, post.language)}
-              </time>
-            </div>
+            <span className="blog-mono-byline">
+              <span className="blog-mono-byline-prefix">{byPrefix}</span>
+              {getAuthorName(post.author).toUpperCase()}
+            </span>
           </div>
         </div>
+
+        {/* Image-sida (höger på desktop) — med corner-brackets */}
+        <Link
+          href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
+          locale={post.language}
+          className="blog-bracket-frame"
+          aria-label={post.title}
+        >
+          <span className="blog-bracket-corners" aria-hidden="true" />
+          <div className="blog-hero-chaingpt-image">
+            <Image
+              src={post.heroImage}
+              alt={post.heroImageAlt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+            />
+          </div>
+        </Link>
       </div>
     </section>
   )

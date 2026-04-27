@@ -109,16 +109,8 @@ export default async function BlogListingPage({
       <Nav />
       <div className="page-content">
         <main className="blog-page">
-          {/* COMPACT title bar — Linear-stil, ingen massiv hero */}
-          <header className="blog-page-header">
-            <div className="blog-page-header-inner">
-              <h1 className="blog-page-title">{t('listing.heading')}</h1>
-            </div>
-            <BlogFilterBar tags={tags} />
-          </header>
-
           {allPosts.length === 0 ? (
-            <div className="blog-content-wrap" style={{ textAlign: 'center', padding: '8rem 1.5rem' }}>
+            <div className="blog-section-with-label" style={{ textAlign: 'center', padding: '8rem 1.5rem' }}>
               <h2 className="blog-grid-section-title" style={{ fontSize: '1.875rem', marginBottom: '1rem' }}>
                 {t('listing.emptyTitle')}
               </h2>
@@ -128,21 +120,29 @@ export default async function BlogListingPage({
             </div>
           ) : (
             <>
-              {/* FEATURED SPLIT-HERO — image vänster, text höger.
-                  Detta är den visuella heron (Linear/Anthropic-stil). */}
+              {/* FEATURED HERO — ChainGPT-stil med side-label "LATEST" + corner-brackets */}
               {featuredPost && <BlogFeaturedHero post={featuredPost} />}
 
-              {/* GRID — resterande artiklar i 2-col */}
+              {/* CATEGORIES section — side-label + rect-pills */}
+              <BlogFilterBar tags={tags} />
+
+              {/* GRID — 2-col med corner-brackets på cards */}
               {otherPosts.length > 0 && (
-                <div className="blog-content-wrap" style={{ paddingTop: 0 }}>
-                  <section aria-label={t('listing.allLabel')}>
-                    <div className="blog-grid">
-                      {otherPosts.map((post) => (
-                        <BlogPostCard key={post.slug} post={post} />
-                      ))}
-                    </div>
-                  </section>
-                </div>
+                <section
+                  aria-label={t('listing.allLabel')}
+                  className="blog-section-with-label"
+                >
+                  <div className="blog-section-label-col">
+                    <span className="blog-side-label">
+                      {locale === 'sv' ? 'ARTIKLAR' : 'ARTICLES'}
+                    </span>
+                  </div>
+                  <div className="blog-grid-rect">
+                    {otherPosts.map((post) => (
+                      <BlogPostCard key={post.slug} post={post} />
+                    ))}
+                  </div>
+                </section>
               )}
             </>
           )}

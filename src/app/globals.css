@@ -1287,3 +1287,348 @@ html.lenis, html.lenis body {
   border-color: rgba(200, 255, 0, 0.5);
   color: #C8FF00;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHAINGPT VISUAL LANGUAGE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════
+   Komplett tactical/blueprint estetik:
+   • Subtil grid-pattern background
+   • Corner-brackets runt bilder (cinematic viewfinder)
+   • Monospace för meta-text (date, byline, labels)
+   • Rectangle pills (square corners, INTE rounded)
+   • Side-labels för section markers (LATEST, CATEGORIES)
+   • Yellow corner-accents som signature
+*/
+
+/* ── BLUEPRINT GRID BACKGROUND ─────────────────────────────────────── */
+.blog-page {
+  background:
+    /* Vertical lines */
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    /* Horizontal lines */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    #080808;
+  background-size: 80px 80px;
+  background-position: 0 0;
+  position: relative;
+}
+@media (min-width: 1024px) {
+  .blog-page {
+    background-size: 120px 120px;
+  }
+}
+
+/* ── CORNER-BRACKETS WRAPPER ───────────────────────────────────────── */
+/* L-shaped brackets på 4 hörn. Yellow signature på alla 4. */
+.blog-bracket-frame {
+  position: relative;
+}
+.blog-bracket-frame::before,
+.blog-bracket-frame::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 2;
+}
+/* Top-left + Top-right via ::before with double box-shadow trick */
+.blog-bracket-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1.5px solid #C8FF00;
+  border-left: 1.5px solid #C8FF00;
+}
+.blog-bracket-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 1.5px solid #C8FF00;
+  border-right: 1.5px solid #C8FF00;
+}
+/* Inner span elements för top-right + bottom-left brackets */
+.blog-bracket-frame > .blog-bracket-corners::before,
+.blog-bracket-frame > .blog-bracket-corners::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 2;
+}
+.blog-bracket-frame > .blog-bracket-corners::before {
+  top: -1px;
+  right: -1px;
+  border-top: 1.5px solid #C8FF00;
+  border-right: 1.5px solid #C8FF00;
+}
+.blog-bracket-frame > .blog-bracket-corners::after {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 1.5px solid #C8FF00;
+  border-left: 1.5px solid #C8FF00;
+}
+
+@media (min-width: 768px) {
+  .blog-bracket-frame::before,
+  .blog-bracket-frame::after,
+  .blog-bracket-frame > .blog-bracket-corners::before,
+  .blog-bracket-frame > .blog-bracket-corners::after {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ── MONO META-TEXT FORMATTING ─────────────────────────────────────── */
+/* Universella regler för mono-uppercase-tracked text på blog */
+.blog-mono-meta {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .blog-mono-meta { font-size: 13px; }
+}
+
+/* Bullet ● efter datum */
+.blog-mono-meta-bullet::after {
+  content: ' ●';
+  color: #C8FF00;
+  margin-left: 0.4em;
+}
+
+/* "BY [NAME]" mono byline */
+.blog-mono-byline {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+}
+.blog-mono-byline-prefix {
+  color: rgba(255, 255, 255, 0.4);
+  margin-right: 0.5em;
+}
+
+/* ── SIDE-LABELS (LATEST / CATEGORIES) ────────────────────────────── */
+.blog-side-label {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+/* ── RECTANGLE PILLS (override) ────────────────────────────────────── */
+.blog-pill-rect {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+  position: relative;
+}
+.blog-pill-rect:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+.blog-pill-rect-active {
+  border-color: #C8FF00;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px #C8FF00;
+}
+.blog-pill-rect-count {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+}
+.blog-pill-rect-active .blog-pill-rect-count {
+  color: rgba(200, 255, 0, 0.7);
+}
+
+/* ── SECTION LAYOUT WITH SIDE-LABEL ───────────────────────────────── */
+.blog-section-with-label {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+@media (min-width: 1024px) {
+  .blog-section-with-label {
+    grid-template-columns: 140px 1fr;
+    gap: 3rem;
+    padding: 4rem 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .blog-section-with-label {
+    grid-template-columns: 160px 1fr;
+    gap: 4rem;
+  }
+}
+.blog-section-label-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── HERO LAYOUT (ChainGPT-style asymmetric) ──────────────────────── */
+.blog-hero-chaingpt {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .blog-hero-chaingpt {
+    grid-template-columns: 1fr 0.85fr;
+    gap: 3rem;
+  }
+}
+.blog-hero-chaingpt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.blog-hero-chaingpt-title {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.75rem);
+  line-height: 1.05;
+  margin: 0;
+}
+.blog-hero-chaingpt-title a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-hero-chaingpt-title a:hover {
+  background-size: 100% 1.5px;
+}
+.blog-hero-chaingpt-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.blog-hero-chaingpt-byline-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.blog-hero-chaingpt-image {
+  position: relative;
+  aspect-ratio: 16/10;
+  background: #0F0F0F;
+  overflow: hidden;
+  border-radius: 0;
+}
+@media (min-width: 1024px) {
+  .blog-hero-chaingpt-image { aspect-ratio: 16/11; }
+}
+.blog-hero-chaingpt-image img {
+  object-fit: cover;
+  transition: transform 600ms ease-out;
+}
+.blog-hero-chaingpt-image:hover img,
+a:hover > .blog-hero-chaingpt-image img {
+  transform: scale(1.04);
+}
+
+/* ── BLOG GRID CARD (ChainGPT-style) ──────────────────────────────── */
+.blog-card-rect {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.blog-card-rect-image {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #0F0F0F;
+  border-radius: 0;
+}
+.blog-card-rect-image img {
+  object-fit: cover;
+  transition: transform 600ms ease-out;
+}
+.blog-card-rect:hover .blog-card-rect-image img {
+  transform: scale(1.04);
+}
+.blog-card-rect-title {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #fff;
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  line-height: 1.25;
+  margin: 0;
+}
+.blog-card-rect-title a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-card-rect:hover .blog-card-rect-title a {
+  background-size: 100% 1.5px;
+}
+.blog-card-rect-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.blog-card-rect-byline-photo {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── GRID 2-COL (utan rundade hörn) ────────────────────────────────── */
+.blog-grid-rect {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 768px) {
+  .blog-grid-rect {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5rem 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-grid-rect { gap: 4rem 3rem; }
+}

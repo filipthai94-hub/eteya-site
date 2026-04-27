@@ -1,12 +1,12 @@
 'use client'
 
 /**
- * BlogFilterBar — horizontal pill-filter för tags.
- * Använder dedikerade .blog-pill* CSS-klasser.
+ * BlogFilterBar — ChainGPT rect-pills med side-label "CATEGORIES".
+ * Layout: Side-label vänster | Pills + search höger
  */
 
 import { Link } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import type { BlogTag } from '@/lib/blog/types'
 
 interface BlogFilterBarProps {
@@ -19,19 +19,26 @@ export default function BlogFilterBar({
   activeTag,
 }: BlogFilterBarProps) {
   const t = useTranslations('blog.listing')
+  const locale = useLocale()
   const isAllActive = !activeTag
 
   if (tags.length === 0) return null
 
+  const sectionLabel = locale === 'sv' ? 'KATEGORIER' : 'CATEGORIES'
+
   return (
-    <nav className="blog-filter-bar" aria-label={t('tagsLabel')}>
-      <div className="blog-filter-inner">
-        <div className="blog-filter-list">
+    <section className="blog-section-with-label" aria-label={t('tagsLabel')}>
+      <div className="blog-section-label-col">
+        <span className="blog-side-label">{sectionLabel}</span>
+      </div>
+
+      <nav>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <Link
             href="/blogg"
-            className={`blog-pill ${isAllActive ? 'blog-pill-active' : ''}`}
+            className={`blog-pill-rect ${isAllActive ? 'blog-pill-rect-active' : ''}`}
           >
-            {t('allFilterLabel')}
+            {t('allFilterLabel').toUpperCase()}
           </Link>
 
           {tags.map((tag) => {
@@ -43,15 +50,15 @@ export default function BlogFilterBar({
                   pathname: '/blogg/tag/[tag]',
                   params: { tag: tag.slug },
                 }}
-                className={`blog-pill ${isActive ? 'blog-pill-active' : ''}`}
+                className={`blog-pill-rect ${isActive ? 'blog-pill-rect-active' : ''}`}
               >
-                {tag.name}
-                <span className="blog-pill-count">{tag.count}</span>
+                {tag.name.toUpperCase()}
+                <span className="blog-pill-rect-count">{tag.count}</span>
               </Link>
             )
           })}
         </div>
-      </div>
-    </nav>
+      </nav>
+    </section>
   )
 }
