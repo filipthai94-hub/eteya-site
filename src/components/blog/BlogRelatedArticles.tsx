@@ -1,7 +1,6 @@
 /**
  * BlogRelatedArticles — visar 3 relaterade artiklar baserat på tag-overlap.
- *
- * Server component.
+ * Editorial layout med side-label "RELATERAT" + grid av BlogPostCards.
  */
 
 import { getTranslations } from 'next-intl/server'
@@ -21,12 +20,18 @@ export default async function BlogRelatedArticles({
 
   if (posts.length === 0) return null
 
+  const sectionLabel = locale === 'sv' ? 'RELATERAT' : 'RELATED'
+
   return (
-    <section className="my-16 pt-12 border-t border-et-border">
-      <h2 className="text-2xl md:text-3xl font-medium text-white mb-8">
-        {t('relatedHeading')}
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section
+      className="blog-section-with-label blog-related-section"
+      aria-label={t('relatedHeading')}
+    >
+      <div className="blog-section-label-col">
+        <span className="blog-side-label">{sectionLabel}</span>
+      </div>
+
+      <div className="blog-related-grid">
         {posts.map((post) => (
           <BlogPostCard key={post.slug} post={post} />
         ))}

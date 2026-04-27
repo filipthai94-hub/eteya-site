@@ -45,8 +45,11 @@ export default function NewsletterSignup() {
     }
   }
 
+  const eyebrowText = locale === 'sv' ? 'NYHETSBREV' : 'NEWSLETTER'
+
   return (
     <section className="blog-newsletter">
+      <span className="blog-newsletter-eyebrow">{eyebrowText}</span>
       <h2 className="blog-newsletter-heading">{t('newsletterHeading')}</h2>
       <p className="blog-newsletter-body">{t('newsletterBody')}</p>
 

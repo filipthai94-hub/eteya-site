@@ -1,5 +1,7 @@
 /**
- * BlogCTABlock — closing/inline CTA. Använder .blog-cta-* klasser.
+ * BlogCTABlock — closing CTA i editorial-stil. Ingen yellow box,
+ * ingen glow — bara en eyebrow-rad, en stark Barlow Condensed
+ * heading, body-text, och ett mono arrow-link.
  */
 
 import { Link } from '@/i18n/navigation'
@@ -16,6 +18,8 @@ export default async function BlogCTABlock({
   variant = 'closing',
 }: BlogCTABlockProps) {
   const t = await getTranslations({ locale, namespace: 'blog.article' })
+  const eyebrowText =
+    locale === 'sv' ? 'NÄSTA STEG' : 'NEXT STEP'
 
   if (variant === 'inline') {
     return (
@@ -24,7 +28,13 @@ export default async function BlogCTABlock({
         <Link href="/kontakt" locale={locale} className="blog-cta-inline-button">
           {t('ctaButton')}
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Link>
       </aside>
@@ -33,17 +43,21 @@ export default async function BlogCTABlock({
 
   return (
     <section className="blog-cta-closing not-prose">
-      <div className="blog-cta-glow" aria-hidden="true" />
-      <div className="blog-cta-content">
-        <h2 className="blog-cta-heading">{t('ctaHeading')}</h2>
-        <p className="blog-cta-body">{t('ctaBody')}</p>
-        <Link href="/kontakt" locale={locale} className="blog-cta-button">
-          {t('ctaButton')}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
-      </div>
+      <span className="blog-cta-eyebrow">{eyebrowText}</span>
+      <h2 className="blog-cta-heading">{t('ctaHeading')}</h2>
+      <p className="blog-cta-body">{t('ctaBody')}</p>
+      <Link href="/kontakt" locale={locale} className="blog-cta-arrow">
+        {t('ctaButton')}
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8h10M9 4l4 4-4 4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
     </section>
   )
 }
