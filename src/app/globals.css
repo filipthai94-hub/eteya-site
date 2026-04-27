@@ -49,6 +49,14 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Bare <a> taggar ärver förälderns textfärg i stället för att falla
+   tillbaka på webbläsarens default-blå (#0000EE). Komponenter som vill
+   ha en specifik länkfärg (t.ex. prose-blog gul) sätter sin egen
+   color-regel som överskuggar denna. text-decoration lämnas oförändrad
+   så att underlines i löpande text fortfarande syns där det inte är
+   explicit avstängt. */
+a { color: inherit; }
+
 .page-transition-overlay {
   position: fixed;
   inset: 0;
