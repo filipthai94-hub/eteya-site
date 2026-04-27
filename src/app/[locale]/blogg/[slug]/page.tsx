@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import Nav from '@/components/layout/Nav'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import BlogArticleHero from '@/components/blog/BlogArticleHero'
-import BlogShareButtons from '@/components/blog/BlogShareButtons'
 import BlogAuthorBio from '@/components/blog/BlogAuthorBio'
 import BlogCTABlock from '@/components/blog/BlogCTABlock'
 import BlogRelatedArticles from '@/components/blog/BlogRelatedArticles'
 import NewsletterSignup from '@/components/blog/NewsletterSignup'
+import ReadingProgressBar from '@/components/blog/ReadingProgressBar'
+import FloatingShareSidebar from '@/components/blog/FloatingShareSidebar'
 import {
   getAllPosts,
   getPostBySlug,
@@ -25,7 +25,7 @@ import type { BlogLocale } from '@/lib/blog/types'
 
 const BASE_URL = 'https://eteya.ai'
 
-/** SSG: pre-renderera alla locale × slug-kombinationer vid build */
+/** SSG: pre-renderera alla locale × slug-kombinationer */
 export async function generateStaticParams() {
   const params: Array<{ locale: string; slug: string }> = []
   for (const locale of routing.locales) {
@@ -49,7 +49,6 @@ export async function generateMetadata({
   const localePath = locale === 'sv' ? '/sv/blogg' : '/en/blog'
   const currentPath = `${localePath}/${slug}`
 
-  // Hreflang-länkar — bara om related-version finns
   const languages: Record<string, string> = {
     [locale]: `${BASE_URL}${currentPath}`,
   }
@@ -107,9 +106,6 @@ export default async function BlogArticlePage({
   const post = await getPostBySlug(blogLocale, slug)
   if (!post) notFound()
 
-  const t = await getTranslations({ locale, namespace: 'blog.article' })
-
-  // Relaterade artiklar via tag-overlap
   const relatedPosts = await getRelatedPosts(
     blogLocale,
     post.slug,
@@ -150,35 +146,29 @@ export default async function BlogArticlePage({
   return (
     <>
       <JsonLd data={buildGraph([articleSchema, breadcrumbSchema])} />
+      <ReadingProgressBar />
+      <FloatingShareSidebar url={articleUrl} title={post.title} />
       <Nav />
       <div className="page-content">
-        <main className="bg-et-bg text-white min-h-screen">
+        <main className="blog-page">
           <article>
-            <BlogArticleHero post={post} />
+            <BlogArticleHero post={post} url={articleUrl} />
 
-            {/* Article body */}
-            <div className="max-w-3xl mx-auto px-6 md:px-12 pb-12">
-              <div className="prose prose-invert prose-lg max-w-none">
+            <div className="blog-article-body-wrap">
+              <div className="prose-blog">
                 <MDXContent />
               </div>
 
-              {/* Inline CTA mitt-i-artikel */}
               <BlogCTABlock locale={blogLocale} variant="closing" />
-
-              {/* Share buttons */}
-              <div className="my-12 pt-8 border-t border-et-border">
-                <BlogShareButtons url={articleUrl} title={post.title} />
-              </div>
-
-              {/* Author bio */}
               <BlogAuthorBio author={post.author} locale={blogLocale} />
-
-              {/* Newsletter signup */}
               <NewsletterSignup />
-
-              {/* Related articles */}
-              <BlogRelatedArticles posts={relatedPosts} locale={blogLocale} />
             </div>
+
+            {relatedPosts.length > 0 && (
+              <div className="blog-related">
+                <BlogRelatedArticles posts={relatedPosts} locale={blogLocale} />
+              </div>
+            )}
           </article>
         </main>
         <FooterCTAClient />

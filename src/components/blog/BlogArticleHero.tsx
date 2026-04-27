@@ -1,8 +1,6 @@
 /**
- * BlogArticleHero — top-section av en blog-artikel.
- *
- * Innehåller: kategori-tag, title, description, author + meta + reading-time, hero-image.
- * Server component.
+ * BlogArticleHero — magazine-style title-first article hero.
+ * Använder dedikerade .blog-article-* CSS-klasser.
  */
 
 import Image from 'next/image'
@@ -13,86 +11,99 @@ import {
   formatReadingTime,
   getAuthorName,
   getAuthorImage,
-  getAuthorPath,
 } from '@/lib/blog/format'
-import { slugifyTag } from '@/lib/blog/tags'
+import BlogShareButtons from './BlogShareButtons'
 
 interface BlogArticleHeroProps {
   post: BlogPost
+  url: string
 }
 
-export default function BlogArticleHero({ post }: BlogArticleHeroProps) {
+export default function BlogArticleHero({
+  post,
+  url,
+}: BlogArticleHeroProps) {
+  const primaryTag = post.tags[0]
+
   return (
-    <header className="relative">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-12">
-        {/* Tags-rad */}
-        {post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6">
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={{
-                  pathname: '/blogg/tag/[tag]',
-                  params: { tag: slugifyTag(tag) },
-                }}
-                locale={post.language}
-                className="text-xs uppercase tracking-wider font-medium text-eteya-yellow/90 px-3 py-1.5 bg-eteya-yellow/10 rounded-full hover:bg-eteya-yellow/20 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
+    <header>
+      {/* Breadcrumb */}
+      <div className="blog-article-breadcrumb-wrap">
+        <Link
+          href="/blogg"
+          locale={post.language}
+          className="blog-article-breadcrumb"
+        >
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M13 8H3M7 4L3 8l4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {post.language === 'sv' ? 'Tillbaka till blogg' : 'Back to blog'}
+        </Link>
+      </div>
+
+      {/* TITLE BLOCK — 720px max */}
+      <div className="blog-article-title-block">
+        {primaryTag && (
+          <span className="blog-article-kicker">{primaryTag}</span>
         )}
 
-        {/* Title */}
-        <h1 className="font-[family-name:var(--font-display,DM_Sans)] text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white mb-6 leading-[1.1]">
-          {post.title}
-        </h1>
+        <h1 className="blog-article-title">{post.title}</h1>
 
-        {/* Description */}
-        <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-8 max-w-3xl">
-          {post.description}
-        </p>
+        <p className="blog-article-desc">{post.description}</p>
 
-        {/* Author + meta-rad */}
-        <div className="flex items-center gap-4 text-sm text-white/60 border-t border-et-border pt-6">
+        <hr className="blog-article-divider" />
+
+        <div className="blog-article-meta-row">
           <Link
             href={{
               pathname: '/blogg/forfattare/[author]',
               params: { author: post.author },
             }}
             locale={post.language}
-            className="flex items-center gap-3 hover:text-white transition-colors"
+            className="blog-article-author-link"
           >
             <Image
               src={getAuthorImage(post.author)}
               alt={getAuthorName(post.author)}
-              width={40}
-              height={40}
-              className="rounded-full object-cover"
+              width={36}
+              height={36}
             />
-            <span className="font-medium text-white">
-              {getAuthorName(post.author)}
-            </span>
+            <div className="blog-article-author-info">
+              <span className="blog-article-author-name">
+                {getAuthorName(post.author)}
+              </span>
+              <span aria-hidden="true" className="sep">·</span>
+              <time dateTime={post.publishedDate}>
+                {formatBlogDate(post.publishedDate, post.language)}
+              </time>
+              <span aria-hidden="true" className="sep">·</span>
+              <span>
+                {formatReadingTime(post.readingTime, post.language)}
+              </span>
+            </div>
           </Link>
-          <span aria-hidden="true">·</span>
-          <time dateTime={post.publishedDate}>
-            {formatBlogDate(post.publishedDate, post.language)}
-          </time>
-          <span aria-hidden="true">·</span>
-          <span>{formatReadingTime(post.readingTime, post.language)}</span>
+
+          <div style={{ flexShrink: 0 }}>
+            <BlogShareButtons url={url} title={post.title} compact />
+          </div>
         </div>
       </div>
 
-      {/* Hero image — full bredd, max 1200px */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 mb-12">
-        <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-et-surface">
+      {/* HERO IMAGE — full container */}
+      <div className="blog-article-hero-image-wrap">
+        <div className="blog-article-hero-image">
           <Image
             src={post.heroImage}
             alt={post.heroImageAlt}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1100px"
-            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1024px"
+            style={{ objectFit: 'cover' }}
             priority
           />
         </div>

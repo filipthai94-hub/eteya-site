@@ -1,12 +1,10 @@
 /**
- * BlogAuthorBio — author-card i botten av artikel.
- *
- * Visar profile-bild, namn, roll, kort bio + länk till profil-sidan.
+ * BlogAuthorBio — minimal author-card vid artikel-slut.
+ * Använder .blog-author-bio-* CSS-klasser.
  */
 
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
-import { getTranslations } from 'next-intl/server'
 import {
   getAuthorName,
   getAuthorRole,
@@ -24,51 +22,68 @@ const AUTHOR_BIOS: Record<
   Record<BlogLocale, string>
 > = {
   filip: {
-    sv: 'Filip Thai är grundare och VD på Eteya. AI-konsult med fokus på automation, AI-agenter och affärsstrategi för svenska små och medelstora företag.',
-    en: 'Filip Thai is founder and CEO at Eteya. AI consultant focused on automation, AI agents and business strategy for small and medium-sized businesses.',
+    sv: 'AI-konsult med fokus på automation och AI-agenter för svenska SMB. Bygger lösningar som faktiskt levererar mätbar besparing.',
+    en: 'AI consultant focused on automation and AI agents for SMBs. Builds solutions that actually deliver measurable savings.',
   },
   agit: {
-    sv: 'Agit Akalp är partner på Eteya. AI-konsult med expertis inom process-automation, integrations och affärsutveckling för svenska företag.',
-    en: 'Agit Akalp is partner at Eteya. AI consultant with expertise in process automation, integrations and business development.',
+    sv: 'AI-konsult med expertis inom process-automation, integrations och affärsutveckling för svenska företag.',
+    en: 'AI consultant with expertise in process automation, integrations and business development.',
   },
 }
 
-export default async function BlogAuthorBio({
+const AUTHOR_LINKEDIN: Record<BlogAuthor, string> = {
+  filip: 'https://www.linkedin.com/in/filip-thai-10449a3b6/',
+  agit: 'https://www.linkedin.com/in/agit-akalp-15701b325/',
+}
+
+export default function BlogAuthorBio({
   author,
   locale,
 }: BlogAuthorBioProps) {
-  const t = await getTranslations({ locale, namespace: 'blog.article' })
+  const profilePath = author === 'filip' ? '/om-oss/filip' : '/om-oss/agit'
 
   return (
-    <section className="my-16 pt-12 border-t border-et-border">
-      <h2 className="text-sm uppercase tracking-wider font-medium text-white/60 mb-6">
-        {t('authorBioHeading')}
-      </h2>
-      <Link
-        href={{
-          pathname: '/blogg/forfattare/[author]',
-          params: { author },
-        }}
-        locale={locale}
-        className="flex flex-col md:flex-row gap-6 items-start group"
-      >
-        <Image
-          src={getAuthorImage(author)}
-          alt={getAuthorName(author)}
-          width={96}
-          height={96}
-          className="rounded-2xl object-cover flex-shrink-0"
-        />
-        <div className="flex-1">
-          <h3 className="text-2xl font-medium text-white mb-1 group-hover:text-eteya-yellow transition-colors">
-            {getAuthorName(author)}
-          </h3>
-          <p className="text-sm text-white/60 mb-3">
-            {getAuthorRole(author, locale)}
+    <section className="blog-author-bio">
+      <div className="blog-author-bio-row">
+        <Link href={profilePath} locale={locale} style={{ flexShrink: 0 }}>
+          <Image
+            src={getAuthorImage(author)}
+            alt={getAuthorName(author)}
+            width={64}
+            height={64}
+            className="blog-author-bio-photo"
+          />
+        </Link>
+
+        <div className="blog-author-bio-content">
+          <div className="blog-author-bio-header">
+            <Link
+              href={profilePath}
+              locale={locale}
+              className="blog-author-bio-name"
+            >
+              {getAuthorName(author)}
+            </Link>
+            <span className="blog-author-bio-role">
+              {getAuthorRole(author, locale)}
+            </span>
+          </div>
+          <p className="blog-author-bio-text">
+            {AUTHOR_BIOS[author][locale]}
           </p>
-          <p className="text-white/80 leading-relaxed">{AUTHOR_BIOS[author][locale]}</p>
+          <a
+            href={AUTHOR_LINKEDIN[author]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="blog-author-bio-link"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+            LinkedIn
+          </a>
         </div>
-      </Link>
+      </div>
     </section>
   )
 }

@@ -1742,7 +1742,8 @@
       "allLabel": "All articles",
       "tagsLabel": "Browse by topic",
       "emptyTitle": "Articles coming soon",
-      "emptyBody": "We're preparing our first wave of insights on AI agents, automation and concrete implementations from our client projects. Back soon."
+      "emptyBody": "We're preparing our first wave of insights on AI agents, automation and concrete implementations from our client projects. Back soon.",
+      "allFilterLabel": "All"
     },
     "article": {
       "publishedOn": "Published",

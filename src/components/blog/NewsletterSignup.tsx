@@ -1,10 +1,7 @@
 'use client'
 
 /**
- * NewsletterSignup — email-form i artikel-slut.
- *
- * Client component. Postar till /api/newsletter som via Resend Audience-API
- * lägger till prenumeranten.
+ * NewsletterSignup — slim email-form. Använder .blog-newsletter-* klasser.
  */
 
 import { useState, type FormEvent } from 'react'
@@ -49,16 +46,12 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <section className="my-16 p-8 md:p-10 bg-et-surface border border-et-border rounded-2xl not-prose">
-      <h2 className="text-2xl md:text-3xl font-medium text-white mb-3">
-        {t('newsletterHeading')}
-      </h2>
-      <p className="text-white/70 leading-relaxed mb-6">
-        {t('newsletterBody')}
-      </p>
+    <section className="blog-newsletter">
+      <h2 className="blog-newsletter-heading">{t('newsletterHeading')}</h2>
+      <p className="blog-newsletter-body">{t('newsletterBody')}</p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col md:flex-row gap-3">
+      <form onSubmit={handleSubmit} className="blog-newsletter-form">
+        <div className="blog-newsletter-row">
           <label htmlFor="newsletter-email" className="sr-only">
             Email
           </label>
@@ -70,7 +63,7 @@ export default function NewsletterSignup() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t('newsletterPlaceholder')}
             disabled={state === 'loading' || state === 'success'}
-            className="flex-1 px-4 py-3 bg-black/40 border border-et-border rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-eteya-yellow/50 transition-colors text-base"
+            className="blog-newsletter-input"
           />
           <button
             type="submit"
@@ -80,35 +73,35 @@ export default function NewsletterSignup() {
               state === 'loading' ||
               state === 'success'
             }
-            className="px-6 py-3 bg-eteya-yellow text-black font-medium rounded-lg hover:bg-eteya-yellow/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base"
+            className="blog-newsletter-button"
           >
-            {state === 'loading'
-              ? '...'
-              : state === 'success'
-                ? '✓'
-                : t('newsletterButton')}
+            {state === 'loading' ? '...' : state === 'success' ? '✓' : t('newsletterButton')}
+            {state === 'idle' && (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </button>
         </div>
 
-        <label className="flex items-start gap-3 text-sm text-white/60 cursor-pointer">
+        <label className="blog-newsletter-gdpr">
           <input
             type="checkbox"
             checked={gdprAccepted}
             onChange={(e) => setGdprAccepted(e.target.checked)}
             disabled={state === 'loading' || state === 'success'}
-            className="mt-1 w-4 h-4 accent-eteya-yellow"
             required
           />
           <span>{t('newsletterGdpr')}</span>
         </label>
 
         {state === 'success' && (
-          <p className="text-sm text-eteya-yellow font-medium">
+          <p className="blog-newsletter-feedback blog-newsletter-feedback-success">
             {t('newsletterSuccess')}
           </p>
         )}
         {state === 'error' && (
-          <p className="text-sm text-red-400" role="alert">
+          <p className="blog-newsletter-feedback blog-newsletter-feedback-error" role="alert">
             {errorMsg || t('newsletterError')}
           </p>
         )}

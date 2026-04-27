@@ -1742,7 +1742,8 @@
       "allLabel": "Alla artiklar",
       "tagsLabel": "Bläddra efter ämne",
       "emptyTitle": "Snart kommer det artiklar här",
-      "emptyBody": "Vi förbereder vår första våg av insikter om AI-agenter, automation och konkreta implementations från våra kundprojekt. Tillbaka snart."
+      "emptyBody": "Vi förbereder vår första våg av insikter om AI-agenter, automation och konkreta implementations från våra kundprojekt. Tillbaka snart.",
+      "allFilterLabel": "Alla"
     },
     "article": {
       "publishedOn": "Publicerad",
