@@ -452,27 +452,6 @@ html.lenis, html.lenis body {
   }
 }
 
-/* Image-sida (vänster på desktop) */
-.blog-featured-image-link {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  border-radius: 1rem;
-  background: #0F0F0F;
-  aspect-ratio: 16/9;
-}
-@media (min-width: 1024px) {
-  .blog-featured-image-link { aspect-ratio: 16/11; }
-}
-.blog-featured-image {
-  object-fit: cover;
-  transition: transform 600ms ease-out;
-}
-.blog-featured-hero:hover .blog-featured-image,
-.blog-featured-image-link:hover .blog-featured-image {
-  transform: scale(1.04);
-}
-
 /* Text-sida (höger på desktop) */
 .blog-featured-text {
   display: flex;
@@ -645,28 +624,6 @@ html.lenis, html.lenis body {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-.blog-card-image-wrap {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  border-radius: 0.75rem;
-  background: #0F0F0F;
-  aspect-ratio: 16/9;
-  margin-bottom: 1.5rem;
-}
-.blog-card-featured .blog-card-image-wrap {
-  margin-bottom: 2rem;
-}
-@media (min-width: 768px) {
-  .blog-card-featured .blog-card-image-wrap { margin-bottom: 2.5rem; }
-}
-.blog-card-image {
-  object-fit: cover;
-  transition: transform 600ms ease-out;
-}
-.blog-card:hover .blog-card-image {
-  transform: scale(1.04);
 }
 /* ChainGPT-stil: image → date → title → author. Inga tags eller desc. */
 .blog-card-date {
@@ -1318,8 +1275,13 @@ html.lenis, html.lenis body {
   }
 }
 
-/* ── CORNER-BRACKETS WRAPPER ───────────────────────────────────────── */
-/* L-shaped brackets på 4 hörn. Yellow signature på alla 4. */
+/* ── CORNER-BRACKETS (editorial registration marks) ────────────────── */
+/* Två diagonala hörn (top-left + bottom-right) — discreta vita
+   markörer som påminner om registreringsmarkeringar i editorial
+   tryck/foto. Slank 1px-stroke, lätt utskjutande från bilden för
+   att kännas som markörer (inte dekorationer på bildens kant).
+   På hover: hörnen växlar till yellow signature — det är hela
+   interaktions-belöningen (ingen image-scale). */
 .blog-bracket-frame {
   position: relative;
 }
@@ -1327,54 +1289,53 @@ html.lenis, html.lenis body {
 .blog-bracket-frame::after {
   content: '';
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   pointer-events: none;
   z-index: 2;
+  border-color: rgba(255, 255, 255, 0.28);
+  transition: border-color 0.3s cubic-bezier(0.65, 0, 0.35, 1);
 }
-/* Top-left + Top-right via ::before with double box-shadow trick */
 .blog-bracket-frame::before {
-  top: -1px;
-  left: -1px;
-  border-top: 1.5px solid #C8FF00;
-  border-left: 1.5px solid #C8FF00;
+  top: -5px;
+  left: -5px;
+  border-top: 1px solid;
+  border-left: 1px solid;
 }
 .blog-bracket-frame::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 1.5px solid #C8FF00;
-  border-right: 1.5px solid #C8FF00;
+  bottom: -5px;
+  right: -5px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
 }
-/* Inner span elements för top-right + bottom-left brackets */
-.blog-bracket-frame > .blog-bracket-corners::before,
-.blog-bracket-frame > .blog-bracket-corners::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  pointer-events: none;
-  z-index: 2;
-}
-.blog-bracket-frame > .blog-bracket-corners::before {
-  top: -1px;
-  right: -1px;
-  border-top: 1.5px solid #C8FF00;
-  border-right: 1.5px solid #C8FF00;
-}
-.blog-bracket-frame > .blog-bracket-corners::after {
-  bottom: -1px;
-  left: -1px;
-  border-bottom: 1.5px solid #C8FF00;
-  border-left: 1.5px solid #C8FF00;
-}
-
 @media (min-width: 768px) {
   .blog-bracket-frame::before,
-  .blog-bracket-frame::after,
-  .blog-bracket-frame > .blog-bracket-corners::before,
-  .blog-bracket-frame > .blog-bracket-corners::after {
-    width: 24px;
-    height: 24px;
+  .blog-bracket-frame::after {
+    width: 14px;
+    height: 14px;
+  }
+  .blog-bracket-frame::before {
+    top: -6px;
+    left: -6px;
+  }
+  .blog-bracket-frame::after {
+    bottom: -6px;
+    right: -6px;
+  }
+}
+/* Hover: hörn-markörer växlar till yellow signature */
+.blog-bracket-frame:hover::before,
+.blog-bracket-frame:hover::after,
+a.blog-bracket-frame:hover::before,
+a.blog-bracket-frame:hover::after,
+.blog-card-rect:hover .blog-bracket-frame::before,
+.blog-card-rect:hover .blog-bracket-frame::after {
+  border-color: #C8FF00;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-bracket-frame::before,
+  .blog-bracket-frame::after {
+    transition: none;
   }
 }
 
@@ -1556,11 +1517,6 @@ html.lenis, html.lenis body {
 }
 .blog-hero-chaingpt-image img {
   object-fit: cover;
-  transition: transform 600ms ease-out;
-}
-.blog-hero-chaingpt-image:hover img,
-a:hover > .blog-hero-chaingpt-image img {
-  transform: scale(1.04);
 }
 
 /* ── BLOG GRID CARD (ChainGPT-style) ──────────────────────────────── */
@@ -1578,10 +1534,6 @@ a:hover > .blog-hero-chaingpt-image img {
 }
 .blog-card-rect-image img {
   object-fit: cover;
-  transition: transform 600ms ease-out;
-}
-.blog-card-rect:hover .blog-card-rect-image img {
-  transform: scale(1.04);
 }
 .blog-card-rect-title {
   font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;

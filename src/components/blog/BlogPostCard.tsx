@@ -39,7 +39,6 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         className="blog-bracket-frame"
         aria-label={post.title}
       >
-        <span className="blog-bracket-corners" aria-hidden="true" />
         <div className="blog-card-rect-image">
           <Image
             src={post.heroImage}

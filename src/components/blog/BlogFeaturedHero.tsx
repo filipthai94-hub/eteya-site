@@ -83,7 +83,6 @@ export default function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) {
           className="blog-bracket-frame"
           aria-label={post.title}
         >
-          <span className="blog-bracket-corners" aria-hidden="true" />
           <div className="blog-hero-chaingpt-image">
             <Image
               src={post.heroImage}
