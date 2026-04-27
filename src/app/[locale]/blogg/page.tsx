@@ -4,7 +4,7 @@ import { routing } from '@/i18n/routing'
 import Nav from '@/components/layout/Nav'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import BlogPostCard from '@/components/blog/BlogPostCard'
-import BlogListingHero from '@/components/blog/BlogListingHero'
+import BlogFeaturedHero from '@/components/blog/BlogFeaturedHero'
 import BlogFilterBar from '@/components/blog/BlogFilterBar'
 import {
   getAllPostSummaries,
@@ -109,12 +109,13 @@ export default async function BlogListingPage({
       <Nav />
       <div className="page-content">
         <main className="blog-page">
-          <BlogListingHero
-            title={t('listing.heading')}
-            description={t('listing.subheading')}
-          />
-
-          <BlogFilterBar tags={tags} />
+          {/* COMPACT title bar — Linear-stil, ingen massiv hero */}
+          <header className="blog-page-header">
+            <div className="blog-page-header-inner">
+              <h1 className="blog-page-title">{t('listing.heading')}</h1>
+            </div>
+            <BlogFilterBar tags={tags} />
+          </header>
 
           {allPosts.length === 0 ? (
             <div className="blog-content-wrap" style={{ textAlign: 'center', padding: '8rem 1.5rem' }}>
@@ -126,24 +127,24 @@ export default async function BlogListingPage({
               </p>
             </div>
           ) : (
-            <div className="blog-content-wrap">
-              {/* ChainGPT-stil: featured post utan label, direkt + grid under */}
-              {featuredPost && (
-                <section className="blog-featured-section" aria-label={t('listing.featuredLabel')}>
-                  <BlogPostCard post={featuredPost} variant="featured" />
-                </section>
-              )}
+            <>
+              {/* FEATURED SPLIT-HERO — image vänster, text höger.
+                  Detta är den visuella heron (Linear/Anthropic-stil). */}
+              {featuredPost && <BlogFeaturedHero post={featuredPost} />}
 
+              {/* GRID — resterande artiklar i 2-col */}
               {otherPosts.length > 0 && (
-                <section aria-label={t('listing.allLabel')}>
-                  <div className="blog-grid">
-                    {otherPosts.map((post) => (
-                      <BlogPostCard key={post.slug} post={post} />
-                    ))}
-                  </div>
-                </section>
+                <div className="blog-content-wrap" style={{ paddingTop: 0 }}>
+                  <section aria-label={t('listing.allLabel')}>
+                    <div className="blog-grid">
+                      {otherPosts.map((post) => (
+                        <BlogPostCard key={post.slug} post={post} />
+                      ))}
+                    </div>
+                  </section>
+                </div>
               )}
-            </div>
+            </>
           )}
         </main>
         <FooterCTAClient />
