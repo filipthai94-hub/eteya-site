@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing'
 import Nav from '@/components/layout/Nav'
 import FooterCTAClient from '@/components/sections/FooterCTAClient'
 import BlogPostCard from '@/components/blog/BlogPostCard'
+import BlogHero from '@/components/blog/BlogHero'
 import BlogFeaturedHero from '@/components/blog/BlogFeaturedHero'
 import BlogFilterBar from '@/components/blog/BlogFilterBar'
 import {
@@ -120,6 +121,13 @@ export default async function BlogListingPage({
             </div>
           ) : (
             <>
+              {/* HERO SECTION — magazine intro med eyebrow + title + tagline + stats */}
+              <BlogHero
+                locale={blogLocale}
+                articleCount={allPosts.length}
+                latestUpdate={allPosts[0]?.publishedDate}
+              />
+
               {/* FEATURED HERO — ChainGPT-stil med side-label "LATEST" + corner-brackets */}
               {featuredPost && <BlogFeaturedHero post={featuredPost} />}
 
