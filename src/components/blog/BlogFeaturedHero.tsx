@@ -14,7 +14,6 @@
 
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
-import { getTranslations } from 'next-intl/server'
 import type { BlogPostSummary } from '@/lib/blog/types'
 import { formatBlogDate, getAuthorName, getAuthorImage } from '@/lib/blog/format'
 
@@ -22,18 +21,19 @@ interface BlogFeaturedHeroProps {
   post: BlogPostSummary
 }
 
-export default async function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) {
-  const t = await getTranslations({ locale: post.language, namespace: 'blog.article' })
+/**
+ * BlogFeaturedHero — Linear/NYT-style editorial split-hero.
+ * Neutral palette (yellow reserveras för signature-accents på andra ställen),
+ * underline-on-hover (NYT-typography-detail), ingen redundant "Läs artikel"-CTA
+ * (hela cardet är klickbar via image + title links).
+ */
+export default function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) {
   const primaryTag = post.tags[0]
-  const readMoreText = post.language === 'sv' ? 'Läs artikel' : 'Read article'
-
-  // Note: t('readingTime') referens reserveras för framtida bruk
-  void t
 
   return (
     <section className="blog-featured-hero" aria-label="Featured article">
       <div className="blog-featured-grid">
-        {/* IMAGE-sida — vänster på desktop */}
+        {/* IMAGE — dominerar visuellt (1.6fr), drama via proportion */}
         <Link
           href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
           locale={post.language}
@@ -50,7 +50,7 @@ export default async function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) 
           />
         </Link>
 
-        {/* TEXT-sida — höger på desktop, vertikalt centrerad */}
+        {/* TEXT — vertical-centered mot image, editorial restraint */}
         <div className="blog-featured-text">
           {primaryTag && (
             <span className="blog-featured-tag">{primaryTag}</span>
@@ -90,29 +90,6 @@ export default async function BlogFeaturedHero({ post }: BlogFeaturedHeroProps) 
               </time>
             </div>
           </div>
-
-          <Link
-            href={{ pathname: '/blogg/[slug]', params: { slug: post.slug } }}
-            locale={post.language}
-            className="blog-featured-cta"
-          >
-            {readMoreText}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
         </div>
       </div>
     </section>
