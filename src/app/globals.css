@@ -952,12 +952,16 @@ html.lenis, html.lenis body {
   color: #C8FF00;
 }
 
-/* ── BLOG ARTICLE BODY (vänsterställd vid page-left edge) ────────── */
-/* Body sitter vid samma vänsterkant som side-labels ("ARTIKEL",
-   "FÖRFATTARE", "NYHETSBREV") i andra sektioner. Använder identiska
-   container-mått som .blog-section-with-label så att vänsterkanten
-   linjeras exakt — bara att det inte finns någon grid-side-label-col
-   eftersom body är "the article" och inte behöver label. */
+/* ── BLOG ARTICLE BODY (alignar med right-col i side-label sektioner) */
+/* Body har INGEN side-label men dess content alignar exakt med where
+   andra sektioners content sitter (höger om "FÖRFATTARE", "NYHETSBREV"
+   etc). Detta skapar en sammanhängande vertikal linje längs hela
+   artikel-sidan där alla section-content delar samma vänsterkant.
+
+   Padding-left beräknas så att den matchar right-column-positionen i
+   .blog-section-with-label exakt:
+     ≥1024px: 3rem (container padding) + 140px (label-col) + 3rem (gap) = 236px
+     ≥1280px: 3rem + 160px + 4rem = 272px */
 .blog-article-body-section {
   display: block;
   max-width: 1400px;
@@ -969,7 +973,15 @@ html.lenis, html.lenis body {
 }
 @media (min-width: 1024px) {
   .blog-article-body-section {
-    padding: 4rem 3rem;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+    padding-right: 3rem;
+    padding-left: calc(3rem + 140px + 3rem);
+  }
+}
+@media (min-width: 1280px) {
+  .blog-article-body-section {
+    padding-left: calc(3rem + 160px + 4rem);
   }
 }
 .blog-article-body-content {
