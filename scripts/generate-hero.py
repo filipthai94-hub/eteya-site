@@ -44,14 +44,16 @@ FINAL_W = 1600
 FINAL_H = 900
 
 # Text-box layout
-TEXT_BOX_LEFT = 80                # offset från vänster kant
+# TEXT_BOX_LEFT bumpat från 80 → 100 för safe-area buffert mot ev.
+# CSS-cropping i framtida layouts (containrar med annat aspect än 16:9).
+TEXT_BOX_LEFT = 100               # offset från vänster kant
 TEXT_BOX_WIDTH = 700              # ~45% av 1600
 TEXT_BOX_PADDING = 48
 TEXT_BOX_BG_OPACITY = 217         # 0.85 * 255
 
 # Brand wordmark
 BRAND_BOTTOM_OFFSET = 60
-BRAND_LEFT_OFFSET = 80
+BRAND_LEFT_OFFSET = 100
 
 # Font paths
 FONTS_DIR = Path(__file__).parent / 'fonts'

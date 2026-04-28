@@ -877,10 +877,8 @@ html.lenis, html.lenis body {
   aspect-ratio: 16/9;
   overflow: hidden;
   background: #0F0F0F;
-  /* Sharp corners — matchar listing's hero, inga rundade hörn */
-}
-@media (min-width: 1024px) {
-  .blog-article-hero-image { aspect-ratio: 16/8; }
+  /* Sharp corners — matchar listing's hero, inga rundade hörn.
+     16:9 matchar bas-bilden så text-overlayen aldrig klipps. */
 }
 .blog-article-hero-image img { object-fit: cover; }
 
@@ -1635,13 +1633,11 @@ a.blog-bracket-frame:hover::after,
 }
 .blog-hero-chaingpt-image {
   position: relative;
-  aspect-ratio: 16/10;
+  /* 16:9 matchar bas-bilden så text-overlayen aldrig klipps på sidorna */
+  aspect-ratio: 16/9;
   background: #0F0F0F;
   overflow: hidden;
   border-radius: 0;
-}
-@media (min-width: 1024px) {
-  .blog-hero-chaingpt-image { aspect-ratio: 16/11; }
 }
 .blog-hero-chaingpt-image img {
   object-fit: cover;
@@ -1655,7 +1651,8 @@ a.blog-bracket-frame:hover::after,
 }
 .blog-card-rect-image {
   position: relative;
-  aspect-ratio: 16/10;
+  /* 16:9 matchar bas-bilden så text-overlayen aldrig klipps på sidorna */
+  aspect-ratio: 16/9;
   overflow: hidden;
   background: #0F0F0F;
   border-radius: 0;
