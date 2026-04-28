@@ -154,11 +154,11 @@ export default async function BlogArticlePage({
           <article>
             <BlogArticleHero post={post} url={articleUrl} />
 
-            {/* Body — left-aligned i samma side-label grid som övriga
-                sektioner (tom side-label kolumn för alignment, inget
-                centrerat block i mitten) */}
-            <section className="blog-section-with-label blog-article-body-section">
-              <div className="blog-section-label-col" aria-hidden="true" />
+            {/* Body — vänsterställd vid sidans page-left edge (samma
+                x-position som side-labels i andra sektioner). Inget
+                grid, ingen tom side-label, body är "the article" och
+                får primary positioning utan label. */}
+            <section className="blog-article-body-section">
               <div className="blog-article-body-content">
                 <div className="prose-blog">
                   <MDXContent />
