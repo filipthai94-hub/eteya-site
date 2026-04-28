@@ -952,14 +952,28 @@ html.lenis, html.lenis body {
   color: #C8FF00;
 }
 
-/* ── BLOG ARTICLE BODY ────────────────────────────────────────────── */
-.blog-article-body-wrap {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+/* ── BLOG ARTICLE BODY (left-aligned i side-label grid) ─────────── */
+/* Body lever inom .blog-section-with-label så att den startar på
+   samma x-position som rest av sidan (ARTIKEL, FÖRFATTARE, etc).
+   Side-label-kolumnen är tom — body är "the article" och behöver
+   ingen label, men alignment är viktig. */
+.blog-article-body-section {
+  padding-top: 0;
+  padding-bottom: 4rem;
 }
 @media (min-width: 768px) {
-  .blog-article-body-wrap { padding: 0 2rem; }
+  .blog-article-body-section {
+    padding-bottom: 5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-article-body-section {
+    padding-bottom: 6rem;
+  }
+}
+.blog-article-body-content {
+  max-width: 720px;
+  /* Inget margin: 0 auto — left-aligned inom right-column */
 }
 
 /* ── BLOG CTA SECTION (med side-label "NÄSTA STEG") ──────────────── */

@@ -154,16 +154,24 @@ export default async function BlogArticlePage({
           <article>
             <BlogArticleHero post={post} url={articleUrl} />
 
-            {/* Reading column — 720px för optimal läsbarhet */}
-            <div className="blog-article-body-wrap">
-              <div className="prose-blog">
-                <MDXContent />
+            {/* Body — left-aligned i samma side-label grid som övriga
+                sektioner (tom side-label kolumn för alignment, inget
+                centrerat block i mitten) */}
+            <section className="blog-section-with-label blog-article-body-section">
+              <div className="blog-section-label-col" aria-hidden="true" />
+              <div className="blog-article-body-content">
+                <div className="prose-blog">
+                  <MDXContent />
+                </div>
               </div>
-            </div>
+            </section>
 
             {/* Editorial sections — full-bredd 1400px med side-labels,
-                bryter ut ur reading-kolumnen för stark visuell rytm */}
-            <BlogCTABlock locale={blogLocale} variant="closing" />
+                bryter ut ur reading-kolumnen för stark visuell rytm.
+                CTA är opt-in via frontmatter showCta: true. */}
+            {post.showCta && (
+              <BlogCTABlock locale={blogLocale} variant="closing" />
+            )}
             <BlogAuthorBio author={post.author} locale={blogLocale} />
             <NewsletterSignup />
 

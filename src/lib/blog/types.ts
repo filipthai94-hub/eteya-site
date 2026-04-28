@@ -27,6 +27,11 @@ export interface BlogFrontmatter {
   relatedSlug?: string
   /** Override slug om filename inte ska matcha URL */
   slug?: string
+  /** Visa "NÄSTA STEG" CTA-block i slutet av artikeln. Default false —
+   *  CTA används bara på artiklar där det är ett naturligt nästa steg
+   *  (case-studies, how-to-guider där boka-strategimöte gör mening).
+   *  Sätts till true i frontmatter på de artiklar som ska ha CTA. */
+  showCta?: boolean
 }
 
 /** Komplett post efter berikning av utilities */
