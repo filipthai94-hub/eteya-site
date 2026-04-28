@@ -954,30 +954,28 @@ html.lenis, html.lenis body {
 
 /* ── BLOG ARTICLE BODY (vänsterställd vid page-left edge) ────────── */
 /* Body sitter vid samma vänsterkant som side-labels ("ARTIKEL",
-   "FÖRFATTARE", "NYHETSBREV"). Detta skapar en stark vertikal
-   linje längs sidans vänsterkant där side-labels och body-text
-   delar samma x-position — magazine-grammatik där "the article"
-   är det primära innehållet utan label. */
+   "FÖRFATTARE", "NYHETSBREV") i andra sektioner. Använder identiska
+   container-mått som .blog-section-with-label så att vänsterkanten
+   linjeras exakt — bara att det inte finns någon grid-side-label-col
+   eftersom body är "the article" och inte behöver label. */
 .blog-article-body-section {
+  display: block;
   max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1.5rem 4rem;
-}
-@media (min-width: 768px) {
-  .blog-article-body-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-bottom: 5rem;
-  }
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
 }
 @media (min-width: 1024px) {
   .blog-article-body-section {
-    padding-bottom: 6rem;
+    padding: 4rem 3rem;
   }
 }
 .blog-article-body-content {
   max-width: 720px;
-  /* Inget margin: 0 auto — left-aligned vid page-left edge */
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* ── BLOG CTA SECTION (med side-label "NÄSTA STEG") ──────────────── */
