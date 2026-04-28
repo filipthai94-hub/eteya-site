@@ -85,6 +85,28 @@ relatedSlug: ""
 | **News / annonsering** | maybe | **false** | "Eteya har lanserat ny tjänst X" |
 | **Trend / industry** | seldom | **false** | "AI-agenter 2026 — vart är vi på väg?" |
 
+### KRITISK regel — `featured: true` är "exclusive"
+
+**Endast EN artikel åt gången får ha `featured: true` per locale.**
+Den artikeln visas som "SENASTE" hero-block på listing-sidan.
+
+Eftersom `getFeaturedPost()` i `src/lib/blog/posts.ts` hittar **första
+artikeln med `featured: true`** (sorterat newest-first), så låser sig
+SENASTE-slotten till en gammal artikel om man glömmer unsetta den.
+
+**När du skapar en ny artikel som ska bli SENASTE:**
+1. Sätt `featured: true` på den nya artikeln
+2. **OBLIGATORISKT**: Hitta tidigare `featured: true`-artikel i samma
+   locale och **sätt `featured: false`** på den
+3. Verifiera att exakt en artikel per locale har `featured: true`:
+   ```bash
+   grep -c "featured: true" content/blog/sv/*.mdx | grep ":1$" | wc -l  # = 1
+   grep -c "featured: true" content/blog/en/*.mdx | grep ":1$" | wc -l  # = 0 eller 1
+   ```
+
+Skill:en `create-eteya-blog-article` ska automatiskt göra steg 2 vid
+artikel-skapande.
+
 ---
 
 ## Content rules
@@ -121,122 +143,222 @@ Dessa är OK eftersom de är typografiska operatorer, INTE emojis/dekoration:
 
 ## Image guide
 
-### Specs (gäller alla hero-bilder)
+Hero-bilder genereras genom en **två-stegs-process**: ChatGPT/DALL-E
+genererar en bas-bild (bara visuellt subject, ingen text), sedan
+applicerar `scripts/generate-hero.py` Eteyas text-overlay programmatiskt
+(title + kicker + ETEYA-brand). Detta garanterar konsistent typografi
+och brand-placering över alla artiklar — bara subjektet varierar.
+
+### Specs (final hero, efter overlay)
 
 | Attribut | Värde |
 |---|---|
-| **Format** | WebP (verkligen WebP, inte PNG renamed) |
+| **Format** | WebP (skriptet hanterar konvertering) |
 | **Aspect ratio** | 16:9 |
-| **Min storlek** | 1600×900px |
-| **Filstorlek** | < 250KB efter komprimering (snabb LCP) |
-| **Color profile** | sRGB |
+| **Storlek** | 1600×900 (skriptet resizear) |
+| **Filstorlek** | < 250KB (skriptet auto-justerar quality) |
 | **Filnamn** | `[artikel-slug]-hero.webp` |
 | **Path** | `/public/images/blog/` |
-| **Alt-text** | Beskrivande, max ~125 tecken, ej "image of..." |
+| **Alt-text** | Beskrivande, ej "Hero image" |
 
-### House style (matchar listingens visuella DNA)
+### House style — locked aesthetic
 
-Eteyas blog-bilder ska kännas som **ChainGPT-style cinematic editorial** kombinerat med Eteyas yellow signature. Mood:
+Allt UTOM subjektet är låst. Detta säkerställer ChainGPT-nivå
+konsistens över hela bloggen:
 
-- **Dark cinematic atmosphere** (close to bg #080808)
-- **Volumetric/atmospheric lighting** med strong directional light
-- **Lime/neon yellow accents** (#C8FF00) — som "tech-pulse" i scenen
-- **Editorial composition** — inte stock-photo-cliché
-- **Hyperrealistic men stylized** — inte fotorealism rakt av
-- **Architectural/atmospheric depth** — rum, skuggor, djup
+| Locked (samma alltid) | Variabelt (per artikel) |
+|---|---|
+| 90% deep matte black + lime #C8FF00 accent | Subjektets **form** |
+| 3D render Octane/C4D-look (NEVER photography) | Subjektets **arrangement** |
+| Single dramatic light från upper-left | Vad subjektet **antyder** |
+| Glossy crystal/obsidian-material | (allt annat låst via STYLE LOCK-block) |
+| Volumetric haze + suspended particles | |
+| Right-weighted composition (text på vänster) | |
+| 16:9 aspect | |
 
-**Tänk**: Linear's blog hero crops + ChainGPT's neon-tech atmosphere + Apple's product photography refinement.
+### Steg 1 — Generera bas-bild i ChatGPT
 
-### Master prompt — Midjourney v6 / v6.1
-
-Generic mall (byt ut `[SUBJECT]` per artikel):
-
-```
-[SUBJECT], cinematic dark atmosphere, volumetric lighting, accent of neon
-lime green #C8FF00 light, ultra-detailed, atmospheric depth, editorial
-photography composition, rim lighting, professional film grain, ARRI Alexa
-shot, shallow depth of field, mood: confident, premium, restrained --ar 16:9
---style raw --v 6.1 --s 250
-```
-
-### Master prompt — Flux Pro (ComfyUI / via API)
+**STYLE LOCK** (kopieras IDENTISKT i varje prompt — inga ändringar):
 
 ```
-[SUBJECT], cinematic editorial photography, dark atmosphere with deep blacks,
-strong volumetric directional lighting, subtle neon lime green (#C8FF00)
-accent lighting in the scene, ultra-detailed, professional film grain,
-atmospheric depth, shallow depth of field, premium editorial mood, shot on
-ARRI Alexa, restrained color palette dominated by blacks and greys with
-selective lime accents
-```
-(Flux: aspect 16:9, steps 30-50, guidance 3.5)
+A 3D rendered abstract digital artwork in the style of Octane Render
+and Cinema 4D. This is NOT a photograph and must not look photographic.
 
-### Per-artikeltyp prompt-variationer
+Materials and surfaces: dark glossy obsidian-like cut crystal with
+hyperrealistic faceted surfaces, subtle soft reflections, premium
+refined finish like polished volcanic glass.
 
-#### 1. Case-study / business automation
-```
-[Modern Scandinavian office workspace, person at laptop, abstract digital
-data overlay flowing through air, holographic interface elements, lime
-green data streams in foreground], cinematic dark atmosphere, volumetric
-lighting, accent neon lime #C8FF00, ultra-detailed, editorial composition,
-ARRI Alexa shot --ar 16:9 --style raw --v 6.1
-```
+Color palette: 90% deep matte black background with subtle dark grey
+shadows. The ONLY accent color is neon lime green at exactly hex
+#C8FF00, used sparingly only on highlight edges, as subtle internal
+glow within the crystals, and as single thin light streaks in the
+atmosphere. The lime green must never dominate or wash the image.
 
-#### 2. How-to / technical guide
-```
-[Abstract macro-photography of circuit board details, glowing lime green
-data pathways, deep depth of field, dark surrounding atmosphere], cinematic
-volumetric lighting, neon #C8FF00 accents, editorial macro photography,
-ultra-detailed, atmospheric --ar 16:9 --style raw --v 6.1
-```
+Lighting: A single strong directional light source from the upper-left,
+creating dramatic chiaroscuro shadows. Volumetric atmospheric haze
+fills the dark space, with suspended dust particles visible drifting
+through the light beam.
 
-#### 3. Listicle / multiple workflows
-```
-[Architectural scene of dark futuristic data center corridor, multiple
-glowing terminals, lime green ambient light, vanishing point composition,
-hyperrealistic], cinematic atmosphere, volumetric god rays, neon #C8FF00
-accents, editorial wide shot, ARRI Alexa --ar 16:9 --style raw --v 6.1
-```
+Composition: Right-weighted composition — leave the LEFT side darker
+and more open for text overlay placement. Subjects positioned on
+right half of frame, with deep negative space on the left.
+Shallow depth of field. Cinematic atmospheric depth.
 
-#### 4. Jämförelse / opinion
-```
-[Minimalist abstract composition of two contrasting geometric shapes, dark
-background, single lime green light source creating shadows, premium product
-photography], cinematic minimalism, dramatic lighting, neon #C8FF00 accent,
-editorial, ultra-clean composition --ar 16:9 --style raw --v 6.1
+Mood: Confident, premium, contemplative, restrained. Editorial
+photography quality at the level of high-end product photography.
+
+Aspect ratio: 16:9 widescreen, suitable for blog hero image.
+
+DO NOT INCLUDE: people, faces, hands, body parts, offices, desks,
+laptops, computers, screens, phones, realistic photography, photographic
+subjects, multiple competing colors, bright backgrounds, warm tones,
+blue accents, purple accents, red accents, text of any kind,
+typography, watermarks, logos, neural networks, robots, brains,
+holograms, glowing networks, AI clichés, particle clouds, energy fields.
+
+—
+
+SUBJECT: [tänk om artikelns tema enligt arketypen nedan]
 ```
 
-#### 5. AI-agent / autonomous systems
+### Subject-thinking — 6 arketyper
+
+**Stilen är låst, men subjektet måste alltid tänka om artikelns tema.**
+Identifiera vilken av dessa 6 arketyper artikeln tillhör, och anpassa
+SUBJECT-blocket därefter:
+
+#### 1. Single focus / portrait — en sak gör en sak
+*(Executive assistant, single-purpose tool, individual subject)*
+
 ```
-[Abstract humanoid silhouette emerging from data streams, glowing lime green
-neural network patterns, dark void background, hyperrealistic with stylized
-elements], cinematic dark atmosphere, volumetric light, neon #C8FF00,
-editorial sci-fi photography, ARRI Alexa --ar 16:9 --style raw --v 6.1 --s 350
+SUBJECT: A single tall vertical crystalline form rising in dark space,
+made of dark glossy obsidian with multiple faceted surfaces. A subtle
+lime green light pulses from within its core, radiating outward through
+its facets. The crystal is positioned slightly right of center, with
+deep negative space on the left side of the frame.
 ```
 
-### Post-processing checklist
+**Exempel-artikel**: "AI-assistent för VD: så frigör du 12 timmar i veckan"
 
-Efter generation, innan filen läggs i `/public/images/blog/`:
+#### 2. System / network / workflow — flera delar fungerar tillsammans
+*(Multiple workflows, connected processes, orchestration)*
 
-1. **Crop till exakt 16:9** om det inte redan är det
-2. **Resize till 1600x900** (om större)
-3. **Konvertera till WebP** med kvalitet 80-85
-   ```bash
-   cwebp -q 85 input.png -o public/images/blog/slug-hero.webp
-   ```
-4. **Verifiera filstorlek < 250KB** (annars sänk kvalitet till 75)
-5. **Visuell QA**: 
-   - Lime-greena toner ska finnas men inte dominera
-   - Mörka ytor får inte vara helt svarta (banding-risk i WebP)
-   - Inga uppenbara AI-artefakter (extra fingrar, omöjlig anatomi, text-soppa)
-6. **Lägg till till git** + uppdatera `heroImage` i frontmatter
+```
+SUBJECT: Multiple geometric crystalline forms suspended in dark space,
+positioned on the right half of the frame, connected to each other
+through thin lime green light strands that flow between them. Each
+crystal has dark glossy obsidian-like faceted surfaces. The system
+appears organized and intentional, suggesting connected components
+working together.
+```
 
-### Stock-photo alternativ (om AI inte hinns med)
+**Exempel-artikel**: "5 process-automationer som sparar tid omedelbart"
 
-Om du måste använda stock istället:
+#### 3. Comparison / vs — två val ställs mot varandra
+*(Versus articles, choices, alternatives)*
 
-- **Källa**: Unsplash (CC0), Pexels (CC0), eller licensierat (Stocksy, Shutterstock)
-- **Kvalitet**: minst 1600x900, helst utan "stock-photo-känsla" (undvik handshake-meetings, generic-laptop-on-desk)
+```
+SUBJECT: Two distinct crystalline forms suspended side-by-side in dark
+space on the right half of the frame, positioned to imply comparison
+or choice. The LEFT crystal is angular and rigidly faceted with sharp
+geometric edges. The RIGHT crystal is smoother and more rounded with
+flowing curves. Both made of dark glossy obsidian-like material, lit
+by the same single light source from upper-left, casting parallel
+shadows. Subtle lime green internal glow visible within both.
+```
+
+**Exempel-artikel**: "OpenAI vs Anthropic 2026 — vilken passar svenska SMB?"
+
+#### 4. Trend / emerging / future — något bildas eller utvecklas
+*(Where are we going, evolution, emergence)*
+
+```
+SUBJECT: Multiple smaller geometric crystalline forms emerging from
+suspended darkness on the right half of the frame, growing and
+connecting to each other through subtle thin lime green light strands.
+Some are fully crystallized with sharp angular faceted surfaces, while
+others are still in mid-formation with half-faceted edges. The
+composition has a slight forward-leaning direction, suggesting motion
+and emergence. Captured at a specific moment in their evolution,
+frozen mid-becoming.
+```
+
+**Exempel-artikel**: "AI-agenter 2026 — vart är vi på väg?"
+
+#### 5. Transformation / change — något övergår från en form till en annan
+*(Before → after, conversion, breakthrough)*
+
+```
+SUBJECT: A liquid metallic black flow positioned on the right half of
+the frame, transitioning into solid crystalline form mid-motion. The
+left side of the form is still flowing mercury-like, while the right
+side is fully crystallized into sharp dark glossy facets. Subtle lime
+green light bleeds along the transition zone where liquid becomes
+solid. Captured frozen mid-transformation.
+```
+
+**Exempel-artikel**: "AI-agent för e-handel: 56 automationer på 3 veckor"
+
+#### 6. Communication / connection — utbyte mellan parter
+*(Customer service, voice, conversation, signal)*
+
+```
+SUBJECT: A single tall crystalline form positioned on the right half
+of the frame, with multiple internal lime green light pulses radiating
+outward through its faceted surfaces in concentric ripples. Subtle
+suspended particles in the atmosphere catch the radiating light,
+suggesting communication waves emanating from one central source.
+Dark obsidian material with hyperrealistic micro-textures.
+```
+
+**Exempel-artikel**: "AI-telefonist för restauranger — så funkar det i praktiken"
+
+### Steg 2 — Spara bas-bild
+
+1. Generera bilden i ChatGPT med STYLE LOCK + SUBJECT
+2. Iterera om nödvändigt: *"More dramatic shadows"*, *"More subtle lime"*, *"Make crystals more angular"*
+3. **Spara som `image.png` i `~/Downloads/`** (overskriv tidigare — det är OK)
+
+### Steg 3 — Kör overlay-skriptet
+
+```bash
+python3 scripts/generate-hero.py \
+    --base ~/Downloads/image.png \
+    --slug [artikel-slug] \
+    --title "[Hela artikel-titeln]" \
+    --kicker "ARTIKEL · [ARKETYP-LABEL]"
+```
+
+**Kicker-konvention** (uppercase, mono):
+- `ARTIKEL · TREND` — för trend/opinion
+- `ARTIKEL · CASE-STUDIE` — för case-studies
+- `ARTIKEL · GUIDE` — för how-to
+- `ARTIKEL · JÄMFÖRELSE` — för comparison
+- `ARTIKEL · LISTA` — för listicle
+- `ARTIKEL · NYHET` — för news
+
+Skriptet:
+- Crop:ar till 16:9, resizear till 1600×900
+- Lägger på translucent text-box vänster halva med 1px lime-border + subtle glow
+- Mono kicker överst i boxen (JetBrains Mono)
+- Title i Barlow Condensed weight 500 (Eteya signature)
+- "ETEYA®" wordmark bottom-left
+- Sparar som WebP < 250KB till `/public/images/blog/[slug]-hero.webp`
+
+### Skriptet kräver (en gång)
+
+- **Pillow** (Python image lib) — installerat via system Python
+- **Fonts** — `scripts/fonts/BarlowCondensed-Medium.ttf` + `JetBrainsMono-Regular.ttf` (committed i repo)
+
+### Stock-photo fallback (sista utväg)
+
+Om AI-generation inte är möjligt — använd stock som BAS-bild men kör
+fortfarande genom overlay-skriptet för konsistent text/brand. Specs:
+
+- 16:9, ≥ 1600×900
+- Helst dark/atmospheric (annars syns text-overlay dåligt)
+- Inga människor/kontor (clashar med vår editorial DNA)
+- Källa: Unsplash (CC0) eller licensierat
 - **License-dokumentering**: Nämn källan i en kommentar i frontmatter:
   ```yaml
   # heroImage source: Unsplash @photographername (CC0)
@@ -258,6 +380,7 @@ Om du måste använda stock istället:
 - [ ] `tags` är 2-5 stycken, använder befintliga när möjligt
 - [ ] `author` är `"filip"` eller `"agit"`
 - [ ] `featured`/`showCta`/`relatedSlug` är medvetet satta enligt cheatsheet
+- [ ] Om `featured: true` — **gammal featured-artikel är unsetad** (max 1 per locale)
 
 ### Content
 
@@ -270,10 +393,13 @@ Om du måste använda stock istället:
 
 ### Image
 
-- [ ] Hero-bild genererad enligt house style + per-typ prompt
-- [ ] **16:9 aspect, 1600x900+, WebP, < 250KB**
-- [ ] Filnamn `[slug]-hero.webp` i `/public/images/blog/`
-- [ ] `heroImageAlt` är beskrivande (ej "Hero image")
+- [ ] **Bas-bild** genererad i ChatGPT med STYLE LOCK + arketyp-specifik SUBJECT
+- [ ] Bas-bilden har **inga människor, ingen text, inget AI-cliché**
+- [ ] Bas-bilden är **right-weighted** (subject höger, plats för overlay vänster)
+- [ ] Bas-bild sparad som `~/Downloads/image.png`
+- [ ] Kört `python3 scripts/generate-hero.py --base ~/Downloads/image.png --slug [slug] --title "..." --kicker "ARTIKEL · [LABEL]"`
+- [ ] Slutfilen finns i `/public/images/blog/[slug]-hero.webp` (< 250KB)
+- [ ] `heroImageAlt` i frontmatter är beskrivande (ej "Hero image")
 
 ### Hreflang twin (om både SV + EN finns)
 
@@ -283,16 +409,20 @@ Om du måste använda stock istället:
 
 ### Verifiera lokalt
 
-- [ ] `pnpm build` kör clean (exit 0)
-- [ ] Öppna `http://localhost:3000/sv/blogg` — artikel syns i listan
+- [ ] `pnpm build` (eller `next build`) kör clean (exit 0)
+- [ ] `next dev` startad — öppna listing-URL och verifiera:
+  - Artikeln syns i grid eller som SENASTE (om featured)
+  - Hero-image renderar med text-overlay + ETEYA brand
+  - CTA "NÄSTA STEG" syns OM `showCta: true`, inte annars
 - [ ] Öppna artikelsidan — verifiera:
   - Rätt title, lead, datum, författare
   - Hero-bild laddar (no broken-image-icon)
-  - CTA "NÄSTA STEG" syns OM `showCta: true`, inte annars
   - Inga emoji-läckor i innehållet
 - [ ] View-source — verifiera Schema.org Article JSON-LD finns med:
   - `"author": { "@type": "Person", "name": "..." }` (ej Org)
   - `"datePublished": "...T08:00:00+02:00"` (med tidszon)
+- [ ] Om `featured: true` på den nya artikeln — verifiera att SENASTE
+  visar den (gammal featured är unsetad)
 
 ### Deploy
 
