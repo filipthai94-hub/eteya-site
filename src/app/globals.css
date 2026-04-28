@@ -413,34 +413,8 @@ html.lenis, html.lenis body {
    - yellow: #C8FF00 (var(--accent))
 */
 
-/* ── BLOG LISTING HERO ────────────────────────────────────────────── */
-/* ── COMPACT PAGE HEADER (Linear-stil) ───────────────────────────────
-   Bara title + filter-pills inline. Ingen massiv hero — featured post
-   blir den visuella heron via split-layout (.blog-featured-hero). */
-.blog-page-header {
-  position: relative;
-  /* Border-bottom hanteras av .blog-filter-bar som ligger inuti */
-}
-.blog-page-header-inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 2.25rem 1.5rem 1rem;
-}
-@media (min-width: 768px) {
-  .blog-page-header-inner { padding: 3rem 3rem 1.5rem; }
-}
-.blog-page-title {
-  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
-  font-weight: 500;
-  color: #fff;
-  letter-spacing: -0.02em;
-  font-size: clamp(2rem, 3vw, 2.625rem);
-  line-height: 1.05;
-  margin: 0 0 1.5rem 0;
-}
-@media (min-width: 768px) {
-  .blog-page-title { margin-bottom: 1.75rem; }
-}
+/* (Borttaget orphan: .blog-page-header* / .blog-page-title — ersattes
+   av .blog-hero-inner i BlogHero.tsx för listingens hero.) */
 
 /* ── FEATURED SPLIT-HERO (huvudgrejen — Linear/Anthropic stil) ──────
    Image vänster (1.4fr), text höger (1fr). Image är den visuella
@@ -722,23 +696,8 @@ html.lenis, html.lenis body {
   color: #fff;
   min-height: 100vh;
 }
-.blog-content-wrap {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
-}
-@media (min-width: 768px) {
-  .blog-content-wrap { padding: 5rem 3rem; }
-}
-@media (min-width: 1024px) {
-  .blog-content-wrap { padding: 6rem 3rem; }
-}
-.blog-featured-section {
-  margin-bottom: 5rem;
-}
-@media (min-width: 768px) {
-  .blog-featured-section { margin-bottom: 7rem; }
-}
+/* (Borttaget orphan: .blog-content-wrap / .blog-featured-section —
+   ersattes av .blog-section-with-label på alla listing-sektioner.) */
 .blog-section-label {
   display: block;
   font-size: 11px;
@@ -1230,7 +1189,10 @@ html.lenis, html.lenis body {
   font-size: 15px;
   transition: border-color 0.3s ease;
 }
-.blog-newsletter-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+.blog-newsletter-input::placeholder {
+  /* WCAG AA: 0.4 → 0.55 ger ~5:1 contrast (placeholder är text, behöver pass) */
+  color: rgba(255, 255, 255, 0.55);
+}
 .blog-newsletter-input:focus {
   outline: none;
   border-color: #C8FF00;
@@ -1534,7 +1496,8 @@ a.blog-bracket-frame:hover::after,
   font-weight: 400;
 }
 .blog-mono-byline-prefix {
-  color: rgba(255, 255, 255, 0.4);
+  /* WCAG AA: 0.4 → 0.55 ger ~5:1 contrast på #080808 (var ~3.2:1, fail) */
+  color: rgba(255, 255, 255, 0.55);
   margin-right: 0.5em;
 }
 
@@ -1583,7 +1546,8 @@ a.blog-bracket-frame:hover::after,
 }
 .blog-pill-rect-count {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  /* WCAG AA: 0.35 → 0.55 ger ~5:1 contrast (var ~2.6:1, fail) */
+  color: rgba(255, 255, 255, 0.55);
 }
 .blog-pill-rect-active .blog-pill-rect-count {
   color: rgba(200, 255, 0, 0.7);

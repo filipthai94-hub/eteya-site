@@ -158,7 +158,7 @@ export function createBreadcrumbSchema(items: BreadcrumbItem[]): object {
   }
 }
 
-// ─── ARTICLE SCHEMA (case-studies) ────────────────────────────────
+// ─── ARTICLE SCHEMA (case-studies + blog) ─────────────────────────
 export interface ArticleSchemaInput {
   /** Path utan domain, t.ex. '/sv/kundcase/telestore' */
   path: string
@@ -167,14 +167,20 @@ export interface ArticleSchemaInput {
   description: string
   /** Image-URLs (rekommenderat: array med flera aspect ratios) */
   image: string[]
-  /** ISO-8601 t.ex. '2025-09-15' */
+  /** ISO-8601 med tidszon, t.ex. '2025-09-15T08:00:00+02:00'.
+   *  Per Schema.org/Google: "Use ISO 8601 format with timezone". */
   datePublished: string
-  /** ISO-8601 — senaste modifiering */
+  /** ISO-8601 med tidszon — senaste modifiering */
   dateModified: string
   /** Locale t.ex. 'sv-SE' */
   inLanguage: string
   /** Branscher/keywords som artikeln handlar om */
   about?: string[]
+  /** Author-schema (Person eller Organization). Default: Eteya som Org.
+   *  Per Google: "author MUST be Person/Organization with name + url".
+   *  För blog-artiklar SKA detta vara Person-schema (createPersonSchema).
+   *  För case-studies (utfört arbete av Eteya) defaultar det till Org. */
+  author?: object
 }
 
 export function createArticleSchema(article: ArticleSchemaInput): object {
@@ -187,8 +193,8 @@ export function createArticleSchema(article: ArticleSchemaInput): object {
     image: article.image,
     datePublished: article.datePublished,
     dateModified: article.dateModified,
-    author: { '@id': ORG_ID },     // Eteya as author (case work was done by Eteya)
-    publisher: { '@id': ORG_ID },  // Eteya as publisher
+    author: article.author ?? { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },  // Eteya as publisher (alltid)
     url,
     mainEntityOfPage: { '@id': `${url}#webpage` },
     inLanguage: article.inLanguage,

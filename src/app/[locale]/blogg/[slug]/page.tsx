@@ -20,10 +20,45 @@ import {
   buildGraph,
   createArticleSchema,
   createBreadcrumbSchema,
+  createPersonSchema,
 } from '@/components/JsonLd'
-import type { BlogLocale } from '@/lib/blog/types'
+import {
+  getAuthorName,
+  getAuthorRole,
+  getAuthorImage,
+  getAuthorPath,
+} from '@/lib/blog/format'
+import type { BlogAuthor, BlogLocale } from '@/lib/blog/types'
 
 const BASE_URL = 'https://eteya.ai'
+
+/** LinkedIn-URLs per författare (matchar BlogAuthorBio) */
+const AUTHOR_LINKEDIN: Record<BlogAuthor, string> = {
+  filip: 'https://www.linkedin.com/in/filip-thai-10449a3b6/',
+  agit: 'https://www.linkedin.com/in/agit-akalp-15701b325/',
+}
+
+/** Korta författar-bios per locale (matchar BlogAuthorBio) */
+const AUTHOR_BIO_SHORT: Record<BlogAuthor, Record<BlogLocale, string>> = {
+  filip: {
+    sv: 'AI-konsult med fokus på automation och AI-agenter för svenska SMB.',
+    en: 'AI consultant focused on automation and AI agents for SMBs.',
+  },
+  agit: {
+    sv: 'AI-konsult med expertis inom process-automation och affärsutveckling.',
+    en: 'AI consultant with expertise in process automation and business development.',
+  },
+}
+
+/**
+ * Konvertera "YYYY-MM-DD" till ISO 8601 med svensk tidszon.
+ * Per Schema.org/Google: "Use ISO 8601 with timezone".
+ * Använder 08:00 lokal tid (publiceringstid morgon) + +02:00 (CEST).
+ * Bara för schema — visningsdatum i UI använder original-strängen.
+ */
+function toIsoWithTz(dateString: string): string {
+  return `${dateString}T08:00:00+02:00`
+}
 
 /** SSG: pre-renderera alla locale × slug-kombinationer */
 export async function generateStaticParams() {
@@ -124,15 +159,28 @@ export default async function BlogArticlePage({
   const blogPath = locale === 'sv' ? '/sv/blogg' : '/en/blog'
   const inLanguage = locale === 'sv' ? 'sv-SE' : 'en-US'
 
+  // Person-schema för artikelns författare (Filip eller Agit) — per Google
+  // Article structured data ska author vara Person/Organization med name + url,
+  // inte bara Org-id. Bygger ett komplett Person-objekt här.
+  const authorSchema = createPersonSchema({
+    name: getAuthorName(post.author),
+    jobTitle: getAuthorRole(post.author, blogLocale),
+    bio: AUTHOR_BIO_SHORT[post.author][blogLocale],
+    image: `${BASE_URL}${getAuthorImage(post.author)}`,
+    linkedin: AUTHOR_LINKEDIN[post.author],
+    profilePath: getAuthorPath(post.author, blogLocale),
+  })
+
   const articleSchema = createArticleSchema({
     path,
     headline: post.title,
     description: post.description,
     image: [`${BASE_URL}${post.heroImage}`],
-    datePublished: post.publishedDate,
-    dateModified: post.modifiedDate,
+    datePublished: toIsoWithTz(post.publishedDate),
+    dateModified: toIsoWithTz(post.modifiedDate),
     inLanguage,
     about: post.tags,
+    author: authorSchema,
   })
 
   const breadcrumbSchema = createBreadcrumbSchema([
