@@ -45,11 +45,18 @@ export default function NewsletterSignup() {
     }
   }
 
-  const eyebrowText = locale === 'sv' ? 'NYHETSBREV' : 'NEWSLETTER'
+  const sectionLabel = locale === 'sv' ? 'NYHETSBREV' : 'NEWSLETTER'
 
   return (
-    <section className="blog-newsletter">
-      <span className="blog-newsletter-eyebrow">{eyebrowText}</span>
+    <section
+      className="blog-section-with-label blog-newsletter-section"
+      aria-label={t('newsletterHeading')}
+    >
+      <div className="blog-section-label-col">
+        <span className="blog-side-label">{sectionLabel}</span>
+      </div>
+
+      <div className="blog-newsletter-content">
       <h2 className="blog-newsletter-heading">{t('newsletterHeading')}</h2>
       <p className="blog-newsletter-body">{t('newsletterBody')}</p>
 
@@ -109,6 +116,7 @@ export default function NewsletterSignup() {
           </p>
         )}
       </form>
+      </div>
     </section>
   )
 }

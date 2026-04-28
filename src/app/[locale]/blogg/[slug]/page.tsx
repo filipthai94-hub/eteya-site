@@ -154,20 +154,21 @@ export default async function BlogArticlePage({
           <article>
             <BlogArticleHero post={post} url={articleUrl} />
 
+            {/* Reading column — 720px för optimal läsbarhet */}
             <div className="blog-article-body-wrap">
               <div className="prose-blog">
                 <MDXContent />
               </div>
-
-              <BlogCTABlock locale={blogLocale} variant="closing" />
-              <BlogAuthorBio author={post.author} locale={blogLocale} />
-              <NewsletterSignup />
             </div>
 
+            {/* Editorial sections — full-bredd 1400px med side-labels,
+                bryter ut ur reading-kolumnen för stark visuell rytm */}
+            <BlogCTABlock locale={blogLocale} variant="closing" />
+            <BlogAuthorBio author={post.author} locale={blogLocale} />
+            <NewsletterSignup />
+
             {relatedPosts.length > 0 && (
-              <div className="blog-related">
-                <BlogRelatedArticles posts={relatedPosts} locale={blogLocale} />
-              </div>
+              <BlogRelatedArticles posts={relatedPosts} locale={blogLocale} />
             )}
           </article>
         </main>

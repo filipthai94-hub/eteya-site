@@ -1,6 +1,7 @@
 /**
- * BlogAuthorBio — minimal author-card vid artikel-slut.
- * Använder .blog-author-bio-* CSS-klasser.
+ * BlogAuthorBio — author-card i editorial section-with-label layout
+ * matchande listingens DNA. Side-label "FÖRFATTARE" + content
+ * (photo + Barlow Condensed name + mono role + bio + LinkedIn arrow).
  */
 
 import Image from 'next/image'
@@ -41,51 +42,66 @@ export default function BlogAuthorBio({
   locale,
 }: BlogAuthorBioProps) {
   const profilePath = author === 'filip' ? '/om-oss/filip' : '/om-oss/agit'
-
-  const writtenByLabel = locale === 'sv' ? 'SKRIVET AV' : 'WRITTEN BY'
+  const sectionLabel = locale === 'sv' ? 'FÖRFATTARE' : 'AUTHOR'
 
   return (
-    <section className="blog-author-bio">
-      <span className="blog-author-bio-eyebrow">{writtenByLabel}</span>
+    <section
+      className="blog-section-with-label blog-author-section"
+      aria-label={getAuthorName(author)}
+    >
+      <div className="blog-section-label-col">
+        <span className="blog-side-label">{sectionLabel}</span>
+      </div>
 
-      <div className="blog-author-bio-row">
-        <Link href={profilePath} locale={locale} style={{ flexShrink: 0 }}>
-          <Image
-            src={getAuthorImage(author)}
-            alt={getAuthorName(author)}
-            width={72}
-            height={72}
-            className="blog-author-bio-photo"
-          />
-        </Link>
+      <div className="blog-author-content">
+        <div className="blog-author-row">
+          <Link href={profilePath} locale={locale} style={{ flexShrink: 0 }}>
+            <Image
+              src={getAuthorImage(author)}
+              alt={getAuthorName(author)}
+              width={80}
+              height={80}
+              className="blog-author-photo"
+            />
+          </Link>
 
-        <div className="blog-author-bio-content">
-          <div className="blog-author-bio-header">
-            <Link
-              href={profilePath}
-              locale={locale}
-              className="blog-author-bio-name"
+          <div className="blog-author-text">
+            <div className="blog-author-header">
+              <Link
+                href={profilePath}
+                locale={locale}
+                className="blog-author-name"
+              >
+                {getAuthorName(author)}
+              </Link>
+              <span className="blog-author-role">
+                {getAuthorRole(author, locale)}
+              </span>
+            </div>
+            <p className="blog-author-bio-text">
+              {AUTHOR_BIOS[author][locale]}
+            </p>
+            <a
+              href={AUTHOR_LINKEDIN[author]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="blog-author-linkedin"
             >
-              {getAuthorName(author)}
-            </Link>
-            <span className="blog-author-bio-role">
-              {getAuthorRole(author, locale)}
-            </span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
+              LINKEDIN
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="blog-author-arrow">
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
           </div>
-          <p className="blog-author-bio-text">
-            {AUTHOR_BIOS[author][locale]}
-          </p>
-          <a
-            href={AUTHOR_LINKEDIN[author]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="blog-author-bio-link"
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-            </svg>
-            LINKEDIN
-          </a>
         </div>
       </div>
     </section>
