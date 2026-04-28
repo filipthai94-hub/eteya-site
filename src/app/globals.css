@@ -808,37 +808,30 @@ html.lenis, html.lenis body {
 }
 .blog-article-back:hover svg { transform: translateX(-3px); }
 
-/* ── BLOG ARTICLE — title section (med side-label "ARTIKEL") ──────── */
-/* Använder .blog-section-with-label för konsekvent layout med
-   listingens "SENASTE", "KATEGORIER", "ARTIKLAR". */
-.blog-article-title-section {
-  padding-top: 3rem;
-  padding-bottom: 3.5rem;
-}
-@media (min-width: 768px) {
-  .blog-article-title-section {
-    padding-top: 4rem;
-    padding-bottom: 4.5rem;
-  }
-}
-@media (min-width: 1024px) {
-  .blog-article-title-section {
-    padding-top: 5rem;
-    padding-bottom: 5.5rem;
-  }
-}
-
-/* Article content column — stacked vertical i höger kolumn */
-.blog-article-content {
+/* ── BLOG ARTICLE — title block (centrerad column, no side-label) ──── */
+/* Matchar premium editorial-bloggar (Linear/Stripe/Anthropic) OCH
+   listing-sidans hero (BlogHero) som också är centrerad utan side-
+   label. Side-labels används bara på footer-sektioner (Author,
+   Newsletter, Related). */
+.blog-article-title-block {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 3.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 @media (min-width: 768px) {
-  .blog-article-content { gap: 1.75rem; }
+  .blog-article-title-block {
+    padding: 4.5rem 2rem 4rem;
+    gap: 1.75rem;
+  }
 }
 @media (min-width: 1024px) {
-  .blog-article-content { gap: 2rem; }
+  .blog-article-title-block {
+    padding: 5.5rem 2rem 4.5rem;
+    gap: 2rem;
+  }
 }
 
 /* Mono meta-row: date ● reading-time ● tag */
@@ -952,42 +945,26 @@ html.lenis, html.lenis body {
   color: #C8FF00;
 }
 
-/* ── BLOG ARTICLE BODY (alignar med right-col i side-label sektioner) */
-/* Body har INGEN side-label men dess content alignar exakt med where
-   andra sektioners content sitter (höger om "FÖRFATTARE", "NYHETSBREV"
-   etc). Detta skapar en sammanhängande vertikal linje längs hela
-   artikel-sidan där alla section-content delar samma vänsterkant.
-
-   Padding-left beräknas så att den matchar right-column-positionen i
-   .blog-section-with-label exakt:
-     ≥1024px: 3rem (container padding) + 140px (label-col) + 3rem (gap) = 236px
-     ≥1280px: 3rem + 160px + 4rem = 272px */
+/* ── BLOG ARTICLE BODY (centrerad reading column, 720px) ────────── */
+/* Standard editorial pattern (NYT, Linear, Stripe, Anthropic): body
+   är centrerad i viewport med max-width 720px. Delar samma center-
+   axis som title-block och hero-image — allt sitter på en konsekvent
+   vertikal mitt-linje. Text inom kolumnen är left-aligned för
+   normal läsning. */
 .blog-article-body-section {
-  display: block;
-  max-width: 1400px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 3rem 1.5rem;
-  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+@media (min-width: 768px) {
+  .blog-article-body-section {
+    padding: 0 2rem 5rem;
+  }
 }
 @media (min-width: 1024px) {
   .blog-article-body-section {
-    padding-top: 4rem;
-    padding-bottom: 5rem;
-    padding-right: 3rem;
-    padding-left: calc(3rem + 140px + 3rem);
+    padding-bottom: 6rem;
   }
-}
-@media (min-width: 1280px) {
-  .blog-article-body-section {
-    padding-left: calc(3rem + 160px + 4rem);
-  }
-}
-.blog-article-body-content {
-  max-width: 720px;
-  margin-left: 0;
-  margin-right: 0;
 }
 
 /* ── BLOG CTA SECTION (med side-label "NÄSTA STEG") ──────────────── */

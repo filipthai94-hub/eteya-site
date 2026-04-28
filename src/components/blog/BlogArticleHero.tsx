@@ -1,10 +1,18 @@
 /**
- * BlogArticleHero — premium editorial article hero med side-label
- * "ARTIKEL" matchande listingens visuella DNA.
+ * BlogArticleHero — premium editorial article hero, centerad column.
  *
- * Layout: top breadcrumb (mono back) → side-label "ARTIKEL" + content
- * (mono meta-row → Barlow Condensed title → Geist lead → mono byline)
- * → hero image med corner-brackets.
+ * Layout matchar premium editorial-bloggar (Linear, Stripe, Vercel,
+ * Anthropic) och även listing-sidans hero (BlogHero som är centrerad
+ * utan side-label):
+ *
+ *   - Title-block centrerad max ~720-800px (samma som body)
+ *   - Hero-image bredare ~1280px centrerad (visuell breakout)
+ *   - Body 720px centrerad
+ *   - Allt delar samma center-axis ner längs sidan
+ *
+ * Side-labels används BARA på footer-sektionerna (Author, Newsletter,
+ * Related) — precis som på listing där hero är centrerad och bara
+ * sub-sections har side-labels (SENASTE, KATEGORIER, ARTIKLAR).
  */
 
 import Image from 'next/image'
@@ -38,11 +46,10 @@ export default function BlogArticleHero({ post }: BlogArticleHeroProps) {
   const byPrefix = isSv ? 'AV' : 'BY'
   const backLabel = isSv ? 'TILLBAKA TILL BLOGG' : 'BACK TO BLOG'
   const minLabel = isSv ? 'MIN LÄSNING' : 'MIN READ'
-  const sectionLabel = isSv ? 'ARTIKEL' : 'ARTICLE'
 
   return (
     <header>
-      {/* Top breadcrumb — mono uppercase, subtle */}
+      {/* Top breadcrumb — mono uppercase, vid container-edge */}
       <div className="blog-article-back-wrap">
         <Link
           href="/blogg"
@@ -62,59 +69,49 @@ export default function BlogArticleHero({ post }: BlogArticleHeroProps) {
         </Link>
       </div>
 
-      {/* TITLE BLOCK med side-label "ARTIKEL" */}
-      <div className="blog-section-with-label blog-article-title-section">
-        <div className="blog-section-label-col">
-          <span className="blog-side-label">{sectionLabel}</span>
+      {/* TITLE BLOCK — centrerad column max ~720px, content left-aligned */}
+      <div className="blog-article-title-block">
+        <div className="blog-article-meta-mono">
+          <time dateTime={post.publishedDate}>
+            {formatMonoDate(post.publishedDate, post.language)}
+          </time>
+          <span className="blog-article-meta-dot" aria-hidden="true">●</span>
+          <span>{post.readingTime} {minLabel}</span>
+          {primaryTag && (
+            <>
+              <span className="blog-article-meta-dot" aria-hidden="true">●</span>
+              <span>{primaryTag.toUpperCase()}</span>
+            </>
+          )}
         </div>
 
-        <div className="blog-article-content">
-          {/* Mono meta-row: date ● reading time ● tag */}
-          <div className="blog-article-meta-mono">
-            <time dateTime={post.publishedDate}>
-              {formatMonoDate(post.publishedDate, post.language)}
-            </time>
-            <span className="blog-article-meta-dot" aria-hidden="true">●</span>
-            <span>{post.readingTime} {minLabel}</span>
-            {primaryTag && (
-              <>
-                <span className="blog-article-meta-dot" aria-hidden="true">●</span>
-                <span>{primaryTag.toUpperCase()}</span>
-              </>
-            )}
-          </div>
+        <h1 className="blog-article-title">{post.title}</h1>
 
-          {/* Massive Eteya-signature title */}
-          <h1 className="blog-article-title">{post.title}</h1>
+        <p className="blog-article-lead">{post.description}</p>
 
-          {/* Lead description */}
-          <p className="blog-article-lead">{post.description}</p>
-
-          {/* Mono byline matching listing pattern */}
-          <Link
-            href={{
-              pathname: '/blogg/forfattare/[author]',
-              params: { author: post.author },
-            }}
-            locale={post.language}
-            className="blog-article-byline-link"
-          >
-            <Image
-              src={getAuthorImage(post.author)}
-              alt={getAuthorName(post.author)}
-              width={36}
-              height={36}
-              className="blog-article-byline-photo"
-            />
-            <span className="blog-mono-byline">
-              <span className="blog-mono-byline-prefix">{byPrefix}</span>
-              {getAuthorName(post.author).toUpperCase()}
-            </span>
-          </Link>
-        </div>
+        <Link
+          href={{
+            pathname: '/blogg/forfattare/[author]',
+            params: { author: post.author },
+          }}
+          locale={post.language}
+          className="blog-article-byline-link"
+        >
+          <Image
+            src={getAuthorImage(post.author)}
+            alt={getAuthorName(post.author)}
+            width={36}
+            height={36}
+            className="blog-article-byline-photo"
+          />
+          <span className="blog-mono-byline">
+            <span className="blog-mono-byline-prefix">{byPrefix}</span>
+            {getAuthorName(post.author).toUpperCase()}
+          </span>
+        </Link>
       </div>
 
-      {/* HERO IMAGE — corner-brackets, sharp corners */}
+      {/* HERO IMAGE — bredare centrerad breakout med corner-brackets */}
       <div className="blog-article-hero-image-wrap">
         <div className="blog-bracket-frame">
           <div className="blog-article-hero-image">

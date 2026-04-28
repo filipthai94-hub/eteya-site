@@ -154,15 +154,13 @@ export default async function BlogArticlePage({
           <article>
             <BlogArticleHero post={post} url={articleUrl} />
 
-            {/* Body — vänsterställd vid sidans page-left edge (samma
-                x-position som side-labels i andra sektioner). Inget
-                grid, ingen tom side-label, body är "the article" och
-                får primary positioning utan label. */}
+            {/* Body — centrerad reading-column 720px, samma center-axis
+                som title-block. Standard editorial pattern (Linear,
+                Stripe, Anthropic). Side-labels återanvänds bara på
+                footer-sektioner nedanför. */}
             <section className="blog-article-body-section">
-              <div className="blog-article-body-content">
-                <div className="prose-blog">
-                  <MDXContent />
-                </div>
+              <div className="prose-blog">
+                <MDXContent />
               </div>
             </section>
 
