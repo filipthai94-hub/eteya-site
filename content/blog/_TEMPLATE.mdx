@@ -1,0 +1,127 @@
+---
+# ─── REQUIRED FÄLT ─────────────────────────────────────────────────
+# Max ~110 tecken (Google trunkerar)
+title: "Artikelns titel — som ska visas som h1 på sidan"
+
+# 150-160 tecken för optimal Google SERP-snippet. Detta blir både
+# meta description, OG description, OCH lead-paragraph på sidan.
+description: "Lead/standfirst som beskriver vad artikeln handlar om i 1-2 meningar. Konkret, ej fluff. Visas under titeln + i sökresultat + i social-sharing."
+
+# ISO-date "YYYY-MM-DD". Konverteras till ISO 8601 med tidszon i schema.
+publishedDate: "2026-04-28"
+
+# Sätt = publishedDate vid första publicering. Uppdatera när artikeln
+# uppdaterats efter publicering (signal till Google för re-crawl).
+modifiedDate: "2026-04-28"
+
+# "filip" eller "agit" (case-sensitive)
+author: "filip"
+
+# 2-5 tags. Använd befintliga när möjligt — se BLOG_AUTHORING.md för listan.
+# Slugifieras automatiskt för URL: "AI-agenter" → /tag/ai-agenter
+tags: ["AI-agenter", "Automation"]
+
+# Hero-bild: 16:9, 1600x900+, WebP, < 250KB, sparad i /public/images/blog/
+heroImage: "/images/blog/template-hero.webp"
+
+# Beskrivande alt-text. EJ "Hero image" — beskriv vad som faktiskt visas.
+heroImageAlt: "Beskrivning av hero-bilden för screen-readers och SEO"
+
+# ─── OPTIONAL FÄLT ─────────────────────────────────────────────────
+# Sätt true på MAX EN artikel åt gången per locale (visas som "SENASTE" hero).
+featured: false
+
+# Sätt true för case-studies + how-to-guider där "boka strategimöte" är
+# ett naturligt nästa steg. Skippa på opinion/jämförelse/news.
+showCta: false
+
+# Slug för andra-språkets version av samma artikel (för hreflang).
+# Lämna tom om ingen översättning finns.
+# Exempel: SV-artikelns frontmatter: relatedSlug: "ai-receptionist-restaurants"
+#          EN-artikelns frontmatter: relatedSlug: "ai-telefonist-restaurang"
+relatedSlug: ""
+---
+
+Lead-paragraph först — den blir automatiskt större (lead/standfirst-styled).
+Skriv den så att den fungerar som mini-summary av hela artikeln. En person
+som bara läser första stycket ska förstå varför artikeln finns och vad den
+levererar.
+
+## Första H2-rubriken
+
+Här börjar brödtexten. Vanlig flytande text, **bold för korta nyckelord**,
+*kursiv för mjuk betoning*, och `inline code` för tekniska termer.
+
+Skriv konkret. Använd siffror när du har dem ("90% snabbare", "12 timmar
+i veckan", "390 000 kr/år"). Eteyas röst = "konsult som har gjort det och
+kan visa siffrorna".
+
+### Underrubrik (H3)
+
+Använd H3 för att bryta upp långa H2-sektioner. Hoppa inte över nivåer
+(h2 → h4 är broken).
+
+- Bullets för konkreta uppräkningar (steg, alternativ, exempel)
+- Inte för flytande prosa
+- Korta, parallella satser
+
+För numbered lists med ordning som spelar roll:
+
+1. Steg ett — konkret
+2. Steg två — bygger på steg ett
+3. Steg tre — slutsats
+
+## Pull-quote (max 1-2 per artikel)
+
+> Skriv en pull-quote som framhåller en nyckelmening — kunscitat, mätbar
+> insikt, eller stark formulering. Inte överanvänt. Visas större och med
+> tunn vit border-left.
+
+Tillbaka till löpande text efter pullquote. Du kan länka till andra sidor
+naturligt — [se vår Sannegården kundcase](/sv/kundcase/sannegarden) för
+exempel. Beskrivande länktext, ej "klicka här".
+
+## Andra H2-sektion
+
+Här fortsätter du med nästa huvuddel av artikeln. Använd `→` för att
+visa workflow-steg i löpande text:
+
+Kund kommer in → AI svarar → bekräftelse skickas → ärendet är hanterat.
+
+Eller för konkreta beräkningar:
+
+**30 extra ordrar/vecka × 280 kr × 50 veckor = 420 000 kr/år** i nya
+intäkter som tidigare försvann genom missade samtal.
+
+## Sista H2 — slutsats / call to action
+
+Avsluta naturligt. Om `showCta: true` i frontmatter visas "NÄSTA STEG"-CTA
+automatiskt efter detta stycke — du behöver inte skriva en egen CTA-text
+i body.
+
+Om `showCta: false` (jämförelse/opinion/news) — avsluta med en stark
+slut-mening som ger läsaren en take-away. Inga "kontakta oss"-pushes.
+
+{/* ─── PÅMINNELSER (tas bort innan publicering) ──────────────────────
+
+   ✗ INGA emojis i texten ovan: ✓ ✗ ✅ ❌ ✦ 🚀 💡 📊 🎯 ⭐ ⚡ 🔥
+     Använd typografi (bold, kursiv, blockquote, code) istället.
+
+   ✗ INGA "klicka här" / "läs mer" — beskrivande länktext alltid.
+
+   ✗ INGA H1 i body. H1 kommer från frontmatter title automatiskt.
+
+   ✗ INGEN egen "Boka strategimöte"-CTA i body — sätt showCta: true
+     och CTA-blocket renderas automatiskt.
+
+   ✓ Lead-paragraph (första <p>) ska fungera som mini-summary.
+
+   ✓ Konkreta siffror där relevant. Mätbart > flummigt.
+
+   ✓ Verifiera before commit:
+       pnpm build              # ska köra clean
+       pnpm start              # öppna localhost:3000/sv/blogg
+       grep -E "[😀-🿿]|[✅❌]" content/blog/sv/[slug].mdx  # 0 träffar
+
+   Ta bort hela det här kommentar-blocket före git commit.
+*/}
