@@ -484,6 +484,178 @@ fortfarande genom overlay-skriptet för konsistent text/brand. Specs:
 
 ---
 
+## CTA-mall — `<BlogCTABlock>` (SPIKAT 2026-04-29 — research-based)
+
+Reglerna nedan är **forskade från primära källor** (Nielsen Norman Group,
+HubSpot, CXL, Unbounce, Backlinko, Crazy Egg) och är **source of truth**
+för all inline mid-article CTA på Eteya-bloggen.
+
+### Varför inline-CTA + footer-CTA?
+
+~60-70% av läsare når aldrig footern (B2B long-form bounce-mönster).
+Inline-CTA fångar dem vid peak-interest mid-artikel. Footer fångar
+"fully convinced"-läsare som läst hela artikeln. **Olika user-states,
+båda värda att fånga.** Båda öppnar samma kontakt-modal via
+`useContactModal`-hook = identisk UX.
+
+Differentiering:
+- **Inline** = topic-bunden, subtilare card med tonad accent
+- **Footer** = bred fångare, prominent cirkulär knapp
+- Olika knapp-text ("Boka 30-min ROI-samtal" vs "Hör av dig")
+
+### Den LÅSTA designmallen
+
+```
+[KICKER]            FÖR 30+ SVENSKA SMB              ← mono uppercase, 11-12px,
+                                                       lime-grön, letter-spaced
+                                                       (auktoritets-data, INTE
+                                                       generic "NÄSTA STEG")
+
+[HEADLINE]          Räkna på AI-ROI för din verksamhet
+                                                     ← Barlow display, 24-30px,
+                                                       statement (ej fråga),
+                                                       5-7 ord, possessivt
+                                                       pronomen ("din")
+
+[BODY]              30-minuters samtal där vi går igenom era processer
+                    och visar konkret var AI sparar tid och pengar.
+                                                     ← Geist body, 15-16px,
+                                                       1-2 meningar, max 25 ord,
+                                                       EN konkretisering
+                                                       (tid/leverabel/utfall)
+
+[BUTTON →]          Boka 30-min ROI-samtal  →        ← ButtonSwap accent-variant,
+                                                       size="lg" (56px höjd),
+                                                       imperativ + specifik
+                                                       leverabel, höger-pil
+
+[TRUST-RAD]         Kostnadsfritt · Inga avtal · Svar inom 24h
+                                                     ← mono 11-12px, muted
+                                                       (rgba 0.42), 3 element
+                                                       max, prick-separator
+```
+
+### REGEL 1 — Position och frekvens
+
+- Lägg `<BlogCTABlock>` **efter ~50-60% scroll**, vid en logisk
+  problem→lösning-pivot (NN/G + Webless A/B-data)
+- **EN inline-CTA** i artiklar under 1500 ord
+- **MAX två** i artiklar 2000+ ord (fler = diluering)
+- Renderas automatiskt om `showCta: true` i frontmatter
+
+### REGEL 2 — Visuell hierarki (alla locked i CSS)
+
+- **Card med 1px accent-border** (lime @ 18% opacity), ej full-width banner
+- **Bakgrund 2.5% ljusare** än body (rgba 0.025), inte helsvart kontrast
+- **Padding 32-40px desktop / 28px mobile** — stor nog för stop-power,
+  liten nog för att undvika banner-blindness
+- **Vänster-aligned content** — matchar text-flow, undviker "annons-look"
+- **Border-radius 14px** — modern soft-edge
+
+### REGEL 3 — Headline (5-7 ord, statement, possessivt)
+
+- **Statement, INTE fråga** ("Räkna på AI-ROI" — ej "Vill du räkna...?")
+- **5-7 ord, max 8** (CTR sjunker dramatiskt över 8 ord — NN/G)
+- **Possessivt pronomen** ("din verksamhet", "ditt företag") — ContentVerve
+  A/B-test: "my" → +90% CTR
+- **Speglar artikelns ämne** — generic headlines konverterar 161% sämre
+  (Veeam case-study)
+
+### REGEL 4 — Body (1-2 meningar, max 25 ord)
+
+**SKA inkludera EN konkretisering:**
+- Tidsåtgång ("30-minuters samtal")
+- ELLER specifik leverabel ("ROI-rapport", "automation-skiss")
+- ELLER vad som händer härnäst ("kartläggning av era processer")
+
+**SKA INTE inkludera:**
+- Generiska säljsignaler ("låt oss prata", "kontakta oss för mer info")
+- Vagt språk ("vi kan hjälpa dig")
+- Garantier ("100% nöjd-kund")
+- Multiple meningar med flera olika erbjudanden
+
+### REGEL 5 — Button-text (imperativ + specifik leverabel)
+
+**Mallen:** "Boka 30-min ROI-samtal →"
+
+- **Imperativ** + **specifik leverabel** (ej "Get Started", ej "Kontakta oss",
+  ej "Läs mer")
+- **Höger-pil (→)** efter texten — directional cue (CXL eye-tracking)
+- **Använd ButtonSwap accent-variant, size="lg"** för konsistens med
+  CaseLink + footer
+
+### REGEL 6 — Trust-rad (3 element max)
+
+**Mallen:** "Kostnadsfritt · Inga avtal · Svar inom 24h"
+
+- **3 element MAX**, prick-separator (·)
+- **Specifika siffror** över vaga uttryck ("30+ kunder" > "många kunder")
+- **Risk-reducerare** som sänker upplevd commitment ("kostnadsfritt",
+  "inga avtal", "svar inom X tid")
+- Placeras **direkt under knappen**, mono small text, muted färg
+
+### REGEL 7 — Per-artikel anpassning (3 variabler)
+
+**Knapp-text + trust-rad förblir IDENTISK över alla artiklar** för
+konsekvens. Bara dessa 3 ändras per artikel:
+
+| Variabel | Default (translations) | När override:a |
+|---|---|---|
+| `kicker` | "FÖR 30+ SVENSKA SMB" | När artikeln pekar på ett specifikt case ("CASE: SANNERGÅRDEN") |
+| `headline` | "Räkna på AI-ROI för din verksamhet" | Ändra för att spegla artikelns specifika problem |
+| `body` | Generic ROI-samtal-text | Ändra för att konkretisera leverabeln för just det ämnet |
+
+**Override via props i `[slug]/page.tsx`:**
+
+```tsx
+<BlogCTABlock
+  locale={blogLocale}
+  kicker="CASE: SANNERGÅRDEN"
+  headline="Vad skulle motsvarande siffror se ut för er?"
+  body="Sannergården sparade 420 000 kr/år. 30-min samtal = vi räknar på er."
+/>
+```
+
+### REGEL 8 — Anti-patterns (FÖRBJUDET)
+
+- **Frågor i headline** ("Vill du veta mer?") → mental friction, sänker CTR
+- **Falsk urgency** ("Sista chansen!", "Begränsat antal platser") → trust
+  dyker 41% inom 2-3 interaktioner när läsare upptäcker manipulation
+- **Stock-photos eller produktbilder** i CTA-block → signalerar "annons" =
+  banner-blindness
+- **Multiple knappar** i samma block (single-CTA konverterar 1.6x bättre)
+- **Generic "NÄSTA STEG"-kicker** istället för data-anchor
+- **Full-width-knapp** på desktop → ser banner-lik ut
+- **"Get Started"** eller "Kontakta oss" → NN/G research: dödar conversion
+
+### REGEL 9 — Modal vs redirect (locked: modal)
+
+- **Modal är default** via `useContactModal`-hook (samma som footer-CTA)
+- **Aldrig redirect till `/kontakt`** från en blog-CTA — friktion av
+  page-load + URL-byte tappar ~30-50% av intent
+- ContactCard-formuläret har **3 fält max** initialt (HubSpot 2024:
+  varje extra fält sänker conversion 4.1%)
+
+### Källor (research 2026-04-29)
+
+- [Nielsen Norman: Banner Blindness Revisited](https://www.nngroup.com/articles/banner-blindness-old-and-new-findings/)
+- [Nielsen Norman: "Get Started" Stops Users](https://www.nngroup.com/articles/get-started/)
+- [Nielsen Norman: Fitts's Law for Buttons](https://www.nngroup.com/videos/fittss-law-links-buttons/)
+- [HubSpot: Anchor Text CTA Study](https://blog.hubspot.com/marketing/blog-anchor-text-call-to-action-study)
+- [HubSpot: Pop-Up Forms Analysis](https://blog.hubspot.com/marketing/pop-up-forms-analysis)
+- [HubSpot: Secondary CTAs](https://blog.hubspot.com/marketing/everything-marketers-should-know-secondary-calls-to-action)
+- [Backlinko: 785% Conversion Lift Study](https://backlinko.com/increase-conversions)
+- [Unbounce: CTA Buttons That Convert](https://unbounce.com/conversion-rate-optimization/cta-buttons-that-convert/)
+- [CXL: Mastering the Call to Action](https://cxl.com/blog/call-to-action/)
+- [CXL: Microcopy](https://cxl.com/blog/microcopy/)
+- [CXL: Visual Cues / Directional](https://cxl.com/blog/visual-cues/)
+- [Crazy Egg: High-Converting CTA Buttons](https://www.crazyegg.com/blog/high-converting-cta-buttons/)
+- [Steel Croissant: B2B Blog CTA Optimization](https://www.steelcroissant.com/blog/cta-optimization-for-b2b-blogs-effective-strategies-improving-conversion-rates-and-seo-friendly-calls-to-action)
+- [VentureHarbour: Form Length Studies](https://ventureharbour.com/how-form-length-impacts-conversion-rates/)
+- [WiserNotify: 12 CTA Mistakes](https://wisernotify.com/blog/avoid-call-to-action-mistakes/)
+
+---
+
 ## CaseLink-component (`<CaseLink />`)
 
 För utbound-länkar från en artikel till en stor destination (case-study,

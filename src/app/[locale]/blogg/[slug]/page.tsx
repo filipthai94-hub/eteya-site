@@ -233,7 +233,7 @@ export default async function BlogArticlePage({
                 bryter ut ur reading-kolumnen för stark visuell rytm.
                 CTA är opt-in via frontmatter showCta: true. */}
             {post.showCta && (
-              <BlogCTABlock locale={blogLocale} variant="closing" />
+              <BlogCTABlock locale={blogLocale} />
             )}
             <BlogAuthorBio author={post.author} locale={blogLocale} />
             <NewsletterSignup />

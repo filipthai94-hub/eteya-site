@@ -1,107 +1,89 @@
 'use client'
 
 /**
- * BlogCTABlock — closing CTA i editorial section-with-label layout
- * matchande listingens DNA. Side-label "NÄSTA STEG" + content
- * (Barlow Condensed heading + body + mono arrow-link).
+ * BlogCTABlock — inline mid-article CTA enligt research-baserad mall
+ * (BLOG_AUTHORING.md "CTA-mall" — 28 regler från Nielsen Norman, HubSpot,
+ * CXL, Unbounce, Backlinko, NN/G, etc).
  *
- * Klick öppnar SAMMA kontakt-modal som footer-CTA via useContactModal-hook.
- * Tidigare redirectade detta till /kontakt — nu konsekvent med footer.
+ * Card-struktur:
+ *   [KICKER]            — auktoritets-data (FÖR 30+ SVENSKA SMB)
+ *   [HEADLINE]          — statement, 5-7 ord, possessivt pronomen
+ *   [BODY]              — 1-2 meningar, max 25 ord, EN konkretisering
+ *   [BUTTON →]          — imperativ + specifik leverabel (ButtonSwap)
+ *   [TRUST-RAD]         — 3 element max, prick-separator
+ *
+ * Klick → öppnar samma kontakt-modal som footer-CTA via useContactModal.
+ *
+ * Differentiering från footer-CTA:
+ * - Inline = topic-bunden, subtilare card-style med tonad accent
+ * - Footer = bred fångare, prominent cirkulär knapp
+ * - Olika knapp-text ("Boka 30-min ROI-samtal" vs "Hör av dig")
+ *
+ * Per-artikel-anpassning (3 variabler kan override:as via props):
+ * - kicker, headline, body
+ * - button + trust-rad förblir IDENTISK över alla artiklar för konsekvens
  */
 
-import { useRef, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useTranslations } from 'next-intl'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 import ContactModal from '@/components/ui/ContactModal'
 import { useContactModal } from '@/hooks/useContactModal'
 import type { BlogLocale } from '@/lib/blog/types'
 
 interface BlogCTABlockProps {
   locale: BlogLocale
-  variant?: 'inline' | 'closing'
+  /** Override för topic-specifik kicker (default från translations) */
+  kicker?: string
+  /** Override för article-specifik headline (default från translations) */
+  headline?: string
+  /** Override för article-specifik body (default från translations) */
+  body?: string
 }
 
 export default function BlogCTABlock({
-  locale: _locale, // Locale används implicit via NextIntlClientProvider
-  variant = 'closing',
+  locale: _locale,
+  kicker,
+  headline,
+  body,
 }: BlogCTABlockProps) {
   const t = useTranslations('blog.article')
-  const triggerRef = useRef<HTMLButtonElement>(null)
   const modal = useContactModal()
-  const sectionLabel = _locale === 'sv' ? 'NÄSTA STEG' : 'NEXT STEP'
 
+  // Hook auto-använder document.activeElement som restore-focus om
+  // triggerElement inte passas — så ButtonSwap behöver ingen ref.
   const handleClick = useCallback(() => {
-    modal.openModal(triggerRef.current)
+    modal.openModal()
   }, [modal])
 
-  if (variant === 'inline') {
-    return (
-      <>
-        <aside className="blog-cta-inline not-prose">
-          <p className="blog-cta-inline-text">{t('ctaBody')}</p>
-          <button
-            ref={triggerRef}
-            type="button"
-            className="blog-cta-inline-button"
-            onClick={handleClick}
-            aria-haspopup="dialog"
-            aria-expanded={modal.isOpen}
-          >
-            {t('ctaButton')}
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </aside>
-        <ContactModal
-          isMounted={modal.isMounted}
-          onClose={modal.closeModal}
-          overlayRef={modal.overlayRef}
-          panelRef={modal.panelRef}
-        />
-      </>
-    )
-  }
+  const finalKicker = kicker ?? t('ctaKicker')
+  const finalHeadline = headline ?? t('ctaHeading')
+  const finalBody = body ?? t('ctaBody')
 
   return (
     <>
-      <section
-        className="blog-section-with-label blog-cta-section"
-        aria-label={t('ctaHeading')}
+      <aside
+        className="blog-cta-card not-prose"
+        aria-label={finalHeadline}
       >
-        <div className="blog-section-label-col">
-          <span className="blog-side-label">{sectionLabel}</span>
+        <span className="blog-cta-kicker">{finalKicker}</span>
+        <h2 className="blog-cta-headline">{finalHeadline}</h2>
+        <p className="blog-cta-body">{finalBody}</p>
+
+        <div className="blog-cta-button-wrap">
+          <ButtonSwap
+            label={t('ctaButton')}
+            variant="accent"
+            size="lg"
+            arrow
+            onClick={handleClick}
+            className="no-prose-link"
+          />
         </div>
 
-        <div className="blog-cta-content">
-          <h2 className="blog-cta-heading">{t('ctaHeading')}</h2>
-          <p className="blog-cta-body">{t('ctaBody')}</p>
-          <button
-            ref={triggerRef}
-            type="button"
-            className="blog-cta-arrow"
-            onClick={handleClick}
-            aria-haspopup="dialog"
-            aria-expanded={modal.isOpen}
-          >
-            {t('ctaButton')}
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </section>
+        <p className="blog-cta-trust">{t('ctaTrustLine')}</p>
+      </aside>
+
       <ContactModal
         isMounted={modal.isMounted}
         onClose={modal.closeModal}
