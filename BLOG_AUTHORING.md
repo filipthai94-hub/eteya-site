@@ -676,108 +676,112 @@ konsekvens. Bara dessa 3 ändras per artikel:
 
 ---
 
-## Author bio-mall — `<BlogAuthorBio />` (SPIKAT 2026-04-29)
+## Author bio-mall — `<BlogAuthorBio />` (SPIKAT 2026-04-29 — research-baserad)
 
-Author-bio:n är en **förtroendebro**. Det är där en läsare som just läst
-artikeln avgör om personen bakom är värd att lyssna på. Generic
-template-bios fungerar inte. Vår mall:
+Author-bio:n är **editorial typografi**, INTE ett feature-card. Premium
+publikationer (Stripe Press, Linear, Vercel, Atlantic, Figma blog,
+Increment) använder ALDRIG cards/ringar/quote-boxar för byline. Vi följer
+samma editorial-konvention.
+
+> **Forskat från 12 topp-tier publikationer.** Sammanfattning:
+> editorial premium = subtraktion, inte addition. Varje "premium-effekt"
+> staplat ovanpå det andra (card + ring + quote-box + lime-borders) gör
+> det till en SaaS-template, inte en författar-byline.
 
 ### Den LÅSTA designen
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  [FÖRFATTARE]                                              │
-│                                                            │
-│  ┌────────┐   Filip Thai                                   │
-│  │  📷    │   GRUNDARE & VD                                │
-│  │ (lime  │                                                │
-│  │  ring) │   AI-konsult med fokus på automation och       │
-│  └────────┘   AI-agenter för svenska SMB. Bygger lösningar │
-│               som faktiskt levererar mätbar besparing.     │
-│                                                            │
-│  ▎ "Mer AI-projekt dör i kick-off-mötet än i koden."       │
-│                                                            │
-│  [LINKEDIN →]                                              │
-└────────────────────────────────────────────────────────────┘
-       ↑ samma card-DNA som CTA + ROI-modal
+─────────────────────────────────────────────────────────────────
+  [FÖRFATTARE]                                                   ← side-label
+                                                                   (befintlig pattern)
+  ┌────────┐  Filip Thai                                          ← Barlow Condensed 32px
+  │   📷   │  Grundare & VD                                       ← Geist 14px muted
+  │ 120×120│
+  │ square │  AI-konsult med fokus på automation och AI-agenter
+  │ subtle │  för svenska SMB. Bygger lösningar som faktiskt
+  │ border │  levererar mätbar besparing.                         ← Geist 16px
+  └────────┘
+              LINKEDIN ↗                                          ← JetBrains Mono caps,
+                                                                   text-link med ↗ (external)
+─────────────────────────────────────────────────────────────────
 ```
 
-### REGEL 1 — Card-DNA (matchar CTA + ROI-modal)
+### REGEL 1 — INGEN card, ingen ring, inget citat
 
-Author-section använder **samma design-tokens** som CTA-card + ROI-modal:
-- Background: `linear-gradient(180deg, #111111 0%, #0d0d0d 100%)`
-- Border: `1px solid rgba(255, 255, 255, 0.08)` (white-low)
-- Multi-layer shadow (4 lager djup, identiskt med CTA)
-- Border-radius: 16px
+Topp-tier editorial-byline har **noll** dekoration. Bara typografi på samma
+mörka bakgrund som resten av artikeln, separerat med en tunn 1px border-top.
 
-Detta så hela artikel-sidan känns som **ETT system**, inte 4 olika sektioner.
+**FÖRBJUDET (anti-patterns från research):**
+- Card med background-gradient, border-radius, multi-layer shadow
+- Lime-ring runt foto (klassisk SaaS-template)
+- Signatur-citat med italic Barlow + lime border-left + curly quotes
+- Cirkulärt foto (= LinkedIn-avatar = ej editorial)
+- "Centered avatar above name" (LinkedIn-stil)
+- "Connect with X on LinkedIn" knappar
 
-### REGEL 2 — Foto: 110px med subtle lime-ring
+### REGEL 2 — Foto: FYRKANTIGT 120×120
 
-- **Storlek:** 110px desktop / 90px mobil (var tidigare 80px)
-- **Lime-ring:** `box-shadow: 0 0 0 1px rgba(200, 255, 0, 0.25)` default
-- **Hover:** ring intensifieras till 60% opacity + glow + scale 1.02
-- **Cirkulärt** (border-radius 9999px), object-fit cover
+- **Storlek:** 120px desktop / 100px mobil
+- **Form:** FYRKANTIGT (border-radius: 0) — INTE cirkulärt
+  - Cirkulärt = avatar/SaaS = ej editorial
+  - Fyrkantigt = redaktionellt porträtt = editorial-signal
+- **Border:** `1px solid rgba(255, 255, 255, 0.06)` — knappt synlig
+- **Hover:** border-opacity ökar till 0.18 (subtilt, ingen scale, ingen ring)
+- **Object-fit:** cover
 - Klickbart — länkar till `/om-oss/[author]`
 
-### REGEL 3 — Signatur-citat (KRITISK regel)
+### REGEL 3 — Typografi-hierarki (editorial)
 
-**Varje författare MÅSTE ha ett signatur-citat.** En generic bio utan
-citat är vad som gör författar-sektionen klichig. Citatet är skillnaden
-mellan "konsult #847" och "killen som verkligen förstår SMB".
+| Element | Font | Storlek | Style |
+|---|---|---|---|
+| Namn | Barlow Condensed | 26-32px | weight 500, NO uppercase, line-height 1.0 |
+| Roll | Geist | 14px | weight 400, color rgba 0.5, NO mono, NO uppercase |
+| Bio | Geist | 15-16px | weight 400, color rgba 0.75, line-height 1.55, max 60ch |
+| LinkedIn | JetBrains Mono | 11px | uppercase, letter-spacing 0.12em, color rgba 0.5 |
 
-**Vad som gör ett citat icke-klichigt:**
-1. **Specifikt** — sätter en konkret bild i huvudet (inte abstrakta värderingar)
-2. **Earned** — låter som något personen lärt sig den hårda vägen
-3. **Counter-intuitivt** — utmanar en common assumption
-4. **Lite självkritiskt** — ödmjukhet skär igenom marknadsspråk
-5. **Bara DEN författaren kan säga det** — inte 1000 andra konsulter
+**Notera:** Roll i Geist (inte JetBrains Mono uppercase) är medvetet —
+det undviker "tech-startup look" och blir mer editorial. Som The Atlantic
+eller NYT byline.
 
-**Anti-patterns (FÖRBJUDET):**
-- "Vi sätter kunden först" / "Vi bygger framtidens X" / generic värderingar
-- "AI ska spara timmar inte sälja hype" — anti-hype är självt en kliché 2026
-- Allt som låter som det kan stå på 1000 konsultsidor
+### REGEL 4 — Max 1 lime-accent (helst noll)
 
-**Format:**
-- 1 mening, max ~12 ord
-- Italic, Barlow display-font, ~17-20px
-- 2px lime-border-left för visuell betoning
-- Curly quotes ("…") med subtle lime-coloring
-- Placeras MELLAN bio och LinkedIn
+Hela author-blocket har **0-1 lime-touchpoints**:
+- Hover på namn/LinkedIn → lime
+- INGEN lime-ring runt foto
+- INGEN lime-color på roll, bio, eller "FÖRFATTARE"-label
+- INGEN lime-border-left på citat (eftersom citat inte finns)
 
-**Aktuella citat (uppdatera när nya författare läggs till):**
+Lime ska "bo" på CTA:n och footer-CTA:n. Author-blocket är monokromt.
 
-| Författare | Citat (SV) |
-|---|---|
-| Filip Thai | *"Mer AI-projekt dör i kick-off-mötet än i koden."* |
-| Agit Akalp | *"Den dyraste integrationen är den ingen vågar röra om sex månader."* |
+### REGEL 5 — LinkedIn-länk: text + ↗ (NO svg-icon)
 
-### REGEL 4 — Endast EN connect-path (LinkedIn)
+Format: `LINKEDIN ↗`
 
-**Lägg ALDRIG till "Boka samtal" eller motsvarande CTA i author-bio:n.**
-Sidan har redan:
-- Inline `<BlogCTABlock>` (boka via modal)
-- `<FooterCTAClient>` (boka via cirkulär knapp)
+- INGEN svg-ikon framför texten (för marketing/SaaS)
+- Pil ↗ (up-right, U+2197) = signalerar external-link, mer editorial
+- Hover: color → lime, ingen translate-animation
+- Bara EN connect-path (medvetet — inline-CTA + footer-CTA finns redan)
 
-En tredje "boka samtal"-knapp i author-bio:n = **överlapp som dödar
-attention**. Single-CTA-research vi gjorde tidigare visar 1.6x bättre
-konvertering med fokuserad path.
+### REGEL 6 — Lägga till ny författare
 
-LinkedIn-länken är medvetet en ANNAN typ av action: "lär dig mer om
-personen", inte "boka möte". Den fångar läsare som inte är redo att
-prata än men vill veta vem Filip är.
-
-### REGEL 5 — Lägga till ny författare
-
-När en ny författare läggs till:
 1. Lägg till entry i `BlogAuthor` typen (`src/lib/blog/types.ts`)
 2. Lägg till case i `getAuthorName/Role/Image/Path` (`src/lib/blog/format.ts`)
-3. Lägg till bild i `/public/images/team/[author].webp`
+3. Lägg till bild i `/public/images/team/[author].webp` (rekommenderat:
+   porträtt-ratio 1:1, 240×240+ för crisp 120×120-rendering)
 4. Skapa profil-sida i `/src/app/[locale]/om-oss/[author]/page.tsx`
-5. **Lägg till bio i `AUTHOR_BIOS`** (BlogAuthorBio.tsx)
-6. **Lägg till signatur-citat i `AUTHOR_QUOTES`** (BlogAuthorBio.tsx)
-   — Se REGEL 3 för vad som är icke-klichigt
-7. Lägg till LinkedIn-URL i `AUTHOR_LINKEDIN`
+5. Lägg till bio i `AUTHOR_BIOS` (BlogAuthorBio.tsx) — 2-3 meningar max
+6. Lägg till LinkedIn-URL i `AUTHOR_LINKEDIN`
+
+### Källor (research 2026-04-29)
+
+- [Stripe Press](https://press.stripe.com/) — square photos, two-touchpoint pattern
+- [Linear blog](https://linear.app/blog) — 28px photo as metadata
+- [Vercel blog](https://vercel.com/blog) — minimal byline, no inline bio
+- [Anthropic news](https://www.anthropic.com/news) — research-paper byline-style
+- [Figma blog](https://www.figma.com/blog) — 1px border-top divider, no card
+- [Atlantic / NYT byline](https://www.theatlantic.com/) — caps-text byline, no photo
+- [Increment magazine (archived)](https://increment.com/) — italic name, no card
+- [Paul Graham essays](https://paulgraham.com/) — proof that minimal = premium
 
 ---
 
