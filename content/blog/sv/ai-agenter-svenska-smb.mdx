@@ -140,49 +140,35 @@ Tweaks och förbättringar. En agent blir inte färdig vid go-live. Den blir bä
 
 <FAQ items={[
   {
-    question: "Hur skiljer sig en AI-agent från en vanlig chatbot?",
-    answer: "Chatboten svarar på frågor med fördefinierade svar. AI-agenten kan agera i andra system: boka möten, hämta data, skicka mejl, uppdatera databaser. En chatbot pratar. En AI-agent gör."
+    question: "Måste vi informera kunder att de pratar med en AI?",
+    answer: "Ja, EU AI Act som trädde i kraft 2025 kräver att kunder upplyses när de interagerar med en AI-agent. Det räcker oftast med en kort fras i början av samtalet eller chatten (\"Du pratar nu med vår AI-assistent\"). Reglerna gäller alla EU-länder och påverkar både telefoni, chatt och mejl. Vi bygger in detta automatiskt i alla agenter."
   },
   {
     question: "Är det säkert med AI-agenter ur ett GDPR-perspektiv?",
-    answer: "Ja, om de implementeras rätt. Vi använder leverantörer med EU-databehandling, signerar DPA vid behov, och agenter får aldrig data de inte behöver för uppgiften. Kunddata används aldrig för att träna modeller."
+    answer: "Ja, om de implementeras rätt. Vi använder leverantörer med EU-databehandling (Anthropic, OpenAI EU-region, Azure Sweden Central), signerar DPA vid behov, och agenter får aldrig tillgång till data de inte behöver för uppgiften. Kunddata används aldrig för att träna modeller och loggar raderas typiskt efter 30 dagar."
   },
   {
-    question: "Behöver vi teknisk personal för att köra en AI-agent?",
-    answer: "Nej. Vi hanterar hela implementationen. Det enda du behöver internt är någon som kan beskriva processen som ska automatiseras och ge oss tillgång till relevanta system."
+    question: "Vad händer med personalen som gör det här jobbet idag?",
+    answer: "I praktiken har ingen av våra 30+ kunder behövt säga upp personal på grund av AI-agenter. Tvärtom: agenten tar repetitiv tier-1-volym, vilket frigör tid för komplexa kundärenden, säljaktiviteter och utvecklingsarbete personalen tidigare aldrig hann med. På Sannergården minskade sjukfrånvaron mätbart efter att telefonstressen försvann. Räkna med att rollerna förändras, inte försvinner."
   },
   {
-    question: "Hur lång tid tar det innan vi ser resultat?",
-    answer: "Mätbara effekter syns från vecka 1 i pilot-drift. Full ROI nås typiskt inom 2-6 månader beroende på volym och vilken process som automatiserats."
+    question: "Behöver vi teknisk personal internt för att köra en AI-agent?",
+    answer: "Nej, ingen teknisk personal krävs internt. Vi hanterar hela implementationen från design till drift. Det enda du behöver är någon som kan beskriva processen som ska automatiseras och ge oss tillgång till relevanta system (CRM, ERP, kalender, telefoni). Pågående underhåll och modell-uppdateringar sköter vi också."
   },
   {
     question: "Vad händer när AI-agenten inte vet svaret?",
-    answer: "Den eskalerar till en människa enligt regler vi sätter upp. En riktig AI-agent erkänner när den är osäker och kopplar över istället för att hitta på svar."
+    answer: "Den eskalerar till en människa enligt regler vi sätter upp innan go-live. En riktig AI-agent erkänner när den är osäker och kopplar över istället för att hitta på svar. Typiska eskaleringsregler: kunden ber explicit om människa, ärendet rör återbetalning över ett tröskelbelopp, eller agenten har låg confidence i klassificeringen av ärendet."
   },
   {
     question: "Kan vi pausa eller ändra vad agenten gör om vi vill?",
-    answer: "Ja, närsomhelst. Du kontrollerar vilka ärenden som går till agenten, vilka regler den följer, och kan stänga av den helt eller delvis när som helst utan kostnad."
+    answer: "Ja, närsomhelst och utan kostnad. Du kontrollerar vilka ärenden som går till agenten, vilka regler den följer, och kan stänga av den helt eller delvis när du vill. Vi rekommenderar att börja med 10-20% av volymen i pilot innan full rollout. Då har du alltid en off-switch och kan justera regler utan affärspåverkan."
+  },
+  {
+    question: "Vem är ansvarig om AI-agenten gör ett dyrt fel?",
+    answer: "Ansvaret regleras i implementations-avtalet och beror på fel-typen. För systemfel (agenten kraschar, integration brister) bär Eteya ansvaret enligt SLA. För beslut inom agentens scope (hur den kvalificerar lead, vilka beställningar den tar emot) gäller samma logik som för en mänsklig anställd: företaget ansvarar, men vi designar guardrails för att förhindra dyra fel innan go-live."
   },
   {
     question: "Vad händer om AI-modellerna blir bättre och billigare nästa år?",
-    answer: "Då förbättras din agent automatiskt. Vi byter modell utan att du behöver göra något. Du får bättre prestanda till samma eller lägre kostnad."
-  },
-  {
-    question: "Hur väljer vi vilken process som ska automatiseras först?",
-    answer: "Sök efter processer med hög volym, tydliga regler, och en mätbar smärtpunkt idag. Missade samtal, manuell fakturering och kundtjänst-tier-1 är klassiska startpunkter. Komplexa rådgivningssamtal eller strategiska beslut bör INTE vara första."
+    answer: "Då förbättras din agent automatiskt. Vi byter underliggande modell (Claude, GPT, etc) utan att du behöver göra något. Det är vårt ansvar att hålla agenten uppdaterad. Du får bättre prestanda till samma eller lägre kostnad. Driftkostnaden per ärende har sjunkit cirka 80% mellan 2024 och 2026, och trenden fortsätter."
   }
 ]} />
-
-## Sammanfattning
-
-AI-agenter passar svenska SMB med strukturerade, repetitiva processer där reglerna är tydliga: kundtjänst, beställningar, bokningar, säljkvalificering och intern operations. Driftkostnaden ligger 2026 på 0,30 – 2,00 kr per ärende, implementationskostnaden typiskt på 20 000 – 80 000 kr för en första agent. ROI nås normalt inom 2-6 månader när processen är vald rätt.
-
-Den största risken är inte tekniken — det är att försöka automatisera för mycket samtidigt eller att börja utan att mäta baseline. Välj EN process med tydlig volym och tydlig smärtpunkt, mät baseline innan, gå live i pilot, skala vidare.
-
-**Att ta med sig:**
-
-- Börja med en process som har hög volym och tydliga regler
-- Mät baseline innan agenten går live
-- Välj en leverantör som visar siffror från jämförbara kunder
-- Räkna med 2-3 månader innan full effekt syns
-- Strategiska beslut, förhandlingar och komplexa klagomål är fortfarande mänskligt arbete

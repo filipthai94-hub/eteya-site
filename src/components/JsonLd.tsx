@@ -411,10 +411,16 @@ export interface FaqItem {
   answer: string
 }
 
-export function createFaqSchema(faqs: FaqItem[], path?: string): object {
+export function createFaqSchema(
+  faqs: FaqItem[],
+  options?: { path?: string; inLanguage?: string },
+): object {
+  const path = options?.path
+  const inLanguage = options?.inLanguage
   return {
     '@type': 'FAQPage',
     ...(path && { '@id': `${canonicalUrl(path)}#faq` }),
+    ...(inLanguage && { inLanguage }),
     mainEntity: faqs.map(faq => ({
       '@type': 'Question',
       name: faq.question,

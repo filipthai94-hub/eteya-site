@@ -36,9 +36,12 @@ import { JsonLd, createFaqSchema, type FaqItem } from '@/components/JsonLd'
 
 interface FAQProps {
   items: FaqItem[]
+  /** Locale för Schema.org inLanguage-property (default 'sv') */
+  locale?: 'sv' | 'en'
 }
 
-export default function FAQ({ items }: FAQProps) {
+export default function FAQ({ items, locale = 'sv' }: FAQProps) {
+  const inLanguage = locale === 'sv' ? 'sv-SE' : 'en-US'
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const contentRefs = useRef<Array<HTMLDivElement | null>>([])
 
@@ -68,8 +71,8 @@ export default function FAQ({ items }: FAQProps) {
 
   return (
     <div className="blog-faq" role="region" aria-label="Vanliga frågor">
-      {/* FAQPage Schema.org structured data */}
-      <JsonLd data={createFaqSchema(items)} />
+      {/* FAQPage Schema.org structured data — inLanguage per Rule 10.4 */}
+      <JsonLd data={createFaqSchema(items, { inLanguage })} />
 
       <div className="blog-faq-list">
         {items.map((item, index) => {

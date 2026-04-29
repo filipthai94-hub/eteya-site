@@ -170,35 +170,24 @@ betoning, inte som universell connector.
 **Max 2-3 tankstreck per artikel** (1500-3500 ord). Mer än så är ett
 varningstecken — gå tillbaka och konvertera de svagaste till `:`/`,`/`.`.
 
-### Sammanfattning vid artikelslut — best practice
+### Sammanfattning vid artikelslut — SKIP
 
-**Pillar-artiklar (3000-5000 ord):** Inkludera kort `## Sammanfattning`
-i slutet — 1 distillerande paragraf + en `**Att ta med sig:**`-bullet-list.
-Detta optimerar för AI Overviews och Featured Snippets (Google extraherar
-ofta sista sektion).
+**Skriv INTE en `## Sammanfattning`-sektion i slutet av artiklar.**
 
-**Cluster-artiklar (1500-2500 ord):** Skippa Sammanfattning. Avsluta med
-en bra avslutande paragraph som leder naturligt till CTA eller nästa läsning.
+Tidigare iteration trodde detta optimerade för AI Overview-extraction.
+Verkligheten: en slutsammanfattning som upprepar artikelns innehåll ger
+inget nytt värde till läsaren och dödar läsvärdet. Det blir filler för
+filler-skull.
 
-**Format för Sammanfattning (när den används):**
+Avsluta artiklarna naturligt — sista sektionen ska "klinga ut" mot CTA
+eller mot FAQ:n om sådan finns. Om en artikel verkligen behöver en
+forward-looking observation, lägg in den **inom** sista sektionens prosa,
+inte som egen "Sammanfattning"-rubrik.
 
-```markdown
-## Sammanfattning
-
-[1 paragraf — distillera artikelns kärnsiffror/påståenden, INTE recap]
-
-[1 paragraf med "den största risken är X" eller motsvarande
-forward-looking observation, INTE en lista över allt vi sagt]
-
-**Att ta med sig:**
-
-- Action-oriented bullet 1
-- Action-oriented bullet 2
-- Action-oriented bullet 3
-```
-
-**Anti-pattern**: 3-paragrafs-essä-konklusion som upprepar allt artikeln
-redan sagt. Det dödar läsvärdet och ger ingen extra extraction-värde.
+**Anti-pattern (gör inte):**
+- `## Sammanfattning` med recap av allt artikeln redan sagt
+- "Att ta med sig"-bullets som upprepar sektionernas innehåll
+- "Slutsats"-rubrik som inte säger något nytt
 
 ---
 
@@ -545,12 +534,24 @@ fungerar som en visuell pause-point i artikeln.
 
 ---
 
-## FAQ-component (`<FAQ />`)
+## FAQ-component (`<FAQ />`) — SPIKAT 2026-04-29
 
-För artiklar med vanliga frågor, importera och använd `<FAQ />`-komponenten.
-Komponenten **auto-genererar FAQPage Schema.org-data** (web-foundation §4.4
-ger 22% citation-lift i AI Overviews) och visuellt **matchar homepage FAQ**
-(numrerade items, plus-ikon, hover background-slide, accordion expand).
+Reglerna nedan är **forskade från primära källor** (Google Search docs,
+Schema.org, MOZ, Search Engine Journal, Ahrefs, Stackmatix, Frase) och är
+**source of truth** för all FAQ på Eteya-bloggen. Uppdatera dem inte utan
+ny research.
+
+### Varför ha FAQ alls? (FAQ rich results visas inte längre för B2B)
+
+Google ändrade FAQ rich-result-policyn 2023: FAQ-stjärnor i SERP visas
+**bara för government + health-sites**. Eteya får INGA rich results.
+
+**MEN** — FAQ-formaterad content med FAQPage-schema får ändå:
+- **20-40% högre citation-rate i AI Overviews** vs paragraph-only content
+- **2.5x högre chans** att citeras i ChatGPT, Perplexity, Gemini
+- Bättre semantic SEO (Question/Answer-struktur är NLP-vänlig)
+
+Vi kör FAQ för **AI/LLM-citering**, inte för Google-stjärnor.
 
 ### Användning i MDX
 
@@ -561,45 +562,160 @@ import FAQ from '@/components/blog/FAQ'
 
 <FAQ items={[
   {
-    question: "Hur lång tid tar implementation?",
-    answer: "2-6 veckor från första möte till live."
-  },
-  {
-    question: "Vad kostar det?",
-    answer: "20 000 – 80 000 kr för en första agent."
+    question: "Hur lång tid tar implementationen?",
+    answer: "Typiskt 2-6 veckor från första möte till live i drift. Vecka 1 går till discovery och prioritering, vecka 2-3 till design och utveckling, vecka 4 till pilot på 10-20% av volymen, och vecka 5-6 till full rollout. Tidplanen beror främst på antal integrationer mot befintliga system."
   }
 ]} />
 ```
 
-### KRITISKA regler
+### REGEL 1 — Antal items: 5-10 per artikel
 
-1. **Skriv `## Vanliga frågor` (eller motsvarande H2) i MDX:en INNAN
-   `<FAQ />`.** Komponenten renderar ingen egen heading — det är medvetet
-   så att rubriken följer artikelns prose-blog H2-styling.
-2. **5-10 FAQ-items per artikel.** Färre än 5 ger för lite FAQPage-värde,
-   fler än 10 dilluerar.
-3. **Frågor i naturligt svenskt språk** — så som riktiga kunder skulle ställa
-   dem, inte som SEO-termer.
-4. **Svar i 1-3 meningar.** Längre än så hör inte hemma i FAQ — då ska det
-   vara en H2-sektion i artikeln.
-5. **Inga em-dashes** i answer-text (gäller hela artikeln, men extra noga
-   här eftersom answers blir scrapeade till AI Overviews).
-6. **Använd `<FAQ />` BARA EN GÅNG per artikel.** Skapa inte flera FAQ-block
-   — det fragmenterar Schema.org-data.
+- **5-10 frågor** är sweet spot för pillar-artiklar (3000+ ord)
+- **3-7 frågor** för standardartiklar (1500-2500 ord)
+- **3-5 frågor** för korta artiklar (<1500 ord)
+- **Skala med substans, inte ordcount.** 0 FAQ är bättre än 5 dåliga.
+- Om du inte har minst 3 genuina PAA-frågor → skip FAQ helt
+
+### REGEL 2 — Frågorna ska komma från riktig research
+
+I prioritetsordning:
+
+1. **Google "People Also Ask" (PAA)** — sök ditt target keyword i Google,
+   noter PAA-boxen. Detta är de RIKTIGA frågorna folk söker på.
+2. **AlsoAsked.com** — visualiserar PAA som graf, hittar follow-up-frågor
+3. **AnswerThePublic** — autocomplete-data från Google + Bing + ChatGPT
+4. **Quora, Reddit, Facebook-grupper** för B2B-segmentet
+5. **Google Search Console** — filtrera "queries containing question words"
+
+**Skapa inte påhittade frågor** baserade på vad du tror folk frågar.
+Använd faktisk SERP-data.
+
+### REGEL 3 — Frågans format
+
+- **Naturligt språk** (så som folk faktiskt frågar), inte keyword-stuffat
+- **Max 15 ord / ~80 tecken** per fråga (längre = lägre AI-extraction-rate)
+- Mix av fråge-typer baserat på buyer-intent:
+
+| Frågetyp | Intent | Exempel |
+|---|---|---|
+| "Vad är X?" | Lägst (top-funnel) | "Vad är en AI-agent?" |
+| "Hur fungerar X?" | Mid | "Hur fungerar AI-agenter i praktiken?" |
+| "Varför X?" | Hög (B2B business case) | "Varför ska SMB använda AI-agenter?" |
+| "När ska man X?" | Hög (köp-intent) | "När passar AI-agent och när inte?" |
+| "Vad kostar X?" | Hög (köp-intent) | "Vad kostar AI-agenter?" |
+| "X vs Y" | Hög (köp-intent) | "AI-agent vs RPA — vilket välja?" |
+
+### REGEL 4 — Anti-cannibalization (kritisk)
+
+**FAQ får ALDRIG duplicera body-content ordagrant.** Google + AI-modeller
+straffar redundans.
+
+**Test:** Om FAQ-svaret kan klippas in i body utan friction = duplicate.
+Om det adresserar **scenario, beslut eller jämförelse** body inte täcker
+= additivt.
+
+FAQ ska besvara **adjacent questions**:
+- Edge cases body inte täcker
+- Objection handling (lock-in, säkerhet, ansvar)
+- Beslutssituationer ("är detta rätt för oss?")
+- Process-detaljer ("vad händer om X?")
+- Jämförelser ("hur skiljer sig detta från Y?")
+
+**Exempel — INTE OK (dupliceras med body):**
+> Q: "Hur fungerar AI-agenter?"
+> A: [samma förklaring som "Hur fungerar AI-agenter i praktiken?"-sektionen]
+
+**OK (adresserar edge case):**
+> Q: "Vad händer om AI-agenten inte vet svaret?"
+> A: [eskaleringslogik som inte finns i body]
+
+### REGEL 5 — Svarets längd: 40-60 ord, inverted pyramid
+
+- **40-60 ord per svar** — under 30 = för tunt, över 80 = utspätt
+- **Mening 1 = direkt svar** (sammanfattning/definition). AI-modeller
+  extraherar oftast denna mening ordagrant.
+- **Mening 2-4 = utveckling** (exempel, villkor, kontext)
+- **Inkludera specifika siffror/årtal/data** — AI-modeller citerar hellre
+  konkreta tal än vaga generaliseringar
+- Self-contained: inga "se ovan", inga "som vi nämnde tidigare"
+
+**HTML i svar är tillåtet** (Google accepterar):
+- `<p>`, `<br>`, `<b>`, `<strong>`, `<i>`, `<em>`
+- `<ul>`, `<ol>`, `<li>` (bara om innehållet är listbart)
+- `<h1>`-`<h6>`, `<a>`, `<div>`
+
+Använd bullets BARA om innehållet är genuint listbart (steg, kriterier,
+exempel). Narrativ förklaring i bullets = sämre AI-extraction.
+
+### REGEL 6 — Inga em-dashes, inga säljpitches
+
+- **Inga em-dashes** i FAQ-svar (gäller hela artikeln, men extra noga
+  här eftersom svaren blir scrapeade till AI Overviews ordagrant)
+- **Aldrig säljpitch som svar** ("Eteya hjälper dig med..."). Google
+  förbjuder explicit promotional FAQ-schema.
+
+### REGEL 7 — Position: slutet av artikeln
+
+- FAQ ska vara **sist eller näst sist** (efter conclusion, före author-bio)
+- Som **egen H2-sektion** ("Vanliga frågor"), inte integrerad i body
+- Schema kräver att synlig content matchar markup (Google policy)
+
+### REGEL 8 — Tekniska implementations-regler
+
+- **Skriv `## Vanliga frågor` H2 i MDX:en INNAN `<FAQ />`** —
+  komponenten renderar ingen egen heading
+- **`<FAQ />` används BARA EN GÅNG per artikel** (fragmenterar annars
+  Schema.org-data)
+- **Komponenten sätter `inLanguage: "sv-SE"`** automatiskt baserat på
+  `locale`-prop (default 'sv')
+- Schema-output: `FAQPage` → `mainEntity` → `Question` → `acceptedAnswer`
+
+### REGEL 9 — När INTE ha FAQ
+
+Skip FAQ helt när:
+
+- Artikeln är **personlig opinion / case-study / story** (inte
+  question-driven)
+- Frågorna skulle vara **paddade fluff** ("Är X viktigt?" "Ja.")
+- Body redan **uttömmande täcker** ämnet linjärt
+- Du har **mindre än 3 genuina PAA-frågor** från SERP-research
+- Samma frågor återkommer på multipla artiklar → fixa body istället
+  (signaler på dålig structure)
+
+**0 FAQ är bättre än 5 dåliga.**
+
+### Checklist innan publish
+
+- [ ] 5-10 frågor (eller skip FAQ helt om <3)
+- [ ] Frågorna kommer från PAA / AlsoAsked / Quora / Reddit-research
+- [ ] Max 15 ord per fråga
+- [ ] Mix av frågetyper (Vad/Hur/Varför/När/Kostnad/vs)
+- [ ] Inget svar duplicerar body ordagrant
+- [ ] Varje svar 40-60 ord, inverted pyramid (mening 1 = direkt svar)
+- [ ] Specifika siffror/data inkluderade där relevant
+- [ ] Inga em-dashes, inga säljpitches
+- [ ] FAQ ligger sist i artikeln (före author-bio)
+- [ ] `## Vanliga frågor` H2 finns i MDX:en innan `<FAQ />`
+- [ ] Bara EN `<FAQ />` per artikel
 
 ### Designen — matchar homepage
 
 FAQ-komponenten replikerar visuellt homepage `FAQClient.tsx`:
 - Numrerade items (01, 02, ...) i mono-font
 - Plus-ikon till höger som roterar 45° när öppen
-- Border-bottom mellan items (rgba 0.1)
-- Hover: mörk bakgrund slide-up animation (cubic-bezier easing)
-- Active: bakgrund stannar synlig
-- Tangentbord-stöd (focus-visible outline)
-- Reduced-motion respekteras
+- Border-bottom mellan items, hover background-slide-animation
+- Tangentbord-stöd, reduced-motion respekteras
 
-Storlekar är minskade jämfört med homepage (som är full-bredd) för att
-fitta i blog-läs-kolumnen (~720px).
+### Källor (research 2026-04-29)
+
+- [Google FAQPage docs](https://developers.google.com/search/docs/appearance/structured-data/faqpage)
+- [Google FAQ-changes 2023](https://developers.google.com/search/blog/2023/08/howto-faq-changes)
+- [Stackmatix: Optimizing FAQ Schema for AI Overviews](https://www.stackmatix.com/blog/optimizing-faq-schema-google-ai-overviews)
+- [Frase: FAQ Schemas for AI Search](https://www.frase.io/blog/faq-schema-ai-search-geo-aeo)
+- [Saigon Digital: FAQ Schema 2026](https://saigon.digital/blog/faq-schema/)
+- [Ahrefs: FAQ Pages for SEO](https://ahrefs.com/blog/faq-pages-seo/)
+- [Profound: AI Platform Citation Patterns](https://www.tryprofound.com/blog/ai-platform-citation-patterns)
+- [GDS Blog: Why we don't have FAQs](https://gds.blog.gov.uk/2013/07/25/faqs-why-we-dont-have-them/)
 
 ---
 
