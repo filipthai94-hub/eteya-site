@@ -222,19 +222,23 @@ export default async function BlogArticlePage({
             {/* Body — centrerad reading-column 720px, samma center-axis
                 som title-block. Standard editorial pattern (Linear,
                 Stripe, Anthropic). Side-labels återanvänds bara på
-                footer-sektioner nedanför. */}
+                footer-sektioner nedanför.
+
+                BlogCTABlock ligger INNE i body-section för att card:en
+                ska hålla sig till 720px-läs-kolumnen (per CTA-mall i
+                BLOG_AUTHORING.md — research-baserad design). */}
             <section className="blog-article-body-section">
               <div className="prose-blog">
                 <MDXContent />
               </div>
+
+              {post.showCta && (
+                <BlogCTABlock locale={blogLocale} />
+              )}
             </section>
 
             {/* Editorial sections — full-bredd 1400px med side-labels,
-                bryter ut ur reading-kolumnen för stark visuell rytm.
-                CTA är opt-in via frontmatter showCta: true. */}
-            {post.showCta && (
-              <BlogCTABlock locale={blogLocale} />
-            )}
+                bryter ut ur reading-kolumnen för stark visuell rytm. */}
             <BlogAuthorBio author={post.author} locale={blogLocale} />
             <NewsletterSignup />
 
