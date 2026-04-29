@@ -21,6 +21,7 @@
 
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
+import ButtonSwap from '@/components/ui/ButtonSwap'
 import {
   getAuthorName,
   getAuthorRole,
@@ -98,14 +99,16 @@ export default function BlogAuthorBio({
           <p className="blog-author-bio-text">
             {AUTHOR_BIOS[author][locale]}
           </p>
-          <a
-            href={AUTHOR_LINKEDIN[author]}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="blog-author-linkedin"
-          >
-            LINKEDIN <span aria-hidden="true">↗</span>
-          </a>
+          <div className="blog-author-linkedin-wrap">
+            <ButtonSwap
+              href={AUTHOR_LINKEDIN[author]}
+              label="LinkedIn"
+              variant="white"
+              size="md"
+              arrow
+              className="no-prose-link"
+            />
+          </div>
         </div>
       </div>
     </section>

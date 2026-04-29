@@ -753,14 +753,28 @@ Hela author-blocket har **0-1 lime-touchpoints**:
 
 Lime ska "bo" på CTA:n och footer-CTA:n. Author-blocket är monokromt.
 
-### REGEL 5 — LinkedIn-länk: text + ↗ (NO svg-icon)
+### REGEL 5 — LinkedIn-länk: ButtonSwap (samma element som CaseLink)
 
-Format: `LINKEDIN ↗`
+LinkedIn använder **samma ButtonSwap-element** som CaseLink ("Läs hela
+caset") för site-DNA-konsekvens. Alla utbound-länkar på sidan får samma
+visuella behandling = sammanhängande brand.
 
-- INGEN svg-ikon framför texten (för marketing/SaaS)
-- Pil ↗ (up-right, U+2197) = signalerar external-link, mer editorial
-- Hover: color → lime, ingen translate-animation
-- Bara EN connect-path (medvetet — inline-CTA + footer-CTA finns redan)
+**Konfiguration:**
+- Komponent: `<ButtonSwap variant="white" size="md" arrow />`
+- Storlek: `md` (48px höjd) — INTE `lg` som CaseLink (lg är för "primary
+  action" mid-artikel; author LinkedIn är secondary, så md passar bättre)
+- Variant: `white` — matchar CaseLink-stilen
+- Arrow: ja (höger-pil som roterar -45° → 0° vid hover)
+- Animation: text-swap stagger + arrow rotation + underline scaleX
+
+**Bara EN connect-path** (medvetet) — inline-CTA + footer-CTA finns
+redan. Author LinkedIn fångar läsare som inte är redo att prata än men
+vill veta vem personen är.
+
+**Notera:** Forskningen från premium publikationer rekommenderade text-only
+`LINKEDIN ↗` för editorial-känsla. Vi prioriterar **brand-DNA** högre här
+— Eteya har sin egen ButtonSwap-signature som ska användas konsekvent
+för alla utbound-länkar (Läs hela caset, AI-besparing, LinkedIn).
 
 ### REGEL 6 — Lägga till ny författare
 
