@@ -156,19 +156,11 @@ Tweaks och förbättringar. En agent blir inte färdig vid go-live. Den blir bä
     answer: "Nej, ingen teknisk personal krävs internt. Vi hanterar hela implementationen från design till drift. Det enda du behöver är någon som kan beskriva processen som ska automatiseras och ge oss tillgång till relevanta system (CRM, ERP, kalender, telefoni). Pågående underhåll och modell-uppdateringar sköter vi också."
   },
   {
-    question: "Vad händer när AI-agenten inte vet svaret?",
-    answer: "Den eskalerar till en människa enligt regler vi sätter upp innan go-live. En riktig AI-agent erkänner när den är osäker och kopplar över istället för att hitta på svar. Typiska eskaleringsregler: kunden ber explicit om människa, ärendet rör återbetalning över ett tröskelbelopp, eller agenten har låg confidence i klassificeringen av ärendet."
-  },
-  {
     question: "Kan vi pausa eller ändra vad agenten gör om vi vill?",
     answer: "Ja, närsomhelst och utan kostnad. Du kontrollerar vilka ärenden som går till agenten, vilka regler den följer, och kan stänga av den helt eller delvis när du vill. Vi rekommenderar att börja med 10-20% av volymen i pilot innan full rollout. Då har du alltid en off-switch och kan justera regler utan affärspåverkan."
   },
   {
     question: "Vem är ansvarig om AI-agenten gör ett dyrt fel?",
     answer: "Ansvaret regleras i implementations-avtalet och beror på fel-typen. För systemfel (agenten kraschar, integration brister) bär Eteya ansvaret enligt SLA. För beslut inom agentens scope (hur den kvalificerar lead, vilka beställningar den tar emot) gäller samma logik som för en mänsklig anställd: företaget ansvarar, men vi designar guardrails för att förhindra dyra fel innan go-live."
-  },
-  {
-    question: "Vad händer om AI-modellerna blir bättre och billigare nästa år?",
-    answer: "Då förbättras din agent automatiskt. Vi byter underliggande modell (Claude, GPT, etc) utan att du behöver göra något. Det är vårt ansvar att hålla agenten uppdaterad. Du får bättre prestanda till samma eller lägre kostnad. Driftkostnaden per ärende har sjunkit cirka 80% mellan 2024 och 2026, och trenden fortsätter."
   }
 ]} />
