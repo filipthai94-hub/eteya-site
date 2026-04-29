@@ -26,7 +26,7 @@
 
 import { useCallback } from 'react'
 import { useTranslations } from 'next-intl'
-import ButtonSwap from '@/components/ui/ButtonSwap'
+import ButtonStripe from '@/components/ui/ButtonStripe'
 import ContactModal from '@/components/ui/ContactModal'
 import { useContactModal } from '@/hooks/useContactModal'
 import type { BlogLocale } from '@/lib/blog/types'
@@ -71,14 +71,15 @@ export default function BlogCTABlock({
         <p className="blog-cta-body">{finalBody}</p>
 
         <div className="blog-cta-button-wrap">
-          <ButtonSwap
-            label={t('ctaButton')}
-            variant="accent"
+          <ButtonStripe
+            variant="primary"
             size="lg"
-            arrow
+            fullWidth
             onClick={handleClick}
             className="no-prose-link"
-          />
+          >
+            {t('ctaButton')}
+          </ButtonStripe>
         </div>
 
         <p className="blog-cta-trust">{t('ctaTrustLine')}</p>
