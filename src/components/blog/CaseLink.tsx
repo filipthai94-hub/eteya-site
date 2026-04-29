@@ -46,6 +46,7 @@ export default function CaseLink({ href, label }: CaseLinkProps) {
         variant="white"
         size="lg"
         arrow
+        className="no-prose-link"
       />
     </div>
   )
