@@ -1,27 +1,13 @@
 'use client'
 import React, { useEffect, useRef, useCallback, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { useScrollLock } from '@/hooks/useScrollLock'
-import ContactCard from '../ui/contact-card'
+import ContactModal from '../ui/ContactModal'
+import { useContactModal } from '@/hooks/useContactModal'
 import { ManageCookiesLink } from '@/components/cookie-banner/ManageCookiesLink'
-import type { ChangeEvent, FormEvent } from 'react'
 import { useTranslations } from 'next-intl'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
-
-
-
-
-const focusableSelector = [
-  'a[href]',
-  'button:not([disabled])',
-  'textarea:not([disabled])',
-  'input:not([disabled]):not([type="hidden"])',
-  'select:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
-].join(',')
 
 /* ════════════════════════════════════════════════════════════
    Footer CTA — Pixel-perfect facitloop from chriskalafatis.com
@@ -100,83 +86,17 @@ export default function FooterCTAClient() {
   const footerBarRef = useRef<HTMLDivElement>(null)
   const footerSenRef = useRef<HTMLSpanElement>(null)
   const borderGlowRef = useRef<HTMLDivElement>(null)
-  const reducedMotionRef = useRef(false)
-const overlayRef = useRef<HTMLDivElement>(null)
-const modalPanelRef = useRef<HTMLDivElement>(null)
-const firstInputRef = useRef<HTMLInputElement>(null)
-const closeButtonRef = useRef<HTMLButtonElement>(null)
-const openTimestampRef = useRef<number>(0)
-const restoreFocusRef = useRef<HTMLButtonElement | null>(null)
-const hasPlayed = useRef(false)
+  const hasPlayed = useRef(false)
 
-  
-  
-  const modalFieldsRef = useRef<HTMLDivElement>(null)
-  
-  
-  
-  
-  
+  // Modal-state via shared hook (samma som BlogCTABlock använder)
+  const modal = useContactModal()
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isModalMounted, setIsModalMounted] = useState(false)
-
-  // Lock body scroll when modal is mounted
-  useScrollLock({ lockTarget: 'body', autoLock: isModalMounted })
-  
-  
-  
-  
-  
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  
-
-  
-
-    const closeModal = useCallback(() => {
-    const overlay = overlayRef.current
-    const panel = modalPanelRef.current
-    const shouldReduce = reducedMotionRef.current
-
-    const completeClose = () => {
-      setIsModalOpen(false)
-      setIsModalMounted(false)
-      restoreFocusRef.current?.focus()
-    }
-
-    if (!overlay || !panel || shouldReduce) {
-      completeClose()
-      return
-    }
-
-    gsap.killTweensOf([overlay, panel])
-    gsap.timeline({ onComplete: completeClose })
-      .to(panel, {
-        opacity: 0,
-        scale: 0.97,
-        y: 10,
-        duration: 0.2,
-        ease: 'power2.in',
-      })
-      .to(
-        overlay,
-        {
-          opacity: 0,
-          duration: 0.2,
-          ease: 'power2.out',
-        },
-        0.1,
-      )
-  }, [])
-
-    const openModal = useCallback(() => {
-    restoreFocusRef.current = circleRef.current
-    openTimestampRef.current = Date.now()
-    setIsModalOpen(true)
-    setIsModalMounted(true)
-  }, [])
+  const handleCircleClick = useCallback(() => {
+    modal.openModal(circleRef.current)
+  }, [modal])
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -250,82 +170,6 @@ const hasPlayed = useRef(false)
 
     return () => ctx.revert()
   }, [])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const updatePreference = () => {
-      reducedMotionRef.current = mediaQuery.matches
-    }
-
-    updatePreference()
-    mediaQuery.addEventListener('change', updatePreference)
-    return () => mediaQuery.removeEventListener('change', updatePreference)
-  }, [])
-
-  useEffect(() => {
-    if (!isModalMounted) return
-
-    const overlay = overlayRef.current
-    const panel = modalPanelRef.current
-    const shouldReduce = reducedMotionRef.current
-
-    const focusTimer = window.setTimeout(() => {
-      firstInputRef.current?.focus()
-    }, shouldReduce ? 0 : 180)
-
-    if (overlay && panel && !shouldReduce) {
-      gsap.killTweensOf([overlay, panel])
-      gsap.set(overlay, { opacity: 0 })
-      gsap.set(panel, { opacity: 0, scale: 0.95, y: 20 })
-
-      gsap.timeline()
-        .to(overlay, { opacity: 1, duration: 0.3, ease: 'power2.out' })
-        .to(panel, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: 'back.out(1.0)' }, 0.1)
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isModalOpen || !modalPanelRef.current) return
-
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        closeModal()
-        return
-      }
-
-      if (event.key !== 'Tab') return
-
-      const focusable = Array.from(modalPanelRef.current.querySelectorAll<HTMLElement>(focusableSelector)).filter(
-        (element) => !element.hasAttribute('disabled') && element.tabIndex !== -1,
-      )
-
-      if (!focusable.length) return
-
-      const first = focusable[0]
-      const last = focusable[focusable.length - 1]
-      const active = document.activeElement as HTMLElement | null
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault()
-        last.focus()
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault()
-        first.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.clearTimeout(focusTimer)
-      document.removeEventListener('keydown', handleKeyDown)
-      if (!isModalOpen) {
-        document.body.style.overflow = ''
-        document.documentElement.style.overflow = ''
-      }
-    }
-  }, [closeModal, isModalMounted, isModalOpen])
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -591,39 +435,9 @@ const hasPlayed = useRef(false)
           100% { transform: translateY(0); opacity: 1; }
         }
 
-        /* ══════════════════════════════════════════════
-           DESKTOP MODAL OVERLAY
-           - align-items: safe center → vertically centers short content,
-             safely falls back to top-align if content is taller than viewport
-             (prevents cut-off in all browsers ≥2023)
-           - overflow: hidden → single scroll container lives inside
-             ContactCard (.root), no nested-scroll conflicts
-           ══════════════════════════════════════════════ */
-        .fcta-modal-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          display: flex;
-          align-items: safe center;
-          justify-content: center;
-          overflow: hidden;
-          padding: 24px;
-          background: rgba(0, 0, 0, 0.75);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          overscroll-behavior: contain;
-        }
-        .fcta-modal-panel {
-          position: relative;
-          width: calc(100% - 32px);
-          max-width: 680px;
-          max-height: calc(100dvh - 48px);
-          margin: auto;
-        }
-        .fcta-modal-content {
-          position: relative;
-          z-index: 1;
-        }
+        /* MODAL CSS flyttat till globals.css som .contact-modal-* —
+           används av både denna footer-CTA och BlogCTABlock via
+           useContactModal-hook. */
 
         @media (max-width: 999px) {
           .fcta-container {
@@ -693,30 +507,7 @@ const hasPlayed = useRef(false)
           .fcta-border-glow::before { width: 60px; }
 
           /* ══════════════════════════════════════════════
-             MOBILE MODAL — TRUE FULL-SCREEN (2024-2025 best practice)
-             - Single scroll container: .root (inside ContactCard) scrolls
-             - Overlay does NOT scroll → eliminates nested-scroll conflicts on iOS
-             - No backdrop-filter: costs performance on 3x DPR, zero visual value
-               when modal fills viewport
-             - Panel fills 100dvh exactly (min-height 100svh as anti-shift fallback)
-             ══════════════════════════════════════════════ */
-          .fcta-modal-overlay {
-            padding: 0;
-            align-items: stretch;
-            overflow: hidden;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            background: rgba(0, 0, 0, 0.92);
-          }
-          .fcta-modal-panel {
-            width: 100%;
-            max-width: 100%;
-            height: 100dvh;
-            min-height: 100svh;
-            max-height: 100dvh;
-            padding: 0;
-            margin: 0;
-          }
+             MODAL CSS flyttat till globals.css */
         }
         @media (prefers-reduced-motion: reduce) {
           .fcta-container {
@@ -768,9 +559,9 @@ const hasPlayed = useRef(false)
               className="fcta-circle-wrap"
               onMouseEnter={handleCircleEnter}
               onMouseLeave={handleCircleLeave}
-              onClick={openModal}
+              onClick={handleCircleClick}
               aria-haspopup="dialog"
-              aria-expanded={isModalOpen}
+              aria-expanded={modal.isOpen}
               aria-controls="contact-modal-title"
             >
               <div ref={circleCanvasRef} className="fcta-circle-canvas">
@@ -827,14 +618,12 @@ const hasPlayed = useRef(false)
         </div>
       </section>
 
-      {isModalMounted && createPortal(
-        <div ref={overlayRef} className="fcta-modal-overlay" onClick={(event) => event.target === event.currentTarget && closeModal()}>
-          <div className="fcta-modal-panel" ref={modalPanelRef}>
-            <ContactCard onClose={closeModal} showContactInfo={false} />
-          </div>
-        </div>,
-        document.body
-      )}
+      <ContactModal
+        isMounted={modal.isMounted}
+        onClose={modal.closeModal}
+        overlayRef={modal.overlayRef}
+        panelRef={modal.panelRef}
+      />
     </>
   )
 }

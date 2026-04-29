@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tailwind v4 @theme — definiera custom colors så .bg-eteya-yellow,
+   .text-eteya-yellow etc genereras som Tailwind-utilities. */
+@theme {
+  --color-eteya-yellow: #C8FF00;
+  --color-et-bg: #080808;
+  --color-et-surface: #111111;
+  --color-et-muted: #1A1A1A;
+  --color-et-primary: #F5F5F5;
+  --color-et-secondary: #9B9B9B;
+  --color-et-border: #222222;
+}
+
 :root {
   --bg: #080808;
   --surface: #111111;
@@ -36,6 +48,14 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Bare <a> taggar ärver förälderns textfärg i stället för att falla
+   tillbaka på webbläsarens default-blå (#0000EE). Komponenter som vill
+   ha en specifik länkfärg (t.ex. prose-blog gul) sätter sin egen
+   color-regel som överskuggar denna. text-decoration lämnas oförändrad
+   så att underlines i löpande text fortfarande syns där det inte är
+   explicit avstängt. */
+a { color: inherit; }
 
 .page-transition-overlay {
   position: fixed;
@@ -104,21 +124,1645 @@ html.lenis, html.lenis body {
   100% { transform: translateX(0); }
 }
 .animate-marquee { animation: marquee-fwd 25s linear infinite; will-change: transform; }
-.animate-marquee-rev { animation: marquee-rev 25s linear infinite; will-change: transform; }
 
 /* GSAP initial states */
-.gsap-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-}
-.gsap-reveal-left {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-.gsap-scale-reveal {
-  opacity: 0;
-  transform: scale(1.05);
-}
 
 /* Will-change hints for heavy animations */
-.will-change-transform { will-change: transform; }
+
+/* ═══ BLOG PROSE — Magazine-style typography för MDX-articles ═══ */
+/* Eteya DNA: Geist body 19px, line-height 1.7, generous spacing,
+   yellow accents på links/blockquote/list-markers. */
+
+.prose-blog {
+  --prose-body: rgba(255, 255, 255, 0.85);
+  --prose-headings: #ffffff;
+  --prose-lead: rgba(255, 255, 255, 0.85);
+  --prose-links: #C8FF00;
+  --prose-bold: #ffffff;
+  --prose-counters: rgba(255, 255, 255, 0.55);
+  --prose-bullets: #C8FF00;
+  --prose-hr: rgba(255, 255, 255, 0.1);
+  --prose-quotes: #ffffff;
+  --prose-quote-borders: #C8FF00;
+  --prose-captions: rgba(255, 255, 255, 0.55);
+  --prose-code: #C8FF00;
+  --prose-pre-code: rgba(255, 255, 255, 0.85);
+  --prose-pre-bg: rgba(0, 0, 0, 0.4);
+
+  color: var(--prose-body);
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 1.1875rem; /* 19px */
+  line-height: 1.7;
+  letter-spacing: -0.005em;
+}
+
+.prose-blog p {
+  margin-top: 0;
+  margin-bottom: 1.5rem; /* 24px paragraph spacing */
+}
+
+.prose-blog > :first-child {
+  margin-top: 0;
+}
+
+/* Lead paragraph — magazine-style standfirst, något större och ljusare */
+.prose-blog > p:first-of-type {
+  font-size: clamp(1.1875rem, 1.4vw, 1.3125rem); /* 19-21px */
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.94);
+  margin-bottom: 1.75rem;
+}
+
+.prose-blog h2 {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem); /* 28-36px */
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--prose-headings);
+  margin-top: 3rem; /* 48px */
+  margin-bottom: 1rem; /* 16px */
+  scroll-margin-top: 6rem;
+}
+
+.prose-blog h3 {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.375rem, 1.8vw, 1.625rem); /* 22-26px */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--prose-headings);
+  margin-top: 2.5rem; /* 40px */
+  margin-bottom: 0.75rem; /* 12px */
+  scroll-margin-top: 6rem;
+}
+
+.prose-blog h4 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--prose-headings);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-blog strong {
+  color: var(--prose-bold);
+  font-weight: 600;
+}
+
+.prose-blog em {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Links — vit text, subtle gul-tonad underline (editorial restraint).
+   Tidigare var länkarna helt gula vilket var för bullrigt i en längre
+   text. Nu står texten vit som vanlig löptext, men en tunn gul tråd
+   under markerar att det är en länk. På hover blir underlinen full
+   yellow — det räcker som affordance utan att skrika. */
+.prose-blog a:not(.no-prose-link) {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgba(200, 255, 0, 0.35);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.3s ease;
+}
+.prose-blog a:not(.no-prose-link):hover {
+  text-decoration-color: #C8FF00;
+}
+
+/* Lists */
+.prose-blog ul,
+.prose-blog ol {
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.prose-blog ul {
+  list-style: none;
+}
+
+.prose-blog ul > li {
+  position: relative;
+  padding-left: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-blog ul > li::before {
+  content: '';
+  position: absolute;
+  left: -1.25rem;
+  top: 0.7em;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--prose-bullets);
+  border-radius: 9999px;
+}
+
+.prose-blog ol {
+  list-style: decimal;
+  list-style-position: outside;
+}
+
+.prose-blog ol > li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.prose-blog ol > li::marker {
+  color: var(--prose-links);
+  font-weight: 500;
+}
+
+.prose-blog li > p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Blockquote — editorial pull-quote, tunn vit border, ej italic */
+.prose-blog blockquote {
+  margin-top: 2.75rem;
+  margin-bottom: 2.75rem;
+  padding-left: 2rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  font-style: normal;
+  font-size: clamp(1.375rem, 1.9vw, 1.625rem); /* 22-26px */
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.prose-blog blockquote > p {
+  margin-bottom: 0.75rem;
+}
+.prose-blog blockquote > p:last-child { margin-bottom: 0; }
+
+/* Inline code — subtler bakgrund, vit text (gul reserveras för markörer) */
+.prose-blog code:not(pre code) {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  font-size: 0.875em;
+  color: rgba(255, 255, 255, 0.95);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+}
+
+/* Code blocks */
+.prose-blog pre {
+  background: var(--prose-pre-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose-blog pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--prose-pre-code);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+}
+
+/* Tables — via remark-gfm */
+.prose-blog table {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.prose-blog th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--prose-headings);
+}
+.prose-blog td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.625rem 0.75rem;
+  color: var(--prose-body);
+}
+
+/* Horizontal rule */
+.prose-blog hr {
+  border: 0;
+  border-top: 1px solid var(--prose-hr);
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Anchor link wrap (rehype-autolink-headings: 'wrap' behavior) */
+/* Heading-anchor wrapping (rehype-autolink-headings 'wrap' behavior) —
+   måste override .prose-blog a-styling via högre specificity (samma klass
+   3x + element). */
+.prose-blog .prose-blog h2 > a,
+.prose-blog .prose-blog h3 > a,
+.prose-blog h2:hover > a,
+.prose-blog h3:hover > a,
+.prose-blog h2 > a:not([href^="http"]):not([href^="/"]),
+.prose-blog h3 > a:not([href^="http"]):not([href^="/"]) {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Hide scrollbar on filter-bar (Eteya pattern) */
+
+/* ═══════════════════════════════════════════════════════════════════
+   BLOG COMPONENT STYLING
+   ═══════════════════════════════════════════════════════════════════
+   Eftersom Tailwind v4 + denna codebase har scanning-issues på custom
+   colors + några utility-klasser, definierar vi alla blog-kritiska
+   styles som dedikerade CSS-klasser. Detta matchar Eteyas existerande
+   pattern (se Cases/Services som har sin egen CSS-string).
+
+   Färgsystem (samma som Eteyas):
+   - bg: #080808 (--bg)
+   - surface: #111111 (var(--surface))
+   - border: rgba(255,255,255,0.1)
+   - yellow: #C8FF00 (var(--accent))
+*/
+
+/* (Borttaget orphan: .blog-page-header* / .blog-page-title — ersattes
+   av .blog-hero-inner i BlogHero.tsx för listingens hero.) */
+
+/* ── FEATURED SPLIT-HERO (huvudgrejen — Linear/Anthropic stil) ──────
+   Image vänster (1.4fr), text höger (1fr). Image är den visuella
+   ankaren, text-sidan är center-vertical aligned med editoriallt
+   layout. Mobile stackar (image över text). */
+@media (min-width: 1024px) {
+  /* Asymmetric — image dominerar (1.6fr) för editorial drama */
+}
+
+/* Text-sida (höger på desktop) */
+/* Neutral muted tag — INTE yellow, signature reserveras för subtle accents */
+.blog-featured-title a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-featured-title a:hover {
+  background-size: 100% 1.5px;
+}
+
+/* .blog-featured-cta — borttagen.
+   Hela featured-card är klickbar via image-link + title-link, ingen
+   redundant "Läs artikel"-CTA behövs. Editorial restraint. */
+
+/* ── BLOG FILTER BAR ──────────────────────────────────────────────── */
+/* Linear-stil filter — text-only med thin underline för active.
+   Inga big fills, inga gula borders. Yellow ENDAST på subtle accent. */
+.blog-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  font-weight: 500;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-pill::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1.5px;
+  background: #C8FF00;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-pill:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+.blog-pill-active
+
+/* ── BLOG POST CARD ───────────────────────────────────────────────── */
+.blog-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+/* ChainGPT-stil: image → date → title → author. Inga tags eller desc. */
+.blog-card-featured
+.blog-card-featured
+/* Card title hover — subtle underline från botten (NYT-stil) istället
+   för yellow color-change. Editorial typography-detail. */
+.blog-card-title a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-card:hover .blog-card-title a {
+  background-size: 100% 1.5px;
+}
+.blog-card-featured
+.blog-card-meta-info strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* ── BLOG GRID + SECTIONS ─────────────────────────────────────────── */
+.blog-page {
+  background: #080808;
+  color: #fff;
+  min-height: 100vh;
+}
+/* (Borttaget orphan: .blog-content-wrap / .blog-featured-section —
+   ersattes av .blog-section-with-label på alla listing-sektioner.) */
+.blog-section-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: rgba(200, 255, 0, 0.9);
+  margin-bottom: 2rem;
+}
+.blog-grid-section-title {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .blog-grid-section-title { font-size: 1.875rem; }
+}
+/* ChainGPT-stil: 2-col desktop (inte 3), bigger cards med generös gap */
+.blog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem 2rem;
+}
+@media (min-width: 768px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 4rem 2.5rem; }
+}
+@media (min-width: 1024px) {
+  .blog-grid { gap: 4.5rem 3rem; }
+}
+
+/* ── BLOG ARTICLE HERO ────────────────────────────────────────────── */
+/* ── BLOG ARTICLE — top breadcrumb (mono) ─────────────────────────── */
+.blog-article-back-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 0;
+}
+@media (min-width: 768px) {
+  .blog-article-back-wrap { padding: 3rem 3rem 0; }
+}
+.blog-article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.blog-article-back:hover { color: #fff; }
+.blog-article-back svg {
+  transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-article-back:hover svg { transform: translateX(-3px); }
+
+/* ── BLOG ARTICLE — title block (centrerad column, no side-label) ──── */
+/* Matchar premium editorial-bloggar (Linear/Stripe/Anthropic) OCH
+   listing-sidans hero (BlogHero) som också är centrerad utan side-
+   label. Side-labels används bara på footer-sektioner (Author,
+   Newsletter, Related). */
+.blog-article-title-block {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .blog-article-title-block {
+    padding: 4.5rem 2rem 4rem;
+    gap: 1.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-article-title-block {
+    padding: 5.5rem 2rem 4.5rem;
+    gap: 2rem;
+  }
+}
+
+/* Mono meta-row: date ● reading-time ● tag */
+.blog-article-meta-mono {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.875rem;
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .blog-article-meta-mono { font-size: 13px; }
+}
+.blog-article-meta-dot {
+  color: #C8FF00;
+  font-size: 0.7em;
+  line-height: 1;
+}
+
+/* Title — Barlow Condensed Eteya signature, editorial massive */
+.blog-article-title {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  line-height: 1.02;
+  margin: 0;
+  max-width: 22ch;
+}
+
+/* Lead — Geist body 20-26px, editorial standfirst */
+.blog-article-lead {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  max-width: 56ch;
+  font-weight: 400;
+}
+
+/* Author byline — matches listing card pattern */
+.blog-article-byline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  margin-top: 0.75rem;
+  width: fit-content;
+}
+.blog-article-byline-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.blog-article-byline-link .blog-mono-byline {
+  font-size: 13px;
+  transition: color 0.3s ease;
+}
+.blog-article-byline-link:hover .blog-mono-byline { color: #fff; }
+
+/* ── BLOG ARTICLE — hero image (corner-brackets, sharp corners) ──── */
+.blog-article-hero-image-wrap {
+  max-width: 1280px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+@media (min-width: 768px) {
+  .blog-article-hero-image-wrap {
+    margin-bottom: 5rem;
+    padding: 0 3rem;
+  }
+}
+.blog-article-hero-image {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #0F0F0F;
+  /* Sharp corners — matchar listing's hero, inga rundade hörn.
+     16:9 matchar bas-bilden så text-overlayen aldrig klipps. */
+}
+.blog-article-hero-image img { object-fit: cover; }
+
+/* ── SHARE ICONS (compact + standard) ─────────────────────────────── */
+
+/* ── BLOG ARTICLE BODY (centrerad reading column, 720px) ────────── */
+/* Standard editorial pattern (NYT, Linear, Stripe, Anthropic): body
+   är centrerad i viewport med max-width 720px. Delar samma center-
+   axis som title-block och hero-image — allt sitter på en konsekvent
+   vertikal mitt-linje. Text inom kolumnen är left-aligned för
+   normal läsning. */
+.blog-article-body-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+@media (min-width: 768px) {
+  .blog-article-body-section {
+    padding: 0 2rem 5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-article-body-section {
+    padding-bottom: 6rem;
+  }
+}
+
+/* ── BLOG CTA CARD — research-baserad mall (BLOG_AUTHORING.md) ──── */
+/* Design-DNA matchar ROI-calculator-modalen (#080808 bg, #111111 cards,
+   linear-gradient, white-low borders, multi-layer shadows för djup,
+   16px radius, ButtonStripe primary). Subtil card med stop-power utan
+   banner-blindness. Vänster-aligned content matchar text-flow.
+   Differentierad från footer-CTA (subtilare, topic-bunden) men samma
+   modal-destination. */
+.blog-cta-card {
+  margin: 3rem 0;
+  padding: 2rem 1.75rem;
+  background: linear-gradient(180deg, #111111 0%, #0d0d0d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.35),
+    0 32px 64px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (min-width: 768px) {
+  .blog-cta-card {
+    margin: 4rem 0;
+    padding: 2.5rem;
+  }
+}
+.blog-cta-kicker {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C8FF00;
+  margin: 0 0 0.875rem;
+}
+@media (min-width: 768px) {
+  .blog-cta-kicker { font-size: 12px; }
+}
+.blog-cta-headline {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #fff;
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  line-height: 1.15;
+  margin: 0 0 0.875rem;
+  max-width: 22ch;
+}
+.blog-cta-body {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  font-size: 0.9375rem;
+  max-width: 56ch;
+  margin: 0 0 1.5rem;
+}
+@media (min-width: 768px) {
+  .blog-cta-body { font-size: 1rem; }
+}
+.blog-cta-button-wrap {
+  display: block;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.blog-cta-trust {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0;
+  text-align: center;
+}
+
+/* Inline CTA (om används inline i body) — minimal version */
+/* ── AUTHOR SECTION (editorial byline — Riktning A från research) ── */
+/* Editorial-style byline matchande Stripe Press / Linear / Atlantic /
+   Figma blog. INGEN card, INGEN ring, INGET citat — bara typografi.
+   Fyrkantigt foto 120×120 (editorial-signal, INTE avatar). Max 1 lime-
+   accent per block (knappt synlig, på FÖRFATTARE-label). Source:
+   research från 12 topp-tier publikationer (BLOG_AUTHORING.md). */
+.blog-author-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .blog-author-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+/* Grid-template-areas hanterar både mobil och desktop layout cleanly:
+   Mobil: foto + identity på samma rad (visual face↔name link),
+          bio fullbredd nedanför, linkedin fullbredd nedanför.
+   Desktop: foto i vänster kolumn spanning alla rader, identity/bio/
+            linkedin i höger kolumn — matchar editorial byline-pattern. */
+.blog-author-content {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-areas:
+    "photo identity"
+    "bio bio"
+    "cta cta";
+  column-gap: 1.25rem;
+  row-gap: 1.25rem;
+  align-items: center;
+}
+@media (min-width: 640px) {
+  .blog-author-content {
+    grid-template-columns: 120px 1fr;
+    grid-template-areas:
+      "photo identity"
+      "photo bio"
+      "photo cta";
+    column-gap: 2rem;
+    row-gap: 1.25rem;
+    align-items: start;
+  }
+}
+
+/* Foto — FYRKANTIGT, fyller sin grid-cell. Mobil: 80×80, desktop: 120×120 */
+.blog-author-photo-wrap {
+  grid-area: photo;
+  display: block;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s ease;
+}
+@media (min-width: 640px) {
+  .blog-author-photo-wrap {
+    width: 120px;
+    height: 120px;
+    align-self: start;
+  }
+}
+.blog-author-photo-wrap:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.blog-author-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Identity-block (namn + roll) — sitter bredvid foto på alla skärmar */
+.blog-author-identity {
+  grid-area: identity;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  align-self: center;
+}
+@media (min-width: 640px) {
+  .blog-author-identity { align-self: start; }
+}
+
+/* Namn — Barlow Condensed display, weight 500, INTE uppercase */
+.blog-author-name {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.625rem, 2.4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+.blog-author-name:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Roll — Geist, dämpad, ingen mono/uppercase (mer editorial) */
+.blog-author-role {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.5rem;
+}
+
+/* Bio — fullbredd på mobil, max 60ch på desktop */
+.blog-author-bio-text {
+  grid-area: bio;
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 60ch;
+}
+@media (min-width: 768px) {
+  .blog-author-bio-text { font-size: 1rem; }
+}
+
+/* LinkedIn — ButtonSwap (samma DNA som CaseLink för site-konsekvens).
+   Wrappar i div bara för grid-area-positionering. */
+.blog-author-linkedin-wrap {
+  grid-area: cta;
+  align-self: start;
+}
+
+/* ── NEWSLETTER SECTION (med side-label "NYHETSBREV") ─────────────── */
+/* Använder .blog-section-with-label. Sharp-corner email-input pair
+   matchar listing's editorial DNA. */
+.blog-newsletter-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+@media (min-width: 768px) {
+  .blog-newsletter-section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+.blog-newsletter-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .blog-newsletter-content { gap: 1.5rem; }
+}
+.blog-newsletter-heading {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.625rem, 2.6vw, 2.125rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1.1;
+  margin: 0;
+  max-width: 22ch;
+}
+.blog-newsletter-body {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 50ch;
+}
+@media (min-width: 768px) {
+  .blog-newsletter-body { font-size: 1rem; }
+}
+.blog-newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-top: 0.5rem;
+}
+.blog-newsletter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+@media (min-width: 640px) {
+  .blog-newsletter-row { flex-direction: row; gap: 0; }
+}
+.blog-newsletter-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  color: #fff;
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+.blog-newsletter-input::placeholder {
+  /* WCAG AA: 0.4 → 0.55 ger ~5:1 contrast (placeholder är text, behöver pass) */
+  color: rgba(255, 255, 255, 0.55);
+}
+.blog-newsletter-input:focus {
+  outline: none;
+  border-color: #C8FF00;
+}
+@media (min-width: 640px) {
+  .blog-newsletter-input { border-right: none; }
+}
+.blog-newsletter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: #C8FF00;
+  color: #080808;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 0;
+  font-size: 12px;
+  border: 1px solid #C8FF00;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-newsletter-button:hover:not(:disabled) {
+  background: rgba(200, 255, 0, 0.85);
+  gap: 0.75rem;
+}
+.blog-newsletter-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.blog-newsletter-gdpr {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  line-height: 1.5;
+}
+.blog-newsletter-gdpr input[type="checkbox"] {
+  margin-top: 2px;
+  width: 14px;
+  height: 14px;
+  accent-color: #C8FF00;
+  flex-shrink: 0;
+}
+.blog-newsletter-feedback {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+.blog-newsletter-feedback-success { color: #C8FF00; }
+.blog-newsletter-feedback-error { color: #f87171; }
+
+/* ── ContactModal — återanvändbar kontakt-modal ────────────────── */
+/* Används av både FooterCTAClient (footer på alla sidor) och
+   BlogCTABlock (inline CTA i blog-artiklar) via useContactModal-hook.
+   Tidigare låg dessa rules i FooterCTAClient inline-style. Flyttade hit
+   för delning så båda CTA-platserna har identisk modal-UX.
+   align-items: safe center → vertically centers short content,
+   safely falls back to top-align if content is taller than viewport. */
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overscroll-behavior: contain;
+}
+.contact-modal-panel {
+  position: relative;
+  width: calc(100% - 32px);
+  max-width: 680px;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+}
+@media (max-width: 690px) {
+  /* Mobile: true full-screen — single scroll container i .root inuti
+     ContactCard, overlay scrollar inte → eliminerar nested-scroll-konflikter
+     på iOS. No backdrop-filter (kostar performance på 3x DPR utan visuellt
+     värde när modal fyller viewport). Panel fyller 100dvh exakt. */
+  .contact-modal-overlay {
+    padding: 0;
+    align-items: stretch;
+    overflow: hidden;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.92);
+  }
+  .contact-modal-panel {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    min-height: 100svh;
+    max-height: 100dvh;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* ── CaseLink-component (MDX <CaseLink href="..." label="..." />) ─ */
+/* Centrerad CTA-button-länk för utbound-länkar från artiklar till
+   case-studies eller djupare destinations. Använder samma ButtonSwap-
+   komponent som homepage CTA:er ("LÄS HELA CASET") för konsistent
+   brand DNA. Bryter ut visuellt från läs-kolumnen som en pause-moment. */
+.blog-case-link {
+  display: flex;
+  justify-content: center;
+  margin: 2.5rem 0 3rem;
+  padding: 1.5rem 0;
+}
+@media (max-width: 690px) {
+  .blog-case-link {
+    margin: 2rem 0 2.5rem;
+    padding: 1rem 0;
+  }
+}
+
+/* ── FAQ-component (MDX <FAQ items={...} />) ─────────────────────── */
+/* Designen replikerar homepage FAQ (FAQClient.tsx) för konsistens:
+   numrerade items, plus-icon med 45° rotate, border-bottom mellan items,
+   hover background-slide. Auto-genererar FAQPage Schema.org data
+   (web-foundation §4.4 — 22% citation-lift). Skriv `## Vanliga frågor`
+   i MDX:en innan komponenten — komponenten renderar ingen egen heading. */
+.blog-faq {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+.blog-faq-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+  padding: 0;
+}
+.blog-faq-item {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.blog-faq-button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 24px 0;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body), 'Geist', sans-serif;
+}
+.blog-faq-button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.1, 0, 0.2, 1),
+              border-radius 0.45s cubic-bezier(0.1, 0, 0.2, 1);
+  background-color: #0F0F0F;
+  border-radius: 100%;
+}
+.blog-faq-item:not(.is-active) .blog-faq-button:hover::before {
+  border-radius: 0;
+  transform: translateY(0%);
+}
+.blog-faq-item.is-active .blog-faq-button::before {
+  border-radius: 0;
+  transform: translateY(0%);
+}
+.blog-faq-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 6px;
+}
+.blog-faq-number {
+  flex: 0 0 auto;
+  min-width: 40px;
+  margin-right: 12px;
+  font-family: var(--font-nums), 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.blog-faq-question {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #fff;
+}
+.blog-faq-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-left: 16px;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none'%3E%3Cpath d='M42.9727 41.7372L11.6671 10.4316' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3Cpath d='M44.334 15.8765L44.334 43.0987L17.1118 43.0987' stroke='white' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.blog-faq-button:hover .blog-faq-icon,
+.blog-faq-item.is-active .blog-faq-icon {
+  transform: rotate(45deg);
+}
+.blog-faq-answer-wrap {
+  overflow: hidden;
+  height: 0;
+  transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-faq-answer {
+  margin: 0;
+  padding: 0 0 24px 52px;
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.65);
+}
+@media (max-width: 690px) {
+  .blog-faq-button {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+  .blog-faq-number {
+    min-width: 32px;
+    margin-right: 8px;
+  }
+  .blog-faq-question {
+    font-size: 1rem;
+  }
+  .blog-faq-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    margin-top: 4px;
+  }
+  .blog-faq-answer {
+    padding: 0 0 20px 0;
+    font-size: 0.9375rem;
+  }
+  /* På mobile inaktiverar vi hover background-slide-effekten helt.
+     ::before är positioned absolute inom button (som har z-index: 1
+     stacking-context). När item.is-active expanderar med open answer,
+     hamnar ::before-elementet (oval-shaped pga border-radius: 100%)
+     UNDER buttonen och OVAN answer-texten — synlig som en suddig
+     mörk oval som täcker svaret. display: none stänger av effekten
+     på mobile där hover ändå inte fungerar pga touch. */
+  .blog-faq-button::before {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-faq-icon,
+  .blog-faq-answer-wrap,
+  .blog-faq-button::before {
+    transition: none !important;
+  }
+}
+
+/* ── RELATED ARTICLES SECTION (editorial) ─────────────────────────── */
+.blog-related-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .blog-related-section {
+    padding-top: 4.5rem;
+    padding-bottom: 5rem;
+  }
+}
+.blog-related-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 768px) {
+  .blog-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5rem 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-related-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem 2.5rem;
+  }
+}
+
+/* ── READING PROGRESS BAR ─────────────────────────────────────────── */
+.blog-progress-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 50;
+  pointer-events: none;
+}
+.blog-progress-bar {
+  height: 100%;
+  background: #C8FF00;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 100ms ease-out;
+  will-change: transform;
+}
+
+/* ── FLOATING SHARE SIDEBAR (desktop) ─────────────────────────────── */
+.blog-floating-share {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .blog-floating-share {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+    transition: opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+                transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+}
+.blog-floating-share-hidden {
+  opacity: 0;
+  transform: translate(-12px, -50%) !important;
+  pointer-events: none;
+}
+.blog-floating-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+  cursor: pointer;
+}
+.blog-floating-icon:hover {
+  border-color: rgba(200, 255, 0, 0.5);
+  color: #C8FF00;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHAINGPT VISUAL LANGUAGE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════
+   Komplett tactical/blueprint estetik:
+   • Subtil grid-pattern background
+   • Corner-brackets runt bilder (cinematic viewfinder)
+   • Monospace för meta-text (date, byline, labels)
+   • Rectangle pills (square corners, INTE rounded)
+   • Side-labels för section markers (LATEST, CATEGORIES)
+   • Yellow corner-accents som signature
+*/
+
+/* ── BLUEPRINT GRID BACKGROUND ─────────────────────────────────────── */
+.blog-page {
+  background:
+    /* Vertical lines */
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    /* Horizontal lines */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    #080808;
+  background-size: 80px 80px;
+  background-position: 0 0;
+  position: relative;
+}
+@media (min-width: 1024px) {
+  .blog-page {
+    background-size: 120px 120px;
+  }
+}
+
+/* ── CORNER-BRACKETS (editorial registration marks) ────────────────── */
+/* Två diagonala hörn (top-left + bottom-right) — discreta vita
+   markörer som påminner om registreringsmarkeringar i editorial
+   tryck/foto. Slank 1px-stroke, lätt utskjutande från bilden för
+   att kännas som markörer (inte dekorationer på bildens kant).
+
+   Hover-belöning: markörerna glider utåt diagonalt — pure GPU
+   transform-animation (translate3d), aldrig layout-recalc, så det
+   blir silky smooth även på slö hårdvara. Samma vita färg, ingen
+   färg-flash. */
+.blog-bracket-frame {
+  position: relative;
+}
+.blog-bracket-frame::before,
+.blog-bracket-frame::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  z-index: 2;
+  border-color: rgba(255, 255, 255, 0.28);
+  /* Bara transform animeras — det går på compositor-tråden, undviker
+     paint/layout-thrash som top/left/width/height annars skulle trigga. */
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  /* translate3d(0,0,0) tvingar fram en GPU-layer från start så att
+     första hover-framen inte hackar när browsern allokerar layern. */
+  transform: translate3d(0, 0, 0);
+}
+.blog-bracket-frame::before {
+  top: -5px;
+  left: -5px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.blog-bracket-frame::after {
+  bottom: -5px;
+  right: -5px;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+@media (min-width: 768px) {
+  .blog-bracket-frame::before,
+  .blog-bracket-frame::after {
+    width: 14px;
+    height: 14px;
+  }
+  .blog-bracket-frame::before {
+    top: -6px;
+    left: -6px;
+  }
+  .blog-bracket-frame::after {
+    bottom: -6px;
+    right: -6px;
+  }
+}
+
+/* HOVER: glider utåt diagonalt via translate3d — GPU-accelererat,
+   ingen layout-recalc, smooth på alla devices. */
+.blog-bracket-frame:hover::before,
+a.blog-bracket-frame:hover::before,
+.blog-card-rect:hover .blog-bracket-frame::before {
+  transform: translate3d(-6px, -6px, 0);
+}
+.blog-bracket-frame:hover::after,
+a.blog-bracket-frame:hover::after,
+.blog-card-rect:hover .blog-bracket-frame::after {
+  transform: translate3d(6px, 6px, 0);
+}
+@media (min-width: 768px) {
+  .blog-bracket-frame:hover::before,
+  a.blog-bracket-frame:hover::before,
+  .blog-card-rect:hover .blog-bracket-frame::before {
+    transform: translate3d(-8px, -8px, 0);
+  }
+  .blog-bracket-frame:hover::after,
+  a.blog-bracket-frame:hover::after,
+  .blog-card-rect:hover .blog-bracket-frame::after {
+    transform: translate3d(8px, 8px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-bracket-frame::before,
+  .blog-bracket-frame::after {
+    transition: none;
+  }
+}
+
+/* ── MONO META-TEXT FORMATTING ─────────────────────────────────────── */
+/* Universella regler för mono-uppercase-tracked text på blog */
+.blog-mono-meta {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .blog-mono-meta { font-size: 13px; }
+}
+
+/* Bullet ● efter datum */
+.blog-mono-meta-bullet::after {
+  content: ' ●';
+  color: #C8FF00;
+  margin-left: 0.4em;
+}
+
+/* "BY [NAME]" mono byline */
+.blog-mono-byline {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+}
+.blog-mono-byline-prefix {
+  /* WCAG AA: 0.4 → 0.55 ger ~5:1 contrast på #080808 (var ~3.2:1, fail) */
+  color: rgba(255, 255, 255, 0.55);
+  margin-right: 0.5em;
+}
+
+/* ── SIDE-LABELS (LATEST / CATEGORIES) ────────────────────────────── */
+.blog-side-label {
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-block;
+  align-self: flex-start;
+}
+
+/* ── RECTANGLE PILLS (override) ────────────────────────────────────── */
+.blog-pill-rect {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-mono), 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+  position: relative;
+}
+.blog-pill-rect:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+.blog-pill-rect-active {
+  border-color: #C8FF00;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px #C8FF00;
+}
+.blog-pill-rect-count {
+  font-size: 10px;
+  /* WCAG AA: 0.35 → 0.55 ger ~5:1 contrast (var ~2.6:1, fail) */
+  color: rgba(255, 255, 255, 0.55);
+}
+.blog-pill-rect-active .blog-pill-rect-count {
+  color: rgba(200, 255, 0, 0.7);
+}
+
+/* ── SECTION LAYOUT WITH SIDE-LABEL ───────────────────────────────── */
+.blog-section-with-label {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+@media (min-width: 1024px) {
+  .blog-section-with-label {
+    grid-template-columns: 140px 1fr;
+    gap: 3rem;
+    padding: 4rem 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  .blog-section-with-label {
+    grid-template-columns: 160px 1fr;
+    gap: 4rem;
+  }
+}
+.blog-section-label-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── HERO LAYOUT (ChainGPT-style asymmetric) ──────────────────────── */
+.blog-hero-chaingpt {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .blog-hero-chaingpt {
+    grid-template-columns: 1fr 0.85fr;
+    gap: 3rem;
+  }
+}
+.blog-hero-chaingpt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.blog-hero-chaingpt-title {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.75rem);
+  line-height: 1.05;
+  margin: 0;
+}
+.blog-hero-chaingpt-title a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-hero-chaingpt-title a:hover {
+  background-size: 100% 1.5px;
+}
+.blog-hero-chaingpt-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.blog-hero-chaingpt-byline-photo {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.blog-hero-chaingpt-image {
+  position: relative;
+  /* 16:9 matchar bas-bilden så text-overlayen aldrig klipps på sidorna */
+  aspect-ratio: 16/9;
+  background: #0F0F0F;
+  overflow: hidden;
+  border-radius: 0;
+}
+.blog-hero-chaingpt-image img {
+  object-fit: cover;
+}
+
+/* ── BLOG GRID CARD (ChainGPT-style) ──────────────────────────────── */
+.blog-card-rect {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.blog-card-rect-image {
+  position: relative;
+  /* 16:9 matchar bas-bilden så text-overlayen aldrig klipps på sidorna */
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #0F0F0F;
+  border-radius: 0;
+}
+.blog-card-rect-image img {
+  object-fit: cover;
+}
+.blog-card-rect-title {
+  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #fff;
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  line-height: 1.25;
+  margin: 0;
+}
+.blog-card-rect-title a {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.blog-card-rect:hover .blog-card-rect-title a {
+  background-size: 100% 1.5px;
+}
+.blog-card-rect-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.blog-card-rect-byline-photo {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── GRID 2-COL (utan rundade hörn) ────────────────────────────────── */
+.blog-grid-rect {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 768px) {
+  .blog-grid-rect {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5rem 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-grid-rect { gap: 4rem 3rem; }
+}
+
+/* ── BLOG HERO SECTION (minimal editorial intro) ──────────────────── */
+/* Konsekvent med övriga sub-page heros: använder sajtens standard-
+   fonter (Barlow Condensed för h1, Geist för tagline) i editorial
+   storlekar — ingen side-label, ingen eyebrow, inga stats. */
+.blog-hero-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.blog-hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .blog-hero-inner {
+    padding: 6rem 3rem 4.5rem;
+    gap: 1.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .blog-hero-inner {
+    padding: 7rem 3rem 5rem;
+    gap: 2rem;
+  }
+}
+
+/* H1: Barlow Condensed — exakt samma typografi-system som home-hero
+   och About/Methodology, men i editorial storlek (40-80px) eftersom
+   blog-listing är en innehållssida, inte en marketing-landing. */
+.blog-hero-h1 {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #fff;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  line-height: 1.02;
+  margin: 0;
+  max-width: 18ch;
+}
+
+/* Tagline: Geist body — matchar all body-text på sajten. */
+.blog-hero-tagline {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  max-width: 52ch;
+}

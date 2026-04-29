@@ -38,6 +38,10 @@
         "badge": "[5]"
       },
       {
+        "label": "Blogg",
+        "href": "/sv/blogg"
+      },
+      {
         "label": "Kontakt",
         "href": "/sv/kontakt"
       }
@@ -859,7 +863,8 @@
   "sannegarden": {
     "meta": {
       "title": "Sannegårdens Pizzeria — AI-telefonist | Kundcase Eteya",
-      "description": "Sannegården missade samtal under rusning. Eteya byggde en AI-telefonist som tar beställningar dygnet runt — 0 missade samtal, 30+ extra ordrar/vecka."
+      "description": "Sannegården missade samtal under rusning. Eteya byggde en AI-telefonist som tar beställningar dygnet runt — 0 missade samtal, 30+ extra ordrar/vecka.",
+      "ogImageAlt": "Sannegårdens Pizzeria kundcase — AI-telefonist tar emot beställningar dygnet runt"
     },
     "snapshot": {
       "callsSuffix": "",
@@ -949,7 +954,8 @@
   "trainwithalbert": {
     "meta": {
       "title": "TrainWithAlbert — 45% återbokning + 3x bokningar | Eteya",
-      "description": "Eteya byggde 8 AI-automationer åt TrainWithAlbert — 3x fler bokningar, 45% återbokning, AI-schemaläggning och automatisk uppföljning av klientresan."
+      "description": "Eteya byggde 8 AI-automationer åt TrainWithAlbert — 3x fler bokningar, 45% återbokning, AI-schemaläggning och automatisk uppföljning av klientresan.",
+      "ogImageAlt": "TrainWithAlbert kundcase — 8 AI-automationer för bokningar och kundkommunikation"
     },
     "heroTitle": "TrainWithAlbert",
     "heroWords": [
@@ -1722,5 +1728,69 @@
       "development": "integration för AI-utveckling hos Eteya"
     },
     "ogHome": "Eteya — AI-byrå som bygger AI-agenter och automation för svenska företag"
+  },
+  "blog": {
+    "meta": {
+      "listingTitle": "Eteya Blogg — AI-insikter, automation & case-studies",
+      "listingDescription": "Praktiska guider om AI-agenter, automation och process-automation för svenska företag. Skrivet av Eteyas AI-konsulter — från riktiga implementationer."
+    },
+    "listing": {
+      "kicker": "Eteya Blogg",
+      "heading": "Blogg",
+      "subheading": "Insights om AI-agenter, automation och case studies från Eteya — praktisk kunskap från riktiga implementationer.",
+      "breadcrumb": "Blogg",
+      "featuredLabel": "Utvalt",
+      "moreLabel": "Fler artiklar",
+      "allLabel": "Alla artiklar",
+      "tagsLabel": "Bläddra efter ämne",
+      "emptyTitle": "Snart kommer det artiklar här",
+      "emptyBody": "Vi förbereder vår första våg av insikter om AI-agenter, automation och konkreta implementations från våra kundprojekt. Tillbaka snart.",
+      "allFilterLabel": "Alla"
+    },
+    "article": {
+      "publishedOn": "Publicerad",
+      "modifiedOn": "Uppdaterad",
+      "by": "Av",
+      "readingTime": "min läsning",
+      "tagsLabel": "Ämnen",
+      "shareLabel": "Dela artikeln",
+      "shareLinkedIn": "Dela på LinkedIn",
+      "shareX": "Dela på X",
+      "shareCopy": "Kopiera länk",
+      "shareCopied": "Länk kopierad!",
+      "tocLabel": "Innehåll",
+      "authorBioHeading": "Om författaren",
+      "relatedHeading": "Relaterade artiklar",
+      "ctaKicker": "FÖR 30+ SVENSKA SMB",
+      "ctaHeading": "Räkna på AI-ROI för din verksamhet",
+      "ctaBody": "30-minuters samtal där vi går igenom era processer och visar konkret var AI sparar tid och pengar.",
+      "ctaButton": "Boka 30-min ROI-samtal",
+      "ctaTrustLine": "Kostnadsfritt · Inga avtal · Svar inom 24h",
+      "newsletterHeading": "Få fler insikter direkt i mejlen",
+      "newsletterBody": "Vi skickar 1-2 nya artiklar per månad om AI-automation för svenska företag. Inget skräp, avregistrera när som helst.",
+      "newsletterPlaceholder": "din@email.se",
+      "newsletterButton": "Prenumerera",
+      "newsletterSuccess": "Tack! Du är prenumererad.",
+      "newsletterError": "Något gick fel — försök igen senare.",
+      "newsletterGdpr": "Genom att prenumerera godkänner du vår integritetspolicy."
+    },
+    "tag": {
+      "metaTitle": "Artiklar om {tag} — Eteya Blogg",
+      "metaDescription": "Alla våra artiklar om {tag}. Praktiska guider och case-studies från Eteya.",
+      "heading": "Artiklar om: {tag}",
+      "subheading": "{count} artiklar i denna kategori",
+      "subheadingOne": "1 artikel i denna kategori",
+      "breadcrumb": "Tag",
+      "noResults": "Inga artiklar med denna tag än."
+    },
+    "author": {
+      "metaTitle": "Artiklar av {name} — Eteya Blogg",
+      "metaDescription": "Alla artiklar skrivna av {name} på Eteya Blogg.",
+      "heading": "Artiklar av {name}",
+      "subheading": "{count} publicerade artiklar",
+      "subheadingOne": "1 publicerad artikel",
+      "breadcrumb": "Författare",
+      "noArticles": "Inga publicerade artiklar än."
+    }
   }
 }

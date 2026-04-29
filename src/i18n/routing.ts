@@ -56,6 +56,24 @@ export const routing = defineRouting({
     '/terms': {
       sv: '/villkor',
       en: '/terms'
+    },
+    // ── Blog ────────────────────────────────────────
+    // SV: /blogg, EN: /blog (matchar B2B-konvention från HubSpot/Stripe/Vercel)
+    '/blogg': {
+      sv: '/blogg',
+      en: '/blog'
+    },
+    '/blogg/[slug]': {
+      sv: '/blogg/[slug]',
+      en: '/blog/[slug]'
+    },
+    '/blogg/tag/[tag]': {
+      sv: '/blogg/tag/[tag]',
+      en: '/blog/tag/[tag]'
+    },
+    '/blogg/forfattare/[author]': {
+      sv: '/blogg/forfattare/[author]',
+      en: '/blog/author/[author]'
     }
   },
   // Prefix always shown for both locales

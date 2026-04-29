@@ -158,41 +158,81 @@ export function createBreadcrumbSchema(items: BreadcrumbItem[]): object {
   }
 }
 
-// ─── ARTICLE SCHEMA (case-studies) ────────────────────────────────
+// ─── DATE HELPERS ─────────────────────────────────────────────────
+
+/**
+ * Konvertera "YYYY-MM-DD" till ISO 8601 med svensk tidszon.
+ * Per web-foundation v4.0 §4.11 + Schema.org: "Use ISO 8601 with timezone".
+ *
+ * Använder 08:00 lokal tid + +02:00 (CEST sommartid). Acceptabelt eftersom:
+ *   - Google bryr sig främst om DATUM-precisionen, inte timme/tidszon
+ *   - +02:00 (sommartid) vs +01:00 (vintertid) är < 1 timmes diff
+ *   - Skiftet sker bara 2 ggr/år och påverkar inte ranking
+ *
+ * Om input redan är ISO 8601-formaterat (innehåller "T"), returneras som-är.
+ */
+export function toIsoWithTz(dateString: string): string {
+  if (dateString.includes('T')) return dateString  // redan ISO 8601
+  return `${dateString}T08:00:00+02:00`
+}
+
+// ─── ARTICLE SCHEMA (case-studies + blog) ─────────────────────────
 export interface ArticleSchemaInput {
   /** Path utan domain, t.ex. '/sv/kundcase/telestore' */
   path: string
   /** Page title utan brand-suffix (max 110 chars per Google) */
   headline: string
   description: string
-  /** Image-URLs (rekommenderat: array med flera aspect ratios) */
+  /** Image-URLs (rekommenderat: array med flera aspect ratios per
+   *  web-foundation §4.11: 1:1, 4:3, 16:9 ger Google bättre val) */
   image: string[]
-  /** ISO-8601 t.ex. '2025-09-15' */
+  /** Datum i "YYYY-MM-DD" eller ISO 8601. Auto-konverteras till ISO
+   *  8601 m. tidszon via toIsoWithTz(). Per Schema.org/web-foundation
+   *  §4.11: "Use ISO 8601 with timezone". */
   datePublished: string
-  /** ISO-8601 — senaste modifiering */
+  /** Senaste modifiering — samma format som datePublished */
   dateModified: string
   /** Locale t.ex. 'sv-SE' */
   inLanguage: string
   /** Branscher/keywords som artikeln handlar om */
   about?: string[]
+  /** Author-schema (Person eller Organization). Default: Eteya som Org.
+   *  Per Google: "author MUST be Person/Organization with name + url".
+   *  För blog-artiklar SKA detta vara Person-schema (createPersonSchema).
+   *  För case-studies (utfört arbete av Eteya) defaultar det till Org. */
+  author?: object
+  /** Schema-typ: 'Article' default, 'BlogPosting' för traditional blog,
+   *  'TechArticle' för tekniska guider, 'NewsArticle' för nyheter.
+   *  Per web-foundation §4.11. */
+  type?: 'Article' | 'BlogPosting' | 'TechArticle' | 'NewsArticle'
+  /** Sektion artikeln tillhör, t.ex. "AI-automation" eller "Blog" */
+  articleSection?: string
+  /** Keywords-array — hjälper AI/LLM-extraktion */
+  keywords?: string[]
+  /** Antal ord i artikeln — recommended av web-foundation */
+  wordCount?: number
 }
 
 export function createArticleSchema(article: ArticleSchemaInput): object {
   const url = canonicalUrl(article.path)
   return {
-    '@type': 'Article',
+    '@type': article.type ?? 'Article',
     '@id': `${url}#article`,
     headline: article.headline,
     description: article.description,
     image: article.image,
-    datePublished: article.datePublished,
-    dateModified: article.dateModified,
-    author: { '@id': ORG_ID },     // Eteya as author (case work was done by Eteya)
-    publisher: { '@id': ORG_ID },  // Eteya as publisher
+    datePublished: toIsoWithTz(article.datePublished),
+    dateModified: toIsoWithTz(article.dateModified),
+    author: article.author ?? { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },  // Eteya as publisher (alltid)
     url,
     mainEntityOfPage: { '@id': `${url}#webpage` },
     inLanguage: article.inLanguage,
+    isAccessibleForFree: true,
     ...(article.about && { about: article.about }),
+    ...(article.articleSection && { articleSection: article.articleSection }),
+    ...(article.keywords && { keywords: article.keywords }),
+    ...(article.wordCount && { wordCount: article.wordCount }),
   }
 }
 
@@ -371,10 +411,16 @@ export interface FaqItem {
   answer: string
 }
 
-export function createFaqSchema(faqs: FaqItem[], path?: string): object {
+export function createFaqSchema(
+  faqs: FaqItem[],
+  options?: { path?: string; inLanguage?: string },
+): object {
+  const path = options?.path
+  const inLanguage = options?.inLanguage
   return {
     '@type': 'FAQPage',
     ...(path && { '@id': `${canonicalUrl(path)}#faq` }),
+    ...(inLanguage && { inLanguage }),
     mainEntity: faqs.map(faq => ({
       '@type': 'Question',
       name: faq.question,

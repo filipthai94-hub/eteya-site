@@ -1,6 +1,41 @@
 import { NextResponse } from 'next/server'
+import { getAllPosts } from '@/lib/blog/posts'
 
+/**
+ * llms-full.txt — utökad version med fullständigt innehåll för LLM/RAG.
+ * Per web-foundation v4.0 §8.1.
+ *
+ * Inkluderar full body-content från publicerade blog-artiklar
+ * (auto-genererad via getAllPosts()).
+ */
 export async function GET() {
+  const [svPosts, enPosts] = await Promise.all([
+    getAllPosts('sv'),
+    getAllPosts('en'),
+  ])
+
+  const renderArticle = (post: { title: string; description: string; content: string; slug: string; language: string }) => {
+    const path = post.language === 'sv' ? `/sv/blogg/${post.slug}` : `/en/blog/${post.slug}`
+    return `### ${post.title}
+
+**URL:** https://eteya.ai${path}
+
+**Sammanfattning:** ${post.description}
+
+${post.content.trim()}
+
+---
+`
+  }
+
+  const blogSv = svPosts.length > 0
+    ? svPosts.map(renderArticle).join('\n')
+    : '_Inga svenska artiklar publicerade än._\n'
+
+  const blogEn = enPosts.length > 0
+    ? enPosts.map(renderArticle).join('\n')
+    : '_No English articles published yet._\n'
+
   const content = `# Eteya — Fullständig Innehåll
 
 ## Hemsida
@@ -84,6 +119,16 @@ Grundare av Telestore. Efter över 10 år som entreprenör vet han vad som funka
 
 ---
 
+## Blogg / Insikter (svenska)
+
+${blogSv}
+
+## Blog / Insights (English)
+
+${blogEn}
+
+---
+
 ## Kontakt
 
 **Rubrik:** Kontakt
@@ -104,17 +149,22 @@ Grundare av Telestore. Efter över 10 år som entreprenör vet han vad som funka
 
 Vi följer GDPR fullt ut. All data behandlas inom EU och era data används aldrig för att träna AI-modeller.
 
+Se: https://eteya.ai/sv/privacy-policy
+
 ---
 
 ## Användarvillkor
 
 Alla projekt inkluderar fast offert, tydlig leveransplan och dokumentation vid överlämning.
 
+Se: https://eteya.ai/sv/terms
+
 ---
 
 ## Företagsinformation
 
 - **Bolagsnamn:** Eteya Consulting AB
+- **Organisationsnummer:** SE559552739001
 - **Adress:** Solhagsvägen 26A, 691 52 Karlskoga, Sverige
 - **E-post:** kontakt@eteya.ai
 - **Grundat:** November 2024
