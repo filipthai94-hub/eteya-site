@@ -676,6 +676,111 @@ konsekvens. Bara dessa 3 ändras per artikel:
 
 ---
 
+## Author bio-mall — `<BlogAuthorBio />` (SPIKAT 2026-04-29)
+
+Author-bio:n är en **förtroendebro**. Det är där en läsare som just läst
+artikeln avgör om personen bakom är värd att lyssna på. Generic
+template-bios fungerar inte. Vår mall:
+
+### Den LÅSTA designen
+
+```
+┌────────────────────────────────────────────────────────────┐
+│  [FÖRFATTARE]                                              │
+│                                                            │
+│  ┌────────┐   Filip Thai                                   │
+│  │  📷    │   GRUNDARE & VD                                │
+│  │ (lime  │                                                │
+│  │  ring) │   AI-konsult med fokus på automation och       │
+│  └────────┘   AI-agenter för svenska SMB. Bygger lösningar │
+│               som faktiskt levererar mätbar besparing.     │
+│                                                            │
+│  ▎ "Mer AI-projekt dör i kick-off-mötet än i koden."       │
+│                                                            │
+│  [LINKEDIN →]                                              │
+└────────────────────────────────────────────────────────────┘
+       ↑ samma card-DNA som CTA + ROI-modal
+```
+
+### REGEL 1 — Card-DNA (matchar CTA + ROI-modal)
+
+Author-section använder **samma design-tokens** som CTA-card + ROI-modal:
+- Background: `linear-gradient(180deg, #111111 0%, #0d0d0d 100%)`
+- Border: `1px solid rgba(255, 255, 255, 0.08)` (white-low)
+- Multi-layer shadow (4 lager djup, identiskt med CTA)
+- Border-radius: 16px
+
+Detta så hela artikel-sidan känns som **ETT system**, inte 4 olika sektioner.
+
+### REGEL 2 — Foto: 110px med subtle lime-ring
+
+- **Storlek:** 110px desktop / 90px mobil (var tidigare 80px)
+- **Lime-ring:** `box-shadow: 0 0 0 1px rgba(200, 255, 0, 0.25)` default
+- **Hover:** ring intensifieras till 60% opacity + glow + scale 1.02
+- **Cirkulärt** (border-radius 9999px), object-fit cover
+- Klickbart — länkar till `/om-oss/[author]`
+
+### REGEL 3 — Signatur-citat (KRITISK regel)
+
+**Varje författare MÅSTE ha ett signatur-citat.** En generic bio utan
+citat är vad som gör författar-sektionen klichig. Citatet är skillnaden
+mellan "konsult #847" och "killen som verkligen förstår SMB".
+
+**Vad som gör ett citat icke-klichigt:**
+1. **Specifikt** — sätter en konkret bild i huvudet (inte abstrakta värderingar)
+2. **Earned** — låter som något personen lärt sig den hårda vägen
+3. **Counter-intuitivt** — utmanar en common assumption
+4. **Lite självkritiskt** — ödmjukhet skär igenom marknadsspråk
+5. **Bara DEN författaren kan säga det** — inte 1000 andra konsulter
+
+**Anti-patterns (FÖRBJUDET):**
+- "Vi sätter kunden först" / "Vi bygger framtidens X" / generic värderingar
+- "AI ska spara timmar inte sälja hype" — anti-hype är självt en kliché 2026
+- Allt som låter som det kan stå på 1000 konsultsidor
+
+**Format:**
+- 1 mening, max ~12 ord
+- Italic, Barlow display-font, ~17-20px
+- 2px lime-border-left för visuell betoning
+- Curly quotes ("…") med subtle lime-coloring
+- Placeras MELLAN bio och LinkedIn
+
+**Aktuella citat (uppdatera när nya författare läggs till):**
+
+| Författare | Citat (SV) |
+|---|---|
+| Filip Thai | *"Mer AI-projekt dör i kick-off-mötet än i koden."* |
+| Agit Akalp | *"Den dyraste integrationen är den ingen vågar röra om sex månader."* |
+
+### REGEL 4 — Endast EN connect-path (LinkedIn)
+
+**Lägg ALDRIG till "Boka samtal" eller motsvarande CTA i author-bio:n.**
+Sidan har redan:
+- Inline `<BlogCTABlock>` (boka via modal)
+- `<FooterCTAClient>` (boka via cirkulär knapp)
+
+En tredje "boka samtal"-knapp i author-bio:n = **överlapp som dödar
+attention**. Single-CTA-research vi gjorde tidigare visar 1.6x bättre
+konvertering med fokuserad path.
+
+LinkedIn-länken är medvetet en ANNAN typ av action: "lär dig mer om
+personen", inte "boka möte". Den fångar läsare som inte är redo att
+prata än men vill veta vem Filip är.
+
+### REGEL 5 — Lägga till ny författare
+
+När en ny författare läggs till:
+1. Lägg till entry i `BlogAuthor` typen (`src/lib/blog/types.ts`)
+2. Lägg till case i `getAuthorName/Role/Image/Path` (`src/lib/blog/format.ts`)
+3. Lägg till bild i `/public/images/team/[author].webp`
+4. Skapa profil-sida i `/src/app/[locale]/om-oss/[author]/page.tsx`
+5. **Lägg till bio i `AUTHOR_BIOS`** (BlogAuthorBio.tsx)
+6. **Lägg till signatur-citat i `AUTHOR_QUOTES`** (BlogAuthorBio.tsx)
+   — Se REGEL 3 för vad som är icke-klichigt
+7. Lägg till LinkedIn-URL i `AUTHOR_LINKEDIN`
+
+---
+
 ## Modal-arkitektur (kontakt-modal — DELAD av CTA-platser)
 
 Både inline `<BlogCTABlock>` (i artiklar) och `<FooterCTAClient>` (på
