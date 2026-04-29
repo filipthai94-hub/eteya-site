@@ -85,7 +85,7 @@ export default function BlogAuthorBio({
           />
         </Link>
 
-        <div className="blog-author-text">
+        <div className="blog-author-identity">
           <Link
             href={profilePath}
             locale={locale}
@@ -96,19 +96,21 @@ export default function BlogAuthorBio({
           <span className="blog-author-role">
             {getAuthorRole(author, locale)}
           </span>
-          <p className="blog-author-bio-text">
-            {AUTHOR_BIOS[author][locale]}
-          </p>
-          <div className="blog-author-linkedin-wrap">
-            <ButtonSwap
-              href={AUTHOR_LINKEDIN[author]}
-              label="LinkedIn"
-              variant="white"
-              size="md"
-              arrow
-              className="no-prose-link"
-            />
-          </div>
+        </div>
+
+        <p className="blog-author-bio-text">
+          {AUTHOR_BIOS[author][locale]}
+        </p>
+
+        <div className="blog-author-linkedin-wrap">
+          <ButtonSwap
+            href={AUTHOR_LINKEDIN[author]}
+            label="LinkedIn"
+            variant="white"
+            size="md"
+            arrow
+            className="no-prose-link"
+          />
         </div>
       </div>
     </section>

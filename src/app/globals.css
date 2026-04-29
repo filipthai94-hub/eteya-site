@@ -1069,25 +1069,41 @@ html.lenis, html.lenis body {
     padding-bottom: 5rem;
   }
 }
+/* Grid-template-areas hanterar både mobil och desktop layout cleanly:
+   Mobil: foto + identity på samma rad (visual face↔name link),
+          bio fullbredd nedanför, linkedin fullbredd nedanför.
+   Desktop: foto i vänster kolumn spanning alla rader, identity/bio/
+            linkedin i höger kolumn — matchar editorial byline-pattern. */
 .blog-author-content {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 80px 1fr;
+  grid-template-areas:
+    "photo identity"
+    "bio bio"
+    "cta cta";
+  column-gap: 1.25rem;
+  row-gap: 1.25rem;
+  align-items: center;
 }
 @media (min-width: 640px) {
   .blog-author-content {
     grid-template-columns: 120px 1fr;
-    gap: 2rem;
+    grid-template-areas:
+      "photo identity"
+      "photo bio"
+      "photo cta";
+    column-gap: 2rem;
+    row-gap: 1.25rem;
     align-items: start;
   }
 }
 
-/* Foto — FYRKANTIGT 120×120, ingen ring, subtle 1px border */
+/* Foto — FYRKANTIGT, fyller sin grid-cell. Mobil: 80×80, desktop: 120×120 */
 .blog-author-photo-wrap {
+  grid-area: photo;
   display: block;
-  width: 100px;
-  height: 100px;
-  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: border-color 0.3s ease;
@@ -1096,6 +1112,7 @@ html.lenis, html.lenis body {
   .blog-author-photo-wrap {
     width: 120px;
     height: 120px;
+    align-self: start;
   }
 }
 .blog-author-photo-wrap:hover {
@@ -1108,11 +1125,17 @@ html.lenis, html.lenis body {
   display: block;
 }
 
-.blog-author-text {
+/* Identity-block (namn + roll) — sitter bredvid foto på alla skärmar */
+.blog-author-identity {
+  grid-area: identity;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
+  align-self: center;
+}
+@media (min-width: 640px) {
+  .blog-author-identity { align-self: start; }
 }
 
 /* Namn — Barlow Condensed display, weight 500, INTE uppercase */
@@ -1140,13 +1163,14 @@ html.lenis, html.lenis body {
   margin-top: 0.5rem;
 }
 
-/* Bio — body-text-likt, max 60ch för läsbarhet */
+/* Bio — fullbredd på mobil, max 60ch på desktop */
 .blog-author-bio-text {
+  grid-area: bio;
   font-family: var(--font-body), 'Geist', sans-serif;
   font-size: 0.9375rem;
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.55;
-  margin: 1.25rem 0 0;
+  margin: 0;
   max-width: 60ch;
 }
 @media (min-width: 768px) {
@@ -1154,10 +1178,10 @@ html.lenis, html.lenis body {
 }
 
 /* LinkedIn — ButtonSwap (samma DNA som CaseLink för site-konsekvens).
-   Wrappar i div bara för att lägga till margin-top utan att röra
-   ButtonSwap-komponentens egen styling. */
+   Wrappar i div bara för grid-area-positionering. */
 .blog-author-linkedin-wrap {
-  margin-top: 1.5rem;
+  grid-area: cta;
+  align-self: start;
 }
 
 /* ── NEWSLETTER SECTION (med side-label "NYHETSBREV") ─────────────── */
