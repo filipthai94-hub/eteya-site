@@ -124,24 +124,10 @@ html.lenis, html.lenis body {
   100% { transform: translateX(0); }
 }
 .animate-marquee { animation: marquee-fwd 25s linear infinite; will-change: transform; }
-.animate-marquee-rev { animation: marquee-rev 25s linear infinite; will-change: transform; }
 
 /* GSAP initial states */
-.gsap-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-}
-.gsap-reveal-left {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-.gsap-scale-reveal {
-  opacity: 0;
-  transform: scale(1.05);
-}
 
 /* Will-change hints for heavy animations */
-.will-change-transform { will-change: transform; }
 
 /* ═══ BLOG PROSE — Magazine-style typography för MDX-articles ═══ */
 /* Eteya DNA: Geist body 19px, line-height 1.7, generous spacing,
@@ -390,13 +376,6 @@ html.lenis, html.lenis body {
 }
 
 /* Hide scrollbar on filter-bar (Eteya pattern) */
-.scrollbar-none {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
 
 /* ═══════════════════════════════════════════════════════════════════
    BLOG COMPONENT STYLING
@@ -420,63 +399,12 @@ html.lenis, html.lenis body {
    Image vänster (1.4fr), text höger (1fr). Image är den visuella
    ankaren, text-sidan är center-vertical aligned med editoriallt
    layout. Mobile stackar (image över text). */
-.blog-featured-hero {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
-}
-@media (min-width: 768px) {
-  .blog-featured-hero { padding: 4rem 3rem 5rem; }
-}
-@media (min-width: 1024px) {
-  .blog-featured-hero { padding: 4.5rem 3rem 5.5rem; }
-}
-.blog-featured-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-@media (min-width: 768px) {
-  .blog-featured-grid { gap: 2.5rem; }
-}
 @media (min-width: 1024px) {
   /* Asymmetric — image dominerar (1.6fr) för editorial drama */
-  .blog-featured-grid {
-    grid-template-columns: 1.6fr 1fr;
-    gap: 4.5rem;
-  }
 }
 
 /* Text-sida (höger på desktop) */
-.blog-featured-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-@media (min-width: 1024px) {
-  .blog-featured-text { gap: 1.75rem; }
-}
-
 /* Neutral muted tag — INTE yellow, signature reserveras för subtle accents */
-.blog-featured-tag {
-  display: inline-block;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.blog-featured-title {
-  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  color: #fff;
-  font-size: clamp(2rem, 3.5vw, 3.5rem);
-  line-height: 1.1;
-  margin: 0;
-}
 .blog-featured-title a {
   color: inherit;
   text-decoration: none;
@@ -491,82 +419,11 @@ html.lenis, html.lenis body {
   background-size: 100% 1.5px;
 }
 
-.blog-featured-desc {
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.55;
-  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.blog-featured-divider {
-  border: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 0;
-}
-
-.blog-featured-byline {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.blog-featured-byline-photo {
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-.blog-featured-byline-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 13px;
-}
-.blog-featured-byline-name {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 500;
-}
-.blog-featured-byline-sep {
-  color: rgba(255, 255, 255, 0.25);
-}
-.blog-featured-byline-date {
-  color: rgba(255, 255, 255, 0.5);
-}
-
 /* .blog-featured-cta — borttagen.
    Hela featured-card är klickbar via image-link + title-link, ingen
    redundant "Läs artikel"-CTA behövs. Editorial restraint. */
 
 /* ── BLOG FILTER BAR ──────────────────────────────────────────────── */
-.blog-filter-bar {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.blog-filter-inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 1.5rem;
-}
-@media (min-width: 768px) {
-  .blog-filter-inner { padding: 2rem 3rem; }
-}
-.blog-filter-list {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 1.75rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-}
-.blog-filter-list::-webkit-scrollbar { display: none; }
-@media (min-width: 768px) {
-  .blog-filter-list { flex-wrap: wrap; gap: 2.25rem; }
-}
 /* Linear-stil filter — text-only med thin underline för active.
    Inga big fills, inga gula borders. Yellow ENDAST på subtle accent. */
 .blog-pill {
@@ -599,20 +456,7 @@ html.lenis, html.lenis body {
 .blog-pill:hover {
   color: rgba(255, 255, 255, 0.95);
 }
-.blog-pill-active {
-  color: #fff;
-}
-.blog-pill-active::after {
-  transform: scaleX(1);
-}
-.blog-pill-count {
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.3);
-}
-.blog-pill-active .blog-pill-count {
-  color: rgba(255, 255, 255, 0.5);
-}
+.blog-pill-active
 
 /* ── BLOG POST CARD ───────────────────────────────────────────────── */
 .blog-card {
@@ -622,29 +466,8 @@ html.lenis, html.lenis body {
   height: 100%;
 }
 /* ChainGPT-stil: image → date → title → author. Inga tags eller desc. */
-.blog-card-date {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.625rem;
-}
-.blog-card-featured .blog-card-date {
-  margin-bottom: 0.875rem;
-  font-size: 14px;
-}
-.blog-card-title {
-  font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: #fff;
-  font-size: clamp(1.375rem, 1.8vw, 1.625rem);
-  line-height: 1.25;
-  margin: 0 0 1rem 0;
-}
-.blog-card-featured .blog-card-title {
-  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
-  line-height: 1.15;
-  margin-bottom: 1.25rem;
-}
+.blog-card-featured
+.blog-card-featured
 /* Card title hover — subtle underline från botten (NYT-stil) istället
    för yellow color-change. Editorial typography-detail. */
 .blog-card-title a {
@@ -659,32 +482,7 @@ html.lenis, html.lenis body {
 .blog-card:hover .blog-card-title a {
   background-size: 100% 1.5px;
 }
-.blog-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: auto;
-  padding-top: 0.5rem;
-}
-.blog-card-meta-photo {
-  width: 28px;
-  height: 28px;
-  border-radius: 9999px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-.blog-card-featured .blog-card-meta-photo {
-  width: 36px;
-  height: 36px;
-}
-.blog-card-meta-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  min-width: 0;
-}
+.blog-card-featured
 .blog-card-meta-info strong {
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
@@ -706,14 +504,6 @@ html.lenis, html.lenis body {
   font-weight: 500;
   color: rgba(200, 255, 0, 0.9);
   margin-bottom: 2rem;
-}
-.blog-grid-section-header {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-@media (min-width: 768px) {
-  .blog-grid-section-header { margin-bottom: 3.5rem; }
 }
 .blog-grid-section-title {
   font-family: var(--font-display-wide), 'Barlow', 'DM Sans', sans-serif;
@@ -883,24 +673,6 @@ html.lenis, html.lenis body {
 .blog-article-hero-image img { object-fit: cover; }
 
 /* ── SHARE ICONS (compact + standard) ─────────────────────────────── */
-.blog-share-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.55);
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
-  cursor: pointer;
-}
-.blog-share-icon:hover {
-  border-color: rgba(200, 255, 0, 0.5);
-  color: #C8FF00;
-}
 
 /* ── BLOG ARTICLE BODY (centrerad reading column, 720px) ────────── */
 /* Standard editorial pattern (NYT, Linear, Stripe, Anthropic): body
@@ -1002,56 +774,6 @@ html.lenis, html.lenis body {
 }
 
 /* Inline CTA (om används inline i body) — minimal version */
-.blog-cta-inline {
-  margin: 3rem 0;
-  padding: 1.75rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-@media (min-width: 640px) {
-  .blog-cta-inline { flex-direction: row; align-items: center; gap: 1.5rem; }
-}
-.blog-cta-inline-text {
-  flex: 1;
-  font-family: var(--font-body), 'Geist', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.55;
-  margin: 0;
-}
-@media (min-width: 768px) {
-  .blog-cta-inline-text { font-size: 1rem; }
-}
-.blog-cta-inline-button {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #C8FF00;
-  text-decoration: none;
-  transition: gap 0.3s cubic-bezier(0.65, 0, 0.35, 1);
-  /* Button-reset (komponenten är nu <button> istället för <a>) */
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font-weight: inherit;
-}
-.blog-cta-inline-button:hover { gap: 0.875rem; }
-.blog-cta-inline-button:focus-visible {
-  outline: 2px solid #C8FF00;
-  outline-offset: 4px;
-  border-radius: 2px;
-}
-
 /* ── AUTHOR SECTION (editorial byline — Riktning A från research) ── */
 /* Editorial-style byline matchande Stripe Press / Linear / Atlantic /
    Figma blog. INGEN card, INGEN ring, INGET citat — bara typografi.
