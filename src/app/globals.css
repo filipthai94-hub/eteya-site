@@ -1236,11 +1236,15 @@ html.lenis, html.lenis body {
     padding: 0 0 20px 0;
     font-size: 0.9375rem;
   }
-  .blog-faq-button::before,
-  .blog-faq-item:not(.is-active) .blog-faq-button:hover::before,
-  .blog-faq-item.is-active .blog-faq-button::before {
-    transform: translateY(100%) !important;
-    border-radius: 100% !important;
+  /* På mobile inaktiverar vi hover background-slide-effekten helt.
+     ::before är positioned absolute inom button (som har z-index: 1
+     stacking-context). När item.is-active expanderar med open answer,
+     hamnar ::before-elementet (oval-shaped pga border-radius: 100%)
+     UNDER buttonen och OVAN answer-texten — synlig som en suddig
+     mörk oval som täcker svaret. display: none stänger av effekten
+     på mobile där hover ändå inte fungerar pga touch. */
+  .blog-faq-button::before {
+    display: none !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {

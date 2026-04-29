@@ -2,10 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "eteya-dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "name": "eteya-blog",
+      "cwd": "/Users/filip/Code/eteya-site",
+      "runtimeExecutable": "/Users/filip/Code/eteya-site/node_modules/.bin/next",
+      "runtimeArgs": ["dev", "-p", "3001"],
+      "port": 3001
     }
   ]
 }
