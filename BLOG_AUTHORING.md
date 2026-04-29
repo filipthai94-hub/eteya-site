@@ -495,6 +495,56 @@ fortfarande genom overlay-skriptet för konsistent text/brand. Specs:
 
 ---
 
+## CaseLink-component (`<CaseLink />`)
+
+För utbound-länkar från en artikel till en stor destination (case-study,
+djupare guide, ROI-calculator) — använd `<CaseLink />` istället för en
+inline markdown-länk. Den replikerar **homepage CTA-stilen** ("LÄS HELA
+CASET") så blogg-CTA:er behåller samma brand-DNA som resten av sidan.
+
+### Användning i MDX
+
+```mdx
+import CaseLink from '@/components/blog/CaseLink'
+
+<CaseLink href="/sv/kundcase/sannegarden" label="Läs hela Sannergården-caset" />
+```
+
+### När använda CaseLink
+
+| Situation | Använd? |
+|---|---|
+| Länk till case-study från en blog-artikel | **Ja** |
+| Länk till pillar från en cluster-artikel | **Ja** |
+| Länk till verktyg (ROI-calculator, etc) som naturligt nästa steg | **Ja** |
+| Inline reference-länk i prosatext | Nej — använd vanlig markdown `[text](url)` |
+| Länkar till andra blog-artiklar | Nej (oftast) — använd inline-länk |
+| Externa länkar | Nej — använd inline-länk |
+
+### Designen
+
+CaseLink wraps `<ButtonSwap>` (samma komponent som homepage CTA:er) med:
+- `variant="white"` — vit text på mörk bakgrund
+- `size="lg"` — stor (56px höjd, 18px font)
+- `arrow={true}` — pil som roterar -45° → 0° vid hover
+- Stagger text-swap-animation (orden flyttar uppåt, clone glider in underifrån)
+- Underline-animation (scaleX 0→1 från left)
+
+Centrerad i läs-kolumnen med 2.5rem margin top + 3rem bottom — så den
+fungerar som en visuell pause-point i artikeln.
+
+### KRITISKA regler
+
+1. **Max 1-2 `<CaseLink />` per artikel.** Mer än så förlorar visuell tyngd
+   och känns som spam.
+2. **`label` ska vara beskrivande** — "Läs hela Sannergården-caset" är bra,
+   "Klicka här" är förbjudet.
+3. **`href` ska vara relativ** (`/sv/kundcase/...`), inte absolut URL.
+4. **Använd inte CaseLink för inline-länkar.** En CaseLink ska "äga" sin
+   plats — den är en pause i läsningen, inte en parentes.
+
+---
+
 ## FAQ-component (`<FAQ />`)
 
 För artiklar med vanliga frågor, importera och använd `<FAQ />`-komponenten.

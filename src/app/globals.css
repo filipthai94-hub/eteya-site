@@ -1251,6 +1251,24 @@ html.lenis, html.lenis body {
 .blog-newsletter-feedback-success { color: #C8FF00; }
 .blog-newsletter-feedback-error { color: #f87171; }
 
+/* ── CaseLink-component (MDX <CaseLink href="..." label="..." />) ─ */
+/* Centrerad CTA-button-länk för utbound-länkar från artiklar till
+   case-studies eller djupare destinations. Använder samma ButtonSwap-
+   komponent som homepage CTA:er ("LÄS HELA CASET") för konsistent
+   brand DNA. Bryter ut visuellt från läs-kolumnen som en pause-moment. */
+.blog-case-link {
+  display: flex;
+  justify-content: center;
+  margin: 2.5rem 0 3rem;
+  padding: 1.5rem 0;
+}
+@media (max-width: 690px) {
+  .blog-case-link {
+    margin: 2rem 0 2.5rem;
+    padding: 1rem 0;
+  }
+}
+
 /* ── FAQ-component (MDX <FAQ items={...} />) ─────────────────────── */
 /* Designen replikerar homepage FAQ (FAQClient.tsx) för konsistens:
    numrerade items, plus-icon med 45° rotate, border-bottom mellan items,
