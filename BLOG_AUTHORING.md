@@ -133,11 +133,72 @@ Dessa är OK eftersom de är typografiska operatorer, INTE emojis/dekoration:
 
 | Tecken | Användning |
 |---|---|
-| `—` (em dash) | Pauser, parentetiska klausuler |
+| `—` (tankstreck) | **STRIKT**: bara klassiskt korrekt svensk grammatik. Se "Tankstreck-regler" nedan. |
 | `→` (right arrow) | Workflow-beskrivningar: "order kommer in → valideras → läggs i ERP" |
 | `×` (multiplication) | Beräkningar: "30 × 280 kr × 50 veckor" |
 | `·` (middle dot) | Listor inom rad: "AI · Automation · Strategy" |
 | `●` (bullet) | UI-meta separator (auto-tillagd, skriv inte i body) |
+
+### Tankstreck-regler (KRITISK — överanvändning är typisk AI-tell)
+
+**Tankstreck (—) får ENDAST användas där svensk grammatik faktiskt kräver det.**
+Överanvändning är ett klassiskt tecken på AI-genererad text och bryter
+trovärdigheten direkt.
+
+**Korrekt svensk användning (sparsamt):**
+
+| Användning | Exempel |
+|---|---|
+| Kontrasterande paus för betoning | "Den största risken är inte tekniken — det är att försöka för mycket" |
+| Avslutande paus efter "X — inte Y" | "Vi väljer en process att börja med — inte tio" |
+| Parentetisk inskott (där komma blir otydligt) | "Han kom — som vanligt — försenad" |
+
+**INKORREKT användning (anglicism — SKRIV ALDRIG SÅ):**
+
+| Felaktigt mönster | Skriv så här istället |
+|---|---|
+| "**Term** — definition" | "**Term:** definition" eller bryt till ny mening |
+| "...sentence — extra info" | "...sentence. Extra info." eller använd komma |
+| "List intro — items" | "List intro: items" |
+| "Action — consequence" | "Action. Consequence." |
+| "Trade-off — tre saker" | "Trade-off: tre saker" |
+
+**Tumregel:** Om du kan ersätta `—` med `:`, `.` eller `,` och meningen
+fortfarande fungerar — gör det. Tankstreck ska sparas för verklig
+betoning, inte som universell connector.
+
+**Max 2-3 tankstreck per artikel** (1500-3500 ord). Mer än så är ett
+varningstecken — gå tillbaka och konvertera de svagaste till `:`/`,`/`.`.
+
+### Sammanfattning vid artikelslut — best practice
+
+**Pillar-artiklar (3000-5000 ord):** Inkludera kort `## Sammanfattning`
+i slutet — 1 distillerande paragraf + en `**Att ta med sig:**`-bullet-list.
+Detta optimerar för AI Overviews och Featured Snippets (Google extraherar
+ofta sista sektion).
+
+**Cluster-artiklar (1500-2500 ord):** Skippa Sammanfattning. Avsluta med
+en bra avslutande paragraph som leder naturligt till CTA eller nästa läsning.
+
+**Format för Sammanfattning (när den används):**
+
+```markdown
+## Sammanfattning
+
+[1 paragraf — distillera artikelns kärnsiffror/påståenden, INTE recap]
+
+[1 paragraf med "den största risken är X" eller motsvarande
+forward-looking observation, INTE en lista över allt vi sagt]
+
+**Att ta med sig:**
+
+- Action-oriented bullet 1
+- Action-oriented bullet 2
+- Action-oriented bullet 3
+```
+
+**Anti-pattern**: 3-paragrafs-essä-konklusion som upprepar allt artikeln
+redan sagt. Det dödar läsvärdet och ger ingen extra extraction-värde.
 
 ---
 
@@ -431,6 +492,64 @@ fortfarande genom overlay-skriptet för konsistent text/brand. Specs:
 - [ ] Test live: sitemap.xml innehåller artikeln
 - [ ] [Google Rich Results Test](https://search.google.com/test/rich-results) visar Article utan errors
 - [ ] Merge till `main` → live
+
+---
+
+## FAQ-component (`<FAQ />`)
+
+För artiklar med vanliga frågor, importera och använd `<FAQ />`-komponenten.
+Komponenten **auto-genererar FAQPage Schema.org-data** (web-foundation §4.4
+ger 22% citation-lift i AI Overviews) och visuellt **matchar homepage FAQ**
+(numrerade items, plus-ikon, hover background-slide, accordion expand).
+
+### Användning i MDX
+
+```mdx
+import FAQ from '@/components/blog/FAQ'
+
+## Vanliga frågor
+
+<FAQ items={[
+  {
+    question: "Hur lång tid tar implementation?",
+    answer: "2-6 veckor från första möte till live."
+  },
+  {
+    question: "Vad kostar det?",
+    answer: "20 000 – 80 000 kr för en första agent."
+  }
+]} />
+```
+
+### KRITISKA regler
+
+1. **Skriv `## Vanliga frågor` (eller motsvarande H2) i MDX:en INNAN
+   `<FAQ />`.** Komponenten renderar ingen egen heading — det är medvetet
+   så att rubriken följer artikelns prose-blog H2-styling.
+2. **5-10 FAQ-items per artikel.** Färre än 5 ger för lite FAQPage-värde,
+   fler än 10 dilluerar.
+3. **Frågor i naturligt svenskt språk** — så som riktiga kunder skulle ställa
+   dem, inte som SEO-termer.
+4. **Svar i 1-3 meningar.** Längre än så hör inte hemma i FAQ — då ska det
+   vara en H2-sektion i artikeln.
+5. **Inga em-dashes** i answer-text (gäller hela artikeln, men extra noga
+   här eftersom answers blir scrapeade till AI Overviews).
+6. **Använd `<FAQ />` BARA EN GÅNG per artikel.** Skapa inte flera FAQ-block
+   — det fragmenterar Schema.org-data.
+
+### Designen — matchar homepage
+
+FAQ-komponenten replikerar visuellt homepage `FAQClient.tsx`:
+- Numrerade items (01, 02, ...) i mono-font
+- Plus-ikon till höger som roterar 45° när öppen
+- Border-bottom mellan items (rgba 0.1)
+- Hover: mörk bakgrund slide-up animation (cubic-bezier easing)
+- Active: bakgrund stannar synlig
+- Tangentbord-stöd (focus-visible outline)
+- Reduced-motion respekteras
+
+Storlekar är minskade jämfört med homepage (som är full-bredd) för att
+fitta i blog-läs-kolumnen (~720px).
 
 ---
 
