@@ -7,7 +7,6 @@ import BlogArticleHero from '@/components/blog/BlogArticleHero'
 import BlogAuthorBio from '@/components/blog/BlogAuthorBio'
 import BlogCTABlock from '@/components/blog/BlogCTABlock'
 import BlogRelatedArticles from '@/components/blog/BlogRelatedArticles'
-import NewsletterSignup from '@/components/blog/NewsletterSignup'
 import ReadingProgressBar from '@/components/blog/ReadingProgressBar'
 import FloatingShareSidebar from '@/components/blog/FloatingShareSidebar'
 import {
@@ -240,7 +239,6 @@ export default async function BlogArticlePage({
             {/* Editorial sections — full-bredd 1400px med side-labels,
                 bryter ut ur reading-kolumnen för stark visuell rytm. */}
             <BlogAuthorBio author={post.author} locale={blogLocale} />
-            <NewsletterSignup />
 
             {relatedPosts.length > 0 && (
               <BlogRelatedArticles posts={relatedPosts} locale={blogLocale} />
