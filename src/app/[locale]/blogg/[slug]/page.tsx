@@ -21,6 +21,7 @@ import {
   createArticleSchema,
   createBreadcrumbSchema,
   createPersonSchema,
+  createWebPageSchema,
 } from '@/components/JsonLd'
 import {
   getAuthorName,
@@ -50,15 +51,8 @@ const AUTHOR_BIO_SHORT: Record<BlogAuthor, Record<BlogLocale, string>> = {
   },
 }
 
-/**
- * Konvertera "YYYY-MM-DD" till ISO 8601 med svensk tidszon.
- * Per Schema.org/Google: "Use ISO 8601 with timezone".
- * Använder 08:00 lokal tid (publiceringstid morgon) + +02:00 (CEST).
- * Bara för schema — visningsdatum i UI använder original-strängen.
- */
-function toIsoWithTz(dateString: string): string {
-  return `${dateString}T08:00:00+02:00`
-}
+// toIsoWithTz är centraliserad i @/components/JsonLd.tsx — auto-konverterar
+// datePublished/dateModified i createArticleSchema().
 
 /** SSG: pre-renderera alla locale × slug-kombinationer */
 export async function generateStaticParams() {
@@ -114,10 +108,15 @@ export async function generateMetadata({
       tags: post.tags,
       images: [
         {
-          url: post.heroImage,
-          width: 1200,
-          height: 675,
+          // Hero-bilderna genereras via scripts/generate-hero.py som
+          // 1600×900 WebP med text-overlay (titel + brand). De fungerar
+          // som perfekta OG-images — överstiger Google's 1200×630-minimum
+          // och har redan branded text-overlay för social sharing.
+          url: `${BASE_URL}${post.heroImage}`,
+          width: 1600,
+          height: 900,
           alt: post.heroImageAlt,
+          type: 'image/webp',
         },
       ],
     },
@@ -171,16 +170,23 @@ export default async function BlogArticlePage({
     profilePath: getAuthorPath(post.author, blogLocale),
   })
 
+  // Word count för wordCount-property (web-foundation §4.11)
+  const wordCount = post.content.trim().split(/\s+/).length
+
   const articleSchema = createArticleSchema({
     path,
+    type: 'BlogPosting',  // web-foundation §4.11: traditional blog format
     headline: post.title,
     description: post.description,
     image: [`${BASE_URL}${post.heroImage}`],
-    datePublished: toIsoWithTz(post.publishedDate),
-    dateModified: toIsoWithTz(post.modifiedDate),
+    datePublished: post.publishedDate,  // auto-konverteras via toIsoWithTz
+    dateModified: post.modifiedDate,
     inLanguage,
     about: post.tags,
     author: authorSchema,
+    articleSection: locale === 'sv' ? 'Blog' : 'Blog',
+    keywords: post.tags,
+    wordCount,
   })
 
   const breadcrumbSchema = createBreadcrumbSchema([
@@ -189,11 +195,22 @@ export default async function BlogArticlePage({
     { name: post.title, path },
   ])
 
+  // WebPage med Speakable för voice search (per web-foundation §4.6).
+  // Pekar på .blog-article-lead + första prose-blog-paragrafen så
+  // Google Assistant kan läsa upp artikelns kärnpunkter.
+  const webPageSchema = createWebPageSchema({
+    path,
+    name: post.title,
+    description: post.description,
+    inLanguage,
+    speakableSelectors: ['.blog-article-lead', '.prose-blog > p:first-of-type'],
+  })
+
   const articleUrl = `${BASE_URL}${path}`
 
   return (
     <>
-      <JsonLd data={buildGraph([articleSchema, breadcrumbSchema])} />
+      <JsonLd data={buildGraph([webPageSchema, articleSchema, breadcrumbSchema])} />
       <ReadingProgressBar />
       <FloatingShareSidebar url={articleUrl} title={post.title} />
       <Nav />

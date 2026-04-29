@@ -434,6 +434,83 @@ fortfarande genom overlay-skriptet för konsistent text/brand. Specs:
 
 ---
 
+## Topic clusters — obligatorisk arkitektur 2026
+
+Per **web-foundation v4.0 §5.1**: scattered posts utan klusterstruktur lämnar
+30% organisk trafik på bordet och 3.2x färre AI-citeringar (Perplexity, ChatGPT,
+Copilot). Eteyas blog ska byggas som **pillar + cluster**:
+
+### Modell
+
+```
+/sv/blogg/ai-agenter                       ← PILLAR (3000-5000 ord)
+├── /sv/blogg/ai-agenter/komma-igang        ← CLUSTER (1500-2500 ord)
+├── /sv/blogg/ai-agenter/case-studies       ← CLUSTER
+├── /sv/blogg/ai-agenter/jamfor-leverantorer ← CLUSTER
+├── /sv/blogg/ai-agenter/integration-erp    ← CLUSTER
+└── /sv/blogg/ai-agenter/kostnad-roi        ← CLUSTER
+```
+
+### Pillar-sida (bredd-täckning av hela ämnet)
+- 3000-5000 ord
+- ToC högst upp med interna länkar till varje cluster-sida
+- 8-12 interna länkar TILL cluster-sidor
+- Semantiska H2/H3 som matchar cluster-namnen
+- Uppdateras kvartalsvis när nya cluster-artiklar publiceras
+
+### Cluster-sida (djup på EN vinkel)
+- 1500-2500 ord
+- Länk BACK till pillar i lead-paragraph + slutsats
+- 2-5 korslänkar till syskon-cluster
+- Unique angle — ingen överlappande content med pillar
+- Fokus på en specifik long-tail-fråga
+
+### Eteyas föreslagna klustreringar
+
+**Pillar 1: AI-agenter för svenska SMB**
+- Komma igång (vilka processer, var börja)
+- Case-studies från svenska företag
+- Jämför leverantörer (Anthropic vs OpenAI vs custom)
+- Integration mot ERP/CRM/lager
+- Kostnad och ROI (hur räkna)
+- Vanliga misstag (anti-pattern)
+
+**Pillar 2: Process-automation**
+- 5-10 mest värdefulla workflows
+- Make vs n8n vs custom (jämförelse)
+- Excel-elimination patterns
+- Lead-routing (web → CRM)
+- Onboarding-automation
+- Faktura/ekonomiautomation
+
+**Pillar 3: AI-telefonist/röst**
+- Hur AI-telefonist fungerar
+- Restaurang case-study deep-dive
+- B2B-användning (säljkvalificering)
+- Setup-guide (Twilio + LLM)
+- Vad AI inte ska göra (eskalering till människa)
+
+### Internal linking-pattern
+
+Per **web-foundation v4.0 §5.4**:
+- **Pillar → Cluster**: 8-12 länkar (i ToC + i kontextuell text)
+- **Cluster → Pillar**: 1-2 länkar (lead + slutsats)
+- **Cluster → Sibling cluster**: 2-5 länkar (kontextuella)
+- **Anchor text**: beskrivande, ej "klicka här" eller "läs mer"
+
+### Schema-implications
+
+Cluster-sidor använder samma `BlogPosting` schema som pillar. Skillnaden:
+- Pillar: `articleSection: "AI-agenter"` (= cluster-namn = pillar-titel)
+- Cluster: `articleSection: "AI-agenter"` (samma — signalerar de tillhör samma cluster)
+
+### Timeline-förväntan
+- Long-tail keywords: 6-12 veckor till första organiska träffar
+- Medium-konkurrens: 3-6 månader
+- Hög konkurrens: 6-12+ månader
+
+---
+
 ## Tag-konventioner
 
 Använd **befintliga tags** när möjligt — färre tags = bättre tag-pages med fler artiklar per tag.

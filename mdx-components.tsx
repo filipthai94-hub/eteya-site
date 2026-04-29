@@ -12,8 +12,12 @@ import type { MDXComponents } from 'mdx/types'
 import Image, { type ImageProps } from 'next/image'
 import Link from 'next/link'
 import type { ComponentPropsWithoutRef } from 'react'
+import FAQ from '@/components/blog/FAQ'
 
 const components: MDXComponents = {
+  // Custom MDX components för blog-content
+  FAQ,
+
   // Custom <a> — internal links → next/Link, external → vanlig <a> med target="_blank"
   a: ({ href, children, ...rest }: ComponentPropsWithoutRef<'a'>) => {
     const isExternal = href?.startsWith('http')

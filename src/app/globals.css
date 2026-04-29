@@ -1251,6 +1251,54 @@ html.lenis, html.lenis body {
 .blog-newsletter-feedback-success { color: #C8FF00; }
 .blog-newsletter-feedback-error { color: #f87171; }
 
+/* ── FAQ-component (MDX <FAQ items={...} />) ─────────────────────── */
+/* Used in blog articles. Auto-generates FAQPage Schema.org structured
+   data (web-foundation §4.4 — 22% citation-lift). Renders in body
+   reading column (max 720px), styled to match prose-blog typography. */
+.blog-faq {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.blog-faq-heading {
+  font-family: var(--font-display), 'Barlow Condensed', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 1.5rem 0;
+}
+.blog-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+.blog-faq-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.25rem;
+}
+.blog-faq-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.blog-faq-question {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+.blog-faq-answer {
+  font-family: var(--font-body), 'Geist', sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+}
+
 /* ── RELATED ARTICLES SECTION (editorial) ─────────────────────────── */
 .blog-related-section {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
