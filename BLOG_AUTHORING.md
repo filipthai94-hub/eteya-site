@@ -506,33 +506,32 @@ Differentiering:
 ### Den LÅSTA designmallen
 
 ```
-[KICKER]            FÖR 30+ SVENSKA SMB              ← mono uppercase, 11-12px,
-                                                       lime-grön, letter-spaced
-                                                       (auktoritets-data, INTE
-                                                       generic "NÄSTA STEG")
-
-[HEADLINE]          Räkna på AI-ROI för din verksamhet
-                                                     ← Barlow display, 24-30px,
-                                                       statement (ej fråga),
-                                                       5-7 ord, possessivt
-                                                       pronomen ("din")
-
-[BODY]              30-minuters samtal där vi går igenom era processer
-                    och visar konkret var AI sparar tid och pengar.
-                                                     ← Geist body, 15-16px,
-                                                       1-2 meningar, max 25 ord,
-                                                       EN konkretisering
-                                                       (tid/leverabel/utfall)
-
-[BUTTON →]          Boka 30-min ROI-samtal  →        ← ButtonSwap accent-variant,
-                                                       size="lg" (56px höjd),
-                                                       imperativ + specifik
-                                                       leverabel, höger-pil
-
-[TRUST-RAD]         Kostnadsfritt · Inga avtal · Svar inom 24h
-                                                     ← mono 11-12px, muted
-                                                       (rgba 0.42), 3 element
-                                                       max, prick-separator
+┌─────────────────────────────────────────────┐
+│ [KICKER]   FÖR 30+ SVENSKA SMB              │  ← mono uppercase, 11-12px,
+│                                             │     lime-grön, letter-spaced
+│                                             │     (auktoritets-data, INTE
+│                                             │     generic "NÄSTA STEG")
+│                                             │
+│ [HEADLINE] Räkna på AI-ROI för din          │  ← Barlow display, 24-30px,
+│            verksamhet                       │     statement (ej fråga),
+│                                             │     5-7 ord, possessivt
+│                                             │
+│ [BODY]     30-minuters samtal där vi går    │  ← Geist body, 15-16px,
+│            igenom era processer och visar   │     1-2 meningar, max 25 ord,
+│            konkret var AI sparar tid och    │     EN konkretisering
+│            pengar.                          │     (tid/leverabel/utfall)
+│                                             │
+│ ╔═══════════════════════════════════════╗   │
+│ ║   BOKA 30-MIN ROI-SAMTAL              ║   │  ← ButtonStripe primary
+│ ╚═══════════════════════════════════════╝   │     fullWidth size="lg",
+│                                             │     4-stripe-fill animation
+│                                             │     vid hover (samma som ROI)
+│                                             │
+│        Kostnadsfritt · Inga avtal           │  ← Barlow Condensed uppercase,
+│           · Svar inom 24h                   │     center-aligned, muted
+└─────────────────────────────────────────────┘
+       ↑ linear-gradient bg #111→#0d, white-low border @ 8%,
+         multi-layer shadow (4 lager djup), 16px radius
 ```
 
 ### REGEL 1 — Position och frekvens
@@ -542,15 +541,29 @@ Differentiering:
 - **EN inline-CTA** i artiklar under 1500 ord
 - **MAX två** i artiklar 2000+ ord (fler = diluering)
 - Renderas automatiskt om `showCta: true` i frontmatter
+- **MÅSTE ligga inuti `.blog-article-body-section`** (max-width 720px)
+  i `[slug]/page.tsx` — annars flödar card:en till hela viewporten
 
-### REGEL 2 — Visuell hierarki (alla locked i CSS)
+### REGEL 2 — Visuell hierarki (matchar ROI-modal-DNA)
 
-- **Card med 1px accent-border** (lime @ 18% opacity), ej full-width banner
-- **Bakgrund 2.5% ljusare** än body (rgba 0.025), inte helsvart kontrast
-- **Padding 32-40px desktop / 28px mobile** — stor nog för stop-power,
-  liten nog för att undvika banner-blindness
-- **Vänster-aligned content** — matchar text-flow, undviker "annons-look"
-- **Border-radius 14px** — modern soft-edge
+CTA-card använder **samma design-DNA som ROI-calculator-modalen** för
+visuell konsekvens på sidan:
+
+- **Bakgrund:** `linear-gradient(180deg, #111111 0%, #0d0d0d 100%)`
+  (samma som `.ctaArea` i `ROICalculatorClient.module.css`)
+- **Border:** `1px solid rgba(255, 255, 255, 0.08)` — white-low-opacity,
+  INTE lime tinted (subtilare, matchar ROI-language)
+- **Multi-layer shadow** för djup:
+  ```
+  0 1px 2px rgba(0,0,0,0.3),
+  0 4px 8px rgba(0,0,0,0.25),
+  0 16px 32px rgba(0,0,0,0.35),
+  0 32px 64px rgba(0,0,0,0.4)
+  ```
+- **Border-radius:** 16px (matchar ROI)
+- **Padding:** 32px mobile / 40px desktop (`2rem 1.75rem` → `2.5rem`)
+- **Margin:** `3rem 0` mobile, `4rem 0` desktop (visuellt break från body)
+- **align-items: stretch** för full-width button
 
 ### REGEL 3 — Headline (5-7 ord, statement, possessivt)
 
@@ -574,15 +587,19 @@ Differentiering:
 - Garantier ("100% nöjd-kund")
 - Multiple meningar med flera olika erbjudanden
 
-### REGEL 5 — Button-text (imperativ + specifik leverabel)
+### REGEL 5 — Knapp (ButtonStripe primary fullWidth)
 
-**Mallen:** "Boka 30-min ROI-samtal →"
+**Mallen:** "Boka 30-min ROI-samtal" (full-width inom card)
 
-- **Imperativ** + **specifik leverabel** (ej "Get Started", ej "Kontakta oss",
-  ej "Läs mer")
-- **Höger-pil (→)** efter texten — directional cue (CXL eye-tracking)
-- **Använd ButtonSwap accent-variant, size="lg"** för konsistens med
-  CaseLink + footer
+- **Komponent:** `<ButtonStripe variant="primary" size="lg" fullWidth>` —
+  samma som ROI-calculator-modalens primary CTA
+- **Animation:** 4 lime-stripes glider in från top/höger/vänster/botten vid
+  hover, text byter från vit → svart, multi-layer shadow ger lift-effekt
+- **Imperativ + specifik leverabel** (ej "Get Started", ej "Kontakta oss")
+- **Ingen explicit höger-pil** — ButtonStripe har sin egen visuella
+  signature istället (4-stripe fill)
+- **Full-width inom card** (`fullWidth` prop) — fungerar som "the moment"
+  i CTA-blocket, INTE en sub-text-länk
 
 ### REGEL 6 — Trust-rad (3 element max)
 
@@ -592,7 +609,10 @@ Differentiering:
 - **Specifika siffror** över vaga uttryck ("30+ kunder" > "många kunder")
 - **Risk-reducerare** som sänker upplevd commitment ("kostnadsfritt",
   "inga avtal", "svar inom X tid")
-- Placeras **direkt under knappen**, mono small text, muted färg
+- **Font:** Barlow Condensed uppercase, 0.75rem, letter-spacing 0.1em
+  (matchar ROI-modal `.trustRow`)
+- **Placeras direkt under knappen**, **center-aligned**, muted color
+  (rgba 0.38)
 
 ### REGEL 7 — Per-artikel anpassning (3 variabler)
 
@@ -653,6 +673,96 @@ konsekvens. Bara dessa 3 ändras per artikel:
 - [Steel Croissant: B2B Blog CTA Optimization](https://www.steelcroissant.com/blog/cta-optimization-for-b2b-blogs-effective-strategies-improving-conversion-rates-and-seo-friendly-calls-to-action)
 - [VentureHarbour: Form Length Studies](https://ventureharbour.com/how-form-length-impacts-conversion-rates/)
 - [WiserNotify: 12 CTA Mistakes](https://wisernotify.com/blog/avoid-call-to-action-mistakes/)
+
+---
+
+## Modal-arkitektur (kontakt-modal — DELAD av CTA-platser)
+
+Både inline `<BlogCTABlock>` (i artiklar) och `<FooterCTAClient>` (på
+alla sidor) öppnar **samma kontakt-modal** för identisk UX. Arkitekturen
+är extraherad till återanvändbara delar — om du vill ändra något i
+modalen, ändra på rätt nivå.
+
+### De 3 lagren
+
+```
+┌──────────────────────────────────────────────────────────┐
+│ 1. useContactModal-hook                                  │
+│    src/hooks/useContactModal.ts                          │
+│                                                          │
+│    State + open/close + GSAP-animations + focus-trap     │
+│    + ESC-key + scroll-lock + reduced-motion + restore    │
+│    focus till trigger-element                            │
+└──────────────────────────────────────────────────────────┘
+                          ↓ används av
+┌──────────────────────────────────────────────────────────┐
+│ 2. ContactModal-komponent                                │
+│    src/components/ui/ContactModal.tsx                    │
+│                                                          │
+│    "Dumb" portal + overlay + ContactCard inuti.          │
+│    Tar emot refs/state från useContactModal-hook.        │
+│    Click utanför panel stänger modalen.                  │
+└──────────────────────────────────────────────────────────┘
+                          ↓ renderar
+┌──────────────────────────────────────────────────────────┐
+│ 3. ContactCard-komponent                                 │
+│    src/components/ui/contact-card.tsx                    │
+│                                                          │
+│    Själva formuläret (namn, email, etc) som användaren   │
+│    fyller i. Existerar oberoende — kan användas inline   │
+│    också (t.ex. på /kontakt-sidan).                      │
+└──────────────────────────────────────────────────────────┘
+```
+
+### CSS-platser
+
+Modal-styling (`.contact-modal-overlay`, `.contact-modal-panel`) ligger
+i `src/app/globals.css` — INTE inuti någon komponent-fil. Detta så att
+båda `BlogCTABlock` och `FooterCTAClient` använder identiska styles.
+
+Kontaktformulärets styling ligger i `src/components/ui/contact-card.module.css`
+(CSS Modules — scoped till ContactCard).
+
+### Hur du använder modalen från en ny komponent
+
+```tsx
+'use client'
+
+import { useCallback } from 'react'
+import ContactModal from '@/components/ui/ContactModal'
+import { useContactModal } from '@/hooks/useContactModal'
+
+export default function MyComponent() {
+  const modal = useContactModal()
+
+  const handleClick = useCallback(() => {
+    modal.openModal()  // hook auto-detekterar trigger via document.activeElement
+  }, [modal])
+
+  return (
+    <>
+      <button onClick={handleClick}>Öppna modal</button>
+      <ContactModal
+        isMounted={modal.isMounted}
+        onClose={modal.closeModal}
+        overlayRef={modal.overlayRef}
+        panelRef={modal.panelRef}
+      />
+    </>
+  )
+}
+```
+
+### Vad du ändrar var (för framtida ändringar)
+
+| Ändring | Fil |
+|---|---|
+| Modal animations (open/close) | `src/hooks/useContactModal.ts` (GSAP timelines) |
+| Modal storlek/border/blur | `src/app/globals.css` `.contact-modal-overlay` + `.contact-modal-panel` |
+| Formulärets fält (namn, email, etc) | `src/components/ui/contact-card.tsx` |
+| Formulärets styling | `src/components/ui/contact-card.module.css` |
+| CTA-card (inline i artiklar) | `src/components/blog/BlogCTABlock.tsx` + `.blog-cta-*` i globals.css |
+| Footer-CTA (cirkulär knapp på alla sidor) | `src/components/sections/FooterCTAClient.tsx` |
 
 ---
 
