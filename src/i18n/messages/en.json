@@ -863,7 +863,8 @@
   "sannegarden": {
     "meta": {
       "title": "Sannegården Pizzeria — AI Receptionist | Eteya Case Study",
-      "description": "Sannegården Pizzeria missed calls during peak. Eteya built an AI receptionist taking orders 24/7 — 0 missed calls, 30+ extra orders/week."
+      "description": "Sannegården Pizzeria missed calls during peak. Eteya built an AI receptionist taking orders 24/7 — 0 missed calls, 30+ extra orders/week.",
+      "ogImageAlt": "Sannegården Pizzeria case study — AI phone agent taking orders 24/7"
     },
     "snapshot": {
       "callsSuffix": "",
@@ -953,7 +954,8 @@
   "trainwithalbert": {
     "meta": {
       "title": "TrainWithAlbert — 45% rebooking + 3x bookings | Eteya",
-      "description": "Eteya built 8 AI automations for TrainWithAlbert — 3x more bookings, 45% rebooking, AI scheduling and automatic client journey follow-up."
+      "description": "Eteya built 8 AI automations for TrainWithAlbert — 3x more bookings, 45% rebooking, AI scheduling and automatic client journey follow-up.",
+      "ogImageAlt": "TrainWithAlbert case study — 8 AI automations for booking and customer communication"
     },
     "hero": {
       "title": "TrainWithAlbert",

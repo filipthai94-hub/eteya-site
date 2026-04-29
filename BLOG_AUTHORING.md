@@ -56,7 +56,7 @@ relatedSlug: ""
 
 | Fält | Typ | Beskrivning |
 |---|---|---|
-| `title` | string | Visas som h1 + Schema headline + meta title. **Max ~110 tecken** (Google trunkerar). |
+| `title` | string | Visas som h1 + Schema headline + meta title. **Frontmatter ≤ 52 tecken** så att rendered title (`${post.title} | Eteya` = +8) blir ≤ 60 chars och hamnar inom Googles ~580px desktop SERP-cutoff. Research 2026: 60-76% av titles >60 chars rewrites av Google. Korta hellre än trunkeras. |
 | `description` | string | Lead-paragraph + meta description + OG. **150-160 tecken** för optimal SERP-snippet. |
 | `publishedDate` | ISO-date | `"YYYY-MM-DD"` — sätts till publiceringsdagen. Konverteras till ISO 8601 m. tidszon i schema. |
 | `author` | `"filip"` \| `"agit"` | Måste vara exakt en av dessa två. Lägg till nya författare i `src/lib/blog/format.ts` + `BlogAuthor` typ. |

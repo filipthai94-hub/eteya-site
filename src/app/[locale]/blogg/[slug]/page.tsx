@@ -88,7 +88,7 @@ export async function generateMetadata({
   languages['x-default'] = languages.sv || languages[locale]
 
   return {
-    title: `${post.title} | Eteya Blogg`,
+    title: `${post.title} | Eteya`,
     description: post.description,
     alternates: {
       canonical: `${BASE_URL}${currentPath}`,
