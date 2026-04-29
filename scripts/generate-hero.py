@@ -244,13 +244,18 @@ def save_webp(img: Image.Image, dest_path: str, quality: int = 85) -> int:
 # ─── CLI ────────────────────────────────────────────────────────────
 
 def main():
+    # Default output-dir härleds från script-location:
+    # scripts/generate-hero.py → ../public/images/blog/
+    # Funkar oavsett var projektet ligger (inte hardcoded /tmp/...).
+    default_output = str(Path(__file__).parent.parent / 'public' / 'images' / 'blog')
+
     parser = argparse.ArgumentParser(description='Generate Eteya blog hero image')
     parser.add_argument('--base', required=True, help='Path till bas-bild från ChatGPT')
     parser.add_argument('--slug', required=True, help='Article slug (t.ex. ai-agenter-2026)')
     parser.add_argument('--title', required=True, help='Article title')
     parser.add_argument('--kicker', default='', help='Kicker text (t.ex. "ARTIKEL · TREND")')
-    parser.add_argument('--output-dir', default='/tmp/eteya-site/public/images/blog',
-                        help='Output mapp')
+    parser.add_argument('--output-dir', default=default_output,
+                        help='Output mapp (default: ../public/images/blog från script-location)')
     parser.add_argument('--quality', type=int, default=85, help='WebP quality')
 
     args = parser.parse_args()
